@@ -1,0 +1,1069 @@
+* {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+*::-webkit-scrollbar {
+  width: 7px;
+  background-color: transparent;
+}
+*::-webkit-scrollbar-button {
+  display: none;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: hsla(216, 10%, 10%, 0.2);
+  border-radius: 10px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: hsla(216, 10%, 10%, 0.4);
+}
+*::-webkit-scrollbar-thumb:active {
+  background-color: hsla(216, 10%, 10%, 0.6);
+}
+body {
+  height: 100vh;
+}
+#app {
+  height: 100%;
+}
+a {
+  text-decoration: none !important;
+}
+button {
+  border: none;
+  border-radius: 3px;
+  letter-spacing: 1px;
+}
+button:focus {
+  outline: none;
+}
+input:focus,
+select:focus {
+  outline: none;
+}
+table {
+  table-layout: fixed;
+  width: calc(100% + 1px) !important;
+}
+table thead {
+  background-color: hsl(216, 10%, 10%);
+}
+table thead .tr {
+  height: 30px;
+}
+table thead th {
+  color: hsl(0, 0%, 90%);
+  cursor: default;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+table tbody tr {
+  height: 20px;
+}
+table tbody tr:nth-child(even) {
+  background-color: hsl(0, 0%, 94%);
+}
+table tbody tr:hover {
+  background-color: hsl(216, 10%, 30%);
+}
+table tbody tr:hover td {
+  color: hsl(0, 0%, 90%);
+}
+table tbody tr.selected {
+  background-color: hsl(51, 53%, 65%);
+}
+table tbody tr.selected td {
+  color: hsl(216, 10%, 10%);
+}
+table tbody td {
+  color: hsl(216, 10%, 10%);
+  cursor: default;
+  font-size: 1rem;
+  font-weight: 500;
+  overflow: hidden;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.control-title {
+  color: hsl(51, 53%, 65%);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.control-input {
+  color: hsl(0, 0%, 90%);
+  background-color: hsl(216, 10%, 10%);
+  border: unset;
+  font-size: 2rem;
+}
+.table {
+  margin-bottom: 0px;
+}
+.table th,
+.table td {
+  border: none !important;
+  vertical-align: middle !important;
+}
+#menuFrm {
+  background-color: hsl(216, 10%, 10%);
+  box-shadow: 0px 0px 5px 0px hsla(216, 10%, 15%, 0.1);
+  height: 50px;
+  overflow: hidden;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+#menuFrm #brandFrm {
+  display: flex;
+}
+#menuFrm #brandFrm #logo {
+  background-color: hsl(216, 10%, 15%);
+  border: 1px solid hsl(216, 10%, 25%);
+  border-radius: 3px;
+  height: 30px;
+  width: 30px;
+}
+#menuFrm #brandFrm #logoTextFrm {
+  align-items: center;
+  background-color: hsl(0, 0%, 90%);
+  border: 1px solid hsl(216, 10%, 25%);
+  border-radius: 3px;
+  display: flex;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+}
+#menuFrm #brandFrm #logoTextFrm #logoText {
+  color: hsl(216, 10%, 10%);
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+#menuFrm #brandFrm #text {
+  color: hsl(0, 0%, 90%);
+  font-size: 2rem;
+  font-weight: 300;
+  letter-spacing: 3px;
+  margin-left: 5px;
+  word-spacing: 5px;
+  text-transform: uppercase;
+}
+#menuFrm #userMenuFrm {
+  align-items: center;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+}
+#menuFrm #userMenuFrm:hover {
+  background-color: hsl(216, 10%, 15%);
+}
+#menuFrm #userMenuFrm #imgFrm {
+  align-items: center;
+  background-color: hsl(0, 0%, 90%);
+  border-radius: 50%;
+  display: flex;
+  height: 32px;
+  justify-content: center;
+  margin-right: 10px;
+  width: 32px;
+}
+#menuFrm #userMenuFrm #imgFrm #img .icon {
+  font-size: 2.3rem;
+}
+#menuFrm #userMenuFrm #titleFrm {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  margin-right: 10px;
+  overflow: hidden;
+  width: calc(100% - (32px + 80px));
+  line-height: 1;
+}
+#menuFrm #userMenuFrm #titleFrm #title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: hsl(0, 0%, 90%);
+  letter-spacing: 1px;
+}
+#menuFrm #userMenuFrm #titleFrm #title .balance {
+  color: hsl(51, 53%, 65%);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+#menuFrm #userMenuFrm #bar.icon {
+  font-size: 2.5rem;
+  color: hsl(51, 53%, 65%);
+}
+#menuFrm #signFrm {
+  display: flex;
+  justify-content: flex-end;
+}
+#menuFrm #signFrm .button {
+  font-size: 1.2rem;
+  font-weight: 700;
+  height: 30px;
+  text-transform: uppercase;
+  width: 100px;
+}
+#menuFrm #signFrm #btn-sign-up {
+  background-color: hsl(216, 10%, 15%);
+  border: 1px solid hsl(0, 0%, 90%);
+  color: hsl(0, 0%, 90%);
+  margin-right: 5px;
+}
+#menuFrm #signFrm #btn-sign-up:hover {
+  background-color: hsl(216, 10%, 20%);
+}
+#menuFrm #signFrm #btn-sign-in {
+  background-color: hsl(51, 53%, 65%);
+  color: hsl(51, 53%, 35%);
+  text-shadow: 0px 1px 0px hsla(0, 0%, 100%, 0.5);
+}
+#menuFrm #signFrm #btn-sign-in:hover {
+  background-color: hsl(51, 53%, 70%);
+}
+#tabsFrm {
+  background-color: transparent;
+  display: flex;
+  height: 40px;
+  padding: 5px;
+}
+#tabsFrm .tabFrm {
+  height: 100%;
+}
+#tabsFrm .tabFrm .tab {
+  background-color: transparent;
+  border-radius: unset;
+  color: hsl(216, 10%, 40%);
+  font-size: 1.2rem;
+  font-weight: 500;
+  height: 100%;
+  letter-spacing: 2px;
+  max-width: 180px;
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#tabsFrm .tabFrm .tab:hover {
+  border-bottom: 3px solid hsl(216, 10%, 20%);
+}
+#tabsFrm .tabFrm .tab.active {
+  color: hsl(0, 0%, 90%);
+  font-weight: 700;
+  border-bottom: 3px solid hsl(51, 53%, 65%);
+}
+#tabsFrm .tabFrm .tab .icon {
+  font-size: inherit;
+  color: inherit;
+}
+#tabsFrm .tabFrm .separator {
+  color: hsl(216, 10%, 20%);
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: default;
+}
+.tabsRowFrm {
+  background-color: hsl(216, 10%, 15%);
+}
+.tabTournament {
+  background-color: hsl(216, 10%, 20%);
+  height: calc(100% - (50px + 40px + 40px));
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.tabTournament .section {
+  border-radius: 3px;
+  box-shadow: 0px 0px 5px 0px hsla(216, 10%, 15%, 0.5);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.tabTournament .section.bets {
+  background-color: hsl(0, 0%, 97%);
+}
+.tabTournament .section.bets .titleBarFrm {
+  align-items: center;
+  background-color: hsl(216, 10%, 10%);
+  display: flex;
+  height: 40px;
+  padding: 5px 10px;
+}
+.tabTournament .section.bets .titleBarFrm .title {
+  color: hsl(0, 0%, 90%);
+  font-size: 1.6rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+.tabTournament .section.bets .tabsFrm {
+  background-color: hsl(216, 10%, 25%);
+  display: flex;
+  height: 40px;
+  justify-content: space-between;
+  padding: 5px;
+}
+.tabTournament .section.bets .tabsFrm .tabFrm {
+  height: 100%;
+  display: flex;
+}
+.tabTournament .section.bets .tabsFrm .tabFrm .tab {
+  background-color: transparent;
+  border-radius: unset;
+  color: hsl(0, 0%, 90%);
+  font-size: 1.1rem;
+  font-weight: 400;
+  height: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.tabTournament .section.bets .tabsFrm .tabFrm .tab:hover {
+  border-bottom: 3px solid hsl(216, 10%, 20%);
+}
+.tabTournament .section.bets .tabsFrm .tabFrm .tab.active {
+  color: hsl(0, 0%, 90%);
+  font-weight: 700;
+  border-bottom: 3px solid hsl(51, 53%, 65%);
+}
+.tabTournament .section.bets .tabsFrm .tabFrm .tab .icon {
+  font-size: inherit;
+  color: inherit;
+}
+.tabTournament .section.bets .tabsFrm .tabFrm .separator {
+  color: hsl(216, 10%, 15%);
+  font-size: 1.9rem;
+  font-weight: 700;
+  cursor: default;
+}
+.tabTournament .section.bets .pendingFrm {
+  height: calc(100% - (40px + 40px));
+  padding: 10px 10px 0px 10px;
+  overflow: auto;
+}
+.tabTournament .section.bets .pendingFrm .gameFrm {
+  background-color: hsl(0, 0%, 98%);
+  border-radius: 3px;
+  border-left: 6px solid hsl(216, 10%, 30%);
+  box-shadow: 0px 0px 5px 0px hsla(216, 10%, 15%, 0.2);
+  margin-bottom: 10px;
+}
+.tabTournament .section.bets .pendingFrm .gameFrm:nth-child(even) {
+  margin-bottom: 10px;
+}
+.tabTournament .section.bets .pendingFrm .gameFrm .dataFrm {
+  font-size: 1.2rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+  line-height: 1.8;
+  padding: 5px;
+}
+.tabTournament .section.bets .pendingFrm .gameFrm .dataFrm:nth-child(even) {
+  border-top: 1px dashed hsl(216, 10%, 30%);
+}
+.tabTournament .section.bets .pendingFrm .gameFrm .dataFrm .text {
+  font-size: inherit;
+  font-weight: inherit;
+}
+.tabTournament .section.bets .pendingFrm .gameFrm .dataFrm .typeBet {
+  background-color: hsl(0, 0%, 97%);
+  border: 1px solid hsl(216, 10%, 30%);
+  border-radius: 3px;
+  font-size: 1rem;
+  font-weight: 700;
+  float: right;
+  line-height: 1.5;
+  padding: 0px 5px;
+  text-transform: uppercase;
+}
+.tabTournament .section.bets .pendingFrm .gameFrm .dataFrm .matchFrm {
+  align-items: baseline;
+  display: flex;
+}
+.tabTournament .section.bets .pendingFrm .gameFrm .dataFrm .matchFrm .team {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 50%;
+}
+.tabTournament .section.bets .pendingFrm .gameFrm .dataFrm .matchFrm .score {
+  background-color: hsl(216, 10%, 10%);
+  border-radius: 3px;
+  color: hsl(0, 0%, 90%);
+  margin: 0px 5px;
+  text-align: center;
+  width: 35px;
+}
+.tabTournament .section.bets .pendingFrm .gameFrm .dataFrm .matchFrm .vs {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0px 5px;
+  width: 35px;
+}
+.tabTournament .section.bets .pendingFrm .gameFrm .placedBetFrm {
+  background-color: hsl(216, 10%, 30%);
+  display: flex;
+}
+.tabTournament .section.bets .pendingFrm .gameFrm .placedBetFrm div {
+  color: hsl(0, 0%, 90%);
+  font-size: 1.3rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  width: 100%;
+}
+.tabTournament .section.bets .pendingFrm .gameFrm .placedBetFrm div:nth-child(even) {
+  padding: 5px 0px;
+}
+.tabTournament .section.bets .historyFrm {
+  height: calc(100% - (40px + 40px));
+  padding: 10px 10px 0px 10px;
+  overflow: auto;
+}
+.tabTournament .section.bets .historyFrm .gameFrm {
+  background-color: hsl(0, 0%, 98%);
+  border-radius: 3px;
+  border-left: 6px solid hsl(216, 10%, 30%);
+  box-shadow: 0px 0px 5px 0px hsla(216, 10%, 15%, 0.2);
+  margin-bottom: 10px;
+}
+.tabTournament .section.bets .historyFrm .gameFrm:nth-child(even) {
+  margin-bottom: 10px;
+}
+.tabTournament .section.bets .historyFrm .gameFrm .dataFrm {
+  font-size: 1.2rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+  line-height: 1.8;
+  padding: 5px;
+}
+.tabTournament .section.bets .historyFrm .gameFrm .dataFrm:nth-child(even) {
+  border-top: 1px dashed hsl(216, 10%, 30%);
+}
+.tabTournament .section.bets .historyFrm .gameFrm .dataFrm .text {
+  font-size: inherit;
+  font-weight: inherit;
+}
+.tabTournament .section.bets .historyFrm .gameFrm .dataFrm .typeBet {
+  background-color: hsl(0, 0%, 97%);
+  border: 1px solid hsl(216, 10%, 30%);
+  border-radius: 3px;
+  font-size: 1rem;
+  font-weight: 700;
+  float: right;
+  line-height: 1.5;
+  padding: 0px 5px;
+  text-transform: uppercase;
+}
+.tabTournament .section.bets .historyFrm .gameFrm .dataFrm .matchFrm {
+  align-items: baseline;
+  display: flex;
+}
+.tabTournament .section.bets .historyFrm .gameFrm .dataFrm .matchFrm .team {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 50%;
+}
+.tabTournament .section.bets .historyFrm .gameFrm .dataFrm .matchFrm .score {
+  background-color: hsl(216, 10%, 10%);
+  border-radius: 3px;
+  color: hsl(0, 0%, 90%);
+  margin: 0px 5px;
+  text-align: center;
+  width: 35px;
+}
+.tabTournament .section.bets .historyFrm .gameFrm .dataFrm .matchFrm .vs {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0px 5px;
+  width: 35px;
+}
+.tabTournament .section.bets .historyFrm .gameFrm .placedBetFrm {
+  background-color: hsl(216, 10%, 30%);
+  display: flex;
+}
+.tabTournament .section.bets .historyFrm .gameFrm .placedBetFrm div {
+  color: hsl(0, 0%, 90%);
+  font-size: 1.3rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  width: 100%;
+}
+.tabTournament .section.bets .historyFrm .gameFrm .placedBetFrm div:nth-child(even) {
+  padding: 5px 0px;
+}
+.tabTournament .section.bets .historyFrm .gameFrm .result {
+  color: hsl(0, 0%, 100%);
+  font-size: 1.7rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+  line-height: 1;
+  padding: 5px;
+  text-align: center;
+  text-transform: uppercase;
+}
+.tabTournament .section.bets .historyFrm .gameFrm .result .icon {
+  font-size: inherit;
+  vertical-align: bottom;
+}
+.tabTournament .section.bets .historyFrm .gameFrm .result.win {
+  background-color: hsl(89, 42%, 46%);
+}
+.tabTournament .section.bets .historyFrm .gameFrm .result.lost {
+  background-color: hsl(358, 67%, 48%);
+}
+.tabTournament .section.matches {
+  background-color: hsl(0, 0%, 97%);
+}
+.tabTournament .section.matches .tabsFrm {
+  align-items: center;
+  background-color: hsl(216, 10%, 10%);
+  display: flex;
+  height: 40px;
+  padding: 5px 10px;
+}
+.tabTournament .section.matches .tabsFrm .tabFrm {
+  height: 100%;
+  display: flex;
+}
+.tabTournament .section.matches .tabsFrm .tabFrm .tab {
+  background-color: transparent;
+  border-radius: unset;
+  color: hsl(216, 10%, 40%);
+  font-size: 1.2rem;
+  font-weight: 400;
+  height: 100%;
+  letter-spacing: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.tabTournament .section.matches .tabsFrm .tabFrm .tab:hover {
+  border-bottom: 3px solid hsl(216, 10%, 20%);
+}
+.tabTournament .section.matches .tabsFrm .tabFrm .tab.active {
+  color: hsl(0, 0%, 90%);
+  font-weight: 700;
+  border-bottom: 3px solid hsl(51, 53%, 65%);
+}
+.tabTournament .section.matches .tabsFrm .tabFrm .tab .icon {
+  font-size: inherit;
+  color: inherit;
+}
+.tabTournament .section.matches .tabsFrm .tabFrm .separator {
+  color: hsl(216, 10%, 15%);
+  font-size: 1.9rem;
+  font-weight: 700;
+  cursor: default;
+}
+.tabTournament .section.matches .actionsFrm {
+  background-color: hsl(216, 10%, 25%);
+  height: 40px;
+  padding: 10px;
+}
+.tabTournament .section.matches .actionsFrm .button {
+  background-color: transparent;
+  color: hsl(0, 0%, 90%);
+  font-weight: 700;
+  letter-spacing: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.tabTournament .section.matches .actionsFrm .button:hover {
+  background-color: hsl(216, 10%, 20%);
+}
+.tabTournament .section.matches .actionsFrm .button.checked {
+  background-color: hsl(0, 0%, 90%);
+  color: hsl(216, 10%, 25%);
+}
+.tabTournament .section.matches .actionsFrm .update {
+  background-color: hsl(51, 53%, 65%);
+  color: hsl(216, 10%, 25%);
+  float: right;
+}
+.tabTournament .section.matches .actionsFrm .update:hover {
+  background-color: hsl(51, 53%, 70%);
+}
+.tabTournament .section.matches .tablesFrm {
+  height: calc(100% - (40px + 40px));
+}
+.tabTournament .section.matches .tablesFrm .match.table {
+  min-width: 100%;
+}
+.tabTournament .section.matches .tablesFrm .match.table .thead .tr {
+  background-color: hsl(0, 0%, 93%);
+}
+.tabTournament .section.matches .tablesFrm .match.table .thead .th {
+  text-align: center;
+  color: hsl(216, 10%, 30%);
+}
+.tabTournament .section.matches .tablesFrm .match.table .thead .col-datetime {
+  min-width: 55%;
+  text-align: left;
+  width: 55%;
+}
+.tabTournament .section.matches .tablesFrm .match.table .thead .col-money {
+  min-width: 15%;
+  width: 15%;
+}
+.tabTournament .section.matches .tablesFrm .match.table .thead .col-spread {
+  min-width: 15%;
+  width: 15%;
+}
+.tabTournament .section.matches .tablesFrm .match.table .thead .col-total {
+  min-width: 15%;
+  width: 15%;
+}
+.tabTournament .section.matches .tablesFrm .match.table .tbody .tr:nth-child(even) {
+  background-color: unset;
+}
+.tabTournament .section.matches .tablesFrm .match.table .tbody .tr:nth-child(2n) {
+  border-bottom: 1px dashed hsl(0, 0%, 90%);
+}
+.tabTournament .section.matches .tablesFrm .match.table .tbody .tr:hover {
+  background-color: unset;
+}
+.tabTournament .section.matches .tablesFrm .match.table .tbody .tr:hover .td {
+  color: unset;
+  text-decoration: underline;
+}
+.tabTournament .section.matches .tablesFrm .match.table .tbody .col-datetime {
+  font-size: 1.3rem;
+  font-weight: 700;
+  padding-left: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tabTournament .section.matches .tablesFrm .match.table .tbody .td .button {
+  background-color: transparent;
+  border: 2px solid hsl(0, 0%, 90%);
+  color: hsl(216, 10%, 30%);
+  font-size: 1.3rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  line-height: 1;
+  min-width: 100%;
+}
+.tabTournament .section.matches .tablesFrm .match.table .tbody .td .button:hover {
+  background-color: hsl(0, 0%, 94%);
+  border: 2px solid hsl(216, 10%, 30%);
+}
+.tabTournament .section.matches .tablesFrm .match.table .tbody .td .button.checked {
+  background-color: hsl(216, 10%, 30%);
+  border: 2px solid hsl(216, 10%, 30%);
+  color: hsl(0, 0%, 90%);
+}
+.tabTournament .section.info {
+  background-color: hsl(0, 0%, 97%);
+}
+.tabTournament .section.info .titleBarFrm {
+  align-items: center;
+  background-color: hsl(216, 10%, 10%);
+  display: flex;
+  height: 50px;
+  padding: 5px 10px;
+}
+.tabTournament .section.info .titleBarFrm .imgFrm {
+  align-items: center;
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 50%;
+  display: flex;
+  height: 36px;
+  justify-content: center;
+  margin-right: 10px;
+  width: 40px;
+}
+.tabTournament .section.info .titleBarFrm .imgFrm .img .icon {
+  font-size: 2.5rem;
+}
+.tabTournament .section.info .titleBarFrm .titleFrm {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  margin-right: 10px;
+  overflow: hidden;
+  width: calc(100% - (40px + 80px));
+}
+.tabTournament .section.info .titleBarFrm .titleFrm .title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: hsl(0, 0%, 90%);
+  letter-spacing: 1px;
+}
+.tabTournament .section.info .titleBarFrm .statusFrm {
+  overflow: hidden;
+  width: 80px;
+}
+.tabTournament .section.info .titleBarFrm .statusFrm .status {
+  background-color: hsl(51, 53%, 65%);
+  border-radius: 3px;
+  color: hsl(216, 10%, 10%);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 0px 5px;
+  text-transform: uppercase;
+}
+.tabTournament .section.info .infoFrm {
+  padding: 5px 10px 0px 10px;
+}
+.tabTournament .section.info .infoFrm .row {
+  margin-bottom: 5px;
+}
+.tabTournament .section.info .infoFrm .title {
+  color: hsl(216, 10%, 10%);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.tabTournament .section.info .infoFrm .value {
+  color: hsl(216, 10%, 10%);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.tabTournament .section.info .table {
+  border: 1px solid hsl(0, 0%, 97%);
+  width: 100% !important;
+}
+.tabTournament .section.info .awards.table {
+  min-width: 100%;
+}
+.tabTournament .section.info .awards.table .col-position {
+  min-width: 25%;
+  width: 25%;
+}
+.tabTournament .section.info .awards.table .col-prize {
+  min-width: 75%;
+  width: 75%;
+}
+.tabTournament .section.info .awards.table .tbody .td {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.tabTournament .section.info .awards.table .tbody .col-position {
+  text-align: center;
+}
+.tabTournament .section.info .rank.table {
+  min-width: 100%;
+}
+.tabTournament .section.info .rank.table #col-position {
+  min-width: 15%;
+  width: 15%;
+}
+.tabTournament .section.info .rank.table #col-player {
+  min-width: 55%;
+  width: 55%;
+}
+.tabTournament .section.info .rank.table #col-price {
+  min-width: 30%;
+  width: 30%;
+}
+.tabTournament .section.info .rank.table .tbody .col-position {
+  font-weight: 700;
+}
+.tabTournament .section.info .rank.table .tbody .col-player {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.tabTournament .section.info .rank.table .tbody .col-player .imgFrm {
+  background-color: white;
+  border-radius: 50%;
+  height: 15px;
+  margin-right: 5px;
+  width: 15px;
+}
+.tabTournament .section.info .rank.table .tbody .col-player .imgFrm .icon {
+  color: hsl(216, 10%, 10%);
+  font-size: 1.5rem;
+}
+#homeTabFrm #filtersFrm {
+  background-color: transparent;
+  height: 60px;
+  margin-bottom: 15px;
+}
+#homeTabFrm #tournamentsFrm .tableFrm {
+  background-color: hsl(0, 0%, 97%);
+  border-radius: 3px;
+  height: calc(100vh - ((50px + 40px + 40px) + (60px + (15px * 3))));
+  overflow: auto;
+}
+#homeTabFrm #tournamentsFrm .tableFrm #tournamentsTbl.table {
+  min-width: 800px;
+}
+#homeTabFrm #tournamentsFrm .tableFrm #tournamentsTbl.table #col-start {
+  min-width: 80px;
+  width: 10%;
+}
+#homeTabFrm #tournamentsFrm .tableFrm #tournamentsTbl.table #col-sports {
+  min-width: 190px;
+  width: 23.75%;
+}
+#homeTabFrm #tournamentsFrm .tableFrm #tournamentsTbl.table #col-buy-in {
+  min-width: 50px;
+  width: 6.25%;
+}
+#homeTabFrm #tournamentsFrm .tableFrm #tournamentsTbl.table #col-name {
+  min-width: 190px;
+  width: 23.75%;
+}
+#homeTabFrm #tournamentsFrm .tableFrm #tournamentsTbl.table #col-time-frame {
+  min-width: 80px;
+  width: 10%;
+}
+#homeTabFrm #tournamentsFrm .tableFrm #tournamentsTbl.table #col-status {
+  min-width: 90px;
+  width: 11.25%;
+}
+#homeTabFrm #tournamentsFrm .tableFrm #tournamentsTbl.table #col-enrolled {
+  min-width: 60px;
+  width: 7.5%;
+}
+#homeTabFrm #tournamentsFrm .tableFrm #tournamentsTbl.table #col-players {
+  min-width: 60px;
+  width: 7.5%;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm {
+  background-color: hsl(0, 0%, 97%);
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - ((50px + 40px + 40px) + (60px + (15px * 3))));
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm #titleBarFrm {
+  align-items: center;
+  background-color: hsl(216, 10%, 10%);
+  display: flex;
+  height: 50px;
+  padding: 5px 10px;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm #titleBarFrm #imgFrm {
+  align-items: center;
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 50%;
+  display: flex;
+  height: 36px;
+  justify-content: center;
+  margin-right: 10px;
+  width: 40px;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm #titleBarFrm #imgFrm #img .icon {
+  font-size: 2.5rem;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm #titleBarFrm #titleFrm {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  margin-right: 10px;
+  overflow: hidden;
+  width: calc(100% - (40px + 80px));
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm #titleBarFrm #titleFrm #title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: hsl(0, 0%, 90%);
+  letter-spacing: 1px;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm #titleBarFrm #statusFrm {
+  overflow: hidden;
+  width: 80px;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm #titleBarFrm #statusFrm #status {
+  background-color: hsl(51, 53%, 65%);
+  border-radius: 3px;
+  color: hsl(216, 10%, 10%);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 0px 5px;
+  text-transform: uppercase;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm #infoFrm {
+  padding: 5px 10px 0px 10px;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm #infoFrm .row {
+  margin-bottom: 5px;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm #infoFrm .title {
+  color: hsl(216, 10%, 10%);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm #infoFrm .value {
+  color: hsl(216, 10%, 10%);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm .tablesFrm {
+  overflow: auto;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm .tablesFrm #gamesTbl.table {
+  min-width: 100%;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm .tablesFrm #gamesTbl.table #col-time {
+  min-width: 20%;
+  width: 20%;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm .tablesFrm #gamesTbl.table #col-sport {
+  min-width: 20%;
+  width: 20%;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm .tablesFrm #gamesTbl.table #col-game {
+  min-width: 60%;
+  width: 60%;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm .tablesFrm #gamesTbl.table .tbody .col-position {
+  font-weight: 700;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm .tablesFrm #gamesTbl.table .tbody .col-game {
+  display: flex;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm .tablesFrm #gamesTbl.table .tbody .col-game .team {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 50%;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm .tablesFrm #gamesTbl.table .tbody .col-game .score {
+  background-color: hsl(216, 10%, 10%);
+  border-radius: 3px;
+  color: hsl(0, 0%, 90%);
+  margin: 0px 5px;
+  width: 30px;
+  text-align: center;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm .tablesFrm #gamesTbl.table .tbody .col-game .vs {
+  text-align: center;
+  width: 30px;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm .tablesFrm #rankTbl.table {
+  min-width: 100%;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm .tablesFrm #rankTbl.table #col-position {
+  min-width: 10%;
+  width: 10%;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm .tablesFrm #rankTbl.table #col-player {
+  min-width: 60%;
+  width: 60%;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm .tablesFrm #rankTbl.table #col-price {
+  min-width: 30%;
+  width: 30%;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm .tablesFrm #rankTbl.table .tbody .col-position {
+  font-weight: 700;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm .tablesFrm #rankTbl.table .tbody .col-player {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm .tablesFrm #rankTbl.table .tbody .col-player .imgFrm {
+  background-color: white;
+  border-radius: 50%;
+  height: 15px;
+  margin-right: 5px;
+  width: 15px;
+}
+#homeTabFrm #tournamentsFrm #infoTournamentFrm .tablesFrm #rankTbl.table .tbody .col-player .imgFrm .icon {
+  color: hsl(216, 10%, 10%);
+  font-size: 1.5rem;
+}
+#footerFrm {
+  background-color: hsl(216, 10%, 10%);
+  bottom: 0px;
+  color: hsl(0, 0%, 100%);
+  cursor: pointer;
+  height: 40px;
+  line-height: 1.5;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  position: fixed;
+  box-shadow: 0px 0px 5px 0px hsla(216, 10%, 15%, 0.1);
+  transition: height 0.5s linear;
+  width: 100vw;
+}
+#footerFrm:hover {
+  height: 120px;
+}
+#footerFrm #promoFrm {
+  height: 100%;
+}
+#footerFrm #promoFrm #promoImage {
+  background-color: hsl(216, 10%, 15%);
+  border: 1px solid hsl(216, 10%, 25%);
+  border-radius: 3px;
+  height: 100%;
+  width: 100%;
+}
+#footerFrm #linksFrm {
+  margin-top: calc((5px * 2) - (5px / 2));
+  text-transform: uppercase;
+}
+#footerFrm #linksFrm .linkTitle {
+  color: hsl(51, 53%, 65%);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+#footerFrm #linksFrm .linkTitle .separator {
+  color: hsl(216, 10%, 30%);
+  float: right;
+  font-size: inherit;
+}
+#footerFrm #linksFrm .linkFrm {
+  line-height: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#footerFrm #linksFrm .linkFrm.addMultiline {
+  line-height: 1.5;
+}
+#footerFrm #linksFrm .link {
+  color: hsl(0, 0%, 90%);
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+#footerFrm #linksFrm .link:hover {
+  background-color: hsl(216, 10%, 20%);
+  color: white;
+  font-weight: 500;
+}
+#footerFrm #linksFrm .link .icon {
+  font-size: 1.5rem;
+  min-width: 20px;
+  vertical-align: middle;
+}
