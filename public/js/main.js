@@ -1,17 +1,18 @@
 var vm = new Vue({
-    el: '#app',
+    el: '#main',
 
     data: {
         isLogin: false,
 
-        tabs: [
+        userTournamentsActive: [
             'All sports Fre4all',
             'Weekend NFL',
-            'Thursday Basketball'
+            'Thursday Basketball',
+            'Jefferson'
         ],
 
         home: {
-            show: true,
+            show: false,
 
             tournaments: [
                 {
@@ -646,7 +647,7 @@ var vm = new Vue({
 
             info: {
                 games: {
-                    show: false,
+                    show: true,
                 }
             }
         },

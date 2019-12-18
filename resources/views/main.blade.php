@@ -15,30 +15,30 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/fontawesome.css" integrity="sha384-+pqJl+lfXqeZZHwVRNTbv2+eicpo+1TR/AEzHYYDKfAits/WRK21xLOwzOxZzJEZ" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 </head>
 <body>
-    <div id="app" class="container-fluid">
-        <nav id="menuFrm" class="row">
-            <div class="col-4">
-                <a id="brandFrm" href="#">
+    <div id="main" class="container-fluid">
+        <nav name="menu" id="menu-frm" class="row">
+            <div name="brand" class="col-4">
+                <a id="brand-frm" href="#">
                     {{-- <img id="logo" src="" class="d-inline-block align-top" alt=""> --}}
-                    <div id="logoTextFrm" class="d-inline-blockx align-top">
-                        <div id="logoText" class="">LS</div>
+                    <div id="logo-text-frm" class="d-inline-blockx align-top">
+                        <div id="logo-text" class="">LS</div>
                     </div>
                     <span id="text">Legend Sports</span>
                 </a>
             </div>
 
-            <div v-if="isLogin" class="offset-5 col-3">
-                <div id="userMenuFrm">
-                    <div id="imgFrm">
+            <div name="usermenu" v-if="isLogin" class="offset-5 col-3">
+                <div id="usermenu-frm">
+                    <div id="img-frm">
                         <div id="img">
                             <i class="icon fas fa-user"></i>
                         </div>
                     </div>
 
-                    <div id="titleFrm">
+                    <div id="title-frm">
                         <div id="title">
                             Michael Jarrod
                             <br>
@@ -46,22 +46,21 @@
                         </div>
                     </div>
 
-                    <i id="bar" class="icon fas fa-bars"></i>
+                    <i class="icon bars fas fa-bars"></i>
                 </div>
             </div>
 
-            <div v-else id="signFrm" class="offset-6 col-2">
-                <button id="btn-sign-up" type="button" class="button float-rightx">Sign up</button>
-                <button id="btn-sign-in" type="button" class="button float-rightx">Sign in</button>
+            <div name="sign-buttons" v-else id="sign-frm" class="offset-6 col-2">
+                <button id="sign-up-btn" type="button" class="button">Sign up</button>
+                <button id="sign-in-btn" type="button" class="button">Sign in</button>
             </div>
         </nav>
 
-        <section class="row">
-            <div class="col tabsRowFrm">
-                <div id="tabsFrm">
-                    <div class="tabFrm">
+        <section name="tabs" class="row">
+            <div class="col tabs-row-frm">
+                <div id="tabs-frm">
+                    <div name="home" class="tab-frm">
                         <button type="button"
-                            id="home"
                             class="tab"
                             :class="{ active: home.show }"
                             >
@@ -71,8 +70,8 @@
                         <span class="separator">|</span>
                     </div>
 
-                    <template v-for="(tab, i) in tabs">
-                        <div class="tabFrm">
+                    <template v-for="(tab, i) in userTournamentsActive">
+                        <div class="tab-frm">
                             <button type="button"
                                 class="tab"
                                 :class="{ active: (i == 1) && (home.show == false) }"
@@ -85,13 +84,13 @@
             </div>
         </section>
 
-        <section v-if="home.show"
-            id="homeTabFrm"
-            class="tabTournament row"
+        <section name="tab-content-home" v-if="home.show"
+            id="tab-home-frm"
+            class="tab-content-frm row"
             >
             <div class="col">
-                <section id="filtersFrm" class="row">
-                    <div id="typeFrm" class="col-1">
+                <section id="filters-frm" class="row">
+                    <div name="type" class="col-1">
                         <label for="type" class="control-title">Type</label>
 
                         <select id="type"
@@ -99,7 +98,7 @@
                         ></select>
                     </div>
 
-                    <div id="sportFrm" class="col-3">
+                    <div name="sport" class="col-3">
                         <label for="sport" class="control-title">Sport</label>
 
                         <select id="sport"
@@ -107,7 +106,7 @@
                         ></select>
                     </div>
 
-                    <div id="buyinFrm" class="col-1">
+                    <div name="buy-in" class="col-1">
                         <label for="buyin" class="control-title">Buy-In</label>
 
                         <select id="buyin"
@@ -115,15 +114,15 @@
                         ></select>
                     </div>
 
-                    <div id="timeFrameFrm" class="col-1">
-                        <label for="timeFrame" class="control-title">Time Frame</label>
+                    <div name="time-frame" class="col-1">
+                        <label for="time-frame" class="control-title">Time Frame</label>
 
-                        <select id="timeFrame"
+                        <select id="time-frame"
                             class="form-control control-input"
                         ></select>
                     </div>
 
-                    <div id="upcomingFrm" class="col-2">
+                    <div name="upcoming" class="col-2">
                         <label for="upcoming" class="control-title">Show upcoming only</label>
 
                         <input type="text"
@@ -132,7 +131,7 @@
                         >
                     </div>
 
-                    <div id="searchFrm" class="offset-1 col-3">
+                    <div name="search" class="offset-1 col-3">
                         <label for="search" class="control-title">Search</label>
 
                         <input type="text"
@@ -142,10 +141,10 @@
                     </div>
                 </section>
 
-                <section id="tournamentsFrm" class="row">
-                    <div class="col-9">
-                        <div class="tableFrm">
-                            <table id="tournamentsTbl" class="table">
+                <section id="tournaments-frm" class="row">
+                    <div name="table" class="col-9">
+                        <div id="table-frm">
+                            <table id="tournaments" class="table">
                                 <thead class="thead">
                                     <tr class="tr">
                                         <th id="col-start" class="th" scope="col">Start</th>
@@ -178,25 +177,25 @@
                         </div>
                     </div>
 
-                    <div class="col-3">
-                        <div id="infoTournamentFrm">
-                            <div id="titleBarFrm">
-                                <div id="imgFrm">
+                    <div name="info" class="col-3">
+                        <div id="info-frm">
+                            <div id="title-bar-frm">
+                                <div id="img-frm">
                                     <div id="img">
                                         <i class="icon fas fa-football-ball"></i>
                                     </div>
                                 </div>
 
-                                <div id="titleFrm">
+                                <div id="title-frm">
                                     <div id="title">Weekend NFL</div>
                                 </div>
 
-                                <div id="statusFrm">
+                                <div id="status-frm">
                                     <div id="status">Completed</div>
                                 </div>
                             </div>
 
-                            <div id="infoFrm">
+                            <div id="data-frm">
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="title">Start time</div>
@@ -209,21 +208,21 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div name="players" class="row">
                                     <div class="col">
                                         <div class="title"># Players</div>
                                         <div class="value">254</div>
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div name="sports" class="row">
                                     <div class="col">
                                         <div class="title">Sports</div>
                                         <div class="value">NFL</div>
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div name="title-table" class="row">
                                     <div class="col">
                                         <div v-if="home.info.games.show" class="title">Games</div>
 
@@ -232,9 +231,9 @@
                                 </div>
                             </div>
 
-                            <div class="tablesFrm">
-                                <table v-if="home.info.games.show"
-                                    id="gamesTbl"
+                            <div class="tables-frm">
+                                <table name="games" v-if="home.info.games.show"
+                                    id="games"
                                     class="table"
                                     >
                                     <thead class="thead">
@@ -263,8 +262,8 @@
                                     </tbody>
                                 </table>
 
-                                <table v-else
-                                    id="rankTbl"
+                                <table name="rank" v-else
+                                    id="rank"
                                     class="table"
                                     >
                                     <thead class="thead">
@@ -281,7 +280,7 @@
                                                 >
                                                 <td class="td col-position">@{{ i }}</td>
                                                 <td class="td col-player">
-                                                    <div class="imgFrm">
+                                                    <div class="img-frm">
                                                         <i class="icon fas fa-user-circle"></i>
 
                                                         <div class="img">
@@ -301,17 +300,17 @@
             </div>
         </section>
 
-        <section v-if="home.show == false"
-            class="tabTournament row"
+        <section name="tab-content-any-tournament" v-if="home.show == false"
+            class="tab-content-frm tab-tournament-frm row"
             >
-            <section class="col-3">
+            <section name="betting-section" class="col-3">
                 <section class="section bets">
-                    <div class="titleBarFrm">
-                        <span class="title">Balance: $3,000</span>
+                    <div class="title-bar-frm">
+                        <span class="title">Balance: 10,000</span>
                     </div>
 
-                    <div class="tabsFrm">
-                        <div class="tabFrm">
+                    <div class="tabs-frm">
+                        <div name="pending-tab" class="tab-frm">
                             <button type="button"
                                 class="tab"
                                 :class="{ active: tournament.betting.pending.show }"
@@ -319,7 +318,7 @@
                             <span class="separator">|</span>
                         </div>
 
-                        <div class="tabFrm">
+                        <div name="history-tab" class="tab-frm">
                             <button type="button"
                                 class="tab"
                                 :class="{ active: tournament.betting.pending.show == false  }"
@@ -327,27 +326,29 @@
                             <span class="separator">|</span>
                         </div>
 
-                        <div class="tabFrm">
+                        <div name="straight-tab" class="tab-frm">
                             <button type="button"
                                 class="tab"
                             >Straight</button>
                             <span class="separator">|</span>
                         </div>
 
-                        <div class="tabFrm">
+                        <div name="parlay-tab" class="tab-frm">
                             <button type="button"
                                 class="tab"
                             >Parlay</button>
                         </div>
                     </div>
 
-                    <div v-if="tournament.betting.pending.show" class="pendingFrm">
-                        <div class="gameFrm">
-                            <div class="dataFrm">
-                                <div class="typeBet">Straight</div>
+                    <div name="tab-content-pending" v-if="tournament.betting.pending.show"
+                        class="tab-content-frm"
+                        >
+                        <div class="event-frm">
+                            <div class="data-frm">
+                                <div class="type-bet">Straight</div>
 
                                 <div class="text">[datetime]</div>
-                                <div class="text matchFrm">
+                                <div class="text game-frm">
                                     <div class="text team">Miami Dolphins</div>
                                     <div class="text score">0</div>
                                     <div class="text vs">@</div>
@@ -357,19 +358,19 @@
                                 <div class="text">[team/+odds/result]</div>
                             </div>
 
-                            <div class="placedBetFrm">
+                            <div class="bet-frm">
                                 <div>Bet: $ 0</div>
 
                                 <div>Win: $ 0</div>
                             </div>
                         </div>
 
-                        <div class="gameFrm">
-                            <div class="dataFrm">
-                                <div class="typeBet">Parlay</div>
+                        <div class="event-frm">
+                            <div class="data-frm">
+                                <div class="type-bet">Parlay</div>
 
                                 <div class="text">[datetime]</div>
-                                <div class="text matchFrm">
+                                <div class="text game-frm">
                                     <div class="text team">Team C</div>
                                     <div class="text score">0</div>
                                     <div class="text vs">@</div>
@@ -379,9 +380,9 @@
                                 <div class="text">[team/+odds/result]</div>
                             </div>
 
-                            <div class="dataFrm">
+                            <div class="data-frm">
                                 <div class="text">[datetime]</div>
-                                <div class="text matchFrm">
+                                <div class="text game-frm">
                                     <div class="text team">Team C</div>
                                     <div class="text score">0</div>
                                     <div class="text vs">@</div>
@@ -391,7 +392,7 @@
                                 <div class="text">[team/+odds/result]</div>
                             </div>
 
-                            <div class="placedBetFrm">
+                            <div class="bet-frm">
                                 <div>Bet: $0</div>
 
                                 <div>Win: $0</div>
@@ -399,13 +400,15 @@
                         </div>
                     </div>
 
-                    <div v-else class="historyFrm">
-                        <div class="gameFrm">
-                            <div class="dataFrm">
-                                <div class="typeBet">Straight</div>
+                    <div name="tab-content-history" v-else
+                        class="tab-content-frm"
+                        >
+                        <div class="event-frm">
+                            <div class="data-frm">
+                                <div class="type-bet">Straight</div>
 
                                 <div class="text">[datetime]</div>
-                                <div class="text matchFrm">
+                                <div class="text game-frm">
                                     <div class="text team">Miami Dolphins</div>
                                     <div class="text score">0</div>
                                     <div class="text vs">@</div>
@@ -415,7 +418,7 @@
                                 <div class="text">[team/+odds/result]</div>
                             </div>
 
-                            <div class="placedBetFrm">
+                            <div class="bet-frm">
                                 <div>Bet: $ 0</div>
 
                                 <div>Win: $ 0</div>
@@ -424,12 +427,12 @@
                             <div class="result lost"><i class="icon fas fa-frown"></i> YOU LOST!</div>
                         </div>
 
-                        <div class="gameFrm">
-                            <div class="dataFrm">
-                                <div class="typeBet">Parlay</div>
+                        <div class="event-frm">
+                            <div class="data-frm">
+                                <div class="type-bet">Parlay</div>
 
                                 <div class="text">[datetime]</div>
-                                <div class="text matchFrm">
+                                <div class="text game-frm">
                                     <div class="text team">Team C</div>
                                     <div class="text score">0</div>
                                     <div class="text vs">@</div>
@@ -439,9 +442,9 @@
                                 <div class="text">[team/+odds/result]</div>
                             </div>
 
-                            <div class="dataFrm">
+                            <div class="data-frm">
                                 <div class="text">[datetime]</div>
-                                <div class="text matchFrm">
+                                <div class="text game-frm">
                                     <div class="text team">Team C</div>
                                     <div class="text score">0</div>
                                     <div class="text vs">@</div>
@@ -451,7 +454,7 @@
                                 <div class="text">[team/+odds/result]</div>
                             </div>
 
-                            <div class="placedBetFrm">
+                            <div class="bet-frm">
                                 <div>Bet: $ 0</div>
 
                                 <div>Win: $ 0</div>
@@ -463,33 +466,35 @@
                 </section>
             </section>
 
-            <section class="col-6">
+            <section name="events-section" class="col-6">
                 <div class="section matches">
-                    <div class="tabsFrm">
-                        <div class="tabFrm">
+                    <div class="tabs-frm">
+                        <div class="tab-frm">
                             <button type="button"
                                 class="tab active"
                             >NFL</button>
+
                             <span class="separator">|</span>
                         </div>
 
-                        <div class="tabFrm">
+                        <div class="tab-frm">
                             <button type="button"
                                 class="tab"
                             >AAF</button>
+
                             <span class="separator">|</span>
                         </div>
                     </div>
 
-                    <div class="actionsFrm">
-                        <button type="button" class="button gameLine">Game Line</button>
+                    <div class="actions-frm">
+                        <button type="button" class="button game-line">Game Line</button>
 
-                        <button type="button" class="button firstHalf checked">1st half</button>
+                        <button type="button" class="button game-first-half checked">1st half</button>
 
                         <button type="button" class="button update">Update</button>
                     </div>
 
-                    <div class="tablesFrm">
+                    <div class="tables-frm">
                         <table class="match table">
                             <thead class="thead">
                                 <tr class="tr">
@@ -649,25 +654,25 @@
                 </div>
             </section>
 
-            <section class="col-3">
+            <section name="info-section" class="col-3">
                 <div class="section info">
-                    <div class="titleBarFrm">
-                        <div class="imgFrm">
+                    <div class="title-bar-frm">
+                        <div class="img-frm">
                             <div class="img">
                                 <i class="icon fas fa-football-ball"></i>
                             </div>
                         </div>
 
-                        <div class="titleFrm">
+                        <div class="title-frm">
                             <div class="title">Weekend NFL</div>
                         </div>
 
-                        <div class="statusFrm">
+                        <div class="status-frm">
                             <div class="status">Completed</div>
                         </div>
                     </div>
 
-                    <div class="infoFrm">
+                    <div class="tournament-frm">
                         <div class="row">
                             <div class="col-6">
                                 <div class="title">Start time</div>
@@ -738,7 +743,7 @@
                                     >
                                     <td class="td col-position">@{{ i }}</td>
                                     <td class="td col-player">
-                                        <div class="imgFrm">
+                                        <div class="img-frm">
                                             <i class="icon fas fa-user-circle"></i>
 
                                             <div class="img">
@@ -755,66 +760,66 @@
             </section>
         </section>
 
-        <footer id="footerFrm" class="row">
-            <div id="promoFrm" class="col-4">
-                <div id="promoImage"></div>
+        <footer name="footer" id="footer-frm" class="row">
+            <div id="advertising-frm" class="col-4">
+                <div id="advertising-image"></div>
             </div>
 
-            <div id="linksFrm" class="offset-4 col-3">
+            <div id="links-frm" class="offset-4 col-3">
                 <div class="row">
-                    <div id="aboutFrm" class="col-4">
-                        <div class="linkTitle">About<span class="separator">|</span></div>
+                    <div name="aboutFrm" class="col-4">
+                        <div class="links-title">About<span class="separator">|</span></div>
 
-                        <div class="linkFrm">
+                        <div class="link-frm">
                             <a class="link" href="#">About us</a>
                         </div>
 
-                        <div class="linkFrm">
+                        <div class="link-frm">
                             <a class="link" href="#">Privacy</a>
                         </div>
 
-                        <div class="linkFrm">
+                        <div class="link-frm">
                             <a class="link" href="#">Terms of use</a>
                         </div>
                     </div>
 
-                    <div id="supportFrm" class="col-4">
-                        <div class="linkTitle">Support<span class="separator">|</span></div>
+                    <div name="supportFrm" class="col-4">
+                        <div class="links-title">Support<span class="separator">|</span></div>
 
-                        <div class="linkFrm">
+                        <div class="link-frm">
                             <a class="link" href="#">Contact us</a>
                         </div>
 
-                        <div class="linkFrm addMultiline">
+                        <div class="link-frm addMultiline">
                             <a class="link" href="#">Forgot password</a>
                         </div>
                     </div>
 
-                    <div id="supportFrm" class="col-4">
-                        <div class="linkTitle">Follow us</div>
+                    <div name="supportFrm" class="col-4">
+                        <div class="links-title">Follow us</div>
 
-                        <div class="linkFrm">
+                        <div class="link-frm">
                             <a class="link" href="#"><i class="icon fab fa-facebook-square"></i>Facebook</a>
                         </div>
 
-                        <div class="linkFrm">
+                        <div class="link-frm">
                             <a class="link" href="#"><i class="icon fab fa-twitter-square"></i>Twitter</a>
                         </div>
 
-                        <div class="linkFrm">
+                        <div class="link-frm">
                             <a class="link" href="#"><i class="icon fab fa-instagram"></i>Instagram</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div id="toogleFrm" class="col-1">
+            <div name="showFooterFrm" class="col-1">
                 <button type="button" class="btn btn-secondary float-right"><i class="fas fa-angle-up"></i></button>
             </div>
         </footer>
     </div>
 
     <script type="text/javascript" language="javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script type="text/javascript" language="javascript" src="{{ asset('js/home.js') }}"></script>
+    <script type="text/javascript" language="javascript" src="{{ asset('js/main.js') }}"></script>
 </body>
 </html>
