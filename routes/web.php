@@ -1,5 +1,6 @@
 <?php
 
-Route::get('/', function () {
-    return view('main');
-});
+Route::get('/', 'app\HomeController@index')->name('app.home');
+
+Route::get('/tournament', 'app\TournamentController@index')->name('app.tournament');
+

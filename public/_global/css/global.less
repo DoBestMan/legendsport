@@ -1,0 +1,431 @@
+//IMPORTS********************************************************************
+    @import (reference) 'global.vars.less';
+// GENERAL ********************************************************************
+    * {
+        font-family: @gb_font-family;
+        font-weight: 400;
+        font-size: 10px;
+        box-sizing: border-box;
+        overflow: hidden;
+
+        &::-webkit-scrollbar {
+            width: 7px;
+            background-color: transparent;
+        }
+
+        &::-webkit-scrollbar-button {
+            display: none;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: hsla(@gb_h, @gb_s, @gb_l_d1, .2);
+            border-radius: 10px;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background-color: hsla(@gb_h, @gb_s, @gb_l_d1, .4);
+        }
+
+        &::-webkit-scrollbar-thumb:active {
+            background-color: hsla(@gb_h, @gb_s, @gb_l_d1, .6);
+        }
+    }
+
+    body {
+        height: 100vh;
+    }
+
+    #main {
+        height: 100%;
+    }
+
+    a { text-decoration: none !important; }
+
+    button {
+        border: none;
+        border-radius: @gb_border-radius;
+        letter-spacing: @gb_letter-spacing;
+
+        &:focus { outline: none; }
+    }
+
+    input, select {
+        &:focus { outline: none; }
+    }
+
+    table {
+        table-layout: fixed;
+        width: calc(100% + 1px) !important;
+
+        thead {
+            background-color: @gb_color_dark1;
+
+            .tr {
+                height: 30px;
+            }
+
+            th {
+                color: @gb_color_app_white;
+                cursor: default;
+                font-size: 1rem;
+                font-weight: @gb_font-bold;
+                letter-spacing: @gb_letter-spacing;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-transform: uppercase;
+                vertical-align: middle;
+                white-space: nowrap;
+            }
+        }
+
+        tbody {
+            tr {
+                height: 20px;
+
+                &:nth-child(even) {
+                    background-color: @gb_color_table_row;
+                }
+
+                &:hover {
+                    background-color: @gb_color_dark5;
+
+                    td {
+                        color: @gb_color_app_white;
+                    }
+                }
+
+                &.selected {
+                    background-color: @gb_color_gold;
+
+                    td {
+                        color: @gb_color_dark1;
+                    }
+                }
+            }
+
+            td {
+                color: @gb_color_dark1;
+                cursor: default;
+                font-size: 1rem;
+                font-weight: @gb_font-medium;
+                overflow: hidden;
+                padding-top: .5rem !important;
+                padding-bottom: .5rem !important;
+                text-overflow: ellipsis;
+                vertical-align: middle;
+                white-space: nowrap;
+            }
+        }
+    }
+
+    .control-title {
+        color: @gb_color_gold;
+        font-size: 1rem;
+        font-weight: @gb_font-medium;
+        letter-spacing: @gb_letter-spacing;
+        text-transform: uppercase;
+    }
+
+    .control-input {
+        color: @gb_color_app_white;
+        background-color: @gb_color_dark1;
+        border: unset;
+        font-size: 2rem;
+    }
+
+// CUSTOM-VENDORS *************************************************************
+// BOOTSTRAP **************************************************************
+    .table {
+        margin-bottom: 0px;
+
+        th, td {
+            border: none !important;
+            vertical-align: middle !important;
+        }
+    }
+
+    #footer-frm {
+        @footer-frm_padding: 5px;
+
+        background-color: @gb_color_dark1;
+        bottom: 0px;
+        color: hsl(0, 0%, 100%);
+        cursor: pointer;
+        height: @footer-frm_height;
+        line-height: 1.5;
+        padding-top: @footer-frm_padding;
+        padding-bottom: @footer-frm_padding;
+        position: fixed;
+        .box-shadow(0.1);
+        transition: height .5s linear;
+        width: 100vw;
+
+        &:hover {
+            height: @footer-frm_height_toogle;
+        }
+
+        #advertising-frm {
+            height: 100%;
+
+            #advertising-image {
+                background-color: @gb_color_dark2;
+                border: 1px solid @gb_color_dark4;
+                border-radius: @gb_border-radius;
+                height: 100%;
+                width: 100%;
+            }
+        }
+
+        #links-frm {
+            margin-top: calc((@footer-frm_padding * 2) - (@footer-frm_padding / 2));
+            text-transform: uppercase;
+
+            .links-title {
+                color: @gb_color_gold;
+                font-size: 1.2rem;
+                font-weight: @gb_font-bold;
+                letter-spacing: @gb_letter-spacing;
+                margin-bottom: (@footer-frm_padding * 2);
+
+                .separator {
+                    color: @gb_color_dark5;
+                    float: right;
+                    font-size: inherit;
+                }
+            }
+
+            .link-frm {
+                line-height: 2;
+                .text-in-ellipsis;
+
+                &.addMultiline {
+                    line-height: 1.5;
+                }
+            }
+
+            .link {
+                color: @gb_color_app_white;
+                font-size: 1rem;
+                font-weight: @gb_font-light;
+                letter-spacing: @gb_letter-spacing;
+
+                &:hover {
+                    background-color: @gb_color_dark3;
+                    color: white;
+                    font-weight: @gb_font-medium;
+                }
+                .icon {
+                    font-size: 1.5rem;
+                    min-width: 20px;
+                    vertical-align: middle;
+                }
+            }
+        }
+    }
+
+    #menu-frm {
+        @menu-frm_padding: 10px;
+
+        background-color: @gb_color_dark1;
+        .box-shadow(0.1);
+        height: @menu-frm_height;
+        overflow: hidden;
+        padding-top: @menu-frm_padding;
+        padding-bottom: @menu-frm_padding;
+
+        #brand-frm {
+            display: flex;
+
+            #logo {
+                @logo_height: @menu-frm_height - (@menu-frm_padding * 2);
+
+                background-color: @gb_color_dark2;
+                border: 1px solid @gb_color_dark4;
+                border-radius: @gb_border-radius;
+                height: @logo_height;
+                width: @logo_height;
+            }
+
+
+            #logo-text-frm {
+                @logo_height: @menu-frm_height - (@menu-frm_padding * 2);
+
+                align-items: center;
+                background-color: @gb_color_app_white;
+                border: 1px solid @gb_color_dark4;
+                border-radius: @gb_border-radius;
+                display: flex;
+                height: @logo_height;
+                justify-content: center;
+                width: @logo_height;
+
+                #logo-text {
+                    color: @gb_color_dark1;
+                    font-size: 1.2rem;
+                    font-weight: @gb_font-bold;
+                    text-transform: uppercase;
+                }
+            }
+
+            #text {
+                color: @gb_color_app_white;
+                font-size: 2rem;
+                font-weight: @gb_font-light;
+                letter-spacing: @gb_letter-spacing * 3;
+                margin-left: 5px;
+                word-spacing: 5px;
+                text-transform: uppercase;
+            }
+        }
+
+        #usermenu-frm {
+            @title-bar-frm_margin-right: 10px;
+            @img-frm_height: 32px;
+            @img-frm_width: 32px;
+            @title-bar-frm_height: 50px;
+            @status-frm_width: 80px;
+
+            align-items: center;
+            background-color: transparent;
+            cursor: pointer;
+            display: flex;
+            justify-content: flex-end;
+
+            &:hover {
+                background-color: @gb_color_dark2;
+            }
+
+            #img-frm {
+                align-items: center;
+                background-color: @gb_color_app_white;
+                border-radius: 50%;
+                display: flex;
+                height: @img-frm_height;
+                justify-content: center;
+                margin-right: @title-bar-frm_margin-right;
+                width: @img-frm_width;
+
+                #img {
+                    .icon {
+                        font-size: 2.3rem;
+                    }
+                }
+            }
+
+            #title-frm {
+                align-items: center;
+                display: flex;
+                height: 100%;
+                margin-right: @title-bar-frm_margin-right;
+                overflow: hidden;
+                width: calc(~'100%' - (@img-frm_width + @status-frm_width));
+                line-height: 1;
+
+                #title {
+                    font-size: 1.4rem;
+                    font-weight: @gb_font-bold;
+                    color: @gb_color_app_white;
+                    letter-spacing: @gb_letter-spacing;
+
+                    .balance {
+                        color: @gb_color_gold;
+                        font-size: 1rem;
+                        font-weight: @gb_font-bold;
+                        letter-spacing: @gb_letter-spacing;
+                        text-transform: uppercase;
+                    }
+                }
+            }
+
+            .icon.bars {
+                font-size: 2.5rem;
+                color: @gb_color_gold;
+            }
+        }
+
+        #sign-frm {
+            display: flex;
+            justify-content: flex-end;
+
+            .button {
+                font-size: 1.2rem;
+                font-weight: @gb_font-bold;
+                height: @menu-frm_height - (@menu-frm_padding * 2);
+                text-transform: uppercase;
+                width: 100px;
+            }
+
+            #sign-up-btn {
+                background-color: @gb_color_dark2;
+                border: 1px solid @gb_color_app_white;
+                color: @gb_color_app_white;
+                margin-right: 5px;
+
+                &:hover {
+                    background-color: @gb_color_dark3;
+                }
+            }
+
+            #sign-in-btn {
+                background-color: @gb_color_gold;
+                color: @gb_color_gold_dark;
+                text-shadow: 0px 1px 0px hsla(0, 0%, 100%, 0.5);
+
+                &:hover {
+                    background-color: @gb_color_gold_ligth;
+                }
+            }
+        }
+    }
+
+    #tabs-frm {
+        @tabs-frm_padding: 5px;
+
+        background-color: transparent;
+        display: flex;
+        height: @tabs-frm_height;
+        padding: @tabs-frm_padding;
+
+        .tab-frm {
+            height: 100%;
+
+            .tab {
+                background-color: transparent;
+                border-radius: unset;
+                color: @gb_color_ligth5;
+                font-size: 1.2rem;
+                font-weight: @gb_font-medium;
+                height: 100%;
+                letter-spacing: @gb_letter-spacing * 2;
+                max-width: 180px;
+                text-transform: uppercase;
+                .text-in-ellipsis;
+
+                &:hover {
+                    border-bottom: 3px solid @gb_color_dark3;
+                }
+
+                &.active {
+                    color: @gb_color_app_white;
+                    font-weight: @gb_font-bold;
+                    border-bottom: 3px solid @gb_color_gold;
+                }
+
+                .icon {
+                    font-size: inherit;
+                    color: inherit
+                }
+            }
+
+            .separator {
+                color: @gb_color_dark3;
+                font-size: 1.5rem;
+                font-weight: @gb_font-bold;
+                cursor: default;
+            }
+        }
+    }
+    // .tabs-row-frm es el ROW contenedor de cada tabs-frm y se requiere que
+    // tenga un color específico. Debe ser hermano de #tabs-frm
+    .tabs-row-frm { background-color: @gb_color_dark2 }
+    

@@ -1,0 +1,442 @@
+.tab-tournament-frm.tab-content-frm {
+  background-color: hsl(216, 10%, 20%);
+  height: calc(100% - (50px + 40px + 40px));
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.tab-tournament-frm .section {
+  border-radius: 3px;
+  box-shadow: 0px 0px 5px 0px hsla(216, 10%, 15%, 0.5);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.tab-tournament-frm .section.bets {
+  background-color: hsl(0, 0%, 97%);
+}
+.tab-tournament-frm .section.bets .title-bar-frm {
+  align-items: center;
+  background-color: hsl(216, 10%, 10%);
+  display: flex;
+  height: 40px;
+  padding: 5px 10px;
+}
+.tab-tournament-frm .section.bets .title-bar-frm .title {
+  color: hsl(0, 0%, 90%);
+  font-size: 1.6rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+.tab-tournament-frm .section.bets .tabs-frm {
+  background-color: hsl(216, 10%, 25%);
+  display: flex;
+  height: 40px;
+  justify-content: space-between;
+  padding: 5px;
+}
+.tab-tournament-frm .section.bets .tabs-frm .tab-frm {
+  height: 100%;
+  display: flex;
+}
+.tab-tournament-frm .section.bets .tabs-frm .tab-frm .tab {
+  background-color: transparent;
+  border-radius: unset;
+  color: hsl(0, 0%, 90%);
+  font-size: 1.1rem;
+  font-weight: 400;
+  height: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.tab-tournament-frm .section.bets .tabs-frm .tab-frm .tab:hover {
+  border-bottom: 3px solid hsl(216, 10%, 20%);
+}
+.tab-tournament-frm .section.bets .tabs-frm .tab-frm .tab.active {
+  color: hsl(0, 0%, 90%);
+  font-weight: 700;
+  border-bottom: 3px solid hsl(51, 53%, 65%);
+}
+.tab-tournament-frm .section.bets .tabs-frm .tab-frm .tab .icon {
+  font-size: inherit;
+  color: inherit;
+}
+.tab-tournament-frm .section.bets .tabs-frm .tab-frm .separator {
+  color: hsl(216, 10%, 15%);
+  font-size: 1.9rem;
+  font-weight: 700;
+  cursor: default;
+}
+.tab-tournament-frm .section.bets .tab-content-frm {
+  height: calc(100% - (40px + 40px));
+  padding: 10px 10px 0px 10px;
+  overflow: auto;
+}
+.tab-tournament-frm .section.bets .tab-content-frm .event-frm {
+  background-color: hsl(0, 0%, 98%);
+  border-radius: 3px;
+  border-left: 6px solid hsl(216, 10%, 30%);
+  box-shadow: 0px 0px 5px 0px hsla(216, 10%, 15%, 0.2);
+  margin-bottom: 10px;
+}
+.tab-tournament-frm .section.bets .tab-content-frm .event-frm:nth-child(even) {
+  margin-bottom: 10px;
+}
+.tab-tournament-frm .section.bets .tab-content-frm .event-frm .data-frm {
+  font-size: 1.2rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+  line-height: 1.8;
+  padding: 5px;
+}
+.tab-tournament-frm .section.bets .tab-content-frm .event-frm .data-frm:nth-child(even) {
+  border-top: 1px dashed hsl(216, 10%, 30%);
+}
+.tab-tournament-frm .section.bets .tab-content-frm .event-frm .data-frm .text {
+  font-size: inherit;
+  font-weight: inherit;
+}
+.tab-tournament-frm .section.bets .tab-content-frm .event-frm .data-frm .type-bet {
+  background-color: hsl(0, 0%, 97%);
+  border: 1px solid hsl(216, 10%, 30%);
+  border-radius: 3px;
+  font-size: 1rem;
+  font-weight: 700;
+  float: right;
+  line-height: 1.5;
+  padding: 0px 5px;
+  text-transform: uppercase;
+}
+.tab-tournament-frm .section.bets .tab-content-frm .event-frm .data-frm .game-frm {
+  align-items: baseline;
+  display: flex;
+}
+.tab-tournament-frm .section.bets .tab-content-frm .event-frm .data-frm .game-frm .team {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 50%;
+}
+.tab-tournament-frm .section.bets .tab-content-frm .event-frm .data-frm .game-frm .score {
+  background-color: hsl(216, 10%, 10%);
+  border-radius: 3px;
+  color: hsl(0, 0%, 90%);
+  margin: 0px 5px;
+  text-align: center;
+  width: 35px;
+}
+.tab-tournament-frm .section.bets .tab-content-frm .event-frm .data-frm .game-frm .vs {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0px 5px;
+  width: 35px;
+}
+.tab-tournament-frm .section.bets .tab-content-frm .event-frm .bet-frm {
+  background-color: hsl(216, 10%, 30%);
+  display: flex;
+}
+.tab-tournament-frm .section.bets .tab-content-frm .event-frm .bet-frm div {
+  color: hsl(0, 0%, 90%);
+  font-size: 1.3rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  padding: 5px 10px;
+  text-transform: uppercase;
+  width: 100%;
+}
+.tab-tournament-frm .section.bets .tab-content-frm .event-frm .bet-frm div:nth-child(even) {
+  padding: 5px 0px;
+}
+.tab-tournament-frm .section.bets .tab-content-frm .result {
+  color: hsl(0, 0%, 100%);
+  font-size: 1.7rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+  line-height: 1;
+  padding: 5px;
+  text-align: center;
+  text-transform: uppercase;
+}
+.tab-tournament-frm .section.bets .tab-content-frm .result .icon {
+  font-size: inherit;
+  vertical-align: bottom;
+}
+.tab-tournament-frm .section.bets .tab-content-frm .result.win {
+  background-color: hsl(89, 42%, 46%);
+}
+.tab-tournament-frm .section.bets .tab-content-frm .result.lost {
+  background-color: hsl(358, 67%, 48%);
+}
+.tab-tournament-frm .section.matches {
+  background-color: hsl(0, 0%, 97%);
+}
+.tab-tournament-frm .section.matches .tabs-frm {
+  align-items: center;
+  background-color: hsl(216, 10%, 10%);
+  display: flex;
+  height: 40px;
+  padding: 5px 10px;
+}
+.tab-tournament-frm .section.matches .tabs-frm .tab-frm {
+  height: 100%;
+  display: flex;
+}
+.tab-tournament-frm .section.matches .tabs-frm .tab-frm .tab {
+  background-color: transparent;
+  border-radius: unset;
+  color: hsl(216, 10%, 40%);
+  font-size: 1.2rem;
+  font-weight: 400;
+  height: 100%;
+  letter-spacing: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.tab-tournament-frm .section.matches .tabs-frm .tab-frm .tab:hover {
+  border-bottom: 3px solid hsl(216, 10%, 20%);
+}
+.tab-tournament-frm .section.matches .tabs-frm .tab-frm .tab.active {
+  color: hsl(0, 0%, 90%);
+  font-weight: 700;
+  border-bottom: 3px solid hsl(51, 53%, 65%);
+}
+.tab-tournament-frm .section.matches .tabs-frm .tab-frm .tab .icon {
+  font-size: inherit;
+  color: inherit;
+}
+.tab-tournament-frm .section.matches .tabs-frm .tab-frm .separator {
+  color: hsl(216, 10%, 15%);
+  font-size: 1.9rem;
+  font-weight: 700;
+  cursor: default;
+}
+.tab-tournament-frm .section.matches .actions-frm {
+  background-color: hsl(216, 10%, 25%);
+  height: 40px;
+  padding: 10px;
+}
+.tab-tournament-frm .section.matches .actions-frm .button {
+  background-color: transparent;
+  color: hsl(0, 0%, 90%);
+  font-weight: 700;
+  letter-spacing: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.tab-tournament-frm .section.matches .actions-frm .button:hover {
+  background-color: hsl(216, 10%, 20%);
+}
+.tab-tournament-frm .section.matches .actions-frm .button.checked {
+  background-color: hsl(0, 0%, 90%);
+  color: hsl(216, 10%, 25%);
+}
+.tab-tournament-frm .section.matches .actions-frm .update {
+  background-color: hsl(51, 53%, 65%);
+  color: hsl(216, 10%, 25%);
+  float: right;
+}
+.tab-tournament-frm .section.matches .actions-frm .update:hover {
+  background-color: hsl(51, 53%, 70%);
+}
+.tab-tournament-frm .section.matches .tables-frm {
+  height: calc(100% - (40px + 40px));
+}
+.tab-tournament-frm .section.matches .tables-frm .match.table {
+  min-width: 100%;
+}
+.tab-tournament-frm .section.matches .tables-frm .match.table .thead .tr {
+  background-color: hsl(0, 0%, 93%);
+}
+.tab-tournament-frm .section.matches .tables-frm .match.table .thead .th {
+  text-align: center;
+  color: hsl(216, 10%, 30%);
+}
+.tab-tournament-frm .section.matches .tables-frm .match.table .thead .col-datetime {
+  min-width: 55%;
+  text-align: left;
+  width: 55%;
+}
+.tab-tournament-frm .section.matches .tables-frm .match.table .thead .col-money {
+  min-width: 15%;
+  width: 15%;
+}
+.tab-tournament-frm .section.matches .tables-frm .match.table .thead .col-spread {
+  min-width: 15%;
+  width: 15%;
+}
+.tab-tournament-frm .section.matches .tables-frm .match.table .thead .col-total {
+  min-width: 15%;
+  width: 15%;
+}
+.tab-tournament-frm .section.matches .tables-frm .match.table .tbody .tr:nth-child(even) {
+  background-color: unset;
+}
+.tab-tournament-frm .section.matches .tables-frm .match.table .tbody .tr:nth-child(2n) {
+  border-bottom: 1px dashed hsl(0, 0%, 90%);
+}
+.tab-tournament-frm .section.matches .tables-frm .match.table .tbody .tr:hover {
+  background-color: unset;
+}
+.tab-tournament-frm .section.matches .tables-frm .match.table .tbody .tr:hover .td {
+  color: unset;
+  text-decoration: underline;
+}
+.tab-tournament-frm .section.matches .tables-frm .match.table .tbody .col-datetime {
+  font-size: 1.3rem;
+  font-weight: 700;
+  padding-left: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tab-tournament-frm .section.matches .tables-frm .match.table .tbody .td .button {
+  background-color: transparent;
+  border: 2px solid hsl(0, 0%, 90%);
+  color: hsl(216, 10%, 30%);
+  font-size: 1.3rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  line-height: 1;
+  min-width: 100%;
+}
+.tab-tournament-frm .section.matches .tables-frm .match.table .tbody .td .button:hover {
+  background-color: hsl(0, 0%, 94%);
+  border: 2px solid hsl(216, 10%, 30%);
+}
+.tab-tournament-frm .section.matches .tables-frm .match.table .tbody .td .button.checked {
+  background-color: hsl(216, 10%, 30%);
+  border: 2px solid hsl(216, 10%, 30%);
+  color: hsl(0, 0%, 90%);
+}
+.tab-tournament-frm .section.info {
+  background-color: hsl(0, 0%, 97%);
+}
+.tab-tournament-frm .section.info .title-bar-frm {
+  align-items: center;
+  background-color: hsl(216, 10%, 10%);
+  display: flex;
+  height: 50px;
+  padding: 5px 10px;
+}
+.tab-tournament-frm .section.info .title-bar-frm .img-frm {
+  align-items: center;
+  background-color: hsl(0, 0%, 100%);
+  border-radius: 50%;
+  display: flex;
+  height: 36px;
+  justify-content: center;
+  margin-right: 10px;
+  width: 40px;
+}
+.tab-tournament-frm .section.info .title-bar-frm .img-frm .img .icon {
+  font-size: 2.5rem;
+}
+.tab-tournament-frm .section.info .title-bar-frm .title-frm {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  margin-right: 10px;
+  overflow: hidden;
+  width: calc(100% - (40px + 80px));
+}
+.tab-tournament-frm .section.info .title-bar-frm .title-frm .title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: hsl(0, 0%, 90%);
+  letter-spacing: 1px;
+}
+.tab-tournament-frm .section.info .title-bar-frm .status-frm {
+  overflow: hidden;
+  width: 80px;
+}
+.tab-tournament-frm .section.info .title-bar-frm .status-frm .status {
+  background-color: hsl(51, 53%, 65%);
+  border-radius: 3px;
+  color: hsl(216, 10%, 10%);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 0px 5px;
+  text-transform: uppercase;
+}
+.tab-tournament-frm .section.info .tournament-frm {
+  padding: 5px 10px 0px 10px;
+}
+.tab-tournament-frm .section.info .tournament-frm .row {
+  margin-bottom: 5px;
+}
+.tab-tournament-frm .section.info .tournament-frm .title {
+  color: hsl(216, 10%, 10%);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.tab-tournament-frm .section.info .tournament-frm .value {
+  color: hsl(216, 10%, 10%);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.tab-tournament-frm .section.info .table {
+  border: 1px solid hsl(0, 0%, 97%);
+  width: 100% !important;
+}
+.tab-tournament-frm .section.info .awards.table {
+  min-width: 100%;
+}
+.tab-tournament-frm .section.info .awards.table .col-position {
+  min-width: 25%;
+  width: 25%;
+}
+.tab-tournament-frm .section.info .awards.table .col-prize {
+  min-width: 75%;
+  width: 75%;
+}
+.tab-tournament-frm .section.info .awards.table .tbody .td {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.tab-tournament-frm .section.info .awards.table .tbody .col-position {
+  text-align: center;
+}
+.tab-tournament-frm .section.info .rank.table {
+  min-width: 100%;
+}
+.tab-tournament-frm .section.info .rank.table #col-position {
+  min-width: 15%;
+  width: 15%;
+}
+.tab-tournament-frm .section.info .rank.table #col-player {
+  min-width: 55%;
+  width: 55%;
+}
+.tab-tournament-frm .section.info .rank.table #col-price {
+  min-width: 30%;
+  width: 30%;
+}
+.tab-tournament-frm .section.info .rank.table .tbody .col-position {
+  font-weight: 700;
+}
+.tab-tournament-frm .section.info .rank.table .tbody .col-player {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.tab-tournament-frm .section.info .rank.table .tbody .col-player .img-frm {
+  background-color: white;
+  border-radius: 50%;
+  height: 15px;
+  margin-right: 5px;
+  width: 15px;
+}
+.tab-tournament-frm .section.info .rank.table .tbody .col-player .img-frm .icon {
+  color: hsl(216, 10%, 10%);
+  font-size: 1.5rem;
+}
