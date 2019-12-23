@@ -6,24 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateApiEventsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('api_events', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('api_id');
+            $table->json('api_data');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('api_events');

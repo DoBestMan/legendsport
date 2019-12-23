@@ -6,24 +6,21 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateTournamentsEventsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('tournaments_events', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('tournament_id');
+            $table->unsignedBigInteger('api_event_id');
             $table->timestamps();
+        });
+
+        Schema::table('tournaments_events', function (Blueprint $table) {
+            $table->foreign('tournament_id')->references('id')->on('tournaments');
+            $table->foreign('api_event_id')->references('id')->on('api_events');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('tournaments_events');
