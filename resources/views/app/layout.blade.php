@@ -53,34 +53,54 @@
                             <br>
                             <span class="balance">Bal: $3,000</span>
                         </div>
+                    </div>
 
-                        <div class="btnMenuFrm col-1">
-                            <label class="iconFrm" for="btnMenuCheck">
-                                <i class="icon fas fa-bars"></i>
-                            </label>
-                        </div>
+                    <div class="btnMenuFrm col-1">
+                        <label class="iconFrm" for="btnMenuCheck">
+                            <i class="icon fas fa-bars"></i>
+                        </label>
                     </div>
 
                     <input type="checkbox" id="btnMenuCheck">
                     <div class="btnMenuSubmenu">
                         <a class="menu">
-                            <i class="fas fa-user-circle"></i>
-                             profile
+                            <div class="menuImg">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+
+                            <div class="menuTxt">
+                                profile
+                            </div>
                         </a>
 
                         <a class="menu">
-                            <i class="fas fa-history"></i>
-                            history(tournaments)
+                            <div class="menuImg">
+                                <i class="fas fa-history"></i>
+                            </div>
+
+                            <div class="menuTxt">
+                                history(tournaments)
+                            </div>
                         </a>
 
                         <a class="menu">
-                            <i class="icon fas fa-user"></i>
-                            cashier
+                            <div class="menuImg">
+                                <i class="icon fas fa-user"></i>
+                            </div>
+
+                            <div class="menuTxt">
+                                cashier
+                            </div>
                         </a>
 
                         <a class="menu">
-                            <i class="fas fa-sign-out-alt"></i>
-                            logout
+                            <div class="menuImg">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </div>
+
+                            <div class="menuTxt">
+                                logout
+                            </div>
                         </a>
                     </div>
                 </div>

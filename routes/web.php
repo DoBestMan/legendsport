@@ -3,6 +3,8 @@
     $backstage = env('BACKSTAGE_URL_SUBDOM'). '.' .env('APP_URL_DOMAIN');
 
     route::domain($backstage)->group(function (){
+        Route::get('/', 'backstage\HomeController@index')->name('backstage.home');
+
         Route::resource('/tournaments', 'backstage\TournamentsController');
     });
 

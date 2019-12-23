@@ -223,51 +223,17 @@
         }
     }
 
-    .menuBarFrm {
-        @font-size: 14px;
-
-        color: green;
-        text-transform: uppercase;
-        text-align: right;
-        word-spacing: 15px;
-
-        .menu {
-            color: inherit;
-            font-size: @font-size;
-            padding: 5px 0px;
-            font-weight: 300;
-            letter-spacing: 2px;
-
-            &:hover {
-                border-bottom: none !important;
-                border-top: 3px solid green !important;
-            }
-
-            &.addActive {
-                border-bottom: transparent;
-                border-top: 3px solid hsla(0, 0%, 100%, .2);
-            }
-
-            &.addSuscribe {
-                font-weight: 900;
-            }
-        }
-
-        .separator {
-            color: inherit;
-            font-size: @font-size;
-        }
-    }
-
     .btnMenuFrm {
+        margin-right: 10px;
+
         .iconFrm {
             color: white;
             cursor: pointer;
             display: inline-flex;
 
             .icon {
-                font-size: 2.5rem;
                 color: @gb_color_gold;
+                font-size: 25px;
             }
         }
     }
@@ -287,19 +253,39 @@
         position: fixed;
         top: 42px;
         visibility: hidden;
-        color: @gb_color_gold;
-        width: 230px;
+        width: 232px;
         z-index: 1;
-
+        
         .menu {
             display: block;
             padding: 5px;
-            color: white;
             font-size: 10px;
             font-weight: 400;
             text-transform: uppercase;
-            word-spacing: 15px;
             letter-spacing: 2px;
+            word-spacing: 15px;
+            
+            .menuImg {
+                color: @gb_color_gold;
+                display: inline;
+                margin-left: 10px;
+            }
+
+            .menuTxt {
+                color: @gb_color_gold;
+                display: inline;
+            }
+            
+            &:hover {
+                background-color: @gb_color_gold;
+                
+                .menuTxt {
+                    color: @gb_color_dark1;
+                }
+                .menuImg {
+                    color: @gb_color_dark1;
+                }
+            }
         }
     }
 
@@ -369,8 +355,10 @@
             cursor: pointer;
             display: flex;
             justify-content: flex-end;
-
+            margin-left: 80px;
+            
             &:hover {
+                .btnMenuSubmenu { visibility: visible; }
                 background-color: @gb_color_dark2;
             }
 

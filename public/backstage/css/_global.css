@@ -1,0 +1,14 @@
+a {
+  text-decoration: none !important;
+}
+a:hover {
+  color: hsl(0, 0%, 90%);
+}
+.menu {
+  color: hsl(0, 0%, 90%);
+  font-weight: 300;
+  letter-spacing: 3px;
+  margin-left: 5px;
+  word-spacing: 5px;
+  text-transform: uppercase;
+}

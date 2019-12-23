@@ -1,3 +1,8 @@
+@php
+    $routeHome = route('backstage.home');
+    $routeTournaments = route('tournaments.index');
+@endphp
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -17,6 +22,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" href="{{ asset('_global/css/global.css') }}">
+    <link rel="stylesheet" href="{{ asset('backstage/css/_global.css') }}">
 
     {{-- local --}}
     @yield('HTML-css')
@@ -25,8 +31,8 @@
     <div id="main" class="container-fluid">
         <nav name="menu" id="menu-frm" class="row">
             <div name="brand" class="col-4">
-                <a id="brand-frm" href="#">
-                    {{-- <img id="logo" src="" class="d-inline-block align-top" alt=""> --}}
+                <a id="brand-frm" href="{{ $routeHome }}">
+                        <img id="logo" src="" class="d-inline-block align-top" alt="">
                     <div id="logo-text-frm" class="d-inline-blockx align-top">
                         <div id="logo-text" class="">LS</div>
                     </div>
@@ -34,71 +40,17 @@
                 </a>
             </div>
 
-            <div name="sign-buttons" v-else id="sign-frm" class="offset-6 col-2">
-                <button id="sign-up-btn" type="button" class="button">Sign up</button>
-                <button id="sign-in-btn" type="button" class="button">Sign in</button>
+            <div class="offset-5 col-3">
+                <a class="menu" href="{{ $routeTournaments }}">
+                    <div>
+                        Tournaments
+                    </div>
+                </a>
             </div>
         </nav>
         
         @yield('HTML-main')
 
-        <!-- <footer name="footer" id="footer-frm" class="row">
-            <div id="advertising-frm" class="col-4">
-                <div id="advertising-image"></div>
-            </div>
-
-            <div id="links-frm" class="offset-4 col-3">
-                <div class="row">
-                    <div name="aboutFrm" class="col-4">
-                        <div class="links-title">About<span class="separator">|</span></div>
-
-                        <div class="link-frm">
-                            <a class="link" href="#">About us</a>
-                        </div>
-
-                        <div class="link-frm">
-                            <a class="link" href="#">Privacy</a>
-                        </div>
-
-                        <div class="link-frm">
-                            <a class="link" href="#">Terms of use</a>
-                        </div>
-                    </div>
-
-                    <div name="supportFrm" class="col-4">
-                        <div class="links-title">Support<span class="separator">|</span></div>
-
-                        <div class="link-frm">
-                            <a class="link" href="#">Contact us</a>
-                        </div>
-
-                        <div class="link-frm addMultiline">
-                            <a class="link" href="#">Forgot password</a>
-                        </div>
-                    </div>
-
-                    <div name="supportFrm" class="col-4">
-                        <div class="links-title">Follow us</div>
-
-                        <div class="link-frm">
-                            <a class="link" href="#"><i class="icon fab fa-facebook-square"></i>Facebook</a>
-                        </div>
-
-                        <div class="link-frm">
-                            <a class="link" href="#"><i class="icon fab fa-twitter-square"></i>Twitter</a>
-                        </div>
-
-                        <div class="link-frm">
-                            <a class="link" href="#"><i class="icon fab fa-instagram"></i>Instagram</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div name="showFooterFrm" class="col-1">
-                <button type="button" class="btn btn-secondary float-right"><i class="fas fa-angle-up"></i></button>
-            </div>
-        </footer> -->
     </div>
 
     <script type="text/javascript" language="javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
