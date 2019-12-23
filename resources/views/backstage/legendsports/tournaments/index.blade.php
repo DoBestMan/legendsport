@@ -1,0 +1,1 @@
+@extends('backstage.legendsports.tournaments.layout')

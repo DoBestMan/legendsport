@@ -223,13 +223,92 @@
         }
     }
 
+    .menuBarFrm {
+        @font-size: 14px;
+
+        color: green;
+        text-transform: uppercase;
+        text-align: right;
+        word-spacing: 15px;
+
+        .menu {
+            color: inherit;
+            font-size: @font-size;
+            padding: 5px 0px;
+            font-weight: 300;
+            letter-spacing: 2px;
+
+            &:hover {
+                border-bottom: none !important;
+                border-top: 3px solid green !important;
+            }
+
+            &.addActive {
+                border-bottom: transparent;
+                border-top: 3px solid hsla(0, 0%, 100%, .2);
+            }
+
+            &.addSuscribe {
+                font-weight: 900;
+            }
+        }
+
+        .separator {
+            color: inherit;
+            font-size: @font-size;
+        }
+    }
+
+    .btnMenuFrm {
+        .iconFrm {
+            color: white;
+            cursor: pointer;
+            display: inline-flex;
+
+            .icon {
+                font-size: 2.5rem;
+                color: @gb_color_gold;
+            }
+        }
+    }
+
+    #btnMenuCheck {                                                                        //ID ES NECESARIO PORQUE EL LABEL FOR DEL MENU APUNTA SOLO A IDs
+        display: none;
+
+        &:checked ~ .btnMenuSubmenu {
+            visibility: visible;
+        }
+    }
+
+    .btnMenuSubmenu {
+        background-color: @gb_color_dark2;
+        height: 110px;
+        padding: 10px;
+        position: fixed;
+        top: 42px;
+        visibility: hidden;
+        color: @gb_color_gold;
+        width: 230px;
+        z-index: 1;
+
+        .menu {
+            display: block;
+            padding: 5px;
+            color: white;
+            font-size: 10px;
+            font-weight: 400;
+            text-transform: uppercase;
+            word-spacing: 15px;
+            letter-spacing: 2px;
+        }
+    }
+
     #menu-frm {
         @menu-frm_padding: 10px;
 
         background-color: @gb_color_dark1;
         .box-shadow(0.1);
         height: @menu-frm_height;
-        overflow: hidden;
         padding-top: @menu-frm_padding;
         padding-bottom: @menu-frm_padding;
 
@@ -335,11 +414,6 @@
                         text-transform: uppercase;
                     }
                 }
-            }
-
-            .icon.bars {
-                font-size: 2.5rem;
-                color: @gb_color_gold;
             }
         }
 

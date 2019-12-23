@@ -1,8 +1,3 @@
-@php
-    $routeHome = route('app.home');
-    $routeTournament = route('app.tournament');
-@endphp
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -10,7 +5,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Legend Sports</title>
+    <title>Backstage</title>
 
     <link rel="icon" href="_global/img/favicon.png" type="image/png">
 
@@ -35,55 +30,8 @@
                     <div id="logo-text-frm" class="d-inline-blockx align-top">
                         <div id="logo-text" class="">LS</div>
                     </div>
-                    <span id="text">Legend Sports</span>
+                    <span id="text">backstage</span>
                 </a>
-            </div>
-
-            <div name="usermenu" v-if="isLogin" class="offset-5 col-3">
-                <div id="usermenu-frm">
-                    <div id="img-frm">
-                        <div id="img">
-                            <i class="icon fas fa-user"></i>
-                        </div>
-                    </div>
-
-                    <div id="title-frm">
-                        <div id="title">
-                            Michael Jarrod
-                            <br>
-                            <span class="balance">Bal: $3,000</span>
-                        </div>
-
-                        <div class="btnMenuFrm col-1">
-                            <label class="iconFrm" for="btnMenuCheck">
-                                <i class="icon fas fa-bars"></i>
-                            </label>
-                        </div>
-                    </div>
-
-                    <input type="checkbox" id="btnMenuCheck">
-                    <div class="btnMenuSubmenu">
-                        <a class="menu">
-                            <i class="fas fa-user-circle"></i>
-                             profile
-                        </a>
-
-                        <a class="menu">
-                            <i class="fas fa-history"></i>
-                            history(tournaments)
-                        </a>
-
-                        <a class="menu">
-                            <i class="icon fas fa-user"></i>
-                            cashier
-                        </a>
-
-                        <a class="menu">
-                            <i class="fas fa-sign-out-alt"></i>
-                            logout
-                        </a>
-                    </div>
-                </div>
             </div>
 
             <div name="sign-buttons" v-else id="sign-frm" class="offset-6 col-2">
@@ -91,40 +39,10 @@
                 <button id="sign-in-btn" type="button" class="button">Sign in</button>
             </div>
         </nav>
-
-        <section name="tabs" class="row">
-            <div class="col tabs-row-frm">
-                <div id="tabs-frm">
-                    <div name="home" class="tab-frm">
-                        <button type="button"
-                            class="tab @yield('homeActive')"
-                            onclick="window.location='{{ $routeHome }}'"
-                            >
-                            <i class="icon fas fa-home"></i>
-                            Home
-                        </button>
-                        <span class="separator">|</span>
-                    </div>
-
-                    <template v-for="(tab, i) in userTournamentsActive">
-                        <div class="tab-frm">
-                            <button type="button"
-                                class="tab"
-                                :class="@yield('tournamentActive1')"
-                                @click="@yield('tournamentActive2')"
-                            >@{{ tab }}</button>
-                                <!-- onclick="window.location='{{ $routeTournament }}'" -->
-
-                            <span class="separator">|</span>
-                        </div>
-                    </template>
-                </div>
-            </div>
-        </section>
-
+        
         @yield('HTML-main')
 
-        <footer name="footer" id="footer-frm" class="row">
+        <!-- <footer name="footer" id="footer-frm" class="row">
             <div id="advertising-frm" class="col-4">
                 <div id="advertising-image"></div>
             </div>
@@ -180,7 +98,7 @@
             <div name="showFooterFrm" class="col-1">
                 <button type="button" class="btn btn-secondary float-right"><i class="fas fa-angle-up"></i></button>
             </div>
-        </footer>
+        </footer> -->
     </div>
 
     <script type="text/javascript" language="javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

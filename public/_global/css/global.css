@@ -184,11 +184,74 @@ table tbody td {
   min-width: 20px;
   vertical-align: middle;
 }
+.menuBarFrm {
+  color: green;
+  text-transform: uppercase;
+  text-align: right;
+  word-spacing: 15px;
+}
+.menuBarFrm .menu {
+  color: inherit;
+  font-size: 14px;
+  padding: 5px 0px;
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+.menuBarFrm .menu:hover {
+  border-bottom: none !important;
+  border-top: 3px solid green !important;
+}
+.menuBarFrm .menu.addActive {
+  border-bottom: transparent;
+  border-top: 3px solid hsla(0, 0%, 100%, 0.2);
+}
+.menuBarFrm .menu.addSuscribe {
+  font-weight: 900;
+}
+.menuBarFrm .separator {
+  color: inherit;
+  font-size: 14px;
+}
+.btnMenuFrm .iconFrm {
+  color: white;
+  cursor: pointer;
+  display: inline-flex;
+}
+.btnMenuFrm .iconFrm .icon {
+  font-size: 2.5rem;
+  color: hsl(51, 53%, 65%);
+}
+#btnMenuCheck {
+  display: none;
+}
+#btnMenuCheck:checked ~ .btnMenuSubmenu {
+  visibility: visible;
+}
+.btnMenuSubmenu {
+  background-color: hsl(216, 10%, 15%);
+  height: 110px;
+  padding: 10px;
+  position: fixed;
+  top: 42px;
+  visibility: hidden;
+  color: hsl(51, 53%, 65%);
+  width: 230px;
+  z-index: 1;
+}
+.btnMenuSubmenu .menu {
+  display: block;
+  padding: 5px;
+  color: white;
+  font-size: 10px;
+  font-weight: 400;
+  text-transform: uppercase;
+  word-spacing: 15px;
+  letter-spacing: 2px;
+}
 #menu-frm {
   background-color: hsl(216, 10%, 10%);
   box-shadow: 0px 0px 5px 0px hsla(216, 10%, 15%, 0.1);
   height: 50px;
-  overflow: hidden;
   padding-top: 10px;
   padding-bottom: 10px;
 }
@@ -271,10 +334,6 @@ table tbody td {
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
-}
-#menu-frm #usermenu-frm .icon.bars {
-  font-size: 2.5rem;
-  color: hsl(51, 53%, 65%);
 }
 #menu-frm #sign-frm {
   display: flex;

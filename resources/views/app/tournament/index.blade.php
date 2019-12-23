@@ -1,6 +1,9 @@
 @extends('app.layout')
 
 @section('tournamentActive','active')
+
+@section('tournamentActive1','istabselected(i)')
+@section('tournamentActive2','showtab(i)')
     
 @section('HTML-css')
     <link rel="stylesheet" href="{{ asset('app/css/tournament.css') }}">

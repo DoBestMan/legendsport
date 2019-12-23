@@ -2,7 +2,7 @@ var vm = new Vue({
     el: '#main',
 
     data: {
-        isLogin: false,
+        isLogin: true,
 
         tournamentSelected: 1,
         balance: 0,

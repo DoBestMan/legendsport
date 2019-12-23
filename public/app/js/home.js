@@ -2,8 +2,7 @@ var vm = new Vue({
     el: '#main',
 
     data: {
-        isLogin: false,
-        tournamentSelected: -1,
+        isLogin: true,
 
         userTournamentsActive: [
             'All sports Fre4all',
@@ -650,14 +649,4 @@ var vm = new Vue({
             }
         },
     },
-
-    methods: {
-        istabselected: function (indextab) {
-            return {'active': (indextab == this.tournamentSelected)}
-        },
-
-        showtab: function (index){
-            this.tournamentSelected = index;
-        },
-    }
 })
