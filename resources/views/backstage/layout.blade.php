@@ -42,9 +42,7 @@
 
             <div class="offset-5 col-3">
                 <a class="menu" href="{{ $routeTournaments }}">
-                    <div>
-                        Tournaments
-                    </div>
+                    Tournaments
                 </a>
             </div>
         </nav>

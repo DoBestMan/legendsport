@@ -22,7 +22,11 @@
 
                     <select id="type"
                         class="form-control control-input"
-                    ></select>
+                    >
+                        <option value=""> </option>
+                        <option value="299">55</option>
+                        <option value="">56</option>
+                    </select>
                 </div>
 
                 <div name="sport" class="col-3">

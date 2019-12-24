@@ -22,7 +22,7 @@ class CreateTournamentsTable extends Migration
             $table->json('late_register_rule');
             $table->enum('state', ['Announced', 'Registering', 'Late registering',
                     'Running', 'Complete', 'Cancel']);
-            $table->json('prize');
+            $table->json('prizes');
             $table->timestamps();
         });
     }

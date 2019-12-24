@@ -14,11 +14,6 @@ class TournamentPlayer extends Model
         return $this->belongsTo('App\Models\Legendsports\Users');
     }
 
-    public function config()
-    {
-        return $this->belongsTo('App\Models\Legendsports\Config');
-    }
-
     public function tournaments()
     {
         return $this->belongsTo('App\Models\Legendsports\Tournaments');

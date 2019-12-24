@@ -16,14 +16,14 @@ class CreateTournamentsPlayersTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('tournament_id');
             $table->unsignedSmallInteger('user_id');
-            $table->unsignedMediumInteger('config_id');
+            $table->mediumInteger('commission');
+            $table->mediumInteger('chips');
             $table->timestamps();
         });
 
         Schema::table('tournaments_players', function (Blueprint $table) {
             $table->foreign('tournament_id')->references('id')->on('tournaments');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('config_id')->references('id')->on('config');
         });
     }
 
