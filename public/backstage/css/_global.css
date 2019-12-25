@@ -12,3 +12,94 @@ a:hover {
   word-spacing: 5px;
   text-transform: uppercase;
 }
+#menu-frm {
+  background-color: hsl(216, 10%, 10%);
+  box-shadow: 0px 0px 5px 0px hsla(216, 10%, 15%, 0.1);
+  height: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+#menu-frm #brand-frm {
+  display: flex;
+}
+#menu-frm #brand-frm #logo {
+  background-color: hsl(216, 10%, 15%);
+  border: 1px solid hsl(216, 10%, 25%);
+  border-radius: 3px;
+  height: 30px;
+  width: 30px;
+}
+#menu-frm #brand-frm #logo-text-frm {
+  align-items: center;
+  background-color: hsl(0, 0%, 90%);
+  border: 1px solid hsl(216, 10%, 25%);
+  border-radius: 3px;
+  display: flex;
+  height: 30px;
+  justify-content: center;
+  width: 30px;
+}
+#menu-frm #brand-frm #logo-text-frm #logo-text {
+  color: hsl(216, 10%, 10%);
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+#menu-frm #brand-frm #text {
+  color: hsl(0, 0%, 90%);
+  font-size: 23px;
+  font-weight: 300;
+  letter-spacing: 3px;
+  margin-left: 5px;
+  word-spacing: 5px;
+  text-transform: uppercase;
+}
+#menu-frm #usermenu-frm {
+  align-items: center;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 80px;
+}
+#menu-frm #usermenu-frm:hover {
+  background-color: hsl(216, 10%, 15%);
+}
+#menu-frm #usermenu-frm:hover .btnMenuSubmenu {
+  visibility: visible;
+}
+#menu-frm #usermenu-frm #img-frm {
+  align-items: center;
+  background-color: hsl(0, 0%, 90%);
+  border-radius: 50%;
+  display: flex;
+  height: 32px;
+  justify-content: center;
+  margin-right: 10px;
+  width: 32px;
+}
+#menu-frm #usermenu-frm #img-frm #img .icon {
+  font-size: 2.3rem;
+}
+#menu-frm #usermenu-frm #title-frm {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  margin-right: 10px;
+  overflow: hidden;
+  width: calc(100% - (32px + 80px));
+  line-height: 1;
+}
+#menu-frm #usermenu-frm #title-frm #title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: hsl(0, 0%, 90%);
+  letter-spacing: 1px;
+}
+#menu-frm #usermenu-frm #title-frm #title .balance {
+  color: hsl(51, 53%, 65%);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}

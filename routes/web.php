@@ -5,6 +5,12 @@
     route::domain($backstage)->group(function (){
         Route::get('/', 'backstage\HomeController@index')->name('backstage.home');
 
+        Route::get('/config', 'backstage\ConfigController@edit')->name('backstage.config');
+
+        Route::get('/config', 'backstage\ConfigController@show')->name('config.show');
+        Route::get('/config/edit', 'backstage\ConfigController@edit')->name('config.edit');
+        Route::put('/config', 'backstage\ConfigController@update')->name('config.update');
+
         Route::resource('/tournaments', 'backstage\TournamentsController');
     });
 

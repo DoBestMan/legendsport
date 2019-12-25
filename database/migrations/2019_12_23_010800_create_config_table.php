@@ -13,6 +13,7 @@ class CreateConfigTable extends Migration
             $table->charset = 'utf8';
             $table->collation = 'utf8_unicode_ci';
             
+            $table->tinyIncrements('id');
             $table->mediumInteger('commission');
             $table->mediumInteger('chips');
             $table->timestamps();
