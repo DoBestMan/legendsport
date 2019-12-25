@@ -42,9 +42,9 @@ class TournamentsController extends Controller
         $tournament->chips = $request->chips;
         $tournament->commission = $request->commission;
         $tournament->late_register = $request->late_register;
-        $tournament->late_register_rule = 1;
+        $tournament->late_register_rule = $request->late_register_rule;
         $tournament->state = $request->state;
-        $tournament->prizes = 22;
+        $tournament->prizes = $request->prizes;
         $tournament->save();
 
         return redirect()->route('tournaments.index');
@@ -77,9 +77,9 @@ class TournamentsController extends Controller
         $tournament->chips = $request->chips;
         $tournament->commission = $request->commission;
         $tournament->late_register = $request->late_register;
-        $tournament->late_register_rule = 1;
+        $tournament->late_register_rule = $request->late_register_rule;
         $tournament->state = $request->state;
-        $tournament->prizes = 22;
+        $tournament->prizes = array($request->prizes);
         $tournament->save();
 
         return redirect()->route('tournaments.index');

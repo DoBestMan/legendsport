@@ -126,7 +126,7 @@
                                     <label for="avatar" class="col-form-label">avatar</label>
                                 </div>
 
-                                <div class="col-12 col-lg-5">
+                                <div class="col-12 col-lg-2">
                                     <select name="avatar"
                                         id="avatar"
                                         class="form-control @yield('avatar_class_error')"
@@ -149,7 +149,7 @@
                                     <label for="name" class="col-form-label">Name</label>
                                 </div>
 
-                                <div class="col-12 col-lg-9">
+                                <div class="col-12 col-lg-7">
                                     <input type="text"
                                         id="name"
                                         name="name"
@@ -170,7 +170,7 @@
                                     <label for="type" class="col-form-label">type</label>
                                 </div>
 
-                                <div class="col-12 col-lg-5">
+                                <div class="col-12 col-lg-3">
                                     <select name="type"
                                         id="type"
                                         class="form-control @yield('type_class_error')"
@@ -193,7 +193,7 @@
                                     <label for="prize_pool" class="col-form-label">prize pool</label>
                                 </div>
 
-                                <div class="col-12 col-lg-9">
+                                <div class="col-12 col-lg-3">
                                     <input type="text"
                                         name="prize_pool"
                                         id="prize_pool"
@@ -214,7 +214,7 @@
                                     <label for="players_limit" class="col-form-label">players limit</label>
                                 </div>
 
-                                <div class="col-12 col-lg-9">
+                                <div class="col-12 col-lg-2">
                                     <input type="text"
                                         name="players_limit"
                                         id="players_limit"
@@ -229,13 +229,15 @@
                                     @enderror
                                 </div>
                             </div>
+                        </div>
 
+                        <div class="col-12 col-xl-6">
                             <div id="buy_inFrm" class="form-row form-group">
                                 <div class="col-12 col-lg-3 text-right">
                                     <label for="buy_in" class="col-form-label">buy in</label>
                                 </div>
 
-                                <div class="col-12 col-lg-9">
+                                <div class="col-12 col-lg-3">
                                     <input type="text"
                                         name="buy_in"
                                         id="buy_in"
@@ -256,7 +258,7 @@
                                     <label for="chips" class="col-form-label">chips</label>
                                 </div>
 
-                                <div class="col-12 col-lg-9">
+                                <div class="col-12 col-lg-3">
                                     <input type="text"
                                         name="chips"
                                         id="chips"
@@ -277,7 +279,7 @@
                                     <label for="commission" class="col-form-label">commission</label>
                                 </div>
 
-                                <div class="col-12 col-lg-9">
+                                <div class="col-12 col-lg-2">
                                     <input type="text"
                                         name="commission"
                                         id="commission"
@@ -295,13 +297,14 @@
 
                             <div id="late_registerFrm" class="form-row form-group">
                                 <div class="col-12 col-lg-3 text-right">
-                                    <label for="late_register" class="col-form-label">late_register</label>
+                                    <label for="late_register" class="col-form-label">late register</label>
                                 </div>
 
-                                <div class="col-12 col-lg-5">
+                                <div class="col-12 col-lg-2">
                                     <select name="late_register"
                                         id="late_register"
                                         class="form-control @yield('late_register_class_error')"
+                                        v-model="lateRegister"
                                         @yield('form_disabled')
                                         >
                                         <option></option>
@@ -316,12 +319,56 @@
                                 </div>
                             </div>
 
+                            <template v-if="lateRegister == 1">
+                                <div id="intervalFrm" class="form-row form-group">
+                                    <div class="col-12 col-lg-3 text-right">
+                                        <label for="interval" class="col-form-label">interval</label>
+                                    </div>
+
+                                    <div class="col-12 col-lg-2">
+                                        <input type="text"
+                                            name="late_register_rule[]"
+                                            id="interval"
+                                            class="form-control @yield('interval_class_error')"
+                                            value="@yield('interval_value')"
+                                            placeholder=""
+                                            @yield('form_disabled')
+                                        >
+
+                                        @error('interval')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div id="valueFrm" class="form-row form-group">
+                                    <div class="col-12 col-lg-3 text-right">
+                                        <label for="value" class="col-form-label">value</label>
+                                    </div>
+
+                                    <div class="col-12 col-lg-2">
+                                        <input type="text"
+                                            name="late_register_rule[]"
+                                            id="value"
+                                            class="form-control @yield('value_class_error')"
+                                            value="@yield('value_value')"
+                                            placeholder=""
+                                            @yield('form_disabled')
+                                        >
+
+                                        @error('value')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </template>
+
                             <div id="stateFrm" class="form-row form-group">
                                 <div class="col-12 col-lg-3 text-right">
                                     <label for="state" class="col-form-label">state</label>
                                 </div>
 
-                                <div class="col-12 col-lg-5">
+                                <div class="col-12 col-lg-4">
                                     <select name="state"
                                         id="state"
                                         class="form-control @yield('state_class_error')"
@@ -342,15 +389,46 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-12 col-xl-6">
+                            <div class="form-row form-group">
+                                <div class="col-12 col-lg-3 text-right">
+                                    <label for="state" class="col-form-label">Prize</label>
+                                </div>
+
+                                <div class="col-12 col-lg-2">
+                                    <input type="number"
+                                        class="form-control"
+                                        v-model.number="inputLimit"
+                                        @yield('form_disabled')
+                                    >
+                                </div> 
+                            </div>
+
+                            <template v-for="(inputExit, index) in inputLimit">
+                                <div class="form-row form-group">
+                                    <div class="col-12 col-lg-3 text-right">
+                                        <label for="state" class="col-form-label">Prize @{{ index + 1 }}</label>
+                                    </div>
+
+                                    <div class="col-12 col-lg-2">
+                                        <input type="number"
+                                            name="prizes[]"
+                                            class="form-control"
+                                            @yield('form_disabled')
+                                        >
+
+                                        @error('prizes')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div> 
+                                </div>
+                            </template>
                         </div>
                     </div>
 
                     <hr>
 
-                    <form-loader :sending="formIsSending" caption="@yield('form-loader_caption')"></form-loader>
+                    <!-- <form-loader :sending="formIsSending" caption="@yield('form-loader_caption')"></form-loader> -->
                 </form>
 
                 @yield('HTML-formDelete')
@@ -373,6 +451,21 @@
                             @yield('buttonSave_disabled')
                             @click="isValidForm()"
                         >Guardar</button>
+                    @endif
+                </div>
+
+                <div class="offset-5 col-1 offset-lg-8 col-lg-1">
+                    @if ($hasButtonDel == true)
+                        <button class="btn btn-danger"
+                            type="button"
+                            data-toggle="modal"
+                            data-target="#modalDelete"
+                            @yield('form_disabled')
+                        >Delete</button>
+
+                        <modal-delete
+                            text-description="{{ $tournament->name }}"
+                        ></modal-delete>
                     @endif
                 </div>
             </div>

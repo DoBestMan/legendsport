@@ -9,6 +9,12 @@ class Tournaments extends Model
     protected $table = 'tournaments';
     protected $primaryKey = 'id';
 
+    protected $casts = [
+        'late_register_rule' => 'json',
+        'prizes' => 'array',
+    ];
+
+
     public function tournamentPlayer()
     {
         return $this->hasMany('App\Models\Legendsports\TournamentPlayer');

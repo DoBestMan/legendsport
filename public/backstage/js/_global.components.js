@@ -14,7 +14,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Eliminar</h5>
+                            <h5 class="modal-title">Delete</h5>
 
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -23,7 +23,7 @@
 
                         <div class="modal-body text-left">
                             <p>
-                                Confirme la eliminación de:
+                                Confirm the removal of:
                                 <strong>{{ textDescription }}</strong>
                             </p>
                         </div>
@@ -32,12 +32,12 @@
                             <button type="button"
                                 class="btn btn-secondary"
                                 data-dismiss="modal"
-                            >Cancelar</button>
+                            >Cancel</button>
 
                             <button type="submit"
                                 :form="'formDelete' + (indexRowId ? indexRowId : '')"
                                 class="btn btn-danger"
-                            >Eliminar</button>
+                            >Delete</button>
                         </div>
                     </div>
                 </div>
