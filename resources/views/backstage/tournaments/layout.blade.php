@@ -45,7 +45,7 @@
                                     <th scope="col" width="140px">Prize pool</th>
                                     <th scope="col" width="130px">Players limit</th>
                                     <th scope="col" width="100px">Commission</th>
-                                    <th scope="col" width="200px">State</th>
+                                    <th scope="col" width="100px">State</th>
                                     <th scope="col" width="150px"></th>
                                 </tr>
                             </thead>
