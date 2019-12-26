@@ -133,8 +133,8 @@
                                         @yield('form_disabled')
                                         >
                                         <option></option>
-                                        <option value=1 @yield('valid_selected_true')>yes</option>
-                                        <option value=0 @yield('valid_selected_false')>no</option>
+                                        <option value=1 @yield('avatar_selected_true')>yes</option>
+                                        <option value=0 @yield('avatar_selected_false')>no</option>
 
                                     </select>
 
@@ -156,7 +156,6 @@
                                         class="form-control @yield('name_class_error')"
                                         value="@yield('name_value')"
                                         @yield('form_disabled')
-                                        required
                                     >
 
                                     @error('name')
@@ -178,8 +177,8 @@
                                         >
                                         <option></option>
 
-                                        <option value="single" @yield('valid_selected_true')>single</option>
-                                        <option value="multiple" @yield('valid_selected_false')>multiple</option>
+                                        <option value="single" @yield('type_selected_true')>single</option>
+                                        <option value="multiple" @yield('type_selected_false')>multiple</option>
                                     </select>
 
                                     @error('type')
@@ -308,8 +307,8 @@
                                         @yield('form_disabled')
                                         >
                                         <option></option>
-                                        <option value=1 @yield('valid_selected_true')>yes</option>
-                                        <option value=0 @yield('valid_selected_false')>no</option>
+                                        <option value=1 @yield('late_register_selected_true')>yes</option>
+                                        <option value=0 @yield('late_register_selected_false')>no</option>
 
                                     </select>
 
@@ -374,13 +373,14 @@
                                         class="form-control @yield('state_class_error')"
                                         @yield('form_disabled')
                                         >
+                                        
                                         <option></option>
-                                        <option value="announced">Announced</option>
-                                        <option value="registering">Registering</option>
-                                        <option value="late registering">Late registering</option>
-                                        <option value="running">Running</option>
-                                        <option value="complete">Complete</option>
-                                        <option value="cancel">cancel</option>
+                                        <option value="announced" @yield('state_selected_announced')>Announced</option>
+                                        <option value="registering" @yield('state_selected_registering')>Registering</option>
+                                        <option value="late registering" @yield('state_selected_late_registering')>Late registering</option>
+                                        <option value="running" @yield('state_selected_running')>Running</option>
+                                        <option value="complete" @yield('state_selected_complete')>Complete</option>
+                                        <option value="cancel" @yield('state_selected_cancel')>Cancel</option>
 
                                     </select>
 

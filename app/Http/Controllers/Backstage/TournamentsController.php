@@ -32,6 +32,8 @@ class TournamentsController extends Controller
 
     public function store(Request $request)
     {
+        $this->validation($request);
+
         $tournament = new Tournaments;
         $tournament->avatar = $request->avatar;
         $tournament->name = $request->name;
@@ -68,6 +70,8 @@ class TournamentsController extends Controller
 
     public function update(Request $request, Tournaments $tournament)
     {
+        $this->validation($request);
+
         $tournament->avatar = $request->avatar;
         $tournament->name = $request->name;
         $tournament->type = $request->type;
@@ -87,7 +91,21 @@ class TournamentsController extends Controller
 
     private function validation(Request $request)
     {
-       //
+        $request->validate([
+            'avatar'=> 'required',
+            'name'=> 'required',
+            'type'=> 'required',
+            'prize_pool'=> 'required',
+            'players_limit'=> 'required',
+            'buy_in'=> 'required',
+            'chips'=> 'required',
+            'commission'=> 'required',
+            'late_register'=> 'required',
+            'late_register_rule'=> 'required',
+            'state'=> 'required',
+            'prizes'=> 'required',
+        ],[
+        ]);
     }
 
     public function destroy(Tournaments $tournament)
