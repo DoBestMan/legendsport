@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Legendsports;
+namespace App\Models\Backstage;
 
 use Illuminate\Database\Eloquent\Model;
 

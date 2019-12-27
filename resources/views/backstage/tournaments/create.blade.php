@@ -12,7 +12,7 @@
     @extends('backstage.tournaments.layout')
 
 {{-- VARS --}}
-    @section('title', 'Create tournaments')
+    @section('title', 'Create tournament')
 
 {{-- FORM --}}
     @section('form_method', 'POST')
@@ -50,7 +50,7 @@
         @section('state_value', '')
         @section('state_class_error', error('state', $errors))
 
-        @section('form-loader_caption', 'CREANDO...')
+        @section('form-loader_caption', 'CREATING...')
 
 {{-- BUTTONS --}}
     @section('buttonSave_formId', 'form')

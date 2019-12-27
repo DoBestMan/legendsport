@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Legendsports;
+namespace App\Models\Backstage;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +11,6 @@ class ApiEvents extends Model
 
     public function tournamentEvents()
     {
-        return $this->hasMany('App\Models\Legendsports\TournamentEvents');
+        return $this->hasMany('App\Models\Backstage\TournamentEvents');
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backstage;
 
 use Illuminate\Http\Request;
-use App\Models\Legendsports\Config;
+use App\Models\Backstage\Config;
 use App\Http\Controllers\Controller;
 
 class ConfigController extends Controller

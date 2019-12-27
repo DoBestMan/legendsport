@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Backstage;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Legendsports\Tournaments;
-use App\Models\Legendsports\Config;
+use App\Models\Backstage\Tournaments;
+use App\Models\Backstage\Config;
 
 class TournamentsController extends Controller
 {
@@ -35,7 +35,6 @@ class TournamentsController extends Controller
         $this->validation($request);
 
         $tournament = new Tournaments;
-        $tournament->avatar = $request->avatar;
         $tournament->name = $request->name;
         $tournament->type = $request->type;
         $tournament->prize_pool = $request->prize_pool;
@@ -72,7 +71,6 @@ class TournamentsController extends Controller
     {
         $this->validation($request);
 
-        $tournament->avatar = $request->avatar;
         $tournament->name = $request->name;
         $tournament->type = $request->type;
         $tournament->prize_pool = $request->prize_pool;
@@ -83,16 +81,22 @@ class TournamentsController extends Controller
         $tournament->late_register = $request->late_register;
         $tournament->late_register_rule = $request->late_register_rule;
         $tournament->state = $request->state;
-        $tournament->prizes = array($request->prizes);
+        $tournament->prizes = $request->prizes;
         $tournament->save();
 
         return redirect()->route('tournaments.index');
     }
-
+    
+    public function destroy(Tournaments $tournament)
+    {
+        $tournament->delete();
+        
+        return redirect()->route('tournaments.index');
+    }
+    
     private function validation(Request $request)
     {
         $request->validate([
-            'avatar'=> 'required',
             'name'=> 'required',
             'type'=> 'required',
             'prize_pool'=> 'required',
@@ -104,14 +108,6 @@ class TournamentsController extends Controller
             'late_register_rule'=> 'required',
             'state'=> 'required',
             'prizes'=> 'required',
-        ],[
         ]);
-    }
-
-    public function destroy(Tournaments $tournament)
-    {
-        $tournament->delete();
-
-        return redirect()->route('tournaments.index');
     }
 }

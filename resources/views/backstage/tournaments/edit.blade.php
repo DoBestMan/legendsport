@@ -31,7 +31,7 @@
         @section('name_class_error', error('name', $errors))
 
         @if ($tournament->type)
-            @section('type_selected_true', 'selected')
+            @section('type_selected_single', 'selected')
         @else
             @section('type_selected_false', 'selected')
         @endif

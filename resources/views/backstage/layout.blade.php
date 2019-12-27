@@ -61,6 +61,9 @@
     
     <script type="text/javascript" language="javascript" src="{{ asset('backstage/js/_global.components.js') }}"></script>
     
+    {{-- Vendors --}}
+    @yield('HTML-jsVendors')
+
     {{-- local --}}
     @yield('HTML-js')
 

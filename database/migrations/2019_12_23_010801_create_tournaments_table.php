@@ -10,7 +10,7 @@ class CreateTournamentsTable extends Migration
     {
         Schema::create('tournaments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->boolean('avatar');
+            $table->boolean('avatar')->default(false);
             $table->string('name');
             $table->enum('type', ['Single','Multiple']);
             $table->integer('prize_pool');
@@ -20,8 +20,14 @@ class CreateTournamentsTable extends Migration
             $table->mediumInteger('commission');
             $table->boolean('late_register');
             $table->json('late_register_rule');
-            $table->enum('state', ['Announced', 'Registering', 'Late registering',
-                    'Running', 'Complete', 'Cancel']);
+            $table->enum('state', [
+                'Announced',
+                'Registering',
+                'Late registering',
+                'Running',
+                'Complete',
+                'Cancel'
+            ]);
             $table->json('prizes');
             $table->timestamps();
         });

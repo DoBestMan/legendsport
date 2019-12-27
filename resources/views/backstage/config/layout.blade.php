@@ -37,33 +37,12 @@
             @yield("form_laravelCsrf")
             @yield("form_laravelMethod")
 
-            <div id="chipsFrm" class="form-row form-group">
-                <div class="col-12 col-lg-2 text-right">
-                    <label for="chips" class="col-form-label">chips</label>
-                </div>
-
-                <div class="col-12 col-lg-3">
-                    <input type="text"
-                        name="chips"
-                        id="chips"
-                        class="form-control @yield('chips_class_error')"
-                        value="@yield('chips_value')"
-                        placeholder=""
-                        @yield('form_disabled')
-                    >
-
-                    @error('chips')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-
             <div id="commissionFrm" class="form-row form-group">
                 <div class="col-lg-2 text-right">
                     <label for="commission" class="col-form-label">commission</label>
                 </div>
 
-                <div class="col-lg-3">
+                <div class="col-lg-1">
                     <input type="text"
                         name="commission"
                         id="commission"
@@ -79,6 +58,27 @@
                 </div>
             </div>
 
+            <div id="chipsFrm" class="form-row form-group">
+                <div class="col-12 col-lg-2 text-right">
+                    <label for="chips" class="col-form-label">chips</label>
+                </div>
+
+                <div class="col-12 col-lg-1">
+                    <input type="text"
+                        name="chips"
+                        id="chips"
+                        class="form-control @yield('chips_class_error')"
+                        value="@yield('chips_value')"
+                        placeholder=""
+                        @yield('form_disabled')
+                    >
+
+                    @error('chips')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+            
             <form-loader :sending="formIsSending" caption="ACTUALIZANDO..."></form-loader>
         </form>
 

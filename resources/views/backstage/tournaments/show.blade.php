@@ -11,7 +11,7 @@
     @extends('backstage.tournaments.layout')
 
 {{-- VARS --}}
-    @section('title', 'Update tournaments')
+    @section('title', 'Update tournament')
 
 {{-- FORM --}}
     @section('form_method', 'POST')
@@ -21,17 +21,17 @@
     @section('form_disabled', 'disabled')
 
         @if ($tournament->avatar)
-            @section('valid_selected_true', 'selected')
+            @section('avatar_selected_true', 'selected')
         @else
-            @section('valid_selected_false', 'selected')
+            @section('avatar_selected_false', 'selected')
         @endif
 
         @section('name_value', $tournament->name)
 
         @if ($tournament->type)
-            @section('valid_selected_true', 'selected')
+            @section('type_selected_single', 'selected')
         @else
-            @section('valid_selected_false', 'selected')
+            @section('type_selected_false', 'selected')
         @endif
 
         @section('prize_pool_value', $tournament->prize_pool)
@@ -40,17 +40,32 @@
 
         @section('buy_in_value', $tournament->buy_in)
 
-        @section('commission_value', $tournament->commission)
-
         @section('chips_value', $tournament->chips)
 
+        @section('commission_value', $tournament->commission)
+
         @if ($tournament->late_register)
-            @section('valid_selected_true', 'selected')
+            @section('late_register_selected_true', 'selected')
         @else
-            @section('valid_selected_false', 'selected')
+            @section('late_register_selected_false', 'selected')
         @endif
 
-        @section('state_value', $tournament->state)
+            <!-- mejorar -->
+            @if ( $tournament->state == 'Announced')
+            @section('state_selected_announced', 'selected')
+            @endif
+            @if ( $tournament->state == 'Late registering')
+                @section('state_selected_late_registering', 'selected')
+            @endif
+            @if ( $tournament->state == 'Running')
+                @section('state_selected_running', 'selected')
+            @endif
+            @if ( $tournament->state == 'Complete')
+                @section('state_selected_complete', 'selected')
+            @endif
+            @if ( $tournament->state == 'Cancel')
+                @section('state_selected_cancel', 'selected')
+            @endif
 
         @section('form-loader_caption', 'ACTUALIZANDO...')
 
