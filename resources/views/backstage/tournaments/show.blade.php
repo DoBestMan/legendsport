@@ -11,7 +11,7 @@
     @extends('backstage.tournaments.layout')
 
 {{-- VARS --}}
-    @section('title', 'Update tournament')
+    @section('title', 'Show tournament')
 
 {{-- FORM --}}
     @section('form_method', 'POST')
@@ -28,10 +28,10 @@
 
         @section('name_value', $tournament->name)
 
-        @if ($tournament->type)
+        @if ($tournament->type == 'Single')
             @section('type_selected_single', 'selected')
         @else
-            @section('type_selected_false', 'selected')
+            @section('type_selected_multiple', 'selected')
         @endif
 
         @section('prize_pool_value', $tournament->prize_pool)

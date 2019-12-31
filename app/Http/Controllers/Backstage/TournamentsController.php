@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backstage;
 
+use JavaScript;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Backstage\Tournaments;
@@ -53,6 +54,13 @@ class TournamentsController extends Controller
 
     public function show(Tournaments $tournament)
     {
+        JavaScript::put([
+            'prize_pool' => $tournament->prize_pool,
+            'buy_in' => $tournament->buy_in,
+            'commission' => $tournament->commission,
+            'lateRegister' => $tournament->late_register,
+        ]);
+
         return view('backstage.tournaments.show')
             ->with('tournaments', null)
             ->with('tournament', $tournament)
@@ -61,6 +69,13 @@ class TournamentsController extends Controller
 
     public function edit(Tournaments $tournament)
     {
+        JavaScript::put([
+            'prize_pool' => $tournament->prize_pool,
+            'buy_in' => $tournament->buy_in,
+            'commission' => $tournament->commission,
+            'lateRegister' => $tournament->late_register,
+        ]);
+
         return view('backstage.tournaments.edit')
             ->with('tournaments', null)
             ->with('tournament', $tournament)

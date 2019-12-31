@@ -7,6 +7,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(ConfigTableSeeder::class);
+        $this->call(TournamentsTableSeeder::class);
     }
 
     public function truncateTables(Array $tables)

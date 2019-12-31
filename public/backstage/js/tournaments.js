@@ -14,7 +14,14 @@ var vm = new Vue({
         inputLimit: '',
         lateRegister: '',
         prize_pool: 0,
-        Buy_in: 0,
-        Commission: 0,
+        buy_in: 0,
+        commission: 0,
     },
+
+    created: function () {
+        this.prize_pool = phpVars.prize_pool;
+        this.buy_in = phpVars.buy_in;
+        this.commission = phpVars.commission;
+        this.lateRegister = phpVars.lateRegister;
+    }
 })

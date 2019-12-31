@@ -154,7 +154,7 @@
                                         >
                                         <option></option>
                                         <option value="single" @yield('type_selected_single')>Single</option>
-                                        <option value="multiple" @yield('type_selected_false')>Multiple</option>
+                                        <option value="multiple" @yield('type_selected_multiple')>Multiple</option>
                                     </select>
 
                                     @error('type')
@@ -309,6 +309,7 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                
                                 <template v-if="lateRegister == true">
                                     <div class="col-12 col-lg-2 text-right">
                                         <label for="interval" class="col-form-label">Interval</label>

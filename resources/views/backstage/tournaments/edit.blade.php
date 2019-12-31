@@ -30,10 +30,10 @@
         @section('name_value', $tournament->name)
         @section('name_class_error', error('name', $errors))
 
-        @if ($tournament->type)
+        @if ($tournament->type == 'Single')
             @section('type_selected_single', 'selected')
         @else
-            @section('type_selected_false', 'selected')
+            @section('type_selected_multiple', 'selected')
         @endif
         @section('type_class_error', error('type', $errors))
 
