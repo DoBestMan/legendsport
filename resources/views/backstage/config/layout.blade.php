@@ -44,7 +44,7 @@
 
                 <div class="col-lg-1">
                     <input type="text"
-                        name="commission"
+                        name="config[commission]"
                         id="commission"
                         class="form-control @yield('commission_class_error')"
                         value="@yield('commission_value')"
@@ -65,7 +65,7 @@
 
                 <div class="col-12 col-lg-1">
                     <input type="text"
-                        name="chips"
+                        name="config[chips]"
                         id="chips"
                         class="form-control @yield('chips_class_error')"
                         value="@yield('chips_value')"
@@ -74,6 +74,27 @@
                     >
 
                     @error('chips')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+
+            <div id="keep_completeFrm" class="form-row form-group">
+                <div class="col-12 col-lg-2 text-right">
+                    <label for="keep_complete" class="col-form-label">Keep complete</label>
+                </div>
+
+                <div class="col-12 col-lg-1">
+                    <input type="text"
+                        name="config[keep_complete]"
+                        id="keep_complete"
+                        class="form-control @yield('keep_complete_class_error')"
+                        value="@yield('keep_complete_value')"
+                        placeholder=""
+                        @yield('form_disabled')
+                    >
+
+                    @error('keep_complete')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>

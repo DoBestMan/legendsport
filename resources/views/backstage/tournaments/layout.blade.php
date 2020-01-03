@@ -171,7 +171,7 @@
                                 <div class="col-12 col-lg-3">
                                     <money
                                         id="prize_pool"
-                                        class="form-control @yield('prize_pool_class_error')"
+                                        class="form-control text-right @yield('prize_pool_class_error')"
                                         value="@yield('prize_pool_value')"
                                         placeholder=""
                                         @yield('form_disabled')
@@ -221,7 +221,7 @@
                                 <div class="col-12 col-lg-3">
                                     <money
                                         id="buy_in"
-                                        class="form-control @yield('buy_in_class_error')"
+                                        class="form-control text-right @yield('buy_in_class_error')"
                                         value="@yield('buy_in_value')"
                                         placeholder=""
                                         @yield('form_disabled')
@@ -248,7 +248,7 @@
                                 <div class="col-12 col-lg-2">
                                     <money
                                         id="commission"
-                                        class="form-control @yield('commission_class_error')"
+                                        class="form-control text-right @yield('commission_class_error')"
                                         value="@yield('commission_value')"
                                         placeholder=""
                                         @yield('form_disabled')
@@ -276,7 +276,7 @@
                                     <input type="text"
                                         name="chips"
                                         id="chips"
-                                        class="form-control @yield('chips_class_error')"
+                                        class="form-control text-right @yield('chips_class_error')"
                                         value="@yield('chips_value')"
                                         placeholder=""
                                         @yield('form_disabled')

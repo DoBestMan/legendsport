@@ -7,8 +7,14 @@ class ConfigTableSeeder extends Seeder
     public function run()
     {
         DB::table('config')->insert([
-            ['commission' => 2,
-            'chips' => 10000],
+            ['config' =>  json_encode(
+                [
+                'chips' => 1,
+                'commission' => 50000, 
+                'keep_complete' => 2, 
+                ]
+            ),
+            ]
         ]);
     }
 }

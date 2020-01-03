@@ -39,8 +39,7 @@ class ConfigController extends Controller
     {
         $config = config::first();
 
-        $config->chips = $request->chips;
-        $config->commission = $request->commission;
+        $config->config = $request->config;
         $config->save();
 
         return redirect()->route('config.edit');
