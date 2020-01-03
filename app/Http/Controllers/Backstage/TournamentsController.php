@@ -24,10 +24,16 @@ class TournamentsController extends Controller
 
     public function create()
     { 
+        $config = Config::first();
+
+        JavaScript::put([
+            'commission' => $config->config['commission'],
+        ]);
+
         return view('backstage.tournaments.create')
             ->with('tournaments', null)
             ->with('tournament', null)
-            ->with('config', Config::first())
+            ->with('config', $config)
             ->with('numFirstItemPage', 0);
     }
 
@@ -55,7 +61,6 @@ class TournamentsController extends Controller
     public function show(Tournaments $tournament)
     {
         JavaScript::put([
-            'prize_pool' => $tournament->prize_pool,
             'buy_in' => $tournament->buy_in,
             'commission' => $tournament->commission,
             'lateRegister' => $tournament->late_register,
@@ -70,7 +75,6 @@ class TournamentsController extends Controller
     public function edit(Tournaments $tournament)
     {
         JavaScript::put([
-            'prize_pool' => $tournament->prize_pool,
             'buy_in' => $tournament->buy_in,
             'commission' => $tournament->commission,
             'lateRegister' => $tournament->late_register,
@@ -114,7 +118,6 @@ class TournamentsController extends Controller
         $request->validate([
             'name'=> 'required',
             'type'=> 'required',
-            'prize_pool'=> 'required',
             'players_limit'=> 'required',
             'buy_in'=> 'required',
             'chips'=> 'required',

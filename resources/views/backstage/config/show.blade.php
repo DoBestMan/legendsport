@@ -18,6 +18,8 @@
         >Editar</a>
     @endsection
 
-    @section('chips_value', $config->chips)
+    @section('chips_value', $config->config['chips'])
 
-    @section('commission_value', $config->commission)
+    @section('commission_value', $config->config['commission'])
+
+    @section('keep_complete_value', $config->config['keep_complete'])

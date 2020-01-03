@@ -168,26 +168,43 @@
                                     <label for="prize_pool" class="col-form-label">Prize pool</label>
                                 </div>
 
-                                <div class="col-12 col-lg-3">
-                                    <money
-                                        id="prize_pool"
-                                        class="form-control text-right @yield('prize_pool_class_error')"
-                                        value="@yield('prize_pool_value')"
-                                        placeholder=""
+                                <div class="col-12 col-lg-2">
+                                    <select id="prize_pool"
+                                        name="prize_pool[type]"
+                                        class="form-control @yield('prize_pool_class_error')"
+                                        v-model="prizePool"
                                         @yield('form_disabled')
-                                        v-model="prize_pool"
-                                        v-bind="money"
-                                    ></money>
+                                        >
+                                        <option></option>
+                                        <option value='Auto' @yield('prize_pool_selected_auto')>Auto</option>
+                                        <option value='Fixed' @yield('prize_pool_selected_fixed')>Fixed</option>
+                                    </select>
 
-                                    <input type="hidden"
-                                        name="prize_pool"
-                                        v-model="prize_pool"
-                                    >
-
-                                    @error('prize_pool')
+                                    @error('late_register')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+                                
+                                <template v-if="prizePool == 'Fixed'">
+                                    <div class="col-12 col-lg-2 text-right">
+                                        <label for="fixed_value" class="col-form-label">Fixed value</label>
+                                    </div>
+
+                                    <div class="col-12 col-lg-2">
+                                        <input type="text"
+                                            name="prize_pool[fixed_value]"
+                                            id="fixed_value"
+                                            class="form-control @yield('fixed_value_class_error')"
+                                            value="@yield('fixed_value_value')"
+                                            placeholder=""
+                                            @yield('form_disabled')
+                                        >
+
+                                        @error('fixed_value')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </template>
                             </div>
 
                             <div id="players_limitFrm" class="form-row form-group">
@@ -312,7 +329,7 @@
                                 
                                 <template v-if="lateRegister == true">
                                     <div class="col-12 col-lg-2 text-right">
-                                        <label for="interval" class="col-form-label">Interval</label>
+                                        <label for="fixed_value" class="col-form-label">Interval</label>
                                     </div>
 
                                     <div class="col-12 col-lg-2">
@@ -348,7 +365,7 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-                            </template>
+                                </template>
                             </div>
 
                             <div id="stateFrm" class="form-row form-group">

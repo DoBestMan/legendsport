@@ -18,24 +18,24 @@ class ConfigTest extends TestCase
     public function test_backstage_config_show()
     {
         $config = $this->create_config([
-            'chips' => 1,
+            'config[chips]' => 1,
         ]);
 
         $this->get(route('config.show', $config))
             ->assertStatus(200)
             ->assertSee('Show config')
-            ->assertSee('chips');
+            ->assertSee('config[chips]');
     }
 
     public function test_backstage_config_edit()
     {
         $config = $this->create_config([
-            'chips' => 1,
+            'config[chips]' => 1,
         ]);
 
         $this->get(route('config.edit', $config))
             ->assertStatus(200)
-            ->assertSee('chips');
+            ->assertSee('config[chips]');
     }
 
     public function test_backstage_config_update()
@@ -43,12 +43,13 @@ class ConfigTest extends TestCase
         $config = $this->create_config();
 
         $this->put(route('config.update', $config), [
-                'commission'=> 1,
-                'chips'=> 1,
+                'config[commission]' => 1,
+                'config[chips]' => 1,
+                'config[keep_complete]' => 1,
             ])->assertRedirect(route('config.edit'));
 
         $this->assertDatabaseHas('config', [
-            'chips' => 1,
+            'config[chips]' => 1,
         ]);
     }
 }

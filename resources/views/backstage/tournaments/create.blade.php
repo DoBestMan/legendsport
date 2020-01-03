@@ -38,10 +38,10 @@
         @section('buy_in_value', '')
         @section('buy_in_class_error', error('buy_in', $errors))
   
-        @section('commission_value', $config->commission)
+        @section('commission_value', $config->config['commission'])
         @section('commission_class_error', error('commission', $errors))
         
-        @section('chips_value', $config->chips)
+        @section('chips_value', $config->config['chips'])
         @section('chips_class_error', error('chips', $errors))
 
         @section('late_register_value', '')

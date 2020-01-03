@@ -13,7 +13,7 @@ class CreateTournamentsTable extends Migration
             $table->boolean('avatar')->default(false);
             $table->string('name');
             $table->enum('type', ['Single','Multiple']);
-            $table->integer('prize_pool');
+            $table->json('prize_pool');
             $table->tinyInteger('players_limit');
             $table->smallInteger('buy_in');
             $table->mediumInteger('chips');

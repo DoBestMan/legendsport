@@ -11,6 +11,7 @@ class Tournaments extends Model
 
     protected $casts = [
         'late_register_rule' => 'json',
+        'prize_pool' => 'json',
         'prizes' => 'array',
     ];
 
