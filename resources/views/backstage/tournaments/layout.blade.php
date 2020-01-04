@@ -168,17 +168,20 @@
                                     <label for="players_limit" class="col-form-label">Players limit</label>
                                 </div>
 
-                                <div class="col-12 col-lg-2">
-                                    <input type="number"
-                                        name="players_limit"
+                                <div class="col-12 col-lg-3">
+                                    <select name="players_limit"
                                         id="players_limit"
-                                        class="form-control text-right @yield('players_limit_class_error')"
-                                        value="@yield('players_limit_value')"
-                                        placeholder=""
+                                        class="form-control @yield('players_limit_class_error')"
+                                        v-model="playersLimit"
                                         @yield('form_disabled')
-                                    >
+                                        >
+                                        <option></option>
+                                        <option value='Heads-Up' @yield('players_limit_selected_Heads_Up')>Heads-Up</option>
+                                        <option value='Full' @yield('players_limit_selected_Full')>Full</option>
+                                        <option value='Unlimited' @yield('players_limit_selected_false')>Unlimited</option>
+                                    </select>
 
-                                    @error('players_limit')
+                                    @error('late_register')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -244,13 +247,19 @@
                                 </div>
 
                                 <div class="col-12 col-lg-2">
-                                    <input type="text"
-                                        name="chips"
+                                    <money
                                         id="chips"
                                         class="form-control text-right @yield('chips_class_error')"
                                         value="@yield('chips_value')"
                                         placeholder=""
                                         @yield('form_disabled')
+                                        v-model="chips"
+                                        v-bind="formatNumber"
+                                    ></money>
+
+                                    <input type="hidden"
+                                        name="chips"
+                                        v-model="chips"
                                     >
 
                                     @error('chips')
@@ -274,8 +283,8 @@
                                         @yield('form_disabled')
                                         >
                                         <option></option>
-                                        <option value=1 @yield('late_register_selected_true')>yes</option>
-                                        <option value=0 @yield('late_register_selected_false')>no</option>
+                                        <option value=1 @yield('late_register_selected_true')>Yes</option>
+                                        <option value=0 @yield('late_register_selected_false')>No</option>
                                     </select>
 
                                     @error('late_register')
@@ -324,38 +333,12 @@
                                 </template>
                             </div>
 
-                            <div id="stateFrm" class="form-row form-group">
-                                <div class="col-12 col-lg-3 text-right">
-                                    <label for="state" class="col-form-label">State</label>
-                                </div>
-
-                                <div class="col-12 col-lg-4">
-                                    <select name="state"
-                                        id="state"
-                                        class="form-control @yield('state_class_error')"
-                                        @yield('form_disabled')
-                                        >
-                                        <option></option>
-                                        <option value="announced" @yield('state_selected_announced')>Announced</option>
-                                        <option value="registering" @yield('state_selected_registering')>Registering</option>
-                                        <option value="late registering" @yield('state_selected_late_registering')>Late registering</option>
-                                        <option value="running" @yield('state_selected_running')>Running</option>
-                                        <option value="complete" @yield('state_selected_complete')>Complete</option>
-                                        <option value="cancel" @yield('state_selected_cancel')>Cancel</option>
-                                    </select>
-
-                                    @error('state')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-
                             <div id="prize_poolFrm" class="form-row form-group">
                                 <div class="col-12 col-lg-3 text-right">
                                     <label for="prize_pool" class="col-form-label">Prize pool</label>
                                 </div>
 
-                                <div class="col-12 col-lg-2">
+                                <div class="col-12 col-lg-3">
                                     <select id="prize_pool"
                                         name="prize_pool[type]"
                                         class="form-control @yield('prize_pool_class_error')"
@@ -367,14 +350,14 @@
                                         <option value='Fixed'>Fixed</option>
                                     </select>
 
-                                    @error('late_register')
+                                    @error('prize_pool')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 
                                 <template v-if="prizePool == 'Fixed'">
                                     <div class="col-12 col-lg-2 text-right">
-                                        <label for="fixed_value" class="col-form-label">Fixed value</label>
+                                        <label for="fixed_value" class="col-form-label">Value</label>
                                     </div>
 
                                     <div class="col-12 col-lg-2">
@@ -392,18 +375,35 @@
                                         @enderror
                                     </div>
                                 </template>
+
+                                <tempate>
+                                    <div class="col-12 col-lg-2">
+                                        <input type="hidden"
+                                            name="prize_pool[fixed_value]"
+                                            id="fixed_value"
+                                            class="form-control @yield('fixed_value_class_error')"
+                                            value=""
+                                            placeholder=""
+                                            @yield('form_disabled')
+                                        >
+
+                                        @error('fixed_value')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </tempate>
                             </div>
 
-                            <div class="form-row form-group">
+                            <div id="prizesFrm" class="form-row form-group">
                                 <div class="col-12 col-lg-3 text-right">
-                                    <label for="state" class="col-form-label">Prize</label>
+                                    <label for="state" class="col-form-label">Prizes</label>
                                 </div>
 
-                                <div class="col-12 col-lg-2">
-                                    <select id="prize"
-                                        name="prize[type]"
-                                        class="form-control @yield('prize_class_error')"
-                                        v-model="prize"
+                                <div class="col-12 col-lg-3">
+                                    <select id="prizes"
+                                        name="prizes[type]"
+                                        class="form-control @yield('prizes_class_error')"
+                                        v-model="prizes"
                                         @yield('form_disabled')
                                         >
                                         <option></option>
@@ -411,6 +411,32 @@
                                         <option value='Fixed'>Fixed</option>
                                     </select>
                                 </div> 
+                            </div>
+
+                            <div id="stateFrm" class="form-row form-group">
+                                <div class="col-12 col-lg-3 text-right">
+                                    <label for="state" class="col-form-label">State</label>
+                                </div>
+
+                                <div class="col-12 col-lg-4">
+                                    <select name="state"
+                                        id="state"
+                                        class="form-control @yield('state_class_error')"
+                                        @yield('form_disabled')
+                                        >
+                                        <option></option>
+                                        <option value="announced" @yield('state_selected_announced')>Announced</option>
+                                        <option value="registering" @yield('state_selected_registering')>Registering</option>
+                                        <option value="late registering" @yield('state_selected_late_registering')>Late registering</option>
+                                        <option value="running" @yield('state_selected_running')>Running</option>
+                                        <option value="complete" @yield('state_selected_complete')>Completed</option>
+                                        <option value="cancel" @yield('state_selected_cancel')>Cancel</option>
+                                    </select>
+
+                                    @error('state')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
                     </div>

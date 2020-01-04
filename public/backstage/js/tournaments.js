@@ -4,26 +4,34 @@ var vm = new Vue({
     data: {
         money: {
             decimal: ',',
-            thousands: '.',
+            thousands: ',',
             prefix: '$ ',
             suffix: '',
             precision: 0,
         },
 
-        input: '',
-        inputLimit: '',
+        formatNumber: {
+            decimal: ',',
+            thousands: ',',
+            precision: 0,
+        },
+
         lateRegister: '',
-        prizePool: '',
-        prize: '',
+        playersLimit: '',
         buy_in: 0,
         commission: 0,
+        chips: 0,
+        prizePool: '',
+        prizes: '',
     },
 
     created: function () {
         this.buy_in = phpVars.buy_in;
         this.commission = phpVars.commission;
+        this.chips = phpVars.chips;
         this.lateRegister = phpVars.lateRegister;
         this.prizePool = phpVars.prizePool;
-        this.prizePool = phpVars.prize;
+        this.prizes = phpVars.prizes;
+        this.playersLimit = phpVars.playersLimit;
     }
 })

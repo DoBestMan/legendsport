@@ -20,6 +20,7 @@
     @section('form_laravelCsrf', csrf_field())
     @section('form_laravelMethod', method_field('POST'))
     @section('form_disabled', '')
+
         @section('avatar_value', '')
         @section('avatar_class_error', error('avatar', $errors))
 
@@ -44,7 +45,7 @@
         @section('chips_value', $config->config['chips'])
         @section('chips_class_error', error('chips', $errors))
 
-        @section('late_register_value', '')
+        @section('late_register_value', 'No')
         @section('late_register_class_error', error('late_register', $errors))
 
         @section('state_value', '')

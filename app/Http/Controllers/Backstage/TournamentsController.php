@@ -28,6 +28,9 @@ class TournamentsController extends Controller
 
         JavaScript::put([
             'commission' => $config->config['commission'],
+            'lateRegister' => 0,
+            'prizePool' => 'Auto',
+            'prizes' => 'Auto',
         ]);
 
         return view('backstage.tournaments.create')
@@ -75,11 +78,13 @@ class TournamentsController extends Controller
     public function edit(Tournaments $tournament)
     {
         JavaScript::put([
+            'playersLimit' => $tournament->players_limit,
             'buy_in' => $tournament->buy_in,
             'commission' => $tournament->commission,
+            'chips' => $tournament->chips,
             'lateRegister' => $tournament->late_register,
             'prizePool' => $tournament->prize_pool['type'],
-            'prizePool' => $tournament->prize['type'],
+            'prizes' => $tournament->prizes['type'],
         ]);
 
         return view('backstage.tournaments.edit')
@@ -125,7 +130,6 @@ class TournamentsController extends Controller
             'chips'=> 'required',
             'commission'=> 'required',
             'late_register'=> 'required',
-            'late_register_rule'=> 'required',
             'state'=> 'required',
             'prizes'=> 'required',
         ]);

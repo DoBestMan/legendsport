@@ -5,7 +5,7 @@
 
 {{-- CSS --}}
     @section('HTML-cssVendors')
-
+        <script src="https://cdn.jsdelivr.net/npm/v-money@0.8.1/dist/v-money.min.js"></script>
     @endsection
 
     @section('HTML-css')
@@ -59,18 +59,24 @@
             </div>
 
             <div id="chipsFrm" class="form-row form-group">
-                <div class="col-12 col-lg-2 text-right">
-                    <label for="chips" class="col-form-label">chips</label>
+                <div class="col-12 col-lg-3 text-right">
+                    <label for="chips" class="col-form-label">Chips</label>
                 </div>
 
-                <div class="col-12 col-lg-1">
-                    <input type="text"
-                        name="config[chips]"
+                <div class="col-12 col-lg-2">
+                    <money
                         id="chips"
-                        class="form-control @yield('chips_class_error')"
+                        class="form-control text-right @yield('chips_class_error')"
                         value="@yield('chips_value')"
                         placeholder=""
                         @yield('form_disabled')
+                        v-model="chips"
+                        v-bind="formatNumber"
+                    ></money>
+
+                    <input type="hidden"
+                        name="config[chips]"
+                        v-model="chips"
                     >
 
                     @error('chips')
@@ -100,7 +106,6 @@
                 </div>
             </div>
             
-            <form-loader :sending="formIsSending" caption="ACTUALIZANDO..."></form-loader>
         </form>
 
         @yield('HTML-btnAction')
