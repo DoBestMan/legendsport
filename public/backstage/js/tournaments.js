@@ -22,5 +22,6 @@ var vm = new Vue({
         this.buy_in = phpVars.buy_in;
         this.commission = phpVars.commission;
         this.lateRegister = phpVars.lateRegister;
+        this.prizePool = phpVars.prizePool;
     }
 })

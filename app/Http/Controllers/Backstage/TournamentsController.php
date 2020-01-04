@@ -78,6 +78,7 @@ class TournamentsController extends Controller
             'buy_in' => $tournament->buy_in,
             'commission' => $tournament->commission,
             'lateRegister' => $tournament->late_register,
+            'prizePool' => $tournament->prize_pool['type'],
         ]);
 
         return view('backstage.tournaments.edit')

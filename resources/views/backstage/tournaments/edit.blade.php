@@ -37,8 +37,12 @@
         @endif
         @section('type_class_error', error('type', $errors))
 
-        @section('prize_pool_value', $tournament->prize_pool)
-        @section('prize_pool_class_error', error('prize_pool', $errors))
+        @if ($tournament->prize_pool['type'] == 'Auto')
+            @section('prize_pool_selected_auto', 'selected')
+        @else
+            @section('prize_pool_selected_fixed', 'selected')
+        @endif
+        @section('fixed_value', $tournament->prize_pool['fixed_value'])
 
         @section('players_limit_value', $tournament->players_limit)
         @section('players_limit_class_error', error('players_limit', $errors))

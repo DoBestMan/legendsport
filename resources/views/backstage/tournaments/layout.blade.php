@@ -55,7 +55,7 @@
                                         <th scope="row" class="text-center">{{ $numFirstItemPage++ }}</th>
                                         <td class="text-truncate">{{ $tournament->name }}</td>
                                         <td class="text-truncate">{{ $tournament->type }}</td>
-                                        <td class="text-truncate">{{ $tournament->prize_pool }}</td>
+                                        <td class="text-truncate">{{ $tournament->prize_pool['type'] }}</td>
                                         <td class="text-truncate">{{ $tournament->players_limit }}</td>
                                         <td class="text-truncate">{{ $tournament->commission }}</td>
                                         <td class="text-truncate">{{ $tournament->state }}</td>
@@ -176,8 +176,8 @@
                                         @yield('form_disabled')
                                         >
                                         <option></option>
-                                        <option value='Auto' @yield('prize_pool_selected_auto')>Auto</option>
-                                        <option value='Fixed' @yield('prize_pool_selected_fixed')>Fixed</option>
+                                        <option value='Auto'>Auto</option>
+                                        <option value='Fixed'>Fixed</option>
                                     </select>
 
                                     @error('late_register')
@@ -195,7 +195,7 @@
                                             name="prize_pool[fixed_value]"
                                             id="fixed_value"
                                             class="form-control @yield('fixed_value_class_error')"
-                                            value="@yield('fixed_value_value')"
+                                            value="@yield('fixed_value')"
                                             placeholder=""
                                             @yield('form_disabled')
                                         >

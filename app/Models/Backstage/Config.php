@@ -18,4 +18,9 @@ class Config extends Model
         'config->chips',
         'config->conmission',
     ];
+
+    public function getConfigAttribute($value)
+    {
+        $this->attributes['config'] = strtoupper($value);
+    }
 };
