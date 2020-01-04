@@ -14,6 +14,7 @@ var vm = new Vue({
         inputLimit: '',
         lateRegister: '',
         prizePool: '',
+        prize: '',
         buy_in: 0,
         commission: 0,
     },
@@ -23,5 +24,6 @@ var vm = new Vue({
         this.commission = phpVars.commission;
         this.lateRegister = phpVars.lateRegister;
         this.prizePool = phpVars.prizePool;
+        this.prizePool = phpVars.prize;
     }
 })

@@ -44,15 +44,15 @@ class TournamentsController extends Controller
         $tournament = new Tournaments;
         $tournament->name = $request->name;
         $tournament->type = $request->type;
-        $tournament->prize_pool = $request->prize_pool;
         $tournament->players_limit = $request->players_limit;
         $tournament->buy_in = $request->buy_in;
         $tournament->chips = $request->chips;
         $tournament->commission = $request->commission;
         $tournament->late_register = $request->late_register;
         $tournament->late_register_rule = $request->late_register_rule;
-        $tournament->state = $request->state;
+        $tournament->prize_pool = $request->prize_pool;
         $tournament->prizes = $request->prizes;
+        $tournament->state = $request->state;
         $tournament->save();
 
         return redirect()->route('tournaments.index');
@@ -79,6 +79,7 @@ class TournamentsController extends Controller
             'commission' => $tournament->commission,
             'lateRegister' => $tournament->late_register,
             'prizePool' => $tournament->prize_pool['type'],
+            'prizePool' => $tournament->prize['type'],
         ]);
 
         return view('backstage.tournaments.edit')
@@ -93,15 +94,15 @@ class TournamentsController extends Controller
 
         $tournament->name = $request->name;
         $tournament->type = $request->type;
-        $tournament->prize_pool = $request->prize_pool;
         $tournament->players_limit = $request->players_limit;
         $tournament->buy_in = $request->buy_in;
         $tournament->chips = $request->chips;
         $tournament->commission = $request->commission;
         $tournament->late_register = $request->late_register;
         $tournament->late_register_rule = $request->late_register_rule;
-        $tournament->state = $request->state;
+        $tournament->prize_pool = $request->prize_pool;
         $tournament->prizes = $request->prizes;
+        $tournament->state = $request->state;
         $tournament->save();
 
         return redirect()->route('tournaments.index');
