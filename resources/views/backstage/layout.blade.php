@@ -32,7 +32,6 @@
         <nav name="menu" id="menu-frm" class="row">
             <div name="brand" class="col-4">
                 <a id="brand-frm" href="{{ $routeHome }}">
-                        <img id="logo" src="" class="d-inline-block align-top" alt="">
                     <div id="logo-text-frm" class="d-inline-blockx align-top">
                         <div id="logo-text" class="">LS</div>
                     </div>

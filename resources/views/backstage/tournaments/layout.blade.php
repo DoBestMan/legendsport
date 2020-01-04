@@ -240,7 +240,9 @@
                                     @enderror
                                 </div>
                             </div>
+                        </div>
 
+                        <div class="col-12 col-xl-6">
                             <div id="chipsFrm" class="form-row form-group">
                                 <div class="col-12 col-lg-3 text-right">
                                     <label for="chips" class="col-form-label">Chips</label>
@@ -267,9 +269,7 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-12 col-xl-6">
                             <div id="late_registerFrm" class="form-row form-group">
                                 <div class="col-12 col-lg-3 text-right">
                                     <label for="late_register" class="col-form-label">Late register</label>
@@ -321,7 +321,7 @@
                                             name="late_register_rule['value']"
                                             id="value"
                                             class="form-control @yield('value_class_error')"
-                                            value="@yield('value_value')"
+                                            value="@yield('late_register_rule_value_value')"
                                             placeholder=""
                                             @yield('form_disabled')
                                         >
