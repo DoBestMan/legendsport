@@ -19,4 +19,9 @@ var vm = new Vue({
         commission: 0,
         chips: 0,
     },
+
+    created: function () {
+        this.commission = phpVars.commission;
+        this.chips = phpVars.chips;
+    }
 })

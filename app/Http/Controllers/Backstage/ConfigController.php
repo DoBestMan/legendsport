@@ -29,8 +29,8 @@ class ConfigController extends Controller
         $config = Config::first();
 
         JavaScript::put([
-            'commission' => $config->$config['commission'],
-            'chips' => $config->$config['chips'],
+            'commission' => $config->config['commission'],
+            'chips' => $config->config['chips'],
         ]);
 
         return view('backstage.config.show')
@@ -42,10 +42,10 @@ class ConfigController extends Controller
         $config = Config::first();
 
         JavaScript::put([
-            'commission' => $config->$config['commission'],
-            'chips' => $config->$config['chips'],
+            'commission' => $config->config['commission'],
+            'chips' => $config->config['chips'],
         ]);
-
+        
         return view('backstage.config.edit')
             ->with('config', $config);
     }

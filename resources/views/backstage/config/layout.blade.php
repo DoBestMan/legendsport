@@ -112,7 +112,6 @@
                 </div>
             </div>
             
-            <form-loader :sending="formIsSending" caption="ACTUALIZANDO..."></form-loader>
         </form>
 
         @yield('HTML-btnAction')
