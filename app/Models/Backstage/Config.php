@@ -21,6 +21,11 @@ class Config extends Model
 
     public function getConfigAttribute($value)
     {
-        $this->attributes['config'] = strtoupper($value);
+        if (is_null($value))
+        {
+            $value = 'default';
+        }
+
+        return json_decode($value, true);
     }
 };
