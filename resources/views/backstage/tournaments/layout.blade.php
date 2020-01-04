@@ -376,7 +376,7 @@
                                     </div>
                                 </template>
 
-                                <tempate>
+                                <template>
                                     <div class="col-12 col-lg-2">
                                         <input type="hidden"
                                             name="prize_pool[fixed_value]"
@@ -391,7 +391,7 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                </tempate>
+                                </template>
                             </div>
 
                             <div id="prizesFrm" class="form-row form-group">
