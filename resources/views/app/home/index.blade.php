@@ -22,10 +22,11 @@
 
                     <select id="type"
                         class="form-control control-input"
+                        v-model="search" 
                     >
                         <option value=""> </option>
                         <option value="299">55</option>
-                        <option value="">56</option>
+                        <option value="lian">56</option>
                     </select>
                 </div>
 
@@ -34,6 +35,7 @@
 
                     <select id="sport"
                         class="form-control control-input"
+                        v-model="search" 
                     ></select>
                 </div>
 
@@ -42,6 +44,7 @@
 
                     <select id="buyin"
                         class="form-control control-input"
+                        v-model="search" 
                     ></select>
                 </div>
 
@@ -50,6 +53,7 @@
 
                     <select id="time-frame"
                         class="form-control control-input"
+                        v-model="search" 
                     ></select>
                 </div>
 
@@ -59,6 +63,7 @@
                     <input type="text"
                         id="upcoming"
                         class="form-control control-input"
+                        v-model="search" 
                     >
                 </div>
 
@@ -66,7 +71,7 @@
                     <label for="search" class="control-title">Search</label>
 
                     <input type="text"
-                        id="search"
+                        v-model="search" 
                         class="form-control control-input"
                     >
                 </div>
@@ -89,7 +94,7 @@
                                 </tr>
                             </thead>
                             <tbody class="tbody">
-                                <template v-for="tournament in home.tournaments">
+                                <template v-for="tournament in customFilter">
                                     <tr class="tr"
                                         :class="{ selected: tournament.selected == true }"
                                         >

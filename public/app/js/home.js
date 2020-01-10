@@ -3,6 +3,7 @@ var vm = new Vue({
 
     data: {
         isLogin: true,
+        search: '',
 
         userTournamentsActive: [
             'All sports Fre4all',
@@ -649,22 +650,39 @@ var vm = new Vue({
             }
         },
     },
+
+    computed: {
+        customFilter: function() {
+            return this.home.tournaments.filter((tournament) => {
+                return tournament.starts.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
+                    || tournament.sports.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
+                    || tournament.buy_in.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
+                    || tournament.name.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
+                    || tournament.time_frame.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
+                    || tournament.status.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
+                    || tournament.enrolled.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
+                    || tournament.players.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
+                ;
+            });
+        }
+      },
+    
 })
 
-    var search = document.getElementById('search');
-    var table = document.getElementById("tournaments").tBodies[0];
+    // var search = document.getElementById('search');
+    // var table = document.getElementById("tournaments").tBodies[0];
 
-        findTable = function() {
-            text = search.value.toLowerCase();
-            var r=0;
+    //     findTable = function() {
+    //         text = search.value.toLowerCase();
+    //         var r=0;
 
-            while(row = table.rows[r++]) {
-                if ( row.innerText.toLowerCase().indexOf(text) !== -1 )
-                    row.style.display = null;
-                else
-                    row.style.display = 'none';
-            }
-        }
+    //         while(row = table.rows[r++]) {
+    //             if ( row.innerText.toLowerCase().indexOf(text) !== -1 )
+    //                 row.style.display = null;
+    //             else
+    //                 row.style.display = 'none';
+    //         }
+    //     }
 
-    search.addEventListener('keyup', findTable);
-    search.addEventListener('change', findTable);
+    // search.addEventListener('keyup', findTable);
+    // search.addEventListener('change', findTable);

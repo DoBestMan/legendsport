@@ -14,6 +14,7 @@ var vm = new Vue({
             decimal: ',',
             thousands: ',',
             precision: 0,
+            max: 10000,
         },
 
         commission: 0,

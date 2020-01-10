@@ -39,7 +39,7 @@
 
             <div id="commissionFrm" class="form-row form-group">
                 <div class="col-lg-2 text-right">
-                    <label for="commission" class="col-form-label">commission</label>
+                    <label for="commission" class="col-form-label">Commission</label>
                 </div>
 
                 <div class="col-12 col-lg-1">
@@ -66,7 +66,7 @@
 
             <div id="chipsFrm" class="form-row form-group">
                 <div class="col-12 col-lg-2 text-right">
-                    <label for="chips" class="col-form-label">chips</label>
+                    <label for="chips" class="col-form-label">Chips</label>
                 </div>
 
                 <div class="col-12 col-lg-1">
@@ -78,6 +78,7 @@
                         @yield('form_disabled')
                         v-model="chips"
                         v-bind="formatNumber"
+                        max=90
                     ></money>
 
                     <input type="hidden"
@@ -91,25 +92,27 @@
                 </div>
             </div>
 
-            <div id="keep_completeFrm" class="form-row form-group">
+            <div id="keep_completedFrm" class="form-row form-group">
                 <div class="col-12 col-lg-2 text-right">
-                    <label for="keep_complete" class="col-form-label">Keep complete</label>
+                    <label for="keep_completed" class="col-form-label">Keep completed</label>
                 </div>
 
                 <div class="col-12 col-lg-1">
-                    <input type="text"
-                        name="config[keep_complete]"
-                        id="keep_complete"
-                        class="form-control @yield('keep_complete_class_error')"
-                        value="@yield('keep_complete_value')"
+                    <input type="number"
+                        name="config[keep_completed]"
+                        id="keep_completed"
+                        class="form-control text-right @yield('keep_completed_class_error')"
+                        value="@yield('keep_completed_value')"
                         placeholder=""
                         @yield('form_disabled')
                     >
 
-                    @error('keep_complete')
+                    @error('keep_completed')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+
+                <span class="col-form-label">days</span>
             </div>
             
         </form>

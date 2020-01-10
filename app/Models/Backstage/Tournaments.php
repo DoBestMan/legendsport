@@ -12,15 +12,8 @@ class Tournaments extends Model
     protected $casts = [
         'late_register_rule' => 'json',
         'prize_pool' => 'json',
-        'prizes' => 'array',
+        'prizes' => 'json',
     ];
-
-    protected $fillable = [
-        'late_register_rule',
-        'late_register_rule->interval',
-        'late_register_rule->value',
-    ];
-
 
     public function players()
     {

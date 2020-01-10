@@ -13,7 +13,6 @@ class CreateConfigTable extends Migration
             $table->charset = 'utf8';
             $table->collation = 'utf8_unicode_ci';
             
-            $table->tinyIncrements('id');
             $table->text('config');
             $table->timestamps();
         });

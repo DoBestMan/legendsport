@@ -27,7 +27,7 @@ class TournamentsController extends Controller
         $config = Config::first();
 
         JavaScript::put([
-            'commission' => $config->config['commission'],
+            'config' => $config->config,
             'lateRegister' => 0,
             'prizePool' => 'Auto',
             'prizes' => 'Auto',

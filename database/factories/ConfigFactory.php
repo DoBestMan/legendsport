@@ -9,7 +9,7 @@ $factory->define(Config::class, function (Faker $faker) {
             [
             'chips' => 10000,
             'commission' => 2, 
-            'keep_complete' => 2, 
+            'keep_completed' => 2, 
             ],
     ];
 });

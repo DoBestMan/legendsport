@@ -27,8 +27,8 @@ var vm = new Vue({
 
     created: function () {
         this.buy_in = phpVars.buy_in;
-        this.commission = phpVars.commission;
-        this.chips = phpVars.chips;
+        this.commission = phpVars.config['commission'];
+        this.chips = phpVars.config['chips'];
         this.lateRegister = phpVars.lateRegister;
         this.prizePool = phpVars.prizePool;
         this.prizes = phpVars.prizes;

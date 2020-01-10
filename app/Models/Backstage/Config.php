@@ -7,25 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Config extends Model
 {
     protected $table = 'config';
-    protected $primaryKey = 'id';
-
-    protected $casts = [
-        'config'=>'json'
-    ];
-    
-    protected $fillable = [
-        'config',
-        'config->chips',
-        'config->conmission',
-    ];
+    protected $primaryKey = 'config';
 
     public function getConfigAttribute($value)
     {
-        if (is_null($value))
-        {
-            $value = 'default';
-        }
+        $value = json_decode($value, true);
 
-        return json_decode($value, true);
+        $config = json_encode([
+            'chips' => $value['chips'] == null ? 10000 : $value['chips'],
+            'commission' => $value['commission'] == null ? 2 : $value['commission'], 
+            'keep_completed' => $value['keep_completed'] == null ? 1 : $value['keep_completed'], 
+        ]);
+        
+        return json_decode($config, true);;
     }
 };

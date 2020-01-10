@@ -23,4 +23,4 @@
 
     @section('commission_value', $config->config['commission'])
 
-    @section('keep_complete_value', $config->config['keep_complete'])
+    @section('keep_completed_value', $config->config['keep_completed'])

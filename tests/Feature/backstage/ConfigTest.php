@@ -22,7 +22,7 @@ class ConfigTest extends TestCase
             [
             'chips' => 1,
             'commission' => 2, 
-            'keep_complete' => 2, 
+            'keep_completed' => 2, 
             ],
         ]);
 
@@ -39,7 +39,7 @@ class ConfigTest extends TestCase
             [
             'chips' => 1,
             'commission' => 2, 
-            'keep_complete' => 2, 
+            'keep_completed' => 2, 
             ],
         ]);
 

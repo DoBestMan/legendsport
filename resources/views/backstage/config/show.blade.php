@@ -11,15 +11,15 @@
     @section('form_laravelMethod', '')
     @section('form_disabled', 'disabled')
 
+    @section('chips_value', $config->config['chips'])
+
+    @section('commission_value', $config->config['commission'])
+
+    @section('keep_completed_value', $config->config['keep_completed'])
+
     @section('HTML-btnAction')
         <a class="btn btn-primary"
             href="{{ route('config.edit') }}"
             role="button"
         >Editar</a>
     @endsection
-
-    @section('chips_value', $config->config['chips'])
-
-    @section('commission_value', $config->config['commission'])
-
-    @section('keep_complete_value', $config->config['keep_complete'])
