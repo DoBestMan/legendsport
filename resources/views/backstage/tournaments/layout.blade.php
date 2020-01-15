@@ -15,7 +15,6 @@
 {{-- JS --}}
     @section('HTML-jsVendors')
         <script src="https://cdn.jsdelivr.net/npm/v-money@0.8.1/dist/v-money.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.1/axios.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     @endsection
 
@@ -520,9 +519,8 @@
                                 <label for=""></label>
 
                                 <button class="btn btn-dark"
-                                    type="button"
+                                    type="submit"
                                     form="FormSaveUser"
-                                    @click="sendServer()"
                                     @yield('buttonSave_disabled')
                                 >Filter</button>
                             </div>
@@ -543,7 +541,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <template v-for="event in customFilter">
+                                <template v-for="event in events">
                                     <tr>
                                         <td class="text-truncate" width="300px">@{{ event.MatchTime }}</td>
                                         <td class="text-truncate" width="210px">@{{ event.HomeTeam }}</td>

@@ -10,7 +10,6 @@
         Route::put('/config', 'backstage\ConfigController@update')->name('config.update');
 
         Route::resource('/tournaments', 'backstage\TournamentsController');
-        Route::get('/put-something-here', 'TournamentsController@ajaxCall');
     });
 
     route::domain($legendsports)->group(function (){

@@ -165,8 +165,4 @@ class TournamentsController extends Controller
             'prizes'=> 'required',
         ]);
     }
-
-    public function ajaxCall(){
-        return response()->json(['posts' => Post::all()]);
-   }
 }

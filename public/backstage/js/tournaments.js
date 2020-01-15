@@ -8,7 +8,6 @@ var vm = new Vue({
             prefix: '$ ',
             suffix: '',
             precision: 0,
-            userName: '',
         },
 
         formatNumber: {
@@ -65,8 +64,7 @@ var vm = new Vue({
         },
 
         sendServer: function () {
-            // axios.get('/put-something-here').then(response => this.post = response.data);
-            axios.post('/put-something-here',{
+            axios.get('',{
                 userName: 'Fred',
                 userEmail: 'Flintstone@gmail.com'
             })
@@ -82,23 +80,6 @@ var vm = new Vue({
     },
 
     computed: {
-        customFilter: function() {
-            return this.events.filter((event) => {
-                return event.MatchTime.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
-                    || event.HomeTeam.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
-                    || event.AwayTeam.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
-                ;
-            });
-        },
+        
     },
 })
-
-$(document).ready(function(){
-    $("#enlaceajax").click(function(evento){
-       evento.preventDefault();
-       
-       $("#destino").load("TournamentsController", {nombre: "Pepe", edad: 45}, function(){
-          alert("recibidos los datos por ajax");
-       });
-    });
- })
