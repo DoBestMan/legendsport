@@ -139,9 +139,8 @@
                                         value="@yield('name_value')"
                                         @yield('form_disabled')
                                     >
-                                    <p>
-                                        <small class="form-text text-muted">description</small>
-                                    </p>
+                                    <small class="form-text text-muted">description</small>
+
                                     @error('name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror

@@ -63,7 +63,6 @@
                     <input type="text"
                         id="upcoming"
                         class="form-control control-input"
-                        v-model="search" 
                     >
                 </div>
 
