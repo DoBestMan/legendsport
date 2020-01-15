@@ -22,7 +22,6 @@
 
                     <select id="type"
                         class="form-control control-input"
-                        v-model="search" 
                     >
                         <option value=""> </option>
                         <option value="299">55</option>
@@ -35,7 +34,6 @@
 
                     <select id="sport"
                         class="form-control control-input"
-                        v-model="search" 
                     ></select>
                 </div>
 
@@ -44,7 +42,6 @@
 
                     <select id="buyin"
                         class="form-control control-input"
-                        v-model="search" 
                     ></select>
                 </div>
 
@@ -53,7 +50,6 @@
 
                     <select id="time-frame"
                         class="form-control control-input"
-                        v-model="search" 
                     ></select>
                 </div>
 

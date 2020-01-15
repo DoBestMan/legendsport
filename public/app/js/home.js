@@ -668,21 +668,3 @@ var vm = new Vue({
       },
     
 })
-
-    // var search = document.getElementById('search');
-    // var table = document.getElementById("tournaments").tBodies[0];
-
-    //     findTable = function() {
-    //         text = search.value.toLowerCase();
-    //         var r=0;
-
-    //         while(row = table.rows[r++]) {
-    //             if ( row.innerText.toLowerCase().indexOf(text) !== -1 )
-    //                 row.style.display = null;
-    //             else
-    //                 row.style.display = 'none';
-    //         }
-    //     }
-
-    // search.addEventListener('keyup', findTable);
-    // search.addEventListener('change', findTable);
