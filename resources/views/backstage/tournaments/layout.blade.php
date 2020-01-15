@@ -15,6 +15,7 @@
 {{-- JS --}}
     @section('HTML-jsVendors')
         <script src="https://cdn.jsdelivr.net/npm/v-money@0.8.1/dist/v-money.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.1/axios.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     @endsection
 
@@ -492,7 +493,6 @@
                                     id="SelectSport"
                                     name="SelectSport" 
                                     class="form-control form-control-sm"
-                                    v-model="search"
                                     >
                                     <option value="">All</option>
                                     <option value="NBA">NBA</option>
@@ -520,8 +520,9 @@
                                 <label for=""></label>
 
                                 <button class="btn btn-dark"
-                                    type="submit"
+                                    type="button"
                                     form="FormSaveUser"
+                                    @click="sendServer()"
                                     @yield('buttonSave_disabled')
                                 >Filter</button>
                             </div>

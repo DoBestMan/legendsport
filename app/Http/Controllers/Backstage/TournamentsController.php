@@ -9,6 +9,11 @@ use App\Models\Backstage\Config;
 
 class TournamentsController extends Controller
 {
+    public function ejemplo()
+    {
+
+    }
+
     public function index()
     {
         $tournaments = Tournaments::paginate(10);
@@ -31,7 +36,8 @@ class TournamentsController extends Controller
 
     public function create(Request $request)
     { 
-// dd($data['nombre']);
+        $data = json_decode(file_get_contents("php://input"), TRUE);
+
         $appKey = "3b279a7d-7d95-4eda-89cb-3c1f96093fc6";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://jsonodds.com/api/odds/$request->SelectSport");
@@ -44,7 +50,6 @@ class TournamentsController extends Controller
 
         $res = curl_exec($ch);
         $response = json_decode($res);
-
 
         $config = Config::first();
         
@@ -160,4 +165,8 @@ class TournamentsController extends Controller
             'prizes'=> 'required',
         ]);
     }
+
+    public function ajaxCall(){
+        return response()->json(['posts' => Post::all()]);
+   }
 }

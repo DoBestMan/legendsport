@@ -8,6 +8,7 @@ var vm = new Vue({
             prefix: '$ ',
             suffix: '',
             precision: 0,
+            userName: '',
         },
 
         formatNumber: {
@@ -46,7 +47,6 @@ var vm = new Vue({
     },
 
     methods: {
-
         switchNameSport: function (a){
             switch(a){   
                 case 1: return "NBA";
@@ -62,6 +62,21 @@ var vm = new Vue({
                 case 17: return "17";
                 default: return a;      
             }
+        },
+
+        sendServer: function () {
+            // axios.get('/put-something-here').then(response => this.post = response.data);
+            axios.post('/put-something-here',{
+                userName: 'Fred',
+                userEmail: 'Flintstone@gmail.com'
+            })
+
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
         }
 
     },
