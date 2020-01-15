@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\App;
 
+use JavaScript;
 use App\Http\Controllers\Controller;
+use App\Models\Backstage\Tournaments;
 
 class HomeController extends Controller
 {

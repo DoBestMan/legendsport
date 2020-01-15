@@ -16,7 +16,7 @@
             type="submit"
             form="form"
             @click="isValidForm()"
-        >Guardar</button>
+        >Save</button>
     @endsection
 
     @section('chips_value', $config->config['chips'])

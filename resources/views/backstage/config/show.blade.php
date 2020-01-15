@@ -21,5 +21,5 @@
         <a class="btn btn-primary"
             href="{{ route('config.edit') }}"
             role="button"
-        >Editar</a>
+        >Edit</a>
     @endsection

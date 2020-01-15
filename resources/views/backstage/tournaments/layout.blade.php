@@ -15,6 +15,7 @@
 {{-- JS --}}
     @section('HTML-jsVendors')
         <script src="https://cdn.jsdelivr.net/npm/v-money@0.8.1/dist/v-money.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     @endsection
 
     @section('HTML-js')
@@ -35,16 +36,18 @@
                 <div class="col">
                     <div class="table-responsive">
                         <table class="table table-sm table-light table-striped table-borderless table-hover">
-                            <caption>tournaments list</caption>
+                            <caption>Tournaments list</caption>
 
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col" class="text-center" width="25px">#</th>
                                     <th scope="col" width="160px">Name</th>
-                                    <th scope="col" width="180px">Type</th>
-                                    <th scope="col" width="140px">Prize pool</th>
-                                    <th scope="col" width="130px">Players limit</th>
-                                    <th scope="col" width="100px">Commission</th>
+                                    <th scope="col" width="50px">Type</th>
+                                    <th scope="col" width="100px">Players limit</th>
+                                    <th scope="col" width="60px">Buy-in</th>
+                                    <th scope="col" width="80px">Prize pool</th>
+                                    <th scope="col" width="50px">Commission</th>
+                                    <th scope="col" width="80px">Chips</th>
                                     <th scope="col" width="100px">State</th>
                                     <th scope="col" width="150px"></th>
                                 </tr>
@@ -55,9 +58,11 @@
                                         <th scope="row" class="text-center">{{ $numFirstItemPage++ }}</th>
                                         <td class="text-truncate">{{ $tournament->name }}</td>
                                         <td class="text-truncate">{{ $tournament->type }}</td>
-                                        <td class="text-truncate">{{ $tournament->prize_pool['type'] }}</td>
                                         <td class="text-truncate">{{ $tournament->players_limit }}</td>
-                                        <td class="text-truncate">{{ $tournament->commission }}</td>
+                                        <td class="text-truncate">$ {{ $tournament->buy_in }}</td>
+                                        <td class="text-truncate">{{ $tournament->prize_pool['type'] }}</td>
+                                        <td class="text-truncate">$ {{ $tournament->commission }}</td>
+                                        <td class="text-truncate">{{ $tournament->chips }}</td>
                                         <td class="text-truncate">{{ $tournament->state }}</td>
                                         <td class="text-right">
                                             <button type="button"
@@ -120,13 +125,13 @@
                     @yield("form_laravelMethod")
 
                     <div class="form-row">
-                        <div class="col-12 col-xl-6">
+                        <div class="col-6">
                             <div id="nameFrm" class="form-row form-group">
-                                <div class="col-12 col-lg-3 text-right">
+                                <div class="col-3 text-right">
                                     <label for="name" class="col-form-label">Name</label>
                                 </div>
 
-                                <div class="col-12 col-lg-7">
+                                <div class="col-7">
                                     <input type="text"
                                         id="name"
                                         name="name"
@@ -134,7 +139,9 @@
                                         value="@yield('name_value')"
                                         @yield('form_disabled')
                                     >
-
+                                    <p>
+                                        <small class="form-text text-muted">description</small>
+                                    </p>
                                     @error('name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -156,6 +163,8 @@
                                         <option value="single" @yield('type_selected_single')>Single</option>
                                         <option value="multiple" @yield('type_selected_multiple')>Multiple</option>
                                     </select>
+
+                                    <small class="form-text text-muted">description</small>
 
                                     @error('type')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -181,6 +190,8 @@
                                         <option value='Unlimited' @yield('players_limit_selected_false')>Unlimited</option>
                                     </select>
 
+                                    <small class="form-text text-muted">description</small>
+
                                     @error('late_register')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -202,6 +213,9 @@
                                         v-model="buy_in"
                                         v-bind="money"
                                     ></money>
+
+                                    <small class="form-text text-muted">description</small>
+
 
                                     <input type="hidden"
                                         name="buy_in"
@@ -229,6 +243,8 @@
                                         v-model="commission"
                                         v-bind="money"
                                     ></money>
+
+                                    <small class="form-text text-muted">description</small>
 
                                     <input type="hidden"
                                         name="commission"
@@ -259,6 +275,8 @@
                                         v-bind="formatNumber"
                                     ></money>
 
+                                    <small class="form-text text-muted">description</small>
+
                                     <input type="hidden"
                                         name="chips"
                                         v-model="chips"
@@ -287,6 +305,8 @@
                                         <option value=0 @yield('late_register_selected_false')>No</option>
                                     </select>
 
+                                    <small class="form-text text-muted">description</small>
+
                                     @error('late_register')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -307,6 +327,8 @@
                                             @yield('form_disabled')
                                         >
 
+                                        <small class="form-text text-muted">description</small>
+
                                         @error('interval')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -325,6 +347,8 @@
                                             placeholder=""
                                             @yield('form_disabled')
                                         >
+
+                                        <small class="form-text text-muted">description</small>
 
                                         @error('value')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -350,6 +374,8 @@
                                         <option value='Fixed'>Fixed</option>
                                     </select>
 
+                                    <small class="form-text text-muted">description</small>
+
                                     @error('prize_pool')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -369,6 +395,8 @@
                                             placeholder=""
                                             @yield('form_disabled')
                                         >
+
+                                        <small class="form-text text-muted">description</small>
 
                                         @error('fixed_value')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -410,6 +438,9 @@
                                         <option value='Auto'>Auto</option>
                                         <option value='Fixed'>Fixed</option>
                                     </select>
+
+                                    <small class="form-text text-muted">description</small>
+
                                 </div> 
                             </div>
 
@@ -433,6 +464,8 @@
                                         <option value="cancel" @yield('state_selected_cancel')>Cancel</option>
                                     </select>
 
+                                    <small class="form-text text-muted">description</small>
+
                                     @error('state')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -443,8 +476,94 @@
 
                     <hr>
 
-                    <!-- <form-loader :sending="formIsSending" caption="@yield('form-loader_caption')"></form-loader> -->
                 </form>
+
+                @if ($isCreate == true)
+                    <form id="FormSaveUser" 
+                        >
+                        @yield("form_laravelCsrf")
+                        @yield("form_laravelMethod")
+
+                        <div class="row form-group">
+                            <div class="col-5">
+                                <label for="SelectSport">Sport</label>
+
+                                <select 
+                                    id="SelectSport"
+                                    name="SelectSport" 
+                                    class="form-control form-control-sm"
+                                    v-model="search"
+                                    >
+                                    <option value="">All</option>
+                                    <option value="NBA">NBA</option>
+                                    <option value="NCAAB">NCAAB</option>
+                                    <option value="NCAAF">NCAAF</option>
+                                    <option value="NFL">NFL</option>
+                                    <option value="NHL">NHL</option>
+                                    <option value="SOCCER">SOCCER</option>
+                                    <option value="MMA">MMA (UFC)</option>
+                                    <option value="KHL">KHL</option>
+                                    <option value="AHL">AHL</option>
+                                    <option value="SHL">SHL</option>
+                                </select>
+                            </div>
+
+                            <div class="col-4">
+                                <label for="">Date game</label>
+
+                                <input type="date" 
+                                    name="sportDate" 
+                                    class="form-control form-control-sm">
+                            </div>
+
+                            <div class="offset-2 offset-lg-1 col-1">
+                                <label for=""></label>
+
+                                <button class="btn btn-dark"
+                                    type="submit"
+                                    form="FormSaveUser"
+                                    @yield('buttonSave_disabled')
+                                >Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <div class="table-responsive">
+                        <table class="headerFixed table table-sm table-light table-striped table-borderless table-hover">
+                            <caption>Events list</caption>
+
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col" width="280px">Date</th>
+                                    <th scope="col" width="220px">Home team</th>
+                                    <th scope="col" width="230px">Away Team</th>
+                                    <th scope="col" width="200px">Sport</th>
+                                    <th scope="col" width="200px"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template v-for="event in customFilter">
+                                    <tr>
+                                        <td class="text-truncate" width="300px">@{{ event.MatchTime }}</td>
+                                        <td class="text-truncate" width="210px">@{{ event.HomeTeam }}</td>
+                                        <td class="text-truncate" width="230px">@{{ event.AwayTeam }}</td>
+                                        <td class="text-truncate" width="200px" v-html="switchNameSport(event.Sport)">@{{ event.Sport }}</td>
+                                        <td class="text-truncate" width="200px">
+                                            <button 
+                                                id="enlaceajax"
+                                                type="button"
+                                                form="formSport"
+                                                class="btn btn-dark"
+                                                @yield('buttonSave_disabled')
+                                            >include</button>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                        <hr>
+                    </div>
+                @endif
 
                 @yield('HTML-formDelete')
             </div>
@@ -454,7 +573,7 @@
                     @if ($hasButtonBack == true)
                         <button id="buttonBack" class="btn btn-light btn-link"
                             onclick="window.location='{{ route('tournaments.index') }}';"
-                        >Regresar</button>
+                        >Return</button>
                     @endif
                 </div>
 
@@ -465,7 +584,7 @@
                             form="@yield('buttonSave_formId')"
                             @yield('buttonSave_disabled')
                             @click="isValidForm()"
-                        >Guardar</button>
+                        >Save</button>
                     @endif
                 </div>
 

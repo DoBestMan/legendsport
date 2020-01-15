@@ -8,8 +8,8 @@ $factory->define(Tournaments::class, function (Faker $faker) {
     return [
             'avatar'=> $faker->numberBetween($min = 0, $max = 1),
             'name'=> $faker->name,
-            'type'=> 'Single',
-            'players_limit'=> 'Heads-Up',
+            'type'=> $faker->randomElement($array = array ('Single','Multiple')),
+            'players_limit'=> $faker->randomElement($array = array ('Heads-Up', 'Full', 'Unlimited')),
             'buy_in'=> $faker->numberBetween($min = 500, $max = 1000),
             'chips'=> $faker->numberBetween($min = 5000, $max = 10000),
             'commission'=> $faker->numberBetween($min = 1, $max = 5),
@@ -22,6 +22,7 @@ $factory->define(Tournaments::class, function (Faker $faker) {
             'prizes'=> [
                 'type' => 'Auto',
             ],
-            'state'=> 'Announced',
+            'state'=> $faker->randomElement($array = array ('Announced', 'Registering', 'Late registering',
+                'Running', 'Complete', 'Cancel')),
     ];
 });

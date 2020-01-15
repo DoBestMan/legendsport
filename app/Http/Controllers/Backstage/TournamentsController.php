@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Backstage;
 
 use JavaScript;
@@ -16,17 +15,41 @@ class TournamentsController extends Controller
 
         $numFirstItemPage = $tournaments->firstItem();
 
+        JavaScript::put([
+            'apiSports' => '',
+            'config' => '',
+            'lateRegister' => '',
+            'prizePool' => '',
+            'prizes' => '',
+        ]);
+
         return view('backstage.tournaments.index')
             ->with('tournaments', $tournaments)
             ->with('tournament', null)
             ->with('numFirstItemPage', $numFirstItemPage);
     }
 
-    public function create()
+    public function create(Request $request)
     { 
-        $config = Config::first();
+// dd($data['nombre']);
+        $appKey = "3b279a7d-7d95-4eda-89cb-3c1f96093fc6";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://jsonodds.com/api/odds/$request->SelectSport");
+        curl_setopt($ch, CURLOPT_HTTPGET, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'x-api-key:' . $appKey
+        ));
 
+        $res = curl_exec($ch);
+        $response = json_decode($res);
+
+
+        $config = Config::first();
+        
         JavaScript::put([
+            'apiSports' => $response,
             'config' => $config->config,
             'lateRegister' => 0,
             'prizePool' => 'Auto',
@@ -65,7 +88,9 @@ class TournamentsController extends Controller
     {
         JavaScript::put([
             'buy_in' => $tournament->buy_in,
-            'commission' => $tournament->commission,
+            'config' => $config->config,
+            'chips' => '',
+            'commision' => '',
             'lateRegister' => $tournament->late_register,
         ]);
 
@@ -79,9 +104,10 @@ class TournamentsController extends Controller
     {
         JavaScript::put([
             'playersLimit' => $tournament->players_limit,
+            'config' => '',
             'buy_in' => $tournament->buy_in,
-            'commission' => $tournament->commission,
             'chips' => $tournament->chips,
+            'commission' => $tournament->commission,
             'lateRegister' => $tournament->late_register,
             'prizePool' => $tournament->prize_pool['type'],
             'prizes' => $tournament->prizes['type'],

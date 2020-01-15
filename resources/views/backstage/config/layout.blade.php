@@ -53,6 +53,8 @@
                         v-bind="money"
                     ></money>
 
+                    <small class="form-text text-muted">description</small>
+
                     <input type="hidden"
                         name="config[commission]"
                         v-model="commission"
@@ -81,6 +83,8 @@
                         max=90
                     ></money>
 
+                    <small class="form-text text-muted">description</small>
+
                     <input type="hidden"
                         name="config[chips]"
                         v-model="chips"
@@ -106,6 +110,8 @@
                         placeholder=""
                         @yield('form_disabled')
                     >
+
+                    <small class="form-text text-muted">description</small>
 
                     @error('keep_completed')
                         <div class="invalid-feedback">{{ $message }}</div>

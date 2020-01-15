@@ -80,17 +80,17 @@
             <section id="tournaments-frm" class="row">
                 <div name="table" class="col-9">
                     <div id="table-frm">
-                        <table id="tournaments" class="table">
+                        <table id="tournaments" class="table headerFixed">
                             <thead class="thead">
                                 <tr class="tr">
-                                    <th id="col-start" class="th" scope="col">Start</th>
-                                    <th id="col-sports" class="th" scope="col">Sports</th>
-                                    <th id="col-buy-in" class="th" scope="col">Buy-In</th>
-                                    <th id="col-name" class="th" scope="col">Tournament name</th>
-                                    <th id="col-time-frame" class="th" scope="col">Time Frame</th>
-                                    <th id="col-status" class="th" scope="col">Status</th>
-                                    <th id="col-enrolled" class="th" scope="col">Enrolled</th>
-                                    <th id="col-players" class="th" scope="col">Players</th>
+                                    <th class="th col-start" scope="col">Start</th>
+                                    <th class="th col-sports" scope="col">Sports</th>
+                                    <th class="th col-buy-in" scope="col">Buy-In</th>
+                                    <th class="th col-name" scope="col">Tournament name</th>
+                                    <th class="th col-time-frame" scope="col">Time Frame</th>
+                                    <th class="th col-status" scope="col">Status</th>
+                                    <th class="th col-enrolled" scope="col">Enrolled</th>
+                                    <th class="th col-players" scope="col">Players</th>
                                 </tr>
                             </thead>
                             <tbody class="tbody">
@@ -98,14 +98,14 @@
                                     <tr class="tr"
                                         :class="{ selected: tournament.selected == true }"
                                         >
-                                        <td class="td">@{{ tournament.starts }}</td>
-                                        <td class="td">@{{ tournament.sports }}</td>
-                                        <td class="td">@{{ tournament.buy_in }}</td>
-                                        <td class="td">@{{ tournament.name }}</td>
-                                        <td class="td">@{{ tournament.time_frame }}</td>
-                                        <td class="td">@{{ tournament.status }}</td>
-                                        <td class="td">@{{ tournament.enrolled }}</td>
-                                        <td class="td">@{{ tournament.players }}</td>
+                                        <td class="td col-start">@{{ tournament.starts }}</td>
+                                        <td class="td col-sports">@{{ tournament.sports }}</td>
+                                        <td class="tdcol-buy-in">@{{ tournament.buy_in }}</td>
+                                        <td class="td col-name">@{{ tournament.name }}</td>
+                                        <td class="td col-time-frame">@{{ tournament.time_frame }}</td>
+                                        <td class="td col-status">@{{ tournament.status }}</td>
+                                        <td class="td col-enrolled">@{{ tournament.enrolled }}</td>
+                                        <td class="td col-players">@{{ tournament.players }}</td>
                                     </tr>
                                 </template>
                             </tbody>

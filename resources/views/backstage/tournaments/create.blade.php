@@ -1,6 +1,7 @@
 @php
     $isIndex = false;
     $isShow = false;
+    $isCreate = true;
 
     $hasButtonBack = true;
     $hasButtonAdd = false;
@@ -24,7 +25,7 @@
         @section('avatar_value', '')
         @section('avatar_class_error', error('avatar', $errors))
 
-        @section('name_value', '')
+        @section('name_value', old('name', ''))
         @section('name_class_error', error('name', $errors))
 
         @section('type_value', '')

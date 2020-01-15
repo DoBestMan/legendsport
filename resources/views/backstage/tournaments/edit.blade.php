@@ -1,5 +1,7 @@
 @php
     $isIndex = false;
+    $isShow = false;
+    $isCreate = false;
 
     $hasButtonBack = true;
     $hasButtonAdd = false;

@@ -13,6 +13,25 @@
         }
     }
 
+    .headerFixed {
+        width: 100%;
+        table-layout: fixed;
+        border-collapse: collapse;
+    }
+
+    .headerFixed thead tr {
+        width: 100%;
+        display: inherit;
+        position: relative;
+    }
+    
+    .headerFixed tbody {
+        display: block;
+        overflow: auto;
+        // width: 100%;
+        height: 400px;
+    }
+
     #tab-home-frm {
         #filters-frm {
             background-color: transparent;
@@ -26,19 +45,18 @@
                 background-color: @gb_color_table_bg;
                 border-radius: @gb_border-radius;
                 height: @tournaments-frm_height;
-                overflow: auto;
 
                 #tournaments.table {
                     min-width: 800px;
 
-                    #col-start { min-width: 80px; width: 10%; }
-                    #col-sports { min-width: 190px; width: 23.75%; }
-                    #col-buy-in { min-width: 50px; width: 6.25%; }
-                    #col-name { min-width: 190px; width: 23.75%; }
-                    #col-time-frame { min-width: 80px; width: 10%; }
-                    #col-status { min-width: 90px; width: 11.25%; }
-                    #col-enrolled { min-width: 60px; width: 7.5%; }
-                    #col-players { min-width: 60px; width: 7.5%; }
+                    .col-start { min-width: 80px; width: 20%; }
+                    .col-sports { min-width: 190px; width: 23.75%; }
+                    .col-buy-in { min-width: 50px; width: 6.25%; }
+                    .col-name { min-width: 190px; width: 23.75%; }
+                    .col-time-frame { min-width: 80px; width: 10%; }
+                    .col-status { min-width: 90px; width: 11.25%; }
+                    .col-enrolled { min-width: 60px; width: 7.5%; }
+                    .col-players { min-width: 60px; width: 7.5%; }
                 }
             }
 

@@ -4,6 +4,21 @@
   padding-top: 15px;
   padding-bottom: 15px;
 }
+.headerFixed {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+.headerFixed thead tr {
+  width: 100%;
+  display: inherit;
+  position: relative;
+}
+.headerFixed tbody {
+  display: block;
+  overflow: auto;
+  height: 400px;
+}
 #tab-home-frm #filters-frm {
   background-color: transparent;
   height: 60px;
@@ -13,40 +28,39 @@
   background-color: hsl(0, 0%, 97%);
   border-radius: 3px;
   height: calc(100vh - ((50px + 40px + 40px) + (60px + (15px * 3))));
-  overflow: auto;
 }
 #tab-home-frm #tournaments-frm #table-frm #tournaments.table {
   min-width: 800px;
 }
-#tab-home-frm #tournaments-frm #table-frm #tournaments.table #col-start {
+#tab-home-frm #tournaments-frm #table-frm #tournaments.table .col-start {
   min-width: 80px;
-  width: 10%;
+  width: 20%;
 }
-#tab-home-frm #tournaments-frm #table-frm #tournaments.table #col-sports {
+#tab-home-frm #tournaments-frm #table-frm #tournaments.table .col-sports {
   min-width: 190px;
   width: 23.75%;
 }
-#tab-home-frm #tournaments-frm #table-frm #tournaments.table #col-buy-in {
+#tab-home-frm #tournaments-frm #table-frm #tournaments.table .col-buy-in {
   min-width: 50px;
   width: 6.25%;
 }
-#tab-home-frm #tournaments-frm #table-frm #tournaments.table #col-name {
+#tab-home-frm #tournaments-frm #table-frm #tournaments.table .col-name {
   min-width: 190px;
   width: 23.75%;
 }
-#tab-home-frm #tournaments-frm #table-frm #tournaments.table #col-time-frame {
+#tab-home-frm #tournaments-frm #table-frm #tournaments.table .col-time-frame {
   min-width: 80px;
   width: 10%;
 }
-#tab-home-frm #tournaments-frm #table-frm #tournaments.table #col-status {
+#tab-home-frm #tournaments-frm #table-frm #tournaments.table .col-status {
   min-width: 90px;
   width: 11.25%;
 }
-#tab-home-frm #tournaments-frm #table-frm #tournaments.table #col-enrolled {
+#tab-home-frm #tournaments-frm #table-frm #tournaments.table .col-enrolled {
   min-width: 60px;
   width: 7.5%;
 }
-#tab-home-frm #tournaments-frm #table-frm #tournaments.table #col-players {
+#tab-home-frm #tournaments-frm #table-frm #tournaments.table .col-players {
   min-width: 60px;
   width: 7.5%;
 }
