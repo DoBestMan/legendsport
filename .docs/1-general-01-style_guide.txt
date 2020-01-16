@@ -1,0 +1,644 @@
+███████████████████████████████████████████████████████████████████████████████
+GENERAL - DEVELOPMENT STYLE GUIDE
+Rules, standards and style guide for code writing
+···············································································
+
+█ PRINCIPLES                              █ Updated: Andrés García - 09/05/2019
+    ···········································································
+    https://www.genbetadev.com/metodologias-de-programacion/doce-principios-de-diseno-que-todo-desarrollador-deberia-conocer
+
+    ■ DRY -> DON'T REPEAT YOURSELF (DO NOT REPEAT YOURSELF)
+        Duplicate code is a bad signal, or at least a signal that
+        can do better. Is that duplicate code is prone to generate
+        mistakes and it is hard to keep.
+
+        Extract the duplicate code to a function. If there is a change to be made
+        It will be in one place and not throughout the source code.
+    ···········································································
+
+    ■ KISS -> KEEP IT SIMPLY STUPID (KEEP IT SIMPLY STUPID)
+        The design of an application MUST be simple. MUST AVOID COMPLEXITY
+        AS A GENERAL STANDARD, especially unnecessary complexity; as soon as
+        simpler be better!
+    ···········································································
+
+    ■ SOLID (CLASSES)
+        https://www.genbetadev.com/paradigmas-de-programacion/solid-cinco-principios-basicos-de-diseno-de-clases
+
+        ■ SINGLE RESPONSABILITY
+            Classes must have a simple and concrete purpose.
+
+            Sometimes we are tempted to create a method that has nothing to do with it.
+            with the class, simply because he uses it; then taking advantage
+            That is there. AVOID IT!
+        ·······································································
+
+        ■ OPEN / CLOSED (OPEN / CLOSED)
+            Create extensible classes without entering the source code to
+            modify it
+
+            That is, the design must be open to be able to extend but closed
+            to be able to modify. Although said seems easy, the complicated thing is
+            predict where it should be extended and that we don't have to modify it.
+
+            Be very clear how the application will work, where you can
+            extend and how classes will interact.
+            The most common use of extension is through inheritance and re-implementation
+            of methods.
+
+            There is another alternative that consists of using methods that accept
+            an interface so that we can execute any class that implements
+            that interface
+
+            In all cases, the behavior of the class changes without us having
+            had to touch internal code.
+        ·······································································
+
+        ■ L-LISKOV SUBSTITUTION (LISKOV SUBSTITUTION)
+            Create all derived classes so that they can also be treated as
+            The base class itself.
+
+            When creating derivative classes we must ensure that we do not re-implement
+            methods that make the base class methods not work if you
+            treat as an object of that base class.
+        ·······································································
+
+        ■ I-INTERFACE SEGREGATION (INTERFACE SEGREGATION)
+            When interfaces are defined, they must be specific to one purpose.
+            concrete
+
+            Therefore, if we have to define a series of abstract methods that should
+            use a class through interfaces, it is preferable to have many
+            interfaces that define few methods that have an interface with many
+            methods
+
+            The purpose of this principle is to take advantage of interfaces in other classes.
+
+            If we have an interface that compares and clones on the same interface, from
+            more complicated way can be used in a class that should only
+            compare or in another that you just need to clone.
+        ·······································································
+
+        ■ D-DEPENDENCY INVESTMENT (DEPENDENCY INVESTMENT)
+            The objective of this principle is to decouple classes.
+
+            In every design there must always be a coupling but it must be avoided
+            as far as possible. A non-coupled system does nothing but a
+            Highly coupled system is very difficult to maintain.
+
+            The objective of this principle is the use of abstractions to achieve
+            that a class interacts with other classes without knowing them directly.
+            That is, higher level classes should not know the level classes
+            lower.
+            In other words, you should not know the details. There are different
+            patterns such as dependency injection or service locator that we
+            They allow you to reverse the control.
+    ···········································································
+
+    ■ YAGNI -> YOU AIN'T GONNA NEED IT (YOU DON'T NEED IT)
+        If you are not sure of something it is because you do not need to implement it
+    ···········································································
+
+    ■ RULE OF THE BOY SCOUT
+        Do as the Boy Scouts, who leave the field cleaner than when they arrived.
+
+        The code can always improve. If we can, we must re-factor the code
+        to leave it even cleaner and simpler than before.
+    ···········································································
+
+    ■ LAW OF DEMETER
+        According to this principle, a unit should only have limited knowledge of
+        other units, and only know those that are related.
+        The unit should only talk with friends and never with strangers. Besides, the
+        unit should only talk to immediate friends.
+
+        Simplifying a lot, we have to try to avoid using methods of an object
+        which has been returned by another method. In this case it is useful to follow the rule of
+        Never use more than one point when accessing methods of an object.
+
+        For example, do not use Current client.GetAddress.Call.Change StreetName.
+        Remember, do not talk to strangers.
+    ···········································································
+
+    ■ THE HOLLYWOOD PRINCIPLE
+        The Hollywood principle: "Don't call us, we'll call you."
+
+        This principle is related to the dependency investment principle
+        of SOLID.
+
+        An example of the Hollywood principle is control investment (IoC), which
+        makes a class get the references to objects it needs to
+        function, through an external entity.
+    ···········································································
+
+    ■ THE OCKHAM POCKET KNIFE
+        "All things being equal, the simplest explanation is usually the most
+        probable"
+
+        The application of this philosophical principle to software development would be
+        similar to the following:
+
+        Between two or more possible solution alternatives, the simplest, simplest
+        or easy, is the one to choose.
+
+        This principle can even be applied to find errors, where
+        starting with the simplest or simplest can help you find it without much
+        wear.
+    ···········································································
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+█ STYLE GUIDE - GENERAL                   █ Updated: Andrés García - 09/05/2019
+    ···········································································
+    ■ *GLOSSARY*
+        ■ lowercase: Lowercase, no spaces
+        ■ UPPER_CASE: Uppercase, separate words with _
+        ■ camelCase: Lowercase, without spaces, separate words with first capital letter.
+        ■ snake_case: Lowercase, without spaces, separate words with _
+        ■ kebab-case: Lowercase, without spaces, separate words with -
+        ■ StudlyCase: First letter of each word in uppercase, without spaces
+    ···········································································
+
+    ■ THE PRINCIPLES
+        1st - The code must be written and seen as if it had been written by
+        only one person; although multiple people have intervened.
+
+        2nd - The code must be written in a way that guarantees: your understanding
+        when reading it the first time and its maintenance in the future.
+    ···········································································
+
+    ■ TO BEGIN
+        To a greater extent writing code must have the PSR standard as a primary basis
+        for PHP Especially its PSR2 standard (https://www.php-fig.org/psr/psr-2).
+
+        This extends to other languages ​​with the exception of their own
+        language peculiarities For example: HTML requires the use of quotation marks
+        double, contrary to the recommendation of the standard that speaks of using quotation marks
+        simple.
+    ···········································································
+
+    ■ GENERAL
+        ■ Language: English
+        ■ Writing mode: Lowercase, no special characters (tildes) or
+            different from English
+        ■ Ideation: 4 blank spaces
+        ■ Length of lines: Up to 80 characters, although not strict and can
+            Spread reasonably or completely ONLY IF IT IS NECESSARY,
+            as are the urls.
+    ···········································································
+
+    ■ RELEVANCE ORDER
+        The style guide may contradict the rules or standards.
+        Therefore an order of relevance is established, indicating what can
+        overwrite what.
+
+        ■ 1st, the EXPRESS ORDERS
+            You can overwrite everything from here down. And they are the ones that a person
+            with authority or faculty within the project, determines to write code of
+            somehow.
+
+        ■ 2nd, the CONVENTIONS used
+            They are the ones that must be followed because similar scripts are written
+            So. This makes sense when you have doubts or there is no indication
+            accurate.
+
+        ■ 3rd, the SPECIFIC STYLE GUIDE (Project)
+            It is the specific style guide of the project.
+
+        ■ 4th, THE GENERAL STYLE OR COMPANY GUIDE
+            It is this guide and should be followed and applied for all the projects of the
+            business.
+
+        ■ 5th, the STANDARDS applied
+            These are the standards and good practices that must be followed and applied.
+            as determined by the project in its documentation. Just as it does
+            this guide.
+
+        ■ 6th, THE LANGUAGE RULES
+            They are the rules and good practices determined by language.
+    ···········································································
+
+    ■ STANDARDS
+        ■ NAMES
+            ■ SINGULAR / PLURAL
+                The elements must be named in the singular when applied to it.
+                If it applies to several it must be in the plural.
+
+                BAD: topsPage -> Refers to several TOPS in it
+                        PAGE (which is not possible)
+
+                OK: pagesTop -> Refers to the TOP of several PAGES
+            ···································································
+
+            ■ GROUPING
+                When there are elements that belong to a common context
+                they must be grouped with prefixes; although it does not comply with English rules.
+
+                This applies to: projects, directories, files, space
+                names, variables, constants, functions, objects, classes,
+                methods, properties, etc.
+
+                BAD: topPage = 50px;
+                        leftPage = 50px;
+                        widthPage = 50px;
+
+                OK: pageTop = 50px;
+                        pageLeft = 50px;
+                        pageWidth = 50px;
+            ···································································
+
+            ■ EXPLICIT
+                The names must allow, when reading them, to identify the function
+                the task, the objective or the content.
+
+                BAD: pgT = 50px;
+
+                OK: pageTop = 50px;
+            ···································································
+
+            ■ SIMPLIFICATION
+                As much as possible, simplify the names. I searched
+                synonyms; The limit is not to lose understanding and explicit.
+
+                BAD: pgT = 50px;
+
+                OK: pageTop = 50px;
+            ···································································
+
+            ■ DATABASE
+                ■ snake_case
+
+                BAD: Elimination Date
+                        date Elimination
+                        datedelete
+
+                OK: removal_date
+                        date_delete
+                        deleted_at
+            ···································································
+
+            ■ IN DIRECTORIES AND FILES
+                ■ snake_case
+
+                BAD: Main Module
+                OK: main_module
+            ···································································
+
+            ■ DEFINITIONS
+                ■ Variables: camelCase
+                ■ Constants: UPPER_CASE
+                ■ Functions: camelCase
+                ■ Classes: StudlyCase
+                ■ Methods: camelCase
+
+                ■ Grouping
+                    when grouping elements you can set a prefix in mode
+                    snake_case, followed by underscore _ and then the element in
+                    its definition.
+
+                    BAD: pagesmoduledocument
+                        Pages_ModuleDocument
+
+                    OK: pages_modDocument
+                        pagesProperties_modDocument
+                        pagesModuleDocument
+        ·······································································
+
+        ■ COMMENTS
+            ■ Language: English
+            ■ Writing mode: Normal, paragraphs with capital letter and simplified text
+
+                BAD: // SECTION FOR THE LOCAL VARIABLES OF THE CHARACTERISTICS: MAIN
+
+                OK: // Local variables: Main
+
+            ■ Rules
+                ■ If the comment applies to several lines of code, set comment
+                multiple like this:
+
+                    / **
+                    * Commentary...
+                    * Commentary...
+                    * /
+
+                ■ If the comment ONLY applies to the code line, set comment
+                in the same line from character 100 like this:
+
+                BAD: display: none; // Hide Html
+
+                OK: float: left;                                                // Indispensable
+        ·······································································
+
+        ■ LEGIBILITY
+            the code MUST be readable, a line of code must be understood with
+            One reading
+
+            Create blank lines to SEPARATE and GROUP the code that meets a
+            Same task or objective.
+
+            A goal when writing code is not to reduce lines of code,
+            since code minification can accomplish this later. For him
+            On the contrary, an important objective is the readability of the code and its
+            future maintenance.
+
+            BAD:
+                    private $ userModPermissions;
+                    public function __construct () {
+                        $ this-> middleware ('auth');
+                        $ this-> middleware (function ($ request, $ next) {
+                            $ this-> userModPermissions = new stdClass ();
+                            $ this-> userModPermissions-> access = auth ('users') -> user () -> permissions-> ahp_users ['access'];
+                            $ this-> userModPermissions-> create = auth ('users') -> user () -> permissions-> ahp_users ['create'];
+                            $ this-> userModPermissions-> edit = auth ('users') -> user () -> permissions-> ahp_users ['edit'];
+                            $ this-> userModPermissions-> delete = auth ('users') -> user () -> permissions-> ahp_users ['delete'];
+                            $ this-> userModPermissions-> print = auth ('users') -> user () -> permissions-> ahp_users ['print'];
+                            return $ next ($ request);
+                        });
+                    }
+
+            CORRECT:
+                    private $ userModPermissions;
+
+                    public function __construct ()
+                    {
+                        $ this-> middleware ('auth');
+
+                        $ this-> middleware (function ($ request, $ next) {
+                            $ this-> userModPermissions = new stdClass ();
+                            $ this-> userModPermissions-> access = auth ('users') -> user () -> permissions-> ahp_users ['access'];
+                            $ this-> userModPermissions-> create = auth ('users') -> user () -> permissions-> ahp_users ['create'];
+                            $ this-> userModPermissions-> edit = auth ('users') -> user () -> permissions-> ahp_users ['edit'];
+                            $ this-> userModPermissions-> delete = auth ('users') -> user () -> permissions-> ahp_users ['delete'];
+                            $ this-> userModPermissions-> print = auth ('users') -> user () -> permissions-> ahp_users ['print'];
+
+                            return $ next ($ request);
+                        });
+                    }
+    ···········································································
+
+    ■ HTML
+        HTML files must be written and structured according to the way in
+        that the user is expected to navigate, identifying relevant sections.
+        Like: menu, buttons, panels, etc. Then you must enter them.
+
+        As navigation can be subjective, it must be started from the corner
+        upper left; continuing down or to the right according to the
+        Expected navigation and relevance.
+
+        ■ CONVENTIONS
+            ■ *Frm
+                Termination in 'Frm' indicates that it is a container type element,
+                frame or frame.
+
+            ■ Naming containers, row, cols who contain HTML elements
+                The HTML elements from business logic, usually are inside the
+                containers; is necessary to set a "inside" attribute to help to
+                identify the HTML element inside there.
+
+                This is helpful when you need expand and collapse the code.
+
+                <div inside="pending-tab" class="col-2>
+                    <button type="button"
+                        class="tab"
+                        :class="{ active: tournament.betting.pending.show }"
+                        @click="pending"
+                    >Pending</button>
+
+                    <span class="separator">|</span>
+                </div>
+        ·······································································
+
+        ■ ATTRIBUTES
+            ■ ORDER:
+                Set the order of attributes within an HTML element alphabetically:
+
+                BAD:
+                    <input type="text" id="name">
+
+                    <input type="text"
+                        id="name"
+                        name="name"
+                        class="form-control @yield('name_class_error')"
+                        value="@yield('name_value')"
+                        @yield('form_disabled')
+                    >
+
+                OK:
+                    <input id="name" type="text">
+
+                    <input class="form-control @yield('name_class_error')"
+                        id="name"
+                        name="name"
+                        type="text"
+                        value="@yield('name_value')"
+                        :key=@{{isIndex}}
+                        @yield('form_disabled')
+                    >
+            ···································································
+
+            ■ NAME
+                It is set when the item must be sent. For example
+                to be processed in the BACKEND.
+
+                ■ snake_case, singular
+                ■ If it is a field, set the name of the field form database
+            ···································································
+
+            ■ ID
+                It is set if the item needs it, especially when it is due
+                try in JS or CSS.
+
+                ■ camelCase or snake_case (if it comes from the NAME attribute), singular
+                ■ If the NAME attribute is set, it must be equal to it
+            ···································································
+
+            ■ CLASSES
+                Generally used to format / CSS style.
+
+                ■ camelCase, preferably in the singular. Use plural if it is a
+                shared class that represents several HTML elements in your
+                set (buttons / buttons). And singular if it is a class, which
+                although shared, it represents only one element.
+
+                ■ If the item has NAME or ID the class must be named as
+                same way as much as possible. However, it is allowed
+                use the ID to style the element. In itself, if you have an ID it is not
+                you need to create a class to establish your style rather
+                Use the ID.
+        ·······································································
+
+        ■ SCRIPTS
+            The scripts are located before the closing of the BODY tag
+    ···········································································
+
+    ■ CSS / LESS
+        ■ GENERAL
+            ■ The CSS code is written via LESS and according to the HTML structure
+
+            ■ Enter (Nestear) CSS rules when they belong or are
+            incorporated into another CSS rule. This is evident by having in
+            HTML structure counts.
+
+            ■ HTML elements are only set in the RESET and in the GENERAL. Of what
+            Otherwise, avoid establishing them from other parts. Use
+            Common CSS classes to set format and style.
+        ·······································································
+
+        ■ CONVENTIONS
+            ■ SCOPE
+                ■ gb- *: GLOBAL scope, applies to all files
+                ■ ui- *: Scope INTERFACE, and the files that depend on it
+                ■ lc- *: LOCAL Scope, in the archive (Optional)
+                ■ *: Without Scope, applies ONLY to the area where it is used. ex: a
+                file, function, etc.
+            ···································································
+
+            ■ NAMES
+                ■ VARIABLES
+                    ■ camelCase, singular
+
+                    ■ variable
+                        @default_font-size: 20px;
+
+                    ■ variable Attribute_Element
+                        @ inputName_font-size: 20px;
+
+                    ■ variable-scope Attribute_Element
+                        @ gb-inputName_fontSize: 20px;
+
+                    ■ scope-grouping-variable Element_attribute
+                        @ ui-inputs-inputName_fontSize: 20px;
+                        @ ui-inputs-inputName_fontSize_disable: 18px;
+                ·······························································
+
+                ■ CLASSES NAMES
+                    If the class comes from HTML, the rule is used to name classes
+                    HTML
+                    If the class is used for scripts in JS, PHP or others. Must follow
+                    the same rules as HTML
+
+                    ■ kebab-case, singular
+
+                    ■ class
+                        loader-exe
+
+                    ■ scope-class
+                        gb-loader-exe
+
+                    ■ scope-grouping-attribute_class
+                        gb-loaders-exe
+                        gb-loaders-txt
+                ·······························································
+
+                ■ PREFIXES / SUFFIXES
+                    ■ add-*
+                        Prefix of a CLASS indicating that it belongs to or is added to another
+                        Class. It is usually used as a state. They don't apply the scope
+
+                        EJ: add-red, add-active, add-required, add-error, schemas-add-active
+
+                        USE: class = "buttons add-red"
+
+                        ■ Must be in or "nesteada" within the class
+                            to which it belongs like this:
+
+                            .buttons {
+                                top: 50px;
+
+                                & .add-red {
+                                    color: net;
+                                }
+                            }
+                    ···························································
+
+                    ■ *mix*
+                        Indicates that it is a MESSIN class of LESS to be added to another
+                        class. It should not be used directly in HTML.
+                ·······························································
+
+                ■ PROPERTIES
+                    ■ ORDER:
+                        Within a CSS rule, the properties are written in ALPHABETICAL ORDER.
+
+                        .button-login {
+                            color: @gb_color_app_white;
+                            cursor: default;
+                            font-size: 1rem;
+                            font-weight: @gb_font-bold;
+                            letter-spacing: @gb_letter-spacing;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            text-transform: uppercase;
+                            vertical-align: middle;
+                            white-space: nowrap;
+                        }
+                ·······························································
+    ···········································································
+
+    ■ JAVASCRIPT
+        ■ GENERAL
+        http://snowdream.github.io/javascript-style-guide/javascript-style-guide/es/index.html
+
+        ■ NAMES
+            ■ VARIABLES
+                ■ $*        : Indicates that it is an HTML element
+                ■ $*_all    : Indicates that it is ALL elements of *
+            ···································································
+
+            ■ RULES
+                ■ Statement: skip the scope if the item in your ID or CLASS
+                include the scope
+                ■ Always define the HTML elements to use with $
+        ·······································································
+
+        ■ VUE
+        ·······································································
+    ···········································································
+
+    ■ PHP
+        ■ GENERAL
+            ■ Style guide: https://www.hp-fig.org/psr/psr-2/
+        ·······································································
+
+        ■ LARAVEL
+            ■ NAMES
+                ■ YIELDS
+                    They are set according to the NAME or ID of the HTML element. So:
+                    htmlElement_attributeName
+
+                ■ YIELDS type HTML- *
+                    Indicates that it is a code INSERT with HTML elements. I know
+                    write like this:
+
+                    HTML-camelCase
+    ···········································································
+
+    ■ DATABASE
+        ■ MARIA DB
+    ···········································································
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+█ PROCESSES
+    ■ DEPURATION                          █ Updated: Andrés García - 08/08/2018
+        ·······································································
+        Process of revision and correction of the source code. It is done by the developer
+        before making functional delivery of a piece of software.
+
+        ■ Elements: files, classes, properties, methods, functions, variables,
+        and other similar.
+
+        TASKS TO EXECUTE:
+            ■ Review and apply style guide, standards and conventions
+            ■ Review and verify
+                ■ Language structures
+                ■ Blanks
+                ■ End of the lines of code
+                ■ Finalize the file with blank line
+                ■ Arrays end with option to add new item
+            ■ Review, correct and improve item names
+            ■ Review and correct the created elements that have no use
+            ■ Review, correct and improve comments
+            ■ Delete test code
+            ■ Review and correct double blanks
+            ■ Review and correct empty lines
+    ···········································································
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■

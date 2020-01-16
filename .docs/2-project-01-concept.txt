@@ -1,0 +1,165 @@
+███████████████████████████████████████████████████████████████████████████████
+PROJECT - CONCEPT
+Conceptualization and general idea of the project
+···············································································
+
+█ DEFINITION                        █ Updated: Andrés García - [17/dec/2019]
+    ···········································································
+    Legend Sports in a software project to create a sports betting web app for
+    the U.S. market.
+
+    ■ USERS
+        It is the person who uses the app (APP) to place "some types" of bets
+        for "some" sports; and it's "some" because the app doesn't allow all
+        types of bets, or all types of sports.
+
+        In order for a user to place a bet, the user must be registered and
+        log in to the app. There, you will have to FILTER the tournament
+        list to find the tournament of your interest and thus REGISTER by
+        placing at least one bet if the user has sufficient money (BALANCE).
+    ···········································································
+
+    ■ TOURNAMENTS
+        The tournament is a database record which, in addition to tournament
+        information such as: the registration price (BUY-IN), the initial chips
+        (CHIPS), etc. Group together one or more sports EVENTS, such as matches,
+        containing the start date, Team A and Team B and other information.
+
+        When a user registers for a tournament, at least with one bet, he/she is
+        denounced from his BALANCE (and also records) the value of the tournament
+        (BUY-IN) and the COMMISSION by the operator (app). Bets within the
+        tournament are not placedwith money but with chips. And as each event in
+        which it has been wagered ends, if the bet is in the user's favor, the
+        chips bet plus the agreed winning are returned (when placing a bet, the
+        likely win is shown). If the bet, on the other hand, is not in the user's
+        favor, those chips are lost.
+
+        Tournaments have a limit (minimum and maximum at the same time) of users
+        to register (Heads-up (2), Full table (10) and Unlimited). When the limit
+        is met, no more users can be registered; if the limit is met the
+        tournament is canceled, and the BUY-IN and COMMISSION are returned to the
+        user. For unlimited users, no more users can be registered if the EVENT
+        has started and TORNEO does not allow late registration.
+    ···········································································
+
+    ■ HOW TO WIN
+        As each EVENT ends, it is determined who won or lost. And those who win,
+        earn chips that add up to the available chips and chips wagered on events
+        that aren't yet happening. This generates a RANKING that is a list of
+        users and the tabs that have sorted from which the most tabs have the
+        one that has the least. Users who no longer have tokens are discarded.
+
+        All this information is changing at all times, from the results (API
+        jsonodds.com) to the tabs won and the finished events. That being the
+        case, ranking always varies in real time.
+
+        The award is set when creating the tournament and is based on a table,
+        although it can also be customized; and determines which RANKING positions
+        receive prize money. Since the tournament also sets what the prize will
+        look like. When all TORNEO EVENTS have ended, the award happens with
+        return to BALANCE of the favored users.
+
+        It must be said that while this is part of the logic of the application,
+        there must be a dynamism in the user's interaction with the app and
+        constant feedback such as:
+            ■  Record, send emails and show notifications when making deposits,
+            winning bets, winning in a tournament, among others.
+    ···········································································
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+█ APP/HOME/FILTERS                     █ Updated: Andrés García - [17/dec/2019]
+    ···········································································
+    ■ Type
+        All (Single and Multiple)
+        Single (Tournament with only one sport in its events)
+        Multiple (Tournaments with more than one sport in their events)
+    ···········································································
+
+    ■ Sports
+
+    ···········································································
+
+    ■ Buy-In
+        All
+        Freeroll (Free registration $0 to a tournament)
+        Low (Low: registration between $1 and $49 for a tournament)
+        Medium: Record between $50 and $199 for a tournament)
+        High: record over $200 for a tournament)
+    ···········································································
+
+    ■ Time Frame
+        All
+        Freeroll (Free registration to a tournament)
+        Low (Low: registration between $1 and $49 for a tournament)
+        Medium: Record between $50 and $199 for a tournament)
+        High: record over $200 for a tournament)
+    ···········································································
+
+    ■ Players
+        All
+        Heads-Up
+        Single table
+        Unlimited
+    ···········································································
+
+    ■ Show upcoming only Show tournaments that have not started (Announced, Registering, Late registering)
+
+    ■ Search By Tournament Name Deletes other filters and searches by tournament name
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+
+█ TABLE - PRIZES                       █ Updated: Andrés García - [16/jan/2020]
+    ···········································································
+    ■ POSITION/PLAYERS
+                2       10      11-18   19-27   28-36   37-50   51-66   67-83   84-117  118-175     176-215     216-290     291-415     416-550     551-700     701-900     901-1100
+        1       100%    50.00%  40.00%  40.00%  33.00%  29.00%  26.00%  25.50%  25.00%  23.00%      22.50%      21.50%      20.50%      19.50%      19.25%      19.20%      19.11%
+        2               30.00%  30.00%  23.00%  20.00%  18.00%  16.50%  16.00%  15.50%  14.00%      13.50%      13.25%      12.75%      12.25%      12.00%      11.90%      11.80%
+        3               20.00%  20.00%  16.00%  15.00%  13.00%  12.00%  11.50%  11.00%  10.50%      10.30%      9.50%       9.00%       8.50%       8.25%       8.25%       8.20%
+        4                       10.00%  12.00%  11.00%  10.00%  9.50%   9.00%   8.50%   8.00%       7.75%       7.25%       6.70%       6.50%       6.40%       6.35%       6.30%
+        5                               9.00%   8.00%   8.00%   8.00%   7.50%   7.00%   6.00%       6.00%       5.50%       5.20%       5.00%       4.90%       4.85%       4.80%
+        6                                       7.00%   7.00%   6.50%   6.00%   5.50%   4.50%       4.50%       4.20%       3.90%       3.70%       3.60%       3.55%       3.50%
+        7                                       6.00%   6.00%   5.00%   4.50%   4.00%   3.50%       3.50%       3.10%       2.90%       2.70%       2.65%       2.60%       2.55%
+        8                                               5.00%   4.00%   3.50%   3.00%   2.90%       2.70%       2.50%       2.30%       2.20%       2.15%       2.10%       2.05%
+        9                                               4.00%   3.50%   3.00%   2.50%   2.40%       2.10%       2.00%       1.80%       1.70%       1.65%       1.60%       1.55%
+        10-12                                                   3.00%   2.50%   2.20%   2.00%       1.65%       1.60%       1.40%       1.30%       1.30%       1.25%       1.23%
+        13-15                                                           2.00%   2.00%   1.70%       1.35%       1.30%       1.10%       1.05%       1.05%       1.00%       0.95%
+        16-18                                                                   1.80%   1.40%       1.10%       1.05%       0.90%       0.85%       0.80%       0.75%       0.70%
+        19-27                                                                           1.10%       0.90%       0.85%       0.75%       0.65%       0.60%       0.55%       0.52%
+        28-36                                                                                       0.75%       0.70%       0.60%       0.55%       0.50%       0.45%       0.42%
+        37-45                                                                                                   0.60%       0.50%       0.45%       0.40%       0.35%       0.33%
+        46-63                                                                                                               0.45%       0.40%       0.35%       0.29%       0.26%
+        64-81                                                                                                                           0.35%       0.30%       0.24%       0.21%
+        82-99                                                                                                                                       0.25%       0.21%       0.18%
+        100-126                                                                                                                                                 0.19%       0.16%
+        127-153                                                                                                                                                             0.15%
+    ···········································································
+
+    ■ LOGIC
+        id      min     max         table
+        1       2       2           {
+                                        positions: 1
+                                        1: '100%'
+                                    }
+        2       10      10          {
+                                        positions: 3
+                                        1: '50%'
+                                        2: '30%'
+                                        3: '20%'
+                                    }
+        3       11      18          {
+                                        positions: 4
+                                        1: '40%'
+                                        2: '30%'
+                                        3: '20%'
+                                        4: '10%'
+                                    }
+        4       19      27          {
+                                        positions: 5
+                                        1: '40%'
+                                        2: '23%'
+                                        3: '16%'
+                                        4: '12%'
+                                        5: '9%'
+                                    }
+    ···········································································
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
