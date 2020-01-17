@@ -2,7 +2,7 @@
     @extends('backstage.config.layout')
 
 {{-- VARS --}}
-    @section('title', 'Show config')
+    @section('title', 'Configuration')
 
 {{-- FORM --}}
     @section('form_method', '')
