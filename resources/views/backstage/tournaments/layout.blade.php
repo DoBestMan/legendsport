@@ -490,6 +490,7 @@
                                     id="SelectSport"
                                     name="SelectSport"
                                     class="form-control form-control-sm"
+                                    v-model="selected"
                                     >
                                     <option value="">All</option>
                                     <option value="NBA">NBA</option>
@@ -515,11 +516,9 @@
 
                             <div class="offset-2 offset-lg-1 col-1">
                                 <label for=""></label>
-
                                 <button class="btn btn-dark"
-                                    type="submit"
-                                    form="FormSaveUser"
-                                    @yield('buttonSave_disabled')
+                                    type="button"
+                                    v-on:click="updateEvent(selected)"
                                 >Filter</button>
                             </div>
                         </div>
@@ -610,7 +609,6 @@
                             type="@yield('buttonSave_formType')"
                             form="@yield('buttonSave_formId')"
                             @yield('buttonSave_disabled')
-                            @click="isValidForm()"
                         >Save</button>
                     @endif
                 </div>

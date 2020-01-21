@@ -4,7 +4,7 @@
 
     route::domain($backstage)->group(function (){
         Route::get('/', 'Backstage\HomeController@index')->name('backstage.home');
-
+        Route::post('/tournaments/get-team', 'Backstage\TournamentsController@getTeam');
         Route::get('/config', 'Backstage\ConfigController@show')->name('config.show');
         Route::get('/config/edit', 'Backstage\ConfigController@edit')->name('config.edit');
         Route::put('/config', 'Backstage\ConfigController@update')->name('config.update');

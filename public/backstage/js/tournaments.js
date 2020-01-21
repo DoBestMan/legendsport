@@ -93,6 +93,15 @@ var vm = new Vue({
                         || selected.Sport !== event.Sport
                 )];
         },
+        updateEvent: function(sports_name) {
+            axios.post('/tournaments/get-team', {
+                SelectSport: `${sports_name}`
+            })
+            .then(res => {
+                this.events = res.data;
+            })
+            .catch(e => console.log(e));
+        }
     },
 
     computed: {
