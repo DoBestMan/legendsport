@@ -68,6 +68,25 @@ class TournamentsController extends Controller
             ->with('numFirstItemPage', 0);
     }
 
+    public function getTeam(Request $request)
+    {
+        $data = json_decode(file_get_contents("php://input"), TRUE);
+        $appKey = "3b279a7d-7d95-4eda-89cb-3c1f96093fc6";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://jsonodds.com/api/odds/$request->SelectSport");
+        curl_setopt($ch, CURLOPT_HTTPGET, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'x-api-key:' . $appKey
+        ));
+
+        $res = curl_exec($ch);
+        $response = json_decode($res);
+
+        return $response;
+    }
+
     public function store(Request $request)
     {
         $this->validation($request);

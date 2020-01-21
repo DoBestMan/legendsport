@@ -25,6 +25,8 @@ var vm = new Vue({
         prizePool: '',
         prizes: '',
         search: '',
+        selectedEvents: [],
+        selected: ''
     },
 
     created: function () {
@@ -38,7 +40,7 @@ var vm = new Vue({
             this.commission = phpVars.config['commission'];
             this.chips = phpVars.config['chips'];
         }
-    
+
         this.lateRegister = phpVars.lateRegister;
         this.prizePool = phpVars.prizePool;
         this.prizes = phpVars.prizes;
@@ -46,8 +48,8 @@ var vm = new Vue({
     },
 
     methods: {
-        switchNameSport: function (a){
-            switch(a){   
+        switchNameSport: function (a) {
+            switch (a) {
                 case 1: return "NBA";
                 case 2: return "NCAAB";
                 case 3: return "NCAAF";
@@ -59,27 +61,50 @@ var vm = new Vue({
                 case 15: return "AHL";
                 case 16: return "SHL";
                 case 17: return "17";
-                default: return a;      
+                default: return a;
             }
         },
 
         sendServer: function () {
-            axios.get('',{
+            axios.get('', {
                 userName: 'Fred',
                 userEmail: 'Flintstone@gmail.com'
             })
 
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-        }
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
 
+        includeEvent: function (event) {
+            if (this.selectedEvents.includes(event) === false) {
+                this.selectedEvents.push(event);
+            }
+        },
+
+        removeEvent: function (event) {
+            this.selectedEvents =
+                [...this.selectedEvents.filter(
+                    selected =>
+                        selected.HomeTeam !== event.HomeTeam || selected.AwayTeam !== event.AwayTeam
+                        || selected.Sport !== event.Sport
+                )];
+        },
+        updateEvent: function(sports_name) {
+            axios.post('/tournaments/get-team', {
+                SelectSport: `${sports_name}`
+            })
+            .then(res => {
+                this.events = res.data;
+            })
+            .catch(e => console.log(e));
+        }
     },
 
     computed: {
-        
+
     },
 })
