@@ -547,10 +547,42 @@
                                             <button
                                                 id="enlaceajax"
                                                 type="button"
-                                                form="formSport"
                                                 class="btn btn-dark"
-                                                @yield('buttonSave_disabled')
+                                                v-on:click="includeEvent(event)"
                                             >include</button>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                        <hr>
+                    </div>
+                    <div class="table-responsive">
+                        <h5>Included Events</h5>
+                        <table class="headerFixed table table-sm table-light table-striped table-borderless table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col" width="280px">Date</th>
+                                    <th scope="col" width="220px">Home team</th>
+                                    <th scope="col" width="230px">Away Team</th>
+                                    <th scope="col" width="200px">Sport</th>
+                                    <th scope="col" width="200px"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template v-for="selected in selectedEvents">
+                                    <tr>
+                                        <td class="text-truncate" width="300px">@{{ selected.MatchTime }}</td>
+                                        <td class="text-truncate" width="210px">@{{ selected.HomeTeam }}</td>
+                                        <td class="text-truncate" width="230px">@{{ selected.AwayTeam }}</td>
+                                        <td class="text-truncate" width="200px"v-html="switchNameSport(selected.Sport)">@{{ selected.Sport }}</td>
+                                        <td class="text-truncate" width="200px">
+                                            <button
+                                                id="enlaceajax"
+                                                type="button"
+                                                class="btn btn-dark"
+                                                v-on:click="removeEvent(selected)"
+                                            >remove</button>
                                         </td>
                                     </tr>
                                 </template>
