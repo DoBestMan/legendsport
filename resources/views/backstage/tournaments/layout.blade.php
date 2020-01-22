@@ -108,11 +108,11 @@
             </div>
 
             <div id="buttonsFrm" class="row">
-                <div class="col-3 col-lg-1">
+                <div class="col-3 col-lg-2">
                     <button id="buttonAdd" class="btn btn-dark btn-block"
                         @yield('buttonAdd_disabled')
                         onclick="window.location='@yield('buttonAdd_onclick')';"
-                    >Crear</button>
+                    >Create</button>
                 </div>
             </div>
         @else
@@ -138,34 +138,13 @@
                                         class="form-control @yield('name_class_error')"
                                         value="@yield('name_value')"
                                         @yield('form_disabled')
+                                        v-model="name"
+                                        required
                                     >
 
                                     {{-- <small class="form-text text-muted">description</small> --}}
 
                                     @error('name')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div id="typeFrm" class="form-row form-group">
-                                <div class="col-12 col-lg-3 text-right">
-                                    <label for="type" class="col-form-label">Type</label>
-                                </div>
-
-                                <div class="col-12 col-lg-3">
-                                    <select name="type"
-                                        id="type"
-                                        class="form-control @yield('type_class_error')"
-                                        @yield('form_disabled')
-                                        >
-                                        <option value="single" @yield('type_selected_single')>Single</option>
-                                        <option value="multiple" @yield('type_selected_multiple')>Multiple</option>
-                                    </select>
-
-                                    {{-- <small class="form-text text-muted">description</small> --}}
-
-                                    @error('type')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -182,6 +161,7 @@
                                         class="form-control @yield('players_limit_class_error')"
                                         v-model="playersLimit"
                                         @yield('form_disabled')
+                                        required
                                         >
                                         <option value='Heads-Up' @yield('players_limit_selected_Heads_Up')>Heads-Up</option>
                                         <option value='Full' @yield('players_limit_selected_Full')>Full</option>
@@ -218,6 +198,7 @@
                                     <input type="hidden"
                                         name="buy_in"
                                         v-model="buy_in"
+                                        required
                                     >
 
                                     @error('buy_in')
@@ -247,6 +228,7 @@
                                     <input type="hidden"
                                         name="commission"
                                         v-model="commission"
+                                        required
                                     >
 
                                     @error('commission')
@@ -278,6 +260,7 @@
                                     <input type="hidden"
                                         name="chips"
                                         v-model="chips"
+                                        required
                                     >
 
                                     @error('chips')
@@ -297,6 +280,7 @@
                                         class="form-control @yield('late_register_class_error')"
                                         v-model="lateRegister"
                                         @yield('form_disabled')
+                                        required
                                         >
                                         <option></option>
                                         <option value=1 @yield('late_register_selected_true')>Yes</option>
@@ -323,6 +307,8 @@
                                             value="@yield('interval_value')"
                                             placeholder=""
                                             @yield('form_disabled')
+                                            v-model="interval"
+                                            required
                                         >
 
                                         {{-- <small class="form-text text-muted">description</small> --}}
@@ -344,6 +330,8 @@
                                             value="@yield('late_register_rule_value_value')"
                                             placeholder=""
                                             @yield('form_disabled')
+                                            v-model="lateRegisterValue"
+                                            required
                                         >
 
                                         {{-- <small class="form-text text-muted">description</small> --}}
@@ -366,6 +354,7 @@
                                         class="form-control @yield('prize_pool_class_error')"
                                         v-model="prizePool"
                                         @yield('form_disabled')
+                                        required
                                         >
                                         <option></option>
                                         <option value='Auto'>Auto</option>
@@ -392,6 +381,8 @@
                                             value="@yield('fixed_value')"
                                             placeholder=""
                                             @yield('form_disabled')
+                                            v-model="prizePoolValue"
+                                            required
                                         >
 
                                         {{-- <small class="form-text text-muted">description</small> --}}
@@ -411,6 +402,7 @@
                                             value=""
                                             placeholder=""
                                             @yield('form_disabled')
+                                            required
                                         >
 
                                         @error('fixed_value')
@@ -431,6 +423,7 @@
                                         class="form-control @yield('prizes_class_error')"
                                         v-model="prizes"
                                         @yield('form_disabled')
+                                        required
                                         >
                                         <option></option>
                                         <option value='Auto'>Auto</option>
@@ -450,8 +443,11 @@
                                 <div class="col-12 col-lg-4">
                                     <select name="state"
                                         id="state"
-                                        class="form-control @yield('state_class_error')"
+                                        class="form-control
+                                        @yield('state_class_error')"
                                         @yield('form_disabled')
+                                        v-model="state"
+                                        required
                                         >
                                         <option></option>
                                         <option value="announced" @yield('state_selected_announced')>Announced</option>
@@ -518,7 +514,7 @@
                                 <label for=""></label>
                                 <button class="btn btn-dark"
                                     type="button"
-                                    v-on:click="updateEvent(selected)"
+                                    v-on:click="updateEvents(selected)"
                                 >Filter</button>
                             </div>
                         </div>
@@ -606,9 +602,7 @@
                 <div class="offset-2 offset-lg-1 col-1">
                     @if ($hasButtonSave == true)
                         <button class="btn btn-dark"
-                            type="@yield('buttonSave_formType')"
-                            form="@yield('buttonSave_formId')"
-                            @yield('buttonSave_disabled')
+                            v-on:click="saveEvents()"
                         >Save</button>
                     @endif
                 </div>
