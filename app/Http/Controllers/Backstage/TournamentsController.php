@@ -5,6 +5,8 @@ use JavaScript;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Backstage\Tournaments;
+use App\Models\Backstage\TournamentEvents;
+use App\Models\Backstage\ApiEvents;
 use App\Models\Backstage\Config;
 
 class TournamentsController extends Controller
@@ -34,10 +36,8 @@ class TournamentsController extends Controller
             ->with('numFirstItemPage', $numFirstItemPage);
     }
 
-    public function create(Request $request)
-    { 
-        $data = json_decode(file_get_contents("php://input"), TRUE);
-
+    public function getTeams(Request $request)
+    {
         $appKey = "3b279a7d-7d95-4eda-89cb-3c1f96093fc6";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://jsonodds.com/api/odds/$request->SelectSport");
@@ -45,11 +45,20 @@ class TournamentsController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'x-api-key:' . $appKey
+            'x-api-key:' . $appKey,
         ));
 
         $res = curl_exec($ch);
         $response = json_decode($res);
+
+        return $response;
+    }
+
+    public function create(Request $request)
+    { 
+        $data = json_decode(file_get_contents("php://input"), TRUE);
+
+        $response = TournamentsController::getTeams($request);
 
         $config = Config::first();
         
@@ -68,32 +77,21 @@ class TournamentsController extends Controller
             ->with('numFirstItemPage', 0);
     }
 
-    public function getTeam(Request $request)
-    {
-        $data = json_decode(file_get_contents("php://input"), TRUE);
-        $appKey = "3b279a7d-7d95-4eda-89cb-3c1f96093fc6";
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://jsonodds.com/api/odds/$request->SelectSport");
-        curl_setopt($ch, CURLOPT_HTTPGET, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'x-api-key:' . $appKey
-        ));
-
-        $res = curl_exec($ch);
-        $response = json_decode($res);
-
-        return $response;
-    }
-
     public function store(Request $request)
     {
         $this->validation($request);
 
+        $api_id = uniqid('API-',true);
+
+        $api_data = $request->ApiData;
+
+        foreach ($api_data as &$key) {
+            unset($key['Odds']);
+        }
+
         $tournament = new Tournaments;
         $tournament->name = $request->name;
-        $tournament->type = $request->type;
+        $tournament->type = (count($api_data)>1)?'Multiple':'Single';
         $tournament->players_limit = $request->players_limit;
         $tournament->buy_in = $request->buy_in;
         $tournament->chips = $request->chips;
@@ -105,7 +103,17 @@ class TournamentsController extends Controller
         $tournament->state = $request->state;
         $tournament->save();
 
-        return redirect()->route('tournaments.index');
+        $api_events = new ApiEvents;
+        $api_events->api_id = $api_id;
+        $api_events->api_data = json_encode($api_data);
+        $api_events->save();
+
+        $tournament_event = new TournamentEvents;
+        $tournament_event->tournament_id = $tournament->id;
+        $tournament_event->api_event_id = $api_events->id;
+        $tournament_event->save();
+
+        return 'Data Saved Successfully';
     }
 
     public function show(Tournaments $tournament)
@@ -174,7 +182,6 @@ class TournamentsController extends Controller
     {
         $request->validate([
             'name'=> 'required',
-            'type'=> 'required',
             'players_limit'=> 'required',
             'buy_in'=> 'required',
             'chips'=> 'required',
