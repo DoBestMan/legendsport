@@ -17,19 +17,24 @@ var vm = new Vue({
         },
 
         events: [],
-        lateRegister: '',
+        name: '',
         playersLimit: '',
         buy_in: 0,
         commission: 0,
         chips: 0,
+        lateRegister: '',
+        interval: '',
+        lateRegisterValue: '',
         prizePool: '',
+        prizePoolValue: '',
         prizes: '',
+        state: '',
         search: '',
         selectedEvents: [],
-        selected: ''
+        selected: '',
     },
 
-    created: function () {
+    created: function() {
         this.buy_in = phpVars.buy_in;
         this.events = phpVars.apiSports;
 
@@ -48,60 +53,102 @@ var vm = new Vue({
     },
 
     methods: {
-        switchNameSport: function (a) {
+        switchNameSport: function(a) {
             switch (a) {
-                case 1: return "NBA";
-                case 2: return "NCAAB";
-                case 3: return "NCAAF";
-                case 4: return "NFL";
-                case 5: return "NHL";
-                case 7: return "SOCCER";
-                case 11: return "MMA (UFC)";
-                case 14: return "KHL";
-                case 15: return "AHL";
-                case 16: return "SHL";
-                case 17: return "17";
-                default: return a;
+                case 1:
+                    return "NBA";
+                case 2:
+                    return "NCAAB";
+                case 3:
+                    return "NCAAF";
+                case 4:
+                    return "NFL";
+                case 5:
+                    return "NHL";
+                case 7:
+                    return "SOCCER";
+                case 11:
+                    return "MMA (UFC)";
+                case 14:
+                    return "KHL";
+                case 15:
+                    return "AHL";
+                case 16:
+                    return "SHL";
+                case 17:
+                    return "17";
+                default:
+                    return a;
             }
         },
 
-        sendServer: function () {
+        sendServer: function() {
             axios.get('', {
                 userName: 'Fred',
                 userEmail: 'Flintstone@gmail.com'
             })
-
-                .then(function (response) {
-                    console.log(response);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+            .then(function(response) {
+                console.log(response);
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
         },
 
-        includeEvent: function (event) {
+        includeEvent: function(event) {
             if (this.selectedEvents.includes(event) === false) {
                 this.selectedEvents.push(event);
             }
         },
 
-        removeEvent: function (event) {
-            this.selectedEvents =
-                [...this.selectedEvents.filter(
-                    selected =>
-                        selected.HomeTeam !== event.HomeTeam || selected.AwayTeam !== event.AwayTeam
-                        || selected.Sport !== event.Sport
-                )];
-        },
-        updateEvent: function(sports_name) {
+        updateEvents: function(sport_name) {
             axios.post('/tournaments/get-team', {
-                SelectSport: `${sports_name}`
+                    SelectSport: `${sport_name}`
+                })
+                .then(res => {
+                    this.events = res.data;
+                })
+                .catch(e => console.log(e));
+        },
+
+        removeEvent: function(event) {
+            this.selectedEvents = [...this.selectedEvents.filter(
+                selected =>
+                selected.HomeTeam !== event.HomeTeam ||
+                selected.AwayTeam !== event.AwayTeam ||
+                selected.Sport !== event.Sport
+            )];
+        },
+
+        saveEvents: function() {
+            axios.post('/tournaments', {
+                ApiData: this.selectedEvents,
+                name: this.name,
+                players_limit: this.playersLimit,
+                buy_in: this.buy_in,
+                chips: this.chips,
+                commission: this.commission,
+                late_register: this.lateRegister,
+                late_register_rule: {
+                    interval: this.interval,
+                    value: this.lateRegisterValue,
+                },
+                prize_pool: {
+                    type: this.prizePool,
+                    fixed_value: this.prizePoolValue,
+                },
+                prizes: {
+                    type: this.prizes
+                },
+                state: this.state,
             })
             .then(res => {
-                this.events = res.data;
+                if (res.status == '200') {
+                    location.replace('/tournaments');
+                }
             })
             .catch(e => console.log(e));
-        }
+        },
     },
 
     computed: {
