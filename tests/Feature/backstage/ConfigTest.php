@@ -27,7 +27,7 @@ class ConfigTest extends TestCase
 
         $this->get(route('config.show', $config->config))
             ->assertStatus(200)
-            ->assertSee('Show config')
+            ->assertSee('Configuration')
             ->assertSee($config->config['chips']);
     }
 
