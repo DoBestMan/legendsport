@@ -33,7 +33,7 @@ class TournamentsTest extends TestCase
 
         $this->get(route('tournaments.create'))
             ->assertStatus(200)
-            ->assertSee('Guardar');
+            ->assertSee('Save');
     }
 
     public function test_backstage_tournaments_create_validate_name_required()
@@ -83,31 +83,6 @@ class TournamentsTest extends TestCase
 
         $this->assertDatabaseMissing('tournaments', [
             'type' => '',
-        ]);
-    }
-
-    public function test_backstage_tournaments_create_validate_prize_pool_required()
-    {
-        $this->from(route('tournaments.create'))
-            ->post(route('tournaments.store'), [
-                'avatar' => 1,
-                'name'=> 'name',
-                'type'=> 1,
-                'prize_pool'=> '',
-                'players_limit'=> 1,
-                'buy_in'=> 1,
-                'chips'=> 1,
-                'commission'=> 1,
-                'late_register'=> 1,
-                'late_register_rule'=> 1,
-                'state'=> 1,
-                'prizes'=> 1,
-            ])
-            ->assertRedirect(route('tournaments.create'))
-            ->assertSessionHasErrors(['prize_pool']);
-
-        $this->assertDatabaseMissing('tournaments', [
-            'prize_pool' => '',
         ]);
     }
 
@@ -236,31 +211,6 @@ class TournamentsTest extends TestCase
         ]);
     }
 
-    public function test_backstage_tournaments_create_validate_late_register_rule_required()
-    {
-        $this->from(route('tournaments.create'))
-            ->post(route('tournaments.store'), [
-                'avatar' => 1,
-                'name'=> 'name',
-                'type'=> 1,
-                'prize_pool'=> 1,
-                'players_limit'=> 1,
-                'buy_in'=> 1,
-                'commission'=> 1,
-                'chips'=> 1,
-                'late_register'=> 1,
-                'late_register_rule'=> '',
-                'state'=> 1,
-                'prizes'=> 1,
-            ])
-            ->assertRedirect(route('tournaments.create'))
-            ->assertSessionHasErrors(['late_register_rule']);
-
-        $this->assertDatabaseMissing('tournaments', [
-            'late_register_rule' => '',
-        ]);
-    }
-
     public function test_backstage_tournaments_create_validate_state_required()
     {
         $this->from(route('tournaments.create'))
@@ -315,18 +265,17 @@ class TournamentsTest extends TestCase
     {
         $this->from(route('tournaments.create'))
             ->post(route('tournaments.store'), [
-                'avatar' => 1,
                 'name'=> 'name',
-                'type'=> 1,
-                'prize_pool'=> 1,
-                'players_limit'=> 1,
+                'type'=> 'Single',
+                'players_limit'=> 'Heads-Up',
                 'buy_in'=> 1,
                 'commission'=> 1,
                 'chips'=> 1,
                 'late_register'=> 1,
                 'late_register_rule'=> 1,
-                'state'=> 1,
+                'prize_pool'=> 1,
                 'prizes'=> 1,
+                'state'=> 'Announced',
             ]);
 
         $this->assertDatabaseHas('tournaments', [
@@ -362,18 +311,17 @@ class TournamentsTest extends TestCase
         $tournament = $this->create_Tournament();
 
         $this->put(route('tournaments.update', $tournament), [
-                'avatar' => 1,
                 'name'=> 'name',
-                'type'=> 1,
-                'prize_pool'=> 1,
-                'players_limit'=> 1,
+                'type'=> 'Single',
+                'players_limit'=> 'Heads-Up',
                 'buy_in'=> 1,
                 'commission'=> 1,
                 'chips'=> 1,
                 'late_register'=> 1,
                 'late_register_rule'=> 1,
-                'state'=> 1,
+                'prize_pool'=> 1,
                 'prizes'=> 1,
+                'state'=> 'Announced',
             ])->assertRedirect(route('tournaments.index'));
 
         $this->assertDatabaseHas('tournaments', [
@@ -387,18 +335,17 @@ class TournamentsTest extends TestCase
 
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
-                'avatar' => 1,
                 'name'=> '',
-                'type'=> 1,
-                'prize_pool'=> 1,
-                'players_limit'=> 1,
+                'type'=> 'Single',
+                'players_limit'=> 'Heads-Up',
                 'buy_in'=> 1,
-                'chips'=> 1,
                 'commission'=> 1,
+                'chips'=> 1,
                 'late_register'=> 1,
                 'late_register_rule'=> 1,
-                'state'=> 1,
+                'prize_pool'=> 1,
                 'prizes'=> 1,
+                'state'=> 'Announced',
             ])
             ->assertRedirect(route('tournaments.edit', $tournament))
             ->assertSessionHasErrors(['name']);
@@ -414,18 +361,17 @@ class TournamentsTest extends TestCase
 
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
-                'avatar' => 1,
                 'name'=> 'name',
                 'type'=> '',
-                'prize_pool'=> 1,
-                'players_limit'=> 1,
+                'players_limit'=> 'Heads-Up',
                 'buy_in'=> 1,
-                'chips'=> 1,
                 'commission'=> 1,
+                'chips'=> 1,
                 'late_register'=> 1,
                 'late_register_rule'=> 1,
-                'state'=> 1,
+                'prize_pool'=> 1,
                 'prizes'=> 1,
+                'state'=> 'Announced',
             ])
             ->assertRedirect(route('tournaments.edit', $tournament))
             ->assertSessionHasErrors(['type']);
@@ -435,51 +381,23 @@ class TournamentsTest extends TestCase
         ]);
     }
 
-    public function test_backstage_tournaments_update_validate_prize_pool_required()
-    {
-        $tournament = $this->create_Tournament();
-
-        $this->from(route('tournaments.edit', $tournament))
-            ->put(route('tournaments.update', $tournament), [
-                'avatar' => 1,
-                'name'=> 'name',
-                'type'=> 1,
-                'prize_pool'=> '',
-                'players_limit'=> 1,
-                'buy_in'=> 1,
-                'chips'=> 1,
-                'commission'=> 1,
-                'late_register'=> 1,
-                'late_register_rule'=> 1,
-                'state'=> 1,
-                'prizes'=> 1,
-            ])
-            ->assertRedirect(route('tournaments.edit', $tournament))
-            ->assertSessionHasErrors(['prize_pool']);
-
-        $this->assertDatabaseMissing('tournaments', [
-            'prize_pool' => '',
-        ]);
-    }
-
     public function test_backstage_tournaments_update_validate_players_limit_required()
     {
         $tournament = $this->create_Tournament();
 
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
-                'avatar' => 1,
                 'name'=> 'name',
-                'type'=> 1,
-                'prize_pool'=> 1,
+                'type'=> 'Single',
                 'players_limit'=> '',
                 'buy_in'=> 1,
-                'chips'=> 1,
                 'commission'=> 1,
+                'chips'=> 1,
                 'late_register'=> 1,
                 'late_register_rule'=> 1,
-                'state'=> 1,
+                'prize_pool'=> 1,
                 'prizes'=> 1,
+                'state'=> 'Announced',
             ])
             ->assertRedirect(route('tournaments.edit', $tournament))
             ->assertSessionHasErrors(['players_limit']);
@@ -495,18 +413,17 @@ class TournamentsTest extends TestCase
 
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
-                'avatar' => 1,
                 'name'=> 'name',
-                'type'=> 1,
-                'prize_pool'=> 1,
-                'players_limit'=> 1,
+                'type'=> 'Single',
+                'players_limit'=> 'Heads-Up',
                 'buy_in'=> '',
-                'chips'=> 1,
                 'commission'=> 1,
+                'chips'=> 1,
                 'late_register'=> 1,
                 'late_register_rule'=> 1,
-                'state'=> 1,
+                'prize_pool'=> 1,
                 'prizes'=> 1,
+                'state'=> 'Announced',
             ])
             ->assertRedirect(route('tournaments.edit', $tournament))
             ->assertSessionHasErrors(['buy_in']);
@@ -522,18 +439,17 @@ class TournamentsTest extends TestCase
 
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
-                'avatar' => 1,
                 'name'=> 'name',
-                'type'=> 1,
-                'prize_pool'=> 1,
-                'players_limit'=> 1,
+                'type'=> 'Single',
+                'players_limit'=> 'Heads-Up',
                 'buy_in'=> 1,
-                'chips'=> '',
                 'commission'=> 1,
+                'chips'=> '',
                 'late_register'=> 1,
                 'late_register_rule'=> 1,
-                'state'=> 1,
+                'prize_pool'=> 1,
                 'prizes'=> 1,
+                'state'=> 'Announced',
             ])
             ->assertRedirect(route('tournaments.edit', $tournament))
             ->assertSessionHasErrors(['chips']);
@@ -549,18 +465,17 @@ class TournamentsTest extends TestCase
 
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
-                'avatar' => 1,
                 'name'=> 'name',
-                'type'=> 1,
-                'prize_pool'=> 1,
-                'players_limit'=> 1,
+                'type'=> 'Single',
+                'players_limit'=> 'Heads-Up',
                 'buy_in'=> 1,
-                'chips'=> 1,
                 'commission'=> '',
+                'chips'=> 1,
                 'late_register'=> 1,
                 'late_register_rule'=> 1,
-                'state'=> 1,
+                'prize_pool'=> 1,
                 'prizes'=> 1,
+                'state'=> 'Announced',
             ])
             ->assertRedirect(route('tournaments.edit', $tournament))
             ->assertSessionHasErrors(['commission']);
@@ -570,51 +485,23 @@ class TournamentsTest extends TestCase
         ]);
     }
 
-    public function test_backstage_tournaments_update_validate_late_register_rule_required()
-    {
-        $tournament = $this->create_Tournament();
-
-        $this->from(route('tournaments.edit', $tournament))
-            ->put(route('tournaments.update', $tournament), [
-                'avatar' => 1,
-                'name'=> 'name',
-                'type'=> 1,
-                'prize_pool'=> 1,
-                'players_limit'=> 1,
-                'buy_in'=> 1,
-                'chips'=> 1,
-                'commission'=> 1,
-                'late_register'=> 1,
-                'late_register_rule'=> '',
-                'state'=> 1,
-                'prizes'=> 1,
-            ])
-            ->assertRedirect(route('tournaments.edit', $tournament))
-            ->assertSessionHasErrors(['late_register_rule']);
-
-        $this->assertDatabaseMissing('tournaments', [
-            'late_register_rule' => '',
-        ]);
-    }
-
     public function test_backstage_tournaments_update_validate_state_required()
     {
         $tournament = $this->create_Tournament();
 
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
-                'avatar' => 1,
                 'name'=> 'name',
-                'type'=> 1,
-                'prize_pool'=> 1,
-                'players_limit'=> 1,
+                'type'=> 'Single',
+                'players_limit'=> 'Heads-Up',
                 'buy_in'=> 1,
-                'chips'=> 1,
                 'commission'=> 1,
+                'chips'=> 1,
                 'late_register'=> 1,
                 'late_register_rule'=> 1,
-                'state'=> '',
+                'prize_pool'=> 1,
                 'prizes'=> 1,
+                'state'=> '',
             ])
             ->assertRedirect(route('tournaments.edit', $tournament))
             ->assertSessionHasErrors(['state']);
@@ -630,18 +517,17 @@ class TournamentsTest extends TestCase
 
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
-                'avatar' => 1,
                 'name'=> 'name',
-                'type'=> 1,
-                'prize_pool'=> 1,
-                'players_limit'=> 1,
+                'type'=> 'Single',
+                'players_limit'=> 'Heads-Up',
                 'buy_in'=> 1,
-                'chips'=> 1,
                 'commission'=> 1,
+                'chips'=> 1,
                 'late_register'=> 1,
                 'late_register_rule'=> 1,
-                'state'=> '',
+                'prize_pool'=> 1,
                 'prizes'=> '',
+                'state'=> 'Announced',
             ])
             ->assertRedirect(route('tournaments.edit', $tournament))
             ->assertSessionHasErrors(['prizes']);

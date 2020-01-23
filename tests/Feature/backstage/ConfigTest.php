@@ -18,41 +18,39 @@ class ConfigTest extends TestCase
     public function test_backstage_config_show()
     {
         $config = $this->create_config([
-            'config' =>
-            [
-            'chips' => 1,
-            'commission' => 2, 
-            'keep_completed' => 2, 
-            ],
+            'config' => json_encode([
+                'chips' => 10000,
+                'commission' => 2, 
+                'keep_completed' => 2, 
+            ])
         ]);
 
-        $this->get(route('config.show', $config))
+        $this->get(route('config.show', $config->config))
             ->assertStatus(200)
             ->assertSee('Show config')
-            ->assertSee('config[chips]');
+            ->assertSee($config->config['chips']);
     }
 
     public function test_backstage_config_edit()
     {
         $config = $this->create_config([
-            'config' =>
-            [
-            'chips' => 1,
-            'commission' => 2, 
-            'keep_completed' => 2, 
-            ],
+            'config' => json_encode([
+                'chips' => 10000,
+                'commission' => 2, 
+                'keep_completed' => 2, 
+            ]),
         ]);
 
-        $this->get(route('config.edit', $config))
+        $this->get(route('config.edit', $config->config))
             ->assertStatus(200)
-            ->assertSee('config[chips]');
+            ->assertSee($config->config['chips']);
     }
 
     public function test_backstage_config_update()
     {
         $config = $this->create_config();
 
-        $this->put(route('config.update', $config), [
+        $this->put(route('config.update', $config->config), [
                 'config' => 1, 
             ])->assertRedirect(route('config.edit'));
 

@@ -112,7 +112,7 @@
                     <button id="buttonAdd" class="btn btn-dark btn-block"
                         @yield('buttonAdd_disabled')
                         onclick="window.location='@yield('buttonAdd_onclick')';"
-                    >Crear</button>
+                    >Create</button>
                 </div>
             </div>
         @else

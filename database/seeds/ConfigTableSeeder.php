@@ -1,19 +1,12 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Backstage\Config;
 
 class ConfigTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('config')->insert([
-            [
-                'config' => json_encode([
-                    'chips' => 10000,
-                    'commission' => 2, 
-                    'keep_completed' => 2, 
-                ]),
-            ],
-        ]);
+        factory(Config::class)->times(1)->create();
     }
 }
