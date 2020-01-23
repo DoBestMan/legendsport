@@ -1,0 +1,104 @@
+███████████████████████████████████████████████████████████████████████████████
+PROJECT - FILE STRUCTURE
+It's the structure of directories and archives
+···············································································
+
+█ CONFIG
+    ···········································································
+    config                  json                            Keys are fields for configuration
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+█ USERS
+    ···········································································
+    id                      smallInteger
+    avatar                  boolean                         Indicates if it have avatar. A file with the name ID is referenced in a users/avatars location
+    nickname                string          unique
+    email                   string          unique
+    birth_date              date
+    active                  boolean
+    created_at
+    updated_at
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+█ TOURNAMENTS
+    ···········································································
+    id                      integer
+    avatar                  boolean                         Indicates if it have avatar. A file with the name ID is referenced in a users/avatars location
+    name                    string                          Tournament name
+    type                    enum                            If the tournament is single sport or multiple
+        Single (Tournament with only one sport in its events)
+        Multiple (Tournaments with more than one sport in their events)
+    ¿sport/sports?
+    players_limit           enum                            Minimum and maximum number of users who can register. When you comply with the record, the status changes to FULL
+        Heads-Up => 2
+        Full => 10
+        Unlimited => Unlimited (0)
+    buy_in                  smallInteger                    Value of tournament registration
+    chips                   mediumInteger                   Tokens that are given when registering for an event. The creation sets config.default_chips
+    commission              mediumInteger                   Commission charged by the app for registering for an event. The creation sets config.default_commission
+    late_register           boolean                         TRUE allows you to register after the tournament started
+    late_register_rule      json                            Rule with late registration time. Same as PHP format to increase time
+        {
+            interval: d/m,
+            value: number
+        }
+    prize_pool              json                            Prize and mode
+        {
+            type: auto/fixed                                AUTO: The prize will be the total income value of each player / FIXED: the value is fixed
+            fixed: 0                                        Fixed prize value
+        }
+    prizes                  json                            Award and mode sharing
+        {
+            type: auto/fixed                                AUTO: The distribution is done following a table of percentages / FIXED: it is fixed
+        }
+    state                   enum                            Tournament status
+        Announced
+        Registerin
+        Late registerin
+        Runnin
+        Complete
+        Cance
+    created_at
+    updated_at
+    user_admin_id
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+█ TOURNAMENTS_EVENTS
+    ···········································································
+    id                      bigIntenger
+    tournament_id           integer
+    api_event_id            string                         It is the EVENT ID that the API gives, itself, if we want to know of an event, this ID is associated
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+█ TOURNAMENTS_PLAYERS
+    ···········································································
+    id                  bigIntenger
+    tournament_id       integer
+    user_id             smallInteger
+    chips_initial       mediumInteger
+    chips_balance       mediumInteger
+    created_at          datetimeTz
+    updated_at          datetimeTz
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+█ TOURNAMENTS_BETS
+    ···········································································
+    id                          bigIntenger
+    tournament_player_id        smallInteger
+    chips_wager                 mediumInteger
+    chips_win                   mediumInteger
+    status                      enum
+        Win
+        Lost
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+█ TOURNAMENTS_BETS_EVENTS
+    ···········································································
+    id                      bigIntenger
+    tournament_bet_id       bigIntenger
+    tournament_event_id     bigIntenger
+    bet?                     json
+    status                  enum
+        Win
+        Lost
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■

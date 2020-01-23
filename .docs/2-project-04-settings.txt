@@ -1,0 +1,23 @@
+███████████████████████████████████████████████████████████████████████████████
+PROJECT - SETTINGS
+Here you document the project settings
+···············································································
+
+█ FRIENDLY URLS AND NAVIGATION        █ Updated: Jefferson Rivera - 17/dec/2019
+    ■ URLs HOST
+        127.0.0.1       legendsports.dv
+        127.0.0.1       backstage.legendsports.dv
+    ···········································································
+
+    ■ VIRTUAL HOST
+        <VirtualHost *:80>
+            DocumentRoot C:/xampp/htdocs/legendsports.dev/public
+            ServerName legendsports.dv
+        </VirtualHost>
+
+        <VirtualHost *:80>
+            DocumentRoot C:/xampp/htdocs/legendsports.dev/public
+            ServerName backstage.legendsports.dv
+        </VirtualHost>
+    ···········································································
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■

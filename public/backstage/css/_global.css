@@ -7,10 +7,7 @@ a:hover {
 .menu {
   color: hsl(0, 0%, 90%);
   font-weight: 300;
-  letter-spacing: 3px;
   margin-left: 5px;
-  word-spacing: 5px;
-  text-transform: uppercase;
 }
 #menu-frm {
   background-color: hsl(216, 10%, 10%);
@@ -102,4 +99,7 @@ a:hover {
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
+}
+.ui-title {
+  margin-top: 20px;
 }

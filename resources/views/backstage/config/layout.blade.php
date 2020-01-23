@@ -26,9 +26,11 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1>@yield('title')</h1>
+                <h1 class="ui-title">@yield('title')</h1>
             </div>
         </div>
+
+        <hr>
 
         <form id="form"
             method="@yield("form_method")"
@@ -37,12 +39,41 @@
             @yield("form_laravelCsrf")
             @yield("form_laravelMethod")
 
-            <div id="commissionFrm" class="form-row form-group">
-                <div class="col-lg-2 text-right">
+            <div inside="keep_completed" class="form-row form-group">
+                <div class="col-2 text-right">
+                    <label for="keep_completed" class="">Keep completed tournaments</label>
+                </div>
+
+                <div class="col-1">
+                    <input type="number"
+                        name="config[keep_completed]"
+                        id="keep_completed"
+                        class="form-control text-right @yield('keep_completed_class_error')"
+                        value="@yield('keep_completed_value')"
+                        placeholder=""
+                        @yield('form_disabled')
+                    >
+
+                    @error('keep_completed')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <label class="col-auto col-form-label text-muted">
+                    Days that a completed tournament still appears on the tournament list
+                </label>
+            </div>
+
+            <h2>Default values</h2>
+
+            <hr>
+
+            <div inside="commission" class="form-row form-group">
+                <div class="col-2 text-right">
                     <label for="commission" class="col-form-label">Commission</label>
                 </div>
 
-                <div class="col-12 col-lg-1">
+                <div class="col-1">
                     <money
                         id="commission"
                         class="form-control text-right @yield('commission_class_error')"
@@ -53,8 +84,6 @@
                         v-bind="money"
                     ></money>
 
-                    <small class="form-text text-muted">description</small>
-
                     <input type="hidden"
                         name="config[commission]"
                         v-model="commission"
@@ -64,14 +93,18 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+
+                <label class="col-auto col-form-label text-muted">
+                    Commission by default when creating a tournament.
+                </label>
             </div>
 
-            <div id="chipsFrm" class="form-row form-group">
-                <div class="col-12 col-lg-2 text-right">
+            <div inside="chips" class="form-row form-group">
+                <div class="col-2 text-right">
                     <label for="chips" class="col-form-label">Chips</label>
                 </div>
 
-                <div class="col-12 col-lg-1">
+                <div class="col-1">
                     <money
                         id="chips"
                         class="form-control text-right @yield('chips_class_error')"
@@ -83,8 +116,6 @@
                         max=90
                     ></money>
 
-                    <small class="form-text text-muted">description</small>
-
                     <input type="hidden"
                         name="config[chips]"
                         v-model="chips"
@@ -94,33 +125,11 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+
+                <label class="col-auto col-form-label text-muted">
+                    Chips by default when creating a tournament.
+                </label>
             </div>
-
-            <div id="keep_completedFrm" class="form-row form-group">
-                <div class="col-12 col-lg-2 text-right">
-                    <label for="keep_completed" class="col-form-label">Keep completed</label>
-                </div>
-
-                <div class="col-12 col-lg-1">
-                    <input type="number"
-                        name="config[keep_completed]"
-                        id="keep_completed"
-                        class="form-control text-right @yield('keep_completed_class_error')"
-                        value="@yield('keep_completed_value')"
-                        placeholder=""
-                        @yield('form_disabled')
-                    >
-
-                    <small class="form-text text-muted">description</small>
-
-                    @error('keep_completed')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <span class="col-form-label">days</span>
-            </div>
-            
         </form>
 
         @yield('HTML-btnAction')

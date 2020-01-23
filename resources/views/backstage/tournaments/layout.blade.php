@@ -27,17 +27,17 @@
     <div class="container">
         <div name="titleFrm" class="row">
             <div class="col">
-                <h1>@yield('title')</h1>
+                <h1 class="ui-title">@yield('title')</h1>
             </div>
         </div>
+
+        <hr>
 
         @if ($isIndex == true)
             <div name="tableFrm" class="row">
                 <div class="col">
                     <div class="table-responsive">
                         <table class="table table-sm table-light table-striped table-borderless table-hover">
-                            <caption>Tournaments list</caption>
-
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col" class="text-center" width="25px">#</th>
@@ -139,7 +139,8 @@
                                         value="@yield('name_value')"
                                         @yield('form_disabled')
                                     >
-                                    <small class="form-text text-muted">description</small>
+
+                                    {{-- <small class="form-text text-muted">description</small> --}}
 
                                     @error('name')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -158,12 +159,11 @@
                                         class="form-control @yield('type_class_error')"
                                         @yield('form_disabled')
                                         >
-                                        <option></option>
                                         <option value="single" @yield('type_selected_single')>Single</option>
                                         <option value="multiple" @yield('type_selected_multiple')>Multiple</option>
                                     </select>
 
-                                    <small class="form-text text-muted">description</small>
+                                    {{-- <small class="form-text text-muted">description</small> --}}
 
                                     @error('type')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -183,13 +183,12 @@
                                         v-model="playersLimit"
                                         @yield('form_disabled')
                                         >
-                                        <option></option>
                                         <option value='Heads-Up' @yield('players_limit_selected_Heads_Up')>Heads-Up</option>
                                         <option value='Full' @yield('players_limit_selected_Full')>Full</option>
                                         <option value='Unlimited' @yield('players_limit_selected_false')>Unlimited</option>
                                     </select>
 
-                                    <small class="form-text text-muted">description</small>
+                                    {{-- <small class="form-text text-muted">description</small> --}}
 
                                     @error('late_register')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -213,7 +212,7 @@
                                         v-bind="money"
                                     ></money>
 
-                                    <small class="form-text text-muted">description</small>
+                                    {{-- <small class="form-text text-muted">description</small> --}}
 
 
                                     <input type="hidden"
@@ -226,7 +225,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+
                             <div id="commissionFrm" class="form-row form-group">
                                 <div class="col-12 col-lg-3 text-right">
                                     <label for="commission" class="col-form-label">Commission</label>
@@ -243,7 +242,7 @@
                                         v-bind="money"
                                     ></money>
 
-                                    <small class="form-text text-muted">description</small>
+                                    {{-- <small class="form-text text-muted">description</small> --}}
 
                                     <input type="hidden"
                                         name="commission"
@@ -274,7 +273,7 @@
                                         v-bind="formatNumber"
                                     ></money>
 
-                                    <small class="form-text text-muted">description</small>
+                                    {{-- <small class="form-text text-muted">description</small> --}}
 
                                     <input type="hidden"
                                         name="chips"
@@ -304,13 +303,13 @@
                                         <option value=0 @yield('late_register_selected_false')>No</option>
                                     </select>
 
-                                    <small class="form-text text-muted">description</small>
+                                    {{-- <small class="form-text text-muted">description</small> --}}
 
                                     @error('late_register')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                
+
                                 <template v-if="lateRegister == true">
                                     <div class="col-12 col-lg-2 text-right">
                                         <label for="fixed_value" class="col-form-label">Interval</label>
@@ -326,7 +325,7 @@
                                             @yield('form_disabled')
                                         >
 
-                                        <small class="form-text text-muted">description</small>
+                                        {{-- <small class="form-text text-muted">description</small> --}}
 
                                         @error('interval')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -347,7 +346,7 @@
                                             @yield('form_disabled')
                                         >
 
-                                        <small class="form-text text-muted">description</small>
+                                        {{-- <small class="form-text text-muted">description</small> --}}
 
                                         @error('value')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -373,13 +372,13 @@
                                         <option value='Fixed'>Fixed</option>
                                     </select>
 
-                                    <small class="form-text text-muted">description</small>
+                                    {{-- <small class="form-text text-muted">description</small> --}}
 
                                     @error('prize_pool')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                
+
                                 <template v-if="prizePool == 'Fixed'">
                                     <div class="col-12 col-lg-2 text-right">
                                         <label for="fixed_value" class="col-form-label">Value</label>
@@ -395,7 +394,7 @@
                                             @yield('form_disabled')
                                         >
 
-                                        <small class="form-text text-muted">description</small>
+                                        {{-- <small class="form-text text-muted">description</small> --}}
 
                                         @error('fixed_value')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -438,9 +437,9 @@
                                         <option value='Fixed'>Fixed</option>
                                     </select>
 
-                                    <small class="form-text text-muted">description</small>
+                                    {{-- <small class="form-text text-muted">description</small> --}}
 
-                                </div> 
+                                </div>
                             </div>
 
                             <div id="stateFrm" class="form-row form-group">
@@ -463,7 +462,7 @@
                                         <option value="cancel" @yield('state_selected_cancel')>Cancel</option>
                                     </select>
 
-                                    <small class="form-text text-muted">description</small>
+                                    {{-- <small class="form-text text-muted">description</small> --}}
 
                                     @error('state')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -478,7 +477,7 @@
                 </form>
 
                 @if ($isCreate == true)
-                    <form id="FormSaveUser" 
+                    <form id="FormSaveUser"
                         >
                         @yield("form_laravelCsrf")
                         @yield("form_laravelMethod")
@@ -487,9 +486,9 @@
                             <div class="col-5">
                                 <label for="SelectSport">Sport</label>
 
-                                <select 
+                                <select
                                     id="SelectSport"
-                                    name="SelectSport" 
+                                    name="SelectSport"
                                     class="form-control form-control-sm"
                                     >
                                     <option value="">All</option>
@@ -509,8 +508,8 @@
                             <div class="col-4">
                                 <label for="">Date game</label>
 
-                                <input type="date" 
-                                    name="sportDate" 
+                                <input type="date"
+                                    name="sportDate"
                                     class="form-control form-control-sm">
                             </div>
 
@@ -525,11 +524,9 @@
                             </div>
                         </div>
                     </form>
-                    
+
                     <div class="table-responsive">
                         <table class="headerFixed table table-sm table-light table-striped table-borderless table-hover">
-                            <caption>Events list</caption>
-
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col" width="280px">Date</th>
@@ -547,7 +544,7 @@
                                         <td class="text-truncate" width="230px">@{{ event.AwayTeam }}</td>
                                         <td class="text-truncate" width="200px" v-html="switchNameSport(event.Sport)">@{{ event.Sport }}</td>
                                         <td class="text-truncate" width="200px">
-                                            <button 
+                                            <button
                                                 id="enlaceajax"
                                                 type="button"
                                                 form="formSport"
