@@ -2,11 +2,13 @@
     $isIndex = false;
     $isShow = false;
     $isCreate = false;
+    $isUpdate = true;
 
     $hasButtonBack = true;
     $hasButtonAdd = false;
     $hasButtonDel = true;
-    $hasButtonSave = true;
+    $hasButtonSave = false;
+    $hasButtonUpdate = true;
 @endphp
 
 {{-- EXTEND --}}

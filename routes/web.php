@@ -3,17 +3,18 @@
     $backstage = env('BACKSTAGE_URL_SUBDOM'). '.' .env('APP_URL_DOMAIN');
 
     route::domain($backstage)->group(function (){
-        Route::get('/', 'backstage\HomeController@index')->name('backstage.home');
+        Route::get('/', 'Backstage\HomeController@index')->name('backstage.home');
+        Route::get('/config', 'Backstage\ConfigController@show')->name('config.show');
+        Route::get('/config/edit', 'Backstage\ConfigController@edit')->name('config.edit');
+        Route::put('/config', 'Backstage\ConfigController@update')->name('config.update');
 
-        Route::get('/config', 'backstage\ConfigController@show')->name('config.show');
-        Route::get('/config/edit', 'backstage\ConfigController@edit')->name('config.edit');
-        Route::put('/config', 'backstage\ConfigController@update')->name('config.update');
+        Route::resource('/tournaments', 'Backstage\TournamentsController');
 
-        Route::resource('/tournaments', 'backstage\TournamentsController');
+        Route::post('/tournaments/get-events', 'Backstage\TournamentsController@getEvents');
     });
 
     route::domain($legendsports)->group(function (){
-        Route::get('/', 'app\HomeController@index')->name('app.home');
+        Route::get('/', 'App\HomeController@index')->name('app.home');
 
-        Route::get('/tournament', 'app\TournamentController@index')->name('app.tournament');
+        Route::get('/tournament', 'App\TournamentController@index')->name('app.tournament');
     });
