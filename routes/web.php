@@ -10,7 +10,7 @@
 
         Route::resource('/tournaments', 'Backstage\TournamentsController');
 
-        Route::post('/tournaments/get-team', 'Backstage\TournamentsController@getTeams');
+        Route::post('/tournaments/get-events', 'Backstage\TournamentsController@getEvents');
     });
 
     route::domain($legendsports)->group(function (){

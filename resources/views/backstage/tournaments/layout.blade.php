@@ -116,6 +116,11 @@
                 </div>
             </div>
         @else
+        <div v-bind:style="{visibility: message == ''?'hidden':''}" class="d-flex justify-content-center p-2">
+            <div class="alert alert-danger alert-dismissible fade show p-1" role="alert">
+                @{{ message }}
+            </div>
+        </div>
             <div id="formsFrm">
                 <form id="form"
                     method="@yield("form_method")"
@@ -135,8 +140,7 @@
                                     <input type="text"
                                         id="name"
                                         name="name"
-                                        class="form-control @yield('name_class_error')"
-                                        value="@yield('name_value')"
+                                        v-bind:class="[errors['name']?'form-control is-invalid':'form-control']"
                                         @yield('form_disabled')
                                         v-model="name"
                                         required
@@ -144,9 +148,7 @@
 
                                     {{-- <small class="form-text text-muted">description</small> --}}
 
-                                    @error('name')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <div v-if="errors['name']" class="invalid-feedback">The name field is required.</div>
                                 </div>
                             </div>
 
@@ -155,11 +157,11 @@
                                     <label for="players_limit" class="col-form-label">Players limit</label>
                                 </div>
 
-                                <div class="col-12 col-lg-3">
+                                <div class="col-12 col-lg-4">
                                     <select name="players_limit"
                                         id="players_limit"
-                                        class="form-control @yield('players_limit_class_error')"
-                                        v-model="playersLimit"
+                                        v-bind:class="[errors['players_limit']?'form-control is-invalid':'form-control']"
+                                        v-model="players_limit"
                                         @yield('form_disabled')
                                         required
                                         >
@@ -170,9 +172,7 @@
 
                                     {{-- <small class="form-text text-muted">description</small> --}}
 
-                                    @error('late_register')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <div v-if="errors['players_limit']" class="invalid-feedback">Players limit field is required</div>
                                 </div>
                             </div>
 
@@ -184,7 +184,7 @@
                                 <div class="col-12 col-lg-2">
                                     <money
                                         id="buy_in"
-                                        class="form-control text-right @yield('buy_in_class_error')"
+                                        v-bind:class="[errors['buy_in']?'form-control text-right is-invalid':'form-control  text-right']"
                                         value="@yield('buy_in_value')"
                                         placeholder=""
                                         @yield('form_disabled')
@@ -200,10 +200,7 @@
                                         v-model="buy_in"
                                         required
                                     >
-
-                                    @error('buy_in')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <div v-if="errors['buy_in']" class="invalid-feedback">@{{ errors['buy_in'] }}</div>
                                 </div>
                             </div>
 
@@ -215,7 +212,8 @@
                                 <div class="col-12 col-lg-2">
                                     <money
                                         id="commission"
-                                        class="form-control text-right @yield('commission_class_error')"
+                                        v-bind:class="[errors['commission']?'form-control text-right is-invalid':'form-control text-right']"
+                                        class="form-control text-right @yield('commision')"
                                         value="@yield('commission_value')"
                                         placeholder=""
                                         @yield('form_disabled')
@@ -231,9 +229,7 @@
                                         required
                                     >
 
-                                    @error('commission')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <div v-if="errors['commission']" class="invalid-feedback">@{{ errors['commission'] }}</div>
                                 </div>
                             </div>
                         </div>
@@ -249,6 +245,7 @@
                                         id="chips"
                                         class="form-control text-right @yield('chips_class_error')"
                                         value="@yield('chips_value')"
+                                        v-bind:class="[errors['chips']?'form-control text-right is-invalid':'form-control text-right']"
                                         placeholder=""
                                         @yield('form_disabled')
                                         v-model="chips"
@@ -262,10 +259,7 @@
                                         v-model="chips"
                                         required
                                     >
-
-                                    @error('chips')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <div v-if="errors['chips']" class="invalid-feedback">@{{ errors['chips'] }}</div>
                                 </div>
                             </div>
 
@@ -274,11 +268,11 @@
                                     <label for="late_register" class="col-form-label">Late register</label>
                                 </div>
 
-                                <div class="col-12 col-lg-2">
+                                <div class="col-12 col-lg-4">
                                     <select name="late_register"
                                         id="late_register"
-                                        class="form-control @yield('late_register_class_error')"
-                                        v-model="lateRegister"
+                                        v-bind:class="[errors['late_register']?'form-control is-invalid':'form-control']"
+                                        v-model="late_register"
                                         @yield('form_disabled')
                                         required
                                         >
@@ -288,24 +282,17 @@
                                     </select>
 
                                     {{-- <small class="form-text text-muted">description</small> --}}
-
-                                    @error('late_register')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <div v-if="errors['late_register']" class="invalid-feedback">The late register field is required.</div>
                                 </div>
 
-                                <template v-if="lateRegister == true">
-                                    <div class="col-12 col-lg-2 text-right">
-                                        <label for="fixed_value" class="col-form-label">Interval</label>
-                                    </div>
-
+                                <template v-if="late_register == true">
                                     <div class="col-12 col-lg-2">
                                         <input type="text"
                                             name="late_register_rule['interval']"
                                             id="interval"
                                             class="form-control @yield('interval_class_error')"
                                             value="@yield('interval_value')"
-                                            placeholder=""
+                                            placeholder="Interval"
                                             @yield('form_disabled')
                                             v-model="interval"
                                             required
@@ -317,18 +304,13 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-
-                                    <div class="col-12 col-lg-1 text-right">
-                                        <label for="value" class="col-form-label">Value</label>
-                                    </div>
-
                                     <div class="col-12 col-lg-2">
                                         <input type="text"
                                             name="late_register_rule['value']"
                                             id="value"
                                             class="form-control @yield('value_class_error')"
                                             value="@yield('late_register_rule_value_value')"
-                                            placeholder=""
+                                            placeholder="Value"
                                             @yield('form_disabled')
                                             v-model="lateRegisterValue"
                                             required
@@ -414,13 +396,13 @@
 
                             <div id="prizesFrm" class="form-row form-group">
                                 <div class="col-12 col-lg-3 text-right">
-                                    <label for="state" class="col-form-label">Prizes</label>
+                                    <label for="prizes" class="col-form-label">Prizes</label>
                                 </div>
 
                                 <div class="col-12 col-lg-3">
                                     <select id="prizes"
                                         name="prizes[type]"
-                                        class="form-control @yield('prizes_class_error')"
+                                        v-bind:class="[errors['prizes']?'form-control is-invalid':'form-control']"
                                         v-model="prizes"
                                         @yield('form_disabled')
                                         required
@@ -431,7 +413,7 @@
                                     </select>
 
                                     {{-- <small class="form-text text-muted">description</small> --}}
-
+                                    <div v-if="errors['prizes']" class="invalid-feedback">@{{ errors['prizes'] }}</div>
                                 </div>
                             </div>
 
@@ -443,26 +425,22 @@
                                 <div class="col-12 col-lg-4">
                                     <select name="state"
                                         id="state"
-                                        class="form-control
-                                        @yield('state_class_error')"
+                                        v-bind:class="[errors['state']?'form-control is-invalid':'form-control']"
                                         @yield('form_disabled')
                                         v-model="state"
                                         required
                                         >
                                         <option></option>
-                                        <option value="announced" @yield('state_selected_announced')>Announced</option>
-                                        <option value="registering" @yield('state_selected_registering')>Registering</option>
-                                        <option value="late registering" @yield('state_selected_late_registering')>Late registering</option>
-                                        <option value="running" @yield('state_selected_running')>Running</option>
-                                        <option value="complete" @yield('state_selected_complete')>Completed</option>
-                                        <option value="cancel" @yield('state_selected_cancel')>Cancel</option>
+                                        <option value="Announced" @yield('state_selected_announced')>Announced</option>
+                                        <option value="Registering" @yield('state_selected_registering')>Registering</option>
+                                        <option value="Late registering" @yield('state_selected_late_registering')>Late registering</option>
+                                        <option value="Running" @yield('state_selected_running')>Running</option>
+                                        <option value="Complete" @yield('state_selected_complete')>Completed</option>
+                                        <option value="Cancel" @yield('state_selected_cancel')>Cancel</option>
                                     </select>
 
                                     {{-- <small class="form-text text-muted">description</small> --}}
-
-                                    @error('state')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                    <div v-if="errors['state']" class="invalid-feedback">The state field is required.</div>
                                 </div>
                             </div>
                         </div>
@@ -587,6 +565,35 @@
                     </div>
                 @endif
 
+                @if($isUpdate == true)
+                <div class="table-responsive">
+                    <h5>Included Events</h5>
+                    <table class="headerFixed table table-sm table-light table-striped table-borderless table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col" width="280px">Date</th>
+                                <th scope="col" width="220px">Home team</th>
+                                <th scope="col" width="230px">Away Team</th>
+                                <th scope="col" width="200px">Sport</th>
+                                <th scope="col" width="200px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <template v-for="event in events">
+                            <tr v-bind:name="event.id">
+                                <td class="text-truncate" width="300px">@{{ event.MatchTime }}</td>
+                                <td class="text-truncate" width="210px">@{{ event.HomeTeam }}</td>
+                                <td class="text-truncate" width="230px">@{{ event.AwayTeam }}</td>
+                                <td class="text-truncate" width="200px" v-html="switchNameSport(event.Sport)">@{{ event.Sport }}</td>
+                                <td class="text-truncate" width="200px"></td>
+                            </tr>
+                        </template>
+                        </tbody>
+                    </table>
+                    <hr>
+                </div>
+                @endif
+
                 @yield('HTML-formDelete')
             </div>
 
@@ -604,6 +611,11 @@
                         <button class="btn btn-dark"
                             v-on:click="saveEvents()"
                         >Save</button>
+                    @endif
+                    @if ($hasButtonUpdate == true)
+                        <button class="btn btn-dark"
+                            v-on:click="updateEvent()"
+                        >Update</button>
                     @endif
                 </div>
 
