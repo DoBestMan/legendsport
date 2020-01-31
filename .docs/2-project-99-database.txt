@@ -22,92 +22,92 @@ It's the structure of directories and archives
 
 █ TOURNAMENTS
     ···········································································
-    ■ id                      integer
-    ■ avatar                  boolean                         Indicates if it have avatar. A file with the name ID is referenced in a users/avatars location
-    ■ name                    string                          Tournament name
-    ■ type                    enum                            If the tournament is single sport or multiple
+    ■ id integer
+    ■ avatar                boolean                         Indicates if it have avatar. A file with the name ID is referenced in a users / avatars location
+    ■ name                  string                          Tournament name
+    ■ type                  enum                            If tournament is single sport or multiple
         ■ Single (Tournament with only one sport in its events)
         ■ Multiple (Tournaments with more than one sport in their events)
 
         RULES
-            ■ Sirve para filtrar en HOME
-            ■ No aparece en la UI y se establece según los EVENDOS agregados
+            ■ Used to filter in HOME
+            ■ It does not appear in the UI and is set according to the EVENTS added
 
-    ■ ¿sport/sports?          POR DEFINIR                     Contiene los deportes de los eventos incluidos
+    ■ sport/sports?         TO DEFINE                       Contains the sports of the events included
         RULES
-            ■ Sirve para filtrar en HOME
+            ■ Used to filter in HOME
 
-    ■ players_limit           enum                            Minimum and maximum number of users who can register. When you comply with the record, the status changes to FULL
+    ■ players_limit         enum                            Minimum and maximum number of users who can register. When you comply with the record, the status changes to FULL
         Heads-Up => 2
         Full => 10
         Unlimited => Unlimited (0)
 
         RULES
-            ■ Valor por defecto: Unlimited
-            ■ HEADS-UP o FULL
-                - No permite activar LATE REGISTER
-                - El torneo ya creado es válido si se registra esa misma cantidad antes de iniciar el evento. Si no es así:
-                    - Se cancela el evento
-                    - Se devuelve el balance a cada jugador registrado
-                    - Se envía un correo electrónico informando de la cancelación y la devolución del BUY-IN y COMMISSION
-                    - Se registra la operación (Por definir)
+            ■ Default value: Unlimited
+            ■ HEADS-UP or FULL
+                - It does not allow activating LATE REGISTER
+                - The tournament already created is valid if the same amount is registered before starting the event. If that is not the case:
+                    - The event is canceled
+                    - The balance is returned to each registered player
+                    - An email is sent informing of the cancellation and return of the BUY-IN and COMMISSION
+                    - The operation is registered (To be defined)
 
             ■ UNLIMITED
-                - Permite activar LATE REGISTER
+                - Activate LATE REGISTER
 
-    ■ buy_in                  smallInteger                    Value of tournament registration
+    ■ buy_in                smallInteger                    Value of tournament registration
         RULES
             ■ Currency
-            ■ Mayor a cero
+            ■ Greater than zero
 
-    ■ commission              mediumInteger                   Commission charged by the app for registering for an event. The creation sets config.default_commission
+    ■ commission            mediumInteger                   Commission charged by the app for registering for an event. The creation sets config.default_commission
 
         RULES
             ■ Currency
-            ■ Mayor a cero
+            ■ Greater than zero
 
-    ■ chips                   mediumInteger                   Tokens that are given when registering for an event.
+    ■ chips                 mediumInteger                   Tokens chips that are given when registering for an event.
 
         RULES
             ■ Number with thousands separator
             ■ For creation get value for config.default_chips
-            ■ Mayor a cero
+            ■ Greater than zero
 
-    ■ late_register           boolean                         TRUE allows you to register after the tournament started
+    ■ late_register         boolean                         Allows register after the tournament started
 
         RULES
-            ■ Si es SÍ, debe permitir el ingreso del intervalo la regla de registro tardío. De lo contrario no debe aparecer y guardarse late_register_rule
+            ■ If it's YES, you must allow the late registration rule to enter the interval. Otherwise it should not appear and be saved late_register_rule
 
-    ■ late_register_rule      json                            Rule with late registration time. Same as PHP format to increase time
+    ■ late_register_rule    json                            Rule with late registration time. Same as PHP format to increase time
         {
-            interval: d/m,
+            interval: d / m,
             value: number
         }
 
         RULES
-            ■ Intervalo
-                - Debe ser un elemento html SELECT con: "segundos, minutos, horas, días". El valor a guardar debe corresponder al valor que corresponde al argumento de la función PHP para ayuda a aumentar un valor de tiempo.
-            ■ Valor
-                - El valor numérico y válido según el intervalo seleccionado. Si es minutos y segundos debe ser de 1 a 60, para horas y días puede ser más ámplio de 1 a 100.
-                - Mayor a cero
+            ■ Interval
+                - It must be an html SELECT element with: "seconds, minutes, hours, days". The value to be saved must correspond to the value that corresponds to the PHP function argument to help increase a time value.
+            ■ Value
+                - The numerical and valid value according to the selected interval. If it is minutes and seconds it must be from 1 to 60, for hours and days it can be more extensive from 1 to 100.
+                - Greater than zero
 
-    ■ prize_pool              json                            Prize and mode
+    ■ prize_pool            json                            Prize and mode
         {
-            type: auto/fixed                                AUTO: The prize will be the total income value of each player / FIXED: the value is fixed
-            fixed: 0                                        Fixed prize value
+            type: auto / fixed AUTO: The prize will be the total income value of each player / FIXED: the value is fixed
+            fixed: 0 Fixed prize value
         }
 
         RULES
             ■ Value is currency
-            ■ Mayor a cero
+            ■ Greater than zero
 
-    ■ prizes                  json                            Award and mode sharing
+    ■ prizes            json                                Award and mode sharing
         {
-            type: auto/fixed                                AUTO: The distribution is done following a table of percentages / FIXED: it is fixed
+            type: auto / fixed AUTO: The distribution is done following a table of percentages / FIXED: it is fixed
         }
 
-    ■ state                   enum                            Tournament status
-        Announced                                               The tournament is just announced but is not allow to registering
+    ■ state             enum                                Tournament status
+        Announced                                           The tournament is just announced but is not allow to registering
         Registering
         Late registering
         Running
