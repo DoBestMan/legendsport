@@ -120,11 +120,14 @@ class TournamentsController extends Controller
     public function show(Tournaments $tournament)
     {
         JavaScript::put([
+            'playersLimit' => $tournament->players_limit,
+            'config' => '',
             'buy_in' => $tournament->buy_in,
-            'config' => $config->config,
-            'chips' => '',
-            'commision' => '',
+            'chips' => $tournament->chips,
+            'commission' => $tournament->commission,
             'lateRegister' => $tournament->late_register,
+            'prizePool' => $tournament->prize_pool['type'],
+            'prizes' => $tournament->prizes['type'],
         ]);
 
         return view('backstage.tournaments.show')
