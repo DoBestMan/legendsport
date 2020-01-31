@@ -1,11 +1,11 @@
 //MODAL-DELETE··········································································
-    Vue.component('modal-delete', {
-        props: [
-            'indexRowId',
-            'textDescription',
-        ],
+Vue.component('modal-delete', {
+    props: [
+        'indexRowId',
+        'textDescription',
+    ],
 
-        template: `
+    template: `
             <div :id="'modalDelete' + (indexRowId ? indexRowId : '')"
                 class="modal fade"
                 tabindex="-1"
@@ -43,4 +43,4 @@
                 </div>
             </div>
         `,
-    });
+});

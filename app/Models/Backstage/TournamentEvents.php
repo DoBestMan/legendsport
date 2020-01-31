@@ -8,6 +8,7 @@ class TournamentEvents extends Model
 {
     protected $table = 'tournaments_events';
     protected $primaryKey = 'id';
+    protected $fillable = ['tournament_id', 'api_event_id'];
 
     public function tournaments()
     {
