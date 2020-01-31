@@ -107,7 +107,6 @@ Conceptualization and general idea of the project
     ■ Search By Tournament Name Deletes other filters and searches by tournament name
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
-
 █ TABLE - PRIZES                       █ Updated: Andrés García - [16/jan/2020]
     ···········································································
     ■ POSITION/PLAYERS
@@ -162,4 +161,17 @@ Conceptualization and general idea of the project
                                         5: '9%'
                                     }
     ···········································································
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+█ RULES                                █ Updated: Andrés García - [24/jan/2020]
+    ■ APP
+    ■ BACKSTAGE
+        ■ TOURNAMENTS
+            ■ Fields
+                ■ Late register: Only available if TYPE is Unlimited
+
+            ■ EVENTS
+                ■ Filters
+                    ■ Sports: Let select multiple sports like checkboxes
+                    ■ Dates: Is not important but we can keep it
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■

@@ -22,45 +22,101 @@ It's the structure of directories and archives
 
 █ TOURNAMENTS
     ···········································································
-    id                      integer
-    avatar                  boolean                         Indicates if it have avatar. A file with the name ID is referenced in a users/avatars location
-    name                    string                          Tournament name
-    type                    enum                            If the tournament is single sport or multiple
-        Single (Tournament with only one sport in its events)
-        Multiple (Tournaments with more than one sport in their events)
-    ¿sport/sports?
-    players_limit           enum                            Minimum and maximum number of users who can register. When you comply with the record, the status changes to FULL
+    ■ id integer
+    ■ avatar                boolean                         Indicates if it have avatar. A file with the name ID is referenced in a users / avatars location
+    ■ name                  string                          Tournament name
+    ■ type                  enum                            If tournament is single sport or multiple
+        ■ Single (Tournament with only one sport in its events)
+        ■ Multiple (Tournaments with more than one sport in their events)
+
+        RULES
+            ■ Used to filter in HOME
+            ■ It does not appear in the UI and is set according to the EVENTS added
+
+    ■ sport/sports?         TO DEFINE                       Contains the sports of the events included
+        RULES
+            ■ Used to filter in HOME
+
+    ■ players_limit         enum                            Minimum and maximum number of users who can register. When you comply with the record, the status changes to FULL
         Heads-Up => 2
         Full => 10
         Unlimited => Unlimited (0)
-    buy_in                  smallInteger                    Value of tournament registration
-    chips                   mediumInteger                   Tokens that are given when registering for an event. The creation sets config.default_chips
-    commission              mediumInteger                   Commission charged by the app for registering for an event. The creation sets config.default_commission
-    late_register           boolean                         TRUE allows you to register after the tournament started
-    late_register_rule      json                            Rule with late registration time. Same as PHP format to increase time
+
+        RULES
+            ■ Default value: Unlimited
+            ■ HEADS-UP or FULL
+                - It does not allow activating LATE REGISTER
+                - The tournament already created is valid if the same amount is registered before starting the event. If that is not the case:
+                    - The event is canceled
+                    - The balance is returned to each registered player
+                    - An email is sent informing of the cancellation and return of the BUY-IN and COMMISSION
+                    - The operation is registered (To be defined)
+
+            ■ UNLIMITED
+                - Activate LATE REGISTER
+
+    ■ buy_in                smallInteger                    Value of tournament registration
+        RULES
+            ■ Currency
+            ■ Greater than zero
+
+    ■ commission            mediumInteger                   Commission charged by the app for registering for an event. The creation sets config.default_commission
+
+        RULES
+            ■ Currency
+            ■ Greater than zero
+
+    ■ chips                 mediumInteger                   Tokens chips that are given when registering for an event.
+
+        RULES
+            ■ Number with thousands separator
+            ■ For creation get value for config.default_chips
+            ■ Greater than zero
+
+    ■ late_register         boolean                         Allows register after the tournament started
+
+        RULES
+            ■ If it's YES, you must allow the late registration rule to enter the interval. Otherwise it should not appear and be saved late_register_rule
+
+    ■ late_register_rule    json                            Rule with late registration time. Same as PHP format to increase time
         {
-            interval: d/m,
+            interval: d / m,
             value: number
         }
-    prize_pool              json                            Prize and mode
+
+        RULES
+            ■ Interval
+                - It must be an html SELECT element with: "seconds, minutes, hours, days". The value to be saved must correspond to the value that corresponds to the PHP function argument to help increase a time value.
+            ■ Value
+                - The numerical and valid value according to the selected interval. If it is minutes and seconds it must be from 1 to 60, for hours and days it can be more extensive from 1 to 100.
+                - Greater than zero
+
+    ■ prize_pool            json                            Prize and mode
         {
-            type: auto/fixed                                AUTO: The prize will be the total income value of each player / FIXED: the value is fixed
-            fixed: 0                                        Fixed prize value
+            type: auto / fixed AUTO: The prize will be the total income value of each player / FIXED: the value is fixed
+            fixed: 0 Fixed prize value
         }
-    prizes                  json                            Award and mode sharing
+
+        RULES
+            ■ Value is currency
+            ■ Greater than zero
+
+    ■ prizes            json                                Award and mode sharing
         {
-            type: auto/fixed                                AUTO: The distribution is done following a table of percentages / FIXED: it is fixed
+            type: auto / fixed AUTO: The distribution is done following a table of percentages / FIXED: it is fixed
         }
-    state                   enum                            Tournament status
-        Announced
-        Registerin
-        Late registerin
-        Runnin
-        Complete
-        Cance
-    created_at
-    updated_at
-    user_admin_id
+
+    ■ state             enum                                Tournament status
+        Announced                                           The tournament is just announced but is not allow to registering
+        Registering
+        Late registering
+        Running
+        Completed
+        Cancel
+
+    ■ created_at
+    ■ updated_at
+    ■ user_admin_id
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
 █ TOURNAMENTS_EVENTS

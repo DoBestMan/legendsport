@@ -11,6 +11,7 @@
     @section('form_laravelMethod', method_field('PUT'))
     @section('form_disabled', '')
 
+<<<<<<< HEAD
 {{-- HTML --}}
 @section('HTML-main')
 <Toasts></Toasts>
@@ -486,7 +487,6 @@
                             data-target="#modalDelete"
                             @yield('form_disabled')
                         >Delete</button>
-
                         <modal-delete
                             text-description="{{ $tournament->name }}"
                         ></modal-delete>
