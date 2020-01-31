@@ -85,7 +85,7 @@
             @endif
             @section('state_class_error', error('state', $errors))
 
-        @section('form-loader_caption', 'ACTUALIZANDO...')
+        @section('form-loader_caption', 'UPDATING...')
 
 {{-- BUTTONS --}}
     @section('buttonSave_formType', 'submit')
