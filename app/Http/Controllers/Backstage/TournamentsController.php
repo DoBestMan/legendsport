@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Backstage\Tournaments;
 use App\Models\Backstage\TournamentEvents;
+use App\Models\Backstage\TournamentSports;
 use App\Models\Backstage\ApiEvents;
 use App\Models\Backstage\Config;
 use Illuminate\Support\Facades\DB;
@@ -65,6 +66,7 @@ class TournamentsController extends Controller
             'config' => $config->config,
             'lateRegister' => 0,
             'prizePool' => 'Auto',
+            'prizePoolValue' => 0,
             'prizes' => 'Auto',
         ]);
 
@@ -99,6 +101,13 @@ class TournamentsController extends Controller
         $tournament->state = $request->state;
         $tournament->save();
 
+        foreach(array_unique($request->type) as $sport_id) {
+            TournamentSports::firstOrCreate(
+                ['tournament_id' => $tournament->id, 'sport_id' => $sport_id],
+                ['sport_id' => $sport_id]
+            );
+        }
+
         foreach ($api_data as $data) {
             ApiEvents::firstOrCreate(
                 ['api_id' => $data['ID']],
@@ -116,15 +125,29 @@ class TournamentsController extends Controller
 
     public function show(Tournaments $tournament)
     {
+        $selectedEvents = [];
+        $api_event_id = DB::table('tournaments_events')->where('tournament_id', $tournament->id)->get('api_event_id');
+
+        foreach ($api_event_id as $value) {
+            $api_data = DB::table('api_events')->where('id', $value->api_event_id)->value('api_data');
+            array_push($selectedEvents,json_decode($api_data));
+        }
+
         JavaScript::put([
+            'name' => $tournament->name,
             'playersLimit' => $tournament->players_limit,
             'config' => '',
-            'buy_in' => $tournament->buy_in,
+            'buyIn' => $tournament->buy_in,
             'chips' => $tournament->chips,
             'commission' => $tournament->commission,
             'lateRegister' => $tournament->late_register,
+            'interval' => $tournament->late_register_rule['interval'],
+            'value' => $tournament->late_register_rule['value'],
             'prizePool' => $tournament->prize_pool['type'],
+            'prizePoolValue' => $tournament->prize_pool['fixed_value'],
             'prizes' => $tournament->prizes['type'],
+            'apiSelectedSports' => $selectedEvents,
+            'state' => $tournament->state,
         ]);
 
         return view('backstage.tournaments.show')
@@ -191,6 +214,15 @@ class TournamentsController extends Controller
         $tournament->state = $request->state;
         $tournament->save();
 
+        TournamentSports::where('tournament_id', $tournament->id)->delete();
+
+        foreach(array_unique($request->type) as $sport_id) {
+            TournamentSports::firstOrCreate(
+                ['tournament_id' => $tournament->id, 'sport_id' => $sport_id],
+                ['sport_id' => $sport_id]
+            );
+        }
+
         TournamentEvents::where('tournament_id', $tournament->id)->delete();
 
         foreach ($api_data as $data) {
@@ -210,6 +242,8 @@ class TournamentsController extends Controller
     public function destroy(Tournaments $tournament)
     {
         $tournament->delete();
+        TournamentEvents::where('tournament_id', $tournament->id)->delete();
+        TournamentSports::where('tournament_id', $tournament->id)->delete();
 
         return redirect()->route('tournaments.index');
     }

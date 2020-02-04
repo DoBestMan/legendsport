@@ -10,8 +10,6 @@
     @section('form_laravelCsrf', csrf_field())
     @section('form_laravelMethod', method_field('PUT'))
     @section('form_disabled', '')
-
-<<<<<<< HEAD
 {{-- HTML --}}
 @section('HTML-main')
 <Toasts></Toasts>
@@ -64,12 +62,11 @@
                                         id="players_limit"
                                         v-bind:class="[errors['players_limit']?'form-control is-invalid':'form-control']"
                                         v-model="playersLimit"
-                                        @yield('form_disabled')
                                         required
                                         >
-                                        <option value='Heads-Up' @yield('players_limit_selected_Heads_Up')>Heads-Up</option>
-                                        <option value='Full' @yield('players_limit_selected_Full')>Full</option>
-                                        <option value='Unlimited' @yield('players_limit_selected_false')>Unlimited</option>
+                                        <option value='Heads-Up'>Heads-Up</option>
+                                        <option value='Full'>Full</option>
+                                        <option value='Unlimited'>Unlimited</option>
                                     </select>
 
                                     {{-- <small class="form-text text-muted">description</small> --}}
@@ -89,7 +86,6 @@
                                         v-bind:class="[errors['buy_in']?'form-control text-right is-invalid':'form-control  text-right']"
                                         value="@yield('buy_in_value')"
                                         placeholder=""
-                                        @yield('form_disabled')
                                         v-model="buyIn"
                                         v-bind="money"
                                     ></money>
@@ -118,7 +114,6 @@
                                         class="form-control text-right @yield('commision')"
                                         value="@yield('commission_value')"
                                         placeholder=""
-                                        @yield('form_disabled')
                                         v-model="commission"
                                         v-bind="money"
                                     ></money>
@@ -145,11 +140,10 @@
                                 <div class="col-12 col-lg-2">
                                     <money
                                         id="chips"
-                                        class="form-control text-right @yield('chips_class_error')"
+                                        class="form-control text-right"
                                         value="@yield('chips_value')"
                                         v-bind:class="[errors['chips']?'form-control text-right is-invalid':'form-control text-right']"
                                         placeholder=""
-                                        @yield('form_disabled')
                                         v-model="chips"
                                         v-bind="formatNumber"
                                     ></money>
@@ -170,17 +164,15 @@
                                     <label for="late_register" class="col-form-label">Late register</label>
                                 </div>
 
-                                <div class="col-12 col-lg-4">
+                                <div class="col-12 col-lg-2">
                                     <select name="late_register"
                                         id="late_register"
                                         v-bind:class="[errors['late_register']?'form-control is-invalid':'form-control']"
                                         v-model="lateRegister"
-                                        @yield('form_disabled')
                                         required
                                         >
-                                        <option></option>
-                                        <option value=1 @yield('late_register_selected_true')>Yes</option>
-                                        <option value=0 @yield('late_register_selected_false')>No</option>
+                                        <option value=1 selected>Yes</option>
+                                        <option value=0>No</option>
                                     </select>
 
                                     {{-- <small class="form-text text-muted">description</small> --}}
@@ -188,17 +180,22 @@
                                 </div>
 
                                 <template v-if="lateRegister == true">
-                                    <div class="col-12 col-lg-2">
-                                        <input type="text"
+                                    <div class="col-12 col-lg-2 text-right">
+                                        <label for="late_register_rule" class="col-form-label">Interval</label>
+                                    </div>
+                                    <div class="col-12 col-lg-3">
+                                        <select name="late_register"
                                             name="late_register_rule['interval']"
-                                            id="interval"
-                                            class="form-control @yield('interval_class_error')"
-                                            value="@yield('interval_value')"
-                                            placeholder="Interval"
-                                            @yield('form_disabled')
+                                            class="form-control"
                                             v-model="interval"
+                                            placeholder="Select Interval"
                                             required
-                                        >
+                                            >seconds, minutes, hours, days
+                                            <option value="seconds">Seconds</option>
+                                            <option value="minutes">Minutes</option>
+                                            <option value="hours">Hours</option>
+                                            <option value="days">Days</option>
+                                        </select>
 
                                         {{-- <small class="form-text text-muted">description</small> --}}
 
@@ -207,14 +204,15 @@
                                         @enderror
                                     </div>
                                     <div class="col-12 col-lg-2">
-                                        <input type="text"
+                                        <input type="number"
                                             name="late_register_rule['value']"
                                             id="value"
-                                            class="form-control @yield('value_class_error')"
+                                            class="form-control"
                                             value="@yield('late_register_rule_value_value')"
                                             placeholder="Value"
-                                            @yield('form_disabled')
                                             v-model="lateRegisterValue"
+                                            min="1"
+                                            :max="(interval == 'seconds' || interval == 'minutes')?'60':'100'"
                                             required
                                         >
 
@@ -258,13 +256,14 @@
                                     </div>
 
                                     <div class="col-12 col-lg-2">
-                                        <input type="text"
+                                        <input type="number"
                                             name="prize_pool[fixed_value]"
                                             id="fixed_value"
                                             class="form-control @yield('fixed_value_class_error')"
                                             value="@yield('fixed_value')"
                                             placeholder=""
                                             @yield('form_disabled')
+                                            min="0"
                                             v-model="prizePoolValue"
                                             required
                                         >
@@ -464,7 +463,6 @@
                         </table>
                         <hr>
                     </div>
-                @yield('HTML-formDelete')
             </div>
 
             <div id="buttonsFrm" class="form-row form-group">
@@ -492,19 +490,16 @@
                         ></modal-delete>
                 </div>
             </div>
+        <form id='formDelete'
+        method='POST'
+        action='{{ route('tournaments.destroy', $tournament) }}'
+        >
+        {{ csrf_field() }}
+        {{ method_field('DELETE') }}
+        </form>
     </div>
 @endsection
 {{-- BUTTONS --}}
     @section('buttonSave_formType', 'submit')
     @section('buttonSave_formId', 'form')
-
-    @section('HTML-formDelete')
-        <form id='formDelete'
-            method='POST'
-            action='{{ route('tournaments.destroy', $tournament) }}'
-            >
-            {{ csrf_field() }}
-            {{ method_field('DELETE') }}
-        </form>
-    @endsection
 

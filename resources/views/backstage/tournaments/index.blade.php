@@ -50,6 +50,13 @@
                                 <td class="text-truncate">{{ $tournament->state }}</td>
                                 <td class="text-right">
                                     <button type="button"
+                                        class="btn btn-outline-primary btn-sm"
+                                        title="View"
+                                        onclick="window.location='{{ route('tournaments.show', $tournament) }}'"
+                                        >
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button type="button"
                                         class="btn btn-outline-dark btn-sm"
                                         title="Editar"
                                         onclick="window.location='{{ route('tournaments.edit', $tournament) }}'"
