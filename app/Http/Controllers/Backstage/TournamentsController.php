@@ -38,24 +38,6 @@ class TournamentsController extends Controller
             ->with('numFirstItemPage', $numFirstItemPage);
     }
 
-    public function getEvents(Request $request)
-    {
-        $appKey = "3b279a7d-7d95-4eda-89cb-3c1f96093fc6";
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://jsonodds.com/api/odds/$request->SelectSport");
-        curl_setopt($ch, CURLOPT_HTTPGET, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'x-api-key:' . $appKey,
-        ));
-
-        $res = curl_exec($ch);
-        $response = json_decode($res);
-
-        return $response;
-    }
-
     public function create(Request $request)
     {
         $data = json_decode(file_get_contents("php://input"), TRUE);
@@ -68,6 +50,7 @@ class TournamentsController extends Controller
             'prizePool' => 'Auto',
             'prizePoolValue' => 0,
             'prizes' => 'Auto',
+            'playersLimit' => 'Unlimited',
         ]);
 
         return view('backstage.tournaments.create')
@@ -250,15 +233,90 @@ class TournamentsController extends Controller
 
     private function validation(Request $request)
     {
-        $request->validate([
+        $inputs = [
             'name' => 'required',
             'players_limit' => 'required',
-            'buy_in' => 'required',
-            'chips' => 'required',
-            'commission' => 'required',
-            'late_register' => 'required',
+            'buy_in' => 'required|min:1',
+            'chips' => 'required|min:1',
+            'commission' => 'required|min:1',
+            'prize_pool.type' => 'required',
             'state' => 'required',
-            'prizes' => 'required',
-        ]);
+            'prizes.type' => 'required',
+        ];
+
+        $messages = [
+            'players_limit.required' => 'Players limit is required',
+            'prize_pool.type.required' => 'Prize pool field is required.',
+            'prizes.type.required' => 'Please select valid prize.'
+        ];
+
+        if ($request->players_limit == 'Unlimited') {
+            $inputs = array_merge($inputs,[
+                'late_register' => 'required',
+            ]);
+            $messages = array_merge($messages, [
+                'late_register.required' => 'Late register is required field',
+            ]);
+        }
+
+        if ($request->late_register == 1) {
+            if ($request->late_register_rule['interval'] == 'seconds'
+                ||$request->late_register_rule['interval'] == 'minutes') {
+                $inputs = array_merge($inputs,[
+                    'late_register_rule.interval' => 'required',
+                    'late_register_rule.value' => 'required|numeric|min:1|max:60',
+                ]);
+
+                $messages = array_merge($messages, [
+                    'late_register_rule.interval.required' => 'Interval is required field.',
+                    'late_register_rule.value.required' => 'Interval value is required field.',
+                    'late_register_rule.value.numeric' => 'Interval value should be numeric.',
+                    'late_register_rule.value.max' => 'Interval value may not be greater than 60.',
+                ]);
+            } else {
+                $inputs = array_merge($inputs,[
+                    'late_register_rule.interval' => 'required',
+                    'late_register_rule.value' => 'required|numeric|min:1|max:100',
+                ]);
+
+                $messages = array_merge($messages, [
+                    'late_register_rule.interval.required' => 'Interval is required field.',
+                    'late_register_rule.value.required' => 'Interval value is required field.',
+                    'late_register_rule.value.numeric' => 'Interval value should be numeric.',
+                    'late_register_rule.value.max' => 'Interval value may not be greater than 100.',
+                ]);
+            }
+        }
+
+        if ($request->prize_pool['type'] == 'Fixed') {
+            $inputs = array_merge($inputs, [
+                'prize_pool.fixed_value' => 'required|numeric|min:0',
+            ]);
+
+            $messages = array_merge($messages, [
+                'prize_pool.fixed_value.required' => 'Prize pool value is required.',
+                'prize_pool.fixed_value.numeric' => 'Prize pool value should be numeric.',
+                'prize_pool.fixed_value.min' => 'Prize pool value should be numeric.',
+            ]);
+        }
+        $this->validate($request, $inputs, $messages);
+    }
+
+    public function getEvents(Request $request)
+    {
+        $appKey = "3b279a7d-7d95-4eda-89cb-3c1f96093fc6";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://jsonodds.com/api/odds/$request->SelectSport");
+        curl_setopt($ch, CURLOPT_HTTPGET, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'x-api-key:' . $appKey,
+        ));
+
+        $res = curl_exec($ch);
+        $response = json_decode($res);
+
+        return $response;
     }
 }

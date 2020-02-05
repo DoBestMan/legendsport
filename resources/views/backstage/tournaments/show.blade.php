@@ -82,7 +82,7 @@
                 @section('state_selected_cancel', 'selected')
             @endif
             @section('state_class_error', error('state', $errors))
-            @section('HTML-main')
+@section('HTML-main')
 <Toasts></Toasts>
     <div class="container">
         <div name="titleFrm" class="row">
@@ -459,9 +459,9 @@
 
             <div id="buttonsFrm" class="form-row form-group">
                 <div class="col-1">
-                        <button id="buttonBack" class="btn btn-light btn-link"
-                            onclick="window.location='{{ route('tournaments.index') }}';"
-                        >Return</button>
+                    <button id="buttonBack" class="btn btn-light btn-link"
+                        onclick="window.location='{{ route('tournaments.index') }}';"
+                    >Return</button>
                 </div>
             </div>
     </div>
