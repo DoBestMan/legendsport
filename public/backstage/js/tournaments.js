@@ -141,10 +141,10 @@ var vm = new Vue({
                 buy_in: this.buyIn,
                 chips: this.chips,
                 commission: this.commission,
-                late_register: this.lateRegister,
+                late_register: (this.playersLimit == 'Unlimited') ? this.lateRegister : '',
                 late_register_rule: {
-                    interval: this.interval || '',
-                    value: this.lateRegisterValue || '',
+                    interval: (this.playersLimit == 'Unlimited') ? this.interval : '',
+                    value: (this.playersLimit == 'Unlimited') ? this.lateRegisterValue : '',
                 },
                 prize_pool: {
                     type: this.prizePool || '',
@@ -187,10 +187,10 @@ var vm = new Vue({
                 buy_in: this.buyIn,
                 chips: this.chips,
                 commission: this.commission,
-                late_register: this.lateRegister,
+                late_register: (this.playersLimit == 'Unlimited') ? this.lateRegister : '',
                 late_register_rule: {
-                    interval: this.interval || '',
-                    value: this.lateRegisterValue || '',
+                    interval: (this.playersLimit == 'Unlimited') ? this.interval : '',
+                    value: (this.playersLimit == 'Unlimited') ? this.lateRegisterValue : '',
                 },
                 prize_pool: {
                     type: this.prizePool || '',
