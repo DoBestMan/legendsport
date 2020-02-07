@@ -22,7 +22,7 @@ It's the structure of directories and archives
 
 █ TOURNAMENTS
     ···········································································
-    ■ id integer
+    ■ id                    integer
     ■ avatar                boolean                         Indicates if it have avatar. A file with the name ID is referenced in a users / avatars location
     ■ name                  string                          Tournament name
     ■ type                  enum                            If tournament is single sport or multiple
