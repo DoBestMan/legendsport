@@ -236,7 +236,7 @@ class TournamentsController extends Controller
         $inputs = [
             'name' => 'required',
             'players_limit' => 'required',
-            'buy_in' => 'required|min:1',
+            'buy_in' => 'required|numeric|min:1',
             'chips' => 'required|min:1',
             'commission' => 'required|min:1',
             'prize_pool.type' => 'required',
