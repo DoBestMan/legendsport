@@ -116,6 +116,8 @@ class TournamentsController extends Controller
             array_push($selectedEvents,json_decode($api_data));
         }
 
+        $rule = $tournament->late_register_rule;
+
         JavaScript::put([
             'name' => $tournament->name,
             'playersLimit' => $tournament->players_limit,
@@ -124,8 +126,8 @@ class TournamentsController extends Controller
             'chips' => $tournament->chips,
             'commission' => $tournament->commission,
             'lateRegister' => $tournament->late_register,
-            'interval' => $tournament->late_register_rule['interval'],
-            'value' => $tournament->late_register_rule['value'],
+            'interval' => $rule['interval'] ?? '', 
+            'value' => $rule['value'] ?? '', 
             'prizePool' => $tournament->prize_pool['type'],
             'prizePoolValue' => $tournament->prize_pool['fixed_value'],
             'prizes' => $tournament->prizes['type'],
@@ -149,6 +151,7 @@ class TournamentsController extends Controller
             array_push($selectedEvents,json_decode($api_data));
         }
 
+        $rule = $tournament->late_register_rule;
         JavaScript::put([
             'name' => $tournament->name,
             'playersLimit' => $tournament->players_limit,
@@ -157,8 +160,8 @@ class TournamentsController extends Controller
             'chips' => $tournament->chips,
             'commission' => $tournament->commission,
             'lateRegister' => $tournament->late_register,
-            'interval' => $tournament->late_register_rule['interval'],
-            'value' => $tournament->late_register_rule['value'],
+            'interval' => $rule['interval'] ?? '', 
+            'value' => $rule['value'] ?? '', 
             'prizePool' => $tournament->prize_pool['type'],
             'prizePoolValue' => $tournament->prize_pool['fixed_value'],
             'prizes' => $tournament->prizes['type'],
@@ -236,7 +239,7 @@ class TournamentsController extends Controller
         $inputs = [
             'name' => 'required',
             'players_limit' => 'required',
-            'buy_in' => 'required|min:1',
+            'buy_in' => 'required|numeric|min:1',
             'chips' => 'required|min:1',
             'commission' => 'required|min:1',
             'prize_pool.type' => 'required',

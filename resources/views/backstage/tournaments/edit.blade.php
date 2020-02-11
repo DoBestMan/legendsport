@@ -13,7 +13,7 @@
 {{-- HTML --}}
 @section('HTML-main')
 <Toasts></Toasts>
-    <div>
+    <div class="container">
         <div name="titleFrm" class="row">
             <div class="col">
                 <h1 class="ui-title">@yield('title')</h1>
@@ -30,7 +30,7 @@
                     @yield("form_laravelMethod")
 
                     <div class="form-row">
-                        <div class="col-6">
+                        <div class="col-4">
                             <div id="nameFrm" class="form-row form-group">
                                 <div class="col-3 text-right">
                                     <label for="name" class="col-form-label">Name</label>
@@ -131,7 +131,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-xl-6">
+                        <div class="col-12 col-xl-8">
                             <div id="chipsFrm" class="form-row form-group">
                                 <div class="col-12 col-lg-3 text-right">
                                     <label for="chips" class="col-form-label">Chips</label>
