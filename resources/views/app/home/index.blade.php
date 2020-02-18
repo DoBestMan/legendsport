@@ -21,42 +21,57 @@
                     <label for="type" class="control-title">Type</label>
 
                     <select id="type"
+                        v-model="type"
                         class="form-control control-input"
                     >
-                        <option value=""> </option>
-                        <option value="299">55</option>
-                        <option value="lian">56</option>
+                        <option value="" class="form-control control-input"> </option>
+                        <option value="299" class="form-control control-input">55</option>
+                        <option value="lian" class="form-control control-input">56</option>
                     </select>
                 </div>
-
+                <template>
                 <div name="sport" class="col-3">
                     <label for="sport" class="control-title">Sport</label>
-
                     <select id="sport"
+                        v-model="sport"
                         class="form-control control-input"
-                    ></select>
+                        @change="filterEvents(sport)"
+                    >
+                        <option value="" class="form-control control-input"></option>
+                        <option value="all" class="form-control control-input">All</option>
+                        <option value="free" class="form-control control-input">Free 4All</option>
+                        <option value="1,2" class="form-control control-input">Basketball (NBA+NCAAB)</option>
+                        <option value="4,3" class="form-control control-input">Football (NFL+NCAAF,CFL)</option>
+                    </select>
                 </div>
-
+                </template>
                 <div name="buy-in" class="col-1">
                     <label for="buyin" class="control-title">Buy-In</label>
 
-                    <select id="buyin"
+                    <select
+                        id="buyin"
+                        v-model="buyIn"
                         class="form-control control-input"
-                    ></select>
+                    >
+                    <option value="" class="form-control control-input">All</option>
+                    </select>
                 </div>
 
                 <div name="time-frame" class="col-1">
                     <label for="time-frame" class="control-title">Time Frame</label>
 
                     <select id="time-frame"
+                        v-model="timeFrame"
                         class="form-control control-input"
-                    ></select>
+                    >
+                    <option value="" class="form-control control-input">All</option>
+                    </select>
                 </div>
 
                 <div name="upcoming" class="col-2">
                     <label for="upcoming" class="control-title">Show upcoming only</label>
-
-                    <input type="text"
+                    <input type="checkbox"
+                        v-model="upcoming"
                         id="upcoming"
                         class="form-control control-input"
                     >
@@ -94,11 +109,15 @@
                                         :class="{ selected: tournament.selected == true }"
                                         >
                                         <td class="td col-start">@{{ tournament.starts }}</td>
-                                        <td class="td col-sports">@{{ tournament.sports }}</td>
+                                        <td class="td col-sports">
+                                            <template v-for="id in tournament.sport_id">
+                                                @{{ switchNameSport(id) }}
+                                            </template>
+                                        </td>
                                         <td class="tdcol-buy-in">@{{ tournament.buy_in }}</td>
                                         <td class="td col-name">@{{ tournament.name }}</td>
                                         <td class="td col-time-frame">@{{ tournament.time_frame }}</td>
-                                        <td class="td col-status">@{{ tournament.status }}</td>
+                                        <td class="td col-status">@{{ tournament.state }}</td>
                                         <td class="td col-enrolled">@{{ tournament.enrolled }}</td>
                                         <td class="td col-players">@{{ tournament.players }}</td>
                                     </tr>

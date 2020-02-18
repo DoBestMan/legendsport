@@ -1,0 +1,11 @@
+Torneos
+    UI
+        No creo las ventanas modales
+
+    Prizes
+        Al escoger FIXED, permitir agregar una fila con
+
+    Eventos
+        Asociar el DEPORTE correctamente desde la API: el desarrollador anterior creo una lista según su parecer pero ese valor se debe obtener de la misma API
+
+

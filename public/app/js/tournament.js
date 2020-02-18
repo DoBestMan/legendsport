@@ -32,10 +32,10 @@ var vm = new Vue({
 
     methods: {
         istabselected: function (indextab) {
-            return {'active': (indextab == this.tournamentSelected)}
+            return { 'active': (indextab == this.tournamentSelected) }
         },
 
-        showtab: function (index){
+        showtab: function (index) {
             this.tournamentSelected = index;
             this.balance = 10000;
             this.title = 'prueba';

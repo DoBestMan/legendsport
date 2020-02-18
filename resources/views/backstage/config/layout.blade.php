@@ -15,6 +15,7 @@
 {{-- JS --}}
     @section('HTML-jsVendors')
         <script src="https://cdn.jsdelivr.net/npm/v-money@0.8.1/dist/v-money.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-bootstrap-toasts@1/src/index.min.js"></script>
     @endsection
 
     @section('HTML-js')

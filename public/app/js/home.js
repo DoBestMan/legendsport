@@ -4,7 +4,11 @@ var vm = new Vue({
     data: {
         isLogin: true,
         search: '',
-
+        type: '',
+        sport: '',
+        buyIn: '',
+        timeFrame: '',
+        upcoming: '',
         userTournamentsActive: [
             'All sports Fre4all',
             'Weekend NFL',
@@ -12,636 +16,7 @@ var vm = new Vue({
         ],
 
         home: {
-            tournaments: [
-                {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '299',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: true,
-                }, {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '271',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: false,
-                }, {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '271',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: false,
-                }, {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '271',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: false,
-                }, {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '271',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: false,
-                }, {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '271',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: false,
-                }, {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '271',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: false,
-                }, {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '271',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: false,
-                }, {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '271',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: false,
-                }, {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '271',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: false,
-                }, {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '271',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: false,
-                }, {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '271',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: false,
-                }, {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '271',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: false,
-                }, {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '271',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: false,
-                }, {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '271',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: false,
-                }, {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '271',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: false,
-                }, {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '271',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: false,
-                }, {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '271',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: false,
-                }, {
-                    starts: 'Nov 30 22:00',
-                    sports: 'NFL',
-                    buy_in: '30k',
-                    name: 'Weekend NFL',
-                    time_frame: '2 days',
-                    status: 'Running',
-                    enrolled: '271',
-                    players: 'Unlimited',
-                    players_db: [
-                        {
-                            image_url: '',
-                            name: 'Paris Michelle',
-                            price: '1,000',
-                        }, {
-                            image_url: '',
-                            name: 'Elvis Aaron',
-                            price: '900',
-                        }, {
-                            image_url: '',
-                            name: 'Whitney Elizabeth',
-                            price: '700',
-                        }, {
-                            image_url: '',
-                            name: 'Debon Smith',
-                            price: '650',
-                        }, {
-                            image_url: '',
-                            name: 'Jean Motse',
-                            price: '175',
-                        },
-                    ],
-                    selected: false,
-                },
-            ],
+            tournaments: null,
 
             info: {
                 games: {
@@ -650,21 +25,52 @@ var vm = new Vue({
             }
         },
     },
-
+    created: function () {
+        this.home.tournaments = phpVars.tournaments;
+    },
     computed: {
-        customFilter: function() {
+        customFilter: function () {
             return this.home.tournaments.filter((tournament) => {
-                return tournament.starts.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
-                    || tournament.sports.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
-                    || tournament.buy_in.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
-                    || tournament.name.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
+                return tournament.name.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
                     || tournament.time_frame.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
-                    || tournament.status.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
+                    || tournament.state.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
                     || tournament.enrolled.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
                     || tournament.players.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
-                ;
+                    ;
             });
         }
-      },
-    
+    },
+    methods: {
+        switchNameSport: function (a) {
+            switch (a) {
+                case 1:
+                    return "NBA";
+                case 2:
+                    return "NCAAB";
+                case 3:
+                    return "NCAAF";
+                case 4:
+                    return "NFL";
+                case 5:
+                    return "NHL";
+                case 7:
+                    return "SOCCER";
+                case 11:
+                    return "MMA (UFC)";
+                case 14:
+                    return "KHL";
+                case 15:
+                    return "AHL";
+                case 16:
+                    return "SHL";
+                case 17:
+                    return "17";
+                default:
+                    return a;
+            }
+        },
+        filterEvents: function (selected) {
+            console.log(selected, this.home.tournaments);
+        },
+    },
 })

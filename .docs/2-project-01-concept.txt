@@ -107,7 +107,6 @@ Conceptualization and general idea of the project
     ■ Search By Tournament Name Deletes other filters and searches by tournament name
 ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 
-
 █ TABLE - PRIZES                       █ Updated: Andrés García - [16/jan/2020]
     ···········································································
     ■ POSITION/PLAYERS

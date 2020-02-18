@@ -18,11 +18,11 @@ var vm = new Vue({
 
         events: [],
         name: '',
-        players_limit: '',
-        buy_in: 0,
+        playersLimit: '',
+        buyIn: 0,
         commission: 0,
         chips: 0,
-        late_register: '',
+        lateRegister: '',
         interval: '',
         lateRegisterValue: '',
         prizePool: '',
@@ -38,8 +38,9 @@ var vm = new Vue({
 
     created: function () {
         this.name = phpVars.name;
-        this.buy_in = phpVars.buy_in;
-        this.events = phpVars.apiSports;
+        this.buyIn = phpVars.buyIn;
+        this.events = this.getEvents('all');
+        this.selectedEvents = phpVars.apiSelectedSports || [];
 
         if (this.chips != '' || phpVars.config == '') {
             this.chips = phpVars.chips;
@@ -49,13 +50,13 @@ var vm = new Vue({
             this.chips = phpVars.config['chips'];
         }
 
-        this.late_register = phpVars.lateRegister;
+        this.lateRegister = phpVars.lateRegister;
         this.interval = phpVars.interval;
         this.lateRegisterValue = phpVars.value;
         this.prizePool = phpVars.prizePool;
         this.prizePoolValue = phpVars.prizePoolValue;
         this.prizes = phpVars.prizes;
-        this.players_limit = phpVars.players_limit;
+        this.playersLimit = phpVars.playersLimit;
         this.state = phpVars.state;
     },
 
@@ -97,9 +98,7 @@ var vm = new Vue({
                 .then(function (response) {
                     console.log(response);
                 })
-                .catch(function (error) {
-                    console.log(error);
-                });
+                .catch(exceptions => console.log(exceptions));
         },
 
         includeEvent: function (event) {
@@ -108,14 +107,14 @@ var vm = new Vue({
             }
         },
 
-        updateEvents: function (sport_name) {
+        getEvents: function (sport_name) {
             axios.post('/tournaments/get-events', {
                 SelectSport: `${sport_name}`
             })
-                .then(res => {
-                    this.events = res.data;
+                .then(response => {
+                    this.events = response.data;
                 })
-                .catch(e => console.log(e));
+                .catch(exceptions => console.log(exceptions));
         },
 
         removeEvent: function (event) {
@@ -128,24 +127,24 @@ var vm = new Vue({
         },
 
         saveEvents: function () {
-            var events_type = [];
+            var eventsType = [];
 
             for (selectedEvent of this.selectedEvents) {
-                events_type.push(selectedEvent.Sport);
+                eventsType.push(selectedEvent.Sport);
             }
 
             axios.post('/tournaments', {
                 ApiData: this.selectedEvents,
                 name: this.name,
-                type: events_type,
-                players_limit: this.players_limit,
-                buy_in: this.buy_in,
+                type: eventsType,
+                players_limit: this.playersLimit,
+                buy_in: this.buyIn,
                 chips: this.chips,
                 commission: this.commission,
-                late_register: this.late_register,
+                late_register: (this.playersLimit == 'Unlimited') ? this.lateRegister : '',
                 late_register_rule: {
-                    interval: this.interval || '',
-                    value: this.lateRegisterValue || '',
+                    interval: (this.playersLimit == 'Unlimited') ? this.interval : '',
+                    value: (this.playersLimit == 'Unlimited') ? this.lateRegisterValue : '',
                 },
                 prize_pool: {
                     type: this.prizePool || '',
@@ -156,40 +155,42 @@ var vm = new Vue({
                 },
                 state: this.state,
             })
-                .then(res => {
-                    if (res.status == '200') {
+                .then(response => {
+                    if (response.status == '200') {
                         location.replace('/tournaments');
                     }
                 })
-                .catch(e => {
-                    this.errors = e.response.data.errors;
-                    this.message = e.response.data.message;
-                    setTimeout(
-                        () => this.message = '',
-                        3000
-                    );
+                .catch(exceptions => {
+                    this.errors = exceptions.response.data.errors;
+                    this.$toast.error(exceptions.response.data.message, {
+                        showProgress: false,
+                        rtl: false,
+                        timeOut: 5000,
+                        closeable: true
+                    });
                 });
         },
         updateEvent: function () {
             var pathName = location.pathname.toString().split('/');
 
-            var events_type = [];
+            var eventsType = [];
 
-            for (event of this.events) {
-                events_type.push(event.Sport);
+            for (event of this.selectedEvents) {
+                eventsType.push(event.Sport);
             }
 
             axios.post('/tournaments/' + pathName[2], {
+                ApiData: this.selectedEvents,
                 name: this.name,
-                type: events_type,
-                players_limit: this.players_limit,
-                buy_in: this.buy_in,
+                type: eventsType,
+                players_limit: this.playersLimit,
+                buy_in: this.buyIn,
                 chips: this.chips,
                 commission: this.commission,
-                late_register: this.late_register,
+                late_register: (this.playersLimit == 'Unlimited') ? this.lateRegister : '',
                 late_register_rule: {
-                    interval: this.interval || '',
-                    value: this.lateRegisterValue || '',
+                    interval: (this.playersLimit == 'Unlimited') ? this.interval : '',
+                    value: (this.playersLimit == 'Unlimited') ? this.lateRegisterValue : '',
                 },
                 prize_pool: {
                     type: this.prizePool || '',
@@ -201,18 +202,19 @@ var vm = new Vue({
                 state: this.state,
                 _method: 'patch'
             })
-                .then(res => {
-                    if (res.status == '200') {
+                .then(response => {
+                    if (response.status == '200') {
                         location.replace('/tournaments');
                     }
                 })
-                .catch(e => {
-                    this.errors = e.response.data.errors;
-                    this.message = e.response.data.message;
-                    setTimeout(
-                        () => this.message = '',
-                        3000
-                    );
+                .catch(exceptions => {
+                    this.errors = exceptions.response.data.errors;
+                    this.$toast.error(exceptions.response.data.message, {
+                        showProgress: false,
+                        rtl: false,
+                        timeOut: 5000,
+                        closeable: true
+                    });
                 });
         },
     },

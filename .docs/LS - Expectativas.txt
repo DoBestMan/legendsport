@@ -1,0 +1,131 @@
+RESUMEN - ESTADO GENERAL
+
+Expectativas con NILAY
+    - 1ER TAREA (semana 1)
+        - Adicionar y mostrar eventos a los torneos
+
+    - 2DA TAREA (semanas 2, 3)
+        - Backstage - Torneos
+            - Revisar, corregir y mejorar la interface
+            - Revisar, corregir y mejorar la interface y la experiencia de usuario y la usabilidad
+            - Crear el elemento HTML para la selección múltiple del filtro Deportes al agregar un evento
+            - Aplicar reglas de negocio de Torneos
+
+    - 3ER TAREA (semana 4)
+        - Home
+            - Hacer que el MENÚ dirija a las interfaces correspondientes
+            - Filtrar torneos
+            - Reactividad en el listado de torneos y su información dinámica
+
+    - 4TA TAREA (semana 5)
+        - Home
+            - Mostrar INFORMACIÓN del torneo al seleccionar con RANK Y GAMES
+            - Revisar, corregir y mejorar la interface e implementar reglas de negocio
+
+    - 5TA TAREA (semanas 6, 7, 8)
+        - Home
+            - Crear funcionalidad de torneos por pestañas
+
+        - Torneo
+            - Reactividad con los datos de apusta de los eventos incluidos
+            - Realizar la interface
+
+
+
+Hola David, ¿cómo va todo? espero que estén muy bien, disfrutando del nuevo miembro de la familia.
+
+****PAGOS*******
+Respecto al pago por mis servicios y demás, pueden sentirse libres en ofrecerme cualquiera de las dos opciones; no tiene que ser las dos o una en especial. También se pueden sentir libres de removerme si consideran que no estoy logrando el objetivo. En todo caso, y por mis servicios prestados, ya sea dinero o porcentaje por mi está bien siempre y cuando se sientan cómodos con esa elección. Mi interés es ayudar y avanzar en el proyecto y no tengo un interés económico en particular.
+
+En todo caso, podemos contar con el acuerdo inicial, de que si fuera pago en dinero, sería de $2.000.000 mes con una dedicación de 16 horas/mes, 8 horas martes y 8 horas el jueves. Y está en ustedes ofrecer o no una participación en la sociedad. Pero ésto es si ustedes lo llegan a considerar, no sería una condición mía.
+
+****MI ROL*******
+    - Direccionamiento técnico
+        - Análisis del proyecto
+        - Gestionar el diseño y la arquitectura del software
+        - Desarrollo el software
+            - Análisis y estrategia de desarrollo
+            - Gestión de colaboradores
+            - Gestión de metas y avances
+            - Control y revisión de avances
+            - Diseño de interfaces de usuario enfocadas en la experiencia de usuario y la fácil usabilidad
+        - Gestión de la infraestructura:
+            - Gestión de dominio
+            - Gestión de hosting y/o servidores
+            - Gestión de plataformas de pago
+
+    - Direccionamiento estratégico
+        - Estratégia de soporte técnico
+        - Estratégia de mercadeo
+        - Estrategia para el desarrollo contínuo
+
+
+*****PROYECTO*****
+    *Alcance inicial*
+        *Legend Sports* es una aplicación de apuestas en línea.
+
+        - *App*
+            Acceso a la aplicación, con interfaces web adaptativa orientadas al usuario final
+
+            - *Global*
+                - Autenticación (Sign In y Sign Up) para la APP (Usuarios finales)
+                - Funcionamiento del MENÚ según autenticación y con funcionamiento de sus enlaces (Sin desarrollar)
+                - Funcionamiento del FOOTER con funcionamiento de sus enlaces (Sin desarrollar)
+
+            - *Home*
+                Interface que muestra los torneos disponibles según los filtros aplicados. Además muestra la información y permite registrarse en un torneo. Además muestra los torneos registrados a través de pestañas.
+
+                - Filtros
+                - Listado de torneos con datos dinámicos
+                - Información del TORNEO SELECCIONADO con GAMES y RANK según el ESTADO del torneo
+
+            - *Torneo*
+                Interface que se accede a través de una pestaña al lado del home y muestra la información específica de un torneo
+
+                - Panel lateral izquierdo de apuestas
+                - Panel central de probabilidades
+                - Panel lateral derecho de información e interacción
+
+        - Backstage
+            Subdominio que permite el acceso a las interfaces de gestión de la aplicación
+
+            - *Global*
+                - Autenticación (Sign In) para el backstage (Usuarios administradores)
+                - Creación de un BOT autónomo y asincrónico para actualizar los estados de los torneos, las transacciones y demás datos
+
+            - *Configuración*
+                Interface y sistema con los parámetros de funcionamiento de la aplicación.
+
+            - *Torneos*
+                Interface para la gestión de los torneos
+
+                - Información y parámetros
+                - Incluir eventos desde la API
+
+            - *Mercadeo interno* (Sin definir)
+                Es una interface que permitirá crear campañas publicitarias o promocionales internas para la aplicación
+
+
+Estrategia de desarrollo
+    - Etapa de desarrollo funcional
+        Desarrollar la aplicación para su funcionamiento básico y elemental que permita ser usada por usuarios reales. Sin embargo ésta etapa entrega un producto desarrollado y funcional pero sin los demás elementos necesarios para operar realmente como es su: infraestructura, plataforma de pagos, etc.
+
+    - Etapa de adaptación e identidad
+        Adatar la aplicación a los ajustes y correcciones esperadas. Además de la incorporación de reglas de negocio complejas:
+
+        - Ajustar y mejoras
+        - Replanteamientos
+        - Nuevas funcionalidades
+
+    - Etapa de consolidación
+        Consolidar los procesos de funcionamiento final
+
+        - Desarrollo
+            - Admin-bot
+            - Las interfaces del menú del usuario
+        - Mercadeo Interno
+            - Establecer el funcionamiento
+            - Desarrollar la interface de Campañas
+
+
+
