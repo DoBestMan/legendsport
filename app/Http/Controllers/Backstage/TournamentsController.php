@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\DB;
 
 class TournamentsController extends Controller
 {
-    public function ejemplo()
-    {
-    }
-
     public function index()
     {
         $tournaments = Tournaments::paginate(10);
@@ -126,8 +122,8 @@ class TournamentsController extends Controller
             'chips' => $tournament->chips,
             'commission' => $tournament->commission,
             'lateRegister' => $tournament->late_register,
-            'interval' => $rule['interval'] ?? '', 
-            'value' => $rule['value'] ?? '', 
+            'interval' => $rule['interval'] ?? '',
+            'value' => $rule['value'] ?? '',
             'prizePool' => $tournament->prize_pool['type'],
             'prizePoolValue' => $tournament->prize_pool['fixed_value'],
             'prizes' => $tournament->prizes['type'],
@@ -160,8 +156,8 @@ class TournamentsController extends Controller
             'chips' => $tournament->chips,
             'commission' => $tournament->commission,
             'lateRegister' => $tournament->late_register,
-            'interval' => $rule['interval'] ?? '', 
-            'value' => $rule['value'] ?? '', 
+            'interval' => $rule['interval'] ?? '',
+            'value' => $rule['value'] ?? '',
             'prizePool' => $tournament->prize_pool['type'],
             'prizePoolValue' => $tournament->prize_pool['fixed_value'],
             'prizes' => $tournament->prizes['type'],

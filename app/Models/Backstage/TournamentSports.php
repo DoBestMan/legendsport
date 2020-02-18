@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TournamentSports extends Model
 {
-    protected $table = 'tournament_sports';
+    protected $table = 'tournaments_sports';
     protected $primaryKey = 'id';
     protected $fillable = ['tournament_id', 'sport_id'];
 

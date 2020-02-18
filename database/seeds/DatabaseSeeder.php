@@ -9,12 +9,4 @@ class DatabaseSeeder extends Seeder
         $this->call(ConfigTableSeeder::class);
         $this->call(TournamentsTableSeeder::class);
     }
-
-    public function truncateTables(Array $tables)
-    {
-        foreach ($tables as $table) {
-            DB::table($table)->truncate();
-        }
-    }
-
 }

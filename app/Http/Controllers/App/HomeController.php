@@ -29,6 +29,7 @@ class HomeController extends Controller
             'sport_id' => [],
         ];
         $tournamentsWithSport = [];
+
         foreach ($tournaments as $tournament) {
             $sports = TournamentSports::where('tournament_id', $tournament->id)->get('sport_id');
             foreach ($sports as $sport) {
@@ -45,5 +46,4 @@ class HomeController extends Controller
         return view('app.home.index')
             ->with('userTournaments', $userTournamentsActives);
     }
-
 }

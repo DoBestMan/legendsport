@@ -20,7 +20,7 @@ class TournamentEvents extends Model
         return $this->belongsTo('App\Models\Backstage\ApiEvents');
     }
 
-    public function betsevents()
+    public function betsEvents()
     {
         return $this->hasMany('App\Models\Backstage\TournamentBetsEvents');
     }

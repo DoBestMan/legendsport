@@ -21,7 +21,7 @@ class CreateTournamentsTable extends Migration
             $table->smallInteger('buy_in');
             $table->mediumInteger('chips');
             $table->mediumInteger('commission');
-            $table->boolean('late_register');
+            $table->boolean('late_register')->nullable();
             $table->json('late_register_rule')->nullable();
             $table->json('prize_pool');
             $table->json('prizes');

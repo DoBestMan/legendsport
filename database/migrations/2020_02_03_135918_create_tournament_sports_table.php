@@ -13,7 +13,7 @@ class CreateTournamentSportsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tournament_sports', function (Blueprint $table) {
+        Schema::create('tournaments_sports', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('tournament_id');
             $table->integer('sport_id');
@@ -28,6 +28,6 @@ class CreateTournamentSportsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tournament_sports');
+        Schema::dropIfExists('tournaments_sports');
     }
 }

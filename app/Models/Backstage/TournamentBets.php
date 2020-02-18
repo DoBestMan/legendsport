@@ -9,12 +9,12 @@ class TournamentBets extends Model
     protected $table = 'tournaments_bets';
     protected $primaryKey = 'id';
 
-    public function player()
+    public function players()
     {
         return $this->belongsTo('App\Models\Backstage\TournamentPlayers');
     }
 
-    public function betsevents()
+    public function betsEvents()
     {
         return $this->hasMany('App\Models\Backstage\TournamentBetsEvents');
     }
