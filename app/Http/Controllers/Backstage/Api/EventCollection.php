@@ -16,9 +16,7 @@ class EventCollection extends Controller
         curl_setopt($ch, CURLOPT_HTTPGET, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'x-api-key:' . $appKey,
-        ));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('x-api-key:' . $appKey));
 
         $res = curl_exec($ch);
         $response = json_decode($res, true);

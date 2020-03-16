@@ -22,4 +22,4 @@ class Config extends Model
 
         return json_decode($config, true);
     }
-};
+}

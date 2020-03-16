@@ -34,8 +34,7 @@ class ConfigController extends Controller
             'keepCompleted' => $config->config['keep_completed'],
         ]);
 
-        return view('backstage.config.show')
-            ->with('config', $config);
+        return view('backstage.config.show')->with('config', $config);
     }
 
     public function edit()
@@ -48,8 +47,7 @@ class ConfigController extends Controller
             'keepCompleted' => $config->config['keep_completed'],
         ]);
 
-        return view('backstage.config.edit')
-            ->with('config', $config);
+        return view('backstage.config.edit')->with('config', $config);
     }
 
     public function update(Request $request)

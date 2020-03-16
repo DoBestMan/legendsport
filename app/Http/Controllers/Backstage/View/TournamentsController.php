@@ -64,9 +64,9 @@ class TournamentsController extends Controller
             unset($key['Odds']);
         }
 
-        $tournament = new Tournament;
+        $tournament = new Tournament();
         $tournament->name = $request->name;
-        $tournament->type = count(array_unique($request->type))>1?'Multiple':'Single';
+        $tournament->type = count(array_unique($request->type)) > 1 ? 'Multiple' : 'Single';
         $tournament->players_limit = $request->players_limit;
         $tournament->buy_in = $request->buy_in;
         $tournament->chips = $request->chips;
@@ -78,20 +78,17 @@ class TournamentsController extends Controller
         $tournament->state = $request->state;
         $tournament->save();
 
-        foreach(array_unique($request->type) as $sport_id) {
+        foreach (array_unique($request->type) as $sport_id) {
             TournamentSport::firstOrCreate(
                 ['tournament_id' => $tournament->id, 'sport_id' => $sport_id],
-                ['sport_id' => $sport_id]
+                ['sport_id' => $sport_id],
             );
         }
 
         foreach ($api_data as $data) {
-            ApiEvent::firstOrCreate(
-                ['api_id' => $data['ID']],
-                ['api_data' => $data]
-            );
+            ApiEvent::firstOrCreate(['api_id' => $data['ID']], ['api_data' => $data]);
 
-            $tournament_event = new TournamentEvent;
+            $tournament_event = new TournamentEvent();
             $tournament_event->tournament_id = $tournament->id;
             $tournament_event->api_event_id = ApiEvent::where('api_id', $data['ID'])->value('id');
             $tournament_event->save();
@@ -103,7 +100,9 @@ class TournamentsController extends Controller
     public function show(Tournament $tournament)
     {
         $selectedEvents = [];
-        $api_event_id = DB::table('tournaments_events')->where('tournament_id', $tournament->id)->get('api_event_id');
+        $api_event_id = DB::table('tournaments_events')
+            ->where('tournament_id', $tournament->id)
+            ->get('api_event_id');
 
         foreach ($api_event_id as $value) {
             /** @var ApiEvent $apiEvent */
@@ -139,7 +138,9 @@ class TournamentsController extends Controller
     public function edit(Tournament $tournament)
     {
         $selectedEvents = [];
-        $api_event_id = DB::table('tournaments_events')->where('tournament_id', $tournament->id)->get('api_event_id');
+        $api_event_id = DB::table('tournaments_events')
+            ->where('tournament_id', $tournament->id)
+            ->get('api_event_id');
 
         foreach ($api_event_id as $value) {
             /** @var ApiEvent $apiEvent */
@@ -178,13 +179,13 @@ class TournamentsController extends Controller
         $api_data = $request->ApiData;
 
         foreach ($api_data as &$key) {
-            if(array_key_exists('Odds', $key)) {
+            if (array_key_exists('Odds', $key)) {
                 unset($key['Odds']);
             }
         }
 
         $tournament->name = $request->name;
-        $tournament->type = count(array_unique($request->type))>1 ?'Multiple':'Single';
+        $tournament->type = count(array_unique($request->type)) > 1 ? 'Multiple' : 'Single';
         $tournament->players_limit = $request->players_limit;
         $tournament->buy_in = $request->buy_in;
         $tournament->chips = $request->chips;
@@ -198,24 +199,22 @@ class TournamentsController extends Controller
 
         TournamentSport::where('tournament_id', $tournament->id)->delete();
 
-        foreach(array_unique($request->type) as $sport_id) {
+        foreach (array_unique($request->type) as $sport_id) {
             TournamentSport::firstOrCreate(
                 ['tournament_id' => $tournament->id, 'sport_id' => $sport_id],
-                ['sport_id' => $sport_id]
+                ['sport_id' => $sport_id],
             );
         }
 
         TournamentEvent::where('tournament_id', $tournament->id)->delete();
 
         foreach ($api_data as $data) {
-            $apiEvent = ApiEvent::firstOrCreate(
-                ['api_id' => $data['ID']],
-                ['api_data' => $data]
-            );
+            $apiEvent = ApiEvent::firstOrCreate(['api_id' => $data['ID']], ['api_data' => $data]);
 
-            TournamentEvent::firstOrCreate(
-                ['tournament_id' => $tournament->id, 'api_event_id' => $apiEvent->id]
-            );
+            TournamentEvent::firstOrCreate([
+                'tournament_id' => $tournament->id,
+                'api_event_id' => $apiEvent->id,
+            ]);
         }
 
         return 'Data Updated Successfully';
@@ -245,11 +244,11 @@ class TournamentsController extends Controller
         $messages = [
             'players_limit.required' => 'Players limit is required',
             'prize_pool.type.required' => 'Prize pool field is required.',
-            'prizes.type.required' => 'Please select valid prize.'
+            'prizes.type.required' => 'Please select valid prize.',
         ];
 
         if ($request->players_limit == 'Unlimited') {
-            $inputs = array_merge($inputs,[
+            $inputs = array_merge($inputs, [
                 'late_register' => 'required',
             ]);
             $messages = array_merge($messages, [
@@ -258,9 +257,11 @@ class TournamentsController extends Controller
         }
 
         if ($request->late_register == 1) {
-            if ($request->late_register_rule['interval'] == 'seconds'
-                ||$request->late_register_rule['interval'] == 'minutes') {
-                $inputs = array_merge($inputs,[
+            if (
+                $request->late_register_rule['interval'] == 'seconds' ||
+                $request->late_register_rule['interval'] == 'minutes'
+            ) {
+                $inputs = array_merge($inputs, [
                     'late_register_rule.interval' => 'required',
                     'late_register_rule.value' => 'required|numeric|min:1|max:60',
                 ]);
@@ -272,7 +273,7 @@ class TournamentsController extends Controller
                     'late_register_rule.value.max' => 'Interval value may not be greater than 60.',
                 ]);
             } else {
-                $inputs = array_merge($inputs,[
+                $inputs = array_merge($inputs, [
                     'late_register_rule.interval' => 'required',
                     'late_register_rule.value' => 'required|numeric|min:1|max:100',
                 ]);

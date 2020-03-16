@@ -1,5 +1,6 @@
 {
   "printWidth": 100,
   "tabWidth": 4,
-  "trailingComma": "all"
+  "trailingComma": "all",
+  "trailingCommaPHP": "php7.3",
 }
