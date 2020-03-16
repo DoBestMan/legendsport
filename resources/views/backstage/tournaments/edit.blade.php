@@ -32,6 +32,7 @@
                 :prize-pool-value.sync="prizePoolValue"
                 :prizes.sync="prizes"
                 :state.sync="state"
+                :time-frame="timeFrame"
             ></tournament-form>
 
             <hr/>
@@ -73,7 +74,7 @@
                         type="button"
                         class="btn btn-danger"
                         title="Delete"
-                        @click="openDeleteModal({{ $tournament->id }}, '{{ $tournament->name }}')"
+                        @click='openDeleteModal(@json($tournament->id), @json($tournament->name))'
                     >
                         Delete
                     </button>

@@ -51,6 +51,33 @@
                 </div>
             </div>
 
+            <div id="time_frameFrm" class="form-row form-group">
+                <div class="col-4 text-right">
+                    <label for="time_frame" class="col-form-label">Time frame</label>
+                </div>
+
+                <div class="col-8">
+                    <select
+                        name="time_frame"
+                        id="time_frame"
+                        :class="[errors['time_frame'] ? 'form-control is-invalid' : 'form-control']"
+                        :value="timeFrame"
+                        @change="$emit('update:timeFrame', $event.target.value)"
+                        required
+                    >
+                        <option></option>
+                        <option :value="TimeFrame.Daily">Daily</option>
+                        <option :value="TimeFrame.Weekly">Weekly</option>
+                        <option :value="TimeFrame.Monthly">Monthly</option>
+                        <option :value="TimeFrame.SeasonLong">Season long</option>
+                    </select>
+
+                    <div v-if="errors['time_frame']" class="invalid-feedback">
+                        {{ errors["time_frame"]["0"] }}
+                    </div>
+                </div>
+            </div>
+
             <div id="buy_inFrm" class="form-row form-group">
                 <div class="col-4 text-right">
                     <label for="buy_in" class="col-form-label">Buy-in</label>
@@ -339,7 +366,7 @@
 
 <script lang="ts">
 import { TournamentState } from "../../../general/types/tournament";
-import { PlayersLimitType } from "../../../app/types/tournament";
+import { PlayersLimitType, TimeFrame } from "../../../app/types/tournament";
 
 export default {
     name: "TournamentForm",
@@ -357,6 +384,7 @@ export default {
         "prizePoolValue",
         "prizes",
         "state",
+        "timeFrame",
         "errors",
     ],
 
@@ -385,6 +413,10 @@ export default {
 
         PlayersLimitType() {
             return PlayersLimitType;
+        },
+
+        TimeFrame() {
+            return TimeFrame;
         },
     },
 };

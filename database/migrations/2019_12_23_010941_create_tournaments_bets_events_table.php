@@ -22,8 +22,14 @@ class CreateTournamentsBetsEventsTable extends Migration
         });
 
         Schema::table('tournaments_bets_events', function (Blueprint $table) {
-            $table->foreign('tournament_bet_id')->references('id')->on('tournaments_bets');
-            $table->foreign('tournament_event_id')->references('id')->on('tournaments_events');
+            $table
+                ->foreign('tournament_bet_id')
+                ->references('id')
+                ->on('tournaments_bets');
+            $table
+                ->foreign('tournament_event_id')
+                ->references('id')
+                ->on('tournaments_events');
         });
     }
 

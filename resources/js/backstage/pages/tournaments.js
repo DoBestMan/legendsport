@@ -12,7 +12,7 @@ import loaderStore from "../stores/loaderStore";
 
 setup();
 
-const vm = new Vue({
+new Vue({
     el: "#main",
 
     components: {
@@ -38,6 +38,7 @@ const vm = new Vue({
         prizes: "",
         state: "",
         selectedEvents: [],
+        timeFrame: "",
         errors: {},
 
         isModalAvailableEventListVisible: false,
@@ -66,6 +67,7 @@ const vm = new Vue({
         this.prizes = phpVars.prizes;
         this.playersLimit = phpVars.playersLimit;
         this.state = phpVars.state;
+        this.timeFrame = phpVars.timeFrame;
     },
 
     mounted() {
@@ -123,11 +125,7 @@ const vm = new Vue({
         },
 
         async createTournament() {
-            var eventsType = [];
-
-            for (const selectedEvent of this.selectedEvents) {
-                eventsType.push(selectedEvent.Sport);
-            }
+            var eventsType = this.selectedEvents.map(event => event.Sport);
 
             loaderStore.show();
 
@@ -153,35 +151,26 @@ const vm = new Vue({
                         type: this.prizes || "",
                     },
                     state: this.state,
+                    time_frame: this.timeFrame,
                 });
 
                 notificationStore.info("New tournament's been created.");
                 window.location = "/tournaments";
             } catch (e) {
                 this.errors = e.response.data.errors;
-                this.$toast.error(e.response.data.message, {
-                    showProgress: false,
-                    rtl: false,
-                    timeOut: 5000,
-                    closeable: true,
-                });
+                notificationStore.errorSync(e.response.data.message);
             } finally {
                 loaderStore.hide();
             }
         },
 
         async updateTournament() {
-            var pathName = location.pathname.toString().split("/");
-            var eventsType = [];
-
-            for (const event of this.selectedEvents) {
-                eventsType.push(event.Sport);
-            }
+            var eventsType = this.selectedEvents.map(event => event.Sport);
 
             loaderStore.show();
 
             try {
-                const response = await axios.patch(`/tournaments/${this.tournamentId}`, {
+                await axios.patch(`/tournaments/${this.tournamentId}`, {
                     ApiData: this.selectedEvents,
                     name: this.name,
                     type: eventsType,
@@ -202,18 +191,14 @@ const vm = new Vue({
                         type: this.prizes || "",
                     },
                     state: this.state,
+                    time_frame: this.timeFrame,
                 });
 
                 notificationStore.info("Tournament's been updated.");
                 window.location = "/tournaments";
             } catch (e) {
                 this.errors = e.response.data.errors;
-                this.$toast.error(e.response.data.message, {
-                    showProgress: false,
-                    rtl: false,
-                    timeOut: 5000,
-                    closeable: true,
-                });
+                notificationStore.errorSync(e.response.data.message);
             } finally {
                 loaderStore.hide();
             }

@@ -7,17 +7,17 @@ use Illuminate\Routing\Router;
 
 /** @var Router $router */
 
-$app = env("APP_URL_DOMAIN");
-$backstage = env("BACKSTAGE_URL_SUBDOM") . "." . env("APP_URL_DOMAIN");
+$app = env('APP_URL_DOMAIN');
+$backstage = env('BACKSTAGE_URL_SUBDOM') . '.' . env('APP_URL_DOMAIN');
 
-$router->middleware("auth:api")->get("/user", function (Request $request) {
+$router->middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 $router->domain($app)->group(function (Router $router) {
-    $router->get("/tournaments", TournamentCollection::class . "@get");
+    $router->get('/tournaments', TournamentCollection::class . '@get');
 });
 
 $router->domain($backstage)->group(function (Router $router) {
-    $router->get("/events", EventCollection::class . "@get");
+    $router->get('/events', EventCollection::class . '@get');
 });

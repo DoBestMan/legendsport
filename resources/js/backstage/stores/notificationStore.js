@@ -11,6 +11,15 @@ class NotificationStore {
         this._addNotification("info", message);
     }
 
+    errorSync(message) {
+        Vue.prototype.$toast.error(message, {
+            showProgress: false,
+            rtl: false,
+            timeOut: 5000,
+            closeable: true,
+        });
+    }
+
     loadAndShow() {
         this._load();
 

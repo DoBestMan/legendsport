@@ -67,7 +67,7 @@
                                         type="button"
                                         class="btn btn-outline-danger btn-sm"
                                         title="Delete"
-                                        @click="openDeleteModal({{ $tournament->id }}, '{{ $tournament->name }}')"
+                                        @click='openDeleteModal(@json($tournament->id), @json($tournament->name))'
                                     >
                                         <i class="fas fa-trash"></i>
                                     </button>

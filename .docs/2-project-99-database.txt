@@ -39,7 +39,7 @@ It's the structure of directories and archives
 
     ■ players_limit         enum                            Minimum and maximum number of users who can register. When you comply with the record, the status changes to FULL
         Heads-Up => 2
-        Full => 10
+        Single table => 10
         Unlimited => Unlimited (0)
 
         RULES

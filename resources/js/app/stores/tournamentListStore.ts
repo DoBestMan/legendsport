@@ -49,7 +49,10 @@ const matchType = (expected: TournamentType | null, sports: number[]): boolean =
     }
 };
 
-const matchPlayers = (expected: PlayersLimitType | null, value: PlayersLimitType): boolean =>
+const matchPlayersLimit = (expected: PlayersLimitType | null, value: PlayersLimitType): boolean =>
+    !expected || expected === value;
+
+const matchTimeFrame = (expected: TimeFrame | null, value: TimeFrame | null): boolean =>
     !expected || expected === value;
 
 const isUpcoming = (state: TournamentState): boolean =>
@@ -67,18 +70,20 @@ const filterTournament = (
     type: TournamentType | null,
     playersLimit: PlayersLimitType | null,
     upcoming: boolean,
+    timeFrame: TimeFrame | null,
 ): boolean => {
     if (search) {
         return matchString(tournament.name, search);
     }
 
-    const matchesBuyIn = matchBuyIn(buyIn, tournament.buy_in);
-    const matchesType = matchType(type, tournament.sport_id);
-    const matchesPlayersLimit = matchPlayers(playersLimit, tournament.players_limit);
-    const hasAnySport = !sports.length || intersects(sports, tournament.sport_id);
-    const matchesUpcoming = !upcoming || isUpcoming(tournament.state);
-
-    return hasAnySport && matchesBuyIn && matchesType && matchesPlayersLimit && matchesUpcoming;
+    return (
+        matchBuyIn(buyIn, tournament.buy_in) &&
+        matchType(type, tournament.sport_id) &&
+        matchPlayersLimit(playersLimit, tournament.players_limit) &&
+        (!sports.length || intersects(sports, tournament.sport_id)) &&
+        (!upcoming || isUpcoming(tournament.state)) &&
+        matchTimeFrame(timeFrame, tournament.time_frame)
+    );
 };
 
 export default new Vue({
@@ -110,6 +115,7 @@ export default new Vue({
                     this.type,
                     this.playersLimit,
                     this.upcoming,
+                    this.timeFrame,
                 ),
             );
         },

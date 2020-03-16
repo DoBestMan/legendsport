@@ -1,3 +1,4 @@
+import {TimeFrame} from "../../types/tournament";
 <template>
     <LoadingOverlay
         :loading="tournamentListStore.isLoading"
@@ -22,7 +23,7 @@
                 </thead>
                 <tbody class="tbody">
                     <template v-for="tournament in tournamentListStore.filteredTournaments">
-                        <tr class="tr" :class="{ selected: tournament.selected == true }">
+                        <tr class="tr">
                             <td class="td col-start">
                                 {{ tournament.starts }}
                             </td>

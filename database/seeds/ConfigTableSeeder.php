@@ -7,6 +7,8 @@ class ConfigTableSeeder extends Seeder
 {
     public function run()
     {
-        factory(Config::class)->times(1)->create();
+        factory(Config::class)
+            ->times(1)
+            ->create();
     }
 }

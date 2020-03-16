@@ -22,8 +22,14 @@ class CreateTournamentsPlayersTable extends Migration
         });
 
         Schema::table('tournaments_players', function (Blueprint $table) {
-            $table->foreign('tournament_id')->references('id')->on('tournaments');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table
+                ->foreign('tournament_id')
+                ->references('id')
+                ->on('tournaments');
+            $table
+                ->foreign('user_id')
+                ->references('id')
+                ->on('users');
         });
     }
 

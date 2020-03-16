@@ -7,6 +7,8 @@ class TournamentsTableSeeder extends Seeder
 {
     public function run()
     {
-        factory(Tournament::class)->times(5)->create();
+        factory(Tournament::class)
+            ->times(5)
+            ->create();
     }
 }

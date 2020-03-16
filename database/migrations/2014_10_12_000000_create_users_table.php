@@ -12,7 +12,7 @@ class CreateUsersTable extends Migration
             $table->engine = 'InnoDB';
             $table->charset = 'utf8';
             $table->collation = 'utf8_unicode_ci';
-            
+
             $table->smallIncrements('id');
             $table->boolean('avatar');
             $table->string('nickname')->unique();

@@ -12,7 +12,7 @@ use App\Models\Backstage\ApiEvent;
 use App\Models\Backstage\Config;
 use Illuminate\Support\Facades\DB;
 
-class TournamentsController extends Controller
+class TournamentController extends Controller
 {
     public function index()
     {
@@ -66,7 +66,6 @@ class TournamentsController extends Controller
 
         $tournament = new Tournament();
         $tournament->name = $request->name;
-        $tournament->type = count(array_unique($request->type)) > 1 ? 'Multiple' : 'Single';
         $tournament->players_limit = $request->players_limit;
         $tournament->buy_in = $request->buy_in;
         $tournament->chips = $request->chips;
@@ -76,6 +75,7 @@ class TournamentsController extends Controller
         $tournament->prize_pool = $request->prize_pool;
         $tournament->prizes = $request->prizes;
         $tournament->state = $request->state;
+        $tournament->time_frame = $request->time_frame;
         $tournament->save();
 
         foreach (array_unique($request->type) as $sport_id) {
@@ -113,20 +113,21 @@ class TournamentsController extends Controller
         $rule = $tournament->late_register_rule;
 
         JavaScript::put([
-            'name' => $tournament->name,
-            'playersLimit' => $tournament->players_limit,
-            'config' => '',
+            'apiSelectedSports' => $selectedEvents,
             'buyIn' => $tournament->buy_in,
             'chips' => $tournament->chips,
             'commission' => $tournament->commission,
-            'lateRegister' => $tournament->late_register,
+            'config' => '',
             'interval' => $rule['interval'] ?? '',
-            'value' => $rule['value'] ?? '',
+            'lateRegister' => $tournament->late_register,
+            'name' => $tournament->name,
+            'playersLimit' => $tournament->players_limit,
             'prizePool' => $tournament->prize_pool['type'],
             'prizePoolValue' => $tournament->prize_pool['fixed_value'],
             'prizes' => $tournament->prizes['type'],
-            'apiSelectedSports' => $selectedEvents,
             'state' => $tournament->state,
+            'timeFrame' => $tournament->time_frame,
+            'value' => $rule['value'] ?? '',
         ]);
 
         return view('backstage.tournaments.show')
@@ -164,6 +165,7 @@ class TournamentsController extends Controller
             'prizes' => $tournament->prizes['type'],
             'apiSelectedSports' => $selectedEvents,
             'state' => $tournament->state,
+            'timeFrame' => $tournament->time_frame,
         ]);
 
         return view('backstage.tournaments.edit')
@@ -185,7 +187,6 @@ class TournamentsController extends Controller
         }
 
         $tournament->name = $request->name;
-        $tournament->type = count(array_unique($request->type)) > 1 ? 'Multiple' : 'Single';
         $tournament->players_limit = $request->players_limit;
         $tournament->buy_in = $request->buy_in;
         $tournament->chips = $request->chips;
@@ -195,6 +196,7 @@ class TournamentsController extends Controller
         $tournament->prize_pool = $request->prize_pool;
         $tournament->prizes = $request->prizes;
         $tournament->state = $request->state;
+        $tournament->time_frame = $request->time_frame;
         $tournament->save();
 
         TournamentSport::where('tournament_id', $tournament->id)->delete();
@@ -231,14 +233,15 @@ class TournamentsController extends Controller
     private function validation(Request $request)
     {
         $inputs = [
-            'name' => 'required',
-            'players_limit' => 'required',
             'buy_in' => 'required|numeric|min:1',
             'chips' => 'required|min:1',
             'commission' => 'required|min:1',
+            'name' => 'required',
+            'players_limit' => 'required',
             'prize_pool.type' => 'required',
-            'state' => 'required',
             'prizes.type' => 'required',
+            'state' => 'required',
+            'time_frame' => 'required',
         ];
 
         $messages = [

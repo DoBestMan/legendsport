@@ -12,12 +12,7 @@ class CreateTournamentsTable extends Migration
             $table->bigIncrements('id');
             $table->boolean('avatar')->default(false);
             $table->string('name');
-            $table->enum('type', ['Single', 'Multiple']);
-            $table->enum('players_limit', [
-                'Heads-Up',
-                'Full',
-                'Unlimited',
-            ]);
+            $table->enum('players_limit', ['Heads-Up', 'Single table', 'Unlimited']);
             $table->smallInteger('buy_in');
             $table->mediumInteger('chips');
             $table->mediumInteger('commission');
@@ -31,8 +26,9 @@ class CreateTournamentsTable extends Migration
                 'Late registering',
                 'Running',
                 'Complete',
-                'Cancel'
+                'Cancel',
             ]);
+            $table->enum('time_frame', ['Daily', 'Weekly', 'Monthly', 'Season long']);
             $table->timestamps();
         });
     }

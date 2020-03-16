@@ -6,8 +6,9 @@ export interface Tournament {
     name: string;
     players_limit: PlayersLimitType;
     sport_id: number[];
-    starts: string;
+    starts: string | null;
     state: TournamentState;
+    time_frame: TimeFrame;
 }
 
 export enum BuyInType {
@@ -29,7 +30,8 @@ export enum PlayersLimitType {
 }
 
 export enum TimeFrame {
-    Daily = 1,
-    Weekly,
-    Monthly,
+    Daily = "Daily",
+    Weekly = "Weekly",
+    Monthly = "Monthly",
+    SeasonLong = "Season long",
 }
