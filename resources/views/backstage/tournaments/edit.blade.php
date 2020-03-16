@@ -72,17 +72,19 @@
                     <button
                         type="button"
                         class="btn btn-danger"
-                        data-toggle="modal"
-                        data-target="#modalDelete"
+                        title="Delete"
+                        @click="openDeleteModal({{ $tournament->id }}, '{{ $tournament->name }}')"
                     >
                         Delete
                     </button>
-                    <modal-delete
-                        text-description="{{ $tournament->name }}"
-                        @@destroy="deleteTournament({{ $tournament->id }})"
-                    ></modal-delete>
                 </div>
             </div>
         </form>
     </div>
+
+    <modal-delete
+        v-model="modalDeleteId"
+        :text-description="modalDeleteDescription"
+        @@destroy="deleteTournament(modalDeleteId)"
+    ></modal-delete>
 @endsection

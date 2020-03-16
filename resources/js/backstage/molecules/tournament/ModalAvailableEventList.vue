@@ -100,9 +100,10 @@ export default Vue.extend({
             this.loadEventsIsLoading = true;
 
             try {
-                const response = await axios.post("/tournaments/get-events", {
+                const params = {
                     SelectSport: this.selectedSports,
-                });
+                };
+                const response = await axios.get("/api/events", { params });
                 this.events = response.data;
                 this.loadEventsFailed = false;
             } catch (e) {

@@ -1,6 +1,5 @@
 <?php
-
-namespace App\Http\Controllers\Backstage;
+namespace App\Http\Controllers\Backstage\View;
 
 use App\Http\Controllers\Controller;
 

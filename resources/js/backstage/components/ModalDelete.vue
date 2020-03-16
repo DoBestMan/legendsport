@@ -1,53 +1,31 @@
 <template>
-    <div
-        :id="'modalDelete' + (indexRowId ? indexRowId : '')"
-        class="modal fade show"
-        tabindex="-1"
-        role="dialog"
-    >
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Delete</h5>
+    <b-modal title="Delete" :visible="!!value" @change="$emit('input', $event)">
+        <template v-slot:default>
+            Confirm the removal of:
+            <strong>{{ textDescription }}</strong>
+        </template>
 
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+        <template v-slot:modal-footer="{ cancel }">
+            <button class="btn btn-secondary" @click="cancel()">
+                Cancel
+            </button>
 
-                <div class="modal-body text-left">
-                    <p>
-                        Confirm the removal of:
-                        <strong>{{ textDescription }}</strong>
-                    </p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        Cancel
-                    </button>
-
-                    <ActionButton
-                        type="submit"
-                        :form="'formDelete' + (indexRowId ? indexRowId : '')"
-                        class="btn-danger"
-                        :loading="deleting"
-                        @click="destroy"
-                    >
-                        Delete
-                    </ActionButton>
-                </div>
-            </div>
-        </div>
-    </div>
+            <ActionButton type="submit" class="btn-danger" :loading="deleting" @click="destroy">
+                Delete
+            </ActionButton>
+        </template>
+    </b-modal>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue";
+import { BModal } from "bootstrap-vue";
 import ActionButton from "./ActionButton";
 
-export default {
+export default Vue.extend({
     name: "ModalDelete",
     props: {
+        value: [Boolean, Number],
         deleting: {
             type: Boolean,
             default: false,
@@ -60,6 +38,6 @@ export default {
             this.$emit("destroy");
         },
     },
-    components: { ActionButton },
-};
+    components: { ActionButton, BModal },
+});
 </script>

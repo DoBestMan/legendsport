@@ -1,6 +1,5 @@
 <?php
-
-namespace App\Http\Controllers\Backstage;
+namespace App\Http\Controllers\Backstage\View;
 
 use Illuminate\Http\Response;
 use JavaScript;
@@ -35,7 +34,7 @@ class TournamentsController extends Controller
             ->with('numFirstItemPage', $numFirstItemPage);
     }
 
-    public function create(Request $request)
+    public function create()
     {
         $config = Config::first();
 
@@ -299,30 +298,5 @@ class TournamentsController extends Controller
             ]);
         }
         $this->validate($request, $inputs, $messages);
-    }
-
-    public function getEvents(Request $request)
-    {
-        $availableSports = $request->request->get("SelectSport", []);
-
-        $appKey = "3b279a7d-7d95-4eda-89cb-3c1f96093fc6";
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://jsonodds.com/api/odds/all");
-        curl_setopt($ch, CURLOPT_HTTPGET, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'x-api-key:' . $appKey,
-        ));
-
-        $res = curl_exec($ch);
-        $response = json_decode($res, true);
-
-        return collect($response)
-            ->filter(function (array $item) use ($availableSports) {
-                return !$availableSports || in_array($item["Sport"], $availableSports);
-            })
-            ->values()
-            ->all();
     }
 }

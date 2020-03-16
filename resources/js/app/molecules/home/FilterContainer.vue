@@ -38,8 +38,21 @@
         <div class="col-1">
             <label for="time-frame" class="control-title">Time Frame</label>
 
-            <select id="time-frame" v-model="timeFrame" class="form-control control-input">
-                <option value="" class="form-control control-input">All</option>
+            <select
+                id="time-frame"
+                v-model="tournamentListStore.timeFrame"
+                class="form-control control-input"
+            >
+                <option :value="null" class="form-control control-input">All</option>
+                <option :value="TimeFrame.Daily" class="form-control control-input">
+                    Daily
+                </option>
+                <option :value="TimeFrame.Weekly" class="form-control control-input">
+                    Weekly
+                </option>
+                <option :value="TimeFrame.Monthly" class="form-control control-input">
+                    Monthly
+                </option>
             </select>
         </div>
 
@@ -91,17 +104,11 @@
 import Vue from "vue";
 import tournamentListStore from "../../stores/tournamentListStore";
 import SportSelect from "../../../general/components/SportSelect.vue";
-import { BuyInType, PlayersLimitType, TournamentType } from "../../types/tournament";
+import { BuyInType, PlayersLimitType, TimeFrame, TournamentType } from "../../types/tournament";
 
 export default Vue.extend({
     name: "FilterContainer",
     components: { SportSelect },
-
-    data() {
-        return {
-            timeFrame: "",
-        };
-    },
 
     computed: {
         tournamentListStore() {
@@ -114,6 +121,10 @@ export default Vue.extend({
 
         TournamentType() {
             return TournamentType;
+        },
+
+        TimeFrame() {
+            return TimeFrame;
         },
 
         PlayersLimitType() {

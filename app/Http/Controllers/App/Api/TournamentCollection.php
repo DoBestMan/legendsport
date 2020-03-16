@@ -27,6 +27,7 @@ class TournamentCollection extends Controller
                 $tournament = array_merge(
                     $tournament->toArray(),
                     [
+                        "enrolled" => 0,
                         "sport_id" => $sportIds,
                         "starts" => $startDate,
                     ]

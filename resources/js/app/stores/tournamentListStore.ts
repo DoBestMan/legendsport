@@ -1,7 +1,13 @@
 import Vue from "vue";
 import axios from "axios";
 import { intersects } from "../../general/utils/utils";
-import { BuyInType, PlayersLimitType, Tournament, TournamentType } from "../types/tournament";
+import {
+    BuyInType,
+    PlayersLimitType,
+    TimeFrame,
+    Tournament,
+    TournamentType,
+} from "../types/tournament";
 import { Nullable } from "../../general/types/types";
 import { TournamentState } from "../../general/types/tournament";
 
@@ -80,6 +86,7 @@ export default new Vue({
         return {
             buyIn: null as Nullable<BuyInType>,
             playersLimit: null as Nullable<PlayersLimitType>,
+            timeFrame: null as Nullable<TimeFrame>,
             search: "",
             sports: [] as number[],
             type: null as Nullable<TournamentType>,

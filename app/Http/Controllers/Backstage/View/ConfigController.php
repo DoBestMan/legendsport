@@ -1,6 +1,5 @@
 <?php
-
-namespace App\Http\Controllers\Backstage;
+namespace App\Http\Controllers\Backstage\View;
 
 use Illuminate\Http\Response;
 use JavaScript;
@@ -55,7 +54,7 @@ class ConfigController extends Controller
 
     public function update(Request $request)
     {
-        $config = config::first();
+        $config = Config::first();
 
         $config->config = $request->config;
         $config->save();

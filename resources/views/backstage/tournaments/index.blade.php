@@ -66,18 +66,11 @@
                                     <button
                                         type="button"
                                         class="btn btn-outline-danger btn-sm"
-                                        title="Eliminar"
-                                        data-toggle="modal"
-                                        data-target="#modalDelete{{ $tournament->id }}"
+                                        title="Delete"
+                                        @click="openDeleteModal({{ $tournament->id }}, '{{ $tournament->name }}')"
                                     >
                                         <i class="fas fa-trash"></i>
                                     </button>
-
-                                    <modal-delete
-                                        :index-row-id="{{ $tournament->id }}"
-                                        text-description="{{ $tournament->name }}"
-                                        @@destroy="deleteTournament({{ $tournament->id }})"
-                                    ></modal-delete>
                                 </td>
                             </tr>
                         @endforeach
@@ -98,4 +91,10 @@
         </div>
     </div>
 </div>
+
+<modal-delete
+    v-model="modalDeleteId"
+    :text-description="modalDeleteDescription"
+    @@destroy="deleteTournament(modalDeleteId)"
+></modal-delete>
 @endsection

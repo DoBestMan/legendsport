@@ -23,6 +23,7 @@ export default {
 <style lang="scss">
 .full-loader {
     position: fixed;
+    z-index: 2000;
     left: 0;
     top: 0;
     height: 100vh;

@@ -35,7 +35,7 @@ Conceptualization and general idea of the project
         favor, those chips are lost.
 
         Tournaments have a limit (minimum and maximum at the same time) of users
-        to register (Heads-up (2), Full table (10) and Unlimited). When the limit
+        to register (Heads-up (2), Single table (10) and Unlimited). When the limit
         is met, no more users can be registered; if the limit is not met the
         tournament is canceled, and the BUY-IN and COMMISSION are returned to the
         user. For unlimited users, no more users can be registered if the EVENT
@@ -90,10 +90,9 @@ Conceptualization and general idea of the project
 
     ■ Time Frame
         All
-        Freeroll (Free registration to a tournament)
-        Low (Low: registration between $1 and $49 for a tournament)
-        Medium: Record between $50 and $199 for a tournament)
-        High: record over $200 for a tournament)
+        Daily (all events are in 1 day)
+        Weekly (all events are between 2 and 7 days)
+        Monthly (all events are between 8 and 30/31 days)
     ···········································································
 
     ■ Players

@@ -45,7 +45,7 @@
                                 {{ tournament.enrolled }}
                             </td>
                             <td class="td col-players">
-                                {{ tournament.players_limit }}
+                                0
                             </td>
                         </tr>
                     </template>

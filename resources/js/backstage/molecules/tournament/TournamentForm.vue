@@ -40,9 +40,9 @@
                         required
                     >
                         <option></option>
-                        <option value="Heads-Up">Heads-Up</option>
-                        <option value="Full">Full</option>
-                        <option value="Unlimited">Unlimited</option>
+                        <option :value="PlayersLimitType.HeadsUp">Heads-Up</option>
+                        <option :value="PlayersLimitType.SingleTable">Single table</option>
+                        <option :value="PlayersLimitType.Unlimited">Unlimited</option>
                     </select>
 
                     <div v-if="errors['players_limit']" class="invalid-feedback">
@@ -339,6 +339,7 @@
 
 <script lang="ts">
 import { TournamentState } from "../../../general/types/tournament";
+import { PlayersLimitType } from "../../../app/types/tournament";
 
 export default {
     name: "TournamentForm",
@@ -380,6 +381,10 @@ export default {
     computed: {
         TournamentState() {
             return TournamentState;
+        },
+
+        PlayersLimitType() {
+            return PlayersLimitType;
         },
     },
 };
