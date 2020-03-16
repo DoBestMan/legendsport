@@ -1,0 +1,280 @@
+@import "_global";
+
+@tab-content-frm_padding: 15px;
+@tab-content-frm_height: calc(~"100%" - (@menu-frm_height + @tabs-frm_height + @footer-frm_height));
+#tab-home-frm {
+    &.tab-content-frm {
+        background-color: @gb_color_dark3;
+        height: @tab-content-frm_height;
+        padding-top: @tab-content-frm_padding;
+        padding-bottom: @tab-content-frm_padding;
+    }
+}
+
+.headerFixed {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.headerFixed thead tr {
+    width: 100%;
+    display: inherit;
+    position: relative;
+}
+
+.headerFixed tbody {
+    display: block;
+    overflow: auto;
+    // width: 100%;
+    height: 400px;
+}
+
+#tab-home-frm {
+    #filters-frm {
+        background-color: transparent;
+        margin-bottom: @tab-content-frm_padding;
+    }
+
+    @tournaments-frm_height: calc(
+        ~"100vh" - ((@menu-frm_height + @tabs-frm_height + @footer-frm_height) +
+                    (@filters-frm_height + (@tab-content-frm_padding * 3)))
+    );
+    #tournaments-frm {
+        #table-frm {
+            background-color: @gb_color_table_bg;
+            border-radius: @gb_border-radius;
+            height: @tournaments-frm_height;
+
+            #tournaments.table {
+                min-width: 800px;
+
+                .col-start {
+                    min-width: 80px;
+                    width: 20%;
+                }
+                .col-sports {
+                    min-width: 190px;
+                    width: 23.75%;
+                }
+                .col-buy-in {
+                    min-width: 50px;
+                    width: 6.25%;
+                }
+                .col-name {
+                    min-width: 190px;
+                    width: 23.75%;
+                }
+                .col-time-frame {
+                    min-width: 80px;
+                    width: 10%;
+                }
+                .col-status {
+                    min-width: 90px;
+                    width: 11.25%;
+                }
+                .col-enrolled {
+                    min-width: 60px;
+                    width: 7.5%;
+                }
+                .col-players {
+                    min-width: 60px;
+                    width: 7.5%;
+                }
+            }
+        }
+
+        #info-frm {
+            background-color: @gb_color_table_bg;
+            border-radius: @gb_border-radius;
+            display: flex;
+            flex-direction: column;
+            height: @tournaments-frm_height;
+
+            @title-bar-frm_margin-right: 10px;
+            @img-frm_height: 36px;
+            @img-frm_width: 40px;
+            @title-bar-frm_height: 50px;
+            @status-frm_width: 80px;
+
+            #title-bar-frm {
+                align-items: center;
+                background-color: @gb_color_dark1;
+                display: flex;
+                height: @title-bar-frm_height;
+                padding: 5px 10px;
+
+                #img-frm {
+                    align-items: center;
+                    background-color: @gb_color_white100;
+                    border-radius: 50%;
+                    display: flex;
+                    height: @img-frm_height;
+                    justify-content: center;
+                    margin-right: @title-bar-frm_margin-right;
+                    width: @img-frm_width;
+
+                    #img {
+                        .icon {
+                            font-size: 2.5rem;
+                        }
+                    }
+                }
+
+                #title-frm {
+                    align-items: center;
+                    display: flex;
+                    height: 100%;
+                    margin-right: @title-bar-frm_margin-right;
+                    overflow: hidden;
+                    width: calc(~"100%" - (@img-frm_width + @status-frm_width));
+
+                    #title {
+                        font-size: 1.4rem;
+                        font-weight: @gb_font-bold;
+                        color: @gb_color_app_white;
+                        letter-spacing: @gb_letter-spacing;
+                    }
+                }
+
+                #status-frm {
+                    overflow: hidden;
+                    width: @status-frm_width;
+
+                    #status {
+                        background-color: @gb_color_gold;
+                        border-radius: @gb_border-radius;
+                        color: @gb_color_dark1;
+                        font-size: 0.8rem;
+                        font-weight: @gb_font-bold;
+                        letter-spacing: 2px;
+                        padding: 0px 5px;
+                        text-transform: uppercase;
+                    }
+                }
+            }
+
+            #data-frm {
+                padding: 5px 10px 0px 10px;
+
+                .row {
+                    margin-bottom: 5px;
+                }
+
+                .title {
+                    color: @gb_color_dark1;
+                    font-size: 0.8rem;
+                    font-weight: @gb_font-bold;
+                    letter-spacing: @gb_letter-spacing;
+                    text-transform: uppercase;
+                }
+
+                .value {
+                    color: @gb_color_dark1;
+                    font-size: 1.4rem;
+                    font-weight: @gb_font-bold;
+                    letter-spacing: @gb_letter-spacing;
+                }
+            }
+
+            .tables-frm {
+                overflow: auto;
+
+                #games.table {
+                    min-width: 100%;
+
+                    #col-time {
+                        min-width: 20%;
+                        width: 20%;
+                    }
+                    #col-sport {
+                        min-width: 20%;
+                        width: 20%;
+                    }
+                    #col-game {
+                        min-width: 60%;
+                        width: 60%;
+                    }
+
+                    .tbody {
+                        .col-position {
+                            font-weight: @gb_font-bold;
+                        }
+
+                        .col-game {
+                            display: flex;
+
+                            @score_width: 30px;
+                            .team {
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                width: 50%;
+                            }
+
+                            .score {
+                                background-color: @gb_color_dark1;
+                                border-radius: @gb_border-radius;
+                                color: @gb_color_app_white;
+                                margin: 0px 5px;
+                                width: @score_width;
+                                text-align: center;
+                            }
+
+                            .vs {
+                                text-align: center;
+                                width: @score_width;
+                            }
+                        }
+                    }
+                }
+
+                #rank.table {
+                    min-width: 100%;
+
+                    #col-position {
+                        min-width: 10%;
+                        width: 10%;
+                    }
+                    #col-player {
+                        min-width: 60%;
+                        width: 60%;
+                    }
+                    #col-price {
+                        min-width: 30%;
+                        width: 30%;
+                    }
+
+                    .tbody {
+                        .col-position {
+                            font-weight: @gb_font-bold;
+                        }
+
+                        .col-player {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+
+                            @img-frm_height: 15px;
+                            .img-frm {
+                                background-color: white;
+                                border-radius: 50%;
+                                height: @img-frm_height;
+                                margin-right: 5px;
+                                width: @img-frm_height;
+
+                                .icon {
+                                    color: @gb_color_dark1;
+                                    font-size: 1.5rem;
+                                }
+
+                                .img {
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backstage;
 
+use Illuminate\Http\Response;
 use JavaScript;
 use Illuminate\Http\Request;
 use App\Models\Backstage\Config;
@@ -31,6 +32,7 @@ class ConfigController extends Controller
         JavaScript::put([
             'commission' => $config->config['commission'],
             'chips' => $config->config['chips'],
+            'keepCompleted' => $config->config['keep_completed'],
         ]);
 
         return view('backstage.config.show')
@@ -44,8 +46,9 @@ class ConfigController extends Controller
         JavaScript::put([
             'commission' => $config->config['commission'],
             'chips' => $config->config['chips'],
+            'keepCompleted' => $config->config['keep_completed'],
         ]);
-        
+
         return view('backstage.config.edit')
             ->with('config', $config);
     }
@@ -57,7 +60,6 @@ class ConfigController extends Controller
         $config->config = $request->config;
         $config->save();
 
-        return redirect()->route('config.edit');
+        return new Response(Response::HTTP_NO_CONTENT);
     }
-
 }

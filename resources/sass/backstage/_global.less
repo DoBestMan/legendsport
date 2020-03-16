@@ -1,0 +1,161 @@
+@import "~bootstrap-vue/dist/bootstrap-vue.css";
+@import "../_global/global.less";
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+}
+
+a {
+    text-decoration: none !important;
+
+    &:hover {
+        color: @gb_color_app_white;
+    }
+}
+
+.menu {
+    color: @gb_color_app_white;
+    font-weight: @gb_font-light;
+    margin-left: 5px;
+}
+
+#menu-frm {
+    @menu-frm_padding: 10px;
+
+    background-color: @gb_color_dark1;
+    .box-shadow(0.1);
+    height: @menu-frm_height;
+    padding-top: @menu-frm_padding;
+    padding-bottom: @menu-frm_padding;
+
+    #brand-frm {
+        display: flex;
+
+        #logo {
+            @logo_height: @menu-frm_height - (@menu-frm_padding * 2);
+
+            background-color: @gb_color_dark2;
+            border: 1px solid @gb_color_dark4;
+            border-radius: @gb_border-radius;
+            height: @logo_height;
+            width: @logo_height;
+        }
+
+        #logo-text-frm {
+            @logo_height: @menu-frm_height - (@menu-frm_padding * 2);
+
+            align-items: center;
+            background-color: @gb_color_app_white;
+            border: 1px solid @gb_color_dark4;
+            border-radius: @gb_border-radius;
+            display: flex;
+            height: @logo_height;
+            justify-content: center;
+            width: @logo_height;
+
+            #logo-text {
+                color: @gb_color_dark1;
+                font-size: 1.2rem;
+                font-weight: @gb_font-bold;
+                text-transform: uppercase;
+            }
+        }
+
+        #text {
+            color: @gb_color_app_white;
+            font-size: 23px;
+            font-weight: @gb_font-light;
+            letter-spacing: @gb_letter-spacing * 3;
+            margin-left: 5px;
+            word-spacing: 5px;
+            text-transform: uppercase;
+        }
+    }
+
+    #usermenu-frm {
+        @title-bar-frm_margin-right: 10px;
+        @img-frm_height: 32px;
+        @img-frm_width: 32px;
+        @title-bar-frm_height: 50px;
+        @status-frm_width: 80px;
+
+        align-items: center;
+        background-color: transparent;
+        cursor: pointer;
+        display: flex;
+        justify-content: flex-end;
+        margin-left: 80px;
+
+        &:hover {
+            .btnMenuSubmenu {
+                visibility: visible;
+            }
+            background-color: @gb_color_dark2;
+        }
+
+        #img-frm {
+            align-items: center;
+            background-color: @gb_color_app_white;
+            border-radius: 50%;
+            display: flex;
+            height: @img-frm_height;
+            justify-content: center;
+            margin-right: @title-bar-frm_margin-right;
+            width: @img-frm_width;
+
+            #img {
+                .icon {
+                    font-size: 2.3rem;
+                }
+            }
+        }
+
+        #title-frm {
+            align-items: center;
+            display: flex;
+            height: 100%;
+            margin-right: @title-bar-frm_margin-right;
+            overflow: hidden;
+            width: calc(~"100%" - (@img-frm_width + @status-frm_width));
+            line-height: 1;
+
+            #title {
+                font-size: 1.4rem;
+                font-weight: @gb_font-bold;
+                color: @gb_color_app_white;
+                letter-spacing: @gb_letter-spacing;
+
+                .balance {
+                    color: @gb_color_gold;
+                    font-size: 1rem;
+                    font-weight: @gb_font-bold;
+                    letter-spacing: @gb_letter-spacing;
+                    text-transform: uppercase;
+                }
+            }
+        }
+    }
+}
+
+.ui-title {
+    margin-top: 20px;
+}
+
+.multiselect {
+    .multiselect__option--highlight,
+    .multiselect__option--highlight:after,
+    .multiselect__tag {
+        background: @gb_color_dark2;
+    }
+
+    .multiselect__tag-icon:after {
+        color: @gb_color_white90;
+    }
+
+    .multiselect__tag-icon:focus,
+    .multiselect__tag-icon:hover {
+        background: @gb_color_dark5;
+    }
+}

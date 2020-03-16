@@ -8,7 +8,9 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.2",
+        "php": "^7.4",
+        "ext-curl": "*",
+        "ext-json": "*",
         "fideloper/proxy": "^4.0",
         "laracasts/utilities": "^3.0",
         "laravel/framework": "^6.2",

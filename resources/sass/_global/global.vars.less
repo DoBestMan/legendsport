@@ -1,0 +1,65 @@
+// VARS ***********************************************************************
+@gb_border-radius: 3px;
+@gb_letter-spacing: 1px;
+
+@gb_h: 216;
+@gb_s: 10%;
+@gb_l_d1: 10%;
+@gb_l_d2: 15%;
+@gb_l_d3: 20%;
+@gb_l_d4: 25%;
+@gb_l_d5: 30%;
+
+@gb_color_white100: hsl(0, 0%, 100%);
+@gb_color_white99: hsl(0, 0%, 99%);
+@gb_color_white98: hsl(0, 0%, 98%);
+@gb_color_white97: hsl(0, 0%, 97%);
+@gb_color_white96: hsl(0, 0%, 96%);
+@gb_color_white95: hsl(0, 0%, 95%);
+@gb_color_white94: hsl(0, 0%, 94%);
+@gb_color_white93: hsl(0, 0%, 93%);
+@gb_color_white92: hsl(0, 0%, 92%);
+@gb_color_white91: hsl(0, 0%, 91%);
+@gb_color_white90: hsl(0, 0%, 90%);
+
+@gb_color_app_white: @gb_color_white90;
+@gb_color_table_bg: @gb_color_white97;
+@gb_color_table_row: @gb_color_white94;
+
+@gb_color_dark1: hsl(@gb_h, @gb_s, @gb_l_d1);
+@gb_color_dark2: hsl(@gb_h, @gb_s, @gb_l_d2);
+@gb_color_dark3: hsl(@gb_h, @gb_s, @gb_l_d3);
+@gb_color_dark4: hsl(@gb_h, @gb_s, @gb_l_d4);
+@gb_color_dark5: hsl(@gb_h, @gb_s, @gb_l_d5);
+@gb_color_ligth1: hsl(@gb_h, @gb_s, (100% - (@gb_l_d1 * 2)));
+@gb_color_ligth2: hsl(@gb_h, @gb_s, (100% - (@gb_l_d2 * 2)));
+@gb_color_ligth3: hsl(@gb_h, @gb_s, (100% - (@gb_l_d3 * 2)));
+@gb_color_ligth4: hsl(@gb_h, @gb_s, (100% - (@gb_l_d4 * 2)));
+@gb_color_ligth5: hsl(@gb_h, @gb_s, (100% - (@gb_l_d5 * 2)));
+
+@gb_color_gold_dark: hsl(51, 53%, 35%);
+@gb_color_gold: hsl(51, 53%, 65%);
+@gb_color_gold_ligth: hsl(51, 53%, 70%);
+
+@gb_font-family: "Roboto", sans-serif;
+@gb_font-light: 300;
+@gb_font-regular: 400;
+@gb_font-medium: 500;
+@gb_font-bold: 700;
+
+// MIXINS ********************************************************************
+.box-shadow(@opacity) {
+    box-shadow: 0px 0px 5px 0px hsla(@gb_h, @gb_s, @gb_l_d2, @opacity);
+}
+
+.text-in-ellipsis() {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+// GENERAL ********************************************************************
+@menu-frm_height: 50px;
+@tabs-frm_height: 40px;
+@footer-frm_height: 40px;
+@footer-frm_height_toogle: 120px;
+@filters-frm_height: 60px;

@@ -1,21 +1,27 @@
 <?php
-    $app = env('APP_URL_DOMAIN');
-    $backstage = env('BACKSTAGE_URL_SUBDOM') . '.' . env('APP_URL_DOMAIN');
 
-    route::domain($app)->group(function (){
-        Route::get('/', 'App\HomeController@index')->name('app.home');
+use App\Http\Controllers\App\View\HomeController as AppHomeController;
+use App\Http\Controllers\App\View\TournamentController;
+use App\Http\Controllers\Backstage\ConfigController;
+use App\Http\Controllers\Backstage\HomeController as BackstageHomeController;
+use App\Http\Controllers\Backstage\TournamentsController;
 
-        Route::get('/tournament', 'App\TournamentController@index')->name('app.tournament');
-    });
+$app = env('APP_URL_DOMAIN');
+$backstage = env('BACKSTAGE_URL_SUBDOM') . '.' . env('APP_URL_DOMAIN');
 
-    route::domain($backstage)->group(function (){
-        Route::get('/', 'Backstage\HomeController@index')->name('backstage.home');
+Route::domain($app)->group(function (){
+    Route::get('/', AppHomeController::class . '@index')->name('app.home');
+    Route::get('/tournament', TournamentController::class . '@index')->name('app.tournament');
+});
 
-        Route::get('/config', 'Backstage\ConfigController@show')->name('config.show');
-        Route::get('/config/edit', 'Backstage\ConfigController@edit')->name('config.edit');
-        Route::put('/config', 'Backstage\ConfigController@update')->name('config.update');
+Route::domain($backstage)->group(function (){
+    Route::get('/', BackstageHomeController::class . '@index')->name('backstage.home');
 
-        Route::resource('/tournaments', 'Backstage\TournamentsController');
+    Route::get('/config', ConfigController::class . '@show')->name('config.show');
+    Route::get('/config/edit', ConfigController::class . '@edit')->name('config.edit');
+    Route::put('/config', ConfigController::class . '@update')->name('config.update');
 
-        Route::post('/tournaments/get-events', 'Backstage\TournamentsController@getEvents');
-    });
+    Route::resource('/tournaments', TournamentsController::class);
+
+    Route::post('/tournaments/get-events', TournamentsController::class . '@getEvents');
+});

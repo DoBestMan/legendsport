@@ -3,6 +3,7 @@
 namespace App\Models\Backstage;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class Config extends Model
 {
@@ -14,11 +15,11 @@ class Config extends Model
         $value = json_decode($value, true);
 
         $config = json_encode([
-            'chips' => $value['chips'] == null ? 10000 : $value['chips'],
-            'commission' => $value['commission'] == null ? 2 : $value['commission'], 
-            'keep_completed' => $value['keep_completed'] == null ? 1 : $value['keep_completed'], 
+            'chips' => Arr::get($value, 'chips') ?? 10000,
+            'commission' => Arr::get($value, 'commission') ?? 2,
+            'keep_completed' => Arr::get($value, 'keep_completed') ?? 1,
         ]);
-        
-        return json_decode($config, true);;
+
+        return json_decode($config, true);
     }
 };

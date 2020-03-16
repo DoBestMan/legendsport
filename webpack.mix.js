@@ -11,5 +11,33 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+mix
+    .js('resources/js/app/pages/home.ts', 'public/app/js')
+    .js('resources/js/app/pages/tournament.js', 'public/app/js')
+    .js('resources/js/backstage/pages/config.js', 'public/backstage/js')
+    .js('resources/js/backstage/pages/tournaments.js', 'public/backstage/js')
+    .less('resources/sass/app/home.less', 'public/app/css')
+    .less('resources/sass/app/tournament.less', 'public/app/css')
+    .less('resources/sass/backstage/config.less', 'public/backstage/css')
+    .less('resources/sass/backstage/home.less', 'public/backstage/css')
+    .less('resources/sass/backstage/tournaments.less', 'public/backstage/css')
+    .extract()
+    .version()
+    .disableNotifications()
+    .webpackConfig({
+        module: {
+            rules: [
+                {
+                    test: /\.ts$/,
+                    loader: "ts-loader",
+                    exclude: /node_modules/,
+                    options: {
+                        appendTsSuffixTo: [/.vue$/]
+                    }
+                }
+            ]
+        },
+        resolve: {
+            extensions: [".js", ".vue", ".ts", ".tsx"]
+        }
+    });

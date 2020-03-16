@@ -1,9 +1,12 @@
 <?php
 
 use Faker\Generator as Faker;
-use App\Models\Backstage\Tournaments;
+use App\Models\Backstage\Tournament;
+use Illuminate\Database\Eloquent\Factory;
 
-$factory->define(Tournaments::class, function (Faker $faker) {
+/** @var Factory $factory */
+
+$factory->define(Tournament::class, function (Faker $faker) {
 
     $factoryArray = [
         'avatar'=> $faker->numberBetween($min = 0, $max = 1),

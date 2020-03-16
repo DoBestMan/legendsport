@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Backstage;
 
+use Illuminate\Http\Response;
 use JavaScript;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Backstage\Tournaments;
-use App\Models\Backstage\TournamentEvents;
-use App\Models\Backstage\TournamentSports;
-use App\Models\Backstage\ApiEvents;
+use App\Models\Backstage\Tournament;
+use App\Models\Backstage\TournamentEvent;
+use App\Models\Backstage\TournamentSport;
+use App\Models\Backstage\ApiEvent;
 use App\Models\Backstage\Config;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +17,7 @@ class TournamentsController extends Controller
 {
     public function index()
     {
-        $tournaments = Tournaments::paginate(10);
+        $tournaments = Tournament::paginate(10);
 
         $numFirstItemPage = $tournaments->firstItem();
 
@@ -36,8 +37,6 @@ class TournamentsController extends Controller
 
     public function create(Request $request)
     {
-        $data = json_decode(file_get_contents("php://input"), TRUE);
-
         $config = Config::first();
 
         JavaScript::put([
@@ -66,7 +65,7 @@ class TournamentsController extends Controller
             unset($key['Odds']);
         }
 
-        $tournament = new Tournaments;
+        $tournament = new Tournament;
         $tournament->name = $request->name;
         $tournament->type = count(array_unique($request->type))>1?'Multiple':'Single';
         $tournament->players_limit = $request->players_limit;
@@ -81,35 +80,36 @@ class TournamentsController extends Controller
         $tournament->save();
 
         foreach(array_unique($request->type) as $sport_id) {
-            TournamentSports::firstOrCreate(
+            TournamentSport::firstOrCreate(
                 ['tournament_id' => $tournament->id, 'sport_id' => $sport_id],
                 ['sport_id' => $sport_id]
             );
         }
 
         foreach ($api_data as $data) {
-            ApiEvents::firstOrCreate(
+            ApiEvent::firstOrCreate(
                 ['api_id' => $data['ID']],
-                ['api_data' => json_encode($data)]
+                ['api_data' => $data]
             );
 
-            $tournament_event = new TournamentEvents;
+            $tournament_event = new TournamentEvent;
             $tournament_event->tournament_id = $tournament->id;
-            $tournament_event->api_event_id = ApiEvents::where('api_id', $data['ID'])->value('id');
+            $tournament_event->api_event_id = ApiEvent::where('api_id', $data['ID'])->value('id');
             $tournament_event->save();
         }
 
         return 'Data Saved Successfully';
     }
 
-    public function show(Tournaments $tournament)
+    public function show(Tournament $tournament)
     {
         $selectedEvents = [];
         $api_event_id = DB::table('tournaments_events')->where('tournament_id', $tournament->id)->get('api_event_id');
 
         foreach ($api_event_id as $value) {
-            $api_data = DB::table('api_events')->where('id', $value->api_event_id)->value('api_data');
-            array_push($selectedEvents,json_decode($api_data));
+            /** @var ApiEvent $apiEvent */
+            $apiEvent = ApiEvent::find($value->api_event_id);
+            array_push($selectedEvents, $apiEvent->api_data);
         }
 
         $rule = $tournament->late_register_rule;
@@ -137,14 +137,15 @@ class TournamentsController extends Controller
             ->with('numFirstItemPage', 0);
     }
 
-    public function edit(Tournaments $tournament)
+    public function edit(Tournament $tournament)
     {
         $selectedEvents = [];
         $api_event_id = DB::table('tournaments_events')->where('tournament_id', $tournament->id)->get('api_event_id');
 
         foreach ($api_event_id as $value) {
-            $api_data = DB::table('api_events')->where('id', $value->api_event_id)->value('api_data');
-            array_push($selectedEvents,json_decode($api_data));
+            /** @var ApiEvent $apiEvent */
+            $apiEvent = ApiEvent::find($value->api_event_id);
+            array_push($selectedEvents, $apiEvent->api_data);
         }
 
         $rule = $tournament->late_register_rule;
@@ -171,7 +172,7 @@ class TournamentsController extends Controller
             ->with('numFirstItemPage', 0);
     }
 
-    public function update(Request $request, Tournaments $tournament)
+    public function update(Request $request, Tournament $tournament)
     {
         $this->validation($request);
 
@@ -196,24 +197,24 @@ class TournamentsController extends Controller
         $tournament->state = $request->state;
         $tournament->save();
 
-        TournamentSports::where('tournament_id', $tournament->id)->delete();
+        TournamentSport::where('tournament_id', $tournament->id)->delete();
 
         foreach(array_unique($request->type) as $sport_id) {
-            TournamentSports::firstOrCreate(
+            TournamentSport::firstOrCreate(
                 ['tournament_id' => $tournament->id, 'sport_id' => $sport_id],
                 ['sport_id' => $sport_id]
             );
         }
 
-        TournamentEvents::where('tournament_id', $tournament->id)->delete();
+        TournamentEvent::where('tournament_id', $tournament->id)->delete();
 
         foreach ($api_data as $data) {
-            $apiEvent = ApiEvents::firstOrCreate(
+            $apiEvent = ApiEvent::firstOrCreate(
                 ['api_id' => $data['ID']],
-                ['api_data' => json_encode($data)]
+                ['api_data' => $data]
             );
 
-            TournamentEvents::firstOrCreate(
+            TournamentEvent::firstOrCreate(
                 ['tournament_id' => $tournament->id, 'api_event_id' => $apiEvent->id]
             );
         }
@@ -221,13 +222,12 @@ class TournamentsController extends Controller
         return 'Data Updated Successfully';
     }
 
-    public function destroy(Tournaments $tournament)
+    public function destroy(Tournament $tournament)
     {
         $tournament->delete();
-        TournamentEvents::where('tournament_id', $tournament->id)->delete();
-        TournamentSports::where('tournament_id', $tournament->id)->delete();
-
-        return redirect()->route('tournaments.index');
+        TournamentEvent::where('tournament_id', $tournament->id)->delete();
+        TournamentSport::where('tournament_id', $tournament->id)->delete();
+        return new Response(Response::HTTP_NO_CONTENT);
     }
 
     private function validation(Request $request)
@@ -303,9 +303,11 @@ class TournamentsController extends Controller
 
     public function getEvents(Request $request)
     {
+        $availableSports = $request->request->get("SelectSport", []);
+
         $appKey = "3b279a7d-7d95-4eda-89cb-3c1f96093fc6";
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://jsonodds.com/api/odds/$request->SelectSport");
+        curl_setopt($ch, CURLOPT_URL, "https://jsonodds.com/api/odds/all");
         curl_setopt($ch, CURLOPT_HTTPGET, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -314,8 +316,13 @@ class TournamentsController extends Controller
         ));
 
         $res = curl_exec($ch);
-        $response = json_decode($res);
+        $response = json_decode($res, true);
 
-        return $response;
+        return collect($response)
+            ->filter(function (array $item) use ($availableSports) {
+                return !$availableSports || in_array($item["Sport"], $availableSports);
+            })
+            ->values()
+            ->all();
     }
 }

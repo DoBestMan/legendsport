@@ -4,13 +4,13 @@
 
 @section('tournamentActive1','istabselected(i)')
 @section('tournamentActive2','showtab(i)')
-    
+
 @section('HTML-css')
-    <link rel="stylesheet" href="{{ asset('app/css/tournament.css') }}">
+    <link rel="stylesheet" href="{{ mix('/app/css/tournament.css') }}">
 @endsection
 
 @section('HTML-js')
-    <script type="text/javascript" language="javascript" src="{{ asset('app/js/tournament.js') }}"></script>
+    <script type="text/javascript" language="javascript" src="{{ mix('/app/js/tournament.js') }}"></script>
 @endsection
 
 @section('HTML-main')

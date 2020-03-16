@@ -4,11 +4,10 @@
 {{-- VARS --}}
     @section('title', 'Tournaments')
 
-{{-- BUTTONS --}}
-    @section('buttonAdd_onclick', route('tournaments.create'))
-    @section('buttonAdd_disabled', '')
 {{-- HTML --}}
 @section('HTML-main')
+@parent
+
 <div class="container">
     <div name="titleFrm" class="row">
         <div class="col">
@@ -49,43 +48,36 @@
                                 <td class="text-truncate">{{ $tournament->chips }}</td>
                                 <td class="text-truncate">{{ $tournament->state }}</td>
                                 <td class="text-right">
-                                    <button type="button"
+                                    <a
                                         class="btn btn-outline-primary btn-sm"
                                         title="View"
-                                        onclick="window.location='{{ route('tournaments.show', $tournament) }}'"
-                                        >
+                                        href="{{ route('tournaments.show', $tournament) }}"
+                                    >
                                         <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button type="button"
+                                    </a>
+                                    <a
                                         class="btn btn-outline-dark btn-sm"
                                         title="Editar"
-                                        onclick="window.location='{{ route('tournaments.edit', $tournament) }}'"
-                                        >
+                                        href="{{ route('tournaments.edit', $tournament) }}"
+                                    >
                                         <i class="fas fa-pencil-alt"></i>
-                                    </button>
+                                    </a>
 
-                                    <button type="button"
+                                    <button
+                                        type="button"
                                         class="btn btn-outline-danger btn-sm"
                                         title="Eliminar"
                                         data-toggle="modal"
                                         data-target="#modalDelete{{ $tournament->id }}"
-                                        >
+                                    >
                                         <i class="fas fa-trash"></i>
                                     </button>
 
-                                    <form id="formDelete{{ $tournament->id }}"
-                                        class="formDelete"
-                                        method="POST"
-                                        action="{{ route('tournaments.destroy', $tournament) }}"
-                                        >
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
-
-                                        <modal-delete
-                                            index-row-id="{{ $tournament->id }}"
-                                            text-description="{{ $tournament->name }}"
-                                        ></modal-delete>
-                                    </form>
+                                    <modal-delete
+                                        :index-row-id="{{ $tournament->id }}"
+                                        text-description="{{ $tournament->name }}"
+                                        @@destroy="deleteTournament({{ $tournament->id }})"
+                                    ></modal-delete>
                                 </td>
                             </tr>
                         @endforeach
@@ -100,10 +92,9 @@
 
     <div id="buttonsFrm" class="row">
         <div class="col-3 col-lg-2">
-            <button id="buttonAdd" class="btn btn-dark btn-block"
-                @yield('buttonAdd_disabled')
-                onclick="window.location='@yield('buttonAdd_onclick')';"
-            >Create</button>
+            <a class="btn btn-dark btn-block" href="{{ route('tournaments.create') }}">
+                Create
+            </a>
         </div>
     </div>
 </div>

@@ -1,0 +1,126 @@
+import Vue from "vue";
+import axios from "axios";
+import { intersects } from "../../general/utils/utils";
+import { BuyInType, PlayersLimitType, Tournament, TournamentType } from "../types/tournament";
+import { Nullable } from "../../general/types/types";
+import { TournamentState } from "../../general/types/tournament";
+
+const matchString = (subject: string, needle?: string): boolean => {
+    if (!needle) {
+        return true;
+    }
+
+    if (!subject) {
+        return false;
+    }
+
+    return subject.toLowerCase().includes(needle);
+};
+
+const matchBuyIn = (expected: BuyInType | null, value: number): boolean => {
+    switch (expected) {
+        case BuyInType.High:
+            return 200 <= value;
+        case BuyInType.Medium:
+            return 50 <= value && value < 200;
+        case BuyInType.Low:
+            return 1 <= value && value < 50;
+        case BuyInType.Freeroll:
+            return value === 0;
+        default:
+            return true;
+    }
+};
+
+const matchType = (expected: TournamentType | null, sports: number[]): boolean => {
+    switch (expected) {
+        case TournamentType.Single:
+            return sports.length === 1;
+        case TournamentType.Multiple:
+            return sports.length > 1;
+        default:
+            return true;
+    }
+};
+
+const matchPlayers = (expected: PlayersLimitType | null, value: PlayersLimitType): boolean =>
+    !expected || expected === value;
+
+const isUpcoming = (state: TournamentState): boolean =>
+    [
+        TournamentState.Announced,
+        TournamentState.LateRegistering,
+        TournamentState.Registering,
+    ].includes(state);
+
+const filterTournament = (
+    tournament: Tournament,
+    search: string,
+    sports: number[],
+    buyIn: BuyInType | null,
+    type: TournamentType | null,
+    playersLimit: PlayersLimitType | null,
+    upcoming: boolean,
+): boolean => {
+    if (search) {
+        return matchString(tournament.name, search);
+    }
+
+    const matchesBuyIn = matchBuyIn(buyIn, tournament.buy_in);
+    const matchesType = matchType(type, tournament.sport_id);
+    const matchesPlayersLimit = matchPlayers(playersLimit, tournament.players_limit);
+    const hasAnySport = !sports.length || intersects(sports, tournament.sport_id);
+    const matchesUpcoming = !upcoming || isUpcoming(tournament.state);
+
+    return hasAnySport && matchesBuyIn && matchesType && matchesPlayersLimit && matchesUpcoming;
+};
+
+export default new Vue({
+    data() {
+        return {
+            buyIn: null as Nullable<BuyInType>,
+            playersLimit: null as Nullable<PlayersLimitType>,
+            search: "",
+            sports: [] as number[],
+            type: null as Nullable<TournamentType>,
+            upcoming: false,
+
+            tournaments: [] as Tournament[],
+            isLoading: false,
+            hasFailed: false,
+        };
+    },
+
+    computed: {
+        filteredTournaments(): Tournament[] {
+            const search = this.search.toLowerCase();
+            return this.tournaments.filter(tournament =>
+                filterTournament(
+                    tournament,
+                    search,
+                    this.sports,
+                    this.buyIn,
+                    this.type,
+                    this.playersLimit,
+                    this.upcoming,
+                ),
+            );
+        },
+    },
+
+    methods: {
+        async load(): Promise<void> {
+            this.isLoading = true;
+
+            try {
+                const response = await axios.get("/api/tournaments");
+                this.tournaments = response.data;
+                this.hasFailed = false;
+            } catch (e) {
+                this.hasFailed = true;
+            } finally {
+                this.isLoading = false;
+            }
+        },
+    },
+});

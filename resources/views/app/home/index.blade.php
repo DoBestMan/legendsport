@@ -1,13 +1,13 @@
 @extends('app.layout')
 
 @section('homeActive','active')
-    
+
 @section('HTML-css')
-    <link rel="stylesheet" href="{{ asset('app/css/home.css') }}">
+    <link rel="stylesheet" href="{{ mix('/app/css/home.css') }}">
 @endsection
 
 @section('HTML-js')
-    <script type="text/javascript" language="javascript" src="{{ asset('app/js/home.js') }}"></script>
+    <script type="text/javascript" language="javascript" src="{{ mix('/app/js/home.js') }}"></script>
 @endsection
 
 @section('HTML-main')
@@ -16,115 +16,13 @@
         class="tab-content-frm row"
         >
         <div class="col">
-            <section id="filters-frm" class="row">
-                <div name="type" class="col-1">
-                    <label for="type" class="control-title">Type</label>
-
-                    <select id="type"
-                        v-model="type"
-                        class="form-control control-input"
-                    >
-                        <option value="" class="form-control control-input"> </option>
-                        <option value="299" class="form-control control-input">55</option>
-                        <option value="lian" class="form-control control-input">56</option>
-                    </select>
-                </div>
-                <template>
-                <div name="sport" class="col-3">
-                    <label for="sport" class="control-title">Sport</label>
-                    <select id="sport"
-                        v-model="sport"
-                        class="form-control control-input"
-                        @change="filterEvents(sport)"
-                    >
-                        <option value="" class="form-control control-input"></option>
-                        <option value="all" class="form-control control-input">All</option>
-                        <option value="free" class="form-control control-input">Free 4All</option>
-                        <option value="1,2" class="form-control control-input">Basketball (NBA+NCAAB)</option>
-                        <option value="4,3" class="form-control control-input">Football (NFL+NCAAF,CFL)</option>
-                    </select>
-                </div>
-                </template>
-                <div name="buy-in" class="col-1">
-                    <label for="buyin" class="control-title">Buy-In</label>
-
-                    <select
-                        id="buyin"
-                        v-model="buyIn"
-                        class="form-control control-input"
-                    >
-                    <option value="" class="form-control control-input">All</option>
-                    </select>
-                </div>
-
-                <div name="time-frame" class="col-1">
-                    <label for="time-frame" class="control-title">Time Frame</label>
-
-                    <select id="time-frame"
-                        v-model="timeFrame"
-                        class="form-control control-input"
-                    >
-                    <option value="" class="form-control control-input">All</option>
-                    </select>
-                </div>
-
-                <div name="upcoming" class="col-2">
-                    <label for="upcoming" class="control-title">Show upcoming only</label>
-                    <input type="checkbox"
-                        v-model="upcoming"
-                        id="upcoming"
-                        class="form-control control-input"
-                    >
-                </div>
-
-                <div name="search" class="offset-1 col-3">
-                    <label for="search" class="control-title">Search</label>
-
-                    <input type="text"
-                        v-model="search" 
-                        class="form-control control-input"
-                    >
-                </div>
+            <section id="filters-frm">
+                <filter-container></filter-container>
             </section>
 
             <section id="tournaments-frm" class="row">
                 <div name="table" class="col-9">
-                    <div id="table-frm">
-                        <table id="tournaments" class="table headerFixed">
-                            <thead class="thead">
-                                <tr class="tr">
-                                    <th class="th col-start" scope="col">Start</th>
-                                    <th class="th col-sports" scope="col">Sports</th>
-                                    <th class="th col-buy-in" scope="col">Buy-In</th>
-                                    <th class="th col-name" scope="col">Tournament name</th>
-                                    <th class="th col-time-frame" scope="col">Time Frame</th>
-                                    <th class="th col-status" scope="col">Status</th>
-                                    <th class="th col-enrolled" scope="col">Enrolled</th>
-                                    <th class="th col-players" scope="col">Players</th>
-                                </tr>
-                            </thead>
-                            <tbody class="tbody">
-                                <template v-for="tournament in customFilter">
-                                    <tr class="tr"
-                                        :class="{ selected: tournament.selected == true }"
-                                        >
-                                        <td class="td col-start">@{{ tournament.starts }}</td>
-                                        <td class="td col-sports">
-                                            <template v-for="id in tournament.sport_id">
-                                                @{{ switchNameSport(id) }}
-                                            </template>
-                                        </td>
-                                        <td class="tdcol-buy-in">@{{ tournament.buy_in }}</td>
-                                        <td class="td col-name">@{{ tournament.name }}</td>
-                                        <td class="td col-time-frame">@{{ tournament.time_frame }}</td>
-                                        <td class="td col-status">@{{ tournament.state }}</td>
-                                        <td class="td col-enrolled">@{{ tournament.enrolled }}</td>
-                                        <td class="td col-players">@{{ tournament.players }}</td>
-                                    </tr>
-                                </template>
-                            </tbody>
-                        </table>
-                    </div>
+                    <tournament-list></tournament-list>
                 </div>
 
                 <div name="info" class="col-3">

@@ -4,7 +4,7 @@ namespace Tests\Feature\Intra;
 
 use Tests\TestCase;
 use App\Models\Backstage\Config;
-use App\Models\Backstage\Tournaments;
+use App\Models\Backstage\Tournament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TournamentsTest extends TestCase
@@ -12,8 +12,8 @@ class TournamentsTest extends TestCase
     use RefreshDatabase;
 
     private function create_Tournament(Array $attributes = [])
-    {           
-        return factory(Tournaments::class)->create($attributes);
+    {
+        return factory(Tournament::class)->create($attributes);
     }
 
     public function test_backstage_tournaments_index()
@@ -260,7 +260,7 @@ class TournamentsTest extends TestCase
             'prizes' => '',
         ]);
     }
-    
+
     public function test_backstage_tournaments_store()
     {
         $this->from(route('tournaments.create'))

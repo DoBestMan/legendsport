@@ -1,21 +1,34 @@
 {
     "private": true,
     "scripts": {
-        "dev": "npm run development",
-        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch": "npm run development -- --watch",
-        "watch-poll": "npm run watch -- --watch-poll",
+        "dev": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "yarn dev --watch",
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+        "prod": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "pretty": "prettier 'resources/{js,sass}/**/*' --check",
+        "pretty:fix": "yarn pretty --write"
     },
-    "devDependencies": {
-        "axios": "^0.19",
+    "dependencies": {
+        "@types/lodash.debounce": "^4.0.6",
+        "@types/lodash.intersection": "^4.4.6",
+        "axios": "^0.19.2",
+        "bootstrap-vue": "^2.6.1",
         "cross-env": "^5.1",
-        "laravel-mix": "^4.0.7",
-        "lodash": "^4.17.13",
-        "resolve-url-loader": "^2.3.1",
+        "laravel-mix": "^5.0.1",
+        "less": "^3.11.1",
+        "less-loader": "^5.0.0",
+        "lodash.debounce": "^4.0.8",
+        "lodash.intersection": "^4.4.0",
+        "prettier": "^1.19.1",
+        "resolve-url-loader": "^3.1.1",
         "sass": "^1.15.2",
-        "sass-loader": "^7.1.0"
+        "sass-loader": "^7.1.0",
+        "v-money": "^0.8.1",
+        "vue": "^2.6.11",
+        "ts-loader": "^6.2.1",
+        "typescript": "^3.8.3",
+        "vue-bootstrap-toasts": "^1.0.7",
+        "vue-multiselect": "^2.1.6",
+        "vue-template-compiler": "^2.6.11"
     }
 }
