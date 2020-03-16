@@ -32,7 +32,7 @@
                 :prize-pool-value.sync="prizePoolValue"
                 :prizes.sync="prizes"
                 :state.sync="state"
-                :time-frame="timeFrame"
+                :time-frame.sync="timeFrame"
             ></tournament-form>
 
             <hr/>
