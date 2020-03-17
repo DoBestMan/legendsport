@@ -28,9 +28,7 @@ import {TimeFrame} from "../../types/tournament";
                                 {{ tournament.starts }}
                             </td>
                             <td class="td col-sports">
-                                <template v-for="id in tournament.sport_id">
-                                    {{ getSportName(id) }}
-                                </template>
+                                {{ getSportsNames(tournament.sport_id) }}
                             </td>
                             <td class="tdcol-buy-in">
                                 {{ tournament.buy_in }}
@@ -77,8 +75,8 @@ export default Vue.extend({
     },
 
     methods: {
-        getSportName(sportId: number): string {
-            return getSportName(sportId);
+        getSportsNames(sportsIds: number[]): string {
+            return sportsIds.map(getSportName).join(", ");
         },
     },
 });

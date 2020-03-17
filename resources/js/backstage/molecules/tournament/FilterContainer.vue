@@ -2,7 +2,7 @@
     <div class="row form-group">
         <div class="col-5">
             <label for="sports">Sport</label>
-            <SportSelect id="sports" :value="selectedSports" @input="changeSports"></SportSelect>
+            <SportSelect id="sports" :value="sports" @input="$emit('update:sports', $event)" />
         </div>
 
         <div class="col-4">
@@ -14,6 +14,8 @@
                 name="sportDate"
                 class="form-control"
                 style="height: 2.6rem"
+                :value="eventDate"
+                @input="$emit('update:eventDate', $event.target.value)"
             />
         </div>
 
@@ -33,13 +35,10 @@ export default Vue.extend({
     name: "FilterContainer",
     components: { SportSelect },
     props: {
-        selectedSports: Array as PropType<number[]>,
+        sports: Array as PropType<number[]>,
+        eventDate: String,
     },
     methods: {
-        changeSports(sportsIds: number[]) {
-            this.$emit("update:selectedSports", sportsIds);
-        },
-
         includeAll() {
             this.$emit("includeAll");
         },

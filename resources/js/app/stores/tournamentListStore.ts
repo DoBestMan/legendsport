@@ -1,6 +1,6 @@
 import Vue from "vue";
 import axios from "axios";
-import { intersects } from "../../general/utils/utils";
+import { empty, intersects } from "../../general/utils/utils";
 import {
     BuyInType,
     PlayersLimitType,
@@ -80,7 +80,7 @@ const filterTournament = (
         matchBuyIn(buyIn, tournament.buy_in) &&
         matchType(type, tournament.sport_id) &&
         matchPlayersLimit(playersLimit, tournament.players_limit) &&
-        (!sports.length || intersects(sports, tournament.sport_id)) &&
+        (empty(sports) || intersects(sports, tournament.sport_id)) &&
         (!upcoming || isUpcoming(tournament.state)) &&
         matchTimeFrame(timeFrame, tournament.time_frame)
     );

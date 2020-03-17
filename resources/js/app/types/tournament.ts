@@ -12,15 +12,15 @@ export interface Tournament {
 }
 
 export enum BuyInType {
-    Freeroll = 1,
-    Low,
-    Medium,
-    High,
+    Freeroll = "Freeroll",
+    Low = "Low",
+    Medium = "Medium",
+    High = "High",
 }
 
 export enum TournamentType {
-    Single = 1,
-    Multiple,
+    Single = "Single",
+    Multiple = "Multiple",
 }
 
 export enum PlayersLimitType {

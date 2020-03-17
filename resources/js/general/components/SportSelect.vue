@@ -1,10 +1,14 @@
 <template>
     <multiselect
-        track-by="id"
+        selectLabel=""
+        deselectLabel=""
+        selectGroupLabel=""
+        deselectGroupLabel=""
+        trackBy="id"
         label="name"
-        group-values="items"
-        group-label="name"
-        :group-select="true"
+        groupValues="items"
+        groupLabel="name"
+        :groupSelect="true"
         placeholder="Select sports"
         :closeOnSelect="false"
         :options="sports"
@@ -27,18 +31,16 @@ export default Vue.extend({
         value: Array as PropType<number[]>,
     },
 
-    data() {
-        return {
-            sports: [
+    computed: {
+        sports() {
+            return [
                 {
-                    name: "Select all",
+                    name: this.value.length === sports.length ? "Deselect all" : "Select all",
                     items: sports,
                 },
-            ],
-        };
-    },
+            ];
+        },
 
-    computed: {
         formattedSelectedSports(): Sport[] {
             return this.value.map(sportId => sportsMap.get(sportId)!);
         },

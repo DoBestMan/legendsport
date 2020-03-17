@@ -7,7 +7,8 @@
         @change="$emit('input', $event)"
     >
         <FilterContainer
-            :selectedSports.sync="selectedSports"
+            :sports.sync="sports"
+            :eventDate.sync="eventDate"
             @includeAll="includeAll"
         ></FilterContainer>
 
@@ -30,7 +31,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="event in events">
+                        <tr v-for="event in filteredEvents">
                             <td class="text-truncate" width="300px">
                                 {{ event.MatchTime }}
                             </td>
@@ -53,7 +54,7 @@
                                 </button>
                             </td>
                         </tr>
-                        <tr v-if="!events.length">
+                        <tr v-if="!filteredEvents.length">
                             <td colspan="10" class="p-4 text-center w-100">
                                 No records
                             </td>
@@ -71,10 +72,13 @@
 import Vue from "vue";
 import { BModal } from "bootstrap-vue";
 import axios from "axios";
-import debounce from "lodash.debounce";
+import moment from "moment";
+import { Event } from "../../types/event";
 import LoadingOverlay from "../../../general/components/LoadingOverlay";
 import { getSportName } from "../../../general/utils/sportUtils";
 import FilterContainer from "./FilterContainer";
+import { Nullable } from "../../../general/types/types";
+import { empty } from "../../../general/utils/utils";
 
 export default Vue.extend({
     name: "ModalAvailableEventList",
@@ -86,24 +90,32 @@ export default Vue.extend({
 
     data() {
         return {
-            selectedSports: [],
-            events: [],
+            sports: [] as number[],
+            eventDate: null as Nullable<string>,
+
+            events: [] as Event[],
             loadEventsIsLoading: false,
             loadEventsFailed: false,
-            // @ts-ignore
-            loadDebounced: debounce(this.loadEvents, 500),
         };
     },
 
+    computed: {
+        filteredEvents(): Event[] {
+            return this.events.filter(event => {
+                return (
+                    (!this.eventDate || moment(event.MatchTime).isSame(this.eventDate, "day")) &&
+                    (empty(this.sports) || this.sports.includes(event.Sport))
+                );
+            });
+        },
+    },
+
     methods: {
-        async loadEvents() {
+        async loadEvents(): Promise<void> {
             this.loadEventsIsLoading = true;
 
             try {
-                const params = {
-                    SelectSport: this.selectedSports,
-                };
-                const response = await axios.get("/api/events", { params });
+                const response = await axios.get("/api/events");
                 this.events = response.data;
                 this.loadEventsFailed = false;
             } catch (e) {
@@ -117,24 +129,20 @@ export default Vue.extend({
             return getSportName(sportId);
         },
 
-        includeEvent(event: any) {
+        includeEvent(event: any): void {
             this.$emit("select", event);
         },
 
-        includeAll() {
-            for (const event of this.events) {
+        includeAll(): void {
+            for (const event of this.filteredEvents) {
                 this.includeEvent(event);
             }
         },
     },
 
     watch: {
-        selectedSports(newVal) {
-            this.loadDebounced(newVal);
-        },
-
         value(newVal) {
-            if (newVal && !this.events.length) {
+            if (newVal && empty(this.events)) {
                 this.loadEvents();
             }
         },
