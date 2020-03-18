@@ -22,32 +22,35 @@ import {TimeFrame} from "../../types/tournament";
                     </tr>
                 </thead>
                 <tbody class="tbody">
-                    <template v-for="tournament in tournamentListStore.filteredTournaments">
-                        <tr class="tr">
-                            <td class="td col-start">
-                                {{ tournament.starts }}
-                            </td>
-                            <td class="td col-sports">
-                                {{ getSportsNames(tournament.sport_id) }}
-                            </td>
-                            <td class="tdcol-buy-in">
-                                {{ tournament.buy_in }}
-                            </td>
-                            <td class="td col-name">{{ tournament.name }}</td>
-                            <td class="td col-time-frame">
-                                {{ tournament.time_frame }}
-                            </td>
-                            <td class="td col-status">
-                                {{ tournament.state }}
-                            </td>
-                            <td class="td col-enrolled">
-                                {{ tournament.enrolled }}
-                            </td>
-                            <td class="td col-players">
-                                0
-                            </td>
-                        </tr>
-                    </template>
+                    <tr
+                        class="tr clickable"
+                        :class="{ selected: isSelected(tournament) }"
+                        @click="selectTournament(tournament)"
+                        v-for="tournament in tournamentListStore.filteredTournaments"
+                    >
+                        <td class="td col-start">
+                            {{ tournament.starts }}
+                        </td>
+                        <td class="td col-sports">
+                            {{ getSportsNames(tournament.sport_ids) }}
+                        </td>
+                        <td class="tdcol-buy-in">
+                            {{ tournament.buy_in }}
+                        </td>
+                        <td class="td col-name">{{ tournament.name }}</td>
+                        <td class="td col-time-frame">
+                            {{ tournament.time_frame }}
+                        </td>
+                        <td class="td col-status">
+                            {{ tournament.state }}
+                        </td>
+                        <td class="td col-enrolled">
+                            {{ tournament.enrolled }}
+                        </td>
+                        <td class="td col-players">
+                            0
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -59,10 +62,14 @@ import Vue from "vue";
 import { getSportName } from "../../../general/utils/sportUtils";
 import LoadingOverlay from "../../../general/components/LoadingOverlay";
 import tournamentListStore from "../../stores/tournamentListStore";
+import { Tournament } from "../../types/tournament";
 
 export default Vue.extend({
     name: "TournamentList",
     components: { LoadingOverlay },
+    props: {
+        selectedTournament: Number,
+    },
 
     created() {
         tournamentListStore.load();
@@ -77,6 +84,18 @@ export default Vue.extend({
     methods: {
         getSportsNames(sportsIds: number[]): string {
             return sportsIds.map(getSportName).join(", ");
+        },
+
+        isSelected(tournament: Tournament): boolean {
+            return tournament.id === this.selectedTournament;
+        },
+
+        selectTournament(tournament: Tournament) {
+            if (tournament.id === this.selectedTournament) {
+                this.$emit("update:selectedTournament", null);
+            } else {
+                this.$emit("update:selectedTournament", tournament.id);
+            }
         },
     },
 });

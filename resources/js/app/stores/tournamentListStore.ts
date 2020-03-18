@@ -78,9 +78,9 @@ const filterTournament = (
 
     return (
         matchBuyIn(buyIn, tournament.buy_in) &&
-        matchType(type, tournament.sport_id) &&
+        matchType(type, tournament.sport_ids) &&
         matchPlayersLimit(playersLimit, tournament.players_limit) &&
-        (empty(sports) || intersects(sports, tournament.sport_id)) &&
+        (empty(sports) || intersects(sports, tournament.sport_ids)) &&
         (!upcoming || isUpcoming(tournament.state)) &&
         matchTimeFrame(timeFrame, tournament.time_frame)
     );

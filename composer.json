@@ -14,7 +14,9 @@
         "fideloper/proxy": "^4.0",
         "laracasts/utilities": "^3.0",
         "laravel/framework": "^6.2",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "league/fractal": "^0.19.2",
+        "spatie/laravel-fractal": "^5.7"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

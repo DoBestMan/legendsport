@@ -1,14 +1,17 @@
 import { TournamentState } from "../../general/types/tournament";
+import { Game } from "./game";
 
 export interface Tournament {
+    id: number;
     buy_in: number;
     enrolled: number;
     name: string;
     players_limit: PlayersLimitType;
-    sport_id: number[];
+    sport_ids: number[];
     starts: string | null;
     state: TournamentState;
     time_frame: TimeFrame;
+    games: Game[];
 }
 
 export enum BuyInType {

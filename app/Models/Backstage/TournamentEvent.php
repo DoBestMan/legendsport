@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int                        $id
+ * @property int                        $tournament_id
+ * @property int                        $api_event_id
  * @property Carbon                     $created_at
  * @property Carbon                     $updated_at
  * @property-read ApiEvent $apiEvent
