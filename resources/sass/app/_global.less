@@ -544,6 +544,12 @@ table {
         border: unset;
     }
 
+    .multiselect__single {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
     .multiselect__option span {
         font-size: 1.5rem;
     }
@@ -579,5 +585,34 @@ table {
 
     .multiselect__option--group.multiselect__option--highlight:after {
         height: 100%;
+    }
+}
+
+.multiline-checkbox {
+    .checkbox-label {
+        &:after,
+        &:before {
+            display: none;
+        }
+    }
+
+    .checkbox-box {
+        width: 40px;
+        height: 44px;
+
+        &:before,
+        &:after {
+            left: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 0;
+            background-color: @gb_color_dark1;
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+
+        &:after {
+        }
     }
 }

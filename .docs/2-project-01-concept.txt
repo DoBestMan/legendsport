@@ -84,8 +84,8 @@ Conceptualization and general idea of the project
         All
         Freeroll (Free registration $0 to a tournament)
         Low (Low: registration between $1 and $49 for a tournament)
-        Medium: Record between $50 and $199 for a tournament)
-        High: record over $200 for a tournament)
+        Medium: Record between $50 and $250 for a tournament)
+        High: record over $250 for a tournament)
     ···········································································
 
     ■ Time Frame

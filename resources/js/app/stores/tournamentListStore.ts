@@ -26,9 +26,9 @@ const matchString = (subject: string, needle?: string): boolean => {
 const matchBuyIn = (expected: BuyInType | null, value: number): boolean => {
     switch (expected) {
         case BuyInType.High:
-            return 200 <= value;
+            return 250 < value;
         case BuyInType.Medium:
-            return 50 <= value && value < 200;
+            return 50 <= value && value <= 250;
         case BuyInType.Low:
             return 1 <= value && value < 50;
         case BuyInType.Freeroll:

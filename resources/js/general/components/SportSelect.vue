@@ -9,13 +9,26 @@
         groupValues="items"
         groupLabel="name"
         :groupSelect="true"
-        placeholder="Select sports"
+        placeholder="Type to filter..."
         :closeOnSelect="false"
         :options="sports"
         :value="formattedSelectedSports"
+        :limit="0"
         @input="changeSports"
         multiple
-    ></multiselect>
+    >
+        <template v-slot:placeholder>
+            Select sports
+        </template>
+
+        <template v-slot:singleLabel>
+            {{ label }}
+        </template>
+
+        <template v-slot:limit>
+            <span></span>
+        </template>
+    </multiselect>
 </template>
 
 <script lang="ts">
@@ -43,6 +56,23 @@ export default Vue.extend({
 
         formattedSelectedSports(): Sport[] {
             return this.value.map(sportId => sportsMap.get(sportId)!);
+        },
+
+        label(): string {
+            if (this.value.length === sports.length) {
+                return "All";
+            }
+
+            if (this.value.length === 1) {
+                // @ts-ignore
+                return this.formattedSelectedSports[0].name;
+            }
+
+            if (this.value.length > 1) {
+                return "Custom";
+            }
+
+            return "";
         },
     },
 

@@ -13,6 +13,7 @@
         "@types/lodash.debounce": "^4.0.6",
         "@types/lodash.intersection": "^4.4.6",
         "axios": "^0.19.2",
+        "bootstrap": "^4.4.1",
         "bootstrap-vue": "^2.6.1",
         "cross-env": "^5.1",
         "laravel-mix": "^5.0.1",

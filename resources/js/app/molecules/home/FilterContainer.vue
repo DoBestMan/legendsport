@@ -33,14 +33,23 @@
             />
         </div>
 
-        <div class="col-2">
-            <label for="upcoming" class="control-title">Show upcoming only</label>
-            <input
-                type="checkbox"
-                v-model="tournamentListStore.upcoming"
-                id="upcoming"
-                class="form-control control-input"
-            />
+        <div class="col-2" style="width: 200px">
+            <div class="custom-control custom-checkbox multiline-checkbox">
+                <input
+                    id="upcoming"
+                    type="checkbox"
+                    v-model="tournamentListStore.upcoming"
+                    class="form-control control-input custom-control-input my-error"
+                    style="width: 40px"
+                />
+                <label for="upcoming" class="control-title custom-control-label checkbox-label"
+                    >Show upcoming only</label
+                ><br />
+                <label
+                    for="upcoming"
+                    class="control-title custom-control-label checkbox-box"
+                ></label>
+            </div>
         </div>
 
         <div class="col-3">
