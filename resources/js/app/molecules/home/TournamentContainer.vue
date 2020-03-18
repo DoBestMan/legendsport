@@ -7,11 +7,14 @@
 
             <section id="tournaments-frm" class="row">
                 <div class="col-9">
-                    <TournamentList :selectedTournament.sync="selectedTournament" />
+                    <TournamentList
+                        :selectedTournamentId="selectedTournamentId"
+                        @select="updateTournamentId"
+                    />
                 </div>
 
                 <div class="col-3">
-                    <TournamentDetails :tournamentId="selectedTournament" />
+                    <TournamentDetails :tournament="selectedTournament" />
                 </div>
             </section>
         </div>
@@ -24,6 +27,9 @@ import FilterContainer from "./FilterContainer.vue";
 import TournamentList from "./TournamentList.vue";
 import TournamentDetails from "./TournamentDetails.vue";
 import { Nullable } from "../../../general/types/types";
+import { Tournament } from "../../types/tournament";
+import { empty } from "../../../general/utils/utils";
+import tournamentListStore from "../../stores/tournamentListStore";
 
 export default Vue.extend({
     name: "TournamentContainer",
@@ -31,8 +37,36 @@ export default Vue.extend({
 
     data() {
         return {
-            selectedTournament: null as Nullable<number>,
+            tournamentId: null as Nullable<number>,
         };
+    },
+
+    computed: {
+        selectedTournament(): Tournament | null {
+            if (empty(tournamentListStore.filteredTournaments)) {
+                return null;
+            }
+
+            const tournament = tournamentListStore.filteredTournaments.find(
+                tournament => tournament.id === this.tournamentId,
+            );
+            if (tournament) {
+                return tournament;
+            }
+
+            return tournamentListStore.filteredTournaments[0];
+        },
+
+        selectedTournamentId(): number | null {
+            // @ts-ignore
+            return this.selectedTournament?.id ?? null;
+        },
+    },
+
+    methods: {
+        updateTournamentId(tournamentId: number | null) {
+            this.tournamentId = tournamentId;
+        },
     },
 });
 </script>

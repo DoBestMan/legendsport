@@ -1,0 +1,49 @@
+@tabs-frm_height: 40px;
+@tabs-frm_padding: 5px;
+
+.tabs-frm {
+    background-color: @gb_color_dark4;
+    display: flex;
+    height: @tabs-frm_height;
+    padding: @tabs-frm_padding;
+
+    .tab-frm {
+        height: 100%;
+        display: flex;
+
+        .tab {
+            background-color: transparent;
+            border-radius: unset;
+            color: @gb_color_app_white;
+            font-size: 1.1rem;
+            font-weight: @gb_font-regular;
+            height: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-transform: uppercase;
+            white-space: nowrap;
+
+            &:hover {
+                border-bottom: 3px solid @gb_color_dark3;
+            }
+
+            &.active {
+                color: @gb_color_app_white;
+                font-weight: @gb_font-bold;
+                border-bottom: 3px solid @gb_color_gold;
+            }
+
+            .icon {
+                font-size: inherit;
+                color: inherit;
+            }
+        }
+
+        .separator {
+            color: @gb_color_dark2;
+            font-size: 1.9rem;
+            font-weight: @gb_font-bold;
+            cursor: default;
+        }
+    }
+}

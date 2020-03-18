@@ -26,10 +26,10 @@
         "resolve-url-loader": "^3.1.1",
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
-        "v-money": "^0.8.1",
-        "vue": "^2.6.11",
         "ts-loader": "^6.2.1",
         "typescript": "^3.8.3",
+        "v-money": "^0.8.1",
+        "vue": "^2.6.11",
         "vue-bootstrap-toasts": "^1.0.7",
         "vue-multiselect": "^2.1.6",
         "vue-template-compiler": "^2.6.11"

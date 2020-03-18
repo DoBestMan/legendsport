@@ -1,4 +1,3 @@
-import {TimeFrame} from "../../types/tournament";
 <template>
     <LoadingOverlay
         :loading="tournamentListStore.isLoading"
@@ -6,7 +5,7 @@ import {TimeFrame} from "../../types/tournament";
         @retry="tournamentListStore.load"
     >
         <div id="table-frm">
-            <table id="tournaments" class="table headerFixed">
+            <table id="tournaments" class="table table-fixed table-full">
                 <thead class="thead">
                     <tr class="tr">
                         <th class="th col-start" scope="col">Start</th>
@@ -23,7 +22,7 @@ import {TimeFrame} from "../../types/tournament";
                 </thead>
                 <tbody class="tbody">
                     <tr
-                        class="tr clickable"
+                        class="tr"
                         :class="{ selected: isSelected(tournament) }"
                         @click="selectTournament(tournament)"
                         v-for="tournament in tournamentListStore.filteredTournaments"
@@ -51,6 +50,12 @@ import {TimeFrame} from "../../types/tournament";
                             0
                         </td>
                     </tr>
+
+                    <tr v-if="!tournamentListStore.filteredTournaments.length">
+                        <td colspan="10" class="p-4 text-center w-100">
+                            No records
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -68,7 +73,7 @@ export default Vue.extend({
     name: "TournamentList",
     components: { LoadingOverlay },
     props: {
-        selectedTournament: Number,
+        selectedTournamentId: Number,
     },
 
     created() {
@@ -87,15 +92,11 @@ export default Vue.extend({
         },
 
         isSelected(tournament: Tournament): boolean {
-            return tournament.id === this.selectedTournament;
+            return tournament.id === this.selectedTournamentId;
         },
 
         selectTournament(tournament: Tournament) {
-            if (tournament.id === this.selectedTournament) {
-                this.$emit("update:selectedTournament", null);
-            } else {
-                this.$emit("update:selectedTournament", tournament.id);
-            }
+            this.$emit("select", tournament.id);
         },
     },
 });

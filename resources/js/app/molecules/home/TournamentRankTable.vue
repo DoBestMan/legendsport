@@ -1,5 +1,5 @@
 <template>
-    <table id="rank" class="table">
+    <table id="rank" class="table table-fixed">
         <thead class="thead">
             <tr class="tr">
                 <th id="col-position" class="th" scope="col">#</th>
@@ -8,8 +8,8 @@
             </tr>
         </thead>
         <tbody class="tbody">
-            <template v-for="i in 5">
-                <tr class="tr" :class="{ selected: i == 3 }">
+            <template v-for="i in 50">
+                <tr class="tr" :class="{ selected: i === selectedUser }" @click="selectedUser = i">
                     <td class="td col-position">{{ i }}</td>
                     <td class="td col-player">
                         <div class="img-frm">
@@ -31,5 +31,11 @@ import Vue from "vue";
 
 export default Vue.extend({
     name: "TournamentRankTable",
+
+    data() {
+        return {
+            selectedUser: null,
+        };
+    },
 });
 </script>

@@ -110,7 +110,7 @@
 
         <section name="tabs" class="row">
             <div class="col tabs-row-frm">
-                <div id="tabs-frm">
+                <div class="tabs-frm">
                     <div name="home" class="tab-frm">
                         <button type="button"
                             class="tab @yield('homeActive')"

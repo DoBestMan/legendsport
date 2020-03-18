@@ -1,0 +1,43 @@
+.control-title {
+    color: @gb_color_gold;
+    font-size: 1rem;
+    font-weight: @gb_font-medium;
+    letter-spacing: @gb_letter-spacing;
+    text-transform: uppercase;
+}
+
+.control-input {
+    color: @gb_color_app_white;
+    background-color: @gb_color_dark1;
+    border: unset;
+    font-size: 2rem;
+}
+
+.multiline-checkbox {
+    .checkbox-label {
+        &:after,
+        &:before {
+            display: none;
+        }
+    }
+
+    .checkbox-box {
+        width: 40px;
+        height: 44px;
+
+        &:before,
+        &:after {
+            left: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 0;
+            background-color: @gb_color_dark1;
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+
+        &:after {
+        }
+    }
+}

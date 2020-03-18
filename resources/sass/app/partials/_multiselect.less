@@ -1,0 +1,82 @@
+.multiselect {
+    color: @gb_color_app_white;
+
+    .multiselect__input,
+    .multiselect__single,
+    .multiselect__tags,
+    .multiselect__tag,
+    .multiselect__tag-icon,
+    .multiselect__current,
+    .multiselect__content-wrapper,
+    .multiselect--above .multiselect__content-wrapper {
+        border-radius: 0;
+    }
+
+    .multiselect__tags {
+        color: @gb_color_app_white;
+        background-color: @gb_color_dark1;
+        border: unset;
+    }
+
+    .multiselect__placeholder {
+        color: @gb_color_app_white;
+        background-color: @gb_color_dark1;
+        font-size: 1.5rem;
+        margin-bottom: 0;
+    }
+
+    .multiselect__input::placeholder {
+        color: @gb_color_app_white;
+    }
+
+    .multiselect__input,
+    .multiselect__single,
+    .multiselect__content-wrapper {
+        color: @gb_color_app_white;
+        background-color: @gb_color_dark1;
+        border: unset;
+    }
+
+    .multiselect__single {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .multiselect__option span {
+        font-size: 1.5rem;
+    }
+
+    .multiselect__option--selected {
+        color: @gb_color_app_white;
+        background-color: @gb_color_dark4;
+    }
+
+    .multiselect__option--highlight,
+    .multiselect__option--highlight:after {
+        background: @gb_color_dark3;
+    }
+
+    .multiselect__tag {
+        background: @gb_color_dark5;
+        font-size: 1.5rem;
+    }
+
+    .multiselect__tag-icon:after {
+        color: @gb_color_dark1;
+    }
+
+    .multiselect__tag-icon:focus,
+    .multiselect__tag-icon:hover {
+        background: @gb_color_dark3;
+    }
+
+    .multiselect__option--group {
+        background: @gb_color_dark5;
+        color: @gb_color_app_white;
+    }
+
+    .multiselect__option--group.multiselect__option--highlight:after {
+        height: 100%;
+    }
+}

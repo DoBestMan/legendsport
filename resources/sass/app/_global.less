@@ -1,4 +1,9 @@
 @import "../_global/global.less";
+@import "partials/_form";
+@import "partials/_multiselect";
+@import "partials/_tabs";
+@import "partials/_table";
+@import "partials/_utils";
 
 * {
     font-family: @gb_font-family;
@@ -55,98 +60,6 @@ input,
 select {
     &:focus {
         outline: none;
-    }
-}
-
-table {
-    table-layout: fixed;
-    width: calc(100% + 1px) !important;
-
-    thead {
-        background-color: @gb_color_dark1;
-
-        .tr {
-            height: 30px;
-        }
-
-        th {
-            color: @gb_color_app_white;
-            cursor: default;
-            font-size: 1rem;
-            font-weight: @gb_font-bold;
-            letter-spacing: @gb_letter-spacing;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            text-transform: uppercase;
-            vertical-align: middle;
-            white-space: nowrap;
-        }
-    }
-
-    tbody {
-        tr {
-            height: 20px;
-
-            &:nth-child(even) {
-                background-color: @gb_color_table_row;
-            }
-
-            &:hover {
-                background-color: @gb_color_dark5;
-
-                td {
-                    color: @gb_color_app_white;
-                }
-            }
-
-            &.selected {
-                background-color: @gb_color_gold;
-
-                td {
-                    color: @gb_color_dark1;
-                }
-            }
-        }
-
-        td {
-            color: @gb_color_dark1;
-            cursor: default;
-            font-size: 1rem;
-            font-weight: @gb_font-medium;
-            overflow: hidden;
-            padding-top: 0.5rem !important;
-            padding-bottom: 0.5rem !important;
-            text-overflow: ellipsis;
-            vertical-align: middle;
-            white-space: nowrap;
-        }
-    }
-}
-
-.control-title {
-    color: @gb_color_gold;
-    font-size: 1rem;
-    font-weight: @gb_font-medium;
-    letter-spacing: @gb_letter-spacing;
-    text-transform: uppercase;
-}
-
-.control-input {
-    color: @gb_color_app_white;
-    background-color: @gb_color_dark1;
-    border: unset;
-    font-size: 2rem;
-}
-
-// CUSTOM-VENDORS *************************************************************
-// BOOTSTRAP **************************************************************
-.table {
-    margin-bottom: 0px;
-
-    th,
-    td {
-        border: none !important;
-        vertical-align: middle !important;
     }
 }
 
@@ -448,171 +361,30 @@ table {
     }
 }
 
-#tabs-frm {
-    @tabs-frm_padding: 5px;
-
-    background-color: transparent;
-    display: flex;
-    height: @tabs-frm_height;
-    padding: @tabs-frm_padding;
-
-    .tab-frm {
-        height: 100%;
-
-        .tab {
-            background-color: transparent;
-            border-radius: unset;
-            color: @gb_color_ligth5;
-            font-size: 1.2rem;
-            font-weight: @gb_font-medium;
-            height: 100%;
-            letter-spacing: @gb_letter-spacing * 2;
-            max-width: 180px;
-            text-transform: uppercase;
-            .text-in-ellipsis;
-
-            &:hover {
-                border-bottom: 3px solid @gb_color_dark3;
-            }
-
-            &.active {
-                color: @gb_color_app_white;
-                font-weight: @gb_font-bold;
-                border-bottom: 3px solid @gb_color_gold;
-            }
-
-            .icon {
-                font-size: inherit;
-                color: inherit;
-            }
-        }
-
-        .separator {
-            color: @gb_color_dark3;
-            font-size: 1.5rem;
-            font-weight: @gb_font-bold;
-            cursor: default;
-        }
-    }
-}
 // .tabs-row-frm es el ROW contenedor de cada tabs-frm y se requiere que
 // tenga un color específico. Debe ser hermano de #tabs-frm
 .tabs-row-frm {
     background-color: @gb_color_dark2;
-}
 
-.clickable {
-    cursor: pointer;
-}
+    .tabs-frm {
+        background-color: transparent;
 
-.multiselect {
-    color: @gb_color_app_white;
+        .tab-frm {
+            .tab {
+                letter-spacing: 2px;
+                max-width: 180px;
+                font-size: 1.2rem;
+                font-weight: 500;
 
-    .multiselect__input,
-    .multiselect__single,
-    .multiselect__tags,
-    .multiselect__tag,
-    .multiselect__tag-icon,
-    .multiselect__current,
-    .multiselect__content-wrapper,
-    .multiselect--above .multiselect__content-wrapper {
-        border-radius: 0;
-    }
+                &:not(.active) {
+                    color: @gb_color_ligth5;
+                }
+            }
 
-    .multiselect__tags {
-        color: @gb_color_app_white;
-        background-color: @gb_color_dark1;
-        border: unset;
-    }
-
-    .multiselect__placeholder {
-        color: @gb_color_app_white;
-        background-color: @gb_color_dark1;
-        font-size: 1.5rem;
-        margin-bottom: 0;
-    }
-
-    .multiselect__input::placeholder {
-        color: @gb_color_app_white;
-    }
-
-    .multiselect__input,
-    .multiselect__single,
-    .multiselect__content-wrapper {
-        color: @gb_color_app_white;
-        background-color: @gb_color_dark1;
-        border: unset;
-    }
-
-    .multiselect__single {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .multiselect__option span {
-        font-size: 1.5rem;
-    }
-
-    .multiselect__option--selected {
-        color: @gb_color_app_white;
-        background-color: @gb_color_dark4;
-    }
-
-    .multiselect__option--highlight,
-    .multiselect__option--highlight:after {
-        background: @gb_color_dark3;
-    }
-
-    .multiselect__tag {
-        background: @gb_color_dark5;
-        font-size: 1.5rem;
-    }
-
-    .multiselect__tag-icon:after {
-        color: @gb_color_dark1;
-    }
-
-    .multiselect__tag-icon:focus,
-    .multiselect__tag-icon:hover {
-        background: @gb_color_dark3;
-    }
-
-    .multiselect__option--group {
-        background: @gb_color_dark5;
-        color: @gb_color_app_white;
-    }
-
-    .multiselect__option--group.multiselect__option--highlight:after {
-        height: 100%;
-    }
-}
-
-.multiline-checkbox {
-    .checkbox-label {
-        &:after,
-        &:before {
-            display: none;
-        }
-    }
-
-    .checkbox-box {
-        width: 40px;
-        height: 44px;
-
-        &:before,
-        &:after {
-            left: 0;
-            width: 40px;
-            height: 40px;
-            border-radius: 0;
-            background-color: @gb_color_dark1;
-            border: none;
-            outline: none;
-            box-shadow: none;
-        }
-
-        &:after {
+            .separator {
+                color: hsl(216, 10%, 20%);
+                font-size: 1.5rem;
+            }
         }
     }
 }

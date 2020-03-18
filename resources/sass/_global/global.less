@@ -1,3 +1,13 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 @import "~vue-multiselect/dist/vue-multiselect.min.css";
 @import (reference) "../_global/global.vars.less";
+
+.table-fixed {
+    overflow-y: auto;
+
+    thead th {
+        position: sticky;
+        top: 0;
+        background-color: @gb_color_dark1;
+    }
+}

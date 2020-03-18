@@ -17,9 +17,9 @@
             :failed="loadEventsFailed"
             @retry="loadEvents"
         >
-            <div class="table-responsive">
+            <div class="table-responsive" style="max-height: 230px">
                 <table
-                    class="headerFixed table table-sm table-light table-striped table-borderless table-hover"
+                    class="table table-fixed table-sm table-light table-striped table-borderless table-hover"
                 >
                     <thead class="thead-dark">
                         <tr>

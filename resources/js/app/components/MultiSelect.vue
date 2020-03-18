@@ -37,10 +37,9 @@ export default Vue.extend({
             return this.options.find(option => option.id === this.value) ?? null;
         },
 
-        listeners() {
+        listeners(): object {
             return {
                 ...this.$listeners,
-                // @ts-ignore
                 input: this.onInput,
             };
         },

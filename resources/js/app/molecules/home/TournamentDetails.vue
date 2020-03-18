@@ -8,11 +8,11 @@
             </div>
 
             <div id="title-frm">
-                <div id="title">{{ tournament.name }}</div>
+                <div id="title">{{ formattedTournament.name }}</div>
             </div>
 
             <div id="status-frm">
-                <div id="status">{{ tournament.state }}</div>
+                <div id="status">{{ formattedTournament.state }}</div>
             </div>
         </div>
 
@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col-6">
                     <div class="title">Start time</div>
-                    <div class="value">{{ tournament.starts || "n/a" }}</div>
+                    <div class="value">{{ formattedTournament.starts || "n/a" }}</div>
                 </div>
 
                 <div class="col-6">
@@ -44,43 +44,52 @@
             </div>
         </div>
 
-        <table class="table tabs">
-            <thead class="thead">
-                <tr class="tr">
-                    <th :class="{ active: activeTab === 'games' }" @click="activeTab = 'games'">
-                        Games
-                    </th>
-                    <th :class="{ active: activeTab === 'rank' }" @click="activeTab = 'rank'">
-                        Rank
-                    </th>
-                </tr>
-            </thead>
-        </table>
+        <div class="tabs-frm table-tabs-frm" style="justify-content: space-between">
+            <div class="tab-frm">
+                <button
+                    type="button"
+                    class="tab"
+                    :class="{ active: activeTab === 'games' }"
+                    @click="activeTab = 'games'"
+                >
+                    Pending
+                </button>
+            </div>
+
+            <div class="tab-frm">
+                <button
+                    type="button"
+                    class="tab"
+                    :class="{ active: activeTab === 'rank' }"
+                    @click="activeTab = 'rank'"
+                >
+                    History
+                </button>
+            </div>
+        </div>
 
         <div class="tables-frm">
-            <TournamentGamesTable v-if="activeTab === 'games'" :games="tournament.games" />
+            <TournamentGamesTable v-if="activeTab === 'games'" :games="formattedTournament.games" />
             <TournamentRankTable v-if="activeTab === 'rank'" />
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue, { PropType } from "vue";
 import { Tournament } from "../../types/tournament";
-import tournamentListStore from "../../stores/tournamentListStore";
 import { getSportName } from "../../../general/utils/sportUtils";
 import TournamentGamesTable from "./TournamentGamesTable.vue";
 import TournamentRankTable from "./TournamentRankTable.vue";
 import { TournamentState } from "../../../general/types/tournament";
-import { empty } from "../../../general/utils/utils";
 
 export default Vue.extend({
     name: "TournamentDetails",
     components: { TournamentGamesTable, TournamentRankTable },
 
     props: {
-        tournamentId: {
-            type: Number,
+        tournament: {
+            type: Object as PropType<Tournament>,
         },
     },
 
@@ -91,17 +100,9 @@ export default Vue.extend({
     },
 
     computed: {
-        tournament(): Tournament {
-            const foundTournament = tournamentListStore.tournaments.find(
-                tournament => tournament.id === this.tournamentId,
-            );
-
-            if (foundTournament) {
-                return foundTournament;
-            }
-
-            if (!empty(tournamentListStore.tournaments)) {
-                return tournamentListStore.tournaments[0];
+        formattedTournament(): Tournament {
+            if (this.tournament) {
+                return this.tournament;
             }
 
             return {
@@ -111,12 +112,10 @@ export default Vue.extend({
         },
 
         sportsNames(): string {
-            // @ts-ignore
             if (!this.tournament) {
                 return "n/a";
             }
 
-            // @ts-ignore
             return this.tournament.sport_ids.map(getSportName).join(", ") || "n/a";
         },
     },
@@ -142,17 +141,3 @@ export default Vue.extend({
     },
 });
 </script>
-
-<style lang="scss">
-.tabs {
-    th {
-        cursor: pointer;
-        font-size: 1.2rem;
-
-        &.active {
-            text-decoration: underline;
-            font-weight: bold;
-        }
-    }
-}
-</style>
