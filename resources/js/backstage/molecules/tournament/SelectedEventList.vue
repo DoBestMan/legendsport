@@ -39,12 +39,7 @@
                             </button>
                         </td>
                     </tr>
-                    <tr v-if="!events.length">
-                        <td colspan="10" class="p-4 text-center w-100">
-                            No records
-                        </td>
-                        <td></td>
-                    </tr>
+                    <TableNoRecords v-if="!events.length" />
                 </tbody>
             </table>
         </div>
@@ -53,9 +48,11 @@
 
 <script>
 import { getSportName } from "../../../general/utils/sportUtils";
+import TableNoRecords from "../../../general/components/TableNoRecords";
 
 export default {
     name: "SelectedEventList",
+    components: { TableNoRecords },
 
     props: {
         events: {

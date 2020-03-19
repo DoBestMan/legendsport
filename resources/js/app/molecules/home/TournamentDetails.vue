@@ -44,7 +44,7 @@
             </div>
         </div>
 
-        <div class="tabs-frm table-tabs-frm" style="justify-content: space-between">
+        <div class="tabs-frm">
             <div class="tab-frm">
                 <button
                     type="button"
@@ -52,8 +52,9 @@
                     :class="{ active: activeTab === 'games' }"
                     @click="activeTab = 'games'"
                 >
-                    Pending
+                    Games
                 </button>
+                <span class="separator">|</span>
             </div>
 
             <div class="tab-frm">
@@ -63,7 +64,7 @@
                     :class="{ active: activeTab === 'rank' }"
                     @click="activeTab = 'rank'"
                 >
-                    History
+                    Rank
                 </button>
             </div>
         </div>

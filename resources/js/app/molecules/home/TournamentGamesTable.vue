@@ -19,6 +19,7 @@
                     <div class="score">0</div>
                 </td>
             </tr>
+            <TableNoRecords v-if="!games.length" />
         </tbody>
     </table>
 </template>
@@ -28,9 +29,12 @@ import Vue, { PropType } from "vue";
 import moment from "moment";
 import { getSportName } from "../../../general/utils/sportUtils";
 import { Game } from "../../types/game";
+import TableNoRecords from "../../../general/components/TableNoRecords.vue";
 
 export default Vue.extend({
     name: "TournamentGamesTable",
+    components: { TableNoRecords },
+
     props: {
         games: Array as PropType<Game[]>,
     },

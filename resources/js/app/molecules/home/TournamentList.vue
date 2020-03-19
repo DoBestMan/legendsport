@@ -52,11 +52,7 @@
                         </td>
                     </tr>
 
-                    <tr v-if="!tournamentListStore.filteredTournaments.length">
-                        <td colspan="10" class="p-4 text-center w-100">
-                            No records
-                        </td>
-                    </tr>
+                    <TableNoRecords v-if="!tournamentListStore.filteredTournaments.length" />
                 </tbody>
             </table>
         </div>
@@ -69,10 +65,11 @@ import { getSportName } from "../../../general/utils/sportUtils";
 import LoadingOverlay from "../../../general/components/LoadingOverlay";
 import tournamentListStore from "../../store/tournamentListStore";
 import { Tournament } from "../../types/tournament";
+import TableNoRecords from "../../../general/components/TableNoRecords.vue";
 
 export default Vue.extend({
     name: "TournamentList",
-    components: { LoadingOverlay },
+    components: { LoadingOverlay, TableNoRecords },
     props: {
         selectedTournamentId: Number,
     },

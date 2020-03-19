@@ -456,7 +456,7 @@ import Vue from "vue";
 import { Tournament } from "../types/tournament";
 import NotFound from "../components/NotFound.vue";
 import { asNumber } from "../../general/utils/utils";
-import {getSportName} from "../../general/utils/sportUtils";
+import { getSportName } from "../../general/utils/sportUtils";
 
 export default Vue.extend({
     name: "TournamentView",
@@ -499,7 +499,7 @@ export default Vue.extend({
         sportsNames(): string {
             const sportIds = this.tournament?.sport_ids ?? [];
             return sportIds.map(getSportName).join(", ") || "n/a";
-        }
+        },
     },
 
     methods: {

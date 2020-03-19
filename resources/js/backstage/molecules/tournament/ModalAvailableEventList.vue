@@ -54,12 +54,7 @@
                                 </button>
                             </td>
                         </tr>
-                        <tr v-if="!filteredEvents.length">
-                            <td colspan="10" class="p-4 text-center w-100">
-                                No records
-                            </td>
-                            <td></td>
-                        </tr>
+                        <TableNoRecords v-if="!filteredEvents.length" />
                     </tbody>
                 </table>
                 <hr />
@@ -79,10 +74,11 @@ import { getSportName } from "../../../general/utils/sportUtils";
 import FilterContainer from "./FilterContainer";
 import { Nullable } from "../../../general/types/types";
 import { empty } from "../../../general/utils/utils";
+import TableNoRecords from "../../../general/components/TableNoRecords.vue";
 
 export default Vue.extend({
     name: "ModalAvailableEventList",
-    components: { BModal, FilterContainer, LoadingOverlay },
+    components: { BModal, FilterContainer, LoadingOverlay, TableNoRecords },
 
     props: {
         value: Boolean,
