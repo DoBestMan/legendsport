@@ -1,8 +1,3 @@
-@php
-    $routeHome = route('app.home');
-    $routeTournament = route('app.tournament');
-@endphp
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -18,9 +13,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/solid.css" integrity="sha384-doPVn+s3XZuxfJLS7K1E+sUl25XMZtTVb3O46RyV3JDU2ehfc0Aks4z0ufFpA2WC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/brands.css" integrity="sha384-tft2+pObMD7rYFMZlLUziw/8QrQeKHU4GYYvA5jVaggC74ZrYdTASheA2vckPcX5" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/fontawesome.css" integrity="sha384-+pqJl+lfXqeZZHwVRNTbv2+eicpo+1TR/AEzHYYDKfAits/WRK21xLOwzOxZzJEZ" crossorigin="anonymous">
-
-    {{-- local --}}
-    @yield('HTML-css')
+    <link rel="stylesheet" href="{{ mix('/app/css/app.css') }}">
 </head>
 <body>
     <div id="main" class="container-fluid">
@@ -108,37 +101,7 @@
             </div>
         </nav>
 
-        <section name="tabs" class="row">
-            <div class="col tabs-row-frm">
-                <div class="tabs-frm">
-                    <div name="home" class="tab-frm">
-                        <button type="button"
-                            class="tab @yield('homeActive')"
-                            onclick="window.location='{{ $routeHome }}'"
-                            >
-                            <i class="icon fas fa-home"></i>
-                            Home
-                        </button>
-                        <span class="separator">|</span>
-                    </div>
-
-                    <template v-for="(tab, i) in userTournamentsActive">
-                        <div class="tab-frm">
-                            <button type="button"
-                                class="tab"
-                                :class="@yield('tournamentActive1')"
-                                @click="@yield('tournamentActive2')"
-                            >@{{ tab }}</button>
-                                <!-- onclick="window.location='{{ $routeTournament }}'" -->
-
-                            <span class="separator">|</span>
-                        </div>
-                    </template>
-                </div>
-            </div>
-        </section>
-
-        @yield('HTML-main')
+        <app></app>
 
         <footer name="footer" id="footer-frm" class="row">
             <div id="advertising-frm" class="col-4">
@@ -199,15 +162,12 @@
         </footer>
     </div>
 
-    <script type="text/javascript" src="{{ mix('/backstage/js/manifest.js') }}"></script>
-    <script type="text/javascript" src="{{ mix('/backstage/js/vendor.js') }}"></script>
-
     {{-- PHP TO JS --}}
     @include("_phpvars")
 
-    {{-- local --}}
-    @yield('HTML-js')
-
+    <script type="text/javascript" src="{{ mix('/backstage/js/manifest.js') }}"></script>
+    <script type="text/javascript" src="{{ mix('/backstage/js/vendor.js') }}"></script>
+    <script type="text/javascript" src="{{ mix('/app/js/app.js') }}"></script>
 </body>
 </html>
 

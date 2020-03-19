@@ -123,6 +123,12 @@ export default new Vue({
 
     methods: {
         async load(): Promise<void> {
+            if (!this.tournaments.length) {
+                await this.reload();
+            }
+        },
+
+        async reload(): Promise<void> {
             this.isLoading = true;
 
             try {

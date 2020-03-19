@@ -112,11 +112,8 @@ export default Vue.extend({
         },
 
         sportsNames(): string {
-            if (!this.tournament) {
-                return "n/a";
-            }
-
-            return this.tournament.sport_ids.map(getSportName).join(", ") || "n/a";
+            const sportIds = this.tournament?.sport_ids ?? [];
+            return sportIds.map(getSportName).join(", ") || "n/a";
         },
     },
 

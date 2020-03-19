@@ -67,7 +67,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import tournamentListStore from "../../stores/tournamentListStore";
+import tournamentListStore from "../../store/tournamentListStore";
 import MultiSelect from "../../components/MultiSelect";
 import SportSelect from "../../../general/components/SportSelect.vue";
 import { BuyInType, PlayersLimitType, TimeFrame, TournamentType } from "../../types/tournament";

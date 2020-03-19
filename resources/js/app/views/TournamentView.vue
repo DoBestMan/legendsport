@@ -1,68 +1,65 @@
-@extends('app.layout')
-
-@section('tournamentActive','active')
-
-@section('tournamentActive1','istabselected(i)')
-@section('tournamentActive2','showtab(i)')
-
-@section('HTML-css')
-    <link rel="stylesheet" href="{{ mix('/app/css/tournament.css') }}">
-@endsection
-
-@section('HTML-js')
-    <script type="text/javascript" language="javascript" src="{{ mix('/app/js/tournament.js') }}"></script>
-@endsection
-
-@section('HTML-main')
-    <section name="tab-content-any-tournament"
+<template>
+    <section
+        v-if="tournament"
+        name="tab-content-any-tournament"
         class="tab-content-frm tab-tournament-frm row"
-        >
+    >
         <section name="betting-section" class="col-3">
             <section class="section bets">
                 <div class="title-bar-frm">
-                    <span class="title">@{{ balance }}</span>
+                    <span class="title">{{ balance }}</span>
                 </div>
 
                 <div class="tabs-frm">
                     <div name="pending-tab" class="tab-frm">
-                        <button type="button"
+                        <button
+                            type="button"
                             class="tab"
-                            :class="{ active: tournament.betting.pending.show }"
+                            :class="{ active: betting.pending.show }"
                             @click="pending"
-                        >Pending</button>
+                        >
+                            Pending
+                        </button>
                         <span class="separator">|</span>
                     </div>
 
                     <div name="history-tab" class="tab-frm">
-                        <button type="button"
+                        <button
+                            type="button"
                             class="tab"
-                            :class="{ active: tournament.betting.pending.show2 }"
+                            :class="{ active: betting.pending.show2 }"
                             @click="history"
-                        >History</button>
+                        >
+                            History
+                        </button>
                         <span class="separator">|</span>
                     </div>
 
                     <div name="straight-tab" class="tab-frm">
-                        <button type="button"
+                        <button
+                            type="button"
                             class="tab"
-                            :class="{ active: tournament.betting.pending.show3 }"
+                            :class="{ active: betting.pending.show3 }"
                             @click="straight"
-                        >Straight</button>
+                        >
+                            Straight
+                        </button>
                         <span class="separator">|</span>
                     </div>
 
                     <div name="parlay-tab" class="tab-frm">
-                        <button type="button"
+                        <button
+                            type="button"
                             class="tab"
-                            :class="{ active: tournament.betting.pending.show4 }"
+                            :class="{ active: betting.pending.show4 }"
                             @click="parlay"
-                        >Parlay</button>
+                        >
+                            Parlay
+                        </button>
                     </div>
                 </div>
 
-                <div name="tab-content-pending" v-if="tournament.betting.pending.show"
-                    class="tab-content-frm"
-                    >
+                <div name="tab-content-pending" v-if="betting.pending.show" class="tab-content-frm">
                     <div class="event-frm">
                         <div class="data-frm">
                             <div class="type-bet">Straight</div>
@@ -120,9 +117,11 @@
                     </div>
                 </div>
 
-                <div name="tab-content-history" v-if="tournament.betting.pending.show2"
+                <div
+                    name="tab-content-history"
+                    v-if="betting.pending.show2"
                     class="tab-content-frm"
-                    >
+                >
                     <div class="event-frm">
                         <div class="data-frm">
                             <div class="type-bet">Straight</div>
@@ -180,7 +179,9 @@
                             <div>Win: $ 0</div>
                         </div>
 
-                        <div class="result win"><i class="icon fas fa-laugh-beam"></i> YOU WON!</div>
+                        <div class="result win">
+                            <i class="icon fas fa-laugh-beam"></i> YOU WON!
+                        </div>
                     </div>
                 </div>
             </section>
@@ -190,17 +191,13 @@
             <div class="section matches">
                 <div class="tabs-frm">
                     <div class="tab-frm">
-                        <button type="button"
-                            class="tab active"
-                        >NFL</button>
+                        <button type="button" class="tab active">NFL</button>
 
                         <span class="separator">|</span>
                     </div>
 
                     <div class="tab-frm">
-                        <button type="button"
-                            class="tab"
-                        >AAF</button>
+                        <button type="button" class="tab">AAF</button>
 
                         <span class="separator">|</span>
                     </div>
@@ -229,21 +226,17 @@
                                 <td class="td col-datetime">Buffalo Bills</td>
 
                                 <td class="td col-money">
-                                    <button type="button" class="button">
-                                        -10<br>100
-                                    </button>
+                                    <button type="button" class="button">-10<br />100</button>
                                 </td>
 
                                 <td class="td col-spread">
                                     <button type="button" class="button checked">
-                                        -10<br>100
+                                        -10<br />100
                                     </button>
                                 </td>
 
                                 <td class="td col-spread">
-                                    <button type="button" class="button">
-                                        -10<br>100
-                                    </button>
+                                    <button type="button" class="button">-10<br />100</button>
                                 </td>
                             </tr>
 
@@ -252,20 +245,16 @@
 
                                 <td class="td col-money">
                                     <button type="button" class="button checked">
-                                        -20<br>200
+                                        -20<br />200
                                     </button>
                                 </td>
 
                                 <td class="td col-spread">
-                                    <button type="button" class="button">
-                                        -20<br>200
-                                    </button>
+                                    <button type="button" class="button">-20<br />200</button>
                                 </td>
 
                                 <td class="td col-spread">
-                                    <button type="button" class="button">
-                                        -20<br>200
-                                    </button>
+                                    <button type="button" class="button">-20<br />200</button>
                                 </td>
                             </tr>
 
@@ -273,20 +262,16 @@
                                 <td class="td col-datetime">New England Patriots</td>
 
                                 <td class="td col-money">
-                                    <button type="button" class="button">
-                                        -10<br>100
-                                    </button>
+                                    <button type="button" class="button">-10<br />100</button>
                                 </td>
 
                                 <td class="td col-spread">
-                                    <button type="button" class="button">
-                                        -10<br>100
-                                    </button>
+                                    <button type="button" class="button">-10<br />100</button>
                                 </td>
 
                                 <td class="td col-spread">
                                     <button type="button" class="button checked">
-                                        -10<br>100
+                                        -10<br />100
                                     </button>
                                 </td>
                             </tr>
@@ -295,20 +280,16 @@
                                 <td class="td col-datetime">New York Jets</td>
 
                                 <td class="td col-money">
-                                    <button type="button" class="button">
-                                        -20<br>200
-                                    </button>
+                                    <button type="button" class="button">-20<br />200</button>
                                 </td>
 
                                 <td class="td col-spread">
-                                    <button type="button" class="button">
-                                        -20<br>200
-                                    </button>
+                                    <button type="button" class="button">-20<br />200</button>
                                 </td>
 
                                 <td class="td col-spread">
                                     <button type="button" class="button checked">
-                                        -20<br>200
+                                        -20<br />200
                                     </button>
                                 </td>
                             </tr>
@@ -329,21 +310,17 @@
                                 <td class="td col-datetime">Baltimore Ravens</td>
 
                                 <td class="td col-money">
-                                    <button type="button" class="button">
-                                        -10<br>100
-                                    </button>
+                                    <button type="button" class="button">-10<br />100</button>
                                 </td>
 
                                 <td class="td col-spread">
                                     <button type="button" class="button checked">
-                                        -10<br>100
+                                        -10<br />100
                                     </button>
                                 </td>
 
                                 <td class="td col-spread">
-                                    <button type="button" class="button">
-                                        -10<br>100
-                                    </button>
+                                    <button type="button" class="button">-10<br />100</button>
                                 </td>
                             </tr>
 
@@ -351,20 +328,16 @@
                                 <td class="td col-datetime">Cincinnati Bengals</td>
 
                                 <td class="td col-money">
-                                    <button type="button" class="button">
-                                        -20<br>200
-                                    </button>
+                                    <button type="button" class="button">-20<br />200</button>
                                 </td>
 
                                 <td class="td col-spread">
-                                    <button type="button" class="button">
-                                        -20<br>200
-                                    </button>
+                                    <button type="button" class="button">-20<br />200</button>
                                 </td>
 
                                 <td class="td col-spread">
                                     <button type="button" class="button checked">
-                                        -20<br>200
+                                        -20<br />200
                                     </button>
                                 </td>
                             </tr>
@@ -384,11 +357,11 @@
                     </div>
 
                     <div class="title-frm">
-                        <div class="title">@{{ title }}</div>
+                        <div class="title">{{ title }}</div>
                     </div>
 
                     <div class="status-frm">
-                        <div class="status">@{{ status }}</div>
+                        <div class="status">{{ status }}</div>
                     </div>
                 </div>
 
@@ -396,24 +369,24 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="title">Start time</div>
-                            <div class="value">Finished</div>
+                            <div class="value">{{ tournament.starts || "n/a" }}</div>
                         </div>
 
                         <div class="col-6">
                             <div class="title">In</div>
-                            <div class="value">@{{ hours }} hours</div>
+                            <div class="value">{{ hours }} hours</div>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-4">
                             <div class="title"># Players</div>
-                            <div class="value">@{{ players }}</div>
+                            <div class="value">{{ players }}</div>
                         </div>
 
                         <div class="col-4">
                             <div class="title">Buy-In</div>
-                            <div class="value">@{{ buy }}k</div>
+                            <div class="value">{{ tournament.buy_in || "n/a" }}</div>
                         </div>
 
                         <div class="col-4">
@@ -425,24 +398,23 @@
                     <div class="row">
                         <div class="col">
                             <div class="title">Sports</div>
-                            <div class="value">NFL</div>
+                            <div class="value">{{ sportsNames }}</div>
                         </div>
                     </div>
                 </div>
 
-                <table class="awards table"
-                    >
+                <table class="awards table">
                     <thead class="thead">
                         <tr class="tr">
-                            <th class="col-position" class="th" scope="col">Position</th>
-                            <th class="col-prize" class="th" scope="col">Prize</th>
+                            <th class="th col-position" scope="col">Position</th>
+                            <th class="th col-prize" scope="col">Prize</th>
                         </tr>
                     </thead>
                     <tbody class="tbody">
                         <template v-for="i in 3">
                             <tr class="tr">
-                                <td class="td col-position">@{{ i }}</td>
-                                <td class="td col-prize">$@{{ 900 / i }}</td>
+                                <td class="td col-position">{{ i }}</td>
+                                <td class="td col-prize">${{ 900 / i }}</td>
                             </tr>
                         </template>
                     </tbody>
@@ -458,16 +430,13 @@
                     </thead>
                     <tbody class="tbody">
                         <template v-for="i in 5">
-                            <tr class="tr"
-                                :class="{ selected: i == 3 }"
-                                >
-                                <td class="td col-position">@{{ i }}</td>
+                            <tr class="tr" :class="{ selected: i == 3 }">
+                                <td class="td col-position">{{ i }}</td>
                                 <td class="td col-player">
                                     <div class="img-frm">
                                         <i class="icon fas fa-user-circle"></i>
 
-                                        <div class="img">
-                                        </div>
+                                        <div class="img"></div>
                                     </div>
                                     Player name
                                 </td>
@@ -479,4 +448,110 @@
             </div>
         </section>
     </section>
-@endsection
+    <NotFound v-else />
+</template>
+
+<script lang="ts">
+import Vue from "vue";
+import { Tournament } from "../types/tournament";
+import NotFound from "../components/NotFound.vue";
+import { asNumber } from "../../general/utils/utils";
+import {getSportName} from "../../general/utils/sportUtils";
+
+export default Vue.extend({
+    name: "TournamentView",
+    components: { NotFound },
+
+    data() {
+        return {
+            tournamentSelected: 1,
+            balance: 0,
+            title: "selected",
+            status: "selected",
+            hours: 0,
+            players: 0,
+            buy: 0,
+
+            userTournamentsActive: ["All sports Fre4all", "Weekend NFL", "Thursday Basketball"],
+
+            betting: {
+                pending: {
+                    show: true,
+                    show2: false,
+                    show3: false,
+                    show4: false,
+                },
+            },
+        };
+    },
+
+    computed: {
+        tournamentId(): number | null {
+            return asNumber(this.$route.params.tournamentId);
+        },
+
+        tournament(): Tournament | null {
+            return this.$store.state.tournaments.tournaments.find(
+                (tournament: Tournament) => tournament.id === this.tournamentId,
+            );
+        },
+
+        sportsNames(): string {
+            const sportIds = this.tournament?.sport_ids ?? [];
+            return sportIds.map(getSportName).join(", ") || "n/a";
+        }
+    },
+
+    methods: {
+        istabselected: function(indextab: any) {
+            return { active: indextab == this.tournamentSelected };
+        },
+
+        showtab: function(index: any) {
+            this.tournamentSelected = index;
+            this.balance = 10000;
+            this.title = "prueba";
+            this.status = "prueba";
+            this.hours = 10;
+            this.players = 300;
+            this.buy = 50;
+        },
+
+        pending: function() {
+            this.betting.pending.show = !this.betting.pending.show;
+            this.betting.pending.show2 = false;
+            this.betting.pending.show3 = false;
+            this.betting.pending.show4 = false;
+        },
+
+        history: function() {
+            this.betting.pending.show2 = !this.betting.pending.show2;
+            this.betting.pending.show = false;
+            this.betting.pending.show3 = false;
+            this.betting.pending.show4 = false;
+        },
+
+        straight: function() {
+            this.betting.pending.show3 = !this.betting.pending.show3;
+            this.betting.pending.show = false;
+            this.betting.pending.show2 = false;
+            this.betting.pending.show4 = false;
+        },
+
+        parlay: function() {
+            this.betting.pending.show4 = !this.betting.pending.show4;
+            this.betting.pending.show = false;
+            this.betting.pending.show2 = false;
+            this.betting.pending.show3 = false;
+        },
+    },
+
+    watch: {
+        tournament(newVal, oldVal) {
+            if (!newVal && oldVal) {
+                this.$router.push(`/`);
+            }
+        },
+    },
+});
+</script>

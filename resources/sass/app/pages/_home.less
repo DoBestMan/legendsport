@@ -1,7 +1,6 @@
-@import "_global";
-
 @tab-content-frm_padding: 15px;
 @tab-content-frm_height: calc(~"100%" - (@menu-frm_height + @tabs-frm_height + @footer-frm_height));
+
 #tab-home-frm {
     &.tab-content-frm {
         background-color: @gb_color_dark3;
@@ -9,9 +8,7 @@
         padding-top: @tab-content-frm_padding;
         padding-bottom: @tab-content-frm_padding;
     }
-}
 
-#tab-home-frm {
     #filters-frm {
         background-color: transparent;
         margin-bottom: @tab-content-frm_padding;
@@ -258,8 +255,8 @@
             }
         }
     }
-}
 
-.table-tabs-frm {
-    justify-content: space-between;
+    .table-tabs-frm {
+        justify-content: space-between;
+    }
 }

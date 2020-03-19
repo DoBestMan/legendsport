@@ -25,6 +25,7 @@
                         class="tr"
                         :class="{ selected: isSelected(tournament) }"
                         @click="selectTournament(tournament)"
+                        @dblclick="openTournament(tournament)"
                         v-for="tournament in tournamentListStore.filteredTournaments"
                     >
                         <td class="td col-start">
@@ -66,7 +67,7 @@
 import Vue from "vue";
 import { getSportName } from "../../../general/utils/sportUtils";
 import LoadingOverlay from "../../../general/components/LoadingOverlay";
-import tournamentListStore from "../../stores/tournamentListStore";
+import tournamentListStore from "../../store/tournamentListStore";
 import { Tournament } from "../../types/tournament";
 
 export default Vue.extend({
@@ -95,8 +96,13 @@ export default Vue.extend({
             return tournament.id === this.selectedTournamentId;
         },
 
-        selectTournament(tournament: Tournament) {
+        selectTournament(tournament: Tournament): void {
             this.$emit("select", tournament.id);
+        },
+
+        openTournament(tournament: Tournament): void {
+            this.$store.commit("tournaments/addTournament", tournament);
+            this.$router.push(`/tournaments/${tournament.id}`);
         },
     },
 });

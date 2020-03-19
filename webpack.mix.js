@@ -12,15 +12,18 @@ const mix = require('laravel-mix');
  */
 
 mix
-    .js('resources/js/app/pages/home.ts', 'public/app/js')
-    .js('resources/js/app/pages/tournament.js', 'public/app/js')
+    // App
+    .js('resources/js/app/app.ts', 'public/app/js')
+    .less('resources/sass/app/app.less', 'public/app/css')
+
+    // Backstage
     .js('resources/js/backstage/pages/config.js', 'public/backstage/js')
     .js('resources/js/backstage/pages/tournaments.js', 'public/backstage/js')
-    .less('resources/sass/app/home.less', 'public/app/css')
-    .less('resources/sass/app/tournament.less', 'public/app/css')
     .less('resources/sass/backstage/config.less', 'public/backstage/css')
     .less('resources/sass/backstage/home.less', 'public/backstage/css')
     .less('resources/sass/backstage/tournaments.less', 'public/backstage/css')
+
+    // General
     .extract()
     .version()
     .disableNotifications()

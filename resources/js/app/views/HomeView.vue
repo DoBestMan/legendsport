@@ -23,16 +23,16 @@
 
 <script lang="ts">
 import Vue from "vue";
-import FilterContainer from "./FilterContainer.vue";
-import TournamentList from "./TournamentList.vue";
-import TournamentDetails from "./TournamentDetails.vue";
-import { Nullable } from "../../../general/types/types";
-import { Tournament } from "../../types/tournament";
-import { empty } from "../../../general/utils/utils";
-import tournamentListStore from "../../stores/tournamentListStore";
+import FilterContainer from "../molecules/home/FilterContainer.vue";
+import TournamentDetails from "../molecules/home/TournamentDetails.vue";
+import TournamentList from "../molecules/home/TournamentList.vue";
+import { Nullable } from "../../general/types/types";
+import { Tournament } from "../types/tournament";
+import { empty } from "../../general/utils/utils";
+import tournamentListStore from "../store/tournamentListStore";
 
 export default Vue.extend({
-    name: "TournamentContainer",
+    name: "HomeView",
     components: { FilterContainer, TournamentDetails, TournamentList },
 
     data() {
