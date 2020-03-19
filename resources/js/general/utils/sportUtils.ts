@@ -14,6 +14,8 @@ export const sports: ReadonlyArray<Sport> = [
     { id: 14, name: "KHL" },
     { id: 15, name: "AHL" },
     { id: 16, name: "SHL" },
+    { id: 17, name: "SHL" },
+    { id: 29, name: "XFL" },
 ];
 
 export const sportsMap: ReadonlyMap<number, Sport> = new Map(
