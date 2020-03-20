@@ -11,20 +11,16 @@
                         <span class="separator">|</span>
                     </div>
 
-                    <div class="tab-frm" v-for="tournament in tournaments">
+                    <div class="tab-frm" v-for="tab in tabs">
                         <router-link
                             tag="button"
                             type="button"
                             class="tab"
-                            :to="`/tournaments/${tournament.id}`"
+                            :to="`/tournaments/${tab.id}`"
                         >
-                            {{ tournament.name }}
+                            {{ tab.tournament.name }}
                         </router-link>
-                        <div
-                            class="delete"
-                            style="margin-left: -5px"
-                            @click="closeTournament(tournament)"
-                        ></div>
+                        <div class="delete" style="margin-left: -5px" @click="closeTab(tab)"></div>
                         <span class="separator">|</span>
                     </div>
                 </div>
@@ -37,20 +33,20 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Tournament } from "./types/tournament";
+import { Tab } from "./store/modules/tabs";
 
 export default Vue.extend({
     name: "App",
 
     computed: {
-        tournaments(): Tournament[] {
-            return Object.values(this.$store.state.tournaments.tournaments);
+        tabs(): Tab[] {
+            return Object.values(this.$store.getters["tabs/tabs"]);
         },
     },
 
     methods: {
-        closeTournament(tournament: Tournament): void {
-            this.$store.commit("tournaments/removeTournament", tournament.id);
+        closeTab(tab: Tab): void {
+            this.$store.commit("tabs/closeTab", tab.id);
         },
     },
 });

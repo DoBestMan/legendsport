@@ -1,9 +1,5 @@
 <template>
-    <LoadingOverlay
-        :loading="tournamentListStore.isLoading"
-        :failed="tournamentListStore.hasFailed"
-        @retry="tournamentListStore.load"
-    >
+    <LoadingOverlay :loading="isLoading" :failed="hasFailed" @retry="load">
         <div id="table-frm">
             <table id="tournaments" class="table table-fixed table-full">
                 <thead class="thead">
@@ -26,7 +22,7 @@
                         :class="{ selected: isSelected(tournament) }"
                         @click="selectTournament(tournament)"
                         @dblclick="openTournament(tournament)"
-                        v-for="tournament in tournamentListStore.filteredTournaments"
+                        v-for="tournament in filteredTournaments"
                     >
                         <td class="td col-start">
                             {{ tournament.starts }}
@@ -52,7 +48,7 @@
                         </td>
                     </tr>
 
-                    <TableNoRecords v-if="!tournamentListStore.filteredTournaments.length" />
+                    <TableNoRecords v-if="!filteredTournaments.length" />
                 </tbody>
             </table>
         </div>
@@ -62,9 +58,8 @@
 <script lang="ts">
 import Vue from "vue";
 import { getSportName } from "../../../general/utils/sportUtils";
-import LoadingOverlay from "../../../general/components/LoadingOverlay";
-import tournamentListStore from "../../store/tournamentListStore";
 import { Tournament } from "../../types/tournament";
+import LoadingOverlay from "../../../general/components/LoadingOverlay";
 import TableNoRecords from "../../../general/components/TableNoRecords.vue";
 
 export default Vue.extend({
@@ -74,17 +69,25 @@ export default Vue.extend({
         selectedTournamentId: Number,
     },
 
-    created() {
-        tournamentListStore.load();
-    },
-
     computed: {
-        tournamentListStore() {
-            return tournamentListStore;
+        filteredTournaments(): Tournament[] {
+            return this.$store.getters["tournamentList/filteredTournaments"];
+        },
+
+        isLoading(): boolean {
+            return this.$store.state.tournamentList.isLoading;
+        },
+
+        hasFailed(): boolean {
+            return this.$store.state.tournamentList.hasFailed;
         },
     },
 
     methods: {
+        load() {
+            this.$store.dispatch("tournamentList/load");
+        },
+
         getSportsNames(sportsIds: number[]): string {
             return sportsIds.map(getSportName).join(", ");
         },
@@ -98,7 +101,7 @@ export default Vue.extend({
         },
 
         openTournament(tournament: Tournament): void {
-            this.$store.commit("tournaments/addTournament", tournament);
+            this.$store.commit("tabs/openTab", tournament.id);
             this.$router.push(`/tournaments/${tournament.id}`);
         },
     },

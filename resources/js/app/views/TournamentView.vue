@@ -457,6 +457,7 @@ import { Tournament } from "../types/tournament";
 import NotFound from "../components/NotFound.vue";
 import { asNumber } from "../../general/utils/utils";
 import { getSportName } from "../../general/utils/sportUtils";
+import { Tab } from "../store/modules/tabs";
 
 export default Vue.extend({
     name: "TournamentView",
@@ -490,10 +491,14 @@ export default Vue.extend({
             return asNumber(this.$route.params.tournamentId);
         },
 
-        tournament(): Tournament | null {
-            return this.$store.state.tournaments.tournaments.find(
-                (tournament: Tournament) => tournament.id === this.tournamentId,
+        tab(): Tab | null {
+            return this.$store.getters["tabs/tabs"].find(
+                (tab: Tab) => tab.id === this.tournamentId,
             );
+        },
+
+        tournament(): Tournament | null {
+            return this.tab?.tournament ?? null;
         },
 
         sportsNames(): string {
@@ -503,20 +508,6 @@ export default Vue.extend({
     },
 
     methods: {
-        istabselected: function(indextab: any) {
-            return { active: indextab == this.tournamentSelected };
-        },
-
-        showtab: function(index: any) {
-            this.tournamentSelected = index;
-            this.balance = 10000;
-            this.title = "prueba";
-            this.status = "prueba";
-            this.hours = 10;
-            this.players = 300;
-            this.buy = 50;
-        },
-
         pending: function() {
             this.betting.pending.show = !this.betting.pending.show;
             this.betting.pending.show2 = false;

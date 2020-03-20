@@ -4,6 +4,7 @@ export interface Sport {
 }
 
 export const sports: ReadonlyArray<Sport> = [
+    { id: 0, name: "MLB" },
     { id: 1, name: "NBA" },
     { id: 2, name: "NCAAB" },
     { id: 3, name: "NCAAF" },

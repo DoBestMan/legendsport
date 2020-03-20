@@ -11,6 +11,9 @@ Vue.use(Vuex);
 const router = createRouter();
 const store = createStore();
 
+store.dispatch("tournamentList/load").catch(console.error);
+store.commit("tabs/initialise");
+
 new Vue({
     el: "#main",
     router,
@@ -19,14 +22,5 @@ new Vue({
     data: {
         isLogin: true,
         userTournamentsActive: ["All sports Fre4all", "Weekend NFL", "Thursday Basketball"],
-    },
-    methods: {
-        istabselected() {
-            return true;
-        },
-
-        showtab() {
-            // TODO Implement it
-        },
     },
 });

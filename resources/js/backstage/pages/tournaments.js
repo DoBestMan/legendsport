@@ -115,7 +115,7 @@ new Vue({
         async deleteTournament(tournamentId) {
             loaderStore.show();
             try {
-                const response = await axios.delete(`/tournaments/${tournamentId}`);
+                await axios.delete(`/tournaments/${tournamentId}`);
                 this.closeDeleteModal();
                 notificationStore.info("Tournament's been deleted.");
                 window.location = "/tournaments";

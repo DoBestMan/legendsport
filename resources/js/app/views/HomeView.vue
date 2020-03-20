@@ -29,7 +29,6 @@ import TournamentList from "../molecules/home/TournamentList.vue";
 import { Nullable } from "../../general/types/types";
 import { Tournament } from "../types/tournament";
 import { empty } from "../../general/utils/utils";
-import tournamentListStore from "../store/tournamentListStore";
 
 export default Vue.extend({
     name: "HomeView",
@@ -43,22 +42,23 @@ export default Vue.extend({
 
     computed: {
         selectedTournament(): Tournament | null {
-            if (empty(tournamentListStore.filteredTournaments)) {
+            const tournaments: Tournament[] = this.$store.getters[
+                "tournamentList/filteredTournaments"
+            ];
+
+            if (empty(tournaments)) {
                 return null;
             }
 
-            const tournament = tournamentListStore.filteredTournaments.find(
-                tournament => tournament.id === this.tournamentId,
-            );
+            const tournament = tournaments.find(tournament => tournament.id === this.tournamentId);
             if (tournament) {
                 return tournament;
             }
 
-            return tournamentListStore.filteredTournaments[0];
+            return tournaments[0];
         },
 
         selectedTournamentId(): number | null {
-            // @ts-ignore
             return this.selectedTournament?.id ?? null;
         },
     },

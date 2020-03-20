@@ -1,15 +1,16 @@
-import Vue from "vue";
+import { Module } from "vuex";
 import axios from "axios";
-import { empty, intersects } from "../../general/utils/utils";
+import { RootState } from "../types";
 import {
     BuyInType,
     PlayersLimitType,
     TimeFrame,
     Tournament,
     TournamentType,
-} from "../types/tournament";
-import { Nullable } from "../../general/types/types";
-import { TournamentState } from "../../general/types/tournament";
+} from "../../types/tournament";
+import { TournamentState } from "../../../general/types/tournament";
+import { empty, intersects } from "../../../general/utils/utils";
+import { updateField } from "../utils";
 
 const matchString = (subject: string, needle?: string): boolean => {
     if (!needle) {
@@ -86,60 +87,92 @@ const filterTournament = (
     );
 };
 
-export default new Vue({
-    data() {
-        return {
-            buyIn: null as Nullable<BuyInType>,
-            playersLimit: null as Nullable<PlayersLimitType>,
-            timeFrame: null as Nullable<TimeFrame>,
-            search: "",
-            sports: [] as number[],
-            type: null as Nullable<TournamentType>,
-            upcoming: false,
+export interface TournamentListState {
+    tournaments: Tournament[];
+    isLoading: boolean;
+    hasFailed: boolean;
 
-            tournaments: [] as Tournament[],
-            isLoading: false,
-            hasFailed: false,
-        };
+    buyIn: BuyInType | null;
+    playersLimit: PlayersLimitType | null;
+    timeFrame: TimeFrame | null;
+    search: string;
+    sports: number[];
+    type: TournamentType | null;
+    upcoming: boolean;
+}
+
+const module: Module<TournamentListState, RootState> = {
+    namespaced: true,
+
+    state: {
+        tournaments: [],
+        isLoading: false,
+        hasFailed: false,
+
+        buyIn: null,
+        playersLimit: null,
+        search: "",
+        sports: [],
+        timeFrame: null,
+        type: null,
+        upcoming: false,
     },
 
-    computed: {
-        filteredTournaments(): Tournament[] {
-            const search = this.search.toLowerCase();
-            return this.tournaments.filter(tournament =>
+    getters: {
+        filteredTournaments(state): Tournament[] {
+            const search = state.search.toLowerCase();
+            return state.tournaments.filter(tournament =>
                 filterTournament(
                     tournament,
                     search,
-                    this.sports,
-                    this.buyIn,
-                    this.type,
-                    this.playersLimit,
-                    this.upcoming,
-                    this.timeFrame,
+                    state.sports,
+                    state.buyIn,
+                    state.type,
+                    state.playersLimit,
+                    state.upcoming,
+                    state.timeFrame,
                 ),
             );
         },
     },
 
-    methods: {
-        async load(): Promise<void> {
-            if (!this.tournaments.length) {
-                await this.reload();
+    mutations: {
+        updateField,
+
+        markAsLoading(state) {
+            state.isLoading = true;
+        },
+
+        markAsLoaded(state, tournaments: Tournament[]) {
+            state.isLoading = false;
+            state.hasFailed = false;
+            state.tournaments = tournaments;
+        },
+
+        markAsFailed(state) {
+            state.isLoading = false;
+            state.hasFailed = true;
+        },
+    },
+
+    actions: {
+        load({ state, dispatch }) {
+            if (!state.tournaments.length) {
+                dispatch("reload");
             }
         },
 
-        async reload(): Promise<void> {
-            this.isLoading = true;
+        async reload({ commit }) {
+            commit("markAsLoading");
 
             try {
                 const response = await axios.get("/api/tournaments");
-                this.tournaments = response.data;
-                this.hasFailed = false;
+                commit("markAsLoaded", response.data);
             } catch (e) {
-                this.hasFailed = true;
-            } finally {
-                this.isLoading = false;
+                commit("markAsFailed");
             }
         },
     },
-});
+};
+
+export default module;

@@ -7225,6 +7225,11 @@ vue-bootstrap-toasts@^1.0.7:
   resolved "https://registry.yarnpkg.com/vue-bootstrap-toasts/-/vue-bootstrap-toasts-1.0.7.tgz#111c38855941e8eb0538e21f41c173e2af67dd53"
   integrity sha512-JhurJOAwdNcINQ/QlT701sx0r447YTGpvtxtmZNC9pwDvEqp2I0Pyv15jS4neWwYHkA1gXB42nBsDRcWcj1hlg==
 
+vue-class-component@^7.2.3:
+  version "7.2.3"
+  resolved "https://registry.yarnpkg.com/vue-class-component/-/vue-class-component-7.2.3.tgz#a5b1abd53513a72ad51098752e2dedd499807cca"
+  integrity sha512-oEqYpXKaFN+TaXU+mRLEx8dX0ah85aAJEe61mpdoUrq0Bhe/6sWhyZX1JjMQLhVsHAkncyhedhmCdDVSasUtDw==
+
 vue-functional-data-merge@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/vue-functional-data-merge/-/vue-functional-data-merge-3.1.0.tgz#08a7797583b7f35680587f8a1d51d729aa1dc657"

@@ -2,35 +2,27 @@
     <div class="row">
         <div class="col-1">
             <label for="type" class="control-title">Type</label>
-            <MultiSelect id="type" :options="typeOptions" v-model="tournamentListStore.type" />
+            <MultiSelect id="type" :options="typeOptions" v-model="type" />
         </div>
 
         <div class="col-3">
             <label for="sports" class="control-title">Sport</label>
-            <SportSelect id="sports" v-model="tournamentListStore.sports"></SportSelect>
+            <SportSelect id="sports" v-model="sports"></SportSelect>
         </div>
 
         <div class="col-1">
             <label for="buy-in" class="control-title">Buy-In</label>
-            <MultiSelect id="buy-in" :options="buyInOptions" v-model="tournamentListStore.buyIn" />
+            <MultiSelect id="buy-in" :options="buyInOptions" v-model="buyIn" />
         </div>
 
         <div class="col-1">
             <label for="time-frame" class="control-title">Time Frame</label>
-            <MultiSelect
-                id="time-frame"
-                :options="timeFrameOptions"
-                v-model="tournamentListStore.timeFrame"
-            />
+            <MultiSelect id="time-frame" :options="timeFrameOptions" v-model="timeFrame" />
         </div>
 
         <div class="col-1">
             <label for="players-limit" class="control-title">Players</label>
-            <MultiSelect
-                id="players-limit"
-                :options="playersLimitOptions"
-                v-model="tournamentListStore.playersLimit"
-            />
+            <MultiSelect id="players-limit" :options="playersLimitOptions" v-model="playersLimit" />
         </div>
 
         <div class="col-2" style="width: 200px">
@@ -38,7 +30,7 @@
                 <input
                     id="upcoming"
                     type="checkbox"
-                    v-model="tournamentListStore.upcoming"
+                    v-model="upcoming"
                     class="form-control control-input custom-control-input my-error"
                     style="width: 40px"
                 />
@@ -55,23 +47,18 @@
         <div class="col-3">
             <label for="search" class="control-title">Search</label>
 
-            <input
-                id="search"
-                type="text"
-                v-model="tournamentListStore.search"
-                class="form-control control-input"
-            />
+            <input id="search" type="text" v-model="search" class="form-control control-input" />
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import tournamentListStore from "../../store/tournamentListStore";
 import MultiSelect from "../../components/MultiSelect";
 import SportSelect from "../../../general/components/SportSelect.vue";
 import { BuyInType, PlayersLimitType, TimeFrame, TournamentType } from "../../types/tournament";
 import { mapEnumToSelecOptions } from "../../../general/utils/utils";
+import { mapFields } from "../../store/utils";
 
 export default Vue.extend({
     name: "FilterContainer",
@@ -93,9 +80,15 @@ export default Vue.extend({
             return [{ id: null, name: "All" }, ...mapEnumToSelecOptions(PlayersLimitType)];
         },
 
-        tournamentListStore() {
-            return tournamentListStore;
-        },
+        ...mapFields("tournamentList", [
+            "buyIn",
+            "playersLimit",
+            "timeFrame",
+            "type",
+            "search",
+            "sports",
+            "upcoming",
+        ]),
     },
 });
 </script>

@@ -45,7 +45,7 @@ export default Vue.extend({
     },
 
     computed: {
-        sports() {
+        sports(): any[] {
             return [
                 {
                     name: this.value.length === sports.length ? "Deselect all" : "Select all",
@@ -64,7 +64,6 @@ export default Vue.extend({
             }
 
             if (this.value.length === 1) {
-                // @ts-ignore
                 return this.formattedSelectedSports[0].name;
             }
 
