@@ -79,9 +79,9 @@ export default Vue.extend({
         },
 
         updateOverflowSize() {
-            // @ts-ignore
             this.overflowSize = Math.max(
                 0,
+                // @ts-ignore
                 this.$refs.list.offsetWidth - this.$refs.wrapper.offsetWidth,
             );
         },
