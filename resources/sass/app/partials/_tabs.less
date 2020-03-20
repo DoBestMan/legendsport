@@ -47,3 +47,78 @@
         }
     }
 }
+
+// .tabs-row-frm es el ROW contenedor de cada tabs-frm y se requiere que
+// tenga un color específico. Debe ser hermano de #tabs-frm
+.tabs-row-frm {
+    background-color: @gb_color_dark2;
+
+    .tabs-frm {
+        background-color: transparent;
+
+        .tab-frm {
+            .tab {
+                letter-spacing: 2px;
+                max-width: 180px;
+                font-size: 1.2rem;
+                font-weight: 500;
+
+                &:not(.active) {
+                    color: @gb_color_ligth5;
+                }
+            }
+
+            .separator {
+                color: hsl(216, 10%, 20%);
+                font-size: 1.5rem;
+            }
+        }
+    }
+}
+
+.scrollable {
+    .wrapper {
+        position: relative;
+        overflow: hidden;
+        height: @tabs-frm_height;
+    }
+
+    .list {
+        position: absolute;
+        transition: left 0.6s ease 0s;
+    }
+
+    .scroller {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        color: @gb_color_app_white;
+        white-space: nowrap;
+
+        &:hover {
+            .icon {
+                text-shadow: 0 0 1px #fff;
+            }
+        }
+
+        &.scroller-right {
+            float: right;
+            padding-left: 1rem;
+            padding-right: 15px;
+            margin-right: -15px;
+        }
+
+        &.scroller-left {
+            float: left;
+            padding-right: 1rem;
+            padding-left: 15px;
+            margin-left: -15px;
+        }
+
+        .icon {
+            font-size: 1.2rem;
+        }
+    }
+}

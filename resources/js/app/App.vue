@@ -84,7 +84,7 @@
         </nav>
 
         <section class="row">
-            <div class="col tabs-row-frm">
+            <HorizontallyScrollable class="col tabs-row-frm">
                 <div class="tabs-frm">
                     <div class="tab-frm">
                         <router-link tag="button" type="button" class="tab" to="/" exact>
@@ -107,7 +107,7 @@
                         <span class="separator">|</span>
                     </div>
                 </div>
-            </div>
+            </HorizontallyScrollable>
         </section>
 
         <router-view />
@@ -183,9 +183,11 @@
 <script lang="ts">
 import Vue from "vue";
 import { Tab } from "./store/modules/tabs";
+import HorizontallyScrollable from "./components/HorizontallyScrollable.vue";
 
 export default Vue.extend({
     name: "App",
+    components: { HorizontallyScrollable },
 
     data() {
         return {

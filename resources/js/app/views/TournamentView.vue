@@ -480,7 +480,7 @@ export default Vue.extend({
 
         isLoading(): boolean {
             return this.$store.state.tournamentList.isLoading;
-        }
+        },
     },
 
     methods: {
