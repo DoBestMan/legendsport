@@ -27,7 +27,6 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import moment from "moment";
-import { getSportName } from "../../../general/utils/sportUtils";
 import { Game } from "../../types/game";
 import TableNoRecords from "../../../general/components/TableNoRecords.vue";
 
@@ -40,12 +39,13 @@ export default Vue.extend({
     },
 
     methods: {
-        getMatchTime(game: any): string {
+        getMatchTime(game: Game): string {
             return moment(game.match_time).format("MMM, DD");
         },
 
-        getSportName(game: any): string {
-            return getSportName(game.sport_id);
+        getSportName(game: Game): string {
+            const dict: ReadonlyMap<number, string> = this.$store.getters["sport/sportDictionary"];
+            return dict.get(game.sport_id) ?? String(game.sport_id);
         },
     },
 });

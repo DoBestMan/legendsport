@@ -32,7 +32,7 @@
             <div class="row">
                 <div class="col">
                     <div class="title"># Players</div>
-                    <div class="value">{{ tournament.players.length }}</div>
+                    <div class="value">{{ formattedTournament.players.length }}</div>
                 </div>
             </div>
 
@@ -82,7 +82,6 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import { Tournament } from "../../types/tournament";
-import { getSportName } from "../../../general/utils/sportUtils";
 import TournamentGamesTable from "./TournamentGamesTable.vue";
 import TournamentRankTable from "../general/TournamentRankTable.vue";
 import { TournamentState } from "../../../general/types/tournament";
@@ -111,13 +110,15 @@ export default Vue.extend({
 
             return {
                 games: [],
+                players: [],
                 sport_ids: [],
             } as any;
         },
 
         sportsNames(): string {
-            const sportIds = this.tournament?.sport_ids ?? [];
-            return sportIds.map(getSportName).join(", ") || "n/a";
+            const sportsIds = this.tournament?.sport_ids ?? [];
+            const dict: ReadonlyMap<number, string> = this.$store.getters["sport/sportDictionary"];
+            return sportsIds.map(sportId => dict.get(sportId) ?? sportId).join(", ") || "n/a";
         },
     },
 

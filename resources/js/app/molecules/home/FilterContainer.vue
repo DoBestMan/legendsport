@@ -7,7 +7,7 @@
 
         <div class="col-3">
             <label for="sports" class="control-title">Sport</label>
-            <SportSelect id="sports" v-model="sports"></SportSelect>
+            <SportSelect id="sports" :sports="sportOptions" v-model="sports"></SportSelect>
         </div>
 
         <div class="col-1">
@@ -59,25 +59,30 @@ import SportSelect from "../../../general/components/SportSelect.vue";
 import { BuyInType, PlayersLimitType, TimeFrame, TournamentType } from "../../types/tournament";
 import { mapEnumToSelecOptions } from "../../../general/utils/utils";
 import { mapFields } from "../../store/utils";
+import { Sport } from "../../../general/types/sport";
 
 export default Vue.extend({
     name: "FilterContainer",
     components: { MultiSelect, SportSelect },
 
     computed: {
-        typeOptions() {
+        typeOptions(): any {
             return [{ id: null, name: "All" }, ...mapEnumToSelecOptions(TournamentType)];
         },
-        buyInOptions() {
+        buyInOptions(): any {
             return [{ id: null, name: "All" }, ...mapEnumToSelecOptions(BuyInType)];
         },
 
-        timeFrameOptions() {
+        timeFrameOptions(): any {
             return [{ id: null, name: "All" }, ...mapEnumToSelecOptions(TimeFrame)];
         },
 
-        playersLimitOptions() {
+        playersLimitOptions(): any {
             return [{ id: null, name: "All" }, ...mapEnumToSelecOptions(PlayersLimitType)];
+        },
+
+        sportOptions(): Sport[] {
+            return this.$store.state.sport.sports;
         },
 
         ...mapFields("tournamentList", [

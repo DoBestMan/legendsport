@@ -22,4 +22,5 @@ $router->domain($app)->group(function (Router $router) {
 
 $router->domain($backstage)->group(function (Router $router) {
     $router->get('/events', EventCollection::class . '@get');
+    $router->get('/sports', SportCollection::class . '@get');
 });

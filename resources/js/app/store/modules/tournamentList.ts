@@ -1,5 +1,4 @@
 import { Module } from "vuex";
-import axios from "axios";
 import { RootState } from "../types";
 import {
     BuyInType,
@@ -90,7 +89,8 @@ const filterTournament = (
 export interface TournamentListState {
     tournaments: Tournament[];
     isLoading: boolean;
-    hasFailed: boolean;
+    isLoaded: boolean;
+    isFailed: boolean;
 
     buyIn: BuyInType | null;
     playersLimit: PlayersLimitType | null;
@@ -107,7 +107,8 @@ const module: Module<TournamentListState, RootState> = {
     state: {
         tournaments: [],
         isLoading: false,
-        hasFailed: false,
+        isLoaded: false,
+        isFailed: false,
 
         buyIn: null,
         playersLimit: null,
@@ -145,13 +146,14 @@ const module: Module<TournamentListState, RootState> = {
 
         markAsLoaded(state, tournaments: Tournament[]) {
             state.isLoading = false;
-            state.hasFailed = false;
+            state.isLoaded = true;
+            state.isFailed = false;
             state.tournaments = tournaments;
         },
 
         markAsFailed(state) {
             state.isLoading = false;
-            state.hasFailed = true;
+            state.isFailed = true;
         },
     },
 
@@ -162,12 +164,12 @@ const module: Module<TournamentListState, RootState> = {
             }
         },
 
-        async reload({ commit }) {
+        async reload({ commit, rootState }) {
             commit("markAsLoading");
 
             try {
-                const response = await axios.get("/api/tournaments");
-                commit("markAsLoaded", response.data);
+                const tournaments = await rootState.api.getTournaments();
+                commit("markAsLoaded", tournaments);
             } catch (e) {
                 commit("markAsFailed");
             }

@@ -1,9 +1,15 @@
 <template>
-    <section
-        v-if="tournament"
-        name="tab-content-any-tournament"
-        class="tab-content-frm tab-tournament-frm row"
-    >
+    <div v-if="isLoading" class="text-center p-5">
+        <div class="spinner-wrapper">
+            <div class="spinner-border">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <NotFound v-else-if="!tournament" />
+
+    <section v-else class="tab-content-frm tab-tournament-frm row">
         <section name="betting-section" class="col-3">
             <section class="section bets">
                 <div class="title-bar-frm">
@@ -424,7 +430,6 @@
             </div>
         </section>
     </section>
-    <NotFound v-else />
 </template>
 
 <script lang="ts">
@@ -432,7 +437,6 @@ import Vue from "vue";
 import { Tournament } from "../types/tournament";
 import NotFound from "../components/NotFound.vue";
 import { asNumber } from "../../general/utils/utils";
-import { getSportName } from "../../general/utils/sportUtils";
 import { Tab } from "../store/modules/tabs";
 import TournamentRankTable from "../molecules/general/TournamentRankTable.vue";
 
@@ -469,9 +473,14 @@ export default Vue.extend({
         },
 
         sportsNames(): string {
-            const sportIds = this.tournament?.sport_ids ?? [];
-            return sportIds.map(getSportName).join(", ") || "n/a";
+            const dict: ReadonlyMap<number, string> = this.$store.getters["sport/sportDictionary"];
+            const sportsIds = this.tournament?.sport_ids ?? [];
+            return sportsIds.map(sportId => dict.get(sportId) ?? sportId).join(", ") || "n/a";
         },
+
+        isLoading(): boolean {
+            return this.$store.state.tournamentList.isLoading;
+        }
     },
 
     methods: {

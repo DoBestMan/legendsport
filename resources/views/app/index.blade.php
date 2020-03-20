@@ -2,13 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Legend Sports</title>
 
     <link rel="icon" href="_global/img/favicon.png" type="image/png">
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/solid.css" integrity="sha384-doPVn+s3XZuxfJLS7K1E+sUl25XMZtTVb3O46RyV3JDU2ehfc0Aks4z0ufFpA2WC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/brands.css" integrity="sha384-tft2+pObMD7rYFMZlLUziw/8QrQeKHU4GYYvA5jVaggC74ZrYdTASheA2vckPcX5" crossorigin="anonymous">
@@ -34,9 +32,6 @@
             </div>
         </div>
     </div>
-
-    {{-- PHP TO JS --}}
-    @include("_phpvars")
 
     <script type="text/javascript" src="{{ mix('/backstage/js/manifest.js') }}"></script>
     <script type="text/javascript" src="{{ mix('/backstage/js/vendor.js') }}"></script>

@@ -2,21 +2,12 @@
 namespace App\Http\Controllers\Backstage\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\JsonOddApiService;
 
 class EventCollection extends Controller
 {
-    public function get()
+    public function get(JsonOddApiService $jsonOddApiService)
     {
-        $appKey = env("JSONODDS_API_KEY");
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'https://jsonodds.com/api/odds/all');
-        curl_setopt($ch, CURLOPT_HTTPGET, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('x-api-key:' . $appKey));
-        $res = curl_exec($ch);
-
-        return json_decode($res, true);
+        return $jsonOddApiService->getOdds();
     }
 }

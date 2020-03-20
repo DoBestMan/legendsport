@@ -46,11 +46,12 @@
     </div>
 </template>
 
-<script>
-import { getSportName } from "../../../general/utils/sportUtils";
+<script lang="ts">
+import Vue from "vue";
 import TableNoRecords from "../../../general/components/TableNoRecords";
+import sportStore from "../../stores/sportStore";
 
-export default {
+export default Vue.extend({
     name: "SelectedEventList",
     components: { TableNoRecords },
 
@@ -61,12 +62,12 @@ export default {
     },
 
     methods: {
-        removeEvent(event) {
+        removeEvent(event: any) {
             this.$emit("remove", event);
         },
 
-        getSportName(sportId) {
-            return getSportName(sportId);
+        getSportName(sportId: number): string {
+            return sportStore.sportDictionary.get(sportId) ?? String(sportId);
         },
     },
 
@@ -75,5 +76,5 @@ export default {
             return this.$listeners && this.$listeners.remove;
         },
     },
-};
+});
 </script>

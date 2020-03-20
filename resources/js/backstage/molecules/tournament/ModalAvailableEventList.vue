@@ -70,11 +70,11 @@ import axios from "axios";
 import moment from "moment";
 import { Event } from "../../types/event";
 import LoadingOverlay from "../../../general/components/LoadingOverlay";
-import { getSportName } from "../../../general/utils/sportUtils";
 import FilterContainer from "./FilterContainer";
 import { Nullable } from "../../../general/types/types";
 import { empty } from "../../../general/utils/utils";
 import TableNoRecords from "../../../general/components/TableNoRecords.vue";
+import sportStore from "../../stores/sportStore";
 
 export default Vue.extend({
     name: "ModalAvailableEventList",
@@ -122,7 +122,7 @@ export default Vue.extend({
         },
 
         getSportName(sportId: number): string {
-            return getSportName(sportId);
+            return sportStore.sportDictionary.get(sportId) ?? String(sportId);
         },
 
         includeEvent(event: any): void {

@@ -9,8 +9,11 @@ import TournamentForm from "../molecules/tournament/TournamentForm";
 import notificationStore from "../stores/notificationStore";
 import FullLoader from "../components/FullLoader";
 import loaderStore from "../stores/loaderStore";
+import sportStore from "../stores/sportStore";
 
 setup();
+
+sportStore.load().catch(console.error);
 
 new Vue({
     el: "#main",

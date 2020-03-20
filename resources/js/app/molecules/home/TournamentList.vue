@@ -1,5 +1,5 @@
 <template>
-    <LoadingOverlay :loading="isLoading" :failed="hasFailed" @retry="load">
+    <LoadingOverlay :loading="isLoading" :failed="isFailed" @retry="load">
         <div id="table-frm">
             <table id="tournaments" class="table table-fixed table-full">
                 <thead class="thead">
@@ -57,7 +57,6 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { getSportName } from "../../../general/utils/sportUtils";
 import { Tournament } from "../../types/tournament";
 import LoadingOverlay from "../../../general/components/LoadingOverlay";
 import TableNoRecords from "../../../general/components/TableNoRecords.vue";
@@ -78,8 +77,8 @@ export default Vue.extend({
             return this.$store.state.tournamentList.isLoading;
         },
 
-        hasFailed(): boolean {
-            return this.$store.state.tournamentList.hasFailed;
+        isFailed(): boolean {
+            return this.$store.state.tournamentList.isFailed;
         },
     },
 
@@ -89,7 +88,8 @@ export default Vue.extend({
         },
 
         getSportsNames(sportsIds: number[]): string {
-            return sportsIds.map(getSportName).join(", ");
+            const dict: ReadonlyMap<number, string> = this.$store.getters["sport/sportDictionary"];
+            return sportsIds.map(sportId => dict.get(sportId) ?? sportId).join(", ");
         },
 
         isSelected(tournament: Tournament): boolean {

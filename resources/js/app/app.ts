@@ -12,6 +12,7 @@ const router = createRouter();
 const store = createStore();
 
 store.dispatch("tournamentList/load").catch(console.error);
+store.dispatch("sport/load").catch(console.error);
 store.commit("tabs/initialise");
 
 new Vue({
