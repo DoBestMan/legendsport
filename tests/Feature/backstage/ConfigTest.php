@@ -3,7 +3,7 @@
 namespace Tests\Feature\Intra;
 
 use Tests\TestCase;
-use App\Models\Backstage\Config;
+use App\Models\Config;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ConfigTest extends TestCase
@@ -11,7 +11,7 @@ class ConfigTest extends TestCase
     use RefreshDatabase;
 
     private function create_config(Array $attributes = [])
-    {           
+    {
         return factory(Config::class)->create($attributes);
     }
 
@@ -20,8 +20,8 @@ class ConfigTest extends TestCase
         $config = $this->create_config([
             'config' => json_encode([
                 'chips' => 10000,
-                'commission' => 2, 
-                'keep_completed' => 2, 
+                'commission' => 2,
+                'keep_completed' => 2,
             ])
         ]);
 
@@ -36,8 +36,8 @@ class ConfigTest extends TestCase
         $config = $this->create_config([
             'config' => json_encode([
                 'chips' => 10000,
-                'commission' => 2, 
-                'keep_completed' => 2, 
+                'commission' => 2,
+                'keep_completed' => 2,
             ]),
         ]);
 
@@ -51,7 +51,7 @@ class ConfigTest extends TestCase
         $config = $this->create_config();
 
         $this->put(route('config.update', $config->config), [
-                'config' => 1, 
+                'config' => 1,
             ])->assertRedirect(route('config.edit'));
 
         $this->assertDatabaseHas('config', [

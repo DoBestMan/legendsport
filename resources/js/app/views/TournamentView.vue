@@ -7,7 +7,7 @@
         <section name="betting-section" class="col-3">
             <section class="section bets">
                 <div class="title-bar-frm">
-                    <span class="title">{{ balance }}</span>
+                    <span class="title">0</span>
                 </div>
 
                 <div class="tabs-frm">
@@ -357,11 +357,11 @@
                     </div>
 
                     <div class="title-frm">
-                        <div class="title">{{ title }}</div>
+                        <div class="title">{{ tournament.name }}</div>
                     </div>
 
                     <div class="status-frm">
-                        <div class="status">{{ status }}</div>
+                        <div class="status">{{ tournament.state }}</div>
                     </div>
                 </div>
 
@@ -374,14 +374,14 @@
 
                         <div class="col-6">
                             <div class="title">In</div>
-                            <div class="value">{{ hours }} hours</div>
+                            <div class="value">0 hours</div>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-4">
                             <div class="title"># Players</div>
-                            <div class="value">{{ players }}</div>
+                            <div class="value">{{ tournament.players.length }}</div>
                         </div>
 
                         <div class="col-4">
@@ -420,31 +420,7 @@
                     </tbody>
                 </table>
 
-                <table class="rank table">
-                    <thead class="thead">
-                        <tr class="tr">
-                            <th id="col-position" class="th" scope="col">Rank</th>
-                            <th id="col-player" class="th" scope="col">Players</th>
-                            <th id="col-price" class="th" scope="col">Price</th>
-                        </tr>
-                    </thead>
-                    <tbody class="tbody">
-                        <template v-for="i in 5">
-                            <tr class="tr" :class="{ selected: i == 3 }">
-                                <td class="td col-position">{{ i }}</td>
-                                <td class="td col-player">
-                                    <div class="img-frm">
-                                        <i class="icon fas fa-user-circle"></i>
-
-                                        <div class="img"></div>
-                                    </div>
-                                    Player name
-                                </td>
-                                <td class="td">1,000</td>
-                            </tr>
-                        </template>
-                    </tbody>
-                </table>
+                <TournamentRankTable :players="tournament.players" />
             </div>
         </section>
     </section>
@@ -458,23 +434,14 @@ import NotFound from "../components/NotFound.vue";
 import { asNumber } from "../../general/utils/utils";
 import { getSportName } from "../../general/utils/sportUtils";
 import { Tab } from "../store/modules/tabs";
+import TournamentRankTable from "../molecules/general/TournamentRankTable.vue";
 
 export default Vue.extend({
     name: "TournamentView",
-    components: { NotFound },
+    components: { TournamentRankTable, NotFound },
 
     data() {
         return {
-            tournamentSelected: 1,
-            balance: 0,
-            title: "selected",
-            status: "selected",
-            hours: 0,
-            players: 0,
-            buy: 0,
-
-            userTournamentsActive: ["All sports Fre4all", "Weekend NFL", "Thursday Basketball"],
-
             betting: {
                 pending: {
                     show: true,

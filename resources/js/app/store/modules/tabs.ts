@@ -1,7 +1,7 @@
 import { Module } from "vuex";
 import { RootState } from "../types";
 import { Tournament } from "../../types/tournament";
-import {getTabs, saveTabs, StorableTab} from "../../local-storage/LocalStorageManager";
+import { getTabs, saveTabs, StorableTab } from "../../local-storage/LocalStorageManager";
 
 export interface Tab {
     id: number;

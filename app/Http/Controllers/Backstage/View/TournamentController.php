@@ -5,11 +5,11 @@ use Illuminate\Http\Response;
 use JavaScript;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Backstage\Tournament;
-use App\Models\Backstage\TournamentEvent;
+use App\Models\Tournament;
+use App\Models\TournamentEvent;
 use App\Models\Backstage\TournamentSport;
-use App\Models\Backstage\ApiEvent;
-use App\Models\Backstage\Config;
+use App\Models\ApiEvent;
+use App\Models\Config;
 use Illuminate\Support\Facades\DB;
 
 class TournamentController extends Controller

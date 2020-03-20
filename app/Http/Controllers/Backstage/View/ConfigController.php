@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backstage\View;
 use Illuminate\Http\Response;
 use JavaScript;
 use Illuminate\Http\Request;
-use App\Models\Backstage\Config;
+use App\Models\Config;
 use App\Http\Controllers\Controller;
 
 class ConfigController extends Controller

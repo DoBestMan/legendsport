@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Models\Backstage;
+namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property int                        $id
- * @property int                        $tournament_id
- * @property int                        $api_event_id
- * @property Carbon                     $created_at
- * @property Carbon                     $updated_at
+ * @property int $id
+ * @property int $tournament_id
+ * @property int $api_event_id
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
  * @property-read ApiEvent $apiEvent
  */
 class TournamentEvent extends Model
@@ -31,6 +31,6 @@ class TournamentEvent extends Model
 
     public function betsEvents()
     {
-        return $this->hasMany(TournamentBetsEvent::class);
+        return $this->hasMany(TournamentBetEvent::class);
     }
 }

@@ -19,9 +19,7 @@ class CreateTournamentsBetsTable extends Migration
             $table->mediumInteger('chips_win');
             $table->enum('status', ['Win', 'Lost']);
             $table->timestamps();
-        });
 
-        Schema::table('tournaments_bets', function (Blueprint $table) {
             $table
                 ->foreign('tournament_player_id')
                 ->references('id')

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Backstage\Tournament;
+use App\Models\Tournament;
 
 class TournamentsTableSeeder extends Seeder
 {

@@ -32,7 +32,7 @@
             <div class="row">
                 <div class="col">
                     <div class="title"># Players</div>
-                    <div class="value">0</div>
+                    <div class="value">{{ tournament.players.length }}</div>
                 </div>
             </div>
 
@@ -71,7 +71,10 @@
 
         <div class="tables-frm">
             <TournamentGamesTable v-if="activeTab === 'games'" :games="formattedTournament.games" />
-            <TournamentRankTable v-if="activeTab === 'rank'" />
+            <TournamentRankTable
+                v-if="activeTab === 'rank'"
+                :players="formattedTournament.players"
+            />
         </div>
     </div>
 </template>
@@ -81,7 +84,7 @@ import Vue, { PropType } from "vue";
 import { Tournament } from "../../types/tournament";
 import { getSportName } from "../../../general/utils/sportUtils";
 import TournamentGamesTable from "./TournamentGamesTable.vue";
-import TournamentRankTable from "./TournamentRankTable.vue";
+import TournamentRankTable from "../general/TournamentRankTable.vue";
 import { TournamentState } from "../../../general/types/tournament";
 
 export default Vue.extend({

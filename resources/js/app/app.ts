@@ -18,9 +18,5 @@ new Vue({
     el: "#main",
     router,
     store,
-    components: { App },
-    data: {
-        isLogin: true,
-        userTournamentsActive: ["All sports Fre4all", "Weekend NFL", "Thursday Basketball"],
-    },
+    render: h => h(App),
 });

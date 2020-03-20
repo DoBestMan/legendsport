@@ -3,8 +3,8 @@
 namespace Tests\Feature\Intra;
 
 use Tests\TestCase;
-use App\Models\Backstage\Config;
-use App\Models\Backstage\Tournament;
+use App\Models\Config;
+use App\Models\Tournament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TournamentsTest extends TestCase

@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Transformers\App;
 
-use App\Models\Backstage\TournamentEvent;
+use App\Models\TournamentEvent;
 use League\Fractal\TransformerAbstract;
 
 class GameTransformer extends TransformerAbstract

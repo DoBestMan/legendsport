@@ -1,14 +1,14 @@
 <?php
 namespace App\Http\Transformers\App;
 
-use App\Models\Backstage\Tournament;
-use App\Models\Backstage\TournamentEvent;
+use App\Models\Tournament;
+use App\Models\TournamentEvent;
 use App\Models\Backstage\TournamentSport;
 use League\Fractal\TransformerAbstract;
 
 class TournamentTranformer extends TransformerAbstract
 {
-    protected $defaultIncludes = ["games"];
+    protected $defaultIncludes = ["games", "players"];
 
     public function transform(Tournament $tournament)
     {
@@ -28,6 +28,11 @@ class TournamentTranformer extends TransformerAbstract
     public function includeGames(Tournament $tournament)
     {
         return $this->collection($tournament->events, new GameTransformer());
+    }
+
+    public function includePlayers(Tournament $tournament)
+    {
+        return $this->collection($tournament->players, new PlayerTransformer());
     }
 
     private function calculateStarts(Tournament $tournament)

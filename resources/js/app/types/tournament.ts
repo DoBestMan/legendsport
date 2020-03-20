@@ -1,5 +1,6 @@
 import { TournamentState } from "../../general/types/tournament";
 import { Game } from "./game";
+import { Player } from "./player";
 
 export interface Tournament {
     id: number;
@@ -12,6 +13,7 @@ export interface Tournament {
     state: TournamentState;
     time_frame: TimeFrame;
     games: Game[];
+    players: Player[];
 }
 
 export enum BuyInType {

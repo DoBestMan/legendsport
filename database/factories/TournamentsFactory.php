@@ -1,7 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
-use App\Models\Backstage\Tournament;
+use App\Models\Tournament;
 use Illuminate\Database\Eloquent\Factory;
 
 /** @var Factory $factory */

@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Backstage\Config;
+use App\Models\Config;
 use Illuminate\Database\Eloquent\Factory;
 
 /** @var Factory $factory */

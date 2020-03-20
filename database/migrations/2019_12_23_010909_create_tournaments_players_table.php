@@ -19,9 +19,7 @@ class CreateTournamentsPlayersTable extends Migration
             $table->mediumInteger('commission');
             $table->mediumInteger('chips');
             $table->timestamps();
-        });
 
-        Schema::table('tournaments_players', function (Blueprint $table) {
             $table
                 ->foreign('tournament_id')
                 ->references('id')

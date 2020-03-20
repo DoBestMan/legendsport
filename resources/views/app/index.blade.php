@@ -16,150 +16,23 @@
     <link rel="stylesheet" href="{{ mix('/app/css/app.css') }}">
 </head>
 <body>
-    <div id="main" class="container-fluid">
-        <nav name="menu" id="menu-frm" class="row">
-            <div name="brand" class="col-4">
+    <div id="main" class="cloak container-fluid">
+        <nav id="menu-frm" class="row">
+            <div class="col-4">
                 <a id="brand-frm" href="#">
-                    {{-- <img id="logo" src="" class="d-inline-block align-top" alt=""> --}}
                     <div id="logo-text-frm" class="d-inline-blockx align-top">
                         <div id="logo-text" class="">LS</div>
                     </div>
                     <span id="text">Legend Sports</span>
                 </a>
             </div>
-
-            <div name="usermenu" v-if="isLogin" class="offset-5 col-3">
-                <div id="usermenu-frm">
-                    <div id="img-frm">
-                        <div id="img">
-                            <i class="icon fas fa-user"></i>
-                        </div>
-                    </div>
-
-                    <div id="title-frm">
-                        <div id="title">
-                            Michael Jarrod
-                            <br>
-                            <span class="balance">Bal: $3,000</span>
-                        </div>
-                    </div>
-
-                    <div class="btnMenuFrm col-1">
-                        <label class="iconFrm" for="btnMenuCheck">
-                            <i class="icon fas fa-bars"></i>
-                        </label>
-                    </div>
-
-                    <input type="checkbox" id="btnMenuCheck">
-                    <div class="btnMenuSubmenu">
-                        <a class="menu">
-                            <div class="menuImg">
-                                <i class="fas fa-user-circle"></i>
-                            </div>
-
-                            <div class="menuTxt">
-                                profile
-                            </div>
-                        </a>
-
-                        <a class="menu">
-                            <div class="menuImg">
-                                <i class="fas fa-history"></i>
-                            </div>
-
-                            <div class="menuTxt">
-                                history(tournaments)
-                            </div>
-                        </a>
-
-                        <a class="menu">
-                            <div class="menuImg">
-                                <i class="icon fas fa-user"></i>
-                            </div>
-
-                            <div class="menuTxt">
-                                cashier
-                            </div>
-                        </a>
-
-                        <a class="menu">
-                            <div class="menuImg">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </div>
-
-                            <div class="menuTxt">
-                                logout
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div name="sign-buttons" v-else id="sign-frm" class="offset-6 col-2">
-                <button id="sign-up-btn" type="button" class="button">Sign up</button>
-                <button id="sign-in-btn" type="button" class="button">Sign in</button>
-            </div>
         </nav>
 
-        <app></app>
-
-        <footer name="footer" id="footer-frm" class="row">
-            <div id="advertising-frm" class="col-4">
-                <div id="advertising-image"></div>
+        <div class="spinner-wrapper">
+            <div class="spinner-border">
+                <span class="sr-only">Loading...</span>
             </div>
-
-            <div id="links-frm" class="offset-4 col-3">
-                <div class="row">
-                    <div name="aboutFrm" class="col-4">
-                        <div class="links-title">About<span class="separator">|</span></div>
-
-                        <div class="link-frm">
-                            <a class="link" href="#">About us</a>
-                        </div>
-
-                        <div class="link-frm">
-                            <a class="link" href="#">Privacy</a>
-                        </div>
-
-                        <div class="link-frm">
-                            <a class="link" href="#">Terms of use</a>
-                        </div>
-                    </div>
-
-                    <div name="supportFrm" class="col-4">
-                        <div class="links-title">Support<span class="separator">|</span></div>
-
-                        <div class="link-frm">
-                            <a class="link" href="#">Contact us</a>
-                        </div>
-
-                        <div class="link-frm addMultiline">
-                            <a class="link" href="#">Forgot password</a>
-                        </div>
-                    </div>
-
-                    <div name="supportFrm" class="col-4">
-                        <div class="links-title">Follow us</div>
-
-                        <div class="link-frm">
-                            <a class="link" href="#"><i class="icon fab fa-facebook-square"></i>Facebook</a>
-                        </div>
-
-                        <div class="link-frm">
-                            <a class="link" href="#"><i class="icon fab fa-twitter-square"></i>Twitter</a>
-                        </div>
-
-                        <div class="link-frm">
-                            <a class="link" href="#"><i class="icon fab fa-instagram"></i>Instagram</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div name="showFooterFrm" class="col-1">
-                <button type="button" class="btn btn-secondary float-right"><i class="fas fa-angle-up"></i></button>
-            </div>
-        </footer>
+        </div>
     </div>
 
     {{-- PHP TO JS --}}
@@ -170,4 +43,3 @@
     <script type="text/javascript" src="{{ mix('/app/js/app.js') }}"></script>
 </body>
 </html>
-
