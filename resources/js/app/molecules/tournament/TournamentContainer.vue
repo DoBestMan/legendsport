@@ -192,7 +192,7 @@
                             <GameRow :game="game" v-for="game in games" :key="game.id" />
                         </tbody>
                     </table>
-                    <div v-if="!groupedGames.length" class="h3 p-5 text-center">
+                    <div v-if="!Object.keys(groupedGames).length" class="h3 p-5 text-center">
                         No records
                     </div>
                 </div>
