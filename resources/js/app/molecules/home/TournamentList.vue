@@ -23,6 +23,7 @@
                         @click="selectTournament(tournament)"
                         @dblclick="openTournament(tournament)"
                         v-for="tournament in filteredTournaments"
+                        :key="tournament.id"
                     >
                         <td class="td col-start">
                             {{ tournament.starts }}

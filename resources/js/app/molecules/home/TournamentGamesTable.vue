@@ -1,5 +1,5 @@
 <template>
-    <table id="games" class="table">
+    <table id="games" class="table table-fixed">
         <thead class="thead">
             <tr class="tr">
                 <th id="col-time" class="th" scope="col">Time</th>
@@ -8,7 +8,13 @@
             </tr>
         </thead>
         <tbody class="tbody">
-            <tr class="tr" v-for="game in games">
+            <tr
+                class="tr"
+                :class="{ selected: game.id === selectedGameId }"
+                @click="selectGame(game)"
+                v-for="game in games"
+                :key="game.id"
+            >
                 <td class="td col-time">{{ getMatchTime(game) }}</td>
                 <td class="td col-sport">{{ getSportName(game) }}</td>
                 <td class="td col-game">
@@ -29,6 +35,7 @@ import Vue, { PropType } from "vue";
 import moment from "moment";
 import { Game } from "../../types/game";
 import TableNoRecords from "../../../general/components/TableNoRecords.vue";
+import { Nullable } from "../../../general/types/types";
 
 export default Vue.extend({
     name: "TournamentGamesTable",
@@ -36,6 +43,12 @@ export default Vue.extend({
 
     props: {
         games: Array as PropType<Game[]>,
+    },
+
+    data() {
+        return {
+            selectedGameId: null as Nullable<number>,
+        };
     },
 
     methods: {
@@ -46,6 +59,10 @@ export default Vue.extend({
         getSportName(game: Game): string {
             const dict: ReadonlyMap<number, string> = this.$store.getters["sport/sportDictionary"];
             return dict.get(game.sport_id) ?? String(game.sport_id);
+        },
+
+        selectGame(game: Game) {
+            this.selectedGameId = game.id;
         },
     },
 });

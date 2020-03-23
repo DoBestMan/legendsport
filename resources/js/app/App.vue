@@ -94,7 +94,7 @@
                         <span class="separator">|</span>
                     </div>
 
-                    <div class="tab-frm" v-for="tab in tabs">
+                    <div class="tab-frm" v-for="tab in tabs" :key="tab.id">
                         <router-link
                             tag="button"
                             type="button"

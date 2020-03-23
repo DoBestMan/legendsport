@@ -15,7 +15,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="event in events">
+                    <tr v-for="event in events" :key="event.ID">
                         <td class="text-truncate" width="300px">
                             {{ event.MatchTime }}
                         </td>

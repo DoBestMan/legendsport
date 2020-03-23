@@ -13,6 +13,7 @@
                 :class="{ selected: player.id === selectedPlayerId }"
                 @click="selectPlayer(player)"
                 v-for="player in players"
+                :key="player.id"
             >
                 <td class="td col-position">{{ player.id }}</td>
                 <td class="td col-player">
