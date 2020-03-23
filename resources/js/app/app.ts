@@ -13,7 +13,9 @@ const store = createStore();
 
 store.dispatch("tournamentList/load").catch(console.error);
 store.dispatch("sport/load").catch(console.error);
-store.commit("tabs/initialise");
+store.dispatch("odd/reload").catch(console.error);
+
+setInterval(() => store.dispatch("odd/reload").catch(console.error), 30 * 1000);
 
 new Vue({
     el: "#main",

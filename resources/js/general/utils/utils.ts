@@ -18,3 +18,14 @@ export const asNumber = (value: any): number | null => {
 
     return isReallyNaN(output) ? null : output;
 };
+
+export const groupBy = <T, K extends string | number>(
+    items: ReadonlyArray<T>,
+    cb: (item: T) => K,
+): Record<K, T[]> => {
+    return items.reduce((carry, item) => {
+        const key = cb(item);
+        carry[key] = [...(carry[key] ?? []), item];
+        return carry;
+    }, {} as Record<K, T[]>);
+};

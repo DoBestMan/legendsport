@@ -182,8 +182,8 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Tab } from "./store/modules/tabs";
 import HorizontallyScrollable from "./components/HorizontallyScrollable.vue";
+import { Tab } from "./types/tab";
 
 export default Vue.extend({
     name: "App",

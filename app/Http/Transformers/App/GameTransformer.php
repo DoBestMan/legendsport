@@ -10,6 +10,7 @@ class GameTransformer extends TransformerAbstract
     {
         return [
             "id" => $event->id,
+            "event_id" => $event->apiEvent->api_data["ID"],
             "match_time" => $event->apiEvent->api_data["MatchTime"],
             "sport_id" => $event->apiEvent->api_data["Sport"],
             "home_team" => $event->apiEvent->api_data["HomeTeam"],

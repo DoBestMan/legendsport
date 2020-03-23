@@ -2,6 +2,15 @@ const TABS_KEY = "tabs";
 
 export interface StorableTab {
     id: number;
+    selectedSportIds?: number[];
+    selectedBetting?: BettingType;
+}
+
+export enum BettingType {
+    Pending = "Pending",
+    History = "History",
+    Straight = "Straight",
+    Parlay = "Parlay",
 }
 
 export const saveTabs = (data: StorableTab[]): void => {

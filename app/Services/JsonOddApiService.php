@@ -3,7 +3,7 @@ namespace App\Services;
 
 class JsonOddApiService
 {
-    private $apiKey;
+    private string $apiKey;
 
     public function __construct(string $apiKey)
     {
@@ -38,7 +38,7 @@ class JsonOddApiService
         curl_setopt($ch, CURLOPT_HTTPGET, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('x-api-key:' . $this->apiKey));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['x-api-key:' . $this->apiKey]);
         $res = curl_exec($ch);
 
         return json_decode($res, true);

@@ -3,9 +3,9 @@ namespace App\Services;
 
 use Psr\SimpleCache\CacheInterface;
 
-class SportService
+class OddService
 {
-    private const CACHE_KEY = "api_sports";
+    private const CACHE_KEY = "api_odds";
     private CacheInterface $cache;
     private JsonOddApiService $jsonOddApiService;
 
@@ -15,17 +15,17 @@ class SportService
         $this->jsonOddApiService = $jsonOddApiService;
     }
 
-    public function getSports(): array
+    public function getOdds(): array
     {
-        $sports = $this->cache->get(SportService::CACHE_KEY);
+        $odds = $this->cache->get(OddService::CACHE_KEY);
 
-        if ($sports) {
-            return $sports;
+        if ($odds) {
+            return $odds;
         }
 
-        $sports = $this->jsonOddApiService->getSports();
-        $this->cache->set(SportService::CACHE_KEY, $sports, 24 * 60 * 60);
+        $odds = $this->jsonOddApiService->getOdds();
+        $this->cache->set(OddService::CACHE_KEY, $odds, 20);
 
-        return $sports;
+        return $odds;
     }
 }

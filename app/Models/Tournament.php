@@ -42,6 +42,9 @@ class Tournament extends Model
         return $this->hasMany(TournamentPlayer::class);
     }
 
+    /**
+     * @deprecated
+     */
     public function sports()
     {
         return $this->hasMany(TournamentSport::class);
