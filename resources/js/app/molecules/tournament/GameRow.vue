@@ -4,17 +4,36 @@
             <td class="td col-datetime">{{ game.home_team }}</td>
 
             <td class="td col-money">
-                <button type="button" class="button">{{ moneyLineHome }}</button>
+                <button
+                    type="button"
+                    class="button"
+                    :class="{ active: selectedMoneyLineHome }"
+                    @click="selectMoneyLineHome"
+                >
+                    {{ moneyLineHome }}
+                </button>
             </td>
 
             <td class="td col-spread">
-                <button type="button" class="button">
+                <button
+                    type="button"
+                    class="button"
+                    :class="{ active: selectedSpreadHome }"
+                    @click="selectSpreadHome"
+                >
                     {{ pointSpreadHomeLine }}<br />{{ pointSpreadHome }}
                 </button>
             </td>
 
             <td class="td col-spread">
-                <button type="button" class="button">{{ underLine }}<br />{{ totalNumber }}</button>
+                <button
+                    type="button"
+                    class="button"
+                    :class="{ active: selectedTotalHome }"
+                    @click="selectTotalHome"
+                >
+                    {{ underLine }}<br />{{ totalNumber }}
+                </button>
             </td>
         </tr>
 
@@ -22,17 +41,36 @@
             <td class="td col-datetime">{{ game.away_team }}</td>
 
             <td class="td col-money">
-                <button type="button" class="button">{{ moneyLineAway }}</button>
+                <button
+                    type="button"
+                    class="button"
+                    :class="{ active: selectedMoneyLineAway }"
+                    @click="selectMoneyLineAway"
+                >
+                    {{ moneyLineAway }}
+                </button>
             </td>
 
             <td class="td col-spread">
-                <button type="button" class="button">
+                <button
+                    type="button"
+                    class="button"
+                    :class="{ active: selectedSpreadAway }"
+                    @click="selectSpreadAway"
+                >
                     {{ pointSpreadAwayLine }}<br />{{ pointSpreadAway }}
                 </button>
             </td>
 
             <td class="td col-spread">
-                <button type="button" class="button">{{ overLine }}<br />{{ totalNumber }}</button>
+                <button
+                    type="button"
+                    class="button"
+                    :class="{ active: selectedTotalAway }"
+                    @click="selectTotalAway"
+                >
+                    {{ overLine }}<br />{{ totalNumber }}
+                </button>
             </td>
         </tr>
     </div>
@@ -47,6 +85,12 @@ export default Vue.extend({
     name: "GameRow",
     props: {
         game: Object as PropType<Game>,
+        selectedMoneyLineHome: Boolean,
+        selectedMoneyLineAway: Boolean,
+        selectedSpreadHome: Boolean,
+        selectedSpreadAway: Boolean,
+        selectedTotalHome: Boolean,
+        selectedTotalAway: Boolean,
     },
 
     computed: {
@@ -89,6 +133,32 @@ export default Vue.extend({
 
         totalNumber(): string {
             return this.odd?.total_number ?? "n/a";
+        },
+    },
+
+    methods: {
+        selectMoneyLineHome() {
+            // TODO
+        },
+
+        selectMoneyLineAway() {
+            // TODO
+        },
+
+        selectSpreadHome() {
+            // TODO
+        },
+
+        selectSpreadAway() {
+            // TODO
+        },
+
+        selectTotalHome() {
+            // TODO
+        },
+
+        selectTotalAway() {
+            // TODO
         },
     },
 });

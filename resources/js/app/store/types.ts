@@ -1,4 +1,4 @@
-import { TabsState } from "./modules/tabs";
+import { WindowState } from "./modules/window";
 import { TournamentListState } from "./modules/tournamentList";
 import { Api } from "../api/Api";
 import { SportState } from "./modules/sport";
@@ -9,7 +9,7 @@ export interface RootState {
     odd: OddState;
     sport: SportState;
     tournamentList: TournamentListState;
-    tabs: TabsState;
+    window: WindowState;
 }
 
 export interface UpdateFieldPayload<T> {

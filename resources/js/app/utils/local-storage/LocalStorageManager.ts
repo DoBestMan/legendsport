@@ -1,23 +1,23 @@
 const TABS_KEY = "tabs";
 
-export interface StorableTab {
+export interface StorableWindow {
     id: number;
     selectedSportIds?: number[];
-    selectedBetting?: BettingType;
+    selectedBetting?: BetTypeTab;
 }
 
-export enum BettingType {
+export enum BetTypeTab {
     Pending = "Pending",
     History = "History",
     Straight = "Straight",
     Parlay = "Parlay",
 }
 
-export const saveTabs = (data: StorableTab[]): void => {
+export const saveWindows = (data: StorableWindow[]): void => {
     localStorage.setItem(TABS_KEY, JSON.stringify(data));
 };
 
-export const getTabs = (): StorableTab[] => {
+export const getWindows = (): StorableWindow[] => {
     const content = localStorage.getItem(TABS_KEY);
     return content ? JSON.parse(content) : [];
 };

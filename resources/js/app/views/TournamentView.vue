@@ -7,16 +7,16 @@
         </div>
     </div>
 
-    <NotFound v-else-if="!tab" />
+    <NotFound v-else-if="!window" />
 
-    <TournamentContainer v-else :tab="tab" />
+    <TournamentContainer v-else :window="window" />
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import NotFound from "../components/NotFound.vue";
 import { asNumber } from "../../general/utils/utils";
-import { Tab } from "../types/tab";
+import { Window } from "../types/window";
 import TournamentContainer from "../molecules/tournament/TournamentContainer.vue";
 import { DeepReadonly } from "../../general/types/types";
 
@@ -29,10 +29,11 @@ export default Vue.extend({
             return asNumber(this.$route.params.tournamentId);
         },
 
-        tab(): DeepReadonly<Tab> | null {
+        window(): DeepReadonly<Window> | null {
             return (
-                this.$store.getters["tabs/tabs"].find((tab: Tab) => tab.id === this.tournamentId) ??
-                null
+                this.$store.getters["window/windows"].find(
+                    (window: Window) => window.id === this.tournamentId,
+                ) ?? null
             );
         },
 
@@ -42,7 +43,7 @@ export default Vue.extend({
     },
 
     watch: {
-        tab(newVal: Tab | null, oldVal: Tab | null) {
+        window(newVal: Window | null, oldVal: Window | null) {
             if (!newVal && oldVal) {
                 this.$router.push(`/`);
             }

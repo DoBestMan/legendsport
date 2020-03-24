@@ -7,20 +7,20 @@
                 </div>
 
                 <div class="tabs-frm">
-                    <div class="tab-frm" v-for="bettingType in bettingTypeOptions">
+                    <div class="tab-frm" v-for="betTab in betTabs">
                         <button
                             type="button"
                             class="tab"
-                            :class="{ active: isBettingSelected(bettingType) }"
-                            @click="selectBetting(bettingType)"
+                            :class="{ active: isBettingSelected(betTab) }"
+                            @click="selectBetting(betTab)"
                         >
-                            {{ bettingType }}
+                            {{ betTab }}
                         </button>
                         <span class="separator">|</span>
                     </div>
                 </div>
 
-                <div v-if="isBettingSelected(BettingType.Pending)" class="tab-content-frm">
+                <div v-if="isBettingSelected(BetTypeTab.Pending)" class="tab-content-frm">
                     <div class="event-frm">
                         <div class="data-frm">
                             <div class="type-bet">Straight</div>
@@ -78,7 +78,7 @@
                     </div>
                 </div>
 
-                <div v-if="isBettingSelected(BettingType.History)" class="tab-content-frm">
+                <div v-if="isBettingSelected(BetTypeTab.History)" class="tab-content-frm">
                     <div class="event-frm">
                         <div class="data-frm">
                             <div class="type-bet">Straight</div>
@@ -189,7 +189,7 @@
                             </tr>
                         </thead>
                         <tbody class="tbody">
-                            <GameRow :game="game" v-for="game in games" :key="game.id" />
+                            <GameRow :key="game.id" :game="game" v-for="game in games" />
                         </tbody>
                     </table>
                     <div v-if="!Object.keys(groupedGames).length" class="h3 p-5 text-center">
@@ -281,12 +281,12 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import moment from "moment";
-import { Tab } from "../../types/tab";
-import { BettingType } from "../../utils/local-storage/LocalStorageManager";
+import { Window } from "../../types/window";
+import { BetTypeTab } from "../../utils/local-storage/LocalStorageManager";
 import { Tournament } from "../../types/tournament";
 import TournamentRankTable from "../general/TournamentRankTable.vue";
 import { DeepReadonly } from "../../../general/types/types";
-import { SelectTabSportPayload, UpdateTabPayload } from "../../store/modules/tabs";
+import { SelectSportPayload, UpdateWindowPayload } from "../../store/modules/window";
 import { empty, groupBy } from "../../../general/utils/utils";
 import { Game } from "../../types/game";
 import GameRow from "./GameRow.vue";
@@ -299,16 +299,16 @@ export default Vue.extend({
     },
 
     props: {
-        tab: Object as PropType<DeepReadonly<Tab>>,
+        window: Object as PropType<DeepReadonly<Window>>,
     },
 
     computed: {
-        bettingTypeOptions(): BettingType[] {
-            return Object.values(BettingType);
+        betTabs(): BetTypeTab[] {
+            return Object.values(BetTypeTab);
         },
 
         tournament(): DeepReadonly<Tournament> {
-            return this.tab.tournament;
+            return this.window.tournament;
         },
 
         sportsNames(): string {
@@ -316,54 +316,54 @@ export default Vue.extend({
         },
 
         areAllSportsSelected(): boolean {
-            return this.tab.selectedSportIds.length === 0;
+            return this.window.selectedSportIds.length === 0;
         },
 
         groupedGames(): DeepReadonly<Record<string, Game[]>> {
             const filteredGames = this.tournament.games.filter(
                 game =>
-                    empty(this.tab.selectedSportIds) ||
-                    this.tab.selectedSportIds.includes(game.sport_id),
+                    empty(this.window.selectedSportIds) ||
+                    this.window.selectedSportIds.includes(game.sport_id),
             );
             return groupBy(filteredGames, game => game.match_time);
         },
 
-        BettingType(): typeof BettingType {
-            return BettingType;
+        BetTypeTab(): typeof BetTypeTab {
+            return BetTypeTab;
         },
     },
 
     methods: {
-        isBettingSelected(type: BettingType): boolean {
-            return this.tab.selectedBetting === type;
+        isBettingSelected(type: BetTypeTab): boolean {
+            return this.window.selectedBetting === type;
         },
 
-        selectBetting(type: BettingType): void {
-            const payload: UpdateTabPayload = {
-                id: this.tab.id,
+        selectBetting(type: BetTypeTab): void {
+            const payload: UpdateWindowPayload = {
+                id: this.window.id,
                 selectedBetting: type,
             };
-            this.$store.commit("tabs/updateTab", payload);
+            this.$store.commit("window/updateWindow", payload);
         },
 
         isSportSelected(sportId: number): boolean {
-            return this.tab.selectedSportIds.includes(sportId);
+            return this.window.selectedSportIds.includes(sportId);
         },
 
         selectAllSports(): void {
-            const payload: UpdateTabPayload = {
-                id: this.tab.id,
+            const payload: UpdateWindowPayload = {
+                id: this.window.id,
                 selectedSportIds: [],
             };
-            this.$store.commit("tabs/updateTab", payload);
+            this.$store.commit("window/updateWindow", payload);
         },
 
         selectSport(sportId: number): void {
-            const payload: SelectTabSportPayload = {
-                id: this.tab.id,
+            const payload: SelectSportPayload = {
+                id: this.window.id,
                 sportId,
             };
-            this.$store.commit("tabs/selectTabSport", payload);
+            this.$store.commit("window/selectSport", payload);
         },
 
         getSportName(sportId: number): string {

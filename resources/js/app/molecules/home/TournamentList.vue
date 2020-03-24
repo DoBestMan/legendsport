@@ -102,7 +102,7 @@ export default Vue.extend({
         },
 
         openTournament(tournament: Tournament): void {
-            this.$store.commit("tabs/openTab", tournament.id);
+            this.$store.commit("window/openWindow", tournament.id);
             this.$router.push(`/tournaments/${tournament.id}`);
         },
     },

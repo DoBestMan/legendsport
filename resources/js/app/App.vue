@@ -94,16 +94,20 @@
                         <span class="separator">|</span>
                     </div>
 
-                    <div class="tab-frm" v-for="tab in tabs" :key="tab.id">
+                    <div class="tab-frm" v-for="window in windows" :key="window.id">
                         <router-link
                             tag="button"
                             type="button"
                             class="tab"
-                            :to="`/tournaments/${tab.id}`"
+                            :to="`/tournaments/${window.id}`"
                         >
-                            {{ tab.tournament.name }}
+                            {{ window.tournament.name }}
                         </router-link>
-                        <div class="delete" style="margin-left: -5px" @click="closeTab(tab)"></div>
+                        <div
+                            class="delete"
+                            style="margin-left: -5px"
+                            @click="closeWindow(window)"
+                        ></div>
                         <span class="separator">|</span>
                     </div>
                 </div>
@@ -171,7 +175,7 @@
                 </div>
             </div>
 
-            <div name="showFooterFrm" class="col-1">
+            <div class="col-1">
                 <button type="button" class="btn btn-secondary float-right">
                     <i class="fas fa-angle-up"></i>
                 </button>
@@ -183,7 +187,7 @@
 <script lang="ts">
 import Vue from "vue";
 import HorizontallyScrollable from "./components/HorizontallyScrollable.vue";
-import { Tab } from "./types/tab";
+import { Window } from "./types/window";
 
 export default Vue.extend({
     name: "App",
@@ -196,14 +200,14 @@ export default Vue.extend({
     },
 
     computed: {
-        tabs(): Tab[] {
-            return Object.values(this.$store.getters["tabs/tabs"]);
+        windows(): Window[] {
+            return Object.values(this.$store.getters["window/windows"]);
         },
     },
 
     methods: {
-        closeTab(tab: Tab): void {
-            this.$store.commit("tabs/closeTab", tab.id);
+        closeWindow(window: Window): void {
+            this.$store.commit("window/closeWindow", window.id);
         },
     },
 });
