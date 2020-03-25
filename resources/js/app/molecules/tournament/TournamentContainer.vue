@@ -23,7 +23,7 @@
                 <PendingTab v-if="isBetTabSelected(BetTypeTab.Pending)" />
                 <HistoryTab v-if="isBetTabSelected(BetTypeTab.History)" />
                 <StraightTab v-if="isBetTabSelected(BetTypeTab.Straight)" :window="window" />
-                <ParlayTab v-if="isBetTabSelected(BetTypeTab.Parlay)" />
+                <ParlayTab v-if="isBetTabSelected(BetTypeTab.Parlay)" :window="window" />
             </div>
         </section>
 

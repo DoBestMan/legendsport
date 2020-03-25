@@ -1,4 +1,6 @@
 .section.bets {
+    @border-color: @gb_color_dark5;
+
     background-color: @gb_color_table_bg;
 
     @title-bar-frm_height: 40px;
@@ -22,7 +24,6 @@
     }
 
     .tab-content-frm {
-        @border-color: @gb_color_dark5;
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -40,7 +41,6 @@
         .tab-footer-frm {
             z-index: 1;
             background-color: @gb_color_white98;
-            height: 150px;
             padding: 1rem;
             .box-shadow(0.2);
 
@@ -158,16 +158,9 @@
 
                 .bet-frm {
                     background-color: @border-color;
-                    display: flex;
 
-                    div {
+                    > * {
                         color: @gb_color_app_white;
-                        font-size: 1.3rem;
-                        font-weight: @gb_font-medium;
-                        letter-spacing: @gb_letter-spacing;
-                        margin: 0.5rem 1rem;
-                        text-transform: uppercase;
-                        width: 100%;
                     }
                 }
             }
@@ -195,6 +188,19 @@
                     background-color: hsl(358, 67%, 48%);
                 }
             }
+        }
+    }
+
+    .bet-frm {
+        display: flex;
+
+        > * {
+            font-size: 1.3rem;
+            font-weight: @gb_font-medium;
+            letter-spacing: @gb_letter-spacing;
+            margin: 0.5rem 1rem;
+            text-transform: uppercase;
+            width: 100%;
         }
     }
 

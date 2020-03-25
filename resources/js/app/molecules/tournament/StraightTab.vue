@@ -16,50 +16,54 @@
         </div>
 
         <div class="items-frm">
-            <StraightItem
-                :key="`${pendingOdd.eventId}#${pendingOdd.type}`"
-                :pendingOdd="pendingOdd"
-                :game="getGame(pendingOdd.eventId)"
-                :value="pendingOdd.bet"
-                @delete="removeOdd(pendingOdd)"
-                @change="updateOdd(pendingOdd, $event)"
-                v-for="pendingOdd in pendingOdds"
-            />
+            <transition-group name="fade" tag="div">
+                <StraightItem
+                    :key="`${pendingOdd.eventId}#${pendingOdd.type}`"
+                    :pendingOdd="pendingOdd"
+                    :game="getGame(pendingOdd.eventId)"
+                    :value="pendingOdd.bet"
+                    @delete="removeOdd(pendingOdd)"
+                    @change="updateOdd(pendingOdd, $event)"
+                    v-for="pendingOdd in pendingOdds"
+                />
+            </transition-group>
             <div v-if="!pendingOdds.length" class="h3 text-center p-5">
                 No records
             </div>
         </div>
 
-        <div v-if="pendingOdds.length" class="tab-footer-frm">
-            <div class="header-frm">
-                <div class="h4">SUMMARY</div>
+        <transition name="slidey">
+            <div v-if="pendingOdds.length" class="tab-footer-frm">
+                <div class="header-frm">
+                    <div class="h4">SUMMARY</div>
 
-                <div class="button-trash" @click="removeOdds">
-                    <i class="icon fas fa-trash-alt"></i>
+                    <div class="button-trash" @click="removeOdds">
+                        <i class="icon fas fa-trash-alt"></i>
+                    </div>
+                </div>
+
+                <div class="content-frm row">
+                    <div class="col">
+                        <div>Total<br />Active&nbsp;Bets</div>
+                        <div class="h4">{{ pendingOdds.length }}</div>
+                    </div>
+                    <div class="col">
+                        <div>Total<br />Bets</div>
+                        <div><Money class="h4" :value="totalBets" /></div>
+                    </div>
+                    <div class="col">
+                        <div>Total<br />Potential&nbsp;Bets</div>
+                        <div><Money class="h4" :value="totalWin" /></div>
+                    </div>
+                </div>
+
+                <div class="footer-frm">
+                    <button class="button-place-bet button-action item-gold" @click="placeBet">
+                        Place Bet
+                    </button>
                 </div>
             </div>
-
-            <div class="content-frm row">
-                <div class="col">
-                    <div>Total<br />Active&nbsp;Bets</div>
-                    <div class="h4">{{ pendingOdds.length }}</div>
-                </div>
-                <div class="col">
-                    <div>Total<br />Bets</div>
-                    <div><Money class="h4" :value="totalBets" /></div>
-                </div>
-                <div class="col">
-                    <div>Total<br />Potential&nbsp;Bets</div>
-                    <div><Money class="h4" :value="totalWin" /></div>
-                </div>
-            </div>
-
-            <div class="footer-frm">
-                <button class="button-place-bet button-action item-gold" @click="placeBet">
-                    Place Bet
-                </button>
-            </div>
-        </div>
+        </transition>
     </div>
 </template>
 

@@ -1,15 +1,17 @@
 import { PendingOdd, PendingOddType } from "../../types/window";
 import { Odd } from "../../../general/types/odd";
+import { Game } from "../../types/game";
+import { DeepReadonly } from "../../../general/types/types";
 
-export const calculateWinFromAmericanOdd = (americanOdd: number, bet: number): number => {
-    if (americanOdd < 0) {
-        return (100 / -americanOdd) * bet;
-    }
+export const americanToDecimalOdd = (odd: number): number => (odd < 0 ? 100 / -odd : odd / 100);
 
-    return (americanOdd / 100) * bet;
-};
+export const calculateWinFromAmericanOdd = (americanOdd: number, bet: number): number =>
+    americanToDecimalOdd(americanOdd) * bet;
 
-export const getPendingOddValue = (pendingOdd: PendingOdd, odd: Odd): number => {
+export const getPendingOddValue = (
+    pendingOdd: DeepReadonly<PendingOdd>,
+    odd: DeepReadonly<Odd>,
+): number => {
     switch (pendingOdd.type) {
         case PendingOddType.MoneyLineHome:
             return Number(odd.money_line_home);
@@ -25,6 +27,24 @@ export const getPendingOddValue = (pendingOdd: PendingOdd, odd: Odd): number => 
             return Number(odd.overline);
         default:
             return 0;
+    }
+};
+
+export const getPendingOddTeam = (
+    pendingOdd: DeepReadonly<PendingOdd>,
+    game: DeepReadonly<Game>,
+): string => {
+    switch (pendingOdd.type) {
+        case PendingOddType.MoneyLineHome:
+        case PendingOddType.SpreadHome:
+            return game.home_team;
+
+        case PendingOddType.MoneyLineAway:
+        case PendingOddType.SpreadAway:
+            return game.away_team;
+
+        default:
+            return "n/a";
     }
 };
 
