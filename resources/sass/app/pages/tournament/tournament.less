@@ -1,0 +1,32 @@
+@tab-content-frm_padding: 15px;
+@tab-content-frm_height: calc(~"100%" - (@menu-frm_height + @tabs-frm_height + @footer-frm_height));
+
+.tab-tournament-frm {
+    &.tab-content-frm {
+        background-color: @gb_color_dark3;
+        height: @tab-content-frm_height;
+        padding-top: @tab-content-frm_padding;
+        padding-bottom: @tab-content-frm_padding;
+    }
+
+    .section {
+        border-radius: @gb_border-radius;
+        .box-shadow(0.5);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .item-gold {
+        background-color: @gb_color_gold;
+        color: @gb_color_dark1;
+
+        &:hover {
+            background-color: @gb_color_gold_ligth;
+        }
+    }
+
+    @import "_bets";
+    @import "_matches";
+    @import "_info";
+}

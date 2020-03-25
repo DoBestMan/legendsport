@@ -1,22 +1,31 @@
 import { Module } from "vuex";
 import { RootState } from "../types";
-import {
-    BetTypeTab,
-    getWindows,
-    StorableWindow,
-} from "../../utils/local-storage/LocalStorageManager";
-import { Window } from "../../types/window";
+import { getWindows } from "../../utils/local-storage/LocalStorageManager";
+import { BetTypeTab, PendingOdd, StorableWindow, Window } from "../../types/window";
+import { DeepReadonlyArray } from "../../../general/types/types";
 
 export interface WindowState {
     _windows: StorableWindow[];
 }
 
-export type UpdateWindowPayload = StorableWindow;
+export type UpdateWindowPayload = Partial<StorableWindow> & Pick<StorableWindow, "id">;
 
-export interface SelectSportPayload {
-    id: number;
+export interface ToggleSportPayload {
+    windowId: number;
     sportId: number;
 }
+
+export interface PendingOddPayload extends PendingOdd {
+    windowId: number;
+}
+
+export interface UpdateOddsBetPayload {
+    windowId: number;
+    bet: number;
+}
+
+const pendingOddsMatch = (a: PendingOdd, b: PendingOdd): boolean =>
+    a.eventId === b.eventId && a.type === b.type;
 
 const module: Module<WindowState, RootState> = {
     namespaced: true,
@@ -26,7 +35,7 @@ const module: Module<WindowState, RootState> = {
     },
 
     getters: {
-        windows(state, _getters, rootState): Window[] {
+        windows(state, _getters, rootState): DeepReadonlyArray<Window> {
             const tournamentDict = new Map(
                 rootState.tournamentList.tournaments.map(tournament => [tournament.id, tournament]),
             );
@@ -37,7 +46,8 @@ const module: Module<WindowState, RootState> = {
                     const tournament = tournamentDict.get(tab.id)!;
 
                     return {
-                        selectedBetting: BetTypeTab.Pending,
+                        pendingOdds: [],
+                        selectedBetTypeTab: BetTypeTab.Straight,
                         selectedSportIds: [],
                         ...tab,
                         tournament,
@@ -55,7 +65,9 @@ const module: Module<WindowState, RootState> = {
 
             state._windows.push({
                 id: payload,
-                selectedBetting: BetTypeTab.Pending,
+                pendingOdds: [],
+                selectedBetTypeTab: BetTypeTab.Straight,
+                selectedSportIds: [],
             });
         },
 
@@ -73,13 +85,13 @@ const module: Module<WindowState, RootState> = {
             });
         },
 
-        selectSport(state, payload: SelectSportPayload) {
+        toggleSport(state, payload: ToggleSportPayload) {
             state._windows = state._windows.map(window => {
-                if (window.id !== payload.id) {
+                if (window.id !== payload.windowId) {
                     return window;
                 }
 
-                if (window.selectedSportIds?.includes(payload.sportId)) {
+                if (window.selectedSportIds.includes(payload.sportId)) {
                     return {
                         ...window,
                         selectedSportIds: window.selectedSportIds.filter(
@@ -90,7 +102,87 @@ const module: Module<WindowState, RootState> = {
 
                 return {
                     ...window,
-                    selectedSportIds: [...(window.selectedSportIds ?? []), payload.sportId],
+                    selectedSportIds: [...window.selectedSportIds, payload.sportId],
+                };
+            });
+        },
+
+        toggleOdd(state, payload: PendingOddPayload) {
+            state._windows = state._windows.map(window => {
+                if (window.id !== payload.windowId) {
+                    return window;
+                }
+
+                if (window.pendingOdds.find(item => pendingOddsMatch(item, payload))) {
+                    return {
+                        ...window,
+                        pendingOdds: window.pendingOdds.filter(
+                            item => !pendingOddsMatch(item, payload),
+                        ),
+                    };
+                }
+
+                return {
+                    ...window,
+                    pendingOdds: [
+                        ...window.pendingOdds,
+                        {
+                            bet: 0,
+                            eventId: payload.eventId,
+                            type: payload.type,
+                        },
+                    ],
+                };
+            });
+        },
+
+        updateOdd(state, payload: PendingOddPayload) {
+            state._windows = state._windows.map(window => {
+                if (window.id !== payload.windowId) {
+                    return window;
+                }
+
+                return {
+                    ...window,
+                    pendingOdds: window.pendingOdds.map(item => {
+                        if (!pendingOddsMatch(item, payload)) {
+                            return item;
+                        }
+
+                        return {
+                            ...item,
+                            bet: payload.bet,
+                        };
+                    }),
+                };
+            });
+        },
+
+        removeOdds(state, payload: number) {
+            state._windows = state._windows.map(window => {
+                if (window.id !== payload) {
+                    return window;
+                }
+
+                return {
+                    ...window,
+                    pendingOdds: [],
+                };
+            });
+        },
+
+        updateOddsBet(state, payload: UpdateOddsBetPayload) {
+            state._windows = state._windows.map(window => {
+                if (window.id !== payload.windowId) {
+                    return window;
+                }
+
+                return {
+                    ...window,
+                    pendingOdds: window.pendingOdds.map(pendingOdd => ({
+                        ...pendingOdd,
+                        bet: payload.bet,
+                    })),
                 };
             });
         },

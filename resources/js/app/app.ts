@@ -1,12 +1,16 @@
 import Vue from "vue";
-import { createRouter } from "./routing";
-import App from "./App.vue";
 import VueRouter from "vue-router";
 import Vuex from "vuex";
+import App from "./App.vue";
+import { createRouter } from "./routing";
 import { createStore } from "./store";
+import { toDateTime } from "./utils/date/utils";
+import { formatOdd } from "./utils/game/bet";
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
+Vue.filter("toDateTime", toDateTime);
+Vue.filter("formatOdd", formatOdd);
 
 const router = createRouter();
 const store = createStore();

@@ -1,7 +1,7 @@
 <template>
     <section class="tab-content-frm tab-tournament-frm row">
-        <section class="col-3">
-            <section class="section bets">
+        <section class="col-3 h-100">
+            <div class="section bets">
                 <div class="title-bar-frm">
                     <span class="title">0</span>
                 </div>
@@ -11,8 +11,8 @@
                         <button
                             type="button"
                             class="tab"
-                            :class="{ active: isBettingSelected(betTab) }"
-                            @click="selectBetting(betTab)"
+                            :class="{ active: isBetTabSelected(betTab) }"
+                            @click="selectBetTab(betTab)"
                         >
                             {{ betTab }}
                         </button>
@@ -20,128 +20,11 @@
                     </div>
                 </div>
 
-                <div v-if="isBettingSelected(BetTypeTab.Pending)" class="tab-content-frm">
-                    <div class="event-frm">
-                        <div class="data-frm">
-                            <div class="type-bet">Straight</div>
-
-                            <div class="text">[datetime]</div>
-                            <div class="text game-frm">
-                                <div class="text team">Miami Dolphins</div>
-                                <div class="text score">0</div>
-                                <div class="text vs">@</div>
-                                <div class="text team">Washington Nationals</div>
-                                <div class="text score">0</div>
-                            </div>
-                            <div class="text">[team/+odds/result]</div>
-                        </div>
-
-                        <div class="bet-frm">
-                            <div>Bet: $ 0</div>
-
-                            <div>Win: $ 0</div>
-                        </div>
-                    </div>
-
-                    <div class="event-frm">
-                        <div class="data-frm">
-                            <div class="type-bet">Parlay</div>
-
-                            <div class="text">[datetime]</div>
-                            <div class="text game-frm">
-                                <div class="text team">Team C</div>
-                                <div class="text score">0</div>
-                                <div class="text vs">@</div>
-                                <div class="text team">Team D</div>
-                                <div class="text score">0</div>
-                            </div>
-                            <div class="text">[team/+odds/result]</div>
-                        </div>
-
-                        <div class="data-frm">
-                            <div class="text">[datetime]</div>
-                            <div class="text game-frm">
-                                <div class="text team">Team C</div>
-                                <div class="text score">0</div>
-                                <div class="text vs">@</div>
-                                <div class="text team">Team D</div>
-                                <div class="text score">0</div>
-                            </div>
-                            <div class="text">[team/+odds/result]</div>
-                        </div>
-
-                        <div class="bet-frm">
-                            <div>Bet: $0</div>
-
-                            <div>Win: $0</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div v-if="isBettingSelected(BetTypeTab.History)" class="tab-content-frm">
-                    <div class="event-frm">
-                        <div class="data-frm">
-                            <div class="type-bet">Straight</div>
-
-                            <div class="text">[datetime]</div>
-                            <div class="text game-frm">
-                                <div class="text team">Miami Dolphins</div>
-                                <div class="text score">0</div>
-                                <div class="text vs">@</div>
-                                <div class="text team">Washington Nationals</div>
-                                <div class="text score">0</div>
-                            </div>
-                            <div class="text">[team/+odds/result]</div>
-                        </div>
-
-                        <div class="bet-frm">
-                            <div>Bet: $ 0</div>
-
-                            <div>Win: $ 0</div>
-                        </div>
-
-                        <div class="result lost"><i class="icon fas fa-frown"></i> YOU LOST!</div>
-                    </div>
-
-                    <div class="event-frm">
-                        <div class="data-frm">
-                            <div class="type-bet">Parlay</div>
-
-                            <div class="text">[datetime]</div>
-                            <div class="text game-frm">
-                                <div class="text team">Team C</div>
-                                <div class="text score">0</div>
-                                <div class="text vs">@</div>
-                                <div class="text team">Team D</div>
-                                <div class="text score">0</div>
-                            </div>
-                            <div class="text">[team/+odds/result]</div>
-                        </div>
-
-                        <div class="data-frm">
-                            <div class="text">[datetime]</div>
-                            <div class="text game-frm">
-                                <div class="text team">Team C</div>
-                                <div class="text score">0</div>
-                                <div class="text vs">@</div>
-                                <div class="text team">Team D</div>
-                                <div class="text score">0</div>
-                            </div>
-                            <div class="text">[team/+odds/result]</div>
-                        </div>
-
-                        <div class="bet-frm">
-                            <div>Bet: $ 0</div>
-
-                            <div>Win: $ 0</div>
-                        </div>
-
-                        <div class="result win">
-                            <i class="icon fas fa-laugh-beam"></i> YOU WON!
-                        </div>
-                    </div>
-                </div>
-            </section>
+                <PendingTab v-if="isBetTabSelected(BetTypeTab.Pending)" />
+                <HistoryTab v-if="isBetTabSelected(BetTypeTab.History)" />
+                <StraightTab v-if="isBetTabSelected(BetTypeTab.Straight)" :window="window" />
+                <ParlayTab v-if="isBetTabSelected(BetTypeTab.Parlay)" />
+            </div>
         </section>
 
         <section class="col-6 h-100">
@@ -164,7 +47,7 @@
                             type="button"
                             class="tab"
                             :class="{ active: isSportSelected(sportId) }"
-                            @click="selectSport(sportId)"
+                            @click="toggleSport(sportId)"
                         >
                             {{ getSportName(sportId) }}
                         </button>
@@ -189,7 +72,13 @@
                             </tr>
                         </thead>
                         <tbody class="tbody">
-                            <GameRow :key="game.id" :game="game" v-for="game in games" />
+                            <GameRow
+                                :key="game.id"
+                                :window="window"
+                                :game="game"
+                                @toggleOdd="toggleOdd"
+                                v-for="game in games"
+                            />
                         </tbody>
                     </table>
                     <div v-if="!Object.keys(groupedGames).length" class="h3 p-5 text-center">
@@ -199,7 +88,7 @@
             </div>
         </section>
 
-        <section class="col-3">
+        <section class="col-3 h-100">
             <div class="section info">
                 <div class="title-bar-frm">
                     <div class="img-frm">
@@ -280,23 +169,26 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import moment from "moment";
-import { Window } from "../../types/window";
-import { BetTypeTab } from "../../utils/local-storage/LocalStorageManager";
+import { BetTypeTab, PendingOdd, Window } from "../../types/window";
 import { Tournament } from "../../types/tournament";
 import TournamentRankTable from "../general/TournamentRankTable.vue";
 import { DeepReadonly } from "../../../general/types/types";
-import { SelectSportPayload, UpdateWindowPayload } from "../../store/modules/window";
+import {
+    ToggleSportPayload,
+    PendingOddPayload,
+    UpdateWindowPayload,
+} from "../../store/modules/window";
 import { empty, groupBy } from "../../../general/utils/utils";
 import { Game } from "../../types/game";
 import GameRow from "./GameRow.vue";
+import PendingTab from "./PendingTab.vue";
+import StraightTab from "./StraightTab.vue";
+import ParlayTab from "./ParlayTab.vue";
+import HistoryTab from "./HistoryTab.vue";
 
 export default Vue.extend({
     name: "TournamentContainer",
-    components: { GameRow, TournamentRankTable },
-    filters: {
-        toDateTime: (value: string) => moment(value).format("MMM, DD [AT] HH:mm [ET]"),
-    },
+    components: { GameRow, HistoryTab, ParlayTab, PendingTab, StraightTab, TournamentRankTable },
 
     props: {
         window: Object as PropType<DeepReadonly<Window>>,
@@ -334,20 +226,25 @@ export default Vue.extend({
     },
 
     methods: {
-        isBettingSelected(type: BetTypeTab): boolean {
-            return this.window.selectedBetting === type;
+        isBetTabSelected(type: BetTypeTab): boolean {
+            return this.window.selectedBetTypeTab === type;
         },
 
-        selectBetting(type: BetTypeTab): void {
+        selectBetTab(type: BetTypeTab): void {
             const payload: UpdateWindowPayload = {
                 id: this.window.id,
-                selectedBetting: type,
+                selectedBetTypeTab: type,
             };
             this.$store.commit("window/updateWindow", payload);
         },
 
         isSportSelected(sportId: number): boolean {
             return this.window.selectedSportIds.includes(sportId);
+        },
+
+        getSportName(sportId: number): string {
+            const dict: ReadonlyMap<number, string> = this.$store.getters["sport/sportDictionary"];
+            return dict.get(sportId) ?? String(sportId);
         },
 
         selectAllSports(): void {
@@ -358,17 +255,21 @@ export default Vue.extend({
             this.$store.commit("window/updateWindow", payload);
         },
 
-        selectSport(sportId: number): void {
-            const payload: SelectSportPayload = {
-                id: this.window.id,
+        toggleSport(sportId: number): void {
+            const payload: ToggleSportPayload = {
+                windowId: this.window.id,
                 sportId,
             };
-            this.$store.commit("window/selectSport", payload);
+            this.$store.commit("window/toggleSport", payload);
         },
 
-        getSportName(sportId: number): string {
-            const dict: ReadonlyMap<number, string> = this.$store.getters["sport/sportDictionary"];
-            return dict.get(sportId) ?? String(sportId);
+        toggleOdd(pendingOdd: PendingOdd): void {
+            const payload: PendingOddPayload = {
+                windowId: this.window.id,
+                eventId: pendingOdd.eventId,
+                type: pendingOdd.type,
+            };
+            this.$store.commit("window/toggleOdd", payload);
         },
     },
 });

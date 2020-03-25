@@ -5,35 +5,41 @@
 
             <td class="td col-money">
                 <button
+                    v-if="Number(moneyLineHome)"
                     type="button"
                     class="button"
-                    :class="{ active: selectedMoneyLineHome }"
-                    @click="selectMoneyLineHome"
+                    :class="{ checked: selectedMoneyLineHome }"
+                    @click="emitToggleOdd(PendingOddType.MoneyLineHome)"
                 >
-                    {{ moneyLineHome }}
+                    {{ moneyLineHome | formatOdd }}
                 </button>
+                <DisabledButton v-else />
             </td>
 
             <td class="td col-spread">
                 <button
+                    v-if="Number(pointSpreadHomeLine)"
                     type="button"
                     class="button"
-                    :class="{ active: selectedSpreadHome }"
-                    @click="selectSpreadHome"
+                    :class="{ checked: selectedSpreadHome }"
+                    @click="emitToggleOdd(PendingOddType.SpreadHome)"
                 >
                     {{ pointSpreadHomeLine }}<br />{{ pointSpreadHome }}
                 </button>
+                <DisabledButton v-else />
             </td>
 
             <td class="td col-spread">
                 <button
+                    v-if="Number(totalNumber)"
                     type="button"
                     class="button"
-                    :class="{ active: selectedTotalHome }"
-                    @click="selectTotalHome"
+                    :class="{ checked: selectedTotalUnder }"
+                    @click="emitToggleOdd(PendingOddType.TotalUnder)"
                 >
-                    {{ underLine }}<br />{{ totalNumber }}
+                    U {{ totalNumber }}<br />{{ underLine | formatOdd }}
                 </button>
+                <DisabledButton v-else />
             </td>
         </tr>
 
@@ -42,35 +48,41 @@
 
             <td class="td col-money">
                 <button
+                    v-if="Number(moneyLineAway)"
                     type="button"
                     class="button"
-                    :class="{ active: selectedMoneyLineAway }"
-                    @click="selectMoneyLineAway"
+                    :class="{ checked: selectedMoneyLineAway }"
+                    @click="emitToggleOdd(PendingOddType.MoneyLineAway)"
                 >
-                    {{ moneyLineAway }}
+                    {{ moneyLineAway | formatOdd }}
                 </button>
+                <DisabledButton v-else />
             </td>
 
             <td class="td col-spread">
                 <button
+                    v-if="Number(pointSpreadAwayLine)"
                     type="button"
                     class="button"
-                    :class="{ active: selectedSpreadAway }"
-                    @click="selectSpreadAway"
+                    :class="{ checked: selectedSpreadAway }"
+                    @click="emitToggleOdd(PendingOddType.SpreadAway)"
                 >
                     {{ pointSpreadAwayLine }}<br />{{ pointSpreadAway }}
                 </button>
+                <DisabledButton v-else />
             </td>
 
             <td class="td col-spread">
                 <button
+                    v-if="Number(totalNumber)"
                     type="button"
                     class="button"
-                    :class="{ active: selectedTotalAway }"
-                    @click="selectTotalAway"
+                    :class="{ checked: selectedTotalOver }"
+                    @click="emitToggleOdd(PendingOddType.TotalOver)"
                 >
-                    {{ overLine }}<br />{{ totalNumber }}
+                    O {{ totalNumber }}<br />{{ overLine | formatOdd }}
                 </button>
+                <DisabledButton v-else />
             </td>
         </tr>
     </div>
@@ -80,17 +92,20 @@
 import Vue, { PropType } from "vue";
 import { Game } from "../../types/game";
 import { Odd } from "../../../general/types/odd";
+import { PendingOdd, PendingOddType, Window } from "../../types/window";
+import { DeepReadonly } from "../../../general/types/types";
+import DisabledButton from "./DisabledButton.vue";
+
+const createPendingOddKey = (pendingOdd: PendingOdd): string =>
+    `${pendingOdd.eventId}#${pendingOdd.type}`;
 
 export default Vue.extend({
     name: "GameRow",
+    components: { DisabledButton },
+
     props: {
-        game: Object as PropType<Game>,
-        selectedMoneyLineHome: Boolean,
-        selectedMoneyLineAway: Boolean,
-        selectedSpreadHome: Boolean,
-        selectedSpreadAway: Boolean,
-        selectedTotalHome: Boolean,
-        selectedTotalAway: Boolean,
+        window: Object as PropType<DeepReadonly<Window>>,
+        game: Object as PropType<DeepReadonly<Game>>,
     },
 
     computed: {
@@ -134,31 +149,82 @@ export default Vue.extend({
         totalNumber(): string {
             return this.odd?.total_number ?? "n/a";
         },
+
+        pendingOddsDictionary(): ReadonlyMap<string, PendingOdd> {
+            return new Map(
+                this.window.pendingOdds.map(pendingOdd => [
+                    createPendingOddKey(pendingOdd),
+                    pendingOdd,
+                ]),
+            );
+        },
+
+        selectedMoneyLineHome(): boolean {
+            return this.pendingOddsDictionary.has(
+                createPendingOddKey({
+                    eventId: this.game.event_id,
+                    type: PendingOddType.MoneyLineHome,
+                }),
+            );
+        },
+
+        selectedMoneyLineAway(): boolean {
+            return this.pendingOddsDictionary.has(
+                createPendingOddKey({
+                    eventId: this.game.event_id,
+                    type: PendingOddType.MoneyLineAway,
+                }),
+            );
+        },
+
+        selectedSpreadHome(): boolean {
+            return this.pendingOddsDictionary.has(
+                createPendingOddKey({
+                    eventId: this.game.event_id,
+                    type: PendingOddType.SpreadHome,
+                }),
+            );
+        },
+
+        selectedSpreadAway(): boolean {
+            return this.pendingOddsDictionary.has(
+                createPendingOddKey({
+                    eventId: this.game.event_id,
+                    type: PendingOddType.SpreadAway,
+                }),
+            );
+        },
+
+        selectedTotalUnder(): boolean {
+            return this.pendingOddsDictionary.has(
+                createPendingOddKey({
+                    eventId: this.game.event_id,
+                    type: PendingOddType.TotalUnder,
+                }),
+            );
+        },
+
+        selectedTotalOver(): boolean {
+            return this.pendingOddsDictionary.has(
+                createPendingOddKey({
+                    eventId: this.game.event_id,
+                    type: PendingOddType.TotalOver,
+                }),
+            );
+        },
+
+        PendingOddType(): typeof PendingOddType {
+            return PendingOddType;
+        },
     },
 
     methods: {
-        selectMoneyLineHome() {
-            // TODO
-        },
-
-        selectMoneyLineAway() {
-            // TODO
-        },
-
-        selectSpreadHome() {
-            // TODO
-        },
-
-        selectSpreadAway() {
-            // TODO
-        },
-
-        selectTotalHome() {
-            // TODO
-        },
-
-        selectTotalAway() {
-            // TODO
+        emitToggleOdd(type: PendingOddType) {
+            const payload: PendingOdd = {
+                eventId: this.game.event_id,
+                type,
+            };
+            this.$emit("toggleOdd", payload);
         },
     },
 });

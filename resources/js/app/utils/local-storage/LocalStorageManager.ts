@@ -1,17 +1,6 @@
+import { BetTypeTab, StorableWindow } from "../../types/window";
+
 const TABS_KEY = "tabs";
-
-export interface StorableWindow {
-    id: number;
-    selectedSportIds?: number[];
-    selectedBetting?: BetTypeTab;
-}
-
-export enum BetTypeTab {
-    Pending = "Pending",
-    History = "History",
-    Straight = "Straight",
-    Parlay = "Parlay",
-}
 
 export const saveWindows = (data: StorableWindow[]): void => {
     localStorage.setItem(TABS_KEY, JSON.stringify(data));
@@ -19,5 +8,14 @@ export const saveWindows = (data: StorableWindow[]): void => {
 
 export const getWindows = (): StorableWindow[] => {
     const content = localStorage.getItem(TABS_KEY);
-    return content ? JSON.parse(content) : [];
+    if (!content) {
+        return [];
+    }
+
+    return JSON.parse(content).map((item: any) => ({
+        id: item.id,
+        selectedSportIds: item.selectedSportIds ?? [],
+        selectedBetTypeTab: item.selectedBetTypeTab ?? BetTypeTab.Straight,
+        pendingOdds: item.pendingOdds ?? [],
+    }));
 };
