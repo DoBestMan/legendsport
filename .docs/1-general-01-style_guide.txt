@@ -398,7 +398,7 @@ Rules, standards and style guide for code writing
 
                 <div inside="pending-tab" class="col-2>
                     <button type="button"
-                        class="tab"
+                        class="btn tab"
                         :class="{ active: tournament.betting.pending.show }"
                         @click="pending"
                     >Pending</button>

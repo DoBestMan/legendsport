@@ -48,7 +48,7 @@
             <div class="tab-frm">
                 <button
                     type="button"
-                    class="tab"
+                    class="btn tab"
                     :class="{ active: activeTab === 'games' }"
                     @click="activeTab = 'games'"
                 >
@@ -60,7 +60,7 @@
             <div class="tab-frm">
                 <button
                     type="button"
-                    class="tab"
+                    class="btn tab"
                     :class="{ active: activeTab === 'rank' }"
                     @click="activeTab = 'rank'"
                 >

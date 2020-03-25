@@ -6,27 +6,25 @@
                 <MoneyInput v-model="bet" />
             </div>
 
-            <button class="button button-action item-gold mx-3 px-5" @click="updateOddsBet">
+            <button class="btn button-action mx-3 px-5" @click="updateOddsBet">
                 Set to all bets
             </button>
 
-            <div class="button-trash" @click="removeOdds">
+            <div class="btn button-trash center" @click="removeOdds">
                 <i class="icon fas fa-trash-alt"></i>
             </div>
         </div>
 
         <div class="items-frm">
-            <transition-group name="fade" tag="div">
-                <StraightItem
-                    :key="`${pendingOdd.eventId}#${pendingOdd.type}`"
-                    :pendingOdd="pendingOdd"
-                    :game="getGame(pendingOdd.eventId)"
-                    :value="pendingOdd.bet"
-                    @delete="removeOdd(pendingOdd)"
-                    @change="updateOdd(pendingOdd, $event)"
-                    v-for="pendingOdd in pendingOdds"
-                />
-            </transition-group>
+            <StraightItem
+                :key="`${pendingOdd.eventId}#${pendingOdd.type}`"
+                :pendingOdd="pendingOdd"
+                :game="getGame(pendingOdd.eventId)"
+                :value="pendingOdd.bet"
+                @delete="removeOdd(pendingOdd)"
+                @change="updateOdd(pendingOdd, $event)"
+                v-for="pendingOdd in pendingOdds"
+            />
             <div v-if="!pendingOdds.length" class="h3 text-center p-5">
                 No records
             </div>
@@ -37,7 +35,7 @@
                 <div class="header-frm">
                     <div class="h4">SUMMARY</div>
 
-                    <div class="button-trash" @click="removeOdds">
+                    <div class="btn button-trash" @click="removeOdds">
                         <i class="icon fas fa-trash-alt"></i>
                     </div>
                 </div>
@@ -58,7 +56,7 @@
                 </div>
 
                 <div class="footer-frm">
-                    <button class="button-place-bet button-action item-gold" @click="placeBet">
+                    <button class="btn button-place-bet button-action" @click="placeBet">
                         Place Bet
                     </button>
                 </div>

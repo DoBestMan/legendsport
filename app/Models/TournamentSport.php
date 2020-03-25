@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Backstage;
+namespace App\Models;
 
 use App\Models\ApiEvent;
 use App\Models\Tournament;

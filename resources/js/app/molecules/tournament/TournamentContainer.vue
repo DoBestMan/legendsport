@@ -10,7 +10,7 @@
                     <div class="tab-frm" v-for="betTab in betTabs">
                         <button
                             type="button"
-                            class="tab"
+                            class="btn tab"
                             :class="{ active: isBetTabSelected(betTab) }"
                             @click="selectBetTab(betTab)"
                         >
@@ -33,7 +33,7 @@
                     <div class="tab-frm">
                         <button
                             type="button"
-                            class="tab"
+                            class="btn tab"
                             :class="{ active: areAllSportsSelected }"
                             @click="selectAllSports"
                         >
@@ -45,7 +45,7 @@
                     <div class="tab-frm" v-for="sportId in tournament.sport_ids">
                         <button
                             type="button"
-                            class="tab"
+                            class="btn tab"
                             :class="{ active: isSportSelected(sportId) }"
                             @click="toggleSport(sportId)"
                         >
@@ -56,9 +56,11 @@
                 </div>
 
                 <div class="actions-frm">
-                    <button type="button" class="button game-line">Game Line</button>
-                    <button type="button" class="button game-first-half checked">1st half</button>
-                    <button type="button" class="button update">Update</button>
+                    <button type="button" class="btn button game-line">Game Line</button>
+                    <button type="button" class="btn button game-first-half checked">
+                        1st half
+                    </button>
+                    <button type="button" class="btn button update">Update</button>
                 </div>
 
                 <div class="tables-frm overflow-auto">

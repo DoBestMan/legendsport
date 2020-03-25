@@ -1,7 +1,7 @@
 <template>
     <div class="app container-fluid">
-        <nav name="menu" id="menu-frm" class="row">
-            <div name="brand" class="col-4">
+        <nav id="menu-frm" class="row">
+            <div class="col-4">
                 <router-link id="brand-frm" to="/">
                     <div id="logo-text-frm" class="d-inline-blockx align-top">
                         <div id="logo-text" class="">LS</div>
@@ -10,7 +10,7 @@
                 </router-link>
             </div>
 
-            <div name="usermenu" v-if="isLogin" class="offset-5 col-3">
+            <div v-if="isAuthenticated" class="offset-5 col-3">
                 <div id="usermenu-frm">
                     <div id="img-frm">
                         <div id="img">
@@ -20,7 +20,7 @@
 
                     <div id="title-frm">
                         <div id="title">
-                            Michael Jarrod
+                            {{ user.name }}
                             <br />
                             <span class="balance">Bal: $3,000</span>
                         </div>
@@ -64,7 +64,7 @@
                             </div>
                         </a>
 
-                        <a class="menu">
+                        <a class="menu" @click="logout">
                             <div class="menuImg">
                                 <i class="fas fa-sign-out-alt"></i>
                             </div>
@@ -77,9 +77,13 @@
                 </div>
             </div>
 
-            <div name="sign-buttons" v-else id="sign-frm" class="offset-6 col-2">
-                <button id="sign-up-btn" type="button" class="button">Sign up</button>
-                <button id="sign-in-btn" type="button" class="button">Sign in</button>
+            <div v-else id="sign-frm" class="offset-4 col-4">
+                <a id="sign-up-btn" class="btn center" href="/register">
+                    Sign up
+                </a>
+                <a id="sign-in-btn" class="btn center" href="/login">
+                    Sign in
+                </a>
             </div>
         </nav>
 
@@ -87,7 +91,7 @@
             <HorizontallyScrollable class="col tabs-row-frm">
                 <div class="tabs-frm">
                     <div class="tab-frm">
-                        <router-link tag="button" type="button" class="tab" to="/" exact>
+                        <router-link tag="button" class="btn tab" to="/" exact>
                             <i class="icon fas fa-home"></i>
                             Home
                         </router-link>
@@ -95,12 +99,7 @@
                     </div>
 
                     <div class="tab-frm" v-for="window in windows" :key="window.id">
-                        <router-link
-                            tag="button"
-                            type="button"
-                            class="tab"
-                            :to="`/tournaments/${window.id}`"
-                        >
+                        <router-link tag="button" class="btn tab" :to="`/tournaments/${window.id}`">
                             {{ window.tournament.name }}
                         </router-link>
                         <div
@@ -188,26 +187,33 @@
 import Vue from "vue";
 import HorizontallyScrollable from "./components/HorizontallyScrollable.vue";
 import { Window } from "./types/window";
+import { User } from "../general/types/user";
 
 export default Vue.extend({
     name: "App",
     components: { HorizontallyScrollable },
 
-    data() {
-        return {
-            isLogin: true,
-        };
-    },
-
     computed: {
         windows(): Window[] {
             return Object.values(this.$store.getters["window/windows"]);
+        },
+
+        user(): User | null {
+            return this.$store.state.user.user;
+        },
+
+        isAuthenticated(): boolean {
+            return !!this.user;
         },
     },
 
     methods: {
         closeWindow(window: Window): void {
             this.$store.commit("window/closeWindow", window.id);
+        },
+
+        logout(): void {
+            this.$store.dispatch("user/logout");
         },
     },
 });

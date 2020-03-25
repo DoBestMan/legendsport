@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Intra;
+namespace Tests\Feature\Backstage;
 
 use Tests\TestCase;
 use App\Models\Config;

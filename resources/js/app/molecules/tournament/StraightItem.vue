@@ -33,7 +33,7 @@
 import Vue, { PropType } from "vue";
 import { Game } from "../../types/game";
 import MoneyInput from "../../components/MoneyInput.vue";
-import { PendingOdd, PendingOddType } from "../../types/window";
+import { PendingOdd } from "../../types/window";
 import { Odd } from "../../../general/types/odd";
 import {
     calculateWinFromAmericanOdd,

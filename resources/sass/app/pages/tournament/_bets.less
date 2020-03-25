@@ -229,13 +229,17 @@
     .button-action {
         border: 1px solid @gb_color_gold_dark;
         white-space: nowrap;
+        background-color: @gb_color_gold;
+        color: @gb_color_dark1;
         .box-shadow(0.2);
+
+        &:hover {
+            background-color: @gb_color_gold_ligth;
+        }
     }
 
     .button-trash {
-        cursor: pointer;
         background-color: @gb_color_dark1;
-        padding: 4px 6px;
 
         .icon {
             color: @gb_color_white98;

@@ -14,11 +14,8 @@ class CreateUsersTable extends Migration
             $table->collation = 'utf8_unicode_ci';
 
             $table->smallIncrements('id');
-            $table->boolean('avatar');
-            $table->string('nickname')->unique();
+            $table->string('name')->unique();
             $table->string('email')->unique();
-            $table->date('birth_date');
-            $table->boolean('active');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

@@ -25,8 +25,8 @@
 </head>
 <body>
     <div id="main" class="container-fluid">
-        <nav name="menu" id="menu-frm" class="row">
-            <div name="brand" class="col-4">
+        <nav id="menu-frm" class="row">
+            <div class="col-4">
                 <a id="brand-frm" href="{{ $routeHome }}">
                     <div id="logo-text-frm" class="d-inline-blockx align-top">
                         <div id="logo-text" class="">LS</div>

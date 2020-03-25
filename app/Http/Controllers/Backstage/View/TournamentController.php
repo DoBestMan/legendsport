@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Tournament;
 use App\Models\TournamentEvent;
-use App\Models\Backstage\TournamentSport;
+use App\Models\TournamentSport;
 use App\Models\ApiEvent;
 use App\Models\Config;
 use Illuminate\Support\Facades\DB;

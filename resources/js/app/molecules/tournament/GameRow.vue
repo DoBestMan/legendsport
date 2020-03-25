@@ -7,7 +7,7 @@
                 <button
                     v-if="Number(moneyLineHome)"
                     type="button"
-                    class="button"
+                    class="btn"
                     :class="{ checked: selectedMoneyLineHome }"
                     @click="emitToggleOdd(PendingOddType.MoneyLineHome)"
                 >
@@ -20,7 +20,7 @@
                 <button
                     v-if="Number(pointSpreadHomeLine)"
                     type="button"
-                    class="button"
+                    class="btn"
                     :class="{ checked: selectedSpreadHome }"
                     @click="emitToggleOdd(PendingOddType.SpreadHome)"
                 >
@@ -33,7 +33,7 @@
                 <button
                     v-if="Number(totalNumber)"
                     type="button"
-                    class="button"
+                    class="btn"
                     :class="{ checked: selectedTotalUnder }"
                     @click="emitToggleOdd(PendingOddType.TotalUnder)"
                 >
@@ -50,7 +50,7 @@
                 <button
                     v-if="Number(moneyLineAway)"
                     type="button"
-                    class="button"
+                    class="btn"
                     :class="{ checked: selectedMoneyLineAway }"
                     @click="emitToggleOdd(PendingOddType.MoneyLineAway)"
                 >
@@ -63,7 +63,7 @@
                 <button
                     v-if="Number(pointSpreadAwayLine)"
                     type="button"
-                    class="button"
+                    class="btn"
                     :class="{ checked: selectedSpreadAway }"
                     @click="emitToggleOdd(PendingOddType.SpreadAway)"
                 >
@@ -76,7 +76,7 @@
                 <button
                     v-if="Number(totalNumber)"
                     type="button"
-                    class="button"
+                    class="btn"
                     :class="{ checked: selectedTotalOver }"
                     @click="emitToggleOdd(PendingOddType.TotalOver)"
                 >
