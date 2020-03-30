@@ -26,6 +26,10 @@
                     <div>Win: {{ bet.chips_win | formatCurrency }}</div>
                 </div>
             </div>
+
+            <div v-if="!bets.length" class="h3 text-center p-5">
+                No records
+            </div>
         </div>
     </div>
 </template>
