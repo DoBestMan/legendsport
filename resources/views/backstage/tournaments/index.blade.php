@@ -42,10 +42,10 @@
                                 <td class="text-truncate">{{ $tournament->name }}</td>
                                 <td class="text-truncate">{{ $tournament->type }}</td>
                                 <td class="text-truncate">{{ $tournament->players_limit }}</td>
-                                <td class="text-truncate">$ {{ $tournament->buy_in }}</td>
+                                <td class="text-truncate">$ {{ $tournament->buy_in / 100 }}</td>
                                 <td class="text-truncate">{{ $tournament->prize_pool['type'] }}</td>
-                                <td class="text-truncate">${{ $tournament->commission }}</td>
-                                <td class="text-truncate">{{ $tournament->chips }}</td>
+                                <td class="text-truncate">${{ $tournament->commission / 100 }}</td>
+                                <td class="text-truncate">{{ $tournament->chips / 100 }}</td>
                                 <td class="text-truncate">{{ $tournament->state }}</td>
                                 <td class="text-right">
                                     <a
