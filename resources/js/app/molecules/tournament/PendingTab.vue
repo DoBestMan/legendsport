@@ -10,7 +10,7 @@
                         <span v-else>Straight</span>
                     </div>
 
-                    <div class="text">{{ event.starts | toDateTime }}</div>
+                    <div class="text">{{ event.match_time | toDateTime }}</div>
                     <div class="text game-frm">
                         <div class="text team">{{ event.home_team }}</div>
                         <div class="text score">0</div>

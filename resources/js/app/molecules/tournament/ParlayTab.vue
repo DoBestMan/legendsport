@@ -59,8 +59,8 @@
 import Vue, { PropType } from "vue";
 import ParlayItem from "./ParlayItem.vue";
 import { DeepReadonly, DeepReadonlyArray } from "../../../general/types/types";
-import { PendingOdd, Window } from "../../types/window";
-import { PendingOddPayload } from "../../store/modules/window";
+import { BetTypeTab, PendingOdd, Window } from "../../types/window";
+import { PendingOddPayload, UpdateWindowPayload } from "../../store/modules/window";
 import { Game } from "../../types/game";
 import MoneyInput from "../../components/MoneyInput.vue";
 import { americanToDecimalOdd, getPendingOddValue } from "../../utils/game/bet";
@@ -154,6 +154,20 @@ export default Vue.extend({
             } else {
                 this.removeOdds();
                 this.wager = 0;
+
+                // Reload user
+                this.$stock.dispatch("user/reload").catch(console.error);
+
+                // Reload bets list
+                this.$stock.dispatch("bet/reload").catch(console.error);
+
+                // Display pending tab
+                const payload: UpdateWindowPayload = {
+                    id: this.window.id,
+                    selectedBetTypeTab: BetTypeTab.Pending,
+                };
+                this.$stock.commit("window/updateWindow", payload);
+
                 this.$toast.success("You've placed a parlay bet.");
             }
         },
