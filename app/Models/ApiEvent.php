@@ -23,6 +23,26 @@ class ApiEvent extends Model
         'api_data' => 'array',
     ];
 
+    public function getMatchTime() : string
+    {
+        return $this->api_data["MatchTime"];
+    }
+
+    public function getHomeTeam() : string
+    {
+        return $this->api_data["HomeTeam"];
+    }
+
+    public function getAwayTeam() : string
+    {
+        return $this->api_data["AwayTeam"];
+    }
+
+    public function getSportId() : int
+    {
+        return (int)$this->api_data["Sport"];
+    }
+
     public function tournamentEvents()
     {
         return $this->hasMany(TournamentEvent::class);

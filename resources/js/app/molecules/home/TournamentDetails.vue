@@ -117,7 +117,7 @@ export default Vue.extend({
 
         sportsNames(): string {
             const sportsIds = this.tournament?.sport_ids ?? [];
-            const dict: ReadonlyMap<number, string> = this.$store.getters["sport/sportDictionary"];
+            const dict: ReadonlyMap<number, string> = this.$stock.getters["sport/sportDictionary"];
             return sportsIds.map(sportId => dict.get(sportId) ?? sportId).join(", ") || "n/a";
         },
     },

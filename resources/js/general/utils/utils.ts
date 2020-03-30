@@ -29,3 +29,6 @@ export const groupBy = <T, K extends string | number>(
         return carry;
     }, {} as Record<K, T[]>);
 };
+
+export const sleep = (milliseconds: number): Promise<void> =>
+    new Promise(resolve => setTimeout(resolve, milliseconds));

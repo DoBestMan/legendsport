@@ -8,14 +8,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 /**
  * @property int $id
  * @property string $name
+ * @property int $balance
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property-read Collection|TournamentBet[] $bets
  * @property-read Collection|TournamentPlayer[] $players
  */
 class User extends Authenticatable
 {
     protected $table = 'users';
-    protected $primaryKey = 'id';
 
     /**
      * The attributes that are mass assignable.
@@ -37,11 +38,17 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
+        'balance'           => 'integer',
         'email_verified_at' => 'datetime',
     ];
 
     public function players()
     {
         return $this->hasMany(TournamentPlayer::class);
+    }
+
+    public function bets()
+    {
+        return $this->hasManyThrough(TournamentBet::class, TournamentPlayer::class);
     }
 }

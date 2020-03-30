@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,18 +11,22 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $tournament_id
  * @property int $user_id
- * @property int $commission
  * @property int $chips
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read Tournament $tournament
  * @property-read User $user
  * @property-read Collection|TournamentBet[] $bets
+ * @mixin Eloquent
  */
 class TournamentPlayer extends Model
 {
-    protected $table = 'tournaments_players';
-    protected $primaryKey = 'id';
+    use StaticTable;
+
+    protected $table = 'tournament_players';
+    protected $casts = [
+        'chips' => 'integer',
+    ];
 
     public function user()
     {
@@ -36,5 +41,18 @@ class TournamentPlayer extends Model
     public function bets()
     {
         return $this->hasMany(TournamentBet::class);
+    }
+
+    /**
+     * The BALANCE is the amount of available
+     * and pending chips bet for an event that is still in RUNNING status
+     *
+     * @return int
+     */
+    public function getBalance(): int
+    {
+        return $this->chips + $this->bets->sum(
+            fn(TournamentBet $tournamentBet) => $tournamentBet->chips_wager
+        );
     }
 }

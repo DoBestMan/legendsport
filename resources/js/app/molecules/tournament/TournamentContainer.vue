@@ -237,7 +237,7 @@ export default Vue.extend({
                 id: this.window.id,
                 selectedBetTypeTab: type,
             };
-            this.$store.commit("window/updateWindow", payload);
+            this.$stock.commit("window/updateWindow", payload);
         },
 
         isSportSelected(sportId: number): boolean {
@@ -245,7 +245,7 @@ export default Vue.extend({
         },
 
         getSportName(sportId: number): string {
-            const dict: ReadonlyMap<number, string> = this.$store.getters["sport/sportDictionary"];
+            const dict: ReadonlyMap<number, string> = this.$stock.getters["sport/sportDictionary"];
             return dict.get(sportId) ?? String(sportId);
         },
 
@@ -254,7 +254,7 @@ export default Vue.extend({
                 id: this.window.id,
                 selectedSportIds: [],
             };
-            this.$store.commit("window/updateWindow", payload);
+            this.$stock.commit("window/updateWindow", payload);
         },
 
         toggleSport(sportId: number): void {
@@ -262,16 +262,17 @@ export default Vue.extend({
                 windowId: this.window.id,
                 sportId,
             };
-            this.$store.commit("window/toggleSport", payload);
+            this.$stock.commit("window/toggleSport", payload);
         },
 
         toggleOdd(pendingOdd: PendingOdd): void {
             const payload: PendingOddPayload = {
                 windowId: this.window.id,
+                tournamentEventId: pendingOdd.tournamentEventId,
                 eventId: pendingOdd.eventId,
                 type: pendingOdd.type,
             };
-            this.$store.commit("window/toggleOdd", payload);
+            this.$stock.commit("window/toggleOdd", payload);
         },
     },
 });

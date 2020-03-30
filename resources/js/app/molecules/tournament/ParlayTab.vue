@@ -15,7 +15,7 @@
         </div>
 
         <transition name="slidey">
-            <div v-if="pendingOdds.length" class="tab-footer-frm">
+            <div v-if="hasEnoughPendingOdds" class="tab-footer-frm">
                 <div class="header-frm">
                     <div class="h4">SUMMARY</div>
 
@@ -28,7 +28,7 @@
                     <div class="bet-frm">
                         <div class="field">
                             <strong class="field-title">Bet</strong>
-                            <MoneyInput v-model="bet" />
+                            <MoneyInput v-model="wager" />
                         </div>
                         <div class="field">
                             <strong class="field-title">Win</strong>
@@ -38,7 +38,11 @@
                 </div>
 
                 <div class="footer-frm">
-                    <button class="btn button-place-bet button-action" @click="placeBet">
+                    <button
+                        class="btn button-place-bet button-action"
+                        @click="placeBet"
+                        :disabled="!canPlaceBet"
+                    >
                         Place Bet
                     </button>
                 </div>
@@ -57,6 +61,7 @@ import { Game } from "../../types/game";
 import MoneyInput from "../../components/MoneyInput.vue";
 import { americanToDecimalOdd, getPendingOddValue } from "../../utils/game/bet";
 import { Odd } from "../../../general/types/odd";
+import { PlaceParlayBetPayload } from "../../store/modules/placeBet";
 
 export default Vue.extend({
     name: "ParlayTab",
@@ -68,7 +73,7 @@ export default Vue.extend({
 
     data() {
         return {
-            bet: 0,
+            wager: 0,
         };
     },
 
@@ -78,9 +83,13 @@ export default Vue.extend({
         },
 
         win(): number {
-            const multiplier = this.window.pendingOdds
+            return this.wager * this.multiplier - this.wager;
+        },
+
+        multiplier(): number {
+            return this.window.pendingOdds
                 .map(pendingOdd => {
-                    const dictionary: ReadonlyMap<string, Odd> = this.$store.getters[
+                    const dictionary: ReadonlyMap<string, Odd> = this.$stock.getters[
                         "odd/oddDictionary"
                     ];
                     const odd = dictionary.get(pendingOdd.eventId);
@@ -88,8 +97,14 @@ export default Vue.extend({
                     return 1 + americanToDecimalOdd(oddValue);
                 })
                 .reduce((a, b) => a * b, 1);
+        },
 
-            return this.bet * multiplier - this.bet;
+        canPlaceBet(): boolean {
+            return this.wager > 0 && this.hasEnoughPendingOdds && this.multiplier > 1;
+        },
+
+        hasEnoughPendingOdds(): boolean {
+            return this.pendingOdds.length > 1;
         },
     },
 
@@ -103,16 +118,36 @@ export default Vue.extend({
                 windowId: this.window.id,
                 ...pendingOdd,
             };
-            this.$store.commit("window/toggleOdd", payload);
+            this.$stock.commit("window/toggleOdd", payload);
         },
 
         removeOdds() {
-            this.$store.commit("window/removeOdds", this.window.id);
+            this.$stock.commit("window/removeOdds", this.window.id);
         },
 
-        placeBet() {
-            // TODO Implement it
-            alert("Not implemented yet");
+        async placeBet() {
+            if (!this.canPlaceBet) {
+                return;
+            }
+
+            const payload: PlaceParlayBetPayload = {
+                tournamentId: this.window.tournament.id,
+                pending_odds: this.pendingOdds.map(pendingOdd => ({
+                    type: pendingOdd.type,
+                    event_id: pendingOdd.tournamentEventId,
+                })),
+                wager: this.wager * 100,
+            };
+            await this.$stock.dispatch("placeBet/placeParlay", payload);
+
+            if (this.$stock.state.placeBet.error) {
+                const error = this.$stock.state.placeBet.error;
+                this.$toast.error(error?.response?.data?.message ?? error.message);
+            } else {
+                this.removeOdds();
+                this.wager = 0;
+                this.$toast.success("You've placed a parlay bet.");
+            }
         },
     },
 });

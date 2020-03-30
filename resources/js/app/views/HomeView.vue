@@ -42,7 +42,7 @@ export default Vue.extend({
 
     computed: {
         selectedTournament(): Tournament | null {
-            const tournaments: Tournament[] = this.$store.getters[
+            const tournaments: Tournament[] = this.$stock.getters[
                 "tournamentList/filteredTournaments"
             ];
 

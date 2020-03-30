@@ -1,7 +1,10 @@
 import Vuex, { Store } from "vuex";
 import axios from "axios";
+import bet from "./modules/bet";
 import odd from "./modules/odd";
 import sport from "./modules/sport";
+import loader from "./modules/loader";
+import placeBet from "./modules/placeBet";
 import user from "./modules/user";
 import tournamentList from "./modules/tournamentList";
 import window from "./modules/window";
@@ -21,11 +24,14 @@ export const createStore = (): Store<RootState> => {
             api: new Api(axiosInstance),
         } as any,
         modules: {
+            bet,
+            loader,
             odd,
+            placeBet,
             sport,
+            tournamentList,
             user,
             window,
-            tournamentList,
         },
         strict: process.env.NODE_ENV !== "production",
     });

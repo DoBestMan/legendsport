@@ -11,9 +11,9 @@ $factory->define(Tournament::class, function (Faker $faker) {
         'avatar' => $faker->numberBetween($min = 0, $max = 1),
         'name' => $faker->name,
         'players_limit' => $faker->randomElement(['Heads-Up', 'Single table', 'Unlimited']),
-        'buy_in' => $faker->numberBetween($min = 500, $max = 1000),
-        'chips' => $faker->numberBetween($min = 5000, $max = 10000),
-        'commission' => $faker->numberBetween($min = 1, $max = 5),
+        'buy_in' => $faker->numberBetween($min = 5, $max = 10) * 100,
+        'chips' => $faker->numberBetween($min = 50, $max = 100) * 100,
+        'commission' => $faker->numberBetween($min = 1, $max = 5) * 100,
         'prize_pool' => [
             'type' => 'Fixed',
             'fixed_value' => 2,

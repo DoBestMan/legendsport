@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import SpinnerSection from "./SpinnerSection";
 import loaderStore from "../stores/loaderStore";
+import SpinnerSection from "../../general/components/SpinnerSection";
 
 export default {
     name: "FullLoader",
@@ -19,14 +19,3 @@ export default {
     },
 };
 </script>
-
-<style lang="scss">
-.full-loader {
-    position: fixed;
-    z-index: 2000;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    width: 100vw;
-}
-</style>

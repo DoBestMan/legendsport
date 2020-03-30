@@ -10,8 +10,8 @@
 
 <script lang="ts">
 import Vue from "vue";
-import RetryFailed from "../../backstage/components/RetryFailed";
-import SpinnerSection from "../../backstage/components/SpinnerSection";
+import SpinnerSection from "./SpinnerSection.vue";
+import RetryFailed from "./RetryFailed.vue";
 
 export default Vue.extend({
     name: "LoadingOverlay",

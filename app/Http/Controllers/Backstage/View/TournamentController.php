@@ -1,16 +1,15 @@
 <?php
 namespace App\Http\Controllers\Backstage\View;
 
-use Illuminate\Http\Response;
-use JavaScript;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Tournament;
-use App\Models\TournamentEvent;
-use App\Models\TournamentSport;
 use App\Models\ApiEvent;
 use App\Models\Config;
-use Illuminate\Support\Facades\DB;
+use App\Models\Tournament;
+use App\Models\TournamentEvent;
+use DB;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use JavaScript;
 
 class TournamentController extends Controller
 {
@@ -58,9 +57,9 @@ class TournamentController extends Controller
     {
         $this->validation($request);
 
-        $api_data = $request->ApiData;
+        $apiData = $request->ApiData ?? [];
 
-        foreach ($api_data as &$key) {
+        foreach ($apiData as &$key) {
             unset($key['Odds']);
         }
 
@@ -78,14 +77,7 @@ class TournamentController extends Controller
         $tournament->time_frame = $request->time_frame;
         $tournament->save();
 
-        foreach (array_unique($request->type) as $sport_id) {
-            TournamentSport::firstOrCreate(
-                ['tournament_id' => $tournament->id, 'sport_id' => $sport_id],
-                ['sport_id' => $sport_id],
-            );
-        }
-
-        foreach ($api_data as $data) {
+        foreach ($apiData as $data) {
             ApiEvent::firstOrCreate(['api_id' => $data['ID']], ['api_data' => $data]);
 
             $tournament_event = new TournamentEvent();
@@ -100,7 +92,7 @@ class TournamentController extends Controller
     public function show(Tournament $tournament)
     {
         $selectedEvents = [];
-        $api_event_id = DB::table('tournaments_events')
+        $api_event_id = DB::table('tournament_events')
             ->where('tournament_id', $tournament->id)
             ->get('api_event_id');
 
@@ -139,7 +131,7 @@ class TournamentController extends Controller
     public function edit(Tournament $tournament)
     {
         $selectedEvents = [];
-        $api_event_id = DB::table('tournaments_events')
+        $api_event_id = DB::table('tournament_events')
             ->where('tournament_id', $tournament->id)
             ->get('api_event_id');
 
@@ -178,7 +170,7 @@ class TournamentController extends Controller
     {
         $this->validation($request);
 
-        $api_data = $request->ApiData;
+        $api_data = $request->ApiData ?? [];
 
         foreach ($api_data as &$key) {
             if (array_key_exists('Odds', $key)) {
@@ -199,15 +191,6 @@ class TournamentController extends Controller
         $tournament->time_frame = $request->time_frame;
         $tournament->save();
 
-        TournamentSport::where('tournament_id', $tournament->id)->delete();
-
-        foreach (array_unique($request->type) as $sport_id) {
-            TournamentSport::firstOrCreate(
-                ['tournament_id' => $tournament->id, 'sport_id' => $sport_id],
-                ['sport_id' => $sport_id],
-            );
-        }
-
         TournamentEvent::where('tournament_id', $tournament->id)->delete();
 
         foreach ($api_data as $data) {
@@ -226,8 +209,7 @@ class TournamentController extends Controller
     {
         $tournament->delete();
         TournamentEvent::where('tournament_id', $tournament->id)->delete();
-        TournamentSport::where('tournament_id', $tournament->id)->delete();
-        return new Response(Response::HTTP_NO_CONTENT);
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 
     private function validation(Request $request)
@@ -242,6 +224,7 @@ class TournamentController extends Controller
             'prizes.type' => 'required',
             'state' => 'required',
             'time_frame' => 'required',
+            'type' => 'present|array'
         ];
 
         $messages = [

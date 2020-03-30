@@ -96,7 +96,7 @@ import { PendingOdd, PendingOddType, Window } from "../../types/window";
 import { DeepReadonly } from "../../../general/types/types";
 import DisabledButton from "./DisabledButton.vue";
 
-const createPendingOddKey = (pendingOdd: PendingOdd): string =>
+const createPendingOddKey = (pendingOdd: Pick<PendingOdd, "eventId" | "type">): string =>
     `${pendingOdd.eventId}#${pendingOdd.type}`;
 
 export default Vue.extend({
@@ -110,7 +110,7 @@ export default Vue.extend({
 
     computed: {
         odd(): Odd | null {
-            const dict: ReadonlyMap<string, Odd> = this.$store.getters["odd/oddDictionary"];
+            const dict: ReadonlyMap<string, Odd> = this.$stock.getters["odd/oddDictionary"];
             return dict.get(this.game.event_id) ?? null;
         },
 
@@ -221,6 +221,7 @@ export default Vue.extend({
     methods: {
         emitToggleOdd(type: PendingOddType) {
             const payload: PendingOdd = {
+                tournamentEventId: this.game.id,
                 eventId: this.game.event_id,
                 type,
             };

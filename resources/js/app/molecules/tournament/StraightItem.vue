@@ -53,7 +53,7 @@ export default Vue.extend({
 
     computed: {
         odd(): Odd | null {
-            const dictionary: ReadonlyMap<string, Odd> = this.$store.getters["odd/oddDictionary"];
+            const dictionary: ReadonlyMap<string, Odd> = this.$stock.getters["odd/oddDictionary"];
             return dictionary.get(this.pendingOdd.eventId) ?? null;
         },
 

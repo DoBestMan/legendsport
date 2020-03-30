@@ -2,6 +2,8 @@
 @import "~vue-multiselect/dist/vue-multiselect.min.css";
 @import (reference) "../_global/global.vars.less";
 
+@import "partials/_transition";
+
 .table-fixed {
     overflow-y: auto;
 
@@ -10,4 +12,13 @@
         top: 0;
         background-color: @gb_color_dark1;
     }
+}
+
+.full-loader {
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
 }

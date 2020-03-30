@@ -1,14 +1,14 @@
 <?php
 
+use App\Models\TournamentPlayer;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
-class CreateTournamentsPlayersTable extends Migration
+class CreateTournamentPlayersTable extends Migration
 {
     public function up()
     {
-        Schema::create('tournaments_players', function (Blueprint $table) {
+        Schema::create(TournamentPlayer::table(), function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->charset = 'utf8';
             $table->collation = 'utf8_unicode_ci';
@@ -16,7 +16,6 @@ class CreateTournamentsPlayersTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('tournament_id');
             $table->unsignedSmallInteger('user_id');
-            $table->mediumInteger('commission');
             $table->mediumInteger('chips');
             $table->timestamps();
 
@@ -28,11 +27,13 @@ class CreateTournamentsPlayersTable extends Migration
                 ->foreign('user_id')
                 ->references('id')
                 ->on('users');
+
+            $table->unique(['tournament_id', 'user_id']);
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('tournaments_players');
+        Schema::dropIfExists(TournamentPlayer::table());
     }
 }

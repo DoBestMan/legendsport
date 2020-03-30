@@ -31,14 +31,14 @@ export default Vue.extend({
 
         window(): DeepReadonly<Window> | null {
             return (
-                this.$store.getters["window/windows"].find(
+                this.$stock.getters["window/windows"].find(
                     (window: Window) => window.id === this.tournamentId,
                 ) ?? null
             );
         },
 
         isLoading(): boolean {
-            return this.$store.state.tournamentList.isLoading;
+            return this.$stock.state.tournamentList.isLoading;
         },
     },
 

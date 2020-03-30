@@ -1,15 +1,17 @@
 <template>
     <div class="spinner-section">
-        <div class="spinner-border text-muted">
-            <span class="sr-only">Loading...</span>
-        </div>
+        <SpinnerBox />
     </div>
 </template>
 
 <script lang="ts">
-export default {
+import Vue from "vue";
+import SpinnerBox from "./SpinnerBox.vue";
+
+export default Vue.extend({
     name: "SpinnerSection",
-};
+    components: { SpinnerBox },
+});
 </script>
 
 <style lang="scss" scoped>

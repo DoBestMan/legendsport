@@ -9,11 +9,10 @@ class TournamentCollection extends Controller
 {
     public function get()
     {
-        $tournaments = Tournament::with(['events', 'events.apiEvent', 'players', 'sports'])->get();
+        $tournaments = Tournament::with(['events', 'events.apiEvent', 'players'])->get();
 
         return fractal()
-            ->collection($tournaments)
-            ->transformWith(new TournamentTranformer())
+            ->collection($tournaments, new TournamentTranformer())
             ->toArray();
     }
 }

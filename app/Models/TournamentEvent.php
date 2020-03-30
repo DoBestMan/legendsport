@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -12,10 +13,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read ApiEvent $apiEvent
+ * @mixin Eloquent
  */
 class TournamentEvent extends Model
 {
-    protected $table = 'tournaments_events';
+    use StaticTable;
+
+    protected $table = 'tournament_events';
     protected $primaryKey = 'id';
     protected $fillable = ['tournament_id', 'api_event_id'];
 
@@ -27,10 +31,5 @@ class TournamentEvent extends Model
     public function apiEvent()
     {
         return $this->belongsTo(ApiEvent::class);
-    }
-
-    public function betsEvents()
-    {
-        return $this->hasMany(TournamentBetEvent::class);
     }
 }

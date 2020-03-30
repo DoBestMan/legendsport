@@ -2,34 +2,77 @@
 
 namespace App\Models;
 
+use App\Tournament\BetStatus;
+use App\Tournament\PendingOddType;
 use Carbon\Carbon;
+use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id
  * @property int $tournament_bet_id
  * @property int $tournament_event_id
- * @property array $bet
- * @property string $status
+ * @property float $odd
+ * @property BetStatus $status
+ * @property PendingOddType $type
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property-read TournamentEvent $event
+ * @property-read TournamentBet $tournamentBet
+ * @property-read TournamentEvent $tournamentEvent
+ * @mixin Eloquent
  */
 class TournamentBetEvent extends Model
 {
-    protected $table = 'tournaments_bets_events';
-    protected $primaryKey = 'id';
+    use StaticTable;
+
+    protected $table = 'tournament_bet_events';
     protected $casts = [
-        'bet' => 'json',
+        "odd" => "int",
     ];
 
-    public function bet()
+    public function getStatusAttribute(string $value): BetStatus
+    {
+        return new BetStatus($value);
+    }
+
+    public function setStatusAttribute(BetStatus $betStatus): void
+    {
+        $this->attributes["status"] = $betStatus->getValue();
+    }
+
+    public function getTypeAttribute(string $value): PendingOddType
+    {
+        return new PendingOddType($value);
+    }
+
+    public function setTypeAttribute(PendingOddType $pendingOddType): void
+    {
+        $this->attributes["type"] = $pendingOddType->getValue();
+    }
+
+    public function tournamentBet()
     {
         return $this->belongsTo(TournamentBet::class);
     }
 
-    public function event()
+    public function tournamentEvent()
     {
         return $this->belongsTo(TournamentEvent::class);
+    }
+
+    public function getSelectedTeam(): string
+    {
+        switch ($this->type) {
+            case PendingOddType::MONEY_LINE_HOME():
+            case PendingOddType::SPREAD_HOME():
+                return $this->tournamentEvent->apiEvent->getHomeTeam();
+
+            case PendingOddType::MONEY_LINE_AWAY():
+            case PendingOddType::SPREAD_AWAY():
+                return $this->tournamentEvent->apiEvent->getAwayTeam();
+
+            default:
+                return "n/a";
+        }
     }
 }

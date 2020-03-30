@@ -128,6 +128,7 @@ const module: Module<WindowState, RootState> = {
                         ...window.pendingOdds,
                         {
                             bet: 0,
+                            tournamentEventId: payload.tournamentEventId,
                             eventId: payload.eventId,
                             type: payload.type,
                         },

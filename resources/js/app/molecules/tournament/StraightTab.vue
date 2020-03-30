@@ -56,9 +56,16 @@
                 </div>
 
                 <div class="footer-frm">
-                    <button class="btn button-place-bet button-action" @click="placeBet">
+                    <button
+                        v-if="isAuthenticated"
+                        class="btn button-place-bet button-action"
+                        @click="placeBet"
+                    >
                         Place Bet
                     </button>
+                    <a v-else class="btn button-place-bet button-action" href="/login">
+                        Place Bet
+                    </a>
                 </div>
             </div>
         </transition>
@@ -76,6 +83,7 @@ import MoneyInput from "../../components/MoneyInput.vue";
 import { calculateWinFromAmericanOdd, getPendingOddValue } from "../../utils/game/bet";
 import { Odd } from "../../../general/types/odd";
 import Money from "../../components/Money.vue";
+import { PlaceStraightBetPayload } from "../../store/modules/placeBet";
 
 export default Vue.extend({
     name: "StraightTab",
@@ -91,6 +99,10 @@ export default Vue.extend({
     },
 
     computed: {
+        isAuthenticated(): boolean {
+            return !!this.$stock.state.user.user;
+        },
+
         pendingOdds(): DeepReadonlyArray<PendingOdd> {
             return this.window.pendingOdds;
         },
@@ -104,7 +116,7 @@ export default Vue.extend({
         totalWin(): number {
             return this.pendingOdds
                 .map(pendingOdd => {
-                    const dictionary: ReadonlyMap<string, Odd> = this.$store.getters[
+                    const dictionary: ReadonlyMap<string, Odd> = this.$stock.getters[
                         "odd/oddDictionary"
                     ];
                     const odd = dictionary.get(pendingOdd.eventId);
@@ -123,11 +135,12 @@ export default Vue.extend({
         updateOdd(pendingOdd: DeepReadonly<PendingOdd>, value: number) {
             const payload: PendingOddPayload = {
                 windowId: this.window.id,
+                tournamentEventId: pendingOdd.tournamentEventId,
                 eventId: pendingOdd.eventId,
                 type: pendingOdd.type,
                 bet: value,
             };
-            this.$store.commit("window/updateOdd", payload);
+            this.$stock.commit("window/updateOdd", payload);
         },
 
         removeOdd(pendingOdd: DeepReadonly<PendingOdd>) {
@@ -135,7 +148,7 @@ export default Vue.extend({
                 windowId: this.window.id,
                 ...pendingOdd,
             };
-            this.$store.commit("window/toggleOdd", payload);
+            this.$stock.commit("window/toggleOdd", payload);
         },
 
         updateOddsBet() {
@@ -143,16 +156,18 @@ export default Vue.extend({
                 windowId: this.window.id,
                 bet: this.bet,
             };
-            this.$store.commit("window/updateOddsBet", payload);
+            this.$stock.commit("window/updateOddsBet", payload);
         },
 
         removeOdds() {
-            this.$store.commit("window/removeOdds", this.window.id);
+            this.$stock.commit("window/removeOdds", this.window.id);
         },
 
         placeBet() {
-            // TODO Implement it
-            alert("Not implemented yet");
+            const payload: PlaceStraightBetPayload = {
+                tournamentId: this.window.tournament.id,
+            };
+            this.$stock.dispatch("placeBet/placeStraight", payload);
         },
     },
 });

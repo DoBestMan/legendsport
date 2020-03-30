@@ -19,16 +19,17 @@ export enum BetTypeTab {
 }
 
 export interface PendingOdd {
+    tournamentEventId: number;
     eventId: string;
     type: PendingOddType;
     bet?: number;
 }
 
 export enum PendingOddType {
-    MoneyLineHome = 1,
-    MoneyLineAway,
-    SpreadHome,
-    SpreadAway,
-    TotalUnder,
-    TotalOver,
+    MoneyLineHome = "money_line_home",
+    MoneyLineAway = "money_line_away",
+    SpreadHome = "spread_home",
+    SpreadAway = "spread_away",
+    TotalUnder = "total_under",
+    TotalOver = "total_over",
 }

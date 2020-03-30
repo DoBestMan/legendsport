@@ -16,12 +16,12 @@ export function mapField<
     return {
         [field]: {
             get(this: Vue): any {
-                return this.$store.state[namespace][field];
+                return this.$stock.state[namespace][field];
             },
 
             set(this: Vue, value: any) {
                 const payload: UpdateFieldPayload<any> = { field, value };
-                this.$store.commit(`${namespace}/updateField`, payload);
+                this.$stock.commit(`${namespace}/updateField`, payload);
             },
         },
     };

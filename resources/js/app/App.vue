@@ -22,7 +22,7 @@
                         <div id="title">
                             {{ user.name }}
                             <br />
-                            <span class="balance">Bal: $3,000</span>
+                            <span class="balance">Bal: {{ user.balance | formatCurrency }}</span>
                         </div>
                     </div>
 
@@ -180,6 +180,9 @@
                 </button>
             </div>
         </footer>
+
+        <FullLoader v-if="isLoaderVisible" />
+        <Toasts :timeOut="5000" :closeable="true" />
     </div>
 </template>
 
@@ -188,32 +191,37 @@ import Vue from "vue";
 import HorizontallyScrollable from "./components/HorizontallyScrollable.vue";
 import { Window } from "./types/window";
 import { User } from "../general/types/user";
+import FullLoader from "../general/components/FullLoader.vue";
 
 export default Vue.extend({
     name: "App",
-    components: { HorizontallyScrollable },
+    components: { FullLoader, HorizontallyScrollable },
 
     computed: {
         windows(): Window[] {
-            return Object.values(this.$store.getters["window/windows"]);
+            return Object.values(this.$stock.getters["window/windows"]);
         },
 
         user(): User | null {
-            return this.$store.state.user.user;
+            return this.$stock.state.user.user;
         },
 
         isAuthenticated(): boolean {
             return !!this.user;
         },
+
+        isLoaderVisible(): boolean {
+            return this.$stock.state.loader.isVisible;
+        },
     },
 
     methods: {
         closeWindow(window: Window): void {
-            this.$store.commit("window/closeWindow", window.id);
+            this.$stock.commit("window/closeWindow", window.id);
         },
 
         logout(): void {
-            this.$store.dispatch("user/logout");
+            this.$stock.dispatch("user/logout");
         },
     },
 });

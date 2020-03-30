@@ -13,8 +13,9 @@ class MeController extends Controller
         $user = $request->user();
 
         return [
-            "id" => $user->id,
-            "name" => $user->name,
+            "id"      => $user->id,
+            "name"    => $user->name,
+            "balance" => $user->balance,
         ];
     }
 }

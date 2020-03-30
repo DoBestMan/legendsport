@@ -1,9 +1,9 @@
 import Vue from "vue";
 import axios from "axios";
 import { setup } from "../utils/setup.js";
-import ActionButton from "../components/ActionButton";
 import loaderStore from "../stores/loaderStore";
 import FullLoader from "../components/FullLoader";
+import ActionButton from "../../general/components/ActionButton";
 
 setup();
 
@@ -31,8 +31,8 @@ const vm = new Vue({
             max: 10000,
         },
 
-        commission: phpVars.commission,
-        chips: phpVars.chips,
+        commission: phpVars.commission / 100,
+        chips: phpVars.chips / 100,
         keepCompleted: phpVars.keepCompleted,
     },
 
@@ -43,8 +43,8 @@ const vm = new Vue({
             try {
                 await axios.put("/config", {
                     config: {
-                        commission: this.commission,
-                        chips: this.chips,
+                        commission: this.commission * 100,
+                        chips: this.chips * 100,
                         keep_completed: this.keepCompleted,
                     },
                 });

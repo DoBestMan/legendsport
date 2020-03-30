@@ -82,7 +82,7 @@ export default Vue.extend({
         },
 
         sportOptions(): Sport[] {
-            return this.$store.state.sport.sports;
+            return this.$stock.state.sport.sports;
         },
 
         ...mapFields("tournamentList", [

@@ -28,7 +28,7 @@ Conceptualization and general idea of the project
         When a user registers for a tournament, at least with one bet, he/she is
         denounced from his BALANCE (and also records) the value of the tournament
         (BUY-IN) and the COMMISSION by the operator (app). Bets within the
-        tournament are not placedwith money but with chips. And as each event in
+        tournament are not placed with money but with chips. And as each event in
         which it has been wagered ends, if the bet is in the user's favor, the
         chips bet plus the agreed winning are returned (when placing a bet, the
         likely win is shown). If the bet, on the other hand, is not in the user's

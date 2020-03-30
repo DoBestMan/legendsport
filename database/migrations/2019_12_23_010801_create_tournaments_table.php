@@ -1,21 +1,21 @@
 <?php
 
+use App\Models\Tournament;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 class CreateTournamentsTable extends Migration
 {
     public function up()
     {
-        Schema::create('tournaments', function (Blueprint $table) {
+        Schema::create(Tournament::table(), function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('avatar')->default(false);
             $table->string('name');
             $table->enum('players_limit', ['Heads-Up', 'Single table', 'Unlimited']);
-            $table->smallInteger('buy_in');
-            $table->mediumInteger('chips');
-            $table->mediumInteger('commission');
+            $table->unsignedInteger('buy_in');
+            $table->unsignedInteger('chips');
+            $table->unsignedInteger('commission');
             $table->boolean('late_register')->nullable();
             $table->json('late_register_rule')->nullable();
             $table->json('prize_pool');
@@ -35,6 +35,6 @@ class CreateTournamentsTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('tournaments');
+        Schema::dropIfExists(Tournament::table());
     }
 }

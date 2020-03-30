@@ -57,6 +57,6 @@ class ConfigController extends Controller
         $config->config = $request->config;
         $config->save();
 
-        return new Response(Response::HTTP_NO_CONTENT);
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 }

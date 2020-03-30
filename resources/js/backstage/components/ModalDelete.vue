@@ -20,7 +20,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { BModal } from "bootstrap-vue";
-import ActionButton from "./ActionButton";
+import ActionButton from "../../general/components/ActionButton.vue";
 
 export default Vue.extend({
     name: "ModalDelete",

@@ -71,25 +71,25 @@ export default Vue.extend({
 
     computed: {
         filteredTournaments(): Tournament[] {
-            return this.$store.getters["tournamentList/filteredTournaments"];
+            return this.$stock.getters["tournamentList/filteredTournaments"];
         },
 
         isLoading(): boolean {
-            return this.$store.state.tournamentList.isLoading;
+            return this.$stock.state.tournamentList.isLoading;
         },
 
         isFailed(): boolean {
-            return this.$store.state.tournamentList.isFailed;
+            return this.$stock.state.tournamentList.isFailed;
         },
     },
 
     methods: {
         load() {
-            this.$store.dispatch("tournamentList/load");
+            this.$stock.dispatch("tournamentList/load");
         },
 
         getSportsNames(sportsIds: number[]): string {
-            const dict: ReadonlyMap<number, string> = this.$store.getters["sport/sportDictionary"];
+            const dict: ReadonlyMap<number, string> = this.$stock.getters["sport/sportDictionary"];
             return sportsIds.map(sportId => dict.get(sportId) ?? sportId).join(", ");
         },
 
@@ -102,7 +102,7 @@ export default Vue.extend({
         },
 
         openTournament(tournament: Tournament): void {
-            this.$store.commit("window/openWindow", tournament.id);
+            this.$stock.commit("window/openWindow", tournament.id);
             this.$router.push(`/tournaments/${tournament.id}`);
         },
     },

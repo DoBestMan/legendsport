@@ -10,9 +10,7 @@ class OddCollection extends Controller
     public function get(OddService $oddService)
     {
         $eventOdds = collect($oddService->getOdds())
-            ->map(function (array $event) {
-                return $event["Odds"];
-            })
+            ->map(fn(array $event) => $event["Odds"])
             ->all();
 
         return fractal()

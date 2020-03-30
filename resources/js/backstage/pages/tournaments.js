@@ -4,12 +4,12 @@ import { setup } from "../utils/setup.js";
 import ModalDelete from "../components/ModalDelete";
 import ModalAvailableEventList from "../molecules/tournament/ModalAvailableEventList";
 import SelectedEventList from "../molecules/tournament/SelectedEventList";
-import ActionButton from "../components/ActionButton";
 import TournamentForm from "../molecules/tournament/TournamentForm";
 import notificationStore from "../stores/notificationStore";
 import FullLoader from "../components/FullLoader";
 import loaderStore from "../stores/loaderStore";
 import sportStore from "../stores/sportStore";
+import ActionButton from "../../general/components/ActionButton";
 
 setup();
 
@@ -51,15 +51,15 @@ new Vue({
 
     created() {
         this.name = phpVars.name;
-        this.buyIn = phpVars.buyIn;
+        this.buyIn = phpVars.buyIn / 100;
         this.selectedEvents = phpVars.apiSelectedSports || [];
 
         if (this.chips != "" || phpVars.config == "") {
-            this.chips = phpVars.chips;
-            this.commission = phpVars.commission;
+            this.chips = phpVars.chips / 100;
+            this.commission = phpVars.commission / 100;
         } else {
-            this.commission = phpVars.config["commission"];
-            this.chips = phpVars.config["chips"];
+            this.commission = phpVars.config["commission"] / 100;
+            this.chips = phpVars.config["chips"] / 100;
         }
 
         this.lateRegister = phpVars.lateRegister;
@@ -138,9 +138,9 @@ new Vue({
                     name: this.name,
                     type: eventsType,
                     players_limit: this.playersLimit,
-                    buy_in: this.buyIn,
-                    chips: this.chips,
-                    commission: this.commission,
+                    buy_in: this.buyIn * 100,
+                    chips: this.chips * 100,
+                    commission: this.commission * 100,
                     late_register: this.playersLimit == "Unlimited" ? this.lateRegister : "",
                     late_register_rule: {
                         interval: this.playersLimit == "Unlimited" ? this.interval : "",
@@ -178,9 +178,9 @@ new Vue({
                     name: this.name,
                     type: eventsType,
                     players_limit: this.playersLimit,
-                    buy_in: this.buyIn,
-                    chips: this.chips,
-                    commission: this.commission,
+                    buy_in: this.buyIn * 100,
+                    chips: this.chips * 100,
+                    commission: this.commission * 100,
                     late_register: this.playersLimit == "Unlimited" ? this.lateRegister : "",
                     late_register_rule: {
                         interval: this.playersLimit == "Unlimited" ? this.interval : "",

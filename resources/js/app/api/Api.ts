@@ -4,6 +4,22 @@ import { Tournament } from "../types/tournament";
 import { Sport } from "../../general/types/sport";
 import { Odd } from "../../general/types/odd";
 import { User } from "../../general/types/user";
+import { PendingOddType } from "../types/window";
+import { Bet } from "../types/bet";
+
+export interface PendingOdd {
+    event_id: number;
+    type: PendingOddType;
+}
+
+export interface PlaceStraightBetBody {
+    //
+}
+
+export interface PlaceParlayBetBody {
+    pending_odds: PendingOdd[];
+    wager: number;
+}
 
 export class Api {
     public constructor(private readonly axios: AxiosInstance) {
@@ -25,6 +41,11 @@ export class Api {
         return response.data;
     }
 
+    public async getBets(): Promise<Bet[]> {
+        const response = await this.axios.get("/api/bets");
+        return response.data;
+    }
+
     public async getMe(): Promise<User> {
         const response = await this.axios.get("/api/me");
         return response.data;
@@ -32,5 +53,13 @@ export class Api {
 
     public async logout(): Promise<void> {
         await this.axios.post("/api/logout");
+    }
+
+    public async placeStraightBet(tournamentId: number, body: PlaceStraightBetBody): Promise<void> {
+        await this.axios.post(`/api/tournaments/${tournamentId}/bets/straight`, body);
+    }
+
+    public async placeParlayBet(tournamentId: number, body: PlaceParlayBetBody): Promise<void> {
+        await this.axios.post(`/api/tournaments/${tournamentId}/bets/parlay`, body);
     }
 }

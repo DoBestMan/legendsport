@@ -23,30 +23,27 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon $updated_at
  * @property-read Collection|TournamentPlayer[] $players
  * @property-read Collection|TournamentEvent[] $events
- * @property-read Collection|TournamentSport[] $sports
  */
 class Tournament extends Model
 {
-    protected $table = 'tournaments';
-    protected $primaryKey = 'id';
+    use StaticTable;
 
+    // TODO Handle players limit
+    // TODO Handle tournament types during registering
+
+    protected $table = 'tournaments';
     protected $casts = [
+        'buy_in'             => 'integer',
+        'chips'              => 'integer',
+        'commission'         => 'integer',
         'late_register_rule' => 'json',
-        'prize_pool' => 'json',
-        'prizes' => 'json',
+        'prize_pool'         => 'json',
+        'prizes'             => 'json',
     ];
 
     public function players()
     {
         return $this->hasMany(TournamentPlayer::class);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function sports()
-    {
-        return $this->hasMany(TournamentSport::class);
     }
 
     public function events()
