@@ -5,6 +5,7 @@ use Psr\SimpleCache\CacheInterface;
 
 class SportService
 {
+    private const CACHE_TTL = 24 * 60 * 60;
     private const CACHE_KEY = "api_sports";
     private CacheInterface $cache;
     private JsonOddApiService $jsonOddApiService;
@@ -24,7 +25,7 @@ class SportService
         }
 
         $sports = $this->jsonOddApiService->getSports();
-        $this->cache->set(SportService::CACHE_KEY, $sports, 24 * 60 * 60);
+        $this->cache->set(SportService::CACHE_KEY, $sports, SportService::CACHE_TTL);
 
         return $sports;
     }

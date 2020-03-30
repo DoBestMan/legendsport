@@ -2,12 +2,12 @@
 namespace App\Http\Controllers\Backstage\Api;
 
 use App\Http\Controllers\Controller;
-use App\Services\JsonOddApiService;
+use App\Services\OddService;
 
 class EventCollection extends Controller
 {
-    public function get(JsonOddApiService $jsonOddApiService)
+    public function get(OddService $oddService)
     {
-        return $jsonOddApiService->getOdds();
+        return $oddService->getOdds();
     }
 }
