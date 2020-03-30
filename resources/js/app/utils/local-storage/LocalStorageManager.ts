@@ -16,6 +16,9 @@ export const getWindows = (): StorableWindow[] => {
         id: item.id,
         selectedSportIds: item.selectedSportIds ?? [],
         selectedBetTypeTab: item.selectedBetTypeTab ?? BetTypeTab.Straight,
-        pendingOdds: item.pendingOdds ?? [],
+        pendingOdds: (item.pendingOdds ?? []).filter(
+            (pendingOdd: any) =>
+                pendingOdd.tournamentEventId && pendingOdd.eventId && pendingOdd.type,
+        ),
     }));
 };
