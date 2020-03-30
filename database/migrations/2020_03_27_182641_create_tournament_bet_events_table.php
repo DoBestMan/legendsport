@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\TournamentBetEvent;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -8,7 +7,7 @@ class CreateTournamentBetEventsTable extends Migration
 {
     public function up()
     {
-        Schema::create(TournamentBetEvent::table(), function (Blueprint $table) {
+        Schema::create('tournament_bet_events', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->charset = 'utf8';
             $table->collation = 'utf8_unicode_ci';
@@ -41,6 +40,6 @@ class CreateTournamentBetEventsTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists(TournamentBetEvent::table());
+        Schema::dropIfExists('tournament_bet_events');
     }
 }

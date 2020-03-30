@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\TournamentEvent;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -8,7 +7,7 @@ class CreateTournamentEventsTable extends Migration
 {
     public function up()
     {
-        Schema::create(TournamentEvent::table(), function (Blueprint $table) {
+        Schema::create('tournament_events', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('tournament_id');
             $table->unsignedBigInteger('api_event_id');
@@ -27,6 +26,6 @@ class CreateTournamentEventsTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists(TournamentEvent::table());
+        Schema::dropIfExists('tournament_events');
     }
 }
