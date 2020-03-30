@@ -39,12 +39,16 @@
 
                 <div class="footer-frm">
                     <button
+                        v-if="isAuthenticated"
                         class="btn button-place-bet button-action"
                         @click="placeBet"
                         :disabled="!canPlaceBet"
                     >
                         Place Bet
                     </button>
+                    <a v-else class="btn button-place-bet button-action" href="/login">
+                        Place Bet
+                    </a>
                 </div>
             </div>
         </transition>
@@ -78,6 +82,10 @@ export default Vue.extend({
     },
 
     computed: {
+        isAuthenticated(): boolean {
+            return !!this.$stock.state.user.user;
+        },
+
         pendingOdds(): DeepReadonlyArray<PendingOdd> {
             return this.window.pendingOdds;
         },
