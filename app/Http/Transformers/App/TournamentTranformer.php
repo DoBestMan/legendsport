@@ -3,18 +3,29 @@ namespace App\Http\Transformers\App;
 
 use App\Models\Tournament;
 use App\Models\TournamentEvent;
+use App\Models\TournamentPlayer;
+use App\Models\User;
 use League\Fractal\TransformerAbstract;
 
 class TournamentTranformer extends TransformerAbstract
 {
     protected $defaultIncludes = ["games", "players"];
 
+    /** @var User|null */
+    private User $user;
+
+    public function __construct(?User $user)
+    {
+        $this->user = $user;
+    }
+
     public function transform(Tournament $tournament)
     {
         return [
-            "id" => $tournament->id,
+            "balance" => $this->calculateBalance($tournament),
             "buy_in" => $tournament->buy_in,
-            "enrolled" => 0,
+            "enrolled" => 0, // TODO Change it
+            "id" => $tournament->id,
             "name" => $tournament->name,
             "players_limit" => $tournament->players_limit,
             "starts" => $this->calculateStarts($tournament),
@@ -31,6 +42,22 @@ class TournamentTranformer extends TransformerAbstract
     public function includePlayers(Tournament $tournament)
     {
         return $this->collection($tournament->players, new PlayerTransformer());
+    }
+
+    private function calculateBalance(Tournament $tournament)
+    {
+        if ($this->user) {
+            /** @var TournamentPlayer $player */
+            $player = $this->user->players->first(
+                fn(TournamentPlayer $player) => $player->tournament_id === $tournament->id
+            );
+
+            if ($player) {
+                return $player->chips;
+            }
+        }
+
+        return 0;
     }
 
     private function calculateStarts(Tournament $tournament)

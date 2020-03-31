@@ -3,7 +3,7 @@
         <section class="col-3 h-100">
             <div class="section bets">
                 <div class="title-bar-frm">
-                    <span class="title">0</span>
+                    <span class="title">{{ tournament.balance | formatCurrency }}</span>
                 </div>
 
                 <div class="tabs-frm">

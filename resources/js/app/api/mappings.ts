@@ -2,6 +2,7 @@ import { Tournament } from "../types/tournament";
 
 export const mapTournament = (data: any): Tournament => ({
     id: data.id,
+    balance: data.balance,
     buy_in: data.buy_in,
     enrolled: data.enrolled,
     name: data.name,

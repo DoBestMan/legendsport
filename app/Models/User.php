@@ -13,6 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property Carbon $updated_at
  * @property-read Collection|TournamentBet[] $bets
  * @property-read Collection|TournamentPlayer[] $players
+ * @property-read Collection|Tournament[] $tournaments
  */
 class User extends Authenticatable
 {
@@ -45,6 +46,11 @@ class User extends Authenticatable
     public function players()
     {
         return $this->hasMany(TournamentPlayer::class);
+    }
+
+    public function tournaments()
+    {
+        return $this->hasManyThrough(Tournament::class, TournamentPlayer::class);
     }
 
     public function bets()

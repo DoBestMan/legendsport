@@ -4,6 +4,7 @@ import { Player } from "./player";
 
 export interface Tournament {
     id: number;
+    balance: number;
     buy_in: number;
     enrolled: number;
     name: string;
