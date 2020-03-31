@@ -12,16 +12,16 @@
                 class="tr"
                 :class="{ selected: player.id === selectedPlayerId }"
                 @click="selectPlayer(player)"
-                v-for="player in players"
+                v-for="(player, index) in players"
                 :key="player.id"
             >
-                <td class="td col-position">{{ player.id }}</td>
+                <td class="td col-position">{{ index + 1 }}</td>
                 <td class="td col-player">
                     <div class="img-frm">
                         <i class="icon fas fa-user-circle"></i>
                         <div class="img"></div>
                     </div>
-                    n/a
+                    {{ player.name }}
                 </td>
                 <td class="td">n/a</td>
             </tr>

@@ -1,5 +1,5 @@
 export interface Player {
     id: number;
-    bets: number;
+    name: string;
     chips: number;
 }

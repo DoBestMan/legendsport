@@ -47,7 +47,7 @@ const module: Module<WindowState, RootState> = {
 
                     return {
                         pendingOdds: [],
-                        selectedBetTypeTab: BetTypeTab.Straight,
+                        selectedBetTypeTab: BetTypeTab.Pending,
                         selectedSportIds: [],
                         ...tab,
                         tournament,
@@ -66,7 +66,7 @@ const module: Module<WindowState, RootState> = {
             state._windows.push({
                 id: payload,
                 pendingOdds: [],
-                selectedBetTypeTab: BetTypeTab.Straight,
+                selectedBetTypeTab: BetTypeTab.Pending,
                 selectedSportIds: [],
             });
         },

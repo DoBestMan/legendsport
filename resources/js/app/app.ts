@@ -6,7 +6,7 @@ import App from "./App.vue";
 import { createRouter } from "./routing";
 import { createStore } from "./store";
 import { toDateTime } from "./utils/date/utils";
-import { formatCurrency, formatOdd } from "./utils/game/bet";
+import { diffHumanReadable, formatCurrency, formatDollars, formatOdd } from "./utils/game/bet";
 import { RootState } from "./store/types";
 
 Vue.use(VueRouter);
@@ -15,6 +15,8 @@ Vue.use(ToastsPlugin);
 Vue.filter("toDateTime", toDateTime);
 Vue.filter("formatOdd", formatOdd);
 Vue.filter("formatCurrency", formatCurrency);
+Vue.filter("formatDollars", formatDollars);
+Vue.filter("diffHumanReadable", diffHumanReadable);
 
 Object.defineProperty(Vue.prototype, "$stock", {
     get(): Store<RootState> {

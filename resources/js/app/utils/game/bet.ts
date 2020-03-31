@@ -1,3 +1,4 @@
+import moment from "moment";
 import { PendingOdd, PendingOddType } from "../../types/window";
 import { Odd } from "../../../general/types/odd";
 import { Game } from "../../types/game";
@@ -56,4 +57,27 @@ export const formatCurrency = (value: number): string => {
         currency: "USD",
     });
     return formatter.format(value / 100);
+};
+
+export const formatDollars = (value: number): string => {
+    const formatter = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 0,
+    });
+    return formatter.format(value / 100);
+};
+
+export const diffHumanReadable = (value: string): string => {
+    const date = moment(value);
+
+    if (!date.isValid()) {
+        return "n/a";
+    }
+
+    if (date.isBefore()) {
+        return "Started";
+    }
+
+    return date.fromNow();
 };

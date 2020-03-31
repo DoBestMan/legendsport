@@ -11,7 +11,7 @@ class PlayerTransformer extends TransformerAbstract
     {
         return [
             "id" => $player->id,
-            "bets" => $player->bets,
+            "name" => $player->user->name,
             "chips" => $player->chips,
         ];
     }

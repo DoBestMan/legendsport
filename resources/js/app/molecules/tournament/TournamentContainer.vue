@@ -112,12 +112,12 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="title">Start time</div>
-                            <div class="value">{{ tournament.starts || "n/a" }}</div>
+                            <div class="value">{{ tournament.starts | toDateTime }}</div>
                         </div>
 
                         <div class="col-6">
                             <div class="title">In</div>
-                            <div class="value">0 hours</div>
+                            <div class="value">{{ tournament.starts | diffHumanReadable }}</div>
                         </div>
                     </div>
 
@@ -129,7 +129,7 @@
 
                         <div class="col-4">
                             <div class="title">Buy-In</div>
-                            <div class="value">{{ tournament.buy_in || "n/a" }}</div>
+                            <div class="value">{{ tournament.buy_in | formatDollars }}</div>
                         </div>
 
                         <div class="col-4">

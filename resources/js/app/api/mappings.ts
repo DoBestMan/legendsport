@@ -1,4 +1,5 @@
 import { Tournament } from "../types/tournament";
+import { Player } from "../types/player";
 
 export const mapTournament = (data: any): Tournament => ({
     id: data.id,
@@ -12,5 +13,11 @@ export const mapTournament = (data: any): Tournament => ({
     state: data.state,
     time_frame: data.time_frame,
     games: data.games,
-    players: data.players,
+    players: data.players.map(mapPlayer),
+});
+
+export const mapPlayer = (data: any): Player => ({
+    id: data.id,
+    name: data.name,
+    chips: data.chips,
 });
