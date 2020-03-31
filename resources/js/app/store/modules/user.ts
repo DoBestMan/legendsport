@@ -58,10 +58,11 @@ const module: Module<UserState, RootState> = {
             }
         },
 
-        async logout({ commit, rootState }) {
+        async logout({ commit, rootState, dispatch }) {
             try {
                 await rootState.api.logout();
                 commit("unsetUser");
+                dispatch("tournamentList/reload", null, { root: true });
             } catch (e) {
                 console.error(e);
             }

@@ -222,6 +222,7 @@ export default Vue.extend({
 
         logout(): void {
             this.$stock.dispatch("user/logout");
+            this.$toast.info("You've been logged out.");
         },
     },
 });
