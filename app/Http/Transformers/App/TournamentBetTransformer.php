@@ -6,16 +6,14 @@ use League\Fractal\TransformerAbstract;
 
 class TournamentBetTransformer extends TransformerAbstract
 {
-    protected $defaultIncludes = [
-        "events",
-    ];
+    protected $defaultIncludes = ["events"];
 
     public function transform(TournamentBet $bet)
     {
         return [
-            "id"            => $bet->id,
-            "chips_wager"   => $bet->chips_wager,
-            "chips_win"     => $bet->getChipsWin(),
+            "id" => $bet->id,
+            "chips_wager" => $bet->chips_wager,
+            "chips_win" => $bet->getChipsWin(),
             "tournament_id" => $bet->tournament_id,
         ];
     }

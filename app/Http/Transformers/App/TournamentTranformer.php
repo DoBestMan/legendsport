@@ -11,10 +11,9 @@ class TournamentTranformer extends TransformerAbstract
 {
     protected $defaultIncludes = ["games", "players"];
 
-    /** @var User|null */
-    private User $user;
+    private ?User $user;
 
-    public function __construct(User $user = null)
+    public function __construct(?User $user = null)
     {
         $this->user = $user;
     }
@@ -66,8 +65,8 @@ class TournamentTranformer extends TransformerAbstract
             ->filter(
                 fn(TournamentEvent $event) => array_key_exists(
                     "MatchTime",
-                    $event->apiEvent->api_data,
-                ),
+                    $event->apiEvent->api_data
+                )
             )
             ->map(fn(TournamentEvent $event) => $event->apiEvent->api_data["MatchTime"])
             ->min();

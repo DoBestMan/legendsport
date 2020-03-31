@@ -3,8 +3,8 @@ namespace App\Services;
 
 class OddConversionService
 {
-    public function americanToDecimal(int $odd) : float
+    public function americanToDecimal(int $odd): float
     {
-        return ($odd < 0 ? 100 / -$odd : $odd / 100);
+        return $odd < 0 ? 100 / -$odd : $odd / 100;
     }
 }

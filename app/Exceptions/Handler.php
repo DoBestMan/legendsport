@@ -8,9 +8,7 @@ use Throwable;
 
 class Handler extends ExceptionHandler
 {
-    protected $dontReport = [
-        LimitExceededException::class,
-    ];
+    protected $dontReport = [LimitExceededException::class];
 
     protected $dontFlash = ['password', 'password_confirmation'];
 

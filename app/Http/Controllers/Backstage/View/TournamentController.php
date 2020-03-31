@@ -224,7 +224,7 @@ class TournamentController extends Controller
             'prizes.type' => 'required',
             'state' => 'required',
             'time_frame' => 'required',
-            'type' => 'present|array'
+            'type' => 'present|array',
         ];
 
         $messages = [

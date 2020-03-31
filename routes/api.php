@@ -25,7 +25,10 @@ $router->domain($app)->group(function (Router $router) {
         $router->get('/me', MeController::class . '@get');
 
         $router->get("/bets", BetCollection::class . "@get");
-        $router->post("/tournaments/{tournament}/bets/parlay", TournamentBetParlayController::class . "@post");
+        $router->post(
+            "/tournaments/{tournament}/bets/parlay",
+            TournamentBetParlayController::class . "@post"
+        );
     });
 });
 

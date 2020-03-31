@@ -13,10 +13,7 @@ use Illuminate\Database\DatabaseManager;
 
 class ParlayBetService
 {
-    /** @var DatabaseManager */
     private DatabaseManager $databaseManager;
-
-    /** @var TournamentPlayerService */
     private TournamentPlayerService $tournamentPlayerService;
 
     public function __construct(
@@ -36,9 +33,18 @@ class ParlayBetService
      * @throws NotEnoughChipsException
      * @throws NotEnoughBalanceException
      */
-    public function bet(Tournament $tournament, User $user, array $pendingOdds, int $wager) : TournamentBet
-    {
-        return $this->databaseManager->transaction(function () use ($tournament, $user, $pendingOdds, $wager) {
+    public function bet(
+        Tournament $tournament,
+        User $user,
+        array $pendingOdds,
+        int $wager
+    ): TournamentBet {
+        return $this->databaseManager->transaction(function () use (
+            $tournament,
+            $user,
+            $pendingOdds,
+            $wager
+        ) {
             $player = $this->tournamentPlayerService->register($tournament, $user);
 
             $parlayBet = new TournamentBet();

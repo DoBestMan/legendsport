@@ -9,7 +9,6 @@ use Illuminate\Database\DatabaseManager;
 
 class TournamentPlayerService
 {
-    /** @var DatabaseManager */
     private DatabaseManager $databaseManager;
 
     public function __construct(DatabaseManager $databaseManager)
@@ -23,14 +22,13 @@ class TournamentPlayerService
      * @return TournamentPlayer
      * @throws NotEnoughBalanceException
      */
-    public function register(Tournament $tournament, User $user) : TournamentPlayer
+    public function register(Tournament $tournament, User $user): TournamentPlayer
     {
         return $this->databaseManager->transaction(function () use ($user, $tournament) {
             $player = TournamentPlayer::where([
                 "tournament_id" => $tournament->id,
                 "user_id" => $user->id,
-            ])
-                ->first();
+            ])->first();
 
             if (!$player) {
                 $user->refresh();

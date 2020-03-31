@@ -33,12 +33,12 @@ class Tournament extends Model
 
     protected $table = 'tournaments';
     protected $casts = [
-        'buy_in'             => 'integer',
-        'chips'              => 'integer',
-        'commission'         => 'integer',
+        'buy_in' => 'integer',
+        'chips' => 'integer',
+        'commission' => 'integer',
         'late_register_rule' => 'json',
-        'prize_pool'         => 'json',
-        'prizes'             => 'json',
+        'prize_pool' => 'json',
+        'prizes' => 'json',
     ];
 
     public function players()

@@ -39,7 +39,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'balance'           => 'integer',
+        'balance' => 'integer',
         'email_verified_at' => 'datetime',
     ];
 

@@ -33,7 +33,7 @@ class JsonOddApiService
                 fn($value, $key) => [
                     "id" => $key,
                     "name" => strtoupper($value),
-                ],
+                ]
             )
             ->values()
             ->all();

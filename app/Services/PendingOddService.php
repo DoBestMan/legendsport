@@ -7,7 +7,6 @@ use UnexpectedValueException;
 
 class PendingOddService
 {
-    /** @var OddService */
     private OddService $oddService;
 
     public function __construct(OddService $oddService)
@@ -20,12 +19,11 @@ class PendingOddService
      */
     public function assignOdds(array $pendingOdds)
     {
-        $oddDict = collect($this->oddService->getOdds())
-            ->flatMap(function (array $event) {
-                return [
-                    $event["Odds"][0]["EventID"] => $event["Odds"][0]
-                ];
-            });
+        $oddDict = collect($this->oddService->getOdds())->flatMap(function (array $event) {
+            return [
+                $event["Odds"][0]["EventID"] => $event["Odds"][0],
+            ];
+        });
 
         foreach ($pendingOdds as $pendingOdd) {
             $tournamentEvent = $pendingOdd->getTournamentEvent();
@@ -35,7 +33,7 @@ class PendingOddService
         }
     }
 
-    private function getOddByType(array $odds, PendingOddType $type) : int
+    private function getOddByType(array $odds, PendingOddType $type): int
     {
         switch ($type) {
             case PendingOddType::MONEY_LINE_HOME():

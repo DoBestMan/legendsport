@@ -44,7 +44,7 @@ class TournamentBet extends Model
         return $this->hasMany(TournamentBetEvent::class);
     }
 
-    public function getStatus() : BetStatus
+    public function getStatus(): BetStatus
     {
         $betEventStatuses = $this->betEvents->map(
             fn(TournamentBetEvent $betEvent) => $betEvent->status
@@ -52,7 +52,7 @@ class TournamentBet extends Model
 
         if (
             $betEventStatuses->some(
-                fn (BetStatus $betStatus) => $betStatus->equals(BetStatus::LOSS())
+                fn(BetStatus $betStatus) => $betStatus->equals(BetStatus::LOSS())
             )
         ) {
             return BetStatus::LOSS();
@@ -60,7 +60,7 @@ class TournamentBet extends Model
 
         if (
             $betEventStatuses->some(
-                fn (BetStatus $betStatus) => $betStatus->equals(BetStatus::PENDING())
+                fn(BetStatus $betStatus) => $betStatus->equals(BetStatus::PENDING())
             )
         ) {
             return BetStatus::PENDING();
@@ -69,14 +69,15 @@ class TournamentBet extends Model
         return BetStatus::WIN();
     }
 
-    public function getChipsWin() : int
+    public function getChipsWin(): int
     {
         return intval($this->chips_wager * $this->getMultiplier() - $this->chips_wager);
     }
 
-    public function getMultiplier() : float
+    public function getMultiplier(): float
     {
-        return $this->betEvents->map(fn(TournamentBetEvent $betEvent) => 1 + american_to_decimal($betEvent->odd))
+        return $this->betEvents
+            ->map(fn(TournamentBetEvent $betEvent) => 1 + american_to_decimal($betEvent->odd))
             ->reduce(fn($a, $b) => $a * $b, 1);
     }
 }

@@ -16,7 +16,7 @@ class OddService
         $this->jsonOddApiService = $jsonOddApiService;
     }
 
-    public function getOdds() : array
+    public function getOdds(): array
     {
         $odds = $this->cache->get(OddService::CACHE_KEY);
 

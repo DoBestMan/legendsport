@@ -9,14 +9,14 @@ class TournamentBetEventTransformer extends TransformerAbstract
     public function transform(TournamentBetEvent $betEvent)
     {
         return [
-            "away_team"     => $betEvent->tournamentEvent->apiEvent->getAwayTeam(),
-            "home_team"     => $betEvent->tournamentEvent->apiEvent->getHomeTeam(),
-            "id"            => $betEvent->id,
-            "match_time"    => $betEvent->tournamentEvent->apiEvent->getMatchTime(),
-            "odd"           => $betEvent->odd,
+            "away_team" => $betEvent->tournamentEvent->apiEvent->getAwayTeam(),
+            "home_team" => $betEvent->tournamentEvent->apiEvent->getHomeTeam(),
+            "id" => $betEvent->id,
+            "match_time" => $betEvent->tournamentEvent->apiEvent->getMatchTime(),
+            "odd" => $betEvent->odd,
             "selected_team" => $betEvent->getSelectedTeam(),
-            "status"        => $betEvent->status,
-            "type"          => $betEvent->type,
+            "status" => $betEvent->status,
+            "type" => $betEvent->type,
         ];
     }
 }

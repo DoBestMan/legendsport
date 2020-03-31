@@ -16,32 +16,32 @@ class PendingOdd
         $this->tournamentEvent = $tournamentEvent;
     }
 
-    public function getTournamentEvent() : TournamentEvent
+    public function getTournamentEvent(): TournamentEvent
     {
         return $this->tournamentEvent;
     }
 
-    public function getType() : PendingOddType
+    public function getType(): PendingOddType
     {
         return $this->type;
     }
 
-    public function getWager() : ?int
+    public function getWager(): ?int
     {
         return $this->wager;
     }
 
-    public function getOdd() : ?int
+    public function getOdd(): ?int
     {
         return $this->odd;
     }
 
-    public function setWager(int $wager) : void
+    public function setWager(int $wager): void
     {
         $this->wager = $wager;
     }
 
-    public function setOdd(int $odd) : void
+    public function setOdd(int $odd): void
     {
         $this->odd = $odd;
     }

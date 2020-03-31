@@ -51,8 +51,7 @@ class TournamentPlayer extends Model
      */
     public function getBalance(): int
     {
-        return $this->chips + $this->bets->sum(
-            fn(TournamentBet $tournamentBet) => $tournamentBet->chips_wager
-        );
+        return $this->chips +
+            $this->bets->sum(fn(TournamentBet $tournamentBet) => $tournamentBet->chips_wager);
     }
 }
