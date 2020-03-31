@@ -35,17 +35,24 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue, { PropType } from "vue";
 import { Bet } from "../../types/bet";
 import SpinnerBox from "../../../general/components/SpinnerBox.vue";
+import { DeepReadonly } from "../../../general/types/types";
+import { Window } from "../../types/window";
 
 export default Vue.extend({
     name: "PendingTab",
     components: { SpinnerBox },
+    props: {
+        window: Object as PropType<DeepReadonly<Window>>,
+    },
 
     computed: {
         bets(): Bet[] {
-            return this.$stock.state.bet.bets;
+            return this.$stock.state.bet.bets.filter(
+                bet => bet.tournament_id === this.window.tournament.id,
+            );
         },
 
         isLoading(): boolean {

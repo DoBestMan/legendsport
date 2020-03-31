@@ -5,6 +5,7 @@ export interface Bet {
     chips_win: number;
     events: BetEvent[];
     id: number;
+    tournament_id: number;
 }
 
 export interface BetEvent {

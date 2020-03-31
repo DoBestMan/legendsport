@@ -1,6 +1,8 @@
 <?php
 namespace App\Services;
 
+use App\Exceptions\LimitExceededException;
+
 class JsonOddApiService
 {
     private string $apiKey;
@@ -20,7 +22,13 @@ class JsonOddApiService
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['x-api-key:' . $this->apiKey]);
         $res = curl_exec($ch);
 
-        return collect(json_decode($res, true))
+        $response = json_decode($res, true);
+
+        if ($response["message"] === "Limit Exceeded") {
+            throw new LimitExceededException();
+        }
+
+        return collect($response)
             ->map(
                 fn($value, $key) => [
                     "id" => $key,
@@ -41,6 +49,12 @@ class JsonOddApiService
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['x-api-key:' . $this->apiKey]);
         $res = curl_exec($ch);
 
-        return json_decode($res, true);
+        $response = json_decode($res, true);
+
+        if ($response["message"] === "Limit Exceeded") {
+            throw new LimitExceededException();
+        }
+
+        return $response;
     }
 }
