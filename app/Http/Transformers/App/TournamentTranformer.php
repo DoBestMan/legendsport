@@ -14,7 +14,7 @@ class TournamentTranformer extends TransformerAbstract
     /** @var User|null */
     private User $user;
 
-    public function __construct(?User $user)
+    public function __construct(User $user = null)
     {
         $this->user = $user;
     }
