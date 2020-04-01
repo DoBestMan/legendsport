@@ -58,7 +58,7 @@ export default Vue.extend({
 
     computed: {
         bets(): Bet[] {
-            return this.$stock.state.bet.bets.filter(
+            return (this.$stock.state.user.user?.bets ?? []).filter(
                 bet =>
                     bet.tournamentId === this.window.tournament.id &&
                     bet.status !== BetStatus.Pending,
@@ -66,7 +66,7 @@ export default Vue.extend({
         },
 
         isLoading(): boolean {
-            return this.$stock.state.bet.isLoading;
+            return this.$stock.state.user.isLoading;
         },
 
         BetStatus(): typeof BetStatus {

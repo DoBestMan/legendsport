@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\App\Api\AuthController;
-use App\Http\Controllers\App\Api\BetCollection;
 use App\Http\Controllers\App\Api\MeController;
 use App\Http\Controllers\App\Api\OddCollection;
 use App\Http\Controllers\App\Api\SportCollection;
@@ -25,14 +24,13 @@ $router->domain($app)->group(function (Router $router) {
         $router->post('/logout', AuthController::class . '@logout');
         $router->get('/me', MeController::class . '@get');
 
-        $router->get("/bets", BetCollection::class . "@get");
         $router->post(
             "/tournaments/{tournament}/bets/parlay",
-            TournamentBetParlayController::class . "@post"
+            TournamentBetParlayController::class . "@post",
         );
         $router->post(
             "/tournaments/{tournament}/bets/straight",
-            TournamentBetStraightController::class . "@post"
+            TournamentBetStraightController::class . "@post",
         );
     });
 });

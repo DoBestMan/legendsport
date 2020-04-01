@@ -36,7 +36,7 @@ class SportService
                 fn($value, $key) => [
                     "id" => $key,
                     "name" => strtoupper($value),
-                ]
+                ],
             )
             ->values()
             ->all();

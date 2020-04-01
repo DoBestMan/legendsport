@@ -48,12 +48,12 @@ class TournamentBet extends Model
     public function getStatus(): BetStatus
     {
         $betEventStatuses = $this->betEvents->map(
-            fn(TournamentBetEvent $betEvent) => $betEvent->status
+            fn(TournamentBetEvent $betEvent) => $betEvent->status,
         );
 
         if (
             $betEventStatuses->some(
-                fn(BetStatus $betStatus) => $betStatus->equals(BetStatus::LOSS())
+                fn(BetStatus $betStatus) => $betStatus->equals(BetStatus::LOSS()),
             )
         ) {
             return BetStatus::LOSS();
@@ -61,7 +61,7 @@ class TournamentBet extends Model
 
         if (
             $betEventStatuses->some(
-                fn(BetStatus $betStatus) => $betStatus->equals(BetStatus::PENDING())
+                fn(BetStatus $betStatus) => $betStatus->equals(BetStatus::PENDING()),
             )
         ) {
             return BetStatus::PENDING();

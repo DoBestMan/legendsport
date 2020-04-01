@@ -79,11 +79,7 @@ const module: Module<PlaceBetState, RootState> = {
         },
 
         async reloadBets({ dispatch }) {
-            // Reload user
             dispatch("user/reload", null, { root: true }).catch(console.error);
-
-            // Reload bets list
-            dispatch("bet/reload", null, { root: true }).catch(console.error);
         },
     },
 };

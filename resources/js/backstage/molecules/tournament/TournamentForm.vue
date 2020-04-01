@@ -306,32 +306,6 @@
                 </template>
             </div>
 
-            <div id="prizesFrm" class="form-row form-group">
-                <div class="col-3 text-right">
-                    <label for="prizes" class="col-form-label">Prizes</label>
-                </div>
-
-                <div class="col-4">
-                    <select
-                        id="prizes"
-                        name="prizes[type]"
-                        :class="[
-                            errors['prizes.type'] ? 'form-control is-invalid' : 'form-control',
-                        ]"
-                        :value="prizes"
-                        @change="$emit('update:prizes', $event.target.value)"
-                        required
-                    >
-                        <option></option>
-                        <option value="Auto">Auto</option>
-                        <option value="Fixed">Fixed</option>
-                    </select>
-                    <div v-if="errors['prizes.type']" class="invalid-feedback">
-                        {{ errors["prizes.type"]["0"] }}
-                    </div>
-                </div>
-            </div>
-
             <div id="stateFrm" class="form-row form-group">
                 <div class="col-12 col-lg-3 text-right">
                     <label for="state" class="col-form-label">State</label>
@@ -382,7 +356,6 @@ export default {
         "playersLimit",
         "prizePool",
         "prizePoolValue",
-        "prizes",
         "state",
         "timeFrame",
         "errors",

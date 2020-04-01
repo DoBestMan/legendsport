@@ -136,7 +136,7 @@
 
                         <div class="col-4">
                             <div class="title">Prize pool</div>
-                            <div class="value">$1,000</div>
+                            <div class="value">{{ tournament.prizePoolMoney | formatDollars }}</div>
                         </div>
                     </div>
 
@@ -148,23 +148,7 @@
                     </div>
                 </div>
 
-                <table class="awards table">
-                    <thead class="thead">
-                        <tr class="tr">
-                            <th class="th col-position" scope="col">Position</th>
-                            <th class="th col-prize" scope="col">Prize</th>
-                        </tr>
-                    </thead>
-                    <tbody class="tbody">
-                        <template v-for="i in 3">
-                            <tr class="tr">
-                                <td class="td col-position">{{ i }}</td>
-                                <td class="td col-prize">${{ 900 / i }}</td>
-                            </tr>
-                        </template>
-                    </tbody>
-                </table>
-
+                <PrizePool :tournament="tournament" />
                 <TournamentRankTable :players="tournament.players" />
             </div>
         </section>
@@ -188,10 +172,19 @@ import PendingTab from "./PendingTab.vue";
 import StraightTab from "./StraightTab.vue";
 import ParlayTab from "./ParlayTab.vue";
 import HistoryTab from "./HistoryTab.vue";
+import PrizePool from "./PrizePool.vue";
 
 export default Vue.extend({
     name: "TournamentContainer",
-    components: { GameRow, HistoryTab, ParlayTab, PendingTab, StraightTab, TournamentRankTable },
+    components: {
+        GameRow,
+        HistoryTab,
+        ParlayTab,
+        PendingTab,
+        PrizePool,
+        StraightTab,
+        TournamentRankTable,
+    },
 
     props: {
         window: Object as PropType<Window>,

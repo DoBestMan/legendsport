@@ -1,6 +1,5 @@
 import Vuex, { Store } from "vuex";
 import axios from "axios";
-import bet from "./modules/bet";
 import odd from "./modules/odd";
 import sport from "./modules/sport";
 import loader from "./modules/loader";
@@ -24,7 +23,6 @@ export const createStore = (): Store<RootState> => {
             api: new Api(axiosInstance),
         } as any,
         modules: {
-            bet,
             loader,
             odd,
             placeBet,

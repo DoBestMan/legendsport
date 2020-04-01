@@ -1,4 +1,4 @@
-import { Tournament } from "../types/tournament";
+import { Prize, Tournament } from "../types/tournament";
 import { Player } from "../types/player";
 import { User, UserPlayer } from "../../general/types/user";
 import { Bet, BetEvent } from "../types/bet";
@@ -11,11 +11,13 @@ export const mapTournament = (data: any): Tournament => ({
     name: data.name,
     players: data.players.map(mapPlayer),
     playersLimit: data.players_limit,
+    prizePoolMoney: data.prize_pool_money,
     sportIds: [...new Set<number>(data.games.map((game: any) => game.sport_id))],
     starts: data.starts,
     state: data.state,
     timeFrame: data.time_frame,
     userBalance: data.user_balance,
+    prizePool: data.prize_pool.map(mapPrize),
 });
 
 export const mapPlayer = (data: any): Player => ({
@@ -24,10 +26,16 @@ export const mapPlayer = (data: any): Player => ({
     chips: data.chips,
 });
 
+export const mapPrize = (data: any): Prize => ({
+    maxPosition: data.max_position,
+    prize: data.prize,
+});
+
 export const mapMe = (data: any): User => ({
     id: data.id,
     name: data.name,
     balance: data.balance,
+    bets: data.bets.map(mapBet),
     players: data.players.map(mapMePlayer),
 });
 

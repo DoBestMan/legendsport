@@ -41,7 +41,6 @@ class TournamentsTest extends TestCase
             ->post(route('tournaments.store'), [
                 'avatar' => 1,
                 'name' => '',
-                'type' => [1],
                 'prize_pool' => [
                     'type' => 'Fixed',
                     'fixed_value' => 1,
@@ -56,9 +55,6 @@ class TournamentsTest extends TestCase
                     'value' => 1,
                 ],
                 'state' => "Announced",
-                'prizes' => [
-                    'type' => 1,
-                ],
                 'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.create'))
@@ -69,47 +65,12 @@ class TournamentsTest extends TestCase
         ]);
     }
 
-    public function test_backstage_tournaments_create_validate_type_required()
-    {
-        $this->from(route('tournaments.create'))
-            ->post(route('tournaments.store'), [
-                'avatar' => 1,
-                'name' => 'name',
-                'type' => '',
-                'prize_pool' => [
-                    'type' => 'Fixed',
-                    'fixed_value' => 1,
-                ],
-                'players_limit' => 'Heads-Up',
-                'buy_in' => 1,
-                'chips' => 1,
-                'commission' => 1,
-                'late_register' => 1,
-                'late_register_rule' => [
-                    'interval' => 'seconds',
-                    'value' => 1,
-                ],
-                'state' => "Announced",
-                'prizes' => [
-                    'type' => 1,
-                ],
-                'time_frame' => 'Daily',
-            ])
-            ->assertRedirect(route('tournaments.create'))
-            ->assertSessionHasErrors(['type']);
-
-        $this->assertDatabaseMissing('tournaments', [
-            'type' => '',
-        ]);
-    }
-
     public function test_backstage_tournaments_create_validate_players_limit_required()
     {
         $this->from(route('tournaments.create'))
             ->post(route('tournaments.store'), [
                 'avatar' => 1,
                 'name' => 'name',
-                'type' => [1],
                 'prize_pool' => [
                     'type' => 'Fixed',
                     'fixed_value' => 1,
@@ -124,9 +85,6 @@ class TournamentsTest extends TestCase
                     'value' => 1,
                 ],
                 'state' => "Announced",
-                'prizes' => [
-                    'type' => 1,
-                ],
                 'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.create'))
@@ -143,7 +101,6 @@ class TournamentsTest extends TestCase
             ->post(route('tournaments.store'), [
                 'avatar' => 1,
                 'name' => 'name',
-                'type' => [1],
                 'prize_pool' => [
                     'type' => 'Fixed',
                     'fixed_value' => 1,
@@ -158,9 +115,6 @@ class TournamentsTest extends TestCase
                     'value' => 1,
                 ],
                 'state' => "Announced",
-                'prizes' => [
-                    'type' => 1,
-                ],
                 'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.create'))
@@ -177,7 +131,6 @@ class TournamentsTest extends TestCase
             ->post(route('tournaments.store'), [
                 'avatar' => 1,
                 'name' => 'name',
-                'type' => [1],
                 'prize_pool' => [
                     'type' => 'Fixed',
                     'fixed_value' => 1,
@@ -192,9 +145,6 @@ class TournamentsTest extends TestCase
                     'value' => 1,
                 ],
                 'state' => "Announced",
-                'prizes' => [
-                    'type' => 1,
-                ],
                 'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.create'))
@@ -211,7 +161,6 @@ class TournamentsTest extends TestCase
             ->post(route('tournaments.store'), [
                 'avatar' => 1,
                 'name' => 'name',
-                'type' => [1],
                 'prize_pool' => [
                     'type' => 'Fixed',
                     'fixed_value' => 1,
@@ -226,9 +175,6 @@ class TournamentsTest extends TestCase
                     'value' => 1,
                 ],
                 'state' => "Announced",
-                'prizes' => [
-                    'type' => 1,
-                ],
                 'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.create'))
@@ -245,7 +191,6 @@ class TournamentsTest extends TestCase
             ->post(route('tournaments.store'), [
                 'avatar' => 1,
                 'name' => 'name',
-                'type' => [1],
                 'prize_pool' => [
                     'type' => 'Fixed',
                     'fixed_value' => 1,
@@ -260,9 +205,6 @@ class TournamentsTest extends TestCase
                     'value' => 1,
                 ],
                 'state' => "Announced",
-                'prizes' => [
-                    'type' => 1,
-                ],
                 'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.create'))
@@ -279,7 +221,6 @@ class TournamentsTest extends TestCase
             ->post(route('tournaments.store'), [
                 'avatar' => 1,
                 'name' => 'name',
-                'type' => [1],
                 'prize_pool' => [
                     'type' => 'Fixed',
                     'fixed_value' => 1,
@@ -294,9 +235,6 @@ class TournamentsTest extends TestCase
                     'value' => 1,
                 ],
                 'state' => '',
-                'prizes' => [
-                    'type' => 1,
-                ],
                 'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.create'))
@@ -307,16 +245,14 @@ class TournamentsTest extends TestCase
         ]);
     }
 
-    public function test_backstage_tournaments_create_validate_prizes_required()
+    public function test_backstage_tournaments_create_validate_prize_pool_required()
     {
         $this->from(route('tournaments.create'))
             ->post(route('tournaments.store'), [
                 'avatar' => 1,
                 'name' => 'name',
-                'type' => [1],
                 'prize_pool' => [
-                    'type' => 'Fixed',
-                    'fixed_value' => 1,
+                    'type' => '',
                 ],
                 'players_limit' => 'Heads-Up',
                 'buy_in' => 1,
@@ -328,14 +264,13 @@ class TournamentsTest extends TestCase
                     'value' => 1,
                 ],
                 'state' => "Announced",
-                'prizes' => '',
                 'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.create'))
-            ->assertSessionHasErrors(['prizes.type']);
+            ->assertSessionHasErrors(['prize_pool.type']);
 
         $this->assertDatabaseMissing('tournaments', [
-            'prizes' => '',
+            'prize_pool' => '{"type": ""}',
         ]);
     }
 
@@ -344,7 +279,6 @@ class TournamentsTest extends TestCase
         $this->from(route('tournaments.create'))
             ->post(route('tournaments.store'), [
                 'name' => 'name',
-                'type' => [],
                 'players_limit' => 'Heads-Up',
                 'buy_in' => 1,
                 'commission' => 1,
@@ -357,9 +291,6 @@ class TournamentsTest extends TestCase
                 'prize_pool' => [
                     'type' => 'Fixed',
                     'fixed_value' => 1,
-                ],
-                'prizes' => [
-                    'type' => 1,
                 ],
                 'state' => 'Announced',
                 'time_frame' => 'Daily',
@@ -400,7 +331,6 @@ class TournamentsTest extends TestCase
 
         $this->put(route('tournaments.update', $tournament), [
             'name' => 'name',
-            'type' => [],
             'players_limit' => 'Heads-Up',
             'buy_in' => 1,
             'commission' => 1,
@@ -413,9 +343,6 @@ class TournamentsTest extends TestCase
             'prize_pool' => [
                 'type' => 'Fixed',
                 'fixed_value' => 1,
-            ],
-            'prizes' => [
-                'type' => 1,
             ],
             'state' => 'Announced',
             'time_frame' => 'Daily',
@@ -433,7 +360,6 @@ class TournamentsTest extends TestCase
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
                 'name' => '',
-                'type' => [],
                 'players_limit' => 'Heads-Up',
                 'buy_in' => 1,
                 'commission' => 1,
@@ -446,9 +372,6 @@ class TournamentsTest extends TestCase
                 'prize_pool' => [
                     'type' => 'Fixed',
                     'fixed_value' => 1,
-                ],
-                'prizes' => [
-                    'type' => 1,
                 ],
                 'state' => 'Announced',
                 'time_frame' => 'Daily',
@@ -461,41 +384,6 @@ class TournamentsTest extends TestCase
         ]);
     }
 
-    public function test_backstage_tournaments_update_validate_type_required()
-    {
-        $tournament = $this->createTournament();
-
-        $this->from(route('tournaments.edit', $tournament))
-            ->put(route('tournaments.update', $tournament), [
-                'name' => 'name',
-                'type' => '',
-                'players_limit' => 'Heads-Up',
-                'buy_in' => 1,
-                'commission' => 1,
-                'chips' => 1,
-                'late_register' => 1,
-                'late_register_rule' => [
-                    'interval' => 'seconds',
-                    'value' => 1,
-                ],
-                'prize_pool' => [
-                    'type' => 'Fixed',
-                    'fixed_value' => 1,
-                ],
-                'prizes' => [
-                    'type' => 1,
-                ],
-                'state' => 'Announced',
-                'time_frame' => 'Daily',
-            ])
-            ->assertRedirect(route('tournaments.edit', $tournament))
-            ->assertSessionHasErrors(['type']);
-
-        $this->assertDatabaseMissing('tournaments', [
-            'type' => '',
-        ]);
-    }
-
     public function test_backstage_tournaments_update_validate_players_limit_required()
     {
         $tournament = $this->createTournament();
@@ -503,7 +391,6 @@ class TournamentsTest extends TestCase
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
                 'name' => 'name',
-                'type' => [],
                 'players_limit' => '',
                 'buy_in' => 1,
                 'commission' => 1,
@@ -516,9 +403,6 @@ class TournamentsTest extends TestCase
                 'prize_pool' => [
                     'type' => 'Fixed',
                     'fixed_value' => 1,
-                ],
-                'prizes' => [
-                    'type' => 1,
                 ],
                 'state' => 'Announced',
                 'time_frame' => 'Daily',
@@ -538,7 +422,6 @@ class TournamentsTest extends TestCase
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
                 'name' => 'name',
-                'type' => [],
                 'players_limit' => 'Heads-Up',
                 'buy_in' => '',
                 'commission' => 1,
@@ -551,9 +434,6 @@ class TournamentsTest extends TestCase
                 'prize_pool' => [
                     'type' => 'Fixed',
                     'fixed_value' => 1,
-                ],
-                'prizes' => [
-                    'type' => 1,
                 ],
                 'state' => 'Announced',
                 'time_frame' => 'Daily',
@@ -573,7 +453,6 @@ class TournamentsTest extends TestCase
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
                 'name' => 'name',
-                'type' => [],
                 'players_limit' => 'Heads-Up',
                 'buy_in' => 1,
                 'commission' => 1,
@@ -586,9 +465,6 @@ class TournamentsTest extends TestCase
                 'prize_pool' => [
                     'type' => 'Fixed',
                     'fixed_value' => 1,
-                ],
-                'prizes' => [
-                    'type' => 1,
                 ],
                 'state' => 'Announced',
                 'time_frame' => 'Daily',
@@ -608,7 +484,6 @@ class TournamentsTest extends TestCase
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
                 'name' => 'name',
-                'type' => [],
                 'players_limit' => 'Heads-Up',
                 'buy_in' => 1,
                 'commission' => '',
@@ -621,9 +496,6 @@ class TournamentsTest extends TestCase
                 'prize_pool' => [
                     'type' => 'Fixed',
                     'fixed_value' => 1,
-                ],
-                'prizes' => [
-                    'type' => 1,
                 ],
                 'state' => 'Announced',
                 'time_frame' => 'Daily',
@@ -643,7 +515,6 @@ class TournamentsTest extends TestCase
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
                 'name' => 'name',
-                'type' => [],
                 'players_limit' => 'Heads-Up',
                 'buy_in' => 1,
                 'commission' => 1,
@@ -656,9 +527,6 @@ class TournamentsTest extends TestCase
                 'prize_pool' => [
                     'type' => 'Fixed',
                     'fixed_value' => 1,
-                ],
-                'prizes' => [
-                    'type' => 1,
                 ],
                 'state' => '',
                 'time_frame' => 'Daily',
@@ -671,14 +539,13 @@ class TournamentsTest extends TestCase
         ]);
     }
 
-    public function test_backstage_tournaments_update_validate_prizes_required()
+    public function test_backstage_tournaments_update_validate_prize_pool_required()
     {
         $tournament = $this->createTournament();
 
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
                 'name' => 'name',
-                'type' => [],
                 'players_limit' => 'Heads-Up',
                 'buy_in' => 1,
                 'commission' => 1,
@@ -689,18 +556,16 @@ class TournamentsTest extends TestCase
                     'value' => 1,
                 ],
                 'prize_pool' => [
-                    'type' => 'Fixed',
-                    'fixed_value' => 1,
+                    'type' => '',
                 ],
-                'prizes' => '',
                 'state' => 'Announced',
                 'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.edit', $tournament))
-            ->assertSessionHasErrors(['prizes.type']);
+            ->assertSessionHasErrors(['prize_pool.type']);
 
         $this->assertDatabaseMissing('tournaments', [
-            'prizes' => '',
+            'prize_pool' => '{"type": ""}',
         ]);
     }
 }

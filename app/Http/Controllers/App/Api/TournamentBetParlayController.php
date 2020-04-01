@@ -40,7 +40,7 @@ class TournamentBetParlayController extends Controller
         $inputPendingOdds = $request->request->get("pending_odds");
 
         $tournamentEventsIds = collect($inputPendingOdds)->map(
-            fn(array $event) => $event["event_id"]
+            fn(array $event) => $event["event_id"],
         );
         $tournamentEventsDict = TournamentEvent::findMany($tournamentEventsIds)->getDictionary();
 
@@ -48,8 +48,8 @@ class TournamentBetParlayController extends Controller
             ->map(
                 fn(array $pendingOdd) => new PendingOdd(
                     new PendingOddType($pendingOdd["type"]),
-                    $tournamentEventsDict[$pendingOdd["event_id"]]
-                )
+                    $tournamentEventsDict[$pendingOdd["event_id"]],
+                ),
             )
             ->all();
 
@@ -62,21 +62,21 @@ class TournamentBetParlayController extends Controller
                 $tournament,
                 $request->user(),
                 $pendingOdds,
-                $request->request->get("wager")
+                $request->request->get("wager"),
             );
         } catch (NotEnoughBalanceException $e) {
             return new JsonResponse(
                 [
                     "message" => "You don't have enough balance. Top up!",
                 ],
-                Response::HTTP_BAD_REQUEST
+                Response::HTTP_BAD_REQUEST,
             );
         } catch (NotEnoughChipsException $e) {
             return new JsonResponse(
                 [
                     "message" => "You don't have enough chips.",
                 ],
-                Response::HTTP_BAD_REQUEST
+                Response::HTTP_BAD_REQUEST,
             );
         }
 

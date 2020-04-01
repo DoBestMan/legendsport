@@ -24,7 +24,6 @@ class TournamentController extends Controller
             'config' => '',
             'lateRegister' => '',
             'prizePool' => '',
-            'prizes' => '',
         ]);
 
         return view('backstage.tournaments.index')
@@ -42,7 +41,6 @@ class TournamentController extends Controller
             'lateRegister' => 0,
             'prizePool' => 'Auto',
             'prizePoolValue' => 0,
-            'prizes' => 'Auto',
             'playersLimit' => 'Unlimited',
         ]);
 
@@ -72,7 +70,6 @@ class TournamentController extends Controller
         $tournament->late_register = $request->late_register;
         $tournament->late_register_rule = $request->late_register_rule;
         $tournament->prize_pool = $request->prize_pool;
-        $tournament->prizes = $request->prizes;
         $tournament->state = $request->state;
         $tournament->time_frame = $request->time_frame;
         $tournament->save();
@@ -116,7 +113,6 @@ class TournamentController extends Controller
             'playersLimit' => $tournament->players_limit,
             'prizePool' => $tournament->prize_pool['type'],
             'prizePoolValue' => $tournament->prize_pool['fixed_value'],
-            'prizes' => $tournament->prizes['type'],
             'state' => $tournament->state,
             'timeFrame' => $tournament->time_frame,
             'value' => $rule['value'] ?? '',
@@ -154,7 +150,6 @@ class TournamentController extends Controller
             'value' => $rule['value'] ?? '',
             'prizePool' => $tournament->prize_pool['type'],
             'prizePoolValue' => $tournament->prize_pool['fixed_value'],
-            'prizes' => $tournament->prizes['type'],
             'apiSelectedSports' => $selectedEvents,
             'state' => $tournament->state,
             'timeFrame' => $tournament->time_frame,
@@ -170,9 +165,9 @@ class TournamentController extends Controller
     {
         $this->validation($request);
 
-        $api_data = $request->ApiData ?? [];
+        $apiData = $request->ApiData ?? [];
 
-        foreach ($api_data as &$key) {
+        foreach ($apiData as &$key) {
             if (array_key_exists('Odds', $key)) {
                 unset($key['Odds']);
             }
@@ -186,14 +181,20 @@ class TournamentController extends Controller
         $tournament->late_register = $request->late_register;
         $tournament->late_register_rule = $request->late_register_rule;
         $tournament->prize_pool = $request->prize_pool;
-        $tournament->prizes = $request->prizes;
         $tournament->state = $request->state;
         $tournament->time_frame = $request->time_frame;
         $tournament->save();
 
-        TournamentEvent::where('tournament_id', $tournament->id)->delete();
+        $apiDataDict = collect($apiData)->mapWithKeys(fn(array $data) => [$data['ID'] => $data]);
+        $tournamentEvents = TournamentEvent::with(["apiEvent"])->where('tournament_id', $tournament->id)->get();
 
-        foreach ($api_data as $data) {
+        // Delete those not existing anymore
+        $tournamentEvents
+            ->filter(fn (TournamentEvent $tournamentEvent) => !$apiDataDict->has($tournamentEvent->apiEvent->api_id))
+            ->each(fn (TournamentEvent $tournamentEvent) => $tournamentEvent->delete());
+
+        // Create new
+        foreach ($apiData as $data) {
             $apiEvent = ApiEvent::firstOrCreate(['api_id' => $data['ID']], ['api_data' => $data]);
 
             TournamentEvent::firstOrCreate([
@@ -221,16 +222,13 @@ class TournamentController extends Controller
             'name' => 'required',
             'players_limit' => 'required',
             'prize_pool.type' => 'required',
-            'prizes.type' => 'required',
             'state' => 'required',
             'time_frame' => 'required',
-            'type' => 'present|array',
         ];
 
         $messages = [
             'players_limit.required' => 'Players limit is required',
             'prize_pool.type.required' => 'Prize pool field is required.',
-            'prizes.type.required' => 'Please select valid prize.',
         ];
 
         if ($request->players_limit == 'Unlimited') {

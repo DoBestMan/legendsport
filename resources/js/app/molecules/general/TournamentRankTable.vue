@@ -36,6 +36,8 @@ import { Player } from "../../types/player";
 import { Nullable } from "../../../general/types/types";
 import TableNoRecords from "../../../general/components/TableNoRecords.vue";
 
+// TODO Display prize instead of n/a
+
 export default Vue.extend({
     name: "TournamentRankTable",
     components: { TableNoRecords },

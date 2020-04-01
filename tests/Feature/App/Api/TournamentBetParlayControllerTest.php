@@ -88,7 +88,7 @@ class TournamentBetParlayControllerTest extends TestCase
                     ],
                 ],
                 'wager' => 500,
-            ]
+            ],
         );
 
         // then
@@ -139,7 +139,7 @@ class TournamentBetParlayControllerTest extends TestCase
                     ],
                 ],
                 'wager' => 500,
-            ]
+            ],
         );
 
         // then
@@ -177,7 +177,7 @@ class TournamentBetParlayControllerTest extends TestCase
                     ],
                 ],
                 'wager' => 2100,
-            ]
+            ],
         );
 
         // then

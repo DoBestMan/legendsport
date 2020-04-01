@@ -88,7 +88,7 @@ class TournamentBetStraightControllerTest extends TestCase
                         "wager" => 400,
                     ],
                 ],
-            ]
+            ],
         );
 
         // then
@@ -147,7 +147,7 @@ class TournamentBetStraightControllerTest extends TestCase
                         "wager" => 300,
                     ],
                 ],
-            ]
+            ],
         );
 
         // then
@@ -186,7 +186,7 @@ class TournamentBetStraightControllerTest extends TestCase
                         "wager" => 800,
                     ],
                 ],
-            ]
+            ],
         );
 
         // then

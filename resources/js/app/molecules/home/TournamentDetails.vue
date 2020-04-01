@@ -20,12 +20,12 @@
             <div class="row">
                 <div class="col-6">
                     <div class="title">Start time</div>
-                    <div class="value">{{ formattedTournament.starts || "n/a" }}</div>
+                    <div class="value">{{ formattedTournament.starts | toDateTime }}</div>
                 </div>
 
                 <div class="col-6">
                     <div class="title">In</div>
-                    <div class="value"></div>
+                    <div class="value">{{ formattedTournament.starts | diffHumanReadable }}</div>
                 </div>
             </div>
 

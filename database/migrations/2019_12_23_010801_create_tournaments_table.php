@@ -18,7 +18,6 @@ class CreateTournamentsTable extends Migration
             $table->boolean('late_register')->nullable();
             $table->json('late_register_rule')->nullable();
             $table->json('prize_pool');
-            $table->json('prizes');
             $table->enum('state', [
                 'Announced',
                 'Registering',

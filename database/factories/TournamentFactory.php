@@ -18,9 +18,6 @@ $factory->define(Tournament::class, function (Faker $faker) {
             'type' => 'Fixed',
             'fixed_value' => 2,
         ],
-        'prizes' => [
-            'type' => 'Auto',
-        ],
         'state' => $faker->randomElement([
             'Announced',
             'Registering',

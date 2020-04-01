@@ -38,7 +38,6 @@ new Vue({
         lateRegisterValue: "",
         prizePool: "",
         prizePoolValue: "",
-        prizes: "",
         state: "",
         selectedEvents: [],
         timeFrame: "",
@@ -66,8 +65,7 @@ new Vue({
         this.interval = phpVars.interval;
         this.lateRegisterValue = phpVars.value;
         this.prizePool = phpVars.prizePool;
-        this.prizePoolValue = phpVars.prizePoolValue;
-        this.prizes = phpVars.prizes;
+        this.prizePoolValue = phpVars.prizePoolValue / 100;
         this.playersLimit = phpVars.playersLimit;
         this.state = phpVars.state;
         this.timeFrame = phpVars.timeFrame;
@@ -128,15 +126,12 @@ new Vue({
         },
 
         async createTournament() {
-            var eventsType = this.selectedEvents.map(event => event.Sport);
-
             loaderStore.show();
 
             try {
                 const response = await axios.post("/tournaments", {
                     ApiData: this.selectedEvents,
                     name: this.name,
-                    type: eventsType,
                     players_limit: this.playersLimit,
                     buy_in: this.buyIn * 100,
                     chips: this.chips * 100,
@@ -148,10 +143,7 @@ new Vue({
                     },
                     prize_pool: {
                         type: this.prizePool || "",
-                        fixed_value: this.prizePoolValue || "",
-                    },
-                    prizes: {
-                        type: this.prizes || "",
+                        fixed_value: this.prizePoolValue * 100,
                     },
                     state: this.state,
                     time_frame: this.timeFrame,
@@ -168,15 +160,12 @@ new Vue({
         },
 
         async updateTournament() {
-            var eventsType = this.selectedEvents.map(event => event.Sport);
-
             loaderStore.show();
 
             try {
                 await axios.patch(`/tournaments/${this.tournamentId}`, {
                     ApiData: this.selectedEvents,
                     name: this.name,
-                    type: eventsType,
                     players_limit: this.playersLimit,
                     buy_in: this.buyIn * 100,
                     chips: this.chips * 100,
@@ -188,10 +177,7 @@ new Vue({
                     },
                     prize_pool: {
                         type: this.prizePool || "",
-                        fixed_value: this.prizePoolValue || "",
-                    },
-                    prizes: {
-                        type: this.prizes || "",
+                        fixed_value: this.prizePoolValue * 100,
                     },
                     state: this.state,
                     time_frame: this.timeFrame,

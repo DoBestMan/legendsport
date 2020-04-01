@@ -40,7 +40,7 @@ class StraightBetService
             $player = $this->tournamentPlayerService->register($tournament, $user);
 
             $wagersSum = collect($pendingOdds)->sum(
-                fn(PendingOdd $pendingOdd) => $pendingOdd->getWager()
+                fn(PendingOdd $pendingOdd) => $pendingOdd->getWager(),
             );
             if ($player->chips < $wagersSum) {
                 throw new NotEnoughChipsException();

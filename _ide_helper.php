@@ -15207,8 +15207,10 @@ namespace Laracasts\Utilities\JavaScript {
          * Bind the given array of variables to the view.
          *
          * @static
+         * @param array $list
+         * @return array
          */
-        public static function put()
+        public static function put(array $list)
         {
                         /** @var \Laracasts\Utilities\JavaScript\Transformers\Transformer $instance */
                         return $instance->put();

@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Tournament\TournamentPrizeStructure;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use UnexpectedValueException;
 
 /**
  * @property int $id
@@ -18,7 +20,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $time_frame
  * @property array $late_register_rule
  * @property array $prize_pool
- * @property array $prizes
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read Collection|TournamentPlayer[] $players
@@ -29,7 +30,6 @@ class Tournament extends Model
     use StaticTable;
 
     // TODO Handle players limit
-    // TODO Handle tournament types during registering
 
     protected $table = 'tournaments';
     protected $casts = [
@@ -38,7 +38,6 @@ class Tournament extends Model
         'commission' => 'integer',
         'late_register_rule' => 'json',
         'prize_pool' => 'json',
-        'prizes' => 'json',
     ];
 
     public function players()
@@ -49,5 +48,33 @@ class Tournament extends Model
     public function events()
     {
         return $this->hasMany(TournamentEvent::class);
+    }
+
+    public function getPrizes(): array
+    {
+        $prizeStructure = new TournamentPrizeStructure(
+            $this->getPrizePoolMoney(),
+            $this->getPlayersCount(),
+        );
+        return $prizeStructure->getPrizes();
+    }
+
+    public function getPrizePoolMoney(): int
+    {
+        $prizePoolType = $this->prize_pool["type"];
+
+        switch ($prizePoolType) {
+            case "Fixed":
+                return $this->prize_pool["fixed_value"];
+            case "Auto":
+                return $this->getPlayersCount() * $this->buy_in;
+            default:
+                throw new UnexpectedValueException("Unexpected prize pool type");
+        }
+    }
+
+    public function getPlayersCount(): int
+    {
+        return $this->players->count();
     }
 }

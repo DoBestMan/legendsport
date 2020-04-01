@@ -30,7 +30,6 @@
                 :late-register-value.sync="lateRegisterValue"
                 :prize-pool.sync="prizePool"
                 :prize-pool-value.sync="prizePoolValue"
-                :prizes.sync="prizes"
                 :state.sync="state"
             ></tournament-form>
         </fieldset>

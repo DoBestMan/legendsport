@@ -28,7 +28,6 @@ const router = createRouter();
 const store = createStore();
 
 store.dispatch("user/load").catch(console.error);
-store.dispatch("bet/load").catch(console.error);
 store.dispatch("tournamentList/load").catch(console.error);
 store.dispatch("sport/load").catch(console.error);
 store.dispatch("odd/load").catch(console.error);

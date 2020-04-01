@@ -9,12 +9,14 @@ export interface Tournament {
     chips: number;
     name: string;
     playersLimit: PlayersLimitType;
+    prizePoolMoney: number;
     sportIds: number[];
     starts: string | null;
     state: TournamentState;
     timeFrame: TimeFrame;
     games: Game[];
     players: Player[];
+    prizePool: Prize[];
 }
 
 export enum BuyInType {
@@ -31,7 +33,7 @@ export enum TournamentType {
 
 export enum PlayersLimitType {
     HeadsUp = "Heads-Up",
-    SingleTable = "Single Table",
+    SingleTable = "Single table",
     Unlimited = "Unlimited",
 }
 
@@ -40,4 +42,9 @@ export enum TimeFrame {
     Weekly = "Weekly",
     Monthly = "Monthly",
     SeasonLong = "Season long",
+}
+
+export interface Prize {
+    maxPosition: number;
+    prize: number;
 }

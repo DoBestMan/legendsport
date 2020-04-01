@@ -64,11 +64,10 @@ const module: Module<UserState, RootState> = {
             }
         },
 
-        async logout({ commit, rootState, dispatch }) {
+        async logout({ commit, rootState }) {
             try {
                 await rootState.api.logout();
                 commit("unsetUser");
-                dispatch("bet/reload", null, { root: true });
             } catch (e) {
                 console.error(e);
             }
