@@ -5,7 +5,7 @@
                 :key="`${pendingOdd.eventId}#${pendingOdd.type}`"
                 :pendingOdd="pendingOdd"
                 :game="getGame(pendingOdd.eventId)"
-                :value="pendingOdd.bet"
+                :value="pendingOdd.wager"
                 @delete="removeOdd(pendingOdd)"
                 v-for="pendingOdd in pendingOdds"
             />
@@ -58,7 +58,7 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import ParlayItem from "./ParlayItem.vue";
-import { DeepReadonly, DeepReadonlyArray } from "../../../general/types/types";
+import { DeepReadonly } from "../../../general/types/types";
 import { BetTypeTab, PendingOdd, Window } from "../../types/window";
 import { PendingOddPayload, UpdateWindowPayload } from "../../store/modules/window";
 import { Game } from "../../types/game";
@@ -72,7 +72,7 @@ export default Vue.extend({
     components: { MoneyInput, ParlayItem },
 
     props: {
-        window: Object as PropType<DeepReadonly<Window>>,
+        window: Object as PropType<Window>,
     },
 
     data() {
@@ -86,7 +86,7 @@ export default Vue.extend({
             return !!this.$stock.state.user.user;
         },
 
-        pendingOdds(): DeepReadonlyArray<PendingOdd> {
+        pendingOdds(): PendingOdd[] {
             return this.window.pendingOdds;
         },
 
@@ -108,7 +108,12 @@ export default Vue.extend({
         },
 
         canPlaceBet(): boolean {
-            return this.wager > 0 && this.hasEnoughPendingOdds && this.multiplier > 1;
+            return (
+                this.wager > 0 &&
+                this.hasEnoughPendingOdds &&
+                this.multiplier > 1 &&
+                this.wager * 100 <= (this.window.tournament.userBalance ?? 0)
+            );
         },
 
         hasEnoughPendingOdds(): boolean {
@@ -126,11 +131,20 @@ export default Vue.extend({
                 windowId: this.window.id,
                 ...pendingOdd,
             };
-            this.$stock.commit("window/toggleOdd", payload);
+            this.$stock.dispatch("window/toggleOdd", payload);
         },
 
         removeOdds() {
             this.$stock.commit("window/removeOdds", this.window.id);
+            this.wager = 0;
+        },
+
+        displayPendingTab() {
+            const payload: UpdateWindowPayload = {
+                id: this.window.id,
+                selectedBetTypeTab: BetTypeTab.Pending,
+            };
+            this.$stock.commit("window/updateWindow", payload);
         },
 
         async placeBet() {
@@ -153,21 +167,7 @@ export default Vue.extend({
                 this.$toast.error(error?.response?.data?.message ?? error.message);
             } else {
                 this.removeOdds();
-                this.wager = 0;
-
-                // Reload user
-                this.$stock.dispatch("user/reload").catch(console.error);
-
-                // Reload bets list
-                this.$stock.dispatch("bet/reload").catch(console.error);
-
-                // Display pending tab
-                const payload: UpdateWindowPayload = {
-                    id: this.window.id,
-                    selectedBetTypeTab: BetTypeTab.Pending,
-                };
-                this.$stock.commit("window/updateWindow", payload);
-
+                this.displayPendingTab();
                 this.$toast.success("You've placed a parlay bet.");
             }
         },

@@ -91,9 +91,7 @@ export default Vue.extend({
     components: { TournamentGamesTable, TournamentRankTable },
 
     props: {
-        tournament: {
-            type: Object as PropType<Tournament>,
-        },
+        tournament: Object as PropType<Tournament>,
     },
 
     data() {
@@ -116,7 +114,7 @@ export default Vue.extend({
         },
 
         sportsNames(): string {
-            const sportsIds = this.tournament?.sport_ids ?? [];
+            const sportsIds = this.tournament?.sportIds ?? [];
             const dict: ReadonlyMap<number, string> = this.$stock.getters["sport/sportDictionary"];
             return sportsIds.map(sportId => dict.get(sportId) ?? sportId).join(", ") || "n/a";
         },

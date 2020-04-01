@@ -4,32 +4,33 @@ namespace App\Http\Transformers\App;
 use App\Models\Tournament;
 use App\Models\TournamentEvent;
 use App\Models\TournamentPlayer;
-use App\Models\User;
+use Illuminate\Support\Arr;
 use League\Fractal\TransformerAbstract;
 
 class TournamentTranformer extends TransformerAbstract
 {
     protected $defaultIncludes = ["games", "players"];
 
-    private ?User $user;
+    /** @var TournamentPlayer[] */
+    private array $tournamentPlayers;
 
-    public function __construct(?User $user = null)
+    public function __construct(array $tournamentPlayers)
     {
-        $this->user = $user;
+        $this->tournamentPlayers = $tournamentPlayers;
     }
 
     public function transform(Tournament $tournament)
     {
         return [
-            "balance" => $this->calculateBalance($tournament),
             "buy_in" => $tournament->buy_in,
-            "enrolled" => 0, // TODO Change it
+            "chips" => $tournament->chips,
             "id" => $tournament->id,
             "name" => $tournament->name,
             "players_limit" => $tournament->players_limit,
             "starts" => $this->calculateStarts($tournament),
             "state" => $tournament->state,
             "time_frame" => $tournament->time_frame,
+            "user_balance" => $this->calculateBalance($tournament),
         ];
     }
 
@@ -43,20 +44,16 @@ class TournamentTranformer extends TransformerAbstract
         return $this->collection($tournament->players, new PlayerTransformer());
     }
 
-    private function calculateBalance(Tournament $tournament)
+    private function calculateBalance(Tournament $tournament): ?int
     {
-        if ($this->user) {
-            /** @var TournamentPlayer $player */
-            $player = $this->user->players->first(
-                fn(TournamentPlayer $player) => $player->tournament_id === $tournament->id
-            );
+        /** @var TournamentPlayer $player */
+        $player = Arr::get($this->tournamentPlayers, $tournament->id);
 
-            if ($player) {
-                return $player->chips;
-            }
+        if ($player) {
+            return $player->chips;
         }
 
-        return 0;
+        return null;
     }
 
     private function calculateStarts(Tournament $tournament)

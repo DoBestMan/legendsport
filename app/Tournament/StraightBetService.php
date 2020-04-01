@@ -1,17 +1,15 @@
 <?php
-namespace App\Services;
+namespace App\Tournament;
 
 use App\Models\PendingOdd;
 use App\Models\Tournament;
 use App\Models\TournamentBet;
 use App\Models\TournamentBetEvent;
 use App\Models\User;
-use App\Tournament\BetStatus;
-use App\Tournament\NotEnoughBalanceException;
-use App\Tournament\NotEnoughChipsException;
+use App\Services\TournamentPlayerService;
 use Illuminate\Database\DatabaseManager;
 
-class ParlayBetService
+class StraightBetService
 {
     private DatabaseManager $databaseManager;
     private TournamentPlayerService $tournamentPlayerService;
@@ -28,49 +26,49 @@ class ParlayBetService
      * @param Tournament $tournament
      * @param User $user
      * @param PendingOdd[] $pendingOdds
-     * @param int $wager
-     * @return TournamentBet
+     * @return TournamentBet[]
      * @throws NotEnoughChipsException
      * @throws NotEnoughBalanceException
      */
-    public function bet(
-        Tournament $tournament,
-        User $user,
-        array $pendingOdds,
-        int $wager
-    ): TournamentBet {
+    public function bet(Tournament $tournament, User $user, array $pendingOdds): array
+    {
         return $this->databaseManager->transaction(function () use (
             $tournament,
             $user,
-            $pendingOdds,
-            $wager
+            $pendingOdds
         ) {
             $player = $this->tournamentPlayerService->register($tournament, $user);
 
-            $parlayBet = new TournamentBet();
-            $parlayBet->tournament_id = $tournament->id;
-            $parlayBet->tournament_player_id = $player->id;
-            $parlayBet->chips_wager = $wager;
-            $parlayBet->save();
-
-            if ($player->chips < $wager) {
+            $wagersSum = collect($pendingOdds)->sum(
+                fn(PendingOdd $pendingOdd) => $pendingOdd->getWager()
+            );
+            if ($player->chips < $wagersSum) {
                 throw new NotEnoughChipsException();
             }
 
-            $player->chips -= $wager;
+            $player->chips -= $wagersSum;
             $player->save();
 
+            $tournamentBets = [];
             foreach ($pendingOdds as $pendingOdd) {
+                $tournamentBet = new TournamentBet();
+                $tournamentBet->tournament_id = $tournament->id;
+                $tournamentBet->tournament_player_id = $player->id;
+                $tournamentBet->chips_wager = $pendingOdd->getWager();
+                $tournamentBet->save();
+
                 $betEvent = new TournamentBetEvent();
-                $betEvent->tournament_bet_id = $parlayBet->id;
+                $betEvent->tournament_bet_id = $tournamentBet->id;
                 $betEvent->tournament_event_id = $pendingOdd->getTournamentEvent()->id;
                 $betEvent->type = $pendingOdd->getType();
                 $betEvent->odd = $pendingOdd->getOdd();
                 $betEvent->status = BetStatus::PENDING();
                 $betEvent->save();
+
+                $tournamentBets[] = $tournamentBet;
             }
 
-            return $parlayBet;
+            return $tournamentBets;
         });
     }
 }

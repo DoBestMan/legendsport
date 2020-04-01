@@ -6,6 +6,7 @@ use App\Http\Controllers\App\Api\MeController;
 use App\Http\Controllers\App\Api\OddCollection;
 use App\Http\Controllers\App\Api\SportCollection;
 use App\Http\Controllers\App\Api\TournamentBetParlayController;
+use App\Http\Controllers\App\Api\TournamentBetStraightController;
 use App\Http\Controllers\App\Api\TournamentCollection;
 use App\Http\Controllers\Backstage\Api\EventCollection;
 use Illuminate\Routing\Router;
@@ -28,6 +29,10 @@ $router->domain($app)->group(function (Router $router) {
         $router->post(
             "/tournaments/{tournament}/bets/parlay",
             TournamentBetParlayController::class . "@post"
+        );
+        $router->post(
+            "/tournaments/{tournament}/bets/straight",
+            TournamentBetStraightController::class . "@post"
         );
     });
 });

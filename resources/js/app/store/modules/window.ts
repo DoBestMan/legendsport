@@ -19,9 +19,9 @@ export interface PendingOddPayload extends PendingOdd {
     windowId: number;
 }
 
-export interface UpdateOddsBetPayload {
+export interface UpdateOddsWagerPayload {
     windowId: number;
-    bet: number;
+    wager: number;
 }
 
 const pendingOddsMatch = (a: PendingOdd, b: PendingOdd): boolean =>
@@ -122,17 +122,16 @@ const module: Module<WindowState, RootState> = {
                     };
                 }
 
+                const newPendingOdd: PendingOdd = {
+                    wager: 0,
+                    tournamentEventId: payload.tournamentEventId,
+                    eventId: payload.eventId,
+                    type: payload.type,
+                };
+
                 return {
                     ...window,
-                    pendingOdds: [
-                        ...window.pendingOdds,
-                        {
-                            bet: 0,
-                            tournamentEventId: payload.tournamentEventId,
-                            eventId: payload.eventId,
-                            type: payload.type,
-                        },
-                    ],
+                    pendingOdds: [...window.pendingOdds, newPendingOdd],
                 };
             });
         },
@@ -152,7 +151,7 @@ const module: Module<WindowState, RootState> = {
 
                         return {
                             ...item,
-                            bet: payload.bet,
+                            wager: payload.wager,
                         };
                     }),
                 };
@@ -172,7 +171,7 @@ const module: Module<WindowState, RootState> = {
             });
         },
 
-        updateOddsBet(state, payload: UpdateOddsBetPayload) {
+        updateOddsWager(state, payload: UpdateOddsWagerPayload) {
             state._windows = state._windows.map(window => {
                 if (window.id !== payload.windowId) {
                     return window;
@@ -182,10 +181,32 @@ const module: Module<WindowState, RootState> = {
                     ...window,
                     pendingOdds: window.pendingOdds.map(pendingOdd => ({
                         ...pendingOdd,
-                        bet: payload.bet,
+                        wager: payload.wager,
                     })),
                 };
             });
+        },
+    },
+
+    actions: {
+        toggleOdd({ commit, state }, payload: PendingOddPayload) {
+            commit("toggleOdd", payload);
+
+            const window = state._windows.find(window => window.id === payload.windowId);
+
+            if (!window) {
+                return;
+            }
+
+            if ([BetTypeTab.Straight, BetTypeTab.Parlay].includes(window.selectedBetTypeTab)) {
+                return;
+            }
+
+            const changeTabPayload: UpdateWindowPayload = {
+                id: payload.windowId,
+                selectedBetTypeTab: BetTypeTab.Straight,
+            };
+            commit("updateWindow", changeTabPayload);
         },
     },
 };

@@ -26,26 +26,26 @@
                         :key="tournament.id"
                     >
                         <td class="td col-start">
-                            {{ tournament.starts }}
+                            {{ tournament.starts | toDateTime }}
                         </td>
                         <td class="td col-sports">
-                            {{ getSportsNames(tournament.sport_ids) }}
+                            {{ getSportsNames(tournament.sportIds) }}
                         </td>
                         <td class="tdcol-buy-in">
-                            {{ tournament.buy_in }}
+                            {{ tournament.buyIn }}
                         </td>
                         <td class="td col-name">{{ tournament.name }}</td>
                         <td class="td col-time-frame">
-                            {{ tournament.time_frame }}
+                            {{ tournament.timeFrame }}
                         </td>
                         <td class="td col-status">
                             {{ tournament.state }}
                         </td>
                         <td class="td col-enrolled">
-                            {{ tournament.enrolled }}
+                            {{ tournament.players.length }}
                         </td>
                         <td class="td col-players">
-                            0
+                            {{ tournament.players.length }}
                         </td>
                     </tr>
 

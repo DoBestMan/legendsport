@@ -7,17 +7,19 @@ import { User } from "../../general/types/user";
 import { PendingOddType } from "../types/window";
 import { Bet } from "../types/bet";
 
-export interface PendingOdd {
-    event_id: number;
-    type: PendingOddType;
-}
-
 export interface PlaceStraightBetBody {
-    //
+    pending_odds: Array<{
+        event_id: number;
+        type: PendingOddType;
+        wager: number;
+    }>;
 }
 
 export interface PlaceParlayBetBody {
-    pending_odds: PendingOdd[];
+    pending_odds: Array<{
+        event_id: number;
+        type: PendingOddType;
+    }>;
     wager: number;
 }
 

@@ -3,7 +3,9 @@
         <section class="col-3 h-100">
             <div class="section bets">
                 <div class="title-bar-frm">
-                    <span class="title">{{ tournament.balance | formatCurrency }}</span>
+                    <span class="title">
+                        {{ balance | formatCurrency }}
+                    </span>
                 </div>
 
                 <div class="tabs-frm">
@@ -42,7 +44,7 @@
                         <span class="separator">|</span>
                     </div>
 
-                    <div class="tab-frm" v-for="sportId in tournament.sport_ids">
+                    <div class="tab-frm" v-for="sportId in tournament.sportIds">
                         <button
                             type="button"
                             class="btn tab"
@@ -129,7 +131,7 @@
 
                         <div class="col-4">
                             <div class="title">Buy-In</div>
-                            <div class="value">{{ tournament.buy_in | formatDollars }}</div>
+                            <div class="value">{{ tournament.buyIn | formatDollars }}</div>
                         </div>
 
                         <div class="col-4">
@@ -174,7 +176,6 @@ import Vue, { PropType } from "vue";
 import { BetTypeTab, PendingOdd, Window } from "../../types/window";
 import { Tournament } from "../../types/tournament";
 import TournamentRankTable from "../general/TournamentRankTable.vue";
-import { DeepReadonly } from "../../../general/types/types";
 import {
     ToggleSportPayload,
     PendingOddPayload,
@@ -193,7 +194,7 @@ export default Vue.extend({
     components: { GameRow, HistoryTab, ParlayTab, PendingTab, StraightTab, TournamentRankTable },
 
     props: {
-        window: Object as PropType<DeepReadonly<Window>>,
+        window: Object as PropType<Window>,
     },
 
     computed: {
@@ -201,19 +202,25 @@ export default Vue.extend({
             return Object.values(BetTypeTab);
         },
 
-        tournament(): DeepReadonly<Tournament> {
+        tournament(): Tournament {
             return this.window.tournament;
         },
 
+        balance(): number {
+            return this.tournament.userBalance !== null
+                ? this.tournament.userBalance
+                : this.tournament.chips;
+        },
+
         sportsNames(): string {
-            return this.tournament.sport_ids.map(this.getSportName).join(", ") || "n/a";
+            return this.tournament.sportIds.map(this.getSportName).join(", ") || "n/a";
         },
 
         areAllSportsSelected(): boolean {
             return this.window.selectedSportIds.length === 0;
         },
 
-        groupedGames(): DeepReadonly<Record<string, Game[]>> {
+        groupedGames(): Record<string, Game[]> {
             const filteredGames = this.tournament.games.filter(
                 game =>
                     empty(this.window.selectedSportIds) ||
@@ -272,7 +279,7 @@ export default Vue.extend({
                 eventId: pendingOdd.eventId,
                 type: pendingOdd.type,
             };
-            this.$stock.commit("window/toggleOdd", payload);
+            this.$stock.dispatch("window/toggleOdd", payload);
         },
     },
 });

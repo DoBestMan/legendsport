@@ -22,7 +22,7 @@ export interface PendingOdd {
     tournamentEventId: number;
     eventId: string;
     type: PendingOddType;
-    bet?: number;
+    wager?: number;
 }
 
 export enum PendingOddType {

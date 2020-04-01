@@ -1,6 +1,8 @@
 <?php
 namespace App\Services;
 
+use App\Exceptions\LimitExceededException;
+use Illuminate\Support\Arr;
 use Psr\SimpleCache\CacheInterface;
 
 class SportService
@@ -20,13 +22,23 @@ class SportService
     {
         $sports = $this->cache->get(SportService::CACHE_KEY);
 
-        if ($sports) {
-            return $sports;
+        if (!$sports) {
+            $sports = $this->jsonOddApiService->getSports();
+            $this->cache->set(SportService::CACHE_KEY, $sports, SportService::CACHE_TTL);
         }
 
-        $sports = $this->jsonOddApiService->getSports();
-        $this->cache->set(SportService::CACHE_KEY, $sports, SportService::CACHE_TTL);
+        if (Arr::get($sports, "message") === "Limit Exceeded") {
+            throw new LimitExceededException();
+        }
 
-        return $sports;
+        return collect($sports)
+            ->map(
+                fn($value, $key) => [
+                    "id" => $key,
+                    "name" => strtoupper($value),
+                ]
+            )
+            ->values()
+            ->all();
     }
 }

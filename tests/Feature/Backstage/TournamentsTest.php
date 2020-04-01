@@ -2,15 +2,12 @@
 
 namespace Tests\Feature\Backstage;
 
-use Tests\Utils\TestCase;
 use App\Models\Config;
 use App\Models\Tournament;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Utils\TestCase;
 
 class TournamentsTest extends TestCase
 {
-    use RefreshDatabase;
-
     private function createTournament(array $attributes = [])
     {
         return factory(Tournament::class)->create($attributes);
@@ -29,7 +26,9 @@ class TournamentsTest extends TestCase
 
     public function test_backstage_tournaments_create_form()
     {
-        factory(Config::class)->times(1)->create();
+        factory(Config::class)
+            ->times(1)
+            ->create();
 
         $this->get(route('tournaments.create'))
             ->assertStatus(200)
@@ -40,27 +39,27 @@ class TournamentsTest extends TestCase
     {
         $this->from(route('tournaments.create'))
             ->post(route('tournaments.store'), [
-                'avatar'             => 1,
-                'name'               => '',
-                'type'               => [1],
-                'prize_pool'         => [
-                    'type'        => 'Fixed',
+                'avatar' => 1,
+                'name' => '',
+                'type' => [1],
+                'prize_pool' => [
+                    'type' => 'Fixed',
                     'fixed_value' => 1,
                 ],
-                'players_limit'      => 'Heads-Up',
-                'buy_in'             => 1,
-                'chips'              => 1,
-                'commission'         => 1,
-                'late_register'      => 1,
+                'players_limit' => 'Heads-Up',
+                'buy_in' => 1,
+                'chips' => 1,
+                'commission' => 1,
+                'late_register' => 1,
                 'late_register_rule' => [
                     'interval' => 'seconds',
-                    'value'    => 1,
+                    'value' => 1,
                 ],
-                'state'              => "Announced",
-                'prizes'             => [
+                'state' => "Announced",
+                'prizes' => [
                     'type' => 1,
                 ],
-                'time_frame'         => 'Daily',
+                'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.create'))
             ->assertSessionHasErrors(['name']);
@@ -74,27 +73,27 @@ class TournamentsTest extends TestCase
     {
         $this->from(route('tournaments.create'))
             ->post(route('tournaments.store'), [
-                'avatar'             => 1,
-                'name'               => 'name',
-                'type'               => '',
-                'prize_pool'         => [
-                    'type'        => 'Fixed',
+                'avatar' => 1,
+                'name' => 'name',
+                'type' => '',
+                'prize_pool' => [
+                    'type' => 'Fixed',
                     'fixed_value' => 1,
                 ],
-                'players_limit'      => 'Heads-Up',
-                'buy_in'             => 1,
-                'chips'              => 1,
-                'commission'         => 1,
-                'late_register'      => 1,
+                'players_limit' => 'Heads-Up',
+                'buy_in' => 1,
+                'chips' => 1,
+                'commission' => 1,
+                'late_register' => 1,
                 'late_register_rule' => [
                     'interval' => 'seconds',
-                    'value'    => 1,
+                    'value' => 1,
                 ],
-                'state'              => "Announced",
-                'prizes'             => [
+                'state' => "Announced",
+                'prizes' => [
                     'type' => 1,
                 ],
-                'time_frame'         => 'Daily',
+                'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.create'))
             ->assertSessionHasErrors(['type']);
@@ -108,27 +107,27 @@ class TournamentsTest extends TestCase
     {
         $this->from(route('tournaments.create'))
             ->post(route('tournaments.store'), [
-                'avatar'             => 1,
-                'name'               => 'name',
-                'type'               => [1],
-                'prize_pool'         => [
-                    'type'        => 'Fixed',
+                'avatar' => 1,
+                'name' => 'name',
+                'type' => [1],
+                'prize_pool' => [
+                    'type' => 'Fixed',
                     'fixed_value' => 1,
                 ],
-                'players_limit'      => '',
-                'buy_in'             => 1,
-                'chips'              => 1,
-                'commission'         => 1,
-                'late_register'      => 1,
+                'players_limit' => '',
+                'buy_in' => 1,
+                'chips' => 1,
+                'commission' => 1,
+                'late_register' => 1,
                 'late_register_rule' => [
                     'interval' => 'seconds',
-                    'value'    => 1,
+                    'value' => 1,
                 ],
-                'state'              => "Announced",
-                'prizes'             => [
+                'state' => "Announced",
+                'prizes' => [
                     'type' => 1,
                 ],
-                'time_frame'         => 'Daily',
+                'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.create'))
             ->assertSessionHasErrors(['players_limit']);
@@ -142,27 +141,27 @@ class TournamentsTest extends TestCase
     {
         $this->from(route('tournaments.create'))
             ->post(route('tournaments.store'), [
-                'avatar'             => 1,
-                'name'               => 'name',
-                'type'               => [1],
-                'prize_pool'         => [
-                    'type'        => 'Fixed',
+                'avatar' => 1,
+                'name' => 'name',
+                'type' => [1],
+                'prize_pool' => [
+                    'type' => 'Fixed',
                     'fixed_value' => 1,
                 ],
-                'players_limit'      => 'Heads-Up',
-                'buy_in'             => '',
-                'chips'              => 1,
-                'commission'         => 1,
-                'late_register'      => 1,
+                'players_limit' => 'Heads-Up',
+                'buy_in' => '',
+                'chips' => 1,
+                'commission' => 1,
+                'late_register' => 1,
                 'late_register_rule' => [
                     'interval' => 'seconds',
-                    'value'    => 1,
+                    'value' => 1,
                 ],
-                'state'              => "Announced",
-                'prizes'             => [
+                'state' => "Announced",
+                'prizes' => [
                     'type' => 1,
                 ],
-                'time_frame'         => 'Daily',
+                'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.create'))
             ->assertSessionHasErrors(['buy_in']);
@@ -176,27 +175,27 @@ class TournamentsTest extends TestCase
     {
         $this->from(route('tournaments.create'))
             ->post(route('tournaments.store'), [
-                'avatar'             => 1,
-                'name'               => 'name',
-                'type'               => [1],
-                'prize_pool'         => [
-                    'type'        => 'Fixed',
+                'avatar' => 1,
+                'name' => 'name',
+                'type' => [1],
+                'prize_pool' => [
+                    'type' => 'Fixed',
                     'fixed_value' => 1,
                 ],
-                'players_limit'      => 'Heads-Up',
-                'buy_in'             => 1,
-                'commission'         => '',
-                'chips'              => 1,
-                'late_register'      => 1,
+                'players_limit' => 'Heads-Up',
+                'buy_in' => 1,
+                'commission' => '',
+                'chips' => 1,
+                'late_register' => 1,
                 'late_register_rule' => [
                     'interval' => 'seconds',
-                    'value'    => 1,
+                    'value' => 1,
                 ],
-                'state'              => "Announced",
-                'prizes'             => [
+                'state' => "Announced",
+                'prizes' => [
                     'type' => 1,
                 ],
-                'time_frame'         => 'Daily',
+                'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.create'))
             ->assertSessionHasErrors(['commission']);
@@ -210,27 +209,27 @@ class TournamentsTest extends TestCase
     {
         $this->from(route('tournaments.create'))
             ->post(route('tournaments.store'), [
-                'avatar'             => 1,
-                'name'               => 'name',
-                'type'               => [1],
-                'prize_pool'         => [
-                    'type'        => 'Fixed',
+                'avatar' => 1,
+                'name' => 'name',
+                'type' => [1],
+                'prize_pool' => [
+                    'type' => 'Fixed',
                     'fixed_value' => 1,
                 ],
-                'players_limit'      => 'Heads-Up',
-                'buy_in'             => 1,
-                'commission'         => 1,
-                'chips'              => '',
-                'late_register'      => 1,
+                'players_limit' => 'Heads-Up',
+                'buy_in' => 1,
+                'commission' => 1,
+                'chips' => '',
+                'late_register' => 1,
                 'late_register_rule' => [
                     'interval' => 'seconds',
-                    'value'    => 1,
+                    'value' => 1,
                 ],
-                'state'              => "Announced",
-                'prizes'             => [
+                'state' => "Announced",
+                'prizes' => [
                     'type' => 1,
                 ],
-                'time_frame'         => 'Daily',
+                'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.create'))
             ->assertSessionHasErrors(['chips']);
@@ -244,27 +243,27 @@ class TournamentsTest extends TestCase
     {
         $this->from(route('tournaments.create'))
             ->post(route('tournaments.store'), [
-                'avatar'             => 1,
-                'name'               => 'name',
-                'type'               => [1],
-                'prize_pool'         => [
-                    'type'        => 'Fixed',
+                'avatar' => 1,
+                'name' => 'name',
+                'type' => [1],
+                'prize_pool' => [
+                    'type' => 'Fixed',
                     'fixed_value' => 1,
                 ],
-                'players_limit'      => 'Unlimited',
-                'buy_in'             => 1,
-                'commission'         => 1,
-                'chips'              => 1,
-                'late_register'      => '',
+                'players_limit' => 'Unlimited',
+                'buy_in' => 1,
+                'commission' => 1,
+                'chips' => 1,
+                'late_register' => '',
                 'late_register_rule' => [
                     'interval' => 'seconds',
-                    'value'    => 1,
+                    'value' => 1,
                 ],
-                'state'              => "Announced",
-                'prizes'             => [
+                'state' => "Announced",
+                'prizes' => [
                     'type' => 1,
                 ],
-                'time_frame'         => 'Daily',
+                'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.create'))
             ->assertSessionHasErrors(['late_register']);
@@ -278,27 +277,27 @@ class TournamentsTest extends TestCase
     {
         $this->from(route('tournaments.create'))
             ->post(route('tournaments.store'), [
-                'avatar'             => 1,
-                'name'               => 'name',
-                'type'               => [1],
-                'prize_pool'         => [
-                    'type'        => 'Fixed',
+                'avatar' => 1,
+                'name' => 'name',
+                'type' => [1],
+                'prize_pool' => [
+                    'type' => 'Fixed',
                     'fixed_value' => 1,
                 ],
-                'players_limit'      => 'Heads-Up',
-                'buy_in'             => 1,
-                'commission'         => 1,
-                'chips'              => 1,
-                'late_register'      => 1,
+                'players_limit' => 'Heads-Up',
+                'buy_in' => 1,
+                'commission' => 1,
+                'chips' => 1,
+                'late_register' => 1,
                 'late_register_rule' => [
                     'interval' => 'seconds',
-                    'value'    => 1,
+                    'value' => 1,
                 ],
-                'state'              => '',
-                'prizes'             => [
+                'state' => '',
+                'prizes' => [
                     'type' => 1,
                 ],
-                'time_frame'         => 'Daily',
+                'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.create'))
             ->assertSessionHasErrors(['state']);
@@ -312,25 +311,25 @@ class TournamentsTest extends TestCase
     {
         $this->from(route('tournaments.create'))
             ->post(route('tournaments.store'), [
-                'avatar'             => 1,
-                'name'               => 'name',
-                'type'               => [1],
-                'prize_pool'         => [
-                    'type'        => 'Fixed',
+                'avatar' => 1,
+                'name' => 'name',
+                'type' => [1],
+                'prize_pool' => [
+                    'type' => 'Fixed',
                     'fixed_value' => 1,
                 ],
-                'players_limit'      => 'Heads-Up',
-                'buy_in'             => 1,
-                'commission'         => 1,
-                'chips'              => 1,
-                'late_register'      => 1,
+                'players_limit' => 'Heads-Up',
+                'buy_in' => 1,
+                'commission' => 1,
+                'chips' => 1,
+                'late_register' => 1,
                 'late_register_rule' => [
                     'interval' => 'seconds',
-                    'value'    => 1,
+                    'value' => 1,
                 ],
-                'state'              => "Announced",
-                'prizes'             => '',
-                'time_frame'         => 'Daily',
+                'state' => "Announced",
+                'prizes' => '',
+                'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.create'))
             ->assertSessionHasErrors(['prizes.type']);
@@ -344,26 +343,26 @@ class TournamentsTest extends TestCase
     {
         $this->from(route('tournaments.create'))
             ->post(route('tournaments.store'), [
-                'name'               => 'name',
-                'type'               => [],
-                'players_limit'      => 'Heads-Up',
-                'buy_in'             => 1,
-                'commission'         => 1,
-                'chips'              => 1,
-                'late_register'      => 1,
+                'name' => 'name',
+                'type' => [],
+                'players_limit' => 'Heads-Up',
+                'buy_in' => 1,
+                'commission' => 1,
+                'chips' => 1,
+                'late_register' => 1,
                 'late_register_rule' => [
                     'interval' => 'seconds',
-                    'value'    => 1,
+                    'value' => 1,
                 ],
-                'prize_pool'         => [
-                    'type'        => 'Fixed',
+                'prize_pool' => [
+                    'type' => 'Fixed',
                     'fixed_value' => 1,
                 ],
-                'prizes'             => [
+                'prizes' => [
                     'type' => 1,
                 ],
-                'state'              => 'Announced',
-                'time_frame'         => 'Daily',
+                'state' => 'Announced',
+                'time_frame' => 'Daily',
             ])
             ->assertOk();
 
@@ -400,28 +399,27 @@ class TournamentsTest extends TestCase
         $tournament = $this->createTournament();
 
         $this->put(route('tournaments.update', $tournament), [
-            'name'               => 'name',
-            'type'               => [],
-            'players_limit'      => 'Heads-Up',
-            'buy_in'             => 1,
-            'commission'         => 1,
-            'chips'              => 1,
-            'late_register'      => 1,
+            'name' => 'name',
+            'type' => [],
+            'players_limit' => 'Heads-Up',
+            'buy_in' => 1,
+            'commission' => 1,
+            'chips' => 1,
+            'late_register' => 1,
             'late_register_rule' => [
                 'interval' => 'seconds',
-                'value'    => 1,
+                'value' => 1,
             ],
-            'prize_pool'         => [
-                'type'        => 'Fixed',
+            'prize_pool' => [
+                'type' => 'Fixed',
                 'fixed_value' => 1,
             ],
-            'prizes'             => [
+            'prizes' => [
                 'type' => 1,
             ],
-            'state'              => 'Announced',
-            'time_frame'         => 'Daily',
-        ])
-            ->assertSee("Data Updated Successfully");
+            'state' => 'Announced',
+            'time_frame' => 'Daily',
+        ])->assertSee("Data Updated Successfully");
 
         $this->assertDatabaseHas('tournaments', [
             'name' => 'name',
@@ -434,26 +432,26 @@ class TournamentsTest extends TestCase
 
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
-                'name'               => '',
-                'type'               => [],
-                'players_limit'      => 'Heads-Up',
-                'buy_in'             => 1,
-                'commission'         => 1,
-                'chips'              => 1,
-                'late_register'      => 1,
+                'name' => '',
+                'type' => [],
+                'players_limit' => 'Heads-Up',
+                'buy_in' => 1,
+                'commission' => 1,
+                'chips' => 1,
+                'late_register' => 1,
                 'late_register_rule' => [
                     'interval' => 'seconds',
-                    'value'    => 1,
+                    'value' => 1,
                 ],
-                'prize_pool'         => [
-                    'type'        => 'Fixed',
+                'prize_pool' => [
+                    'type' => 'Fixed',
                     'fixed_value' => 1,
                 ],
-                'prizes'             => [
+                'prizes' => [
                     'type' => 1,
                 ],
-                'state'              => 'Announced',
-                'time_frame'         => 'Daily',
+                'state' => 'Announced',
+                'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.edit', $tournament))
             ->assertSessionHasErrors(['name']);
@@ -469,26 +467,26 @@ class TournamentsTest extends TestCase
 
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
-                'name'               => 'name',
-                'type'               => '',
-                'players_limit'      => 'Heads-Up',
-                'buy_in'             => 1,
-                'commission'         => 1,
-                'chips'              => 1,
-                'late_register'      => 1,
+                'name' => 'name',
+                'type' => '',
+                'players_limit' => 'Heads-Up',
+                'buy_in' => 1,
+                'commission' => 1,
+                'chips' => 1,
+                'late_register' => 1,
                 'late_register_rule' => [
                     'interval' => 'seconds',
-                    'value'    => 1,
+                    'value' => 1,
                 ],
-                'prize_pool'         => [
-                    'type'        => 'Fixed',
+                'prize_pool' => [
+                    'type' => 'Fixed',
                     'fixed_value' => 1,
                 ],
-                'prizes'             => [
+                'prizes' => [
                     'type' => 1,
                 ],
-                'state'              => 'Announced',
-                'time_frame'         => 'Daily',
+                'state' => 'Announced',
+                'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.edit', $tournament))
             ->assertSessionHasErrors(['type']);
@@ -504,26 +502,26 @@ class TournamentsTest extends TestCase
 
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
-                'name'               => 'name',
-                'type'               => [],
-                'players_limit'      => '',
-                'buy_in'             => 1,
-                'commission'         => 1,
-                'chips'              => 1,
-                'late_register'      => 1,
+                'name' => 'name',
+                'type' => [],
+                'players_limit' => '',
+                'buy_in' => 1,
+                'commission' => 1,
+                'chips' => 1,
+                'late_register' => 1,
                 'late_register_rule' => [
                     'interval' => 'seconds',
-                    'value'    => 1,
+                    'value' => 1,
                 ],
-                'prize_pool'         => [
-                    'type'        => 'Fixed',
+                'prize_pool' => [
+                    'type' => 'Fixed',
                     'fixed_value' => 1,
                 ],
-                'prizes'             => [
+                'prizes' => [
                     'type' => 1,
                 ],
-                'state'              => 'Announced',
-                'time_frame'         => 'Daily',
+                'state' => 'Announced',
+                'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.edit', $tournament))
             ->assertSessionHasErrors(['players_limit']);
@@ -539,26 +537,26 @@ class TournamentsTest extends TestCase
 
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
-                'name'               => 'name',
-                'type'               => [],
-                'players_limit'      => 'Heads-Up',
-                'buy_in'             => '',
-                'commission'         => 1,
-                'chips'              => 1,
-                'late_register'      => 1,
+                'name' => 'name',
+                'type' => [],
+                'players_limit' => 'Heads-Up',
+                'buy_in' => '',
+                'commission' => 1,
+                'chips' => 1,
+                'late_register' => 1,
                 'late_register_rule' => [
                     'interval' => 'seconds',
-                    'value'    => 1,
+                    'value' => 1,
                 ],
-                'prize_pool'         => [
-                    'type'        => 'Fixed',
+                'prize_pool' => [
+                    'type' => 'Fixed',
                     'fixed_value' => 1,
                 ],
-                'prizes'             => [
+                'prizes' => [
                     'type' => 1,
                 ],
-                'state'              => 'Announced',
-                'time_frame'         => 'Daily',
+                'state' => 'Announced',
+                'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.edit', $tournament))
             ->assertSessionHasErrors(['buy_in']);
@@ -574,26 +572,26 @@ class TournamentsTest extends TestCase
 
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
-                'name'               => 'name',
-                'type'               => [],
-                'players_limit'      => 'Heads-Up',
-                'buy_in'             => 1,
-                'commission'         => 1,
-                'chips'              => '',
-                'late_register'      => 1,
+                'name' => 'name',
+                'type' => [],
+                'players_limit' => 'Heads-Up',
+                'buy_in' => 1,
+                'commission' => 1,
+                'chips' => '',
+                'late_register' => 1,
                 'late_register_rule' => [
                     'interval' => 'seconds',
-                    'value'    => 1,
+                    'value' => 1,
                 ],
-                'prize_pool'         => [
-                    'type'        => 'Fixed',
+                'prize_pool' => [
+                    'type' => 'Fixed',
                     'fixed_value' => 1,
                 ],
-                'prizes'             => [
+                'prizes' => [
                     'type' => 1,
                 ],
-                'state'              => 'Announced',
-                'time_frame'         => 'Daily',
+                'state' => 'Announced',
+                'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.edit', $tournament))
             ->assertSessionHasErrors(['chips']);
@@ -609,26 +607,26 @@ class TournamentsTest extends TestCase
 
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
-                'name'               => 'name',
-                'type'               => [],
-                'players_limit'      => 'Heads-Up',
-                'buy_in'             => 1,
-                'commission'         => '',
-                'chips'              => 1,
-                'late_register'      => 1,
+                'name' => 'name',
+                'type' => [],
+                'players_limit' => 'Heads-Up',
+                'buy_in' => 1,
+                'commission' => '',
+                'chips' => 1,
+                'late_register' => 1,
                 'late_register_rule' => [
                     'interval' => 'seconds',
-                    'value'    => 1,
+                    'value' => 1,
                 ],
-                'prize_pool'         => [
-                    'type'        => 'Fixed',
+                'prize_pool' => [
+                    'type' => 'Fixed',
                     'fixed_value' => 1,
                 ],
-                'prizes'             => [
+                'prizes' => [
                     'type' => 1,
                 ],
-                'state'              => 'Announced',
-                'time_frame'         => 'Daily',
+                'state' => 'Announced',
+                'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.edit', $tournament))
             ->assertSessionHasErrors(['commission']);
@@ -644,26 +642,26 @@ class TournamentsTest extends TestCase
 
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
-                'name'               => 'name',
-                'type'               => [],
-                'players_limit'      => 'Heads-Up',
-                'buy_in'             => 1,
-                'commission'         => 1,
-                'chips'              => 1,
-                'late_register'      => 1,
+                'name' => 'name',
+                'type' => [],
+                'players_limit' => 'Heads-Up',
+                'buy_in' => 1,
+                'commission' => 1,
+                'chips' => 1,
+                'late_register' => 1,
                 'late_register_rule' => [
                     'interval' => 'seconds',
-                    'value'    => 1,
+                    'value' => 1,
                 ],
-                'prize_pool'         => [
-                    'type'        => 'Fixed',
+                'prize_pool' => [
+                    'type' => 'Fixed',
                     'fixed_value' => 1,
                 ],
-                'prizes'             => [
+                'prizes' => [
                     'type' => 1,
                 ],
-                'state'              => '',
-                'time_frame'         => 'Daily',
+                'state' => '',
+                'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.edit', $tournament))
             ->assertSessionHasErrors(['state']);
@@ -679,24 +677,24 @@ class TournamentsTest extends TestCase
 
         $this->from(route('tournaments.edit', $tournament))
             ->put(route('tournaments.update', $tournament), [
-                'name'               => 'name',
-                'type'               => [],
-                'players_limit'      => 'Heads-Up',
-                'buy_in'             => 1,
-                'commission'         => 1,
-                'chips'              => 1,
-                'late_register'      => 1,
+                'name' => 'name',
+                'type' => [],
+                'players_limit' => 'Heads-Up',
+                'buy_in' => 1,
+                'commission' => 1,
+                'chips' => 1,
+                'late_register' => 1,
                 'late_register_rule' => [
                     'interval' => 'seconds',
-                    'value'    => 1,
+                    'value' => 1,
                 ],
-                'prize_pool'         => [
-                    'type'        => 'Fixed',
+                'prize_pool' => [
+                    'type' => 'Fixed',
                     'fixed_value' => 1,
                 ],
-                'prizes'             => '',
-                'state'              => 'Announced',
-                'time_frame'         => 'Daily',
+                'prizes' => '',
+                'state' => 'Announced',
+                'time_frame' => 'Daily',
             ])
             ->assertRedirect(route('tournaments.edit', $tournament))
             ->assertSessionHasErrors(['prizes.type']);

@@ -182,7 +182,7 @@
         </footer>
 
         <FullLoader v-if="isLoaderVisible" />
-        <Toasts :timeOut="5000" :closeable="true" />
+        <Toasts :timeOut="7000" :closeable="true" />
     </div>
 </template>
 

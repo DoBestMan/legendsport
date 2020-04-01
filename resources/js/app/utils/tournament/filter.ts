@@ -74,11 +74,11 @@ export const filterTournament = (
     }
 
     return (
-        matchBuyIn(buyIn, tournament.buy_in) &&
-        matchType(type, tournament.sport_ids) &&
-        matchPlayersLimit(playersLimit, tournament.players_limit) &&
-        (empty(sports) || intersects(sports, tournament.sport_ids)) &&
+        matchBuyIn(buyIn, tournament.buyIn) &&
+        matchType(type, tournament.sportIds) &&
+        matchPlayersLimit(playersLimit, tournament.playersLimit) &&
+        (empty(sports) || intersects(sports, tournament.sportIds)) &&
         (!upcoming || isUpcoming(tournament.state)) &&
-        matchTimeFrame(timeFrame, tournament.time_frame)
+        matchTimeFrame(timeFrame, tournament.timeFrame)
     );
 };

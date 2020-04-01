@@ -7,7 +7,7 @@
         suffix=""
         :precision="2"
         :value="value"
-        @input="$emit('input', $event)"
+        @input="onInput"
     ></BaseMoney>
 </template>
 
@@ -21,6 +21,14 @@ export default Vue.extend({
     components: { BaseMoney },
     props: {
         value: Number,
+    },
+
+    methods: {
+        onInput(value: number) {
+            if (this.value !== value) {
+                this.$emit("input", value);
+            }
+        },
     },
 });
 </script>

@@ -13,7 +13,7 @@ class CreateTournamentBetsTable extends Migration
             $table->collation = 'utf8_unicode_ci';
 
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('tournament_bets');
+            $table->unsignedBigInteger('tournament_id');
             $table->unsignedBigInteger('tournament_player_id');
             $table->mediumInteger('chips_wager');
             $table->timestamps();

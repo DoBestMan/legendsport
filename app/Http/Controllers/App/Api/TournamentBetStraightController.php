@@ -4,23 +4,25 @@ namespace App\Http\Controllers\App\Api;
 use App\Http\Controllers\Controller;
 use App\Models\PendingOdd;
 use App\Models\Tournament;
+use App\Models\TournamentBet;
 use App\Models\TournamentEvent;
 use App\Tournament\ParlayBetService;
 use App\Services\PendingOddService;
 use App\Tournament\NotEnoughBalanceException;
 use App\Tournament\NotEnoughChipsException;
 use App\Tournament\PendingOddType;
+use App\Tournament\StraightBetService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 
-class TournamentBetParlayController extends Controller
+class TournamentBetStraightController extends Controller
 {
     public function post(
         Tournament $tournament,
         Request $request,
-        ParlayBetService $parlayBetService,
+        StraightBetService $straightBetService,
         PendingOddService $pendingOddService
     ) {
         $request->validate([
@@ -34,7 +36,7 @@ class TournamentBetParlayController extends Controller
                 'required',
                 Rule::in(array_values(PendingOddType::toArray())),
             ],
-            'wager' => ['required', 'numeric', 'min:1'],
+            'pending_odds.*.wager' => ['required', 'numeric', 'min:1'],
         ]);
 
         $inputPendingOdds = $request->request->get("pending_odds");
@@ -48,7 +50,8 @@ class TournamentBetParlayController extends Controller
             ->map(
                 fn(array $pendingOdd) => new PendingOdd(
                     new PendingOddType($pendingOdd["type"]),
-                    $tournamentEventsDict[$pendingOdd["event_id"]]
+                    $tournamentEventsDict[$pendingOdd["event_id"]],
+                    $pendingOdd["wager"]
                 )
             )
             ->all();
@@ -58,12 +61,7 @@ class TournamentBetParlayController extends Controller
         // TODO Do not allow betting on passed matches
 
         try {
-            $tournamentBet = $parlayBetService->bet(
-                $tournament,
-                $request->user(),
-                $pendingOdds,
-                $request->request->get("wager")
-            );
+            $tournamentBets = $straightBetService->bet($tournament, $request->user(), $pendingOdds);
         } catch (NotEnoughBalanceException $e) {
             return new JsonResponse(
                 [
@@ -80,8 +78,6 @@ class TournamentBetParlayController extends Controller
             );
         }
 
-        return [
-            "id" => $tournamentBet->id,
-        ];
+        return collect($tournamentBets)->map(fn(TournamentBet $bet) => $bet->id);
     }
 }

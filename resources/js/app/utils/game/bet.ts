@@ -6,8 +6,8 @@ import { DeepReadonly } from "../../../general/types/types";
 
 export const americanToDecimalOdd = (odd: number): number => (odd < 0 ? 100 / -odd : odd / 100);
 
-export const calculateWinFromAmericanOdd = (americanOdd: number, bet: number): number =>
-    americanToDecimalOdd(americanOdd) * bet;
+export const calculateWinFromAmericanOdd = (americanOdd: number, wager: number): number =>
+    americanToDecimalOdd(americanOdd) * wager;
 
 export const getPendingOddValue = (
     pendingOdd: DeepReadonly<PendingOdd>,

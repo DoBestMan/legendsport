@@ -3,10 +3,10 @@
         <div class="tab-header-frm">
             <div class="field">
                 <strong class="field-title">Bet</strong>
-                <MoneyInput v-model="bet" />
+                <MoneyInput v-model="wager" />
             </div>
 
-            <button class="btn button-action mx-3 px-5" @click="updateOddsBet">
+            <button class="btn button-action mx-3 px-5" @click="updateOddsWager">
                 Set to all bets
             </button>
 
@@ -19,8 +19,8 @@
             <StraightItem
                 :key="`${pendingOdd.eventId}#${pendingOdd.type}`"
                 :pendingOdd="pendingOdd"
-                :game="getGame(pendingOdd.eventId)"
-                :value="pendingOdd.bet"
+                :game="gameDict.get(pendingOdd.eventId)"
+                :value="pendingOdd.wager"
                 @delete="removeOdd(pendingOdd)"
                 @change="updateOdd(pendingOdd, $event)"
                 v-for="pendingOdd in pendingOdds"
@@ -60,6 +60,7 @@
                         v-if="isAuthenticated"
                         class="btn button-place-bet button-action"
                         @click="placeBet"
+                        :disabled="!canPlaceBet"
                     >
                         Place Bet
                     </button>
@@ -74,11 +75,15 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { PendingOdd, Window } from "../../types/window";
-import { DeepReadonly, DeepReadonlyArray } from "../../../general/types/types";
+import { BetTypeTab, PendingOdd, Window } from "../../types/window";
+import { DeepReadonly } from "../../../general/types/types";
 import StraightItem from "./StraightItem.vue";
 import { Game } from "../../types/game";
-import { PendingOddPayload, UpdateOddsBetPayload } from "../../store/modules/window";
+import {
+    PendingOddPayload,
+    UpdateOddsWagerPayload,
+    UpdateWindowPayload,
+} from "../../store/modules/window";
 import MoneyInput from "../../components/MoneyInput.vue";
 import { calculateWinFromAmericanOdd, getPendingOddValue } from "../../utils/game/bet";
 import { Odd } from "../../../general/types/odd";
@@ -89,12 +94,12 @@ export default Vue.extend({
     name: "StraightTab",
     components: { Money, MoneyInput, StraightItem },
     props: {
-        window: Object as PropType<DeepReadonly<Window>>,
+        window: Object as PropType<Window>,
     },
 
     data() {
         return {
-            bet: 0,
+            wager: 0,
         };
     },
 
@@ -103,13 +108,27 @@ export default Vue.extend({
             return !!this.$stock.state.user.user;
         },
 
-        pendingOdds(): DeepReadonlyArray<PendingOdd> {
-            return this.window.pendingOdds;
+        canPlaceBet(): boolean {
+            return (
+                this.pendingOdds.length > 0 &&
+                this.pendingOdds.every(pendingOdd => pendingOdd.wager ?? 0 > 0) &&
+                this.totalBets * 100 <= (this.window.tournament.userBalance ?? 0)
+            );
+        },
+
+        gameDict(): ReadonlyMap<string, Game> {
+            return new Map(this.window.tournament.games.map(game => [game.event_id, game]));
+        },
+
+        pendingOdds(): PendingOdd[] {
+            return this.window.pendingOdds.filter(pendingOdd =>
+                this.gameDict.has(pendingOdd.eventId),
+            );
         },
 
         totalBets(): number {
             return this.pendingOdds
-                .map(pendingOdd => pendingOdd.bet ?? 0)
+                .map(pendingOdd => pendingOdd.wager ?? 0)
                 .reduce((a, b) => a + b, 0);
         },
 
@@ -121,24 +140,20 @@ export default Vue.extend({
                     ];
                     const odd = dictionary.get(pendingOdd.eventId);
                     const oddValue = odd ? getPendingOddValue(pendingOdd, odd) : 0;
-                    return calculateWinFromAmericanOdd(oddValue, pendingOdd.bet ?? 0);
+                    return calculateWinFromAmericanOdd(oddValue, pendingOdd.wager ?? 0);
                 })
                 .reduce((a, b) => a + b, 0);
         },
     },
 
     methods: {
-        getGame(eventId: string): Game | null {
-            return this.window.tournament.games.find(game => game.event_id === eventId) ?? null;
-        },
-
         updateOdd(pendingOdd: DeepReadonly<PendingOdd>, value: number) {
             const payload: PendingOddPayload = {
                 windowId: this.window.id,
                 tournamentEventId: pendingOdd.tournamentEventId,
                 eventId: pendingOdd.eventId,
                 type: pendingOdd.type,
-                bet: value,
+                wager: value,
             };
             this.$stock.commit("window/updateOdd", payload);
         },
@@ -148,26 +163,52 @@ export default Vue.extend({
                 windowId: this.window.id,
                 ...pendingOdd,
             };
-            this.$stock.commit("window/toggleOdd", payload);
+            this.$stock.dispatch("window/toggleOdd", payload);
         },
 
-        updateOddsBet() {
-            const payload: UpdateOddsBetPayload = {
+        updateOddsWager() {
+            const payload: UpdateOddsWagerPayload = {
                 windowId: this.window.id,
-                bet: this.bet,
+                wager: this.wager,
             };
-            this.$stock.commit("window/updateOddsBet", payload);
+            this.$stock.commit("window/updateOddsWager", payload);
         },
 
         removeOdds() {
             this.$stock.commit("window/removeOdds", this.window.id);
         },
 
-        placeBet() {
+        displayPendingTab() {
+            const payload: UpdateWindowPayload = {
+                id: this.window.id,
+                selectedBetTypeTab: BetTypeTab.Pending,
+            };
+            this.$stock.commit("window/updateWindow", payload);
+        },
+
+        async placeBet() {
+            if (!this.canPlaceBet) {
+                return;
+            }
+
             const payload: PlaceStraightBetPayload = {
                 tournamentId: this.window.tournament.id,
+                pending_odds: this.pendingOdds.map(pendingOdd => ({
+                    type: pendingOdd.type,
+                    event_id: pendingOdd.tournamentEventId,
+                    wager: pendingOdd.wager! * 100,
+                })),
             };
-            this.$stock.dispatch("placeBet/placeStraight", payload);
+            await this.$stock.dispatch("placeBet/placeStraight", payload);
+
+            if (this.$stock.state.placeBet.error) {
+                const error = this.$stock.state.placeBet.error;
+                this.$toast.error(error?.response?.data?.message ?? error.message);
+            } else {
+                this.removeOdds();
+                this.displayPendingTab();
+                this.$toast.success("You've placed a straight bet.");
+            }
         },
     },
 });

@@ -1,6 +1,8 @@
 <?php
 namespace App\Services;
 
+use App\Exceptions\LimitExceededException;
+use Illuminate\Support\Arr;
 use Psr\SimpleCache\CacheInterface;
 
 class OddService
@@ -20,12 +22,14 @@ class OddService
     {
         $odds = $this->cache->get(OddService::CACHE_KEY);
 
-        if ($odds) {
-            return $odds;
+        if (!$odds) {
+            $odds = $this->jsonOddApiService->getOdds();
+            $this->cache->set(OddService::CACHE_KEY, $odds, OddService::CACHE_TTL);
         }
 
-        $odds = $this->jsonOddApiService->getOdds();
-        $this->cache->set(OddService::CACHE_KEY, $odds, OddService::CACHE_TTL);
+        if (Arr::get($odds, "message") === "Limit Exceeded") {
+            throw new LimitExceededException();
+        }
 
         return $odds;
     }

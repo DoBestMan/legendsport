@@ -3,13 +3,10 @@
 namespace Tests\Feature\Backstage;
 
 use App\Models\Config;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Utils\TestCase;
 
 class ConfigTest extends TestCase
 {
-    use RefreshDatabase;
-
     private function createConfig(array $attributes = [])
     {
         return factory(Config::class)->create($attributes);
@@ -23,7 +20,7 @@ class ConfigTest extends TestCase
                 'chips' => 10000,
                 'commission' => 2,
                 'keep_completed' => 2,
-            ])
+            ]),
         ]);
 
         // when
@@ -51,9 +48,7 @@ class ConfigTest extends TestCase
         $response = $this->get(route('config.edit', $config->config));
 
         // then
-        $response
-            ->assertStatus(200)
-            ->assertSee($config->config['chips']);
+        $response->assertStatus(200)->assertSee($config->config['chips']);
     }
 
     public function test_backstage_config_update()

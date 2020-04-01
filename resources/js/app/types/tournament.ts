@@ -4,15 +4,15 @@ import { Player } from "./player";
 
 export interface Tournament {
     id: number;
-    balance: number;
-    buy_in: number;
-    enrolled: number;
+    userBalance: number | null;
+    buyIn: number;
+    chips: number;
     name: string;
-    players_limit: PlayersLimitType;
-    sport_ids: number[];
+    playersLimit: PlayersLimitType;
+    sportIds: number[];
     starts: string | null;
     state: TournamentState;
-    time_frame: TimeFrame;
+    timeFrame: TimeFrame;
     games: Game[];
     players: Player[];
 }

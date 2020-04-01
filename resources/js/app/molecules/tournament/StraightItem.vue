@@ -40,14 +40,13 @@ import {
     getPendingOddTeam,
     getPendingOddValue,
 } from "../../utils/game/bet";
-import { DeepReadonly } from "../../../general/types/types";
 
 export default Vue.extend({
     name: "StraightItem",
     components: { MoneyInput },
     props: {
-        game: Object as PropType<DeepReadonly<Game>>,
-        pendingOdd: Object as PropType<DeepReadonly<PendingOdd>>,
+        game: Object as PropType<Game>,
+        pendingOdd: Object as PropType<PendingOdd>,
         value: Number,
     },
 
@@ -58,7 +57,7 @@ export default Vue.extend({
         },
 
         win(): number {
-            return calculateWinFromAmericanOdd(this.oddValue, this.pendingOdd.bet ?? 0);
+            return calculateWinFromAmericanOdd(this.oddValue, this.pendingOdd.wager ?? 0);
         },
 
         team(): string {
@@ -71,10 +70,8 @@ export default Vue.extend({
     },
 
     methods: {
-        onValueChanged(bet: number) {
-            if (this.value !== bet) {
-                this.$emit("change", bet);
-            }
+        onValueChanged(wager: number) {
+            this.$emit("change", wager);
         },
 
         remove() {

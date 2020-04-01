@@ -2,18 +2,18 @@ import { Tournament } from "../types/tournament";
 import { Player } from "../types/player";
 
 export const mapTournament = (data: any): Tournament => ({
+    buyIn: data.buy_in,
+    chips: data.chips,
+    games: data.games,
     id: data.id,
-    balance: data.balance,
-    buy_in: data.buy_in,
-    enrolled: data.enrolled,
     name: data.name,
-    players_limit: data.players_limit,
-    sport_ids: [...new Set<number>(data.games.map((game: any) => game.sport_id))],
+    players: data.players.map(mapPlayer),
+    playersLimit: data.players_limit,
+    sportIds: [...new Set<number>(data.games.map((game: any) => game.sport_id))],
     starts: data.starts,
     state: data.state,
-    time_frame: data.time_frame,
-    games: data.games,
-    players: data.players.map(mapPlayer),
+    timeFrame: data.time_frame,
+    userBalance: data.user_balance,
 });
 
 export const mapPlayer = (data: any): Player => ({

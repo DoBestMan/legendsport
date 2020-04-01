@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Decimal\Decimal;
 
 /**
  * @property int $id
@@ -74,7 +75,7 @@ class TournamentBet extends Model
         return intval($this->chips_wager * $this->getMultiplier() - $this->chips_wager);
     }
 
-    public function getMultiplier(): float
+    public function getMultiplier(): Decimal
     {
         return $this->betEvents
             ->map(fn(TournamentBetEvent $betEvent) => 1 + american_to_decimal($betEvent->odd))
