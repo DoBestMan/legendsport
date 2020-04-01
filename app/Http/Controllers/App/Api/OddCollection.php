@@ -14,8 +14,7 @@ class OddCollection extends Controller
             ->all();
 
         return fractal()
-            ->collection($eventOdds)
-            ->transformWith(new EventOddTransformer())
+            ->collection($eventOdds, new EventOddTransformer())
             ->toArray();
     }
 }

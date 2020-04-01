@@ -207,9 +207,10 @@ export default Vue.extend({
         },
 
         balance(): number {
-            return this.tournament.userBalance !== null
-                ? this.tournament.userBalance
-                : this.tournament.chips;
+            const tournamentPlayer = this.$stock.state.user.user?.players.find(
+                player => player.tournamentId === this.tournament.id,
+            );
+            return tournamentPlayer?.chips ?? this.tournament.chips;
         },
 
         sportsNames(): string {

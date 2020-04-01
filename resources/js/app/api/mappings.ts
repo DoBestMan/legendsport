@@ -1,5 +1,6 @@
 import { Tournament } from "../types/tournament";
 import { Player } from "../types/player";
+import { User, UserPlayer } from "../../general/types/user";
 
 export const mapTournament = (data: any): Tournament => ({
     buyIn: data.buy_in,
@@ -20,4 +21,17 @@ export const mapPlayer = (data: any): Player => ({
     id: data.id,
     name: data.name,
     chips: data.chips,
+});
+
+export const mapMe = (data: any): User => ({
+    id: data.id,
+    name: data.name,
+    balance: data.balance,
+    players: data.players.map(mapMePlayer),
+});
+
+export const mapMePlayer = (data: any): UserPlayer => ({
+    id: data.id,
+    chips: data.chips,
+    tournamentId: data.tournament_id,
 });

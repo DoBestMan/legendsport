@@ -84,9 +84,6 @@ const module: Module<PlaceBetState, RootState> = {
 
             // Reload bets list
             dispatch("bet/reload", null, { root: true }).catch(console.error);
-
-            // Reload user balance per tournaments
-            dispatch("tournamentList/reload", null, { root: true }).catch(console.error);
         },
     },
 };

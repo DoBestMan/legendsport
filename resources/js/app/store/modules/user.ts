@@ -1,6 +1,8 @@
 import { Module } from "vuex";
 import { RootState } from "../types";
 import { User } from "../../../general/types/user";
+import { UNAUTHORIZED } from "http-status-codes";
+import { AxiosError } from "axios";
 
 export interface UserState {
     isLoading: boolean;
@@ -28,7 +30,11 @@ const module: Module<UserState, RootState> = {
             state.user = user;
         },
 
-        markAsFailed(state) {
+        markAsFailed(state, e: AxiosError) {
+            if (e.response?.status === UNAUTHORIZED) {
+                state.user = null;
+            }
+
             state.isLoading = false;
             state.isFailed = true;
         },
@@ -54,7 +60,7 @@ const module: Module<UserState, RootState> = {
                 const user = await rootState.api.getMe();
                 commit("markAsLoaded", user);
             } catch (e) {
-                commit("markAsFailed");
+                commit("markAsFailed", e);
             }
         },
 
@@ -62,7 +68,7 @@ const module: Module<UserState, RootState> = {
             try {
                 await rootState.api.logout();
                 commit("unsetUser");
-                dispatch("tournamentList/reload", null, { root: true });
+                dispatch("bet/reload", null, { root: true });
             } catch (e) {
                 console.error(e);
             }

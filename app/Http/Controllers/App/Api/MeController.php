@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\App\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Transformers\App\MeTransformer;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -12,10 +13,8 @@ class MeController extends Controller
         /** @var User $user */
         $user = $request->user();
 
-        return [
-            "id" => $user->id,
-            "name" => $user->name,
-            "balance" => $user->balance,
-        ];
+        return fractal()
+            ->item($user, new MeTransformer())
+            ->toArray();
     }
 }

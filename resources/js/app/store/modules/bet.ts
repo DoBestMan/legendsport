@@ -1,4 +1,5 @@
 import { Module } from "vuex";
+import { UNAUTHORIZED } from "http-status-codes";
 import { RootState } from "../types";
 import { Bet } from "../../types/bet";
 import { AxiosError } from "axios";
@@ -33,6 +34,9 @@ const module: Module<BetState, RootState> = {
         },
 
         markAsFailed(state, e: AxiosError) {
+            if (e.response?.status === UNAUTHORIZED) {
+                state.bets = [];
+            }
             state.isLoading = false;
             state.error = e;
         },
