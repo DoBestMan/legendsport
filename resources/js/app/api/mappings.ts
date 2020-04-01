@@ -16,7 +16,6 @@ export const mapTournament = (data: any): Tournament => ({
     starts: data.starts,
     state: data.state,
     timeFrame: data.time_frame,
-    userBalance: data.user_balance,
     prizePool: data.prize_pool.map(mapPrize),
 });
 

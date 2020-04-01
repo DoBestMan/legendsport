@@ -112,7 +112,7 @@ export default Vue.extend({
             return (
                 this.pendingOdds.length > 0 &&
                 this.pendingOdds.every(pendingOdd => pendingOdd.wager ?? 0 > 0) &&
-                this.totalBets * 100 <= (this.window.tournament.userBalance ?? 0)
+                this.totalBets * 100 <= this.balance
             );
         },
 
@@ -124,6 +124,13 @@ export default Vue.extend({
             return this.window.pendingOdds.filter(pendingOdd =>
                 this.gameDict.has(pendingOdd.eventId),
             );
+        },
+
+        balance(): number {
+            const tournamentPlayer = this.$stock.state.user.user?.players.find(
+                player => player.tournamentId === this.window.tournament.id,
+            );
+            return tournamentPlayer?.chips ?? this.window.tournament.chips;
         },
 
         totalBets(): number {

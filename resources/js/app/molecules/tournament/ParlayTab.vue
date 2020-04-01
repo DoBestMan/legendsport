@@ -86,8 +86,24 @@ export default Vue.extend({
             return !!this.$stock.state.user.user;
         },
 
+        canPlaceBet(): boolean {
+            return (
+                this.wager > 0 &&
+                this.hasEnoughPendingOdds &&
+                this.multiplier > 1 &&
+                this.wager * 100 <= this.balance
+            );
+        },
+
         pendingOdds(): PendingOdd[] {
             return this.window.pendingOdds;
+        },
+
+        balance(): number {
+            const tournamentPlayer = this.$stock.state.user.user?.players.find(
+                player => player.tournamentId === this.window.tournament.id,
+            );
+            return tournamentPlayer?.chips ?? this.window.tournament.chips;
         },
 
         win(): number {
@@ -105,15 +121,6 @@ export default Vue.extend({
                     return 1 + americanToDecimalOdd(oddValue);
                 })
                 .reduce((a, b) => a * b, 1);
-        },
-
-        canPlaceBet(): boolean {
-            return (
-                this.wager > 0 &&
-                this.hasEnoughPendingOdds &&
-                this.multiplier > 1 &&
-                this.wager * 100 <= (this.window.tournament.userBalance ?? 0)
-            );
         },
 
         hasEnoughPendingOdds(): boolean {

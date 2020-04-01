@@ -4,7 +4,6 @@ import { Player } from "./player";
 
 export interface Tournament {
     id: number;
-    userBalance: number | null;
     buyIn: number;
     chips: number;
     name: string;
