@@ -6,9 +6,7 @@ use League\Fractal\TransformerAbstract;
 
 class MeTransformer extends TransformerAbstract
 {
-    protected $defaultIncludes = [
-        "players",
-    ];
+    protected $defaultIncludes = ["players"];
 
     public function transform(User $user)
     {

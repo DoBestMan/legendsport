@@ -1,25 +1,26 @@
 import { PendingOddType } from "./window";
 
 export interface Bet {
-    chips_wager: number;
-    chips_win: number;
+    chipsWager: number;
+    chipsWin: number;
     events: BetEvent[];
     id: number;
-    tournament_id: number;
+    status: BetStatus;
+    tournamentId: number;
 }
 
 export interface BetEvent {
-    away_team: string;
-    home_team: string;
+    awayTeam: string;
+    homeTeam: string;
     id: number;
-    match_time: string;
+    matchTime: string;
     odd: number;
-    selected_team: string;
-    status: BetEventStatus;
+    selectedTeam: string;
+    status: BetStatus;
     type: PendingOddType;
 }
 
-export enum BetEventStatus {
+export enum BetStatus {
     Win = "win",
     Loss = "loss",
     Pending = "pending",

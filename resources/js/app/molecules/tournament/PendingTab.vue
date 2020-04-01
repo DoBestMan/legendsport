@@ -10,20 +10,18 @@
                         <span v-else>Straight</span>
                     </div>
 
-                    <div class="text">{{ event.match_time | toDateTime }}</div>
-                    <div class="text game-frm">
-                        <div class="text team">{{ event.home_team }}</div>
-                        <div class="text score">0</div>
-                        <div class="text vs">@</div>
-                        <div class="text team">{{ event.away_team }}</div>
-                        <div class="text score">0</div>
-                    </div>
-                    <div class="text">{{ event.selected_team }} / {{ event.odd | formatOdd }}</div>
+                    <BetContent
+                        :matchTime="event.matchTime"
+                        :homeTeam="event.homeTeam"
+                        :awayTeam="event.awayTeam"
+                        :selectedTeam="event.selectedTeam"
+                        :odd="event.odd"
+                    />
                 </div>
 
                 <div class="bet-frm">
-                    <div>Bet: {{ bet.chips_wager | formatCurrency }}</div>
-                    <div>Win: {{ bet.chips_win | formatCurrency }}</div>
+                    <div>Bet: {{ bet.chipsWager | formatCurrency }}</div>
+                    <div>Win: {{ bet.chipsWin | formatCurrency }}</div>
                 </div>
             </div>
 
@@ -36,14 +34,15 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { Bet } from "../../types/bet";
+import { Bet, BetStatus } from "../../types/bet";
 import SpinnerBox from "../../../general/components/SpinnerBox.vue";
 import { DeepReadonly } from "../../../general/types/types";
 import { Window } from "../../types/window";
+import BetContent from "./BetContent.vue";
 
 export default Vue.extend({
     name: "PendingTab",
-    components: { SpinnerBox },
+    components: { BetContent, SpinnerBox },
     props: {
         window: Object as PropType<DeepReadonly<Window>>,
     },
@@ -51,7 +50,9 @@ export default Vue.extend({
     computed: {
         bets(): Bet[] {
             return this.$stock.state.bet.bets.filter(
-                bet => bet.tournament_id === this.window.tournament.id,
+                bet =>
+                    bet.tournamentId === this.window.tournament.id &&
+                    bet.status === BetStatus.Pending,
             );
         },
 

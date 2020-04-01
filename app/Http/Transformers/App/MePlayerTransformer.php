@@ -9,8 +9,8 @@ class MePlayerTransformer extends TransformerAbstract
     public function transform(TournamentPlayer $player)
     {
         return [
-            "id"            => $player->id,
-            "chips"         => $player->chips,
+            "id" => $player->id,
+            "chips" => $player->chips,
             "tournament_id" => $player->tournament_id,
         ];
     }

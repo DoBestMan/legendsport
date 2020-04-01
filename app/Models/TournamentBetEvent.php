@@ -75,4 +75,16 @@ class TournamentBetEvent extends Model
                 return "n/a";
         }
     }
+
+    public function markAsWin()
+    {
+        $this->status = BetStatus::WIN();
+        $this->save();
+    }
+
+    public function markAsLost()
+    {
+        $this->status = BetStatus::LOSS();
+        $this->save();
+    }
 }

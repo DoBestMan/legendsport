@@ -15,6 +15,7 @@ class TournamentBetTransformer extends TransformerAbstract
             "chips_wager" => $bet->chips_wager,
             "chips_win" => $bet->getChipsWin(),
             "tournament_id" => $bet->tournament_id,
+            "status" => $bet->getStatus(),
         ];
     }
 

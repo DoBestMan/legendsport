@@ -5,15 +5,13 @@
                 <i class="icon fas fa-trash-alt"></i>
             </div>
 
-            <div class="text">{{ game.match_time | toDateTime }}</div>
-            <div class="text game-frm">
-                <div class="text team">{{ game.home_team }}</div>
-                <div class="text score">0</div>
-                <div class="text vs">vs</div>
-                <div class="text team">{{ game.away_team }}</div>
-                <div class="text score">0</div>
-            </div>
-            <div class="text">{{ team }} / {{ oddValue | formatOdd }}</div>
+            <BetContent
+                :matchTime="game.match_time"
+                :homeTeam="game.home_team"
+                :awayTeam="game.away_team"
+                :selectedTeam="team"
+                :odd="oddValue"
+            />
         </div>
 
         <div class="bet-frm">
@@ -40,10 +38,11 @@ import {
     getPendingOddTeam,
     getPendingOddValue,
 } from "../../utils/game/bet";
+import BetContent from "./BetContent.vue";
 
 export default Vue.extend({
     name: "StraightItem",
-    components: { MoneyInput },
+    components: { BetContent, MoneyInput },
     props: {
         game: Object as PropType<Game>,
         pendingOdd: Object as PropType<PendingOdd>,
