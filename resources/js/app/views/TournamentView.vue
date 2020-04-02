@@ -38,7 +38,10 @@ export default Vue.extend({
         },
 
         isLoading(): boolean {
-            return this.$stock.state.tournamentList.isLoading;
+            return (
+                this.$stock.state.tournamentList.isLoading &&
+                !this.$stock.state.tournamentList.isLoaded
+            );
         },
     },
 

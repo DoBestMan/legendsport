@@ -14,6 +14,7 @@ class TournamentCollection extends Controller
             'events.apiEvent',
             'players',
             'players.user',
+            'players.bets',
         ])->get();
 
         return fractal()

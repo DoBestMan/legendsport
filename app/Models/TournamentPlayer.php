@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Tournament\BetStatus;
 use Carbon\Carbon;
 use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $chips
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property-read int $balance
  * @property-read Tournament $tournament
  * @property-read User $user
  * @property-read Collection|TournamentBet[] $bets
@@ -45,13 +47,16 @@ class TournamentPlayer extends Model
 
     /**
      * The BALANCE is the amount of available
-     * and pending chips bet for an event that is still in RUNNING status
+     * and pending chips bet for an event that is still in PENDING status
      *
      * @return int
      */
-    public function getBalance(): int
+    public function getBalanceAttribute(): int
     {
-        return $this->chips +
-            $this->bets->sum(fn(TournamentBet $tournamentBet) => $tournamentBet->chips_wager);
+        $pendingChips = $this->bets
+            ->filter(fn(TournamentBet $tournamentBet) => $tournamentBet->getStatus()->equals(BetStatus::PENDING()))
+            ->sum(fn(TournamentBet $tournamentBet) => $tournamentBet->chips_wager);
+
+        return $this->chips + $pendingChips;
     }
 }

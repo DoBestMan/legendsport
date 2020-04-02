@@ -4,7 +4,7 @@
             <tr class="tr">
                 <th class="th col-position" scope="col">Rank</th>
                 <th class="th col-player" scope="col">Players</th>
-                <th class="th col-price" scope="col">Price</th>
+                <th class="th col-balance" scope="col">Balance</th>
             </tr>
         </thead>
         <tbody class="tbody">
@@ -23,7 +23,7 @@
                     </div>
                     {{ player.name }}
                 </td>
-                <td class="td">n/a</td>
+                <td class="td">{{ player.balance | formatCurrency }}</td>
             </tr>
             <TableNoRecords v-if="!players.length" />
         </tbody>
@@ -35,8 +35,6 @@ import Vue, { PropType } from "vue";
 import { Player } from "../../types/player";
 import { Nullable } from "../../../general/types/types";
 import TableNoRecords from "../../../general/components/TableNoRecords.vue";
-
-// TODO Display prize instead of n/a
 
 export default Vue.extend({
     name: "TournamentRankTable",

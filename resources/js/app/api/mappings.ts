@@ -23,6 +23,7 @@ export const mapPlayer = (data: any): Player => ({
     id: data.id,
     name: data.name,
     chips: data.chips,
+    balance: data.balance,
 });
 
 export const mapPrize = (data: any): Prize => ({

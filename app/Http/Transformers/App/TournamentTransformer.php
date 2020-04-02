@@ -31,7 +31,8 @@ class TournamentTransformer extends TransformerAbstract
 
     public function includePlayers(Tournament $tournament)
     {
-        return $this->collection($tournament->players, new PlayerTransformer());
+        $players = $tournament->players->sortByDesc("balance");
+        return $this->collection($players, new PlayerTransformer());
     }
 
     public function includePrizePool(Tournament $tournament)
