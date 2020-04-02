@@ -2,29 +2,26 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * @property int $id
  * @property string $name
+ * @property string $email
+ * @property string $password
  * @property int $balance
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read Collection|TournamentBet[] $bets
  * @property-read Collection|TournamentPlayer[] $players
  * @property-read Collection|Tournament[] $tournaments
+ * @mixin Eloquent
  */
 class User extends Authenticatable
 {
     protected $table = 'users';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['name', 'email', 'password'];
 
     /**
      * The attributes that should be hidden for arrays.

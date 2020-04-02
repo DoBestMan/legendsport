@@ -28,7 +28,7 @@
                     <div class="bet-frm">
                         <div class="field">
                             <strong class="field-title">Bet</strong>
-                            <MoneyInput v-model="wager" />
+                            <MoneyInput :value="wager" @input="updateWager" />
                         </div>
                         <div class="field">
                             <strong class="field-title">Win</strong>
@@ -37,19 +37,11 @@
                     </div>
                 </div>
 
-                <div class="footer-frm">
-                    <button
-                        v-if="isAuthenticated"
-                        class="btn button-place-bet button-action"
-                        @click="placeBet"
-                        :disabled="!canPlaceBet"
-                    >
-                        Place Bet
-                    </button>
-                    <a v-else class="btn button-place-bet button-action" href="/login">
-                        Place Bet
-                    </a>
-                </div>
+                <PlaceBetButton
+                    :tournamentId="window.tournament.id"
+                    :disabled="!canPlaceBet"
+                    @placeBet="placeBet"
+                />
             </div>
         </transition>
     </div>
@@ -66,24 +58,23 @@ import MoneyInput from "../../components/MoneyInput.vue";
 import { americanToDecimalOdd, getPendingOddValue } from "../../utils/game/bet";
 import { Odd } from "../../../general/types/odd";
 import { PlaceParlayBetPayload } from "../../store/modules/placeBet";
+import PlaceBetButton from "./PlaceBetButton.vue";
 
 export default Vue.extend({
     name: "ParlayTab",
-    components: { MoneyInput, ParlayItem },
+    components: { MoneyInput, ParlayItem, PlaceBetButton },
 
     props: {
         window: Object as PropType<Window>,
     },
 
-    data() {
-        return {
-            wager: 0,
-        };
-    },
-
     computed: {
         isAuthenticated(): boolean {
             return !!this.$stock.state.user.user;
+        },
+
+        wager(): number {
+            return this.window.parlayWager;
         },
 
         canPlaceBet(): boolean {
@@ -143,7 +134,15 @@ export default Vue.extend({
 
         removeOdds() {
             this.$stock.commit("window/removeOdds", this.window.id);
-            this.wager = 0;
+            this.updateWager(0);
+        },
+
+        updateWager(value: number) {
+            const payload: UpdateWindowPayload = {
+                id: this.window.id,
+                parlayWager: value,
+            };
+            this.$stock.commit("window/updateWindow", payload);
         },
 
         displayPendingTab() {

@@ -77,11 +77,11 @@
                 </div>
             </div>
 
-            <div v-else id="sign-frm" class="offset-4 col-4">
-                <a id="sign-up-btn" class="btn center" href="/register">
+            <div v-else class="sign-frm offset-4 col-4">
+                <a class="btn sign-up-btn center" href="/register">
                     Sign up
                 </a>
-                <a id="sign-in-btn" class="btn center" href="/login">
+                <a class="btn sign-in-btn center" href="/login">
                     Sign in
                 </a>
             </div>

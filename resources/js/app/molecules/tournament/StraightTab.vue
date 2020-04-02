@@ -55,19 +55,11 @@
                     </div>
                 </div>
 
-                <div class="footer-frm">
-                    <button
-                        v-if="isAuthenticated"
-                        class="btn button-place-bet button-action"
-                        @click="placeBet"
-                        :disabled="!canPlaceBet"
-                    >
-                        Place Bet
-                    </button>
-                    <a v-else class="btn button-place-bet button-action" href="/login">
-                        Place Bet
-                    </a>
-                </div>
+                <PlaceBetButton
+                    :tournamentId="window.tournament.id"
+                    :disabled="!canPlaceBet"
+                    @placeBet="placeBet"
+                />
             </div>
         </transition>
     </div>
@@ -89,10 +81,11 @@ import { calculateWinFromAmericanOdd, getPendingOddValue } from "../../utils/gam
 import { Odd } from "../../../general/types/odd";
 import Money from "../../components/Money.vue";
 import { PlaceStraightBetPayload } from "../../store/modules/placeBet";
+import PlaceBetButton from "./PlaceBetButton.vue";
 
 export default Vue.extend({
     name: "StraightTab",
-    components: { Money, MoneyInput, StraightItem },
+    components: { Money, MoneyInput, PlaceBetButton, StraightItem },
     props: {
         window: Object as PropType<Window>,
     },
@@ -104,10 +97,6 @@ export default Vue.extend({
     },
 
     computed: {
-        isAuthenticated(): boolean {
-            return !!this.$stock.state.user.user;
-        },
-
         canPlaceBet(): boolean {
             return (
                 this.pendingOdds.length > 0 &&

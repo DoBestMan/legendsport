@@ -9,6 +9,7 @@ export interface StorableWindow {
     pendingOdds: PendingOdd[];
     selectedBetTypeTab: BetTypeTab;
     selectedSportIds: number[];
+    parlayWager: number;
 }
 
 export enum BetTypeTab {

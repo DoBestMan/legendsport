@@ -12,11 +12,12 @@ export const getWindows = (): StorableWindow[] => {
         return [];
     }
 
-    return JSON.parse(content).map((item: any) => ({
-        id: item.id,
-        selectedSportIds: item.selectedSportIds ?? [],
-        selectedBetTypeTab: item.selectedBetTypeTab ?? BetTypeTab.Pending,
-        pendingOdds: (item.pendingOdds ?? []).filter(
+    return JSON.parse(content).map((data: any) => ({
+        id: data.id,
+        selectedSportIds: data.selectedSportIds ?? [],
+        selectedBetTypeTab: data.selectedBetTypeTab ?? BetTypeTab.Pending,
+        parlayWager: data.parlayWager,
+        pendingOdds: (data.pendingOdds ?? []).filter(
             (pendingOdd: any) =>
                 pendingOdd.tournamentEventId && pendingOdd.eventId && pendingOdd.type,
         ),
