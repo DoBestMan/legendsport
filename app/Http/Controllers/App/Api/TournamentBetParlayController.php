@@ -5,11 +5,13 @@ use App\Http\Controllers\Controller;
 use App\Models\PendingOdd;
 use App\Models\Tournament;
 use App\Models\TournamentEvent;
+use App\Tournament\Events\TournamentUpdate;
 use App\Tournament\ParlayBetService;
 use App\Services\PendingOddService;
 use App\Tournament\NotEnoughBalanceException;
 use App\Tournament\NotEnoughChipsException;
 use App\Tournament\PendingOddType;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -21,7 +23,8 @@ class TournamentBetParlayController extends Controller
         Tournament $tournament,
         Request $request,
         ParlayBetService $parlayBetService,
-        PendingOddService $pendingOddService
+        PendingOddService $pendingOddService,
+        Dispatcher $dispatcher
     ) {
         $request->validate([
             'pending_odds' => ['required', 'array', 'min:2'],
@@ -79,6 +82,8 @@ class TournamentBetParlayController extends Controller
                 Response::HTTP_BAD_REQUEST,
             );
         }
+
+        $dispatcher->dispatch(new TournamentUpdate($tournament));
 
         return [
             "id" => $tournamentBet->id,

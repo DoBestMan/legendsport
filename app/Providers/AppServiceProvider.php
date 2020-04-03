@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\Services\JsonOddApiService;
+use App\Services\UserTokenService;
+use App\WebSockets\WebSocketHandler;
+use BeyondCode\LaravelWebSockets\WebSockets\WebSocketHandler as BaseWebSocketHandler;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,6 +20,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(JsonOddApiService::class, function () {
             return new JsonOddApiService(env("JSONODDS_API_KEY"));
         });
+
+        $this->app->bind(UserTokenService::class, function () {
+            return new UserTokenService(env("APP_KEY"));
+        });
+
+        $this->app->bind(BaseWebSocketHandler::class, WebSocketHandler::class);
     }
 
     /**

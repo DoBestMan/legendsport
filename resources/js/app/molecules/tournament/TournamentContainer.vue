@@ -150,6 +150,7 @@
 
                 <PrizePool :tournament="tournament" />
                 <TournamentRankTable :players="tournament.players" />
+                <ChatContainer :messages="chatMessages" @sendMessage="sendMessage" />
             </div>
         </section>
     </section>
@@ -161,8 +162,8 @@ import { BetTypeTab, PendingOdd, Window } from "../../types/window";
 import { Tournament } from "../../types/tournament";
 import TournamentRankTable from "../general/TournamentRankTable.vue";
 import {
-    ToggleSportPayload,
     PendingOddPayload,
+    ToggleSportPayload,
     UpdateWindowPayload,
 } from "../../store/modules/window";
 import { empty, groupBy } from "../../../general/utils/utils";
@@ -173,10 +174,15 @@ import StraightTab from "./StraightTab.vue";
 import ParlayTab from "./ParlayTab.vue";
 import HistoryTab from "./HistoryTab.vue";
 import PrizePool from "./PrizePool.vue";
+import ChatContainer from "../chat/ChatContainer.vue";
+import { ChatMessage } from "../../types/chat";
+import { NewChatMessage } from "../../utils/websockets/NewChatMessage";
+import { User } from "../../../general/types/user";
 
 export default Vue.extend({
     name: "TournamentContainer",
     components: {
+        ChatContainer,
         GameRow,
         HistoryTab,
         ParlayTab,
@@ -199,8 +205,12 @@ export default Vue.extend({
             return this.window.tournament;
         },
 
+        user(): User | null {
+            return this.$stock.state.user.user;
+        },
+
         balance(): number {
-            const tournamentPlayer = this.$stock.state.user.user?.players.find(
+            const tournamentPlayer = this.user?.players.find(
                 player => player.tournamentId === this.tournament.id,
             );
             return tournamentPlayer?.chips ?? this.tournament.chips;
@@ -221,6 +231,17 @@ export default Vue.extend({
                     this.window.selectedSportIds.includes(game.sport_id),
             );
             return groupBy(filteredGames, game => game.match_time);
+        },
+
+        chatMessages(): ChatMessage[] {
+            const userIds = new Set(this.tournament.players.map(player => player.userId));
+
+            return this.$stock.state.chat.messages
+                .filter(message => message.tournamentId === this.tournament.id)
+                .map(message => ({
+                    ...message,
+                    isParticipant: userIds.has(message.userId),
+                }));
         },
 
         BetTypeTab(): typeof BetTypeTab {
@@ -274,6 +295,10 @@ export default Vue.extend({
                 type: pendingOdd.type,
             };
             this.$stock.dispatch("window/toggleOdd", payload);
+        },
+
+        sendMessage(message: string) {
+            this.$echo.sendEvent(new NewChatMessage(this.tournament.id, message), this.user?.token);
         },
     },
 });

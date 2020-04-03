@@ -10,6 +10,7 @@ export interface User {
     id: number;
     name: string;
     balance: number;
+    token: string;
     bets: Bet[];
     players: UserPlayer[];
 }

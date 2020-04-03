@@ -15,40 +15,38 @@ class TournamentCollectionTest extends TestCase
         $tournament = factory(Tournament::class)->create();
         factory(TournamentPlayer::class)->create([
             "tournament_id" => $tournament->id,
-            "chips"         => 300,
+            "chips" => 300,
         ]);
         factory(TournamentPlayer::class)->create([
             "tournament_id" => $tournament->id,
-            "chips"         => 400,
+            "chips" => 400,
         ]);
         factory(TournamentPlayer::class)->create([
             "tournament_id" => $tournament->id,
-            "chips"         => 50,
+            "chips" => 50,
         ]);
 
         // when
         $response = $this->getJson("http://legendsports.local/api/tournaments");
 
         // then
-        $response
-            ->assertOk()
-            ->assertJson([
-                [
-                    "players" => [
-                        [
-                            "balance" => 400,
-                            "id"      => 2,
-                        ],
-                        [
-                            "balance" => 300,
-                            "id"      => 1,
-                        ],
-                        [
-                            "balance" => 50,
-                            "id"      => 3,
-                        ],
+        $response->assertOk()->assertJson([
+            [
+                "players" => [
+                    [
+                        "balance" => 400,
+                        "id" => 2,
+                    ],
+                    [
+                        "balance" => 300,
+                        "id" => 1,
+                    ],
+                    [
+                        "balance" => 50,
+                        "id" => 3,
                     ],
                 ],
-            ]);
+            ],
+        ]);
     }
 }

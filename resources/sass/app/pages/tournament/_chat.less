@@ -1,0 +1,76 @@
+.chat-frm {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+
+    .title {
+        padding: 0.5rem;
+        background-color: @gb_color_dark1;
+        font-weight: @gb_font-bold;
+        color: @gb_color_app_white;
+        letter-spacing: @gb_letter-spacing;
+        text-transform: uppercase;
+        font-size: 1.2rem;
+    }
+
+    .content {
+        flex: 1;
+        padding: 1.5rem;
+        overflow: auto;
+    }
+
+    .message {
+        max-width: 90%;
+        margin-bottom: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: @gb_border-radius;
+
+        &.incoming {
+            .box-shadow(0.2);
+
+            .message-header {
+                display: flex;
+                margin-bottom: 0.25rem;
+
+                .date {
+                    margin-right: 0.5rem;
+                    color: @gb_color_ligth1;
+                }
+
+                .user {
+                    margin-right: 0.5rem;
+                    font-size: 1.1rem;
+                    font-weight: bold;
+                }
+
+                .tag-frm {
+                    flex-grow: 1;
+                    text-align: right;
+                }
+            }
+        }
+
+        &.outcoming {
+            margin-left: auto;
+            background-color: @gb_color_gold;
+        }
+    }
+
+    .footer {
+        border-top: 1px solid @gb_color_dark1;
+
+        .input-message {
+            height: 100%;
+            padding: 1rem;
+            font-size: 1.2rem;
+            background-color: inherit;
+            border: none;
+            box-shadow: none;
+        }
+
+        .button-action {
+            margin: 0.5rem;
+        }
+    }
+}

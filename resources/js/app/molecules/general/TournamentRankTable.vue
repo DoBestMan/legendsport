@@ -1,33 +1,35 @@
 <template>
-    <table class="table table-fixed rank">
-        <thead class="thead">
-            <tr class="tr">
-                <th class="th col-position" scope="col">Rank</th>
-                <th class="th col-player" scope="col">Players</th>
-                <th class="th col-balance" scope="col">Balance</th>
-            </tr>
-        </thead>
-        <tbody class="tbody">
-            <tr
-                class="tr"
-                :class="{ selected: player.id === selectedPlayerId }"
-                @click="selectPlayer(player)"
-                v-for="(player, index) in players"
-                :key="player.id"
-            >
-                <td class="td col-position">{{ index + 1 }}</td>
-                <td class="td col-player">
-                    <div class="img-frm">
-                        <i class="icon fas fa-user-circle"></i>
-                        <div class="img"></div>
-                    </div>
-                    {{ player.name }}
-                </td>
-                <td class="td">{{ player.balance | formatCurrency }}</td>
-            </tr>
-            <TableNoRecords v-if="!players.length" />
-        </tbody>
-    </table>
+    <div class="table-rank">
+        <table class="table table-fixed rank">
+            <thead class="thead">
+                <tr class="tr">
+                    <th class="th col-position" scope="col">Rank</th>
+                    <th class="th col-player" scope="col">Players</th>
+                    <th class="th col-balance" scope="col">Balance</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                <tr
+                    class="tr"
+                    :class="{ selected: player.id === selectedPlayerId }"
+                    @click="selectPlayer(player)"
+                    v-for="(player, index) in players"
+                    :key="player.id"
+                >
+                    <td class="td col-position">{{ index + 1 }}</td>
+                    <td class="td col-player">
+                        <div class="img-frm">
+                            <i class="icon fas fa-user-circle"></i>
+                            <div class="img"></div>
+                        </div>
+                        {{ player.name }}
+                    </td>
+                    <td class="td">{{ player.balance | formatCurrency }}</td>
+                </tr>
+                <TableNoRecords v-if="!players.length" />
+            </tbody>
+        </table>
+    </div>
 </template>
 
 <script lang="ts">
@@ -57,3 +59,9 @@ export default Vue.extend({
     },
 });
 </script>
+
+<style>
+.table-rank {
+    min-height: 110px;
+}
+</style>

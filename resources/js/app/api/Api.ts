@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import { mapMe, mapTournament } from "./mappings";
+import { mapMe, mapOdd, mapTournament } from "./mappings";
 import { Tournament } from "../types/tournament";
 import { Sport } from "../../general/types/sport";
 import { Odd } from "../../general/types/odd";
@@ -39,7 +39,7 @@ export class Api {
 
     public async getOdds(): Promise<Odd[]> {
         const response = await this.axios.get("/api/odds");
-        return response.data;
+        return response.data.map(mapOdd);
     }
 
     public async getMe(): Promise<User> {

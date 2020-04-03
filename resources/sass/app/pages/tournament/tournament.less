@@ -10,14 +10,57 @@
     }
 
     .section {
-        border-radius: @gb_border-radius;
         .box-shadow(0.5);
         display: flex;
         flex-direction: column;
         height: 100%;
     }
 
+    .field {
+        display: flex;
+        align-items: center;
+
+        .form-control {
+            height: 2rem;
+        }
+
+        .field-title {
+            margin-right: 0.5rem;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+        }
+
+        .input-win {
+            background-color: @gb_color_gold;
+            color: @gb_color_dark1;
+            font-weight: bold;
+            border: none;
+        }
+    }
+
+    .button-action {
+        border: 1px solid @gb_color_gold_dark;
+        white-space: nowrap;
+        background-color: @gb_color_gold;
+        color: @gb_color_dark1;
+        .box-shadow(0.2);
+
+        &:hover {
+            background-color: @gb_color_gold_ligth;
+        }
+    }
+
+    .button-trash {
+        background-color: @gb_color_dark1;
+
+        .icon {
+            color: @gb_color_white98;
+            font-size: 1.3rem;
+        }
+    }
+
     @import "_bets";
+    @import "_chat";
     @import "_matches";
     @import "_info";
 }

@@ -6,9 +6,11 @@ import { OddState } from "./modules/odd";
 import { UserState } from "./modules/user";
 import { LoaderState } from "./modules/loader";
 import { PlaceBetState } from "./modules/placeBet";
+import { ChatState } from "./modules/chat";
 
 export interface RootState {
     api: Api;
+    chat: ChatState;
     loader: LoaderState;
     odd: OddState;
     placeBet: PlaceBetState;

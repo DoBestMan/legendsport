@@ -65,6 +65,7 @@ const module: Module<WindowState, RootState> = {
 
             state._windows.push({
                 id: payload,
+                parlayWager: 0,
                 pendingOdds: [],
                 selectedBetTypeTab: BetTypeTab.Pending,
                 selectedSportIds: [],

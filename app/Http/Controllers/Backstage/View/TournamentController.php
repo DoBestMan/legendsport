@@ -186,12 +186,18 @@ class TournamentController extends Controller
         $tournament->save();
 
         $apiDataDict = collect($apiData)->mapWithKeys(fn(array $data) => [$data['ID'] => $data]);
-        $tournamentEvents = TournamentEvent::with(["apiEvent"])->where('tournament_id', $tournament->id)->get();
+        $tournamentEvents = TournamentEvent::with(["apiEvent"])
+            ->where('tournament_id', $tournament->id)
+            ->get();
 
         // Delete those not existing anymore
         $tournamentEvents
-            ->filter(fn (TournamentEvent $tournamentEvent) => !$apiDataDict->has($tournamentEvent->apiEvent->api_id))
-            ->each(fn (TournamentEvent $tournamentEvent) => $tournamentEvent->delete());
+            ->filter(
+                fn(TournamentEvent $tournamentEvent) => !$apiDataDict->has(
+                    $tournamentEvent->apiEvent->api_id,
+                ),
+            )
+            ->each(fn(TournamentEvent $tournamentEvent) => $tournamentEvent->delete());
 
         // Create new
         foreach ($apiData as $data) {

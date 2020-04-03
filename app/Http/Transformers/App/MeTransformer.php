@@ -2,6 +2,7 @@
 namespace App\Http\Transformers\App;
 
 use App\Models\User;
+use Firebase\JWT\JWT;
 use League\Fractal\TransformerAbstract;
 
 class MeTransformer extends TransformerAbstract
@@ -14,6 +15,7 @@ class MeTransformer extends TransformerAbstract
             "id" => $user->id,
             "name" => $user->name,
             "balance" => $user->balance,
+            "token" => $user->getToken(),
         ];
     }
 

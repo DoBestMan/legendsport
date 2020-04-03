@@ -5,7 +5,7 @@
         <div v-else class="items-frm">
             <div :key="bet.id" class="event-frm" v-for="bet in bets">
                 <div class="data-frm" v-for="(event, index) in bet.events">
-                    <div v-if="index === 0" class="type-bet">
+                    <div v-if="index === 0" class="tag type-bet">
                         <span v-if="isParlay(bet)">Parlay</span>
                         <span v-else>Straight</span>
                     </div>

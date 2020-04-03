@@ -85,7 +85,7 @@ export default Vue.extend({
 
     methods: {
         load() {
-            this.$stock.dispatch("tournamentList/load");
+            this.$stock.dispatch("tournamentList/reload");
         },
 
         getSportsNames(sportsIds: number[]): string {

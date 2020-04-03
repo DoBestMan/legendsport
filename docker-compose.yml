@@ -10,6 +10,7 @@ services:
             - "80:80"
         links:
             - app
+
     app:
         build:
             context: ./docker
@@ -21,6 +22,33 @@ services:
         environment:
             - "DB_PORT=3306"
             - "DB_HOST=database"
+
+    websockets:
+        build:
+            context: ./docker
+            dockerfile: websockets.docker
+        volumes:
+          - ./:/var/www
+        ports:
+          - "6001:6001"
+        links:
+          - database
+        environment:
+          - "DB_PORT=3306"
+          - "DB_HOST=database"
+
+    scheduler:
+        build:
+            context: ./docker
+            dockerfile: scheduler.docker
+        volumes:
+          - ./:/var/www
+        links:
+          - database
+        environment:
+          - "DB_PORT=3306"
+          - "DB_HOST=database"
+
     database:
         image: mysql:8
         environment:

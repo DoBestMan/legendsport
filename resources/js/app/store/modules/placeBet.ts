@@ -80,7 +80,6 @@ const module: Module<PlaceBetState, RootState> = {
 
         async reloadBets({ dispatch }) {
             dispatch("user/reload", null, { root: true });
-            dispatch("tournamentList/reload", null, { root: true });
         },
     },
 };

@@ -1,0 +1,12 @@
+FROM php:7.4
+
+RUN apt-get update && \
+    apt-get install -y zip libmpdec-dev
+
+RUN pecl install decimal
+RUN docker-php-ext-install pdo_mysql
+RUN echo "extension=decimal.so" > /usr/local/etc/php/conf.d/decimal.ini
+
+WORKDIR /var/www
+
+CMD php artisan websockets:serve

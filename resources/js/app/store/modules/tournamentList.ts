@@ -79,6 +79,18 @@ const module: Module<TournamentListState, RootState> = {
             state.isLoading = false;
             state.isFailed = true;
         },
+
+        createOrUpdateTournament(state, tournament: Tournament) {
+            const existingTournament = state.tournaments.find(item => item.id === tournament.id);
+
+            if (existingTournament) {
+                state.tournaments = state.tournaments.map(item =>
+                    item.id === tournament.id ? tournament : item,
+                );
+            } else {
+                state.tournaments = [...state.tournaments, tournament];
+            }
+        },
     },
 
     actions: {

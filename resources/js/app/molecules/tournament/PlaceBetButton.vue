@@ -15,7 +15,7 @@
             @click="placeBet"
             :disabled="disabled"
         >
-            Register in and place bet
+            Register now
         </button>
 
         <button

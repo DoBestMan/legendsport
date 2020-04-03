@@ -54,7 +54,11 @@ class TournamentPlayer extends Model
     public function getBalanceAttribute(): int
     {
         $pendingChips = $this->bets
-            ->filter(fn(TournamentBet $tournamentBet) => $tournamentBet->getStatus()->equals(BetStatus::PENDING()))
+            ->filter(
+                fn(TournamentBet $tournamentBet) => $tournamentBet
+                    ->getStatus()
+                    ->equals(BetStatus::PENDING()),
+            )
             ->sum(fn(TournamentBet $tournamentBet) => $tournamentBet->chips_wager);
 
         return $this->chips + $pendingChips;

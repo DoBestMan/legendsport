@@ -3,4 +3,5 @@ export interface Player {
     name: string;
     chips: number;
     balance: number;
+    userId: number;
 }

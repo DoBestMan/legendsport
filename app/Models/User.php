@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use App\Services\UserTokenService;
 use Carbon\Carbon;
 use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
@@ -53,5 +54,12 @@ class User extends Authenticatable
     public function bets()
     {
         return $this->hasManyThrough(TournamentBet::class, TournamentPlayer::class);
+    }
+
+    public function getToken() : string
+    {
+        /** @var UserTokenService $userTokenService */
+        $userTokenService = app(UserTokenService::class);
+        return $userTokenService->create($this);
     }
 }
