@@ -24,7 +24,7 @@
                         </div>
                         {{ player.name }}
                     </td>
-                    <td class="td">{{ player.balance | formatCurrency }}</td>
+                    <td class="td">{{ player.balance | formatChip }}</td>
                 </tr>
                 <TableNoRecords v-if="!players.length" />
             </tbody>

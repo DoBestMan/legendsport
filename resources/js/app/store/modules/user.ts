@@ -1,6 +1,6 @@
 import { Module } from "vuex";
 import { RootState } from "../types";
-import { User } from "../../../general/types/user";
+import { User, UserPlayer } from "../../../general/types/user";
 import { UNAUTHORIZED } from "http-status-codes";
 import { AxiosError } from "axios";
 
@@ -17,6 +17,12 @@ const module: Module<UserState, RootState> = {
         isLoading: false,
         isFailed: false,
         user: null,
+    },
+
+    getters: {
+        playersDictByTournament(state): ReadonlyMap<number, UserPlayer> {
+            return new Map(state.user?.players.map(player => [player.tournamentId, player]) ?? []);
+        },
     },
 
     mutations: {

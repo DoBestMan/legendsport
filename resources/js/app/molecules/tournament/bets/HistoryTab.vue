@@ -21,8 +21,8 @@ import {BetStatus} from "../../types/bet";
                 </div>
 
                 <div class="bet-frm">
-                    <div>Bet: {{ bet.chipsWager | formatCurrency }}</div>
-                    <div>Win: {{ bet.chipsWin | formatCurrency }}</div>
+                    <div>Bet: {{ bet.chipsWager | formatChip }}</div>
+                    <div>Win: {{ bet.chipsWin | formatChip }}</div>
                 </div>
 
                 <div v-if="bet.status === BetStatus.Win" class="result win">

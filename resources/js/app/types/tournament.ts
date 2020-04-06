@@ -6,6 +6,7 @@ export interface Tournament {
     id: number;
     buyIn: number;
     chips: number;
+    commission: number;
     name: string;
     playersLimit: PlayersLimitType;
     prizePoolMoney: number;

@@ -8,11 +8,11 @@
             </div>
 
             <div id="title-frm">
-                <div id="title">{{ formattedTournament.name }}</div>
+                <div id="title">{{ theTournament.name }}</div>
             </div>
 
             <div id="status-frm">
-                <div id="status">{{ formattedTournament.state }}</div>
+                <div id="status">{{ theTournament.state }}</div>
             </div>
         </div>
 
@@ -20,19 +20,19 @@
             <div class="row">
                 <div class="col-6">
                     <div class="title">Start time</div>
-                    <div class="value">{{ formattedTournament.starts | toDateTime }}</div>
+                    <div class="value">{{ theTournament.starts | toDateTime }}</div>
                 </div>
 
                 <div class="col-6">
                     <div class="title">In</div>
-                    <div class="value">{{ formattedTournament.starts | diffHumanReadable }}</div>
+                    <div class="value">{{ theTournament.starts | diffHumanReadable }}</div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col">
                     <div class="title"># Players</div>
-                    <div class="value">{{ formattedTournament.players.length }}</div>
+                    <div class="value">{{ theTournament.players.length }}</div>
                 </div>
             </div>
 
@@ -42,6 +42,8 @@
                     <div class="value">{{ sportsNames }}</div>
                 </div>
             </div>
+
+            <RegisterNowButton v-if="!isRegistered" class="mb-3 mt-1" :tournament="theTournament" />
         </div>
 
         <div class="tabs-frm">
@@ -70,11 +72,8 @@
         </div>
 
         <div class="tables-frm">
-            <TournamentGamesTable v-if="activeTab === 'games'" :games="formattedTournament.games" />
-            <TournamentRankTable
-                v-if="activeTab === 'rank'"
-                :players="formattedTournament.players"
-            />
+            <TournamentGamesTable v-if="activeTab === 'games'" :games="theTournament.games" />
+            <TournamentRankTable v-if="activeTab === 'rank'" :players="theTournament.players" />
         </div>
     </div>
 </template>
@@ -85,10 +84,12 @@ import { Tournament } from "../../types/tournament";
 import TournamentGamesTable from "./TournamentGamesTable.vue";
 import TournamentRankTable from "../general/TournamentRankTable.vue";
 import { TournamentState } from "../../../general/types/tournament";
+import RegisterNowButton from "../../components/RegisterNowButton.vue";
+import { UserPlayer } from "../../../general/types/user";
 
 export default Vue.extend({
     name: "TournamentDetails",
-    components: { TournamentGamesTable, TournamentRankTable },
+    components: { RegisterNowButton, TournamentGamesTable, TournamentRankTable },
 
     props: {
         tournament: Object as PropType<Tournament>,
@@ -101,7 +102,7 @@ export default Vue.extend({
     },
 
     computed: {
-        formattedTournament(): Tournament {
+        theTournament(): Tournament {
             if (this.tournament) {
                 return this.tournament;
             }
@@ -113,6 +114,13 @@ export default Vue.extend({
             } as any;
         },
 
+        isRegistered(): boolean {
+            const playersDict: ReadonlyMap<number, UserPlayer> = this.$stock.getters[
+                "user/playersDictByTournament"
+            ];
+            return playersDict.has(this.theTournament.id);
+        },
+
         sportsNames(): string {
             const sportsIds = this.tournament?.sportIds ?? [];
             const dict: ReadonlyMap<number, string> = this.$stock.getters["sport/sportDictionary"];
@@ -121,7 +129,7 @@ export default Vue.extend({
     },
 
     methods: {
-        calculateActiveTab() {
+        calculateActiveTab(): string {
             const displayGames = [
                 TournamentState.Announced,
                 TournamentState.Registering,

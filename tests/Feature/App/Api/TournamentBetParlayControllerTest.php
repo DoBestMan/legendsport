@@ -4,9 +4,9 @@ namespace Tests\Feature\App\Api;
 use App\Models\Tournament;
 use App\Models\TournamentEvent;
 use App\Models\User;
+use App\Services\TournamentPlayerService;
 use App\Tournament\BetStatus;
 use App\Tournament\PendingOddType;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\Utils\Concerns\JsonOddApiServiceConcern;
 use Tests\Utils\TestCase;
@@ -16,11 +16,13 @@ class TournamentBetParlayControllerTest extends TestCase
     use JsonOddApiServiceConcern;
 
     private Tournament $tournament;
+    private TournamentPlayerService $tournamentPlayerService;
 
     protected function setUp(): void
     {
         parent::setUp();
         $this->mockJsonOddApiService();
+        $this->tournamentPlayerService = $this->app->make(TournamentPlayerService::class);
 
         /** @var Tournament $tournament */
         $this->tournament = factory(Tournament::class)->create([
@@ -72,6 +74,7 @@ class TournamentBetParlayControllerTest extends TestCase
         ]);
 
         $this->actingAs($user);
+        $this->tournamentPlayerService->register($this->tournament, $user);
 
         // when
         $response = $this->postJson(
@@ -95,11 +98,13 @@ class TournamentBetParlayControllerTest extends TestCase
         $response->assertOk();
         $this->tournament->refresh();
         $this->assertCount(1, $this->tournament->players);
+
         $player = $this->tournament->players[0];
         $this->assertSame(1500, $player->chips);
         $this->assertSame($user->id, $player->user->id);
         $this->assertSame(600, $player->user->balance);
         $this->assertCount(1, $player->bets);
+
         $bet = $player->bets[0];
         $this->assertSame(500, $bet->chips_wager);
         $this->assertSameEnum($bet->getStatus(), BetStatus::PENDING());
@@ -114,7 +119,7 @@ class TournamentBetParlayControllerTest extends TestCase
     }
 
     /** @test */
-    public function cannot_bet_if_not_enough_balance()
+    public function cannot_bet_if_not_registered()
     {
         // given
         /** @var User $user */
@@ -144,7 +149,7 @@ class TournamentBetParlayControllerTest extends TestCase
 
         // then
         $response->assertStatus(Response::HTTP_BAD_REQUEST)->assertExactJson([
-            "message" => "You don't have enough balance. Top up!",
+            "message" => "You need to be registered to place a bet.",
         ]);
 
         $user->refresh();
@@ -161,6 +166,7 @@ class TournamentBetParlayControllerTest extends TestCase
         ]);
 
         $this->actingAs($user);
+        $player = $this->tournamentPlayerService->register($this->tournament, $user);
 
         // when
         $response = $this->postJson(
@@ -185,8 +191,8 @@ class TournamentBetParlayControllerTest extends TestCase
             "message" => "You don't have enough chips.",
         ]);
 
-        $user->refresh();
-        $this->assertSame(1000, $user->balance);
+        $player->refresh();
+        $this->assertCount(0, $player->bets);
     }
 
     /** @test */
@@ -199,6 +205,7 @@ class TournamentBetParlayControllerTest extends TestCase
         ]);
 
         $this->actingAs($user);
+        $player = $this->tournamentPlayerService->register($this->tournament, $user);
 
         // when
         $response = $this->postJson(
@@ -221,9 +228,12 @@ class TournamentBetParlayControllerTest extends TestCase
         // then
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)->assertExactJson([
             "errors" => [
-                "wager" => ["The wager must be at least 100."]
+                "wager" => ["The wager must be at least 100."],
             ],
             "message" => "The given data was invalid.",
         ]);
+
+        $player->refresh();
+        $this->assertCount(0, $player->bets);
     }
 }

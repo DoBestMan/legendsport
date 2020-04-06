@@ -58,4 +58,8 @@ export class Api {
     public async placeParlayBet(tournamentId: number, body: PlaceParlayBetBody): Promise<void> {
         await this.axios.post(`/api/tournaments/${tournamentId}/bets/parlay`, body);
     }
+
+    public async registerForTournament(tournamentId: number): Promise<void> {
+        await this.axios.post(`/api/tournaments/${tournamentId}/register`);
+    }
 }

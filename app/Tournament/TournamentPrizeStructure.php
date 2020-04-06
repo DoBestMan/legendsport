@@ -115,7 +115,38 @@ class TournamentPrizeStructure
                 new Prize(15, 2),
                 new Prize(18, "1.8"),
             ]),
-            // TODO Fill it
+            new PrizeCollection(175, [
+                new Prize(1, "23.0"),
+                new Prize(2, "14.0"),
+                new Prize(3, "10.5"),
+                new Prize(4, "8.0"),
+                new Prize(5, "6.0"),
+                new Prize(6, "4.5"),
+                new Prize(7, "3.5"),
+                new Prize(8, "2.9"),
+                new Prize(9, "2.4"),
+                new Prize(12, "2.0"),
+                new Prize(15, "1.7"),
+                new Prize(18, "1.4"),
+                new Prize(27, "1.1"),
+            ]),
+            new PrizeCollection(215, [
+                new Prize(1, "22.5"),
+                new Prize(2, "13.5"),
+                new Prize(3, "10.3"),
+                new Prize(4, "7.75"),
+                new Prize(5, "6.0"),
+                new Prize(6, "4.5"),
+                new Prize(7, "3.5"),
+                new Prize(8, "2.7"),
+                new Prize(9, "2.1"),
+                new Prize(12, "1.65"),
+                new Prize(15, "1.35"),
+                new Prize(18, "1.1"),
+                new Prize(27, "0.9"),
+                new Prize(36, "0.75"),
+            ]),
+            // TODO Fill the remaining
         ];
     }
 }

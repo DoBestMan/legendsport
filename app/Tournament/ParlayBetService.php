@@ -29,7 +29,7 @@ class ParlayBetService
      * @param int $wager
      * @return TournamentBet
      * @throws NotEnoughChipsException
-     * @throws NotEnoughBalanceException
+     * @throws NotRegisteredException
      */
     public function bet(
         Tournament $tournament,
@@ -37,13 +37,15 @@ class ParlayBetService
         array $pendingOdds,
         int $wager
     ): TournamentBet {
+        // TODO Do not allow betting on passed matches
+
         return $this->databaseManager->transaction(function () use (
             $tournament,
             $user,
             $pendingOdds,
             $wager
         ) {
-            $player = $this->tournamentPlayerService->register($tournament, $user);
+            $player = $this->tournamentPlayerService->getRegisteredPlayer($tournament, $user);
 
             if ($player->chips < $wager) {
                 throw new NotEnoughChipsException();

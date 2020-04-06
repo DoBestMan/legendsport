@@ -7,6 +7,7 @@ import { Odd } from "../../general/types/odd";
 export const mapTournament = (data: any): Tournament => ({
     buyIn: data.buy_in,
     chips: data.chips,
+    commission: data.commission,
     games: data.games,
     id: data.id,
     name: data.name,
@@ -45,6 +46,7 @@ export const mapMe = (data: any): User => ({
 export const mapMePlayer = (data: any): UserPlayer => ({
     id: data.id,
     chips: data.chips,
+    pendingChips: data.pending_chips,
     tournamentId: data.tournament_id,
 });
 

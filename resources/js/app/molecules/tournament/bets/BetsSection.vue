@@ -2,9 +2,13 @@
     <section class="col-3 h-100">
         <div class="section bets">
             <div class="title-bar-frm">
-                <span class="title">
-                    {{ balance | formatChip }}
+                <span v-if="isRegistered" class="title">
+                    <i class="fas fa-coins"></i>
+                    Balance: {{ player.chips | formatChip }} ({{
+                        player.pendingChips | formatChip
+                    }})
                 </span>
+                <RegisterNowButton v-else :tournament="tournament" />
             </div>
 
             <div class="tabs-frm">
@@ -31,7 +35,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { User } from "../../../../general/types/user";
+import { UserPlayer } from "../../../../general/types/user";
 import { Tournament } from "../../../types/tournament";
 import { BetTypeTab, Window } from "../../../types/window";
 import HistoryTab from "./HistoryTab.vue";
@@ -39,6 +43,7 @@ import ParlayTab from "./ParlayTab.vue";
 import PendingTab from "./PendingTab.vue";
 import StraightTab from "./StraightTab.vue";
 import { UpdateWindowPayload } from "../../../store/modules/window";
+import RegisterNowButton from "../../../components/RegisterNowButton.vue";
 
 export default Vue.extend({
     name: "BetsSection",
@@ -46,6 +51,7 @@ export default Vue.extend({
         HistoryTab,
         ParlayTab,
         PendingTab,
+        RegisterNowButton,
         StraightTab,
     },
 
@@ -58,15 +64,15 @@ export default Vue.extend({
             return this.window.tournament;
         },
 
-        user(): User | null {
-            return this.$stock.state.user.user;
+        player(): UserPlayer | null {
+            const playersDict: ReadonlyMap<number, UserPlayer> = this.$stock.getters[
+                "user/playersDictByTournament"
+            ];
+            return playersDict.get(this.tournament.id) ?? null;
         },
 
-        balance(): number {
-            const tournamentPlayer = this.user?.players.find(
-                player => player.tournamentId === this.tournament.id,
-            );
-            return tournamentPlayer?.chips ?? this.tournament.chips;
+        isRegistered(): boolean {
+            return !!this.player;
         },
 
         betTabs(): BetTypeTab[] {

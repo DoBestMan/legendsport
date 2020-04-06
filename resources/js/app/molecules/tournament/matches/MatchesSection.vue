@@ -28,11 +28,11 @@
             </div>
 
             <div class="actions-frm">
-                <button type="button" class="btn button game-line">Game Line</button>
-                <button type="button" class="btn button game-first-half checked">
+                <button type="button" class="btn game-line">Game Line</button>
+                <button type="button" class="btn game-first-half checked">
                     1st half
                 </button>
-                <button type="button" class="btn button update">Update</button>
+                <button type="button" class="btn update">Update</button>
             </div>
 
             <div class="tables-frm overflow-auto">

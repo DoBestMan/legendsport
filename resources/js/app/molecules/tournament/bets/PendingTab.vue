@@ -20,8 +20,8 @@
                 </div>
 
                 <div class="bet-frm">
-                    <div>Bet: {{ bet.chipsWager | formatCurrency }}</div>
-                    <div>Win: {{ bet.chipsWin | formatCurrency }}</div>
+                    <div>Bet: {{ bet.chipsWager | formatChip }}</div>
+                    <div>Win: {{ bet.chipsWin | formatChip }}</div>
                 </div>
             </div>
 
@@ -39,6 +39,7 @@ import SpinnerBox from "../../../../general/components/SpinnerBox.vue";
 import { DeepReadonly } from "../../../../general/types/types";
 import { Window } from "../../../types/window";
 import BetContent from "./BetContent.vue";
+import { User } from "../../../../general/types/user";
 
 export default Vue.extend({
     name: "PendingTab",
@@ -48,8 +49,12 @@ export default Vue.extend({
     },
 
     computed: {
+        user(): User | null {
+            return this.$stock.state.user.user;
+        },
+
         bets(): Bet[] {
-            return (this.$stock.state.user.user?.bets ?? []).filter(
+            return (this.user?.bets ?? []).filter(
                 bet =>
                     bet.tournamentId === this.window.tournament.id &&
                     bet.status === BetStatus.Pending,

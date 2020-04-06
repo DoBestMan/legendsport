@@ -13,7 +13,7 @@ abstract class TestCase extends BaseTestCase
     use RefreshDatabase;
     use CreatesApplication;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         Event::fake();

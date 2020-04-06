@@ -1,20 +1,23 @@
 <template>
-    <input
-        type="number"
+    <Money
         class="form-control text-right"
+        thousands=","
+        :precision="0"
         :min="min"
         :value="value"
         @input="onInput"
-        @keypress.enter="onChange"
-        @blur="onChange"
-    />
+        ref="money"
+    ></Money>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
+// @ts-ignore
+import { Money } from "v-money";
 
 export default Vue.extend({
     name: "ChipInput",
+    components: { Money },
 
     props: {
         value: Number,
@@ -24,19 +27,24 @@ export default Vue.extend({
         },
     },
 
-    methods: {
-        onInput(e: any) {
-            e.target.value = Math.floor(e.target.value);
+    mounted(): void {
+        (this.$refs.money as Vue).$el.addEventListener("blur", this.onBlur);
+    },
 
-            const value = Number(e.target.value);
-            if (value >= this.min) {
+    beforeDestroy(): void {
+        (this.$refs.money as Vue).$el.removeEventListener("blur", this.onBlur);
+    },
+
+    methods: {
+        onInput(value: number): void {
+            if (this.value !== value) {
                 this.$emit("input", value);
             }
         },
 
-        onChange(e: any) {
-            e.target.value = Math.max(this.min, Math.floor(e.target.value));
-            this.$emit("input", Number(e.target.value));
+        onBlur(): void {
+            const value = this.value === 0 ? 0 : Math.max(this.min, this.value);
+            this.$emit("input", value);
         },
     },
 });

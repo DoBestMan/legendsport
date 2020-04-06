@@ -27,7 +27,7 @@
                     v-model="text"
                     required
                 />
-                <button type="submit" class="btn button-action">Send</button>
+                <button type="submit" class="btn btn-action">Send</button>
             </div>
         </form>
     </div>

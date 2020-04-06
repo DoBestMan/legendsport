@@ -24,7 +24,7 @@
             />
         </div>
 
-        <div class="col-3 button-column">
+        <div class="col-3 btn-column">
             <button type="button" class="btn btn-dark" @click="includeAll">
                 Include All
             </button>
@@ -62,7 +62,7 @@ export default Vue.extend({
 </script>
 
 <style>
-.button-column {
+.btn-column {
     display: flex;
     align-items: flex-end;
 }

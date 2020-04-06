@@ -28,7 +28,7 @@ class StraightBetService
      * @param PendingOdd[] $pendingOdds
      * @return TournamentBet[]
      * @throws NotEnoughChipsException
-     * @throws NotEnoughBalanceException
+     * @throws NotRegisteredException
      */
     public function bet(Tournament $tournament, User $user, array $pendingOdds): array
     {
@@ -37,7 +37,7 @@ class StraightBetService
             $user,
             $pendingOdds
         ) {
-            $player = $this->tournamentPlayerService->register($tournament, $user);
+            $player = $this->tournamentPlayerService->getRegisteredPlayer($tournament, $user);
 
             $wagersSum = collect($pendingOdds)->sum(
                 fn(PendingOdd $pendingOdd) => $pendingOdd->getWager(),

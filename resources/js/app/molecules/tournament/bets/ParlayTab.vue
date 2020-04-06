@@ -19,7 +19,7 @@
                 <div class="header-frm">
                     <div class="h4">SUMMARY</div>
 
-                    <div class="btn button-trash" @click="removeOdds">
+                    <div class="btn btn-trash" @click="removeOdds">
                         <i class="icon fas fa-trash-alt"></i>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                     <div class="bet-frm">
                         <div class="field">
                             <strong class="field-title">Bet</strong>
-                            <ChipInput :min="100" :value="wager" @input="updateWager" />
+                            <ChipInput :value="wager" @input="updateWager" />
                         </div>
                         <div class="field">
                             <strong class="field-title">Win</strong>
@@ -38,7 +38,7 @@
                 </div>
 
                 <PlaceBetButton
-                    :tournamentId="window.tournament.id"
+                    :tournament="tournament"
                     :disabled="!canPlaceBet"
                     @placeBet="placeBet"
                 />
@@ -60,6 +60,8 @@ import { Odd } from "../../../../general/types/odd";
 import { PlaceParlayBetPayload } from "../../../store/modules/placeBet";
 import PlaceBetButton from "./PlaceBetButton.vue";
 import ChipInput from "../../../components/ChipInput.vue";
+import { UserPlayer } from "../../../../general/types/user";
+import { Tournament } from "../../../types/tournament";
 
 export default Vue.extend({
     name: "ParlayTab",
@@ -70,6 +72,10 @@ export default Vue.extend({
     },
 
     computed: {
+        tournament(): Tournament {
+            return this.window.tournament;
+        },
+
         isAuthenticated(): boolean {
             return !!this.$stock.state.user.user;
         },
@@ -77,8 +83,6 @@ export default Vue.extend({
         wager(): number {
             return this.window.parlayWager;
         },
-
-        // TODO Display limit error
 
         canPlaceBet(): boolean {
             return (
@@ -94,10 +98,11 @@ export default Vue.extend({
         },
 
         balance(): number {
-            const tournamentPlayer = this.$stock.state.user.user?.players.find(
-                player => player.tournamentId === this.window.tournament.id,
-            );
-            return tournamentPlayer?.chips ?? this.window.tournament.chips;
+            const playersDict: ReadonlyMap<number, UserPlayer> = this.$stock.getters[
+                "user/playersDictByTournament"
+            ];
+            const tournamentPlayer = playersDict.get(this.tournament.id);
+            return tournamentPlayer?.chips ?? this.tournament.chips;
         },
 
         win(): number {
@@ -124,7 +129,7 @@ export default Vue.extend({
 
     methods: {
         getGame(eventId: string): Game | null {
-            return this.window.tournament.games.find(game => game.event_id === eventId) ?? null;
+            return this.tournament.games.find(game => game.event_id === eventId) ?? null;
         },
 
         removeOdd(pendingOdd: DeepReadonly<PendingOdd>) {
@@ -162,7 +167,7 @@ export default Vue.extend({
             }
 
             const payload: PlaceParlayBetPayload = {
-                tournamentId: this.window.tournament.id,
+                tournamentId: this.tournament.id,
                 pending_odds: this.pendingOdds.map(pendingOdd => ({
                     type: pendingOdd.type,
                     event_id: pendingOdd.tournamentEventId,

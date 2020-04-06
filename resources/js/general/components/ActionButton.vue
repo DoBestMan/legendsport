@@ -1,6 +1,6 @@
 <template>
     <button
-        class="btn btn-action"
+        class="btn"
         :type="type"
         :disabled="disabled || loading"
         v-bind="$attrs"
@@ -33,8 +33,8 @@ export default Vue.extend({
 });
 </script>
 
-<style>
-.btn-action {
+<style scoped>
+.btn {
     display: flex;
     align-items: center;
 }

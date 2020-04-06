@@ -27,9 +27,7 @@ class ConfigTest extends TestCase
         $response = $this->get(route('config.show', $config->config));
 
         // then
-        $response
-            ->assertStatus(200)
-            ->assertSee('Configuration');
+        $response->assertStatus(200)->assertSee('Configuration');
     }
 
     public function test_backstage_config_edit()

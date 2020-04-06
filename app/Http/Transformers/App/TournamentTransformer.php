@@ -14,6 +14,7 @@ class TournamentTransformer extends TransformerAbstract
         return [
             "buy_in" => $tournament->buy_in,
             "chips" => $tournament->chips,
+            "commission" => $tournament->commission,
             "id" => $tournament->id,
             "name" => $tournament->name,
             "players_limit" => $tournament->players_limit,

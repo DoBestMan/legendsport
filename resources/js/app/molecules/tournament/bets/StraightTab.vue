@@ -6,11 +6,11 @@
                 <ChipInput v-model="wager" />
             </div>
 
-            <button class="btn button-action mx-3 px-5" @click="updateOddsWager">
+            <button class="btn btn-action mx-3 px-5" @click="updateOddsWager">
                 Set to all bets
             </button>
 
-            <div class="btn button-trash center" @click="removeOdds">
+            <div class="btn btn-trash center" @click="removeOdds">
                 <i class="icon fas fa-trash-alt"></i>
             </div>
         </div>
@@ -35,7 +35,7 @@
                 <div class="header-frm">
                     <div class="h4">SUMMARY</div>
 
-                    <div class="btn button-trash" @click="removeOdds">
+                    <div class="btn btn-trash" @click="removeOdds">
                         <i class="icon fas fa-trash-alt"></i>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                 </div>
 
                 <PlaceBetButton
-                    :tournamentId="window.tournament.id"
+                    :tournament="window.tournament"
                     :disabled="!canPlaceBet"
                     @placeBet="placeBet"
                 />
@@ -81,6 +81,7 @@ import { calculateWinFromAmericanOdd, getPendingOddValue } from "../../../utils/
 import { Odd } from "../../../../general/types/odd";
 import { PlaceStraightBetPayload } from "../../../store/modules/placeBet";
 import PlaceBetButton from "./PlaceBetButton.vue";
+import { UserPlayer } from "../../../../general/types/user";
 
 export default Vue.extend({
     name: "StraightTab",
@@ -116,9 +117,10 @@ export default Vue.extend({
         },
 
         balance(): number {
-            const tournamentPlayer = this.$stock.state.user.user?.players.find(
-                player => player.tournamentId === this.window.tournament.id,
-            );
+            const playersDict: ReadonlyMap<number, UserPlayer> = this.$stock.getters[
+                "user/playersDictByTournament"
+            ];
+            const tournamentPlayer = playersDict.get(this.window.tournament.id);
             return tournamentPlayer?.chips ?? this.window.tournament.chips;
         },
 
@@ -192,7 +194,7 @@ export default Vue.extend({
                 pending_odds: this.pendingOdds.map(pendingOdd => ({
                     type: pendingOdd.type,
                     event_id: pendingOdd.tournamentEventId,
-                    wager: pendingOdd.wager! * 100,
+                    wager: pendingOdd.wager!,
                 })),
             };
             await this.$stock.dispatch("placeBet/placeStraight", payload);

@@ -53,6 +53,12 @@
                         <div class="value">{{ sportsNames }}</div>
                     </div>
                 </div>
+
+                <RegisterNowButton
+                    v-if="!isRegistered"
+                    class="mb-3 mt-1"
+                    :tournament="tournament"
+                />
             </div>
 
             <PrizePool :tournament="tournament" />
@@ -71,11 +77,12 @@ import TournamentRankTable from "../../general/TournamentRankTable.vue";
 import PrizePool from "./PrizePool.vue";
 import { ChatMessage } from "../../../types/chat";
 import { NewChatMessage } from "../../../utils/websockets/NewChatMessage";
-import { User } from "../../../../general/types/user";
+import { User, UserPlayer } from "../../../../general/types/user";
+import RegisterNowButton from "../../../components/RegisterNowButton.vue";
 
 export default Vue.extend({
     name: "InfoSection",
-    components: { PrizePool, TournamentRankTable, ChatContainer },
+    components: { PrizePool, RegisterNowButton, TournamentRankTable, ChatContainer },
 
     props: {
         window: Object as PropType<Window>,
@@ -88,6 +95,13 @@ export default Vue.extend({
 
         user(): User | null {
             return this.$stock.state.user.user;
+        },
+
+        isRegistered(): boolean {
+            const playersDict: ReadonlyMap<number, UserPlayer> = this.$stock.getters[
+                "user/playersDictByTournament"
+            ];
+            return playersDict.has(this.tournament.id);
         },
 
         sportsNames(): string {

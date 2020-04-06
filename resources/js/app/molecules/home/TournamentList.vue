@@ -71,7 +71,7 @@ import Vue from "vue";
 import { Tournament } from "../../types/tournament";
 import LoadingOverlay from "../../../general/components/LoadingOverlay";
 import TableNoRecords from "../../../general/components/TableNoRecords.vue";
-import { User } from "../../../general/types/user";
+import { UserPlayer } from "../../../general/types/user";
 
 export default Vue.extend({
     name: "TournamentList",
@@ -81,14 +81,6 @@ export default Vue.extend({
     },
 
     computed: {
-        user(): User | null {
-            return this.$stock.state.user.user;
-        },
-
-        registeredTournamentsIds(): Set<number> {
-            return new Set(this.user?.players.map(player => player.tournamentId) ?? []);
-        },
-
         filteredTournaments(): Tournament[] {
             return this.$stock.getters["tournamentList/filteredTournaments"];
         },
@@ -117,7 +109,10 @@ export default Vue.extend({
         },
 
         isRegistered(tournament: Tournament): boolean {
-            return this.registeredTournamentsIds.has(tournament.id);
+            const playersDict: ReadonlyMap<number, UserPlayer> = this.$stock.getters[
+                "user/playersDictByTournament"
+            ];
+            return playersDict.has(tournament.id);
         },
 
         selectTournament(tournament: Tournament): void {

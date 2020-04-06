@@ -11,6 +11,7 @@ class MePlayerTransformer extends TransformerAbstract
         return [
             "id" => $player->id,
             "chips" => $player->chips,
+            "pending_chips" => $player->pendingChips,
             "tournament_id" => $player->tournament_id,
         ];
     }

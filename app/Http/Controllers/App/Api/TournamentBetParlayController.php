@@ -5,11 +5,11 @@ use App\Http\Controllers\Controller;
 use App\Models\PendingOdd;
 use App\Models\Tournament;
 use App\Models\TournamentEvent;
-use App\Tournament\Events\TournamentUpdate;
-use App\Tournament\ParlayBetService;
 use App\Services\PendingOddService;
-use App\Tournament\NotEnoughBalanceException;
+use App\Tournament\Events\TournamentUpdate;
 use App\Tournament\NotEnoughChipsException;
+use App\Tournament\NotRegisteredException;
+use App\Tournament\ParlayBetService;
 use App\Tournament\PendingOddType;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\JsonResponse;
@@ -58,8 +58,6 @@ class TournamentBetParlayController extends Controller
 
         $pendingOddService->assignOdds($pendingOdds);
 
-        // TODO Do not allow betting on passed matches
-
         try {
             $tournamentBet = $parlayBetService->bet(
                 $tournament,
@@ -67,10 +65,10 @@ class TournamentBetParlayController extends Controller
                 $pendingOdds,
                 (int) $request->request->get("wager"),
             );
-        } catch (NotEnoughBalanceException $e) {
+        } catch (NotRegisteredException $e) {
             return new JsonResponse(
                 [
-                    "message" => "You don't have enough balance. Top up!",
+                    "message" => "You need to be registered to place a bet.",
                 ],
                 Response::HTTP_BAD_REQUEST,
             );

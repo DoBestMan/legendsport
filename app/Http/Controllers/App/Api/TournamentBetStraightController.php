@@ -8,8 +8,8 @@ use App\Models\TournamentBet;
 use App\Models\TournamentEvent;
 use App\Services\PendingOddService;
 use App\Tournament\Events\TournamentUpdate;
-use App\Tournament\NotEnoughBalanceException;
 use App\Tournament\NotEnoughChipsException;
+use App\Tournament\NotRegisteredException;
 use App\Tournament\PendingOddType;
 use App\Tournament\StraightBetService;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -60,14 +60,12 @@ class TournamentBetStraightController extends Controller
 
         $pendingOddService->assignOdds($pendingOdds);
 
-        // TODO Do not allow betting on passed matches
-
         try {
             $tournamentBets = $straightBetService->bet($tournament, $request->user(), $pendingOdds);
-        } catch (NotEnoughBalanceException $e) {
+        } catch (NotRegisteredException $e) {
             return new JsonResponse(
                 [
-                    "message" => "You don't have enough balance. Top up!",
+                    "message" => "You need to be registered to place a bet.",
                 ],
                 Response::HTTP_BAD_REQUEST,
             );

@@ -1,5 +1,5 @@
 {
-    "*.{css,scss,sass,less,json,html,vue,js,ts}": [
+    "*.{css,scss,sass,less,json,html,php,vue,js,ts}": [
         "prettier --write"
     ],
 }

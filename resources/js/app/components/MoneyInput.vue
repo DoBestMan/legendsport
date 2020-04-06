@@ -1,24 +1,23 @@
 <template>
-    <BaseMoney
+    <Money
         class="form-control text-right"
         decimal="."
         thousands=","
         prefix="$ "
-        suffix=""
         :precision="2"
         :value="value"
         @input="onInput"
-    ></BaseMoney>
+    ></Money>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 // @ts-ignore
-import { Money as BaseMoney } from "v-money";
+import { Money } from "v-money";
 
 export default Vue.extend({
     name: "MoneyInput",
-    components: { BaseMoney },
+    components: { Money },
     props: {
         value: Number,
     },
