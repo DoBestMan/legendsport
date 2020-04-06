@@ -188,4 +188,42 @@ class TournamentBetParlayControllerTest extends TestCase
         $user->refresh();
         $this->assertSame(1000, $user->balance);
     }
+
+    /** @test */
+    public function cannot_place_bet_below_minimal_wager()
+    {
+        // given
+        /** @var User $user */
+        $user = factory(User::class)->create([
+            "balance" => 1000,
+        ]);
+
+        $this->actingAs($user);
+
+        // when
+        $response = $this->postJson(
+            "http://legendsports.local/api/tournaments/{$this->tournament->id}/bets/parlay",
+            [
+                'pending_odds' => [
+                    [
+                        "event_id" => $this->tournament->events[0]->id,
+                        "type" => "money_line_home",
+                    ],
+                    [
+                        "event_id" => $this->tournament->events[1]->id,
+                        "type" => "money_line_away",
+                    ],
+                ],
+                'wager' => 99,
+            ],
+        );
+
+        // then
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)->assertExactJson([
+            "errors" => [
+                "wager" => ["The wager must be at least 100."]
+            ],
+            "message" => "The given data was invalid.",
+        ]);
+    }
 }

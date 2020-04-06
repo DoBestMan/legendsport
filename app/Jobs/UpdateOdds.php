@@ -14,7 +14,7 @@ class UpdateOdds
             ->map(fn(array $event) => $event["Odds"])
             ->all();
 
-        $odds =  fractal()
+        $odds = fractal()
             ->collection($eventOdds, new EventOddTransformer())
             ->toArray();
 

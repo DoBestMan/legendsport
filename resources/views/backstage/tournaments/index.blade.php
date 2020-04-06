@@ -45,7 +45,7 @@
                                 <td class="text-truncate">$ {{ $tournament->buy_in / 100 }}</td>
                                 <td class="text-truncate">{{ $tournament->prize_pool['type'] }}</td>
                                 <td class="text-truncate">${{ $tournament->commission / 100 }}</td>
-                                <td class="text-truncate">{{ $tournament->chips / 100 }}</td>
+                                <td class="text-truncate">{{ $tournament->chips }}</td>
                                 <td class="text-truncate">{{ $tournament->state }}</td>
                                 <td class="text-right">
                                     <a

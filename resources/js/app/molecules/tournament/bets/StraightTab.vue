@@ -3,7 +3,7 @@
         <div class="tab-header-frm">
             <div class="field">
                 <strong class="field-title">Bet</strong>
-                <MoneyInput v-model="wager" />
+                <ChipInput v-model="wager" />
             </div>
 
             <button class="btn button-action mx-3 px-5" @click="updateOddsWager">
@@ -47,11 +47,11 @@
                     </div>
                     <div class="col">
                         <div>Total<br />Bets</div>
-                        <div><Money class="h4" :value="totalBets" /></div>
+                        <div class="h4">{{ totalBets | formatChip }}</div>
                     </div>
                     <div class="col">
                         <div>Total<br />Potential&nbsp;Bets</div>
-                        <div><Money class="h4" :value="totalWin" /></div>
+                        <div class="h4">{{ totalWin | formatChip }}</div>
                     </div>
                 </div>
 
@@ -67,25 +67,25 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { BetTypeTab, PendingOdd, Window } from "../../types/window";
-import { DeepReadonly } from "../../../general/types/types";
+import { BetTypeTab, PendingOdd, Window } from "../../../types/window";
+import { DeepReadonly } from "../../../../general/types/types";
 import StraightItem from "./StraightItem.vue";
-import { Game } from "../../types/game";
+import { Game } from "../../../types/game";
 import {
     PendingOddPayload,
     UpdateOddsWagerPayload,
     UpdateWindowPayload,
-} from "../../store/modules/window";
-import MoneyInput from "../../components/MoneyInput.vue";
-import { calculateWinFromAmericanOdd, getPendingOddValue } from "../../utils/game/bet";
-import { Odd } from "../../../general/types/odd";
-import Money from "../../components/Money.vue";
-import { PlaceStraightBetPayload } from "../../store/modules/placeBet";
+} from "../../../store/modules/window";
+import ChipInput from "../../../components/ChipInput.vue";
+import { calculateWinFromAmericanOdd, getPendingOddValue } from "../../../utils/game/bet";
+import { Odd } from "../../../../general/types/odd";
+import { PlaceStraightBetPayload } from "../../../store/modules/placeBet";
 import PlaceBetButton from "./PlaceBetButton.vue";
 
 export default Vue.extend({
     name: "StraightTab",
-    components: { Money, MoneyInput, PlaceBetButton, StraightItem },
+    components: { ChipInput, PlaceBetButton, StraightItem },
+
     props: {
         window: Object as PropType<Window>,
     },
@@ -101,7 +101,7 @@ export default Vue.extend({
             return (
                 this.pendingOdds.length > 0 &&
                 this.pendingOdds.every(pendingOdd => pendingOdd.wager ?? 0 > 0) &&
-                this.totalBets * 100 <= this.balance
+                this.totalBets <= this.balance
             );
         },
 

@@ -43,11 +43,11 @@ import {BetStatus} from "../../types/bet";
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { Bet, BetStatus } from "../../types/bet";
+import { Bet, BetStatus } from "../../../types/bet";
 import BetContent from "./BetContent.vue";
-import SpinnerBox from "../../../general/components/SpinnerBox.vue";
-import { DeepReadonly } from "../../../general/types/types";
-import { Window } from "../../types/window";
+import SpinnerBox from "../../../../general/components/SpinnerBox.vue";
+import { DeepReadonly } from "../../../../general/types/types";
+import { Window } from "../../../types/window";
 
 export default Vue.extend({
     name: "HistoryTab",

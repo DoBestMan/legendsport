@@ -32,7 +32,7 @@ const vm = new Vue({
         },
 
         commission: phpVars.commission / 100,
-        chips: phpVars.chips / 100,
+        chips: phpVars.chips,
         keepCompleted: phpVars.keepCompleted,
     },
 
@@ -44,7 +44,7 @@ const vm = new Vue({
                 await axios.put("/config", {
                     config: {
                         commission: this.commission * 100,
-                        chips: this.chips * 100,
+                        chips: this.chips,
                         keep_completed: this.keepCompleted,
                     },
                 });

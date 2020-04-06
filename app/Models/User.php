@@ -22,6 +22,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
+    use StaticTable;
+
     protected $table = 'users';
 
     /**
@@ -56,7 +58,7 @@ class User extends Authenticatable
         return $this->hasManyThrough(TournamentBet::class, TournamentPlayer::class);
     }
 
-    public function getToken() : string
+    public function getToken(): string
     {
         /** @var UserTokenService $userTokenService */
         $userTokenService = app(UserTokenService::class);

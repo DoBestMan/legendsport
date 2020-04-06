@@ -51,6 +51,11 @@ export const getPendingOddTeam = (
 
 export const formatOdd = (value: string): string => `${Number(value) > 0 ? "+" : ""}${value}`;
 
+export const formatChip = (value: number): string => {
+    const formatter = new Intl.NumberFormat("en-US");
+    return formatter.format(Math.floor(value));
+};
+
 export const formatCurrency = (value: number): string => {
     const formatter = new Intl.NumberFormat("en-US", {
         style: "currency",

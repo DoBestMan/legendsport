@@ -37,7 +37,7 @@ class TournamentBetParlayController extends Controller
                 'required',
                 Rule::in(array_values(PendingOddType::toArray())),
             ],
-            'wager' => ['required', 'numeric', 'min:1'],
+            'wager' => ['required', 'numeric', 'min:100'],
         ]);
 
         $inputPendingOdds = $request->request->get("pending_odds");
@@ -65,7 +65,7 @@ class TournamentBetParlayController extends Controller
                 $tournament,
                 $request->user(),
                 $pendingOdds,
-                $request->request->get("wager"),
+                (int) $request->request->get("wager"),
             );
         } catch (NotEnoughBalanceException $e) {
             return new JsonResponse(

@@ -1,6 +1,6 @@
 import { Echo } from "./utils/websockets/Echo";
 
-const echo = new Echo({
+export default new Echo({
     broadcaster: "pusher",
     key: process.env.MIX_PUSHER_APP_KEY,
     namespace: "",
@@ -8,5 +8,3 @@ const echo = new Echo({
     wsPort: 6001,
     disableStats: true,
 });
-
-export default echo;

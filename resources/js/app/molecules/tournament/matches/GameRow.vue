@@ -90,10 +90,10 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { Game } from "../../types/game";
-import { Odd } from "../../../general/types/odd";
-import { PendingOdd, PendingOddType, Window } from "../../types/window";
-import { DeepReadonly } from "../../../general/types/types";
+import { Game } from "../../../types/game";
+import { Odd } from "../../../../general/types/odd";
+import { PendingOdd, PendingOddType, Window } from "../../../types/window";
+import { DeepReadonly } from "../../../../general/types/types";
 import DisabledButton from "./DisabledButton.vue";
 
 const createPendingOddKey = (pendingOdd: Pick<PendingOdd, "eventId" | "type">): string =>

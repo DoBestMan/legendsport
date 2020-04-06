@@ -28,11 +28,11 @@
                     <div class="bet-frm">
                         <div class="field">
                             <strong class="field-title">Bet</strong>
-                            <MoneyInput :value="wager" @input="updateWager" />
+                            <ChipInput :min="100" :value="wager" @input="updateWager" />
                         </div>
                         <div class="field">
                             <strong class="field-title">Win</strong>
-                            <MoneyInput class="input-win" :value="win" readonly />
+                            <ChipInput class="input-win" :value="win" readonly />
                         </div>
                     </div>
                 </div>
@@ -50,19 +50,20 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import ParlayItem from "./ParlayItem.vue";
-import { DeepReadonly } from "../../../general/types/types";
-import { BetTypeTab, PendingOdd, Window } from "../../types/window";
-import { PendingOddPayload, UpdateWindowPayload } from "../../store/modules/window";
-import { Game } from "../../types/game";
-import MoneyInput from "../../components/MoneyInput.vue";
-import { americanToDecimalOdd, getPendingOddValue } from "../../utils/game/bet";
-import { Odd } from "../../../general/types/odd";
-import { PlaceParlayBetPayload } from "../../store/modules/placeBet";
+import { DeepReadonly } from "../../../../general/types/types";
+import { BetTypeTab, PendingOdd, Window } from "../../../types/window";
+import { PendingOddPayload, UpdateWindowPayload } from "../../../store/modules/window";
+import { Game } from "../../../types/game";
+import MoneyInput from "../../../components/MoneyInput.vue";
+import { americanToDecimalOdd, getPendingOddValue } from "../../../utils/game/bet";
+import { Odd } from "../../../../general/types/odd";
+import { PlaceParlayBetPayload } from "../../../store/modules/placeBet";
 import PlaceBetButton from "./PlaceBetButton.vue";
+import ChipInput from "../../../components/ChipInput.vue";
 
 export default Vue.extend({
     name: "ParlayTab",
-    components: { MoneyInput, ParlayItem, PlaceBetButton },
+    components: { ChipInput, MoneyInput, ParlayItem, PlaceBetButton },
 
     props: {
         window: Object as PropType<Window>,
@@ -77,12 +78,14 @@ export default Vue.extend({
             return this.window.parlayWager;
         },
 
+        // TODO Display limit error
+
         canPlaceBet(): boolean {
             return (
                 this.wager > 0 &&
                 this.hasEnoughPendingOdds &&
                 this.multiplier > 1 &&
-                this.wager * 100 <= this.balance
+                this.wager <= this.balance
             );
         },
 
@@ -98,7 +101,7 @@ export default Vue.extend({
         },
 
         win(): number {
-            return this.wager * this.multiplier - this.wager;
+            return Math.floor(this.wager * this.multiplier - this.wager);
         },
 
         multiplier(): number {
@@ -164,7 +167,7 @@ export default Vue.extend({
                     type: pendingOdd.type,
                     event_id: pendingOdd.tournamentEventId,
                 })),
-                wager: this.wager * 100,
+                wager: this.wager,
             };
             await this.$stock.dispatch("placeBet/placeParlay", payload);
 

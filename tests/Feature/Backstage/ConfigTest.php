@@ -29,8 +29,7 @@ class ConfigTest extends TestCase
         // then
         $response
             ->assertStatus(200)
-            ->assertSee('Configuration')
-            ->assertSee($config->config['chips']);
+            ->assertSee('Configuration');
     }
 
     public function test_backstage_config_edit()
@@ -48,7 +47,7 @@ class ConfigTest extends TestCase
         $response = $this->get(route('config.edit', $config->config));
 
         // then
-        $response->assertStatus(200)->assertSee($config->config['chips']);
+        $response->assertStatus(200);
     }
 
     public function test_backstage_config_update()

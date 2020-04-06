@@ -16,16 +16,16 @@ class TournamentBetStraightControllerTest extends TestCase
 
     private Tournament $tournament;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         parent::setUp();
         $this->mockJsonOddApiService();
 
         /** @var Tournament $tournament */
         $this->tournament = factory(Tournament::class)->create([
-            "chips" => 2000,
+            "chips"      => 2000,
             "commission" => 200,
-            "buy_in" => 300,
+            "buy_in"     => 300,
         ]);
 
         /** @var TournamentEvent[] $events */
@@ -37,22 +37,22 @@ class TournamentBetStraightControllerTest extends TestCase
 
         $this->jsonOddApiServiceMock->shouldReceive("getOdds")->andReturn([
             [
-                "ID" => $events[0]->apiEvent->api_id,
+                "ID"   => $events[0]->apiEvent->api_id,
                 "Odds" => [
                     [
-                        "ID" => "",
-                        "EventID" => $events[0]->apiEvent->api_id,
+                        "ID"            => "",
+                        "EventID"       => $events[0]->apiEvent->api_id,
                         "MoneyLineHome" => -140,
                         "MoneyLineAway" => 120,
                     ],
                 ],
             ],
             [
-                "ID" => $events[1]->apiEvent->api_id,
+                "ID"   => $events[1]->apiEvent->api_id,
                 "Odds" => [
                     [
-                        "ID" => "",
-                        "EventID" => $events[1]->apiEvent->api_id,
+                        "ID"            => "",
+                        "EventID"       => $events[1]->apiEvent->api_id,
                         "MoneyLineHome" => -150,
                         "MoneyLineAway" => 130,
                     ],
@@ -79,16 +79,16 @@ class TournamentBetStraightControllerTest extends TestCase
                 'pending_odds' => [
                     [
                         "event_id" => $this->tournament->events[0]->id,
-                        "type" => "money_line_home",
-                        "wager" => 300,
+                        "type"     => "money_line_home",
+                        "wager"    => 300,
                     ],
                     [
                         "event_id" => $this->tournament->events[1]->id,
-                        "type" => "money_line_away",
-                        "wager" => 400,
+                        "type"     => "money_line_away",
+                        "wager"    => 400,
                     ],
                 ],
-            ],
+            ]
         );
 
         // then
@@ -138,17 +138,17 @@ class TournamentBetStraightControllerTest extends TestCase
                 'pending_odds' => [
                     [
                         "event_id" => $this->tournament->events[0]->id,
-                        "type" => "money_line_home",
-                        "wager" => 200,
+                        "type"     => "money_line_home",
+                        "wager"    => 200,
                     ],
                     [
                         "event_id" => $this->tournament->events[1]->id,
-                        "type" => "money_line_away",
-                        "wager" => 300,
+                        "type"     => "money_line_away",
+                        "wager"    => 300,
                     ],
                 ],
             ],
-        );
+            );
 
         // then
         $response->assertStatus(Response::HTTP_BAD_REQUEST)->assertExactJson([
@@ -177,17 +177,17 @@ class TournamentBetStraightControllerTest extends TestCase
                 "pending_odds" => [
                     [
                         "event_id" => $this->tournament->events[0]->id,
-                        "type" => "money_line_home",
-                        "wager" => 1500,
+                        "type"     => "money_line_home",
+                        "wager"    => 1500,
                     ],
                     [
                         "event_id" => $this->tournament->events[1]->id,
-                        "type" => "money_line_away",
-                        "wager" => 800,
+                        "type"     => "money_line_away",
+                        "wager"    => 800,
                     ],
                 ],
             ],
-        );
+            );
 
         // then
         $response->assertStatus(Response::HTTP_BAD_REQUEST)->assertExactJson([
@@ -196,5 +196,45 @@ class TournamentBetStraightControllerTest extends TestCase
 
         $user->refresh();
         $this->assertSame(1000, $user->balance);
+    }
+
+    /** @test */
+    public function cannot_place_bet_below_minimal_wager()
+    {
+        // given
+        /** @var User $user */
+        $user = factory(User::class)->create([
+            "balance" => 1000,
+        ]);
+
+        $this->actingAs($user);
+
+        // when
+        $response = $this->postJson(
+            "http://legendsports.local/api/tournaments/{$this->tournament->id}/bets/straight",
+            [
+                'pending_odds' => [
+                    [
+                        "event_id" => $this->tournament->events[0]->id,
+                        "type"     => "money_line_home",
+                        "wager"    => 99,
+                    ],
+                    [
+                        "event_id" => $this->tournament->events[1]->id,
+                        "type"     => "money_line_away",
+                        "wager"    => 99,
+                    ],
+                ],
+            ],
+            );
+
+        // then
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)->assertExactJson([
+            "errors"  => [
+                "pending_odds.0.wager" => ["The pending_odds.0.wager must be at least 100."],
+                "pending_odds.1.wager" => ["The pending_odds.1.wager must be at least 100."],
+            ],
+            "message" => "The given data was invalid.",
+        ]);
     }
 }

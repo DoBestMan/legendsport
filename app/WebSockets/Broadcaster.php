@@ -18,7 +18,10 @@ class Broadcaster
 
     public function broadcast(ShouldBroadcast $event)
     {
-        $appId = $this->broadcastFactory->connection("pusher")->getPusher()->getSettings()["app_id"];
+        $appId = $this->broadcastFactory
+            ->connection("pusher")
+            ->getPusher()
+            ->getSettings()["app_id"];
         $channelName = $event->broadcastOn()->name;
 
         $channel = $this->channelManager->find($appId, $channelName);

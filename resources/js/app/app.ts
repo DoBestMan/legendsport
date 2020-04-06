@@ -7,7 +7,13 @@ import App from "./App.vue";
 import { createRouter } from "./routing";
 import { createStore } from "./store";
 import { toDateTime, toTime } from "./utils/date/utils";
-import { diffHumanReadable, formatCurrency, formatDollars, formatOdd } from "./utils/game/bet";
+import {
+    diffHumanReadable,
+    formatChip,
+    formatCurrency,
+    formatDollars,
+    formatOdd,
+} from "./utils/game/bet";
 import { RootState } from "./store/types";
 import echo from "./echo";
 import { Echo } from "./utils/websockets/Echo";
@@ -22,6 +28,7 @@ Vue.use(ToastsPlugin);
 Vue.filter("toDateTime", toDateTime);
 Vue.filter("toTime", toTime);
 Vue.filter("formatOdd", formatOdd);
+Vue.filter("formatChip", formatChip);
 Vue.filter("formatCurrency", formatCurrency);
 Vue.filter("formatDollars", formatDollars);
 Vue.filter("diffHumanReadable", diffHumanReadable);

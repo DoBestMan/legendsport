@@ -14,8 +14,11 @@ class WebSocketHandler extends BaseWebSocketHandler
     private MessageHandlerFactory $messageHandlerFactory;
     private UserTokenService $userTokenService;
 
-    public function __construct(ChannelManager $channelManager, MessageHandlerFactory $messageHandlerFactory, UserTokenService $userTokenService)
-    {
+    public function __construct(
+        ChannelManager $channelManager,
+        MessageHandlerFactory $messageHandlerFactory,
+        UserTokenService $userTokenService
+    ) {
         parent::__construct($channelManager);
         $this->messageHandlerFactory = $messageHandlerFactory;
         $this->userTokenService = $userTokenService;

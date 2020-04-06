@@ -38,7 +38,7 @@ class TournamentBetStraightController extends Controller
                 'required',
                 Rule::in(array_values(PendingOddType::toArray())),
             ],
-            'pending_odds.*.wager' => ['required', 'numeric', 'min:1'],
+            'pending_odds.*.wager' => ['required', 'numeric', 'min:100'],
         ]);
 
         $inputPendingOdds = $request->request->get("pending_odds");
@@ -53,7 +53,7 @@ class TournamentBetStraightController extends Controller
                 fn(array $pendingOdd) => new PendingOdd(
                     new PendingOddType($pendingOdd["type"]),
                     $tournamentEventsDict[$pendingOdd["event_id"]],
-                    $pendingOdd["wager"],
+                    (int) $pendingOdd["wager"],
                 ),
             )
             ->all();

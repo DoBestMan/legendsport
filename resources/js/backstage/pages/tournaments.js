@@ -54,11 +54,11 @@ new Vue({
         this.selectedEvents = phpVars.apiSelectedSports || [];
 
         if (this.chips != "" || phpVars.config == "") {
-            this.chips = phpVars.chips / 100;
+            this.chips = phpVars.chips;
             this.commission = phpVars.commission / 100;
         } else {
             this.commission = phpVars.config["commission"] / 100;
-            this.chips = phpVars.config["chips"] / 100;
+            this.chips = phpVars.config["chips"];
         }
 
         this.lateRegister = phpVars.lateRegister;
@@ -134,7 +134,7 @@ new Vue({
                     name: this.name,
                     players_limit: this.playersLimit,
                     buy_in: this.buyIn * 100,
-                    chips: this.chips * 100,
+                    chips: this.chips,
                     commission: this.commission * 100,
                     late_register: this.playersLimit == "Unlimited" ? this.lateRegister : "",
                     late_register_rule: {
@@ -168,7 +168,7 @@ new Vue({
                     name: this.name,
                     players_limit: this.playersLimit,
                     buy_in: this.buyIn * 100,
-                    chips: this.chips * 100,
+                    chips: this.chips,
                     commission: this.commission * 100,
                     late_register: this.playersLimit == "Unlimited" ? this.lateRegister : "",
                     late_register_rule: {

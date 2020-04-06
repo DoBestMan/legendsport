@@ -18,8 +18,8 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import TableNoRecords from "../../../general/components/TableNoRecords.vue";
-import { Tournament } from "../../types/tournament";
+import TableNoRecords from "../../../../general/components/TableNoRecords.vue";
+import { Tournament } from "../../../types/tournament";
 
 export default Vue.extend({
     name: "PrizePool",
