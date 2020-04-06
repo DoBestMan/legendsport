@@ -7,7 +7,13 @@
             </tr>
         </thead>
         <tbody class="tbody">
-            <tr class="tr" v-for="prize in prizes">
+            <tr
+                :key="prize.position"
+                class="tr"
+                :class="{ selected: prize.maxPosition === selectedPrize }"
+                @click="selectPrize(prize)"
+                v-for="prize in prizes"
+            >
                 <td class="td col-position">{{ prize.position }}</td>
                 <td class="td col-prize">{{ prize.prize | formatCurrency }}</td>
             </tr>
@@ -19,26 +25,37 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import TableNoRecords from "../../../../general/components/TableNoRecords.vue";
-import { Tournament } from "../../../types/tournament";
+import { Prize, Tournament } from "../../../types/tournament";
+import { Nullable } from "../../../../general/types/types";
 
 export default Vue.extend({
     name: "PrizePool",
     components: { TableNoRecords },
+
     props: {
         tournament: Object as PropType<Tournament>,
+    },
+
+    data() {
+        return {
+            selectedPrize: null as Nullable<number>,
+        };
     },
 
     computed: {
         prizes(): any[] {
             const output = [];
-
             let lastMaxPosition = 0;
+
             for (const prize of this.tournament.prizePool) {
                 const minPosition = lastMaxPosition + 1;
                 const maxPosition = prize.maxPosition;
+                const position =
+                    minPosition === maxPosition ? minPosition : `${minPosition}-${maxPosition}`;
+
                 output.push({
-                    position:
-                        minPosition === maxPosition ? minPosition : `${minPosition}-${maxPosition}`,
+                    maxPosition,
+                    position,
                     prize: prize.prize,
                 });
 
@@ -46,6 +63,12 @@ export default Vue.extend({
             }
 
             return output;
+        },
+    },
+
+    methods: {
+        selectPrize(prize: Prize) {
+            this.selectedPrize = prize.maxPosition;
         },
     },
 });
