@@ -43,7 +43,11 @@
                 </div>
             </div>
 
-            <RegisterNowButton v-if="!isRegistered" class="mb-3 mt-1" :tournament="theTournament" />
+            <RegisterNowButton
+                v-if="tournament && !isRegistered"
+                class="mb-3 mt-1"
+                :tournament="tournament"
+            />
         </div>
 
         <div class="tabs-frm">
