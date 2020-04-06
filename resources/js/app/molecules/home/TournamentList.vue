@@ -34,7 +34,17 @@
                         <td class="tdcol-buy-in">
                             {{ tournament.buyIn }}
                         </td>
-                        <td class="td col-name">{{ tournament.name }}</td>
+                        <td class="td col-name">
+                            <span
+                                v-if="isRegistered(tournament)"
+                                title="You're registered for this tournament"
+                            >
+                                <strong>{{ tournament.name }}</strong>
+                                <i class="fas fa-check-circle"></i>
+                            </span>
+
+                            <span v-else>{{ tournament.name }}</span>
+                        </td>
                         <td class="td col-time-frame">
                             {{ tournament.timeFrame }}
                         </td>
@@ -61,6 +71,7 @@ import Vue from "vue";
 import { Tournament } from "../../types/tournament";
 import LoadingOverlay from "../../../general/components/LoadingOverlay";
 import TableNoRecords from "../../../general/components/TableNoRecords.vue";
+import { User } from "../../../general/types/user";
 
 export default Vue.extend({
     name: "TournamentList",
@@ -70,6 +81,14 @@ export default Vue.extend({
     },
 
     computed: {
+        user(): User | null {
+            return this.$stock.state.user.user;
+        },
+
+        registeredTournamentsIds(): Set<number> {
+            return new Set(this.user?.players.map(player => player.tournamentId) ?? []);
+        },
+
         filteredTournaments(): Tournament[] {
             return this.$stock.getters["tournamentList/filteredTournaments"];
         },
@@ -95,6 +114,10 @@ export default Vue.extend({
 
         isSelected(tournament: Tournament): boolean {
             return tournament.id === this.selectedTournamentId;
+        },
+
+        isRegistered(tournament: Tournament): boolean {
+            return this.registeredTournamentsIds.has(tournament.id);
         },
 
         selectTournament(tournament: Tournament): void {
