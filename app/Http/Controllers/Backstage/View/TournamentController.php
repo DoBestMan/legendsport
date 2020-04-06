@@ -6,7 +6,9 @@ use App\Models\ApiEvent;
 use App\Models\Config;
 use App\Models\Tournament;
 use App\Models\TournamentEvent;
+use App\Tournament\Events\TournamentUpdate;
 use DB;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use JavaScript;
@@ -51,7 +53,7 @@ class TournamentController extends Controller
             ->with('numFirstItemPage', 0);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Dispatcher $dispatcher)
     {
         $this->validation($request);
 
@@ -82,6 +84,8 @@ class TournamentController extends Controller
             $tournament_event->api_event_id = ApiEvent::where('api_id', $data['ID'])->value('id');
             $tournament_event->save();
         }
+
+        $dispatcher->dispatch(new TournamentUpdate($tournament));
 
         return 'Data Saved Successfully';
     }
@@ -161,7 +165,7 @@ class TournamentController extends Controller
             ->with('numFirstItemPage', 0);
     }
 
-    public function update(Request $request, Tournament $tournament)
+    public function update(Request $request, Tournament $tournament, Dispatcher $dispatcher)
     {
         $this->validation($request);
 
@@ -208,6 +212,8 @@ class TournamentController extends Controller
                 'api_event_id' => $apiEvent->id,
             ]);
         }
+
+        $dispatcher->dispatch(new TournamentUpdate($tournament));
 
         return 'Data Updated Successfully';
     }
