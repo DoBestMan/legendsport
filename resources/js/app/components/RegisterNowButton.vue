@@ -7,6 +7,7 @@ import Vue, { PropType } from "vue";
 import { AxiosError } from "axios";
 import { Tournament } from "../types/tournament";
 import { formatDollars } from "../utils/game/bet";
+import { AuthModalTab } from "../store/modules/authModal";
 
 export default Vue.extend({
     name: "RegisterNowButton",
@@ -25,16 +26,12 @@ export default Vue.extend({
                 this.tournament.commission,
             )}`;
         },
-
-        loginUrl(): string {
-            return `/login?redirect_url=${encodeURIComponent(this.$route.path)}`;
-        },
     },
 
     methods: {
         async register() {
             if (!this.isAuthorized) {
-                window.location.href = this.loginUrl;
+                this.$stock.commit("authModal/open", AuthModalTab.SignIn);
                 return;
             }
 
