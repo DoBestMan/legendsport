@@ -19,11 +19,11 @@ class PendingOddService
      */
     public function assignOdds(array $pendingOdds)
     {
-        $oddDict = collect($this->oddService->getOdds())->flatMap(function (array $event) {
-            return [
+        $oddDict = collect($this->oddService->getOdds())->flatMap(
+            fn(array $event) => [
                 $event["Odds"][0]["EventID"] => $event["Odds"][0],
-            ];
-        });
+            ],
+        );
 
         foreach ($pendingOdds as $pendingOdd) {
             $tournamentEvent = $pendingOdd->getTournamentEvent();

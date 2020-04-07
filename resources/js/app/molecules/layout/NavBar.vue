@@ -77,12 +77,12 @@
         </div>
 
         <div v-else class="sign-frm offset-4 col-4">
-            <a class="btn sign-up-btn center" href="/register">
+            <button class="btn sign-up-btn center" @click="openSignUpModal">
                 Sign up
-            </a>
-            <a class="btn sign-in-btn center" href="/login">
+            </button>
+            <button class="btn sign-in-btn center" @click="openSignInModal">
                 Sign in
-            </a>
+            </button>
         </div>
     </nav>
 </template>
@@ -90,9 +90,12 @@
 <script lang="ts">
 import Vue from "vue";
 import { User } from "../../../general/types/user";
+import ModalAuth from "../auth/ModalAuth.vue";
+import { AuthModalTab } from "../../store/modules/authModal";
 
 export default Vue.extend({
     name: "NavBar",
+    components: { ModalAuth },
 
     computed: {
         user(): User | null {
@@ -108,6 +111,14 @@ export default Vue.extend({
         logout(): void {
             this.$stock.dispatch("user/logout");
             this.$toast.info("You've been logged out.");
+        },
+
+        openSignUpModal(): void {
+            this.$stock.commit("authModal/open", AuthModalTab.SignUp);
+        },
+
+        openSignInModal(): void {
+            this.$stock.commit("authModal/open", AuthModalTab.SignIn);
         },
     },
 });

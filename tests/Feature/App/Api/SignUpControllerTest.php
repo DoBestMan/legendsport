@@ -1,16 +1,16 @@
 <?php
-namespace Tests\Feature\Auth;
+namespace Tests\Feature\App\Api;
 
 use App\Models\User;
 use Tests\Utils\TestCase;
 
-class RegisterControllerTest extends TestCase
+class SignUpControllerTest extends TestCase
 {
     /** @test */
     public function registers_a_user()
     {
         // when
-        $response = $this->postJson("http://legendsports.local/register", [
+        $response = $this->postJson("http://legendsports.local/api/signup", [
             "email" => "example@example.pl",
             "name" => "My Example",
             "password" => "abc12345",

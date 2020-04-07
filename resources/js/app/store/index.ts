@@ -1,5 +1,6 @@
 import Vuex, { Store } from "vuex";
 import axios from "axios";
+import authModal from "./modules/authModal";
 import chat from "./modules/chat";
 import odd from "./modules/odd";
 import sport from "./modules/sport";
@@ -24,6 +25,7 @@ export const createStore = (): Store<RootState> => {
             api: new Api(axiosInstance),
         } as any,
         modules: {
+            authModal,
             chat,
             loader,
             odd,

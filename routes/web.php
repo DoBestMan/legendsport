@@ -14,12 +14,6 @@ $app = env('APP_URL_DOMAIN');
 $backstage = env('BACKSTAGE_URL_SUBDOM') . '.' . env('APP_URL_DOMAIN');
 
 $router->domain($app)->group(function (Router $router) {
-    $router->get('login', LoginController::class . '@showLoginForm')->name('login');
-    $router->post('login', LoginController::class . '@login');
-    $router->post('logout', LoginController::class . '@logout')->name('logout');
-    $router->get('register', RegisterController::class . '@showRegistrationForm')->name('register');
-    $router->post('register', RegisterController::class . '@register');
-
     $router->get('/{any}', AppController::class . '@index')->where('any', '.*');
 });
 

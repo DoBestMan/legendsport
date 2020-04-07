@@ -22,6 +22,18 @@ export interface PlaceParlayBetBody {
     wager: number;
 }
 
+export interface SignInBody {
+    email: string;
+    password: string;
+}
+
+export interface SignUpBody {
+    name: string;
+    email: string;
+    password: string;
+    password_confirmation: string;
+}
+
 export class Api {
     public constructor(private readonly axios: AxiosInstance) {
         //
@@ -45,6 +57,14 @@ export class Api {
     public async getMe(): Promise<User> {
         const response = await this.axios.get("/api/me");
         return mapMe(response.data);
+    }
+
+    public async signIn(body: SignInBody): Promise<void> {
+        await this.axios.post("/api/signin", body);
+    }
+
+    public async signUp(body: SignUpBody): Promise<void> {
+        await this.axios.post("/api/signup", body);
     }
 
     public async logout(): Promise<void> {

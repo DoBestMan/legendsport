@@ -7,9 +7,11 @@ import { UserState } from "./modules/user";
 import { LoaderState } from "./modules/loader";
 import { PlaceBetState } from "./modules/placeBet";
 import { ChatState } from "./modules/chat";
+import { AuthModalState } from "./modules/authModal";
 
 export interface RootState {
     api: Api;
+    authModal: AuthModalState;
     chat: ChatState;
     loader: LoaderState;
     odd: OddState;

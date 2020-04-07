@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\App\Api\AuthController;
+use App\Http\Controllers\App\Api\SignInController;
 use App\Http\Controllers\App\Api\MeController;
 use App\Http\Controllers\App\Api\OddCollection;
+use App\Http\Controllers\App\Api\SignUpController;
 use App\Http\Controllers\App\Api\SportCollection;
 use App\Http\Controllers\App\Api\TournamentBetParlayController;
 use App\Http\Controllers\App\Api\TournamentBetStraightController;
@@ -21,8 +22,11 @@ $router->domain($app)->group(function (Router $router) {
     $router->get('/sports', SportCollection::class . '@get');
     $router->get('/odds', OddCollection::class . '@get');
 
+    $router->post('/signin', SignInController::class . '@login');
+    $router->post('/signup', SignUpController::class . '@post');
+
     $router->middleware('auth')->group(function (Router $router) {
-        $router->post('/logout', AuthController::class . '@logout');
+        $router->post('/logout', SignInController::class . '@logout');
         $router->get('/me', MeController::class . '@get');
 
         $router->post(
