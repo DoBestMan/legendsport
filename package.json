@@ -24,8 +24,6 @@
         "husky": "^4.2.3",
         "laravel-echo": "^1.6.1",
         "laravel-mix": "^5.0.1",
-        "less": "^3.11.1",
-        "less-loader": "^5.0.0",
         "lint-staged": "^10.0.8",
         "lodash.debounce": "^4.0.8",
         "lodash.intersection": "^4.4.0",

@@ -1,16 +1,16 @@
-@tab-content-frm_padding: 15px;
-@tab-content-frm_height: calc(~"100%" - (@menu-frm_height + @tabs-frm_height + @footer-frm_height));
+$tab-content-frm_padding: 15px;
+$tab-content-frm_height: calc(100% - #{$menu-frm_height + $tabs-frm_height + $footer-frm_height});
 
 .tab-tournament-frm {
     &.tab-content-frm {
-        background-color: @gb_color_dark3;
-        height: @tab-content-frm_height;
-        padding-top: @tab-content-frm_padding;
-        padding-bottom: @tab-content-frm_padding;
+        background-color: $gb_color_dark3;
+        height: $tab-content-frm_height;
+        padding-top: $tab-content-frm_padding;
+        padding-bottom: $tab-content-frm_padding;
     }
 
     .section {
-        .box-shadow(0.5);
+        @include box-shadow(0.5);
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -31,18 +31,18 @@
         }
 
         .input-win {
-            background-color: @gb_color_gold;
-            color: @gb_color_dark1;
+            background-color: $gb_color_gold;
+            color: $gb_color_dark1;
             font-weight: bold;
             border: none;
         }
     }
 
     .btn-trash {
-        background-color: @gb_color_dark1;
+        background-color: $gb_color_dark1;
 
         .icon {
-            color: @gb_color_white98;
+            color: $gb_color_white98;
             font-size: 1.3rem;
         }
     }

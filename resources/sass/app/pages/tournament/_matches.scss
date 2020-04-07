@@ -1,10 +1,10 @@
 .section.matches {
-    background-color: @gb_color_table_bg;
+    background-color: $gb_color_table_bg;
 
     .tabs-frm {
         display: flex;
         align-items: center;
-        background-color: @gb_color_dark1;
+        background-color: $gb_color_dark1;
         padding: 5px 10px;
 
         .tab-frm {
@@ -13,46 +13,46 @@
                 letter-spacing: 3px;
 
                 &:not(.active) {
-                    color: @gb_color_ligth5;
+                    color: $gb_color_ligth5;
                 }
             }
         }
     }
 
-    @actions-frm_height: 40px;
+    $actions-frm_height: 40px;
 
     .actions-frm {
-        background-color: @gb_color_dark4;
-        height: @actions-frm_height;
+        background-color: $gb_color_dark4;
+        height: $actions-frm_height;
         padding: 10px;
 
         .btn {
             background-color: transparent;
-            color: @gb_color_app_white;
-            font-weight: @gb_font-bold;
-            letter-spacing: @gb_letter-spacing;
+            color: $gb_color_app_white;
+            font-weight: $gb_font-bold;
+            letter-spacing: $gb_letter-spacing;
             overflow: hidden;
             text-overflow: ellipsis;
             text-transform: uppercase;
             white-space: nowrap;
 
             &:hover {
-                background-color: @gb_color_dark3;
+                background-color: $gb_color_dark3;
             }
 
             &.checked {
-                background-color: @gb_color_app_white;
-                color: @gb_color_dark4;
+                background-color: $gb_color_app_white;
+                color: $gb_color_dark4;
             }
         }
 
         .update {
-            background-color: @gb_color_gold;
-            color: @gb_color_dark4;
+            background-color: $gb_color_gold;
+            color: $gb_color_dark4;
             float: right;
 
             &:hover {
-                background-color: @gb_color_gold_ligth;
+                background-color: $gb_color_gold_ligth;
             }
         }
     }
@@ -62,12 +62,12 @@
 
         .thead {
             .tr {
-                background-color: @gb_color_white93;
+                background-color: $gb_color_white93;
             }
 
             .th {
                 text-align: center;
-                color: @gb_color_dark5;
+                color: $gb_color_dark5;
             }
 
             .col-datetime {
@@ -99,7 +99,7 @@
                 }
 
                 &:nth-child(2n) {
-                    border-bottom: 1px dashed @gb_color_white90;
+                    border-bottom: 1px dashed $gb_color_white90;
                 }
 
                 &:hover {
@@ -114,32 +114,32 @@
 
             .col-datetime {
                 font-size: 1.3rem;
-                font-weight: @gb_font-bold;
+                font-weight: $gb_font-bold;
                 padding-left: 20px;
-                .text-in-ellipsis;
+                @include text-in-ellipsis;
             }
 
             .td {
                 .btn {
                     background-color: transparent;
-                    border: 2px solid @gb_color_white90;
-                    color: @gb_color_dark5;
+                    border: 2px solid $gb_color_white90;
+                    color: $gb_color_dark5;
                     font-size: 1.3rem;
                     font-weight: bold;
-                    letter-spacing: @gb_letter-spacing;
+                    letter-spacing: $gb_letter-spacing;
                     line-height: 1;
                     height: 40px;
                     min-width: 100%;
 
                     &:hover:not(:disabled) {
-                        background-color: @gb_color_table_row;
-                        border: 2px solid @gb_color_dark5;
+                        background-color: $gb_color_table_row;
+                        border: 2px solid $gb_color_dark5;
                     }
 
                     &.checked {
-                        background-color: @gb_color_dark5;
-                        border: 2px solid @gb_color_dark5;
-                        color: @gb_color_app_white;
+                        background-color: $gb_color_dark5;
+                        border: 2px solid $gb_color_dark5;
+                        color: $gb_color_app_white;
                     }
                 }
             }

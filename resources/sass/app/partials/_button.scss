@@ -1,7 +1,7 @@
 .btn {
     border: none transparent;
-    border-radius: @gb_border-radius;
-    letter-spacing: @gb_letter-spacing;
+    border-radius: $gb_border-radius;
+    letter-spacing: $gb_letter-spacing;
 
     &:focus {
         outline: none;
@@ -14,14 +14,14 @@
 }
 
 .btn-action {
-    border: 1px solid @gb_color_gold_dark;
+    border: 1px solid $gb_color_gold_dark;
     white-space: nowrap;
-    background-color: @gb_color_gold;
-    color: @gb_color_dark1;
-    .box-shadow(0.2);
+    background-color: $gb_color_gold;
+    color: $gb_color_dark1;
+    @include box-shadow(0.2);
 
     &:hover {
-        background-color: @gb_color_gold_ligth;
+        background-color: $gb_color_gold_ligth;
     }
 }
 

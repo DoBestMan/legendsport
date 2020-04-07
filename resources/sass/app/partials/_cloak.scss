@@ -3,7 +3,7 @@
     flex-direction: column;
     width: 100vw;
     height: 100vh;
-    background: @gb_color_dark1;
+    background: $gb_color_dark1;
 
     .spinner-wrapper {
         flex-grow: 1;
@@ -15,6 +15,6 @@
     .spinner-border {
         height: 5rem;
         width: 5rem;
-        color: @gb_color_app_white;
+        color: $gb_color_app_white;
     }
 }

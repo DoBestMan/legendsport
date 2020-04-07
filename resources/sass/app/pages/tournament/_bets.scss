@@ -1,21 +1,21 @@
 .section.bets {
-    @border-color: @gb_color_dark5;
+    $border-color: $gb_color_dark5;
 
-    background-color: @gb_color_table_bg;
+    background-color: $gb_color_table_bg;
 
-    @title-bar-frm_height: 40px;
+    $title-bar-frm_height: 40px;
     .title-bar-frm {
         align-items: center;
-        background-color: @gb_color_dark1;
+        background-color: $gb_color_dark1;
         display: flex;
-        height: @title-bar-frm_height;
+        height: $title-bar-frm_height;
         padding: 5px 10px;
 
         .title {
-            color: @gb_color_app_white;
+            color: $gb_color_app_white;
             font-size: 1.6rem;
-            font-weight: @gb_font-medium;
-            letter-spacing: @gb_letter-spacing;
+            font-weight: $gb_font-medium;
+            letter-spacing: $gb_letter-spacing;
         }
     }
 
@@ -28,21 +28,21 @@
         display: flex;
         flex-direction: column;
         overflow: hidden;
-        background-color: @gb_color_white93;
+        background-color: $gb_color_white93;
 
         .tab-header-frm {
             z-index: 1;
-            background-color: @gb_color_white98;
+            background-color: $gb_color_white98;
             padding: 1rem;
-            .box-shadow(0.2);
+            @include box-shadow(0.2);
             display: flex;
         }
 
         .tab-footer-frm {
             z-index: 1;
-            background-color: @gb_color_white98;
+            background-color: $gb_color_white98;
             padding: 1rem;
-            .box-shadow(0.2);
+            @include box-shadow(0.2);
 
             .header-frm {
                 display: flex;
@@ -71,10 +71,10 @@
             overflow: auto;
 
             .event-frm {
-                background-color: @gb_color_white98;
-                border-radius: @gb_border-radius;
-                border-left: 6px solid @border-color;
-                .box-shadow(0.2);
+                background-color: $gb_color_white98;
+                border-radius: $gb_border-radius;
+                border-left: 6px solid $border-color;
+                @include box-shadow(0.2);
                 margin-bottom: 10px;
 
                 &:nth-child(even) {
@@ -82,13 +82,13 @@
                 }
 
                 .data-frm {
-                    font-weight: @gb_font-regular;
-                    letter-spacing: @gb_letter-spacing;
+                    font-weight: $gb_font-regular;
+                    letter-spacing: $gb_letter-spacing;
                     line-height: 1.8;
                     padding: 5px;
 
                     &:not(:first-child) {
-                        border-top: 1px dashed @border-color;
+                        border-top: 1px dashed $border-color;
                     }
 
                     & .text {
@@ -119,7 +119,7 @@
                         align-items: baseline;
                         display: flex;
 
-                        @score_width: 35px;
+                        $score_width: 35px;
 
                         .team {
                             overflow: hidden;
@@ -129,38 +129,38 @@
                         }
 
                         .score {
-                            background-color: @gb_color_dark1;
-                            border-radius: @gb_border-radius;
-                            color: @gb_color_app_white;
+                            background-color: $gb_color_dark1;
+                            border-radius: $gb_border-radius;
+                            color: $gb_color_app_white;
                             margin: 0px 5px;
                             text-align: center;
-                            width: @score_width;
+                            width: $score_width;
                         }
 
                         .vs {
                             text-align: center;
                             font-size: 1.5rem;
-                            font-weight: @gb_font-bold;
+                            font-weight: $gb_font-bold;
                             margin: 0px 5px;
-                            width: @score_width;
+                            width: $score_width;
                         }
                     }
                 }
 
                 .bet-frm {
-                    background-color: @border-color;
+                    background-color: $border-color;
 
                     > * {
-                        color: @gb_color_app_white;
+                        color: $gb_color_app_white;
                     }
                 }
             }
 
             .result {
-                color: @gb_color_white100;
+                color: $gb_color_white100;
                 font-size: 1.7rem;
-                font-weight: @gb_font-light;
-                letter-spacing: @gb_letter-spacing;
+                font-weight: $gb_font-light;
+                letter-spacing: $gb_letter-spacing;
                 line-height: 1;
                 padding: 5px;
                 text-align: center;
@@ -187,8 +187,8 @@
 
         > * {
             font-size: 1.3rem;
-            font-weight: @gb_font-medium;
-            letter-spacing: @gb_letter-spacing;
+            font-weight: $gb_font-medium;
+            letter-spacing: $gb_letter-spacing;
             margin: 0.5rem 1rem;
             text-transform: uppercase;
             width: 100%;

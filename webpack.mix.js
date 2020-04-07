@@ -1,4 +1,4 @@
-const mix = require('laravel-mix');
+const mix = require("laravel-mix");
 
 /*
  |--------------------------------------------------------------------------
@@ -13,15 +13,13 @@ const mix = require('laravel-mix');
 
 mix
     // App
-    .js('resources/js/app/app.ts', 'public/app/js')
-    .less('resources/sass/app/app.less', 'public/app/css')
+    .js("resources/js/app/app.ts", "public/app/js")
+    .sass("resources/sass/app/app.scss", "public/app/css")
 
     // Backstage
-    .js('resources/js/backstage/pages/config.js', 'public/backstage/js')
-    .js('resources/js/backstage/pages/tournaments.js', 'public/backstage/js')
-    .less('resources/sass/backstage/config.less', 'public/backstage/css')
-    .less('resources/sass/backstage/home.less', 'public/backstage/css')
-    .less('resources/sass/backstage/tournaments.less', 'public/backstage/css')
+    .js("resources/js/backstage/pages/config.js", "public/backstage/js")
+    .js("resources/js/backstage/pages/tournaments.js", "public/backstage/js")
+    .sass("resources/sass/backstage/backstage.scss", "public/backstage/css")
 
     // General
     .extract()
@@ -35,12 +33,12 @@ mix
                     loader: "ts-loader",
                     exclude: /node_modules/,
                     options: {
-                        appendTsSuffixTo: [/.vue$/]
-                    }
-                }
-            ]
+                        appendTsSuffixTo: [/.vue$/],
+                    },
+                },
+            ],
         },
         resolve: {
-            extensions: [".js", ".vue", ".ts", ".tsx"]
-        }
+            extensions: [".js", ".vue", ".ts"],
+        },
     });

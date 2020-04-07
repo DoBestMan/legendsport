@@ -9,12 +9,12 @@
 }
 
 .tag {
-    background-color: @gb_color_table_bg;
-    border: 1px solid @gb_color_dark5;
-    border-radius: @gb_border-radius;
+    background-color: $gb_color_table_bg;
+    border: 1px solid $gb_color_dark5;
+    border-radius: $gb_border-radius;
     font-size: 1rem;
-    font-weight: @gb_font-bold;
+    font-weight: $gb_font-bold;
     line-height: 1.5;
-    padding: 0px 5px;
+    padding: 0 5px;
     text-transform: uppercase;
 }

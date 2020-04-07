@@ -1,11 +1,11 @@
-@tabs-frm_height: 40px;
-@tabs-frm_padding: 5px;
+$tabs-frm_height: 40px;
+$tabs-frm_padding: 5px;
 
 .tabs-frm {
-    background-color: @gb_color_dark4;
+    background-color: $gb_color_dark4;
     display: flex;
-    height: @tabs-frm_height;
-    padding: @tabs-frm_padding;
+    height: $tabs-frm_height;
+    padding: $tabs-frm_padding;
 
     .tab-frm {
         height: 100%;
@@ -14,9 +14,9 @@
         .tab {
             background-color: transparent;
             border-radius: unset;
-            color: @gb_color_app_white;
+            color: $gb_color_app_white;
             font-size: 1.1rem;
-            font-weight: @gb_font-regular;
+            font-weight: $gb_font-regular;
             height: 100%;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -24,13 +24,13 @@
             white-space: nowrap;
 
             &:hover {
-                border-bottom: 3px solid @gb_color_dark3;
+                border-bottom: 3px solid $gb_color_dark3;
             }
 
             &.active {
-                color: @gb_color_app_white;
-                font-weight: @gb_font-bold;
-                border-bottom: 3px solid @gb_color_gold;
+                color: $gb_color_app_white;
+                font-weight: $gb_font-bold;
+                border-bottom: 3px solid $gb_color_gold;
             }
 
             .icon {
@@ -40,9 +40,9 @@
         }
 
         .separator {
-            color: @gb_color_dark2;
+            color: $gb_color_dark2;
             font-size: 1.9rem;
-            font-weight: @gb_font-bold;
+            font-weight: $gb_font-bold;
             cursor: default;
         }
     }
@@ -51,7 +51,7 @@
 // .tabs-row-frm es el ROW contenedor de cada tabs-frm y se requiere que
 // tenga un color específico. Debe ser hermano de #tabs-frm
 .tabs-row-frm {
-    background-color: @gb_color_dark2;
+    background-color: $gb_color_dark2;
 
     .tabs-frm {
         background-color: transparent;
@@ -63,7 +63,7 @@
                 font-size: 1.2rem;
 
                 &:not(.active) {
-                    color: @gb_color_ligth5;
+                    color: $gb_color_ligth5;
                     font-weight: 500;
                 }
             }
@@ -80,7 +80,7 @@
     .wrapper {
         position: relative;
         overflow: hidden;
-        height: @tabs-frm_height;
+        height: $tabs-frm_height;
     }
 
     .list {
@@ -94,7 +94,7 @@
         justify-content: center;
         align-items: center;
         cursor: pointer;
-        color: @gb_color_app_white;
+        color: $gb_color_app_white;
         white-space: nowrap;
 
         &:hover {

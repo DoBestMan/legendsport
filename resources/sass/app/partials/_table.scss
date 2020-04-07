@@ -2,18 +2,18 @@ table {
     table-layout: fixed;
 
     thead {
-        background-color: @gb_color_dark1;
+        background-color: $gb_color_dark1;
 
         .tr {
             height: 30px;
         }
 
         th {
-            color: @gb_color_app_white;
+            color: $gb_color_app_white;
             cursor: default;
             font-size: 1rem;
-            font-weight: @gb_font-bold;
-            letter-spacing: @gb_letter-spacing;
+            font-weight: $gb_font-bold;
+            letter-spacing: $gb_letter-spacing;
             overflow: hidden;
             text-overflow: ellipsis;
             text-transform: uppercase;
@@ -27,31 +27,31 @@ table {
             height: 20px;
 
             &:nth-child(even) {
-                background-color: @gb_color_table_row;
+                background-color: $gb_color_table_row;
             }
 
             &:hover {
-                background-color: @gb_color_dark5;
+                background-color: $gb_color_dark5;
 
                 td {
-                    color: @gb_color_app_white;
+                    color: $gb_color_app_white;
                 }
             }
 
             &.selected {
-                background-color: @gb_color_gold;
+                background-color: $gb_color_gold;
 
                 td {
-                    color: @gb_color_dark1;
+                    color: $gb_color_dark1;
                 }
             }
         }
 
         td {
-            color: @gb_color_dark1;
+            color: $gb_color_dark1;
             cursor: default;
             font-size: 1rem;
-            font-weight: @gb_font-medium;
+            font-weight: $gb_font-medium;
             overflow: hidden;
             padding-top: 0.5rem !important;
             padding-bottom: 0.5rem !important;
@@ -94,7 +94,7 @@ table {
 
     .tbody {
         .col-position {
-            font-weight: @gb_font-bold;
+            font-weight: $gb_font-bold;
         }
 
         .col-player {
@@ -102,16 +102,16 @@ table {
             flex-direction: row;
             align-items: center;
 
-            @img-frm_height: 15px;
+            $img-frm_height: 15px;
             .img-frm {
                 background-color: white;
                 border-radius: 50%;
-                height: @img-frm_height;
+                height: $img-frm_height;
                 margin-right: 5px;
-                width: @img-frm_height;
+                width: $img-frm_height;
 
                 .icon {
-                    color: @gb_color_dark1;
+                    color: $gb_color_dark1;
                     font-size: 1.5rem;
                 }
             }

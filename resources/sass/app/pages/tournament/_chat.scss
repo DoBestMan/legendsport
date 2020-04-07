@@ -6,10 +6,10 @@
 
     .title {
         padding: 0.5rem;
-        background-color: @gb_color_dark1;
-        font-weight: @gb_font-bold;
-        color: @gb_color_app_white;
-        letter-spacing: @gb_letter-spacing;
+        background-color: $gb_color_dark1;
+        font-weight: $gb_font-bold;
+        color: $gb_color_app_white;
+        letter-spacing: $gb_letter-spacing;
         text-transform: uppercase;
         font-size: 1.2rem;
     }
@@ -24,10 +24,10 @@
         max-width: 90%;
         margin-bottom: 1rem;
         padding: 0.5rem 1rem;
-        border-radius: @gb_border-radius;
+        border-radius: $gb_border-radius;
 
         &.incoming {
-            .box-shadow(0.2);
+            @include box-shadow(0.2);
 
             .message-header {
                 display: flex;
@@ -35,7 +35,7 @@
 
                 .date {
                     margin-right: 0.5rem;
-                    color: @gb_color_ligth1;
+                    color: $gb_color_ligth1;
                 }
 
                 .user {
@@ -53,12 +53,12 @@
 
         &.outcoming {
             margin-left: auto;
-            background-color: @gb_color_gold;
+            background-color: $gb_color_gold;
         }
     }
 
     .footer {
-        border-top: 1px solid @gb_color_dark1;
+        border-top: 1px solid $gb_color_dark1;
 
         .input-message {
             height: 100%;

@@ -1,0 +1,36 @@
+@import "../_global/global";
+
+a {
+    text-decoration: none !important;
+
+    &:hover {
+        color: $gb_color_app_white;
+    }
+}
+
+.menu {
+    color: $gb_color_app_white;
+    font-weight: $gb_font-light;
+    margin-left: 5px;
+}
+
+.ui-title {
+    margin-top: 20px;
+}
+
+.multiselect {
+    .multiselect__option--highlight,
+    .multiselect__option--highlight:after,
+    .multiselect__tag {
+        background: $gb_color_dark2;
+    }
+
+    .multiselect__tag-icon:after {
+        color: $gb_color_white90;
+    }
+
+    .multiselect__tag-icon:focus,
+    .multiselect__tag-icon:hover {
+        background: $gb_color_dark5;
+    }
+}

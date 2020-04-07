@@ -1,28 +1,29 @@
-@tab-content-frm_padding: 15px;
-@tab-content-frm_height: calc(~"100%" - (@menu-frm_height + @tabs-frm_height + @footer-frm_height));
+$tab-content-frm_padding: 15px;
+$tab-content-frm_height: calc(100% - #{$menu-frm_height + $tabs-frm_height + $footer-frm_height});
 
 #tab-home-frm {
     &.tab-content-frm {
-        background-color: @gb_color_dark3;
-        height: @tab-content-frm_height;
-        padding-top: @tab-content-frm_padding;
-        padding-bottom: @tab-content-frm_padding;
+        background-color: $gb_color_dark3;
+        height: $tab-content-frm_height;
+        padding-top: $tab-content-frm_padding;
+        padding-bottom: $tab-content-frm_padding;
     }
 
     #filters-frm {
         background-color: transparent;
-        margin-bottom: @tab-content-frm_padding;
+        margin-bottom: $tab-content-frm_padding;
     }
 
-    @tournaments-frm_height: calc(
-        ~"100vh" - ((@menu-frm_height + @tabs-frm_height + @footer-frm_height) +
-                    (@filters-frm_height + (@tab-content-frm_padding * 3)))
+    $tournaments-frm_height: calc(
+        100vh - #{($menu-frm_height + $tabs-frm_height + $footer-frm_height) + (
+                $filters-frm_height + ($tab-content-frm_padding * 3)
+            )}
     );
     #tournaments-frm {
         #table-frm {
-            background-color: @gb_color_table_bg;
-            border-radius: @gb_border-radius;
-            height: @tournaments-frm_height;
+            background-color: $gb_color_table_bg;
+            border-radius: $gb_border-radius;
+            height: $tournaments-frm_height;
 
             #tournaments.table {
                 min-width: 800px;
@@ -63,34 +64,34 @@
         }
 
         #info-frm {
-            background-color: @gb_color_table_bg;
-            border-radius: @gb_border-radius;
+            background-color: $gb_color_table_bg;
+            border-radius: $gb_border-radius;
             display: flex;
             flex-direction: column;
-            height: @tournaments-frm_height;
+            height: $tournaments-frm_height;
 
-            @title-bar-frm_margin-right: 10px;
-            @img-frm_height: 36px;
-            @img-frm_width: 40px;
-            @title-bar-frm_height: 50px;
-            @status-frm_width: 80px;
+            $title-bar-frm_margin-right: 10px;
+            $img-frm_height: 36px;
+            $img-frm_width: 40px;
+            $title-bar-frm_height: 50px;
+            $status-frm_width: 80px;
 
             #title-bar-frm {
                 align-items: center;
-                background-color: @gb_color_dark1;
+                background-color: $gb_color_dark1;
                 display: flex;
-                height: @title-bar-frm_height;
+                height: $title-bar-frm_height;
                 padding: 5px 10px;
 
                 #img-frm {
                     align-items: center;
-                    background-color: @gb_color_white100;
+                    background-color: $gb_color_white100;
                     border-radius: 50%;
                     display: flex;
-                    height: @img-frm_height;
+                    height: $img-frm_height;
                     justify-content: center;
-                    margin-right: @title-bar-frm_margin-right;
-                    width: @img-frm_width;
+                    margin-right: $title-bar-frm_margin-right;
+                    width: $img-frm_width;
 
                     #img {
                         .icon {
@@ -103,28 +104,28 @@
                     align-items: center;
                     display: flex;
                     height: 100%;
-                    margin-right: @title-bar-frm_margin-right;
+                    margin-right: $title-bar-frm_margin-right;
                     overflow: hidden;
-                    width: calc(~"100%" - (@img-frm_width + @status-frm_width));
+                    width: calc(100% - #{$img-frm_width + $status-frm_width});
 
                     #title {
                         font-size: 1.4rem;
-                        font-weight: @gb_font-bold;
-                        color: @gb_color_app_white;
-                        letter-spacing: @gb_letter-spacing;
+                        font-weight: $gb_font-bold;
+                        color: $gb_color_app_white;
+                        letter-spacing: $gb_letter-spacing;
                     }
                 }
 
                 #status-frm {
                     overflow: hidden;
-                    width: @status-frm_width;
+                    width: $status-frm_width;
 
                     #status {
-                        background-color: @gb_color_gold;
-                        border-radius: @gb_border-radius;
-                        color: @gb_color_dark1;
+                        background-color: $gb_color_gold;
+                        border-radius: $gb_border-radius;
+                        color: $gb_color_dark1;
                         font-size: 0.8rem;
-                        font-weight: @gb_font-bold;
+                        font-weight: $gb_font-bold;
                         letter-spacing: 2px;
                         padding: 0px 5px;
                         text-transform: uppercase;
@@ -140,18 +141,18 @@
                 }
 
                 .title {
-                    color: @gb_color_dark1;
+                    color: $gb_color_dark1;
                     font-size: 0.8rem;
-                    font-weight: @gb_font-bold;
-                    letter-spacing: @gb_letter-spacing;
+                    font-weight: $gb_font-bold;
+                    letter-spacing: $gb_letter-spacing;
                     text-transform: uppercase;
                 }
 
                 .value {
-                    color: @gb_color_dark1;
+                    color: $gb_color_dark1;
                     font-size: 1.4rem;
-                    font-weight: @gb_font-bold;
-                    letter-spacing: @gb_letter-spacing;
+                    font-weight: $gb_font-bold;
+                    letter-spacing: $gb_letter-spacing;
                 }
             }
 
@@ -173,13 +174,13 @@
 
                 .tbody {
                     .col-position {
-                        font-weight: @gb_font-bold;
+                        font-weight: $gb_font-bold;
                     }
 
                     .col-game {
                         display: flex;
 
-                        @score_width: 30px;
+                        $score_width: 30px;
                         .team {
                             overflow: hidden;
                             text-overflow: ellipsis;
@@ -188,17 +189,17 @@
                         }
 
                         .score {
-                            background-color: @gb_color_dark1;
-                            border-radius: @gb_border-radius;
-                            color: @gb_color_app_white;
-                            margin: 0px 5px;
-                            width: @score_width;
+                            background-color: $gb_color_dark1;
+                            border-radius: $gb_border-radius;
+                            color: $gb_color_app_white;
+                            margin: 0 5px;
+                            width: $score_width;
                             text-align: center;
                         }
 
                         .vs {
                             text-align: center;
-                            width: @score_width;
+                            width: $score_width;
                         }
                     }
                 }

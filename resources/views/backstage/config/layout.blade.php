@@ -9,7 +9,7 @@
     @endsection
 
     @section('HTML-css')
-        <link rel="stylesheet" href="{{ mix('/backstage/css/config.css') }}">
+        <link rel="stylesheet" href="{{ mix('/backstage/css/backstage.css') }}">
     @endsection
 
 {{-- JS --}}

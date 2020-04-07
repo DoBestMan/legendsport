@@ -1,28 +1,28 @@
 .section.info {
-    background-color: @gb_color_table_bg;
+    background-color: $gb_color_table_bg;
 
-    @title-bar-frm_margin-right: 10px;
-    @title-bar-frm_height: 50px;
-    @img-frm_height: 36px;
-    @img-frm_width: 40px;
-    @status-frm_width: 80px;
+    $title-bar-frm_margin-right: 10px;
+    $title-bar-frm_height: 50px;
+    $img-frm_height: 36px;
+    $img-frm_width: 40px;
+    $status-frm_width: 80px;
 
     .title-bar-frm {
         align-items: center;
-        background-color: @gb_color_dark1;
+        background-color: $gb_color_dark1;
         display: flex;
-        height: @title-bar-frm_height;
+        height: $title-bar-frm_height;
         padding: 5px 10px;
 
         .img-frm {
             align-items: center;
-            background-color: @gb_color_white100;
+            background-color: $gb_color_white100;
             border-radius: 50%;
             display: flex;
-            height: @img-frm_height;
+            height: $img-frm_height;
             justify-content: center;
-            margin-right: @title-bar-frm_margin-right;
-            width: @img-frm_width;
+            margin-right: $title-bar-frm_margin-right;
+            width: $img-frm_width;
 
             .img {
                 .icon {
@@ -35,28 +35,28 @@
             align-items: center;
             display: flex;
             height: 100%;
-            margin-right: @title-bar-frm_margin-right;
+            margin-right: $title-bar-frm_margin-right;
             overflow: hidden;
-            width: calc(~"100%" - (@img-frm_width + @status-frm_width));
+            width: calc(100% - #{$img-frm_width + $status-frm_width});
 
             .title {
                 font-size: 1.4rem;
-                font-weight: @gb_font-bold;
-                color: @gb_color_app_white;
-                letter-spacing: @gb_letter-spacing;
+                font-weight: $gb_font-bold;
+                color: $gb_color_app_white;
+                letter-spacing: $gb_letter-spacing;
             }
         }
 
         .status-frm {
             overflow: hidden;
-            width: @status-frm_width;
+            width: $status-frm_width;
 
             .status {
-                background-color: @gb_color_gold;
-                border-radius: @gb_border-radius;
-                color: @gb_color_dark1;
+                background-color: $gb_color_gold;
+                border-radius: $gb_border-radius;
+                color: $gb_color_dark1;
                 font-size: 0.8rem;
-                font-weight: @gb_font-bold;
+                font-weight: $gb_font-bold;
                 letter-spacing: 2px;
                 padding: 0px 5px;
                 text-transform: uppercase;
@@ -72,23 +72,23 @@
         }
 
         .title {
-            color: @gb_color_dark1;
+            color: $gb_color_dark1;
             font-size: 0.8rem;
-            font-weight: @gb_font-bold;
-            letter-spacing: @gb_letter-spacing;
+            font-weight: $gb_font-bold;
+            letter-spacing: $gb_letter-spacing;
             text-transform: uppercase;
         }
 
         .value {
-            color: @gb_color_dark1;
+            color: $gb_color_dark1;
             font-size: 1.4rem;
-            font-weight: @gb_font-bold;
-            letter-spacing: @gb_letter-spacing;
+            font-weight: $gb_font-bold;
+            letter-spacing: $gb_letter-spacing;
         }
     }
 
     .table {
-        border: 1px solid @gb_color_table_bg;
+        border: 1px solid $gb_color_table_bg;
         width: 100% !important;
     }
 
@@ -107,7 +107,7 @@
         .tbody {
             .td {
                 font-size: 1.1rem;
-                font-weight: @gb_font-bold;
+                font-weight: $gb_font-bold;
             }
         }
     }

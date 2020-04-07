@@ -1,4 +1,4 @@
-@import "../_global/global.less";
+@import "../_global/global";
 
 @import "partials/_general";
 @import "partials/_auth";
@@ -6,7 +6,6 @@
 @import "partials/_cloak";
 @import "partials/_form";
 @import "partials/_multiselect";
-@import "partials/_sign";
 @import "partials/_tabs";
 @import "partials/_table";
 @import "partials/_utils";
