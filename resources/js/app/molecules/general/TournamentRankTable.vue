@@ -1,6 +1,6 @@
 <template>
-    <div class="table-rank">
-        <table class="table table-fixed rank">
+    <div class="table-frm table-rank-frm">
+        <table class="table table-fixed table-rank">
             <thead class="thead">
                 <tr class="tr">
                     <th class="th col-position" scope="col">Rank</th>
@@ -61,7 +61,7 @@ export default Vue.extend({
 </script>
 
 <style>
-.table-rank {
+.table-rank-frm {
     min-height: 110px;
 }
 </style>

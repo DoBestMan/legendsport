@@ -75,10 +75,8 @@
             </div>
         </div>
 
-        <div class="tables-frm">
-            <TournamentGamesTable v-if="activeTab === 'games'" :games="theTournament.games" />
-            <TournamentRankTable v-if="activeTab === 'rank'" :players="theTournament.players" />
-        </div>
+        <TournamentGamesTable v-if="activeTab === 'games'" :games="theTournament.games" />
+        <TournamentRankTable v-if="activeTab === 'rank'" :players="theTournament.players" />
     </div>
 </template>
 

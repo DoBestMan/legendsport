@@ -19,7 +19,6 @@ import { asNumber } from "../../general/utils/utils";
 import { Window } from "../types/window";
 import TournamentContainer from "../molecules/tournament/TournamentContainer.vue";
 import { DeepReadonly } from "../../general/types/types";
-import { ChatMessage } from "../types/chat";
 
 export default Vue.extend({
     name: "TournamentView",
@@ -27,7 +26,7 @@ export default Vue.extend({
 
     created() {
         if (this.window) {
-            this.listenOnNewMessages(this.window.tournament.id);
+            this.$stock.dispatch("chat/listenOnNewMessages", this.window.tournament.id);
         }
     },
 
@@ -52,20 +51,6 @@ export default Vue.extend({
         },
     },
 
-    methods: {
-        listenOnNewMessages(tournamentId: number) {
-            this.$echo
-                .channel(`chat.tournaments.${tournamentId}`)
-                .listen(".message", (e: ChatMessage) => {
-                    this.$stock.commit("chat/addMessage", e);
-                });
-        },
-
-        stopListeningOnNewMessages(tournamentId: number) {
-            this.$echo.channel(`chat.tournaments.${tournamentId}`).stopListening(".message");
-        },
-    },
-
     watch: {
         window(newVal: Window | null, oldVal: Window | null) {
             if (!newVal && oldVal) {
@@ -73,8 +58,7 @@ export default Vue.extend({
             }
 
             if (newVal) {
-                this.stopListeningOnNewMessages(newVal.tournament.id);
-                this.listenOnNewMessages(newVal.tournament.id);
+                this.$stock.dispatch("chat/listenOnNewMessages", newVal.tournament.id);
             }
         },
     },

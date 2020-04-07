@@ -1,7 +1,7 @@
 <template>
     <LoadingOverlay :loading="isLoading" :failed="isFailed" @retry="load">
-        <div id="table-frm">
-            <table id="tournaments" class="table table-fixed table-full">
+        <div id="table-frm" class="table-frm">
+            <table id="tournaments" class="table table-fixed">
                 <thead class="thead">
                     <tr class="tr">
                         <th class="th col-start" scope="col">Start</th>

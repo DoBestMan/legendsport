@@ -20,6 +20,7 @@
     }
 
     @actions-frm_height: 40px;
+
     .actions-frm {
         background-color: @gb_color_dark4;
         height: @actions-frm_height;
@@ -56,87 +57,89 @@
         }
     }
 
-    .tables-frm {
-        .match.table {
-            min-width: 100%;
+    .table.match {
+        min-width: 100%;
 
-            .thead {
-                .tr {
-                    background-color: @gb_color_white93;
-                }
-                .th {
-                    text-align: center;
-                    color: @gb_color_dark5;
+        .thead {
+            .tr {
+                background-color: @gb_color_white93;
+            }
+
+            .th {
+                text-align: center;
+                color: @gb_color_dark5;
+            }
+
+            .col-datetime {
+                min-width: 55%;
+                text-align: left;
+                width: 55%;
+            }
+
+            .col-money {
+                min-width: 15%;
+                width: 15%;
+            }
+
+            .col-spread {
+                min-width: 15%;
+                width: 15%;
+            }
+
+            .col-total {
+                min-width: 15%;
+                width: 15%;
+            }
+        }
+
+        .tbody {
+            .tr {
+                &:nth-child(even) {
+                    background-color: unset;
                 }
 
-                .col-datetime {
-                    min-width: 55%;
-                    text-align: left;
-                    width: 55%;
+                &:nth-child(2n) {
+                    border-bottom: 1px dashed @gb_color_white90;
                 }
-                .col-money {
-                    min-width: 15%;
-                    width: 15%;
-                }
-                .col-spread {
-                    min-width: 15%;
-                    width: 15%;
-                }
-                .col-total {
-                    min-width: 15%;
-                    width: 15%;
+
+                &:hover {
+                    background-color: unset;
+
+                    .td {
+                        color: unset;
+                        text-decoration: underline;
+                    }
                 }
             }
 
-            .tbody {
-                .tr {
-                    &:nth-child(even) {
-                        background-color: unset;
-                    }
+            .col-datetime {
+                font-size: 1.3rem;
+                font-weight: @gb_font-bold;
+                padding-left: 20px;
+                .text-in-ellipsis;
+            }
 
-                    &:nth-child(2n) {
-                        border-bottom: 1px dashed @gb_color_white90;
-                    }
-
-                    &:hover {
-                        background-color: unset;
-
-                        .td {
-                            color: unset;
-                            text-decoration: underline;
-                        }
-                    }
-                }
-
-                .col-datetime {
+            .td {
+                .btn {
+                    background-color: transparent;
+                    border: 2px solid @gb_color_white90;
+                    color: @gb_color_dark5;
                     font-size: 1.3rem;
-                    font-weight: @gb_font-bold;
-                    padding-left: 20px;
-                    .text-in-ellipsis;
-                }
+                    font-weight: bold;
+                    letter-spacing: @gb_letter-spacing;
+                    line-height: 1;
+                    height: 40px;
+                    min-width: 100%;
 
-                .td {
-                    .btn {
-                        background-color: transparent;
-                        border: 2px solid @gb_color_white90;
-                        color: @gb_color_dark5;
-                        font-size: 1.3rem;
-                        font-weight: bold;
-                        letter-spacing: @gb_letter-spacing;
-                        line-height: 1;
-                        height: 40px;
-                        min-width: 100%;
+                    &:hover:not(:disabled) {
+                        background-color: @gb_color_table_row;
+                        border: 2px solid @gb_color_dark5;
+                    }
 
-                        &:hover:not(:disabled) {
-                            background-color: @gb_color_table_row;
-                            border: 2px solid @gb_color_dark5;
-                        }
-
-                        &.checked {
-                            background-color: @gb_color_dark5;
-                            border: 2px solid @gb_color_dark5;
-                            color: @gb_color_app_white;
-                        }
+                    &.checked {
+                        background-color: @gb_color_dark5;
+                        border: 2px solid @gb_color_dark5;
+                        color: @gb_color_app_white;
                     }
                 }
             }

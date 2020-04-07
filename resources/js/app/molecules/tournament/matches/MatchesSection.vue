@@ -35,7 +35,7 @@
                 <button type="button" class="btn update">Update</button>
             </div>
 
-            <div class="tables-frm overflow-auto">
+            <div class="table-frm overflow-auto">
                 <table class="match table" v-for="(games, date) in groupedGames" :key="date">
                     <thead class="thead">
                         <tr class="tr">

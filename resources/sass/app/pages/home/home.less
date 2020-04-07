@@ -155,54 +155,50 @@
                 }
             }
 
-            .tables-frm {
-                overflow: auto;
+            #games.table {
+                min-width: 100%;
 
-                #games.table {
-                    min-width: 100%;
+                #col-time {
+                    min-width: 20%;
+                    width: 20%;
+                }
+                #col-sport {
+                    min-width: 20%;
+                    width: 20%;
+                }
+                #col-game {
+                    min-width: 60%;
+                    width: 60%;
+                }
 
-                    #col-time {
-                        min-width: 20%;
-                        width: 20%;
-                    }
-                    #col-sport {
-                        min-width: 20%;
-                        width: 20%;
-                    }
-                    #col-game {
-                        min-width: 60%;
-                        width: 60%;
+                .tbody {
+                    .col-position {
+                        font-weight: @gb_font-bold;
                     }
 
-                    .tbody {
-                        .col-position {
-                            font-weight: @gb_font-bold;
+                    .col-game {
+                        display: flex;
+
+                        @score_width: 30px;
+                        .team {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            width: 50%;
                         }
 
-                        .col-game {
-                            display: flex;
+                        .score {
+                            background-color: @gb_color_dark1;
+                            border-radius: @gb_border-radius;
+                            color: @gb_color_app_white;
+                            margin: 0px 5px;
+                            width: @score_width;
+                            text-align: center;
+                        }
 
-                            @score_width: 30px;
-                            .team {
-                                overflow: hidden;
-                                text-overflow: ellipsis;
-                                white-space: nowrap;
-                                width: 50%;
-                            }
-
-                            .score {
-                                background-color: @gb_color_dark1;
-                                border-radius: @gb_border-radius;
-                                color: @gb_color_app_white;
-                                margin: 0px 5px;
-                                width: @score_width;
-                                text-align: center;
-                            }
-
-                            .vs {
-                                text-align: center;
-                                width: @score_width;
-                            }
+                        .vs {
+                            text-align: center;
+                            width: @score_width;
                         }
                     }
                 }
