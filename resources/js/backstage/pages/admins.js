@@ -5,7 +5,7 @@ import FullLoader from "../components/FullLoader";
 import loaderStore from "../stores/loaderStore";
 import axios from "axios";
 import notificationStore from "../stores/notificationStore";
-import UserForm from "../molecules/user/UserForm";
+import AdminForm from "../molecules/admin/AdminForm";
 import ActionButton from "../../general/components/ActionButton";
 
 setup();
@@ -17,14 +17,12 @@ new Vue({
         ActionButton,
         FullLoader,
         ModalDelete,
-        UserForm,
+        AdminForm,
     },
 
     data: {
         name: "",
-        email: "",
         password: "",
-        balance: 0,
         errors: {},
 
         modalDeleteId: null,
@@ -33,8 +31,6 @@ new Vue({
 
     created() {
         this.name = phpVars.name;
-        this.email = phpVars.email;
-        this.balance = phpVars.balance / 100;
         this.password = phpVars.password;
     },
 
@@ -43,7 +39,7 @@ new Vue({
     },
 
     computed: {
-        userId() {
+        adminId() {
             return location.pathname.toString().split("/")[2];
         },
     },
@@ -59,32 +55,32 @@ new Vue({
             this.modalDeleteDescription = null;
         },
 
-        async deleteUser(userId) {
+        async deleteAdmin(adminId) {
             loaderStore.show();
 
             try {
-                await axios.delete(`/users/${userId}`);
+                await axios.delete(`/admins/${adminId}`);
                 this.closeDeleteModal();
-                notificationStore.info("User's been deleted.");
-                window.location = "/users";
+                notificationStore.info("Admin's been deleted.");
+                window.location = "/admins";
             } finally {
                 loaderStore.hide();
             }
         },
 
-        async createUser() {
+        async createAdmin() {
             loaderStore.show();
 
             try {
-                await axios.post("/users", {
+                await axios.post("/admins", {
                     name: this.name,
                     email: this.email,
                     balance: this.balance * 100,
                     password: this.password,
                 });
 
-                notificationStore.info("New user's been created.");
-                window.location = "/users";
+                notificationStore.info("New admin's been created.");
+                window.location = "/admins";
             } catch (e) {
                 this.errors = e.response.data.errors;
                 notificationStore.errorSync(e.response.data.message);
@@ -93,7 +89,7 @@ new Vue({
             }
         },
 
-        async updateUser() {
+        async updateAdmin() {
             loaderStore.show();
 
             try {
@@ -107,10 +103,10 @@ new Vue({
                     body.password = this.password;
                 }
 
-                await axios.patch(`/users/${this.userId}`, body);
+                await axios.patch(`/admins/${this.adminId}`, body);
 
-                notificationStore.info("User's been updated.");
-                window.location = "/users";
+                notificationStore.info("Admin's been updated.");
+                window.location = "/admins";
             } catch (e) {
                 this.errors = e.response.data.errors;
                 notificationStore.errorSync(e.response.data.message);

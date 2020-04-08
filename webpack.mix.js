@@ -19,7 +19,7 @@ mix
     // Backstage
     .js("resources/js/backstage/pages/config.js", "public/backstage/js")
     .js("resources/js/backstage/pages/tournaments.js", "public/backstage/js")
-    .js("resources/js/backstage/pages/users.js", "public/backstage/js")
+    .js("resources/js/backstage/pages/admins.js", "public/backstage/js")
     .sass("resources/sass/backstage/backstage.scss", "public/backstage/css")
 
     // General

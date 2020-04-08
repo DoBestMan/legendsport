@@ -1,4 +1,4 @@
-@extends('backstage.users.layout')
+@extends('backstage.admins.layout')
 
 @section('HTML-main')
     @parent
@@ -6,26 +6,24 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1 class="ui-title">Create user</h1>
+                <h1 class="ui-title">Create admin</h1>
             </div>
         </div>
 
         <hr/>
 
-        <form @submit.prevent="createUser">
-            <user-form
+        <form @submit.prevent="createAdmin">
+            <admin-form
                 :name.sync="name"
-                :email.sync="email"
-                :balance.sync="balance"
                 :password.sync="password"
                 :errors="errors"
-            ></user-form>
+            ></admin-form>
 
             <hr/>
 
             <div id="buttonsFrm" class="form-row form-group">
                 <div class="col-2">
-                    <a class="btn btn-light btn-link" href="{{ route('users.index') }}">
+                    <a class="btn btn-light btn-link" href="{{ route('admins.index') }}">
                         Return
                     </a>
                 </div>

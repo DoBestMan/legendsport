@@ -31,7 +31,7 @@
             <div class="offset-5 col-3">
                 <a class="menu" href="{{ route('tournaments.index') }}">Tournaments</a>
                 <label class="menu">|</label>
-                <a class="menu" href="{{ route('users.index') }}">Users</a>
+                <a class="menu" href="{{ route('admins.index') }}">Admins</a>
                 <label class="menu">|</label>
                 <a class="menu" href="{{ route('config.edit') }}">Configuration</a>
                 <label class="menu">|</label>

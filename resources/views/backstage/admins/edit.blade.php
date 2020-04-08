@@ -1,4 +1,4 @@
-@extends('backstage.users.layout')
+@extends('backstage.admins.layout')
 
 @section('HTML-main')
     @parent
@@ -6,26 +6,24 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1 class="ui-title">Update user</h1>
+                <h1 class="ui-title">Update admin</h1>
             </div>
         </div>
 
         <hr/>
 
-        <form @submit.prevent="updateUser">
-            <user-form
+        <form @submit.prevent="updateAdmin">
+            <admin-form
                 :name.sync="name"
-                :email.sync="email"
-                :balance.sync="balance"
                 :password.sync="password"
                 :errors="errors"
-            ></user-form>
+            ></admin-form>
 
             <hr />
 
             <div id="buttonsFrm" class="form-row form-group">
                 <div class="col-1">
-                    <a class="btn btn-light btn-link" href="{{ route('users.index') }}">
+                    <a class="btn btn-light btn-link" href="{{ route('admins.index') }}">
                         Return
                     </a>
                 </div>
@@ -41,7 +39,7 @@
                         type="button"
                         class="btn btn-danger"
                         title="Delete"
-                        @click='openDeleteModal(userId, name)'
+                        @click='openDeleteModal(adminId, name)'
                     >
                         Delete
                     </button>
@@ -53,6 +51,6 @@
     <modal-delete
         v-model="modalDeleteId"
         :text-description="modalDeleteDescription"
-        @@destroy="deleteUser(modalDeleteId)"
+        @@destroy="deleteAdmin(modalDeleteId)"
     ></modal-delete>
 @endsection
