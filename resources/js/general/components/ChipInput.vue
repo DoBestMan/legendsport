@@ -1,13 +1,14 @@
 <template>
     <Money
-        class="form-control text-right"
+        class="form-control"
+        :class="customClass"
         thousands=","
         :precision="0"
         :min="min"
         :value="value"
         @input="onInput"
         ref="money"
-    ></Money>
+    />
 </template>
 
 <script lang="ts">
@@ -21,6 +22,10 @@ export default Vue.extend({
 
     props: {
         value: Number,
+        customClass: {
+            type: String,
+            default: "text-right",
+        },
         min: {
             type: Number,
             default: 100,

@@ -38,7 +38,7 @@ import {
     getPendingOddValue,
 } from "../../../utils/game/bet";
 import BetContent from "./BetContent.vue";
-import ChipInput from "../../../components/ChipInput.vue";
+import ChipInput from "../../../../general/components/ChipInput.vue";
 
 export default Vue.extend({
     name: "StraightItem",

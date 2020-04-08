@@ -1,9 +1,3 @@
-@php
-    $routeHome = route('backstage.home');
-    $routeTournaments = route('tournaments.index');
-    $routeConfig = route('config.edit');
-@endphp
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -20,14 +14,13 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/brands.css" integrity="sha384-tft2+pObMD7rYFMZlLUziw/8QrQeKHU4GYYvA5jVaggC74ZrYdTASheA2vckPcX5" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/fontawesome.css" integrity="sha384-+pqJl+lfXqeZZHwVRNTbv2+eicpo+1TR/AEzHYYDKfAits/WRK21xLOwzOxZzJEZ" crossorigin="anonymous">
 
-    {{-- local --}}
-    @yield('HTML-css')
+    <link rel="stylesheet" href="{{ mix('/backstage/css/backstage.css') }}">
 </head>
 <body>
     <div id="main" class="container-fluid">
         <nav id="menu-frm" class="row">
             <div class="col-4">
-                <a id="brand-frm" href="{{ $routeHome }}">
+                <a id="brand-frm" href="{{ route('backstage.home') }}">
                     <div id="logo-text-frm" class="d-inline-blockx align-top">
                         <div id="logo-text" class="">LS</div>
                     </div>
@@ -36,9 +29,11 @@
             </div>
 
             <div class="offset-5 col-3">
-                <a class="menu" href="{{ $routeTournaments }}">Tournaments</a>
+                <a class="menu" href="{{ route('tournaments.index') }}">Tournaments</a>
                 <label class="menu">|</label>
-                <a class="menu" href="{{ $routeConfig }}">Configuration</a>
+                <a class="menu" href="{{ route('users.index') }}">Users</a>
+                <label class="menu">|</label>
+                <a class="menu" href="{{ route('config.edit') }}">Configuration</a>
                 <label class="menu">|</label>
                 <a class="menu" href="{{ route('backstage.logout') }}"
                    onclick="event.preventDefault();document.getElementById('logout-form').submit();">
@@ -70,4 +65,3 @@
 
 </body>
 </html>
-

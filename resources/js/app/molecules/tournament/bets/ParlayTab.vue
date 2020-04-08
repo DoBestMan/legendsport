@@ -54,12 +54,12 @@ import { DeepReadonly } from "../../../../general/types/types";
 import { BetTypeTab, PendingOdd, Window } from "../../../types/window";
 import { PendingOddPayload, UpdateWindowPayload } from "../../../store/modules/window";
 import { Game } from "../../../types/game";
-import MoneyInput from "../../../components/MoneyInput.vue";
+import MoneyInput from "../../../../general/components/MoneyInput.vue";
 import { americanToDecimalOdd, getPendingOddValue } from "../../../utils/game/bet";
 import { Odd } from "../../../../general/types/odd";
 import { PlaceParlayBetPayload } from "../../../store/modules/placeBet";
 import PlaceBetButton from "./PlaceBetButton.vue";
-import ChipInput from "../../../components/ChipInput.vue";
+import ChipInput from "../../../../general/components/ChipInput.vue";
 import { UserPlayer } from "../../../../general/types/user";
 import { Tournament } from "../../../types/tournament";
 

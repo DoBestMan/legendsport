@@ -11,7 +11,10 @@ export default Vue.extend({
     name: "FormFeedback",
 
     props: {
-        errors: Array,
+        errors: {
+            type: Array,
+            default: () => [],
+        },
     },
 });
 </script>

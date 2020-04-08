@@ -76,7 +76,7 @@ import {
     UpdateOddsWagerPayload,
     UpdateWindowPayload,
 } from "../../../store/modules/window";
-import ChipInput from "../../../components/ChipInput.vue";
+import ChipInput from "../../../../general/components/ChipInput.vue";
 import { calculateWinFromAmericanOdd, getPendingOddValue } from "../../../utils/game/bet";
 import { Odd } from "../../../../general/types/odd";
 import { PlaceStraightBetPayload } from "../../../store/modules/placeBet";

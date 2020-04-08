@@ -1,9 +1,4 @@
-
-{{-- EXTEND --}}
-    @extends('backstage.tournaments.layout')
-
-{{-- VARS --}}
-    @section('title', 'Show tournament')
+@extends('backstage.tournaments.layout')
 
 @section('HTML-main')
     @parent
@@ -11,7 +6,7 @@
     <div class="container">
         <div name="titleFrm" class="row">
             <div class="col">
-                <h1 class="ui-title">@yield('title')</h1>
+                <h1 class="ui-title">Show tournament</h1>
             </div>
         </div>
 

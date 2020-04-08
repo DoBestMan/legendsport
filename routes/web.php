@@ -5,6 +5,7 @@ use App\Http\Controllers\Backstage\View\ConfigController;
 use App\Http\Controllers\Backstage\Api\SignInController as BackstageSignInController;
 use App\Http\Controllers\Backstage\View\HomeController as BackstageHomeController;
 use App\Http\Controllers\Backstage\View\TournamentController as BackstageTournamentController;
+use App\Http\Controllers\Backstage\View\UserController as BackstageUserController;
 use Illuminate\Routing\Router;
 
 /** @var Router $router */
@@ -23,6 +24,7 @@ $router->domain($backstage)->group(function (Router $router) {
         $router->get('/config/edit', ConfigController::class . '@edit')->name('config.edit');
         $router->put('/config', ConfigController::class . '@update')->name('config.update');
         $router->resource('/tournaments', BackstageTournamentController::class);
+        $router->resource('/users', BackstageUserController::class);
 
         $router
             ->post('/logout', BackstageSignInController::class . '@logout')

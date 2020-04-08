@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import FormFeedback from "./FormFeedback.vue";
+import FormFeedback from "../../general/components/FormFeedback.vue";
 
 export default Vue.extend({
     name: "FormInput",

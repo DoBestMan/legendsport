@@ -1,23 +1,9 @@
-{{-- EXTEND --}}
-    @extends('backstage.layout')
+@extends('backstage.layout')
 
-{{-- VARS --}}
+@section('HTML-js')
+    <script type="text/javascript" src="{{ mix('/backstage/js/config.js') }}"></script>
+@endsection
 
-{{-- CSS --}}
-    @section('HTML-cssVendors')
-
-    @endsection
-
-    @section('HTML-css')
-        <link rel="stylesheet" href="{{ mix('/backstage/css/backstage.css') }}">
-    @endsection
-
-{{-- JS --}}
-    @section('HTML-js')
-        <script type="text/javascript" src="{{ mix('/backstage/js/config.js') }}"></script>
-    @endsection
-
-{{-- HTML --}}
 @section('HTML-main')
     <div class="container">
         <div class="row">

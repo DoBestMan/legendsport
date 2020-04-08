@@ -129,7 +129,7 @@ new Vue({
             loaderStore.show();
 
             try {
-                const response = await axios.post("/tournaments", {
+                await axios.post("/tournaments", {
                     ApiData: this.selectedEvents,
                     name: this.name,
                     players_limit: this.playersLimit,

@@ -339,10 +339,11 @@
 </template>
 
 <script lang="ts">
+import Vue from "vue";
 import { TournamentState } from "../../../general/types/tournament";
 import { PlayersLimitType, TimeFrame } from "../../../app/types/tournament";
 
-export default {
+export default Vue.extend({
     name: "TournamentForm",
 
     props: [
@@ -392,5 +393,5 @@ export default {
             return TimeFrame;
         },
     },
-};
+});
 </script>

@@ -25,7 +25,7 @@ import ActionButton from "../../general/components/ActionButton.vue";
 export default Vue.extend({
     name: "ModalDelete",
     props: {
-        value: [Boolean, Number],
+        value: [Boolean, Number, String],
         deleting: {
             type: Boolean,
             default: false,
