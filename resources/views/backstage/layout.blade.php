@@ -39,7 +39,16 @@
                 <a class="menu" href="{{ $routeTournaments }}">Tournaments</a>
                 <label class="menu">|</label>
                 <a class="menu" href="{{ $routeConfig }}">Configuration</a>
+                <label class="menu">|</label>
+                <a class="menu" href="{{ route('backstage.logout') }}"
+                   onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                    {{ __('Logout') }}
+                </a>
             </div>
+
+            <form id="logout-form" action="{{ route('backstage.logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
         </nav>
 
         @yield('HTML-main')

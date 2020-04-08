@@ -8,5 +8,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(ConfigTableSeeder::class);
         $this->call(TournamentsTableSeeder::class);
+        $this->call(AdminTableSeeder::class);
     }
 }
