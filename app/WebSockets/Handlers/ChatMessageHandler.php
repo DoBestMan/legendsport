@@ -1,8 +1,8 @@
 <?php
 namespace App\WebSockets\Handlers;
 
-use App\Tournament\Events\ChatMessage;
 use App\Models\User;
+use App\Tournament\Events\ChatMessage;
 use App\WebSockets\Broadcaster;
 use App\WebSockets\MessageHandler;
 use BeyondCode\LaravelWebSockets\WebSockets\Channels\ChannelManager;

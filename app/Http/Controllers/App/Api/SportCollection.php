@@ -1,18 +1,16 @@
 <?php
 namespace App\Http\Controllers\App\Api;
 
+use App\Betting\BettingProvider;
 use App\Http\Controllers\Controller;
-use App\Services\SportService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
+use App\Http\Transformers\App\SportTransformer;
 
 class SportCollection extends Controller
 {
-    public function get(SportService $sportService)
+    public function get(BettingProvider $bettingProvider)
     {
-        return new JsonResponse($sportService->getSports(), Response::HTTP_OK, [
-            'Access-Control-Allow-Origin' => '*',
-            'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
-        ]);
+        return fractal()
+            ->collection($bettingProvider->getSports(), new SportTransformer())
+            ->toArray();
     }
 }

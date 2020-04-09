@@ -8,8 +8,10 @@ use Psr\SimpleCache\CacheInterface;
 
 class JsonOddAPI implements BettingProvider
 {
-    private const CACHE_TTL = 10 * 60;
-    private const CACHE_KEY = "api_odds";
+    private const ODDS_CACHE_TTL = 10 * 60;
+    private const ODDS_CACHE_KEY = "api_odds";
+    private const SPORTS_CACHE_TTL = 24 * 60 * 60;
+    private const SPORTS_CACHE_KEY = "api_sports";
     private CacheInterface $cache;
     private JsonOddApiService $jsonOddApiService;
 
@@ -56,13 +58,20 @@ class JsonOddAPI implements BettingProvider
             ->all();
     }
 
+    public function getSports(): array
+    {
+        return collect($this->getRawSports())
+            ->map(fn($value, $key) => new Sport($key, $value))
+            ->all();
+    }
+
     private function getRawOdds(): array
     {
-        $odds = $this->cache->get(JsonOddAPI::CACHE_KEY);
+        $odds = $this->cache->get(JsonOddAPI::ODDS_CACHE_KEY);
 
         if (!$odds) {
             $odds = $this->jsonOddApiService->getOdds();
-            $this->cache->set(JsonOddAPI::CACHE_KEY, $odds, JsonOddAPI::CACHE_TTL);
+            $this->cache->set(JsonOddAPI::ODDS_CACHE_KEY, $odds, JsonOddAPI::ODDS_CACHE_TTL);
         }
 
         if (Arr::get($odds, "message") === "Limit Exceeded") {
@@ -70,5 +79,21 @@ class JsonOddAPI implements BettingProvider
         }
 
         return $odds;
+    }
+
+    private function getRawSports(): array
+    {
+        $sports = $this->cache->get(JsonOddAPI::SPORTS_CACHE_KEY);
+
+        if (!$sports) {
+            $sports = $this->jsonOddApiService->getSports();
+            $this->cache->set(JsonOddAPI::SPORTS_CACHE_KEY, $sports, JsonOddAPI::SPORTS_CACHE_TTL);
+        }
+
+        if (Arr::get($sports, "message") === "Limit Exceeded") {
+            throw new LimitExceededException();
+        }
+
+        return $sports;
     }
 }

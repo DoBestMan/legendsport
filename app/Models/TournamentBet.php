@@ -4,10 +4,10 @@ namespace App\Models;
 
 use App\Tournament\BetStatus;
 use Carbon\Carbon;
+use Decimal\Decimal;
 use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Decimal\Decimal;
 
 /**
  * @property int $id

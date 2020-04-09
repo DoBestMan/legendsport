@@ -2,7 +2,6 @@
 namespace App\Http\Transformers\App;
 
 use App\Models\User;
-use Firebase\JWT\JWT;
 use League\Fractal\TransformerAbstract;
 
 class MeTransformer extends TransformerAbstract

@@ -1,9 +1,9 @@
 <?php
 namespace App\Http\Controllers\Backstage\Api;
 
+use App\Betting\BettingProvider;
 use App\Http\Controllers\Controller;
 use App\Http\Transformers\App\SportEventTransformer;
-use App\Betting\BettingProvider;
 
 class EventCollection extends Controller
 {

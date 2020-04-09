@@ -1,9 +1,9 @@
 <?php
 namespace App\Services;
 
-use App\Models\PendingOdd;
 use App\Betting\BettingProvider;
 use App\Betting\SportEventOdd;
+use App\Models\PendingOdd;
 use App\Tournament\PendingOddType;
 use UnexpectedValueException;
 
