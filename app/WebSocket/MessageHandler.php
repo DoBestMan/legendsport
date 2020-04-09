@@ -1,5 +1,5 @@
 <?php
-namespace App\WebSockets;
+namespace App\WebSocket;
 
 use App\Models\User;
 

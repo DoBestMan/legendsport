@@ -19,7 +19,8 @@ class EventCollection extends Controller
             ->toArray();
 
         return [
-            "pages_count" => ceil($pagination->getTotal() / $pagination->getPerPage()),
+            "total" => $pagination->getTotal(),
+            "per_page" => $pagination->getPerPage(),
             "items" => $items,
         ];
     }

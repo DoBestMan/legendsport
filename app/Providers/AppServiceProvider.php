@@ -7,7 +7,7 @@ use App\Betting\Bets365API;
 use App\Betting\BettingProvider;
 use App\Betting\JsonOddAPI;
 use App\Services\UserTokenService;
-use App\WebSockets\WebSocketHandler;
+use App\WebSocket\WebSocketHandler;
 use BeyondCode\LaravelWebSockets\WebSockets\WebSocketHandler as BaseWebSocketHandler;
 use Illuminate\Support\ServiceProvider;
 

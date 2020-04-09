@@ -17,7 +17,7 @@
             :failed="loadEventsFailed"
             @retry="loadEvents"
         >
-            <div class="table-responsive" style="max-height: 230px">
+            <div class="table-responsive" style="max-height: 300px">
                 <table
                     class="table table-fixed table-sm table-light table-striped table-borderless table-hover"
                 >
@@ -59,13 +59,15 @@
                 </table>
                 <hr />
             </div>
+
+            <b-pagination align="center" :total-rows="total" :per-page="perPage" v-model="page" />
         </LoadingOverlay>
     </b-modal>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { BModal } from "bootstrap-vue";
+import { BModal, BPagination } from "bootstrap-vue";
 import axios from "axios";
 import moment from "moment";
 import { Event } from "../../types/event";
@@ -78,7 +80,7 @@ import sportStore from "../../stores/sportStore";
 
 export default Vue.extend({
     name: "ModalAvailableEventList",
-    components: { BModal, FilterContainer, LoadingOverlay, TableNoRecords },
+    components: { BModal, BPagination, FilterContainer, LoadingOverlay, TableNoRecords },
 
     props: {
         value: Boolean,
@@ -89,7 +91,9 @@ export default Vue.extend({
             sports: [] as string[],
             eventDate: null as Nullable<string>,
 
-            pagesCount: 0,
+            page: 1,
+            total: 0,
+            perPage: 0,
             events: [] as Event[],
             loadEventsIsLoading: false,
             loadEventsFailed: false,
@@ -112,9 +116,13 @@ export default Vue.extend({
             this.loadEventsIsLoading = true;
 
             try {
-                const response = await axios.get("/api/events");
+                const params = {
+                    page: this.page,
+                };
+                const response = await axios.get("/api/events", { params });
                 this.events = response.data.items;
-                this.pagesCount = response.data.pages_count;
+                this.total = response.data.total;
+                this.perPage = response.data.per_page;
                 this.loadEventsFailed = false;
             } catch (e) {
                 this.loadEventsFailed = true;
@@ -141,6 +149,12 @@ export default Vue.extend({
     watch: {
         value(newVal) {
             if (newVal && empty(this.events)) {
+                this.loadEvents();
+            }
+        },
+
+        page(newVal, oldVal) {
+            if (newVal !== oldVal) {
                 this.loadEvents();
             }
         },
