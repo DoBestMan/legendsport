@@ -4,9 +4,10 @@ namespace App\Betting;
 interface BettingProvider
 {
     /**
+     * @param int $page
      * @return SportEvent[]
      */
-    public function getEvents(): array;
+    public function getEvents(int $page): array;
 
     /**
      * @return SportEventOdd[]

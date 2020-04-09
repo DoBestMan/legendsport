@@ -30,7 +30,7 @@ class ApiEvent extends Model
         return new SportEvent(
             $this->id,
             $data["external_id"],
-            $data["starts_at"] ? new Carbon($data["starts_at"]) : null,
+            $data["starts_at"],
             $data["sport_id"],
             $data["home_team"],
             $data["away_team"],

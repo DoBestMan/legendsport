@@ -15,14 +15,14 @@ class SportEvent
     public function __construct(
         ?int $id,
         string $externalId,
-        ?Carbon $startsAt,
+        $startsAt,
         string $sportId,
         string $homeTeam,
         string $awayTeam
     ) {
         $this->id = $id;
         $this->externalId = $externalId;
-        $this->startsAt = $startsAt;
+        $this->startsAt = $startsAt ? new Carbon($startsAt) : null;
         $this->sportId = $sportId;
         $this->homeTeam = $homeTeam;
         $this->awayTeam = $awayTeam;
