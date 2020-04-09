@@ -1,8 +1,8 @@
 import moment from "moment";
 import { PendingOdd, PendingOddType } from "../../types/window";
-import { Odd } from "../../../general/types/odd";
 import { Game } from "../../types/game";
 import { DeepReadonly } from "../../../general/types/types";
+import { Odd } from "../../types/odd";
 
 export const americanToDecimalOdd = (odd: number): number => (odd < 0 ? 100 / -odd : odd / 100);
 

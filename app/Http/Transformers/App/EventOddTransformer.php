@@ -1,23 +1,24 @@
 <?php
 namespace App\Http\Transformers\App;
 
+use App\SportEvent\SportEventOdd;
 use League\Fractal\TransformerAbstract;
 
 class EventOddTransformer extends TransformerAbstract
 {
-    public function transform(array $odds)
+    public function transform(SportEventOdd $sportEventOdd)
     {
         return [
-            "id" => $odds[0]["EventID"],
-            "money_line_away" => $odds[0]["MoneyLineAway"],
-            "money_line_home" => $odds[0]["MoneyLineHome"],
-            "point_spread_away" => $odds[0]["PointSpreadAway"],
-            "point_spread_home" => $odds[0]["PointSpreadHome"],
-            "point_spread_away_line" => $odds[0]["PointSpreadAwayLine"],
-            "point_spread_home_line" => $odds[0]["PointSpreadHomeLine"],
-            "overline" => $odds[0]["OverLine"],
-            "underline" => $odds[0]["UnderLine"],
-            "total_number" => $odds[0]["TotalNumber"],
+            "id" => $sportEventOdd->getExternalEventId(),
+            "money_line_away" => $sportEventOdd->getMoneyLineAway(),
+            "money_line_home" => $sportEventOdd->getMoneyLineHome(),
+            "point_spread_away" => $sportEventOdd->getPointSpreadAway(),
+            "point_spread_home" => $sportEventOdd->getPointSpreadHome(),
+            "point_spread_away_line" => $sportEventOdd->getPointSpreadAwayLine(),
+            "point_spread_home_line" => $sportEventOdd->getPointSpreadHomeLine(),
+            "overline" => $sportEventOdd->getOverLine(),
+            "underline" => $sportEventOdd->getUnderLine(),
+            "total_number" => $sportEventOdd->getTotalNumber(),
         ];
     }
 }

@@ -2,7 +2,7 @@ import { Prize, Tournament } from "../types/tournament";
 import { Player } from "../types/player";
 import { User, UserPlayer } from "../../general/types/user";
 import { Bet, BetEvent } from "../types/bet";
-import { Odd } from "../../general/types/odd";
+import { Odd } from "../types/odd";
 
 export const mapTournament = (data: any): Tournament => ({
     buyIn: data.buy_in,

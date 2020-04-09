@@ -22,8 +22,8 @@ import { DeepReadonly } from "../../../../general/types/types";
 import { Game } from "../../../types/game";
 import { PendingOdd } from "../../../types/window";
 import { getPendingOddTeam, getPendingOddValue } from "../../../utils/game/bet";
-import { Odd } from "../../../../general/types/odd";
 import BetContent from "./BetContent.vue";
+import { Odd } from "../../../types/odd";
 
 export default Vue.extend({
     name: "ParlayItem",

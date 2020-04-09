@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Services\JsonOddApiService;
 use App\Services\UserTokenService;
+use App\SportEvent\JsonOddAPI;
+use App\SportEvent\OddsProvider;
 use App\WebSockets\WebSocketHandler;
 use BeyondCode\LaravelWebSockets\WebSockets\WebSocketHandler as BaseWebSocketHandler;
 use Illuminate\Support\ServiceProvider;
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(BaseWebSocketHandler::class, WebSocketHandler::class);
+        $this->app->bind(OddsProvider::class, JsonOddAPI::class);
     }
 
     /**

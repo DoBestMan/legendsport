@@ -1,7 +1,7 @@
 import { Module } from "vuex";
 import { RootState } from "../types";
-import { Odd } from "../../../general/types/odd";
 import { DeepReadonly } from "../../../general/types/types";
+import { Odd } from "../../types/odd";
 
 export interface OddState {
     isLoading: boolean;

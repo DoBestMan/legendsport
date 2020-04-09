@@ -3,18 +3,14 @@ namespace App\Http\Controllers\App\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Transformers\App\EventOddTransformer;
-use App\Services\OddService;
+use App\SportEvent\OddsProvider;
 
 class OddCollection extends Controller
 {
-    public function get(OddService $oddService)
+    public function get(OddsProvider $oddsProvider)
     {
-        $eventOdds = collect($oddService->getOdds())
-            ->map(fn(array $event) => $event["Odds"])
-            ->all();
-
         return fractal()
-            ->collection($eventOdds, new EventOddTransformer())
+            ->collection($oddsProvider->getOdds(), new EventOddTransformer())
             ->toArray();
     }
 }

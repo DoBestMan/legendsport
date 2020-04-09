@@ -78,10 +78,10 @@ import {
 } from "../../../store/modules/window";
 import ChipInput from "../../../../general/components/ChipInput.vue";
 import { calculateWinFromAmericanOdd, getPendingOddValue } from "../../../utils/game/bet";
-import { Odd } from "../../../../general/types/odd";
 import { PlaceStraightBetPayload } from "../../../store/modules/placeBet";
 import PlaceBetButton from "./PlaceBetButton.vue";
 import { UserPlayer } from "../../../../general/types/user";
+import { Odd } from "../../../types/odd";
 
 export default Vue.extend({
     name: "StraightTab",
