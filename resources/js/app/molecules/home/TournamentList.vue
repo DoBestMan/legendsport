@@ -32,7 +32,7 @@
                             {{ getSportsNames(tournament.sportIds) }}
                         </td>
                         <td class="tdcol-buy-in">
-                            {{ tournament.buyIn }}
+                            {{ tournament.buyIn | formatDollars }}
                         </td>
                         <td class="td col-name">
                             <span

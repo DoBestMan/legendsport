@@ -6,8 +6,8 @@
 import Vue, { PropType } from "vue";
 import { AxiosError } from "axios";
 import { Tournament } from "../types/tournament";
-import { formatDollars } from "../utils/game/bet";
 import { AuthModalTab } from "../store/modules/authModal";
+import { formatDollars } from "../../general/utils/filters";
 
 export default Vue.extend({
     name: "RegisterNowButton",
