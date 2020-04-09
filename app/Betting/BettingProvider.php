@@ -5,9 +5,9 @@ interface BettingProvider
 {
     /**
      * @param int $page
-     * @return SportEvent[]
+     * @return Pagination<SportEvent>
      */
-    public function getEvents(int $page): array;
+    public function getEvents(int $page): Pagination;
 
     /**
      * @return SportEventOdd[]

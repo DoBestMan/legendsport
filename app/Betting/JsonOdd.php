@@ -2,16 +2,15 @@
 namespace App\Betting;
 
 use App\Exceptions\LimitExceededException;
-use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Psr\SimpleCache\CacheInterface;
 
 class JsonOdd implements BettingProvider
 {
     private const ODDS_CACHE_TTL = 10 * 60;
-    private const ODDS_CACHE_KEY = "api_odds";
+    private const ODDS_CACHE_KEY = "jsonodds_odds";
     private const SPORTS_CACHE_TTL = 24 * 60 * 60;
-    private const SPORTS_CACHE_KEY = "api_sports";
+    private const SPORTS_CACHE_KEY = "jsonodds_sports";
 
     private CacheInterface $cache;
     private JsonOddAPI $api;
@@ -22,9 +21,9 @@ class JsonOdd implements BettingProvider
         $this->api = $api;
     }
 
-    public function getEvents(int $page): array
+    public function getEvents(int $page): Pagination
     {
-        return collect($this->getRawOdds())
+        $results = collect($this->getRawOdds())
             ->map(
                 fn(array $odds) => new SportEvent(
                     null,
@@ -36,6 +35,8 @@ class JsonOdd implements BettingProvider
                 ),
             )
             ->all();
+
+        return new Pagination($results, count($results), count($results));
     }
 
     public function getOdds(): array

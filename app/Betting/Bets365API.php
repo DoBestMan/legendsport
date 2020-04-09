@@ -12,9 +12,10 @@ class Bets365API
         $this->token = $token;
     }
 
-    public function getUpcomingEvents(string $sportId): array
+    public function getUpcomingEvents(string $sportId, int $page): array
     {
         return Http::get("https://api.betsapi.com/v1/bet365/upcoming", [
+            "page" => $page,
             "sport_id" => $sportId,
             "token" => $this->token,
         ])->json();

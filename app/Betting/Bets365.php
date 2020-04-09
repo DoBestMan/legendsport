@@ -1,36 +1,36 @@
 <?php
 namespace App\Betting;
 
-use React\Cache\CacheInterface;
-
 class Bets365 implements BettingProvider
 {
-    private CacheInterface $cache;
     private Bets365API $api;
 
-    public function __construct(CacheInterface $cache, Bets365API $api)
+    public function __construct(Bets365API $api)
     {
-        $this->cache = $cache;
         $this->api = $api;
     }
 
-    public function getEvents(int $page): array
+    public function getEvents(int $page): Pagination
     {
         // 151 - esport
         $sportId = "151";
 
-        return collect($this->api->getUpcomingEvents($sportId))
+        $data = $this->api->getUpcomingEvents($sportId, $page);
+
+        $results = collect($data["results"])
             ->map(
-                fn(array $data) => new SportEvent(
+                fn(array $item) => new SportEvent(
                     null,
-                    $data["id"],
-                    $data["time"],
+                    $item["id"],
+                    (int) $item["time"],
                     $sportId,
-                    $data["home"]["name"],
-                    $data["away"]["name"],
+                    $item["home"]["name"],
+                    $item["away"]["name"],
                 ),
             )
             ->all();
+
+        return new Pagination($results, $data["pager"]["total"], $data["pager"]["per_page"]);
     }
 
     public function getOdds(): array
@@ -41,7 +41,7 @@ class Bets365 implements BettingProvider
 
     public function getSports(): array
     {
-        // TODO: Implement getSports() method.
-        return [];
+        // https://betsapi.com/docs/GLOSSARY.html#r-sportid
+        return [new Sport("1", "Soccer"), new Sport("151", "E-sports")];
     }
 }

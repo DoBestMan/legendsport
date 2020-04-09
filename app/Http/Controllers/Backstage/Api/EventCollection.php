@@ -4,13 +4,23 @@ namespace App\Http\Controllers\Backstage\Api;
 use App\Betting\BettingProvider;
 use App\Http\Controllers\Controller;
 use App\Http\Transformers\App\SportEventTransformer;
+use Illuminate\Http\Request;
 
 class EventCollection extends Controller
 {
-    public function get(BettingProvider $eventsProvider)
+    public function get(Request $request, BettingProvider $eventsProvider)
     {
-        return fractal()
-            ->collection($eventsProvider->getEvents(), new SportEventTransformer())
+        $page = $request->query->get("page", 1);
+
+        $pagination = $eventsProvider->getEvents($page);
+
+        $items = fractal()
+            ->collection($pagination->getResults(), new SportEventTransformer())
             ->toArray();
+
+        return [
+            "pages_count" => ceil($pagination->getTotal() / $pagination->getPerPage()),
+            "items" => $items,
+        ];
     }
 }

@@ -89,6 +89,7 @@ export default Vue.extend({
             sports: [] as string[],
             eventDate: null as Nullable<string>,
 
+            pagesCount: 0,
             events: [] as Event[],
             loadEventsIsLoading: false,
             loadEventsFailed: false,
@@ -112,7 +113,8 @@ export default Vue.extend({
 
             try {
                 const response = await axios.get("/api/events");
-                this.events = response.data;
+                this.events = response.data.items;
+                this.pagesCount = response.data.pages_count;
                 this.loadEventsFailed = false;
             } catch (e) {
                 this.loadEventsFailed = true;
