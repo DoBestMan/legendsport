@@ -26,7 +26,7 @@ class JsonOddAPI implements BettingProvider
                 fn(array $odds) => new SportEvent(
                     null,
                     $odds["ID"],
-                    new Carbon($odds["MatchTime"]),
+                    $odds["MatchTime"] ? new Carbon($odds["MatchTime"]) : null,
                     $odds["Sport"],
                     $odds["HomeTeam"],
                     $odds["AwayTeam"],

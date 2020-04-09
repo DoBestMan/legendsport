@@ -1,4 +1,6 @@
 <?php
+
+use Carbon\Carbon;
 use Decimal\Decimal;
 
 function error($input, $errors)
@@ -13,4 +15,9 @@ function american_to_decimal(int $odd): Decimal
     }
 
     return new Decimal($odd) / 100;
+}
+
+function format_datetime(?Carbon $date): ?string
+{
+    return $date ? $date->toAtomString() : null;
 }

@@ -15,7 +15,7 @@ class SportEvent
     public function __construct(
         ?int $id,
         string $externalId,
-        Carbon $startsAt,
+        ?Carbon $startsAt,
         string $sportId,
         string $homeTeam,
         string $awayTeam
@@ -38,7 +38,7 @@ class SportEvent
         return $this->externalId;
     }
 
-    public function getStartsAt(): Carbon
+    public function getStartsAt(): ?Carbon
     {
         return $this->startsAt;
     }

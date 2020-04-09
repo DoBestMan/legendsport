@@ -11,7 +11,7 @@ class SportEventTransformer extends TransformerAbstract
         return [
             "id" => $sportEvent->getId(),
             "external_id" => $sportEvent->getExternalId(),
-            "starts_at" => $sportEvent->getStartsAt()->toAtomString(),
+            "starts_at" => format_datetime($sportEvent->getStartsAt()),
             "sport_id" => $sportEvent->getSportId(),
             "home_team" => $sportEvent->getHomeTeam(),
             "away_team" => $sportEvent->getAwayTeam(),

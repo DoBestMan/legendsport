@@ -46,13 +46,14 @@ class TournamentTransformer extends TransformerAbstract
         return $this->collection($tournament->getPrizes(), new PrizeTransformer());
     }
 
-    private function calculateStarts(Tournament $tournament)
+    private function calculateStarts(Tournament $tournament): ?string
     {
         return collect($tournament->events)
-            ->filter(
-                fn(TournamentEvent $event) => $event->apiEvent->api_data->getStartsAt() !== null,
+            ->map(
+                fn(TournamentEvent $event) => format_datetime(
+                    $event->apiEvent->api_data->getStartsAt(),
+                ),
             )
-            ->map(fn(TournamentEvent $event) => (string) $event->apiEvent->api_data->getStartsAt())
             ->min();
     }
 }
