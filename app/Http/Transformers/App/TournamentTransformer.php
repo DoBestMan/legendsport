@@ -50,12 +50,9 @@ class TournamentTransformer extends TransformerAbstract
     {
         return collect($tournament->events)
             ->filter(
-                fn(TournamentEvent $event) => array_key_exists(
-                    "MatchTime",
-                    $event->apiEvent->api_data,
-                ),
+                fn(TournamentEvent $event) => $event->apiEvent->api_data->getStartsAt() !== null,
             )
-            ->map(fn(TournamentEvent $event) => $event->apiEvent->api_data["MatchTime"])
+            ->map(fn(TournamentEvent $event) => (string) $event->apiEvent->api_data->getStartsAt())
             ->min();
     }
 }

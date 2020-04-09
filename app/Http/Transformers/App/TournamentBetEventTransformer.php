@@ -12,7 +12,7 @@ class TournamentBetEventTransformer extends TransformerAbstract
             "away_team" => $betEvent->tournamentEvent->apiEvent->api_data->getAwayTeam(),
             "home_team" => $betEvent->tournamentEvent->apiEvent->api_data->getHomeTeam(),
             "id" => $betEvent->id,
-            "match_time" => $betEvent->tournamentEvent->apiEvent->api_data
+            "starts_at" => $betEvent->tournamentEvent->apiEvent->api_data
                 ->getStartsAt()
                 ->toAtomString(),
             "odd" => $betEvent->odd,

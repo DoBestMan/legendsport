@@ -1,5 +1,6 @@
 export interface Event {
-    id: string;
+    id: number;
+    external_id: string;
     starts_at: string;
     home_team: string;
     away_team: string;

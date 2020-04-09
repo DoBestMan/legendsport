@@ -28,7 +28,7 @@ export const mapTournament = (data: any): Tournament => {
 export const mapGame = (data: any): Game => ({
     id: data.id,
     event_id: data.external_id,
-    match_time: data.starts_at,
+    starts_at: data.starts_at,
     sport_id: data.sport_id,
     home_team: data.home_team,
     away_team: data.away_team,
@@ -76,7 +76,7 @@ export const mapBetEvent = (data: any): BetEvent => ({
     awayTeam: data.away_team,
     homeTeam: data.home_team,
     id: data.id,
-    matchTime: data.match_time,
+    startsAt: data.starts_at,
     odd: data.odd,
     selectedTeam: data.selected_team,
     status: data.status,

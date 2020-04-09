@@ -99,7 +99,7 @@ export default Vue.extend({
                     empty(this.window.selectedSportIds) ||
                     this.window.selectedSportIds.includes(game.sport_id),
             );
-            return groupBy(filteredGames, game => game.match_time);
+            return groupBy(filteredGames, game => game.starts_at);
         },
     },
 

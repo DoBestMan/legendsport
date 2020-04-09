@@ -12,13 +12,11 @@ $factory->define(ApiEvent::class, function (Faker $faker) {
     return [
         "api_id" => $id,
         "api_data" => [
-            "ID" => $id,
-            "Sport" => 11,
-            "AwayROT" => "24509",
-            "HomeROT" => "24510",
-            "AwayTeam" => "Ion Cutelaba",
-            "HomeTeam" => "Magomed Ankalaev",
-            "MatchTime" => "2020-04-19T01:00:00",
+            "external_id" => $id,
+            "sport_id" => 11,
+            "away_team" => "Ion Cutelaba",
+            "home_team" => "Magomed Ankalaev",
+            "starts_at" => "2020-04-19T01:00:00",
         ],
     ];
 });

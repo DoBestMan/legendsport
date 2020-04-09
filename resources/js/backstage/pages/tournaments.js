@@ -87,13 +87,15 @@ new Vue({
         },
 
         includeEvent(event) {
-            if (this.selectedEvents.every(item => item.id !== event.id)) {
+            if (this.selectedEvents.every(item => item.external_id !== event.external_id)) {
                 this.selectedEvents.push(event);
             }
         },
 
         removeEvent(event) {
-            this.selectedEvents = this.selectedEvents.filter(selected => selected.id !== event.id);
+            this.selectedEvents = this.selectedEvents.filter(
+                selected => selected.external_id !== event.external_id,
+            );
         },
 
         openDeleteModal(id, description) {

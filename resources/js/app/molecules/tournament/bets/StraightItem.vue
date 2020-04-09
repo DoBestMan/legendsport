@@ -6,7 +6,7 @@
             </div>
 
             <BetContent
-                :matchTime="game.match_time"
+                :startsAt="game.starts_at"
                 :homeTeam="game.home_team"
                 :awayTeam="game.away_team"
                 :selectedTeam="team"

@@ -22,12 +22,11 @@ class ApiEvent extends Model
     protected $table = 'api_events';
     protected $primaryKey = 'id';
     protected $fillable = ['api_id', 'api_data'];
-    protected $casts = [
-        'api_data' => 'array', // TODO Maybe remove it
-    ];
 
-    public function getApiDataAttribute(array $data): SportEvent
+    public function getApiDataAttribute(string $encoded): SportEvent
     {
+        $data = json_decode($encoded, true);
+
         return new SportEvent(
             $this->id,
             $data["external_id"],
@@ -38,15 +37,9 @@ class ApiEvent extends Model
         );
     }
 
-    public function setApiDataAttribute(SportEvent $sportEvent): void
+    public function setApiDataAttribute(array $sportEvent): void
     {
-        $this->attributes["api_data"] = [
-            "external_id" => $sportEvent->getExternalId(),
-            "starts_at" => $sportEvent->getStartsAt()->toAtomString(),
-            "sport_id" => $sportEvent->getSportId(),
-            "home_team" => $sportEvent->getHomeTeam(),
-            "away_team" => $sportEvent->getAwayTeam(),
-        ];
+        $this->attributes["api_data"] = json_encode($sportEvent);
     }
 
     public function tournamentEvents()
