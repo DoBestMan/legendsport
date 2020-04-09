@@ -1,11 +1,10 @@
 <?php
-namespace App\SportEvent;
+namespace App\Betting;
 
 use Carbon\Carbon;
 
 class SportEvent
 {
-    private int $id;
     private string $externalId;
     private Carbon $startsAt;
     private string $sportId;
@@ -13,24 +12,17 @@ class SportEvent
     private string $awayTeam;
 
     public function __construct(
-        int $id,
         string $externalId,
         Carbon $startsAt,
         string $sportId,
         string $homeTeam,
         string $awayTeam
     ) {
-        $this->id = $id;
         $this->externalId = $externalId;
         $this->startsAt = $startsAt;
         $this->sportId = $sportId;
         $this->homeTeam = $homeTeam;
         $this->awayTeam = $awayTeam;
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     public function getExternalId(): string

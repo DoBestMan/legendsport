@@ -2,18 +2,18 @@
 namespace App\Services;
 
 use App\Models\PendingOdd;
-use App\SportEvent\OddsProvider;
-use App\SportEvent\SportEventOdd;
+use App\Betting\BettingProvider;
+use App\Betting\SportEventOdd;
 use App\Tournament\PendingOddType;
 use UnexpectedValueException;
 
 class PendingOddService
 {
-    private OddsProvider $oddsProvider;
+    private BettingProvider $betProvider;
 
-    public function __construct(OddsProvider $oddsProvider)
+    public function __construct(BettingProvider $betProvider)
     {
-        $this->oddsProvider = $oddsProvider;
+        $this->betProvider = $betProvider;
     }
 
     /**
@@ -21,7 +21,7 @@ class PendingOddService
      */
     public function assignOdds(array $pendingOdds)
     {
-        $oddDict = collect($this->oddsProvider->getOdds())->flatMap(
+        $oddDict = collect($this->betProvider->getOdds())->flatMap(
             fn(SportEventOdd $sportEventOdd) => [
                 $sportEventOdd->getExternalEventId() => $sportEventOdd,
             ],

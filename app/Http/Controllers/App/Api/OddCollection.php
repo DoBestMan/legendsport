@@ -2,15 +2,15 @@
 namespace App\Http\Controllers\App\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Transformers\App\EventOddTransformer;
-use App\SportEvent\OddsProvider;
+use App\Http\Transformers\App\SportEventOddTransformer;
+use App\Betting\BettingProvider;
 
 class OddCollection extends Controller
 {
-    public function get(OddsProvider $oddsProvider)
+    public function get(BettingProvider $betProvider)
     {
         return fractal()
-            ->collection($oddsProvider->getOdds(), new EventOddTransformer())
+            ->collection($betProvider->getOdds(), new SportEventOddTransformer())
             ->toArray();
     }
 }

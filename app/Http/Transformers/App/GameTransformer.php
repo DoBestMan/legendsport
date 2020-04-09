@@ -8,6 +8,7 @@ class GameTransformer extends TransformerAbstract
 {
     public function transform(TournamentEvent $event)
     {
+        // TODO Use SportEventTransformer
         return [
             "id" => $event->id,
             "event_id" => $event->apiEvent->api_id,

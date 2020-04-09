@@ -1,12 +1,13 @@
 <?php
-namespace App\SportEvent;
+namespace App\Betting;
 
 use App\Exceptions\LimitExceededException;
 use App\Services\JsonOddApiService;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Psr\SimpleCache\CacheInterface;
 
-class JsonOddAPI implements OddsProvider
+class JsonOddAPI implements BettingProvider
 {
     private const CACHE_TTL = 10 * 60;
     private const CACHE_KEY = "api_odds";
@@ -19,20 +20,24 @@ class JsonOddAPI implements OddsProvider
         $this->jsonOddApiService = $jsonOddApiService;
     }
 
+    public function getEvents(): array
+    {
+        return collect($this->getRawOdds())
+            ->map(
+                fn(array $odds) => new SportEvent(
+                    $odds["ID"],
+                    new Carbon($odds["MatchTime"]),
+                    $odds["Sport"],
+                    $odds["HomeTeam"],
+                    $odds["AwayTeam"],
+                ),
+            )
+            ->all();
+    }
+
     public function getOdds(): array
     {
-        $odds = $this->cache->get(JsonOddAPI::CACHE_KEY);
-
-        if (!$odds) {
-            $odds = $this->jsonOddApiService->getOdds();
-            $this->cache->set(JsonOddAPI::CACHE_KEY, $odds, JsonOddAPI::CACHE_TTL);
-        }
-
-        if (Arr::get($odds, "message") === "Limit Exceeded") {
-            throw new LimitExceededException();
-        }
-
-        return collect($odds)
+        return collect($this->getRawOdds())
             ->map(fn(array $event) => $event["Odds"][0])
             ->map(
                 fn(array $odds) => new SportEventOdd(
@@ -49,5 +54,21 @@ class JsonOddAPI implements OddsProvider
                 ),
             )
             ->all();
+    }
+
+    private function getRawOdds(): array
+    {
+        $odds = $this->cache->get(JsonOddAPI::CACHE_KEY);
+
+        if (!$odds) {
+            $odds = $this->jsonOddApiService->getOdds();
+            $this->cache->set(JsonOddAPI::CACHE_KEY, $odds, JsonOddAPI::CACHE_TTL);
+        }
+
+        if (Arr::get($odds, "message") === "Limit Exceeded") {
+            throw new LimitExceededException();
+        }
+
+        return $odds;
     }
 }

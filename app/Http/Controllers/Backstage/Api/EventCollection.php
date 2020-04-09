@@ -2,13 +2,15 @@
 namespace App\Http\Controllers\Backstage\Api;
 
 use App\Http\Controllers\Controller;
-use App\Services\OddService;
+use App\Http\Transformers\App\SportEventTransformer;
+use App\Betting\BettingProvider;
 
 class EventCollection extends Controller
 {
-    public function get(OddService $oddService)
+    public function get(BettingProvider $eventsProvider)
     {
-        // TODO Some changes need to be made on frontend
-        return $oddService->getOdds();
+        return fractal()
+            ->collection($eventsProvider->getOdds(), new SportEventTransformer())
+            ->toArray();
     }
 }

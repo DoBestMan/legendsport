@@ -1,10 +1,10 @@
 <?php
 namespace App\Http\Transformers\App;
 
-use App\SportEvent\SportEventOdd;
+use App\Betting\SportEventOdd;
 use League\Fractal\TransformerAbstract;
 
-class EventOddTransformer extends TransformerAbstract
+class SportEventOddTransformer extends TransformerAbstract
 {
     public function transform(SportEventOdd $sportEventOdd)
     {
