@@ -59,7 +59,7 @@ export default Vue.extend({
         },
 
         getSportName(game: Game): string {
-            const dict: ReadonlyMap<number, string> = this.$stock.getters["sport/sportDictionary"];
+            const dict: ReadonlyMap<string, string> = this.$stock.getters["sport/sportDictionary"];
             return dict.get(game.sport_id) ?? String(game.sport_id);
         },
 

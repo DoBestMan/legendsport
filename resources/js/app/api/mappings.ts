@@ -5,22 +5,25 @@ import { Bet, BetEvent } from "../types/bet";
 import { Odd } from "../types/odd";
 import { Game } from "../types/game";
 
-export const mapTournament = (data: any): Tournament => ({
-    buyIn: data.buy_in,
-    chips: data.chips,
-    commission: data.commission,
-    games: data.games.map(mapGame),
-    id: data.id,
-    name: data.name,
-    players: data.players.map(mapPlayer),
-    playersLimit: data.players_limit,
-    prizePoolMoney: data.prize_pool_money,
-    sportIds: [...new Set<number>(data.games.map((game: any) => game.sport_id))],
-    starts: data.starts,
-    state: data.state,
-    timeFrame: data.time_frame,
-    prizePool: data.prize_pool.map(mapPrize),
-});
+export const mapTournament = (data: any): Tournament => {
+    const games: Game[] = data.games.map(mapGame);
+    return {
+        buyIn: data.buy_in,
+        chips: data.chips,
+        commission: data.commission,
+        games: games,
+        id: data.id,
+        name: data.name,
+        players: data.players.map(mapPlayer),
+        playersLimit: data.players_limit,
+        prizePoolMoney: data.prize_pool_money,
+        sportIds: [...new Set(games.map(game => game.sport_id))],
+        starts: data.starts,
+        state: data.state,
+        timeFrame: data.time_frame,
+        prizePool: data.prize_pool.map(mapPrize),
+    };
+};
 
 export const mapGame = (data: any): Game => ({
     id: data.id,

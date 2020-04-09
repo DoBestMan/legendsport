@@ -99,8 +99,8 @@ export default Vue.extend({
             this.$stock.dispatch("tournamentList/reload");
         },
 
-        getSportsNames(sportsIds: number[]): string {
-            const dict: ReadonlyMap<number, string> = this.$stock.getters["sport/sportDictionary"];
+        getSportsNames(sportsIds: string[]): string {
+            const dict: ReadonlyMap<string, string> = this.$stock.getters["sport/sportDictionary"];
             return sportsIds.map(sportId => dict.get(sportId) ?? sportId).join(", ");
         },
 

@@ -99,7 +99,7 @@ export default Vue.extend({
         filteredEvents(): Event[] {
             return this.events.filter(event => {
                 return (
-                    (!this.eventDate || moment(event.match_time).isSame(this.eventDate, "day")) &&
+                    (!this.eventDate || moment(event.starts_at).isSame(this.eventDate, "day")) &&
                     (empty(this.sports) || this.sports.includes(event.sport_id))
                 );
             });
