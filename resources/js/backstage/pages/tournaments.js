@@ -87,20 +87,13 @@ new Vue({
         },
 
         includeEvent(event) {
-            if (this.selectedEvents.every(item => item.ID !== event.ID)) {
+            if (this.selectedEvents.every(item => item.id !== event.id)) {
                 this.selectedEvents.push(event);
             }
         },
 
         removeEvent(event) {
-            this.selectedEvents = [
-                ...this.selectedEvents.filter(
-                    selected =>
-                        selected.HomeTeam !== event.HomeTeam ||
-                        selected.AwayTeam !== event.AwayTeam ||
-                        selected.Sport !== event.Sport,
-                ),
-            ];
+            this.selectedEvents = this.selectedEvents.filter(selected => selected.id !== event.id);
         },
 
         openDeleteModal(id, description) {

@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
+/**
+ * @mixin Eloquent
+ */
 class Config extends Model
 {
     protected $table = 'config';

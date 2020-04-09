@@ -10,7 +10,7 @@ class EventCollection extends Controller
     public function get(BettingProvider $eventsProvider)
     {
         return fractal()
-            ->collection($eventsProvider->getOdds(), new SportEventTransformer())
+            ->collection($eventsProvider->getEvents(), new SportEventTransformer())
             ->toArray();
     }
 }

@@ -33,16 +33,16 @@
                     <tbody>
                         <tr v-for="event in filteredEvents" :key="event.ID">
                             <td class="text-truncate" width="300px">
-                                {{ event.MatchTime }}
+                                {{ event.starts_at | toDateTime }}
                             </td>
                             <td class="text-truncate" width="210px">
-                                {{ event.HomeTeam }}
+                                {{ event.home_team }}
                             </td>
                             <td class="text-truncate" width="230px">
-                                {{ event.AwayTeam }}
+                                {{ event.away_team }}
                             </td>
                             <td class="text-truncate" width="200px">
-                                {{ getSportName(event.Sport) }}
+                                {{ getSportName(event.sport_id) }}
                             </td>
                             <td class="text-truncate" width="200px">
                                 <button
@@ -86,7 +86,7 @@ export default Vue.extend({
 
     data() {
         return {
-            sports: [] as number[],
+            sports: [] as string[],
             eventDate: null as Nullable<string>,
 
             events: [] as Event[],
@@ -99,8 +99,8 @@ export default Vue.extend({
         filteredEvents(): Event[] {
             return this.events.filter(event => {
                 return (
-                    (!this.eventDate || moment(event.MatchTime).isSame(this.eventDate, "day")) &&
-                    (empty(this.sports) || this.sports.includes(event.Sport))
+                    (!this.eventDate || moment(event.match_time).isSame(this.eventDate, "day")) &&
+                    (empty(this.sports) || this.sports.includes(event.sport_id))
                 );
             });
         },
@@ -121,7 +121,7 @@ export default Vue.extend({
             }
         },
 
-        getSportName(sportId: number): string {
+        getSportName(sportId: string): string {
             return sportStore.sportDictionary.get(sportId) ?? String(sportId);
         },
 

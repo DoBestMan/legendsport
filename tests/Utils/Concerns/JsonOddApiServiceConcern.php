@@ -1,7 +1,7 @@
 <?php
 namespace Tests\Utils\Concerns;
 
-use App\Services\JsonOddApiService;
+use App\Betting\JsonOddApiService;
 use Mockery;
 use Mockery\MockInterface;
 

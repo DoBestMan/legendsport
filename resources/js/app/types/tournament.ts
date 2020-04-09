@@ -10,7 +10,7 @@ export interface Tournament {
     name: string;
     playersLimit: PlayersLimitType;
     prizePoolMoney: number;
-    sportIds: number[];
+    sportIds: string[];
     starts: string | null;
     state: TournamentState;
     timeFrame: TimeFrame;

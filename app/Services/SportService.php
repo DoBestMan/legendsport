@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Betting\JsonOddApiService;
 use App\Exceptions\LimitExceededException;
 use Illuminate\Support\Arr;
 use Psr\SimpleCache\CacheInterface;
@@ -34,7 +35,7 @@ class SportService
         return collect($sports)
             ->map(
                 fn($value, $key) => [
-                    "id" => $key,
+                    "id" => (string) $key,
                     "name" => strtoupper($value),
                 ],
             )

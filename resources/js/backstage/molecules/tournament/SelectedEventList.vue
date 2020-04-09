@@ -17,16 +17,16 @@
                 <tbody>
                     <tr v-for="event in events" :key="event.ID">
                         <td class="text-truncate" width="300px">
-                            {{ event.MatchTime }}
+                            {{ event.starts_at | toDateTime }}
                         </td>
                         <td class="text-truncate" width="210px">
-                            {{ event.HomeTeam }}
+                            {{ event.home_team }}
                         </td>
                         <td class="text-truncate" width="230px">
-                            {{ event.AwayTeam }}
+                            {{ event.away_team }}
                         </td>
                         <td class="text-truncate" width="200px">
-                            {{ getSportName(event.Sport) }}
+                            {{ getSportName(event.sport_id) }}
                         </td>
                         <td class="text-truncate" width="200px">
                             <button
@@ -66,7 +66,7 @@ export default Vue.extend({
             this.$emit("remove", event);
         },
 
-        getSportName(sportId: number): string {
+        getSportName(sportId: string): string {
             return sportStore.sportDictionary.get(sportId) ?? String(sportId);
         },
     },

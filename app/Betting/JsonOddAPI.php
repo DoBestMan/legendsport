@@ -2,7 +2,6 @@
 namespace App\Betting;
 
 use App\Exceptions\LimitExceededException;
-use App\Services\JsonOddApiService;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Psr\SimpleCache\CacheInterface;
@@ -25,6 +24,7 @@ class JsonOddAPI implements BettingProvider
         return collect($this->getRawOdds())
             ->map(
                 fn(array $odds) => new SportEvent(
+                    null,
                     $odds["ID"],
                     new Carbon($odds["MatchTime"]),
                     $odds["Sport"],

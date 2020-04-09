@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Tournament\TournamentPrizeStructure;
 use Carbon\Carbon;
+use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use UnexpectedValueException;
@@ -24,6 +25,7 @@ use UnexpectedValueException;
  * @property Carbon $updated_at
  * @property-read Collection|TournamentPlayer[] $players
  * @property-read Collection|TournamentEvent[] $events
+ * @mixin Eloquent
  */
 class Tournament extends Model
 {

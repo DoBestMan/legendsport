@@ -2,12 +2,13 @@
 
 namespace App\Providers;
 
-use App\Services\JsonOddApiService;
+use App\Betting\JsonOddApiService;
 use App\Services\UserTokenService;
 use App\Betting\BettingProvider;
 use App\Betting\JsonOddAPI;
 use App\WebSockets\WebSocketHandler;
 use BeyondCode\LaravelWebSockets\WebSockets\WebSocketHandler as BaseWebSocketHandler;
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

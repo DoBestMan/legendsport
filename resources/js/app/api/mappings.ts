@@ -3,12 +3,13 @@ import { Player } from "../types/player";
 import { User, UserPlayer } from "../../general/types/user";
 import { Bet, BetEvent } from "../types/bet";
 import { Odd } from "../types/odd";
+import { Game } from "../types/game";
 
 export const mapTournament = (data: any): Tournament => ({
     buyIn: data.buy_in,
     chips: data.chips,
     commission: data.commission,
-    games: data.games,
+    games: data.games.map(mapGame),
     id: data.id,
     name: data.name,
     players: data.players.map(mapPlayer),
@@ -19,6 +20,15 @@ export const mapTournament = (data: any): Tournament => ({
     state: data.state,
     timeFrame: data.time_frame,
     prizePool: data.prize_pool.map(mapPrize),
+});
+
+export const mapGame = (data: any): Game => ({
+    id: data.id,
+    event_id: data.external_id,
+    match_time: data.starts_at,
+    sport_id: data.sport_id,
+    home_team: data.home_team,
+    away_team: data.away_team,
 });
 
 export const mapPlayer = (data: any): Player => ({
