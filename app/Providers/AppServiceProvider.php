@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Betting\Bets365;
 use App\Betting\Bets365API;
 use App\Betting\BettingProvider;
+use App\Betting\JsonOdd;
 use App\Betting\JsonOddAPI;
 use App\Services\UserTokenService;
 use App\WebSocket\WebSocketHandler;
@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(BaseWebSocketHandler::class, WebSocketHandler::class);
-        $this->app->bind(BettingProvider::class, Bets365::class);
+        $this->app->bind(BettingProvider::class, JsonOdd::class);
     }
 
     /**
