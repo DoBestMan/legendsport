@@ -115,6 +115,8 @@ new Vue({
                 this.closeDeleteModal();
                 notificationStore.info("Tournament's been deleted.");
                 window.location = "/tournaments";
+            } catch (e) {
+                notificationStore.errorSync(e.response.data.message);
             } finally {
                 loaderStore.hide();
             }

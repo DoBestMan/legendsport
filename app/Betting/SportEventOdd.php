@@ -1,33 +1,41 @@
 <?php
 namespace App\Betting;
 
+use Decimal\Decimal;
+
 class SportEventOdd
 {
     private string $externalEventId;
 
-    private int $moneyLineAway;
-    private int $moneyLineHome;
+    /** American odds */
+    private ?int $moneyLineAway;
+    /** American odds */
+    private ?int $moneyLineHome;
 
-    private int $pointSpreadHome;
-    private int $pointSpreadAway;
-    private int $pointSpreadHomeLine;
-    private int $pointSpreadAwayLine;
+    /** American odds */
+    private ?int $pointSpreadHome;
+    /** American odds */
+    private ?int $pointSpreadAway;
+    private ?Decimal $pointSpreadHomeLine;
+    private ?Decimal $pointSpreadAwayLine;
 
-    private int $overLine;
-    private int $underLine;
-    private int $totalNumber;
+    /** American odds */
+    private ?int $overLine;
+    /** American odds */
+    private ?int $underLine;
+    private ?Decimal $totalNumber;
 
     public function __construct(
         string $externalEventId,
-        int $moneyLineHome,
-        int $moneyLineAway,
-        int $pointSpreadHome,
-        int $pointSpreadAway,
-        int $pointSpreadHomeLine,
-        int $pointSpreadAwayLine,
-        int $overLine,
-        int $underLine,
-        int $totalNumber
+        ?int $moneyLineHome,
+        ?int $moneyLineAway,
+        ?int $pointSpreadHome,
+        ?int $pointSpreadAway,
+        ?Decimal $pointSpreadHomeLine,
+        ?Decimal $pointSpreadAwayLine,
+        ?int $overLine,
+        ?int $underLine,
+        ?Decimal $totalNumber
     ) {
         $this->externalEventId = $externalEventId;
         $this->moneyLineHome = $moneyLineHome;
@@ -46,47 +54,47 @@ class SportEventOdd
         return $this->externalEventId;
     }
 
-    public function getMoneyLineAway(): int
+    public function getMoneyLineAway(): ?int
     {
         return $this->moneyLineAway;
     }
 
-    public function getMoneyLineHome(): int
+    public function getMoneyLineHome(): ?int
     {
         return $this->moneyLineHome;
     }
 
-    public function getPointSpreadHome(): int
+    public function getPointSpreadHome(): ?int
     {
         return $this->pointSpreadHome;
     }
 
-    public function getPointSpreadAway(): int
+    public function getPointSpreadAway(): ?int
     {
         return $this->pointSpreadAway;
     }
 
-    public function getPointSpreadHomeLine(): int
+    public function getPointSpreadHomeLine(): ?Decimal
     {
         return $this->pointSpreadHomeLine;
     }
 
-    public function getPointSpreadAwayLine(): int
+    public function getPointSpreadAwayLine(): ?Decimal
     {
         return $this->pointSpreadAwayLine;
     }
 
-    public function getOverLine(): int
+    public function getOverLine(): ?int
     {
         return $this->overLine;
     }
 
-    public function getUnderLine(): int
+    public function getUnderLine(): ?int
     {
         return $this->underLine;
     }
 
-    public function getTotalNumber(): int
+    public function getTotalNumber(): ?Decimal
     {
         return $this->totalNumber;
     }

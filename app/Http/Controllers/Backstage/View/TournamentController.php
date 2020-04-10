@@ -212,8 +212,8 @@ class TournamentController extends Controller
 
     public function destroy(Tournament $tournament)
     {
+        $tournament->events()->delete();
         $tournament->delete();
-        TournamentEvent::where('tournament_id', $tournament->id)->delete();
         return new Response('', Response::HTTP_NO_CONTENT);
     }
 

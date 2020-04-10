@@ -7,10 +7,11 @@ class SportEvent
 {
     private ?int $id;
     private string $externalId;
-    private Carbon $startsAt;
+    private ?Carbon $startsAt;
     private string $sportId;
     private string $homeTeam;
     private string $awayTeam;
+    private ?string $provider;
 
     public function __construct(
         ?int $id,
@@ -18,7 +19,8 @@ class SportEvent
         $startsAt,
         string $sportId,
         string $homeTeam,
-        string $awayTeam
+        string $awayTeam,
+        ?string $provider
     ) {
         $this->id = $id;
         $this->externalId = $externalId;
@@ -26,6 +28,7 @@ class SportEvent
         $this->sportId = $sportId;
         $this->homeTeam = $homeTeam;
         $this->awayTeam = $awayTeam;
+        $this->provider = $provider;
     }
 
     public function getId(): ?int
@@ -56,5 +59,10 @@ class SportEvent
     public function getAwayTeam(): string
     {
         return $this->awayTeam;
+    }
+
+    public function getProvider(): ?string
+    {
+        return $this->provider;
     }
 }

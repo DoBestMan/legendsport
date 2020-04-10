@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Betting\SportEvent;
+use Arr;
 use Carbon\Carbon;
 use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
@@ -34,11 +35,13 @@ class ApiEvent extends Model
             $data["sport_id"],
             $data["home_team"],
             $data["away_team"],
+            Arr::get($data, "provider"),
         );
     }
 
     public function setApiDataAttribute(array $sportEvent): void
     {
+        unset($sportEvent["id"]);
         $this->attributes["api_data"] = json_encode($sportEvent);
     }
 

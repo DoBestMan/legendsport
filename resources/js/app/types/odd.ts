@@ -1,12 +1,12 @@
 export interface Odd {
     id: string;
-    money_line_away: string;
-    money_line_home: string;
-    point_spread_away: string;
-    point_spread_home: string;
+    money_line_away: number;
+    money_line_home: number;
+    point_spread_away: number;
+    point_spread_home: number;
     point_spread_away_line: string;
     point_spread_home_line: string;
-    overline: string;
-    underline: string;
+    overline: number;
+    underline: number;
     total_number: string;
 }

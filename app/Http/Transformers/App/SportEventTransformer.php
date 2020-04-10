@@ -15,6 +15,7 @@ class SportEventTransformer extends TransformerAbstract
             "sport_id" => $sportEvent->getSportId(),
             "home_team" => $sportEvent->getHomeTeam(),
             "away_team" => $sportEvent->getAwayTeam(),
+            "provider" => $sportEvent->getProvider(),
         ];
     }
 }

@@ -7,6 +7,7 @@ use Psr\SimpleCache\CacheInterface;
 
 class JsonOdd implements BettingProvider
 {
+    const PROVIDER_NAME = "jsonodd";
     private const ODDS_CACHE_TTL = 10 * 60;
     private const ODDS_CACHE_KEY = "jsonodds_odds";
     private const SPORTS_CACHE_TTL = 24 * 60 * 60;
@@ -32,6 +33,7 @@ class JsonOdd implements BettingProvider
                     $odds["Sport"],
                     $odds["HomeTeam"],
                     $odds["AwayTeam"],
+                    static::PROVIDER_NAME,
                 ),
             )
             ->all();
@@ -50,11 +52,11 @@ class JsonOdd implements BettingProvider
                     $odds["MoneyLineAway"],
                     $odds["PointSpreadHome"],
                     $odds["PointSpreadAway"],
-                    $odds["PointSpreadHomeLine"],
-                    $odds["PointSpreadAwayLine"],
+                    as_decimal($odds["PointSpreadHomeLine"]),
+                    as_decimal($odds["PointSpreadAwayLine"]),
                     $odds["OverLine"],
                     $odds["UnderLine"],
-                    $odds["TotalNumber"],
+                    as_decimal($odds["TotalNumber"]),
                 ),
             )
             ->all();
