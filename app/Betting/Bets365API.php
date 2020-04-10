@@ -1,7 +1,6 @@
 <?php
 namespace App\Betting;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
 class Bets365API
@@ -22,21 +21,6 @@ class Bets365API
         ]);
 
         return $response->json();
-    }
-
-    public function getInplayEvents()
-    {
-        $data = Http::get("https://api.betsapi.com/v1/bet365/inplay", [
-            "token" => $this->token,
-        ])->json();
-        $dict = [];
-
-        foreach ($data["results"][0] as $item) {
-            $fi = Arr::get($item, "FI", "unknown");
-            $dict[$fi][] = $item;
-        }
-
-        return $dict;
     }
 
     public function getPreMatchOdds(iterable $ids)
