@@ -17,7 +17,7 @@
             :failed="loadEventsFailed"
             @retry="loadEvents"
         >
-            <div class="table-responsive" style="max-height: 230px">
+            <div class="table-responsive" style="max-height: 300px">
                 <table
                     class="table table-fixed table-sm table-light table-striped table-borderless table-hover"
                 >
@@ -33,16 +33,16 @@
                     <tbody>
                         <tr v-for="event in filteredEvents" :key="event.ID">
                             <td class="text-truncate" width="300px">
-                                {{ event.MatchTime }}
+                                {{ event.starts_at | toDateTime }}
                             </td>
                             <td class="text-truncate" width="210px">
-                                {{ event.HomeTeam }}
+                                {{ event.home_team }}
                             </td>
                             <td class="text-truncate" width="230px">
-                                {{ event.AwayTeam }}
+                                {{ event.away_team }}
                             </td>
                             <td class="text-truncate" width="200px">
-                                {{ getSportName(event.Sport) }}
+                                {{ getSportName(event.sport_id) }}
                             </td>
                             <td class="text-truncate" width="200px">
                                 <button
@@ -59,13 +59,15 @@
                 </table>
                 <hr />
             </div>
+
+            <b-pagination align="center" :total-rows="total" :per-page="perPage" v-model="page" />
         </LoadingOverlay>
     </b-modal>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import { BModal } from "bootstrap-vue";
+import { BModal, BPagination } from "bootstrap-vue";
 import axios from "axios";
 import moment from "moment";
 import { Event } from "../../types/event";
@@ -78,7 +80,7 @@ import sportStore from "../../stores/sportStore";
 
 export default Vue.extend({
     name: "ModalAvailableEventList",
-    components: { BModal, FilterContainer, LoadingOverlay, TableNoRecords },
+    components: { BModal, BPagination, FilterContainer, LoadingOverlay, TableNoRecords },
 
     props: {
         value: Boolean,
@@ -86,9 +88,12 @@ export default Vue.extend({
 
     data() {
         return {
-            sports: [] as number[],
+            sports: [] as string[],
             eventDate: null as Nullable<string>,
 
+            page: 1,
+            total: 0,
+            perPage: 0,
             events: [] as Event[],
             loadEventsIsLoading: false,
             loadEventsFailed: false,
@@ -99,8 +104,8 @@ export default Vue.extend({
         filteredEvents(): Event[] {
             return this.events.filter(event => {
                 return (
-                    (!this.eventDate || moment(event.MatchTime).isSame(this.eventDate, "day")) &&
-                    (empty(this.sports) || this.sports.includes(event.Sport))
+                    (!this.eventDate || moment(event.starts_at).isSame(this.eventDate, "day")) &&
+                    (empty(this.sports) || this.sports.includes(event.sport_id))
                 );
             });
         },
@@ -111,8 +116,13 @@ export default Vue.extend({
             this.loadEventsIsLoading = true;
 
             try {
-                const response = await axios.get("/api/events");
-                this.events = response.data;
+                const params = {
+                    page: this.page,
+                };
+                const response = await axios.get("/api/events", { params });
+                this.events = response.data.items;
+                this.total = response.data.total;
+                this.perPage = response.data.per_page;
                 this.loadEventsFailed = false;
             } catch (e) {
                 this.loadEventsFailed = true;
@@ -121,7 +131,7 @@ export default Vue.extend({
             }
         },
 
-        getSportName(sportId: number): string {
+        getSportName(sportId: string): string {
             return sportStore.sportDictionary.get(sportId) ?? String(sportId);
         },
 
@@ -139,6 +149,12 @@ export default Vue.extend({
     watch: {
         value(newVal) {
             if (newVal && empty(this.events)) {
+                this.loadEvents();
+            }
+        },
+
+        page(newVal, oldVal) {
+            if (newVal !== oldVal) {
                 this.loadEvents();
             }
         },

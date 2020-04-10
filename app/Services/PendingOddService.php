@@ -1,17 +1,19 @@
 <?php
 namespace App\Services;
 
+use App\Betting\BettingProvider;
+use App\Betting\SportEventOdd;
 use App\Models\PendingOdd;
 use App\Tournament\PendingOddType;
 use UnexpectedValueException;
 
 class PendingOddService
 {
-    private OddService $oddService;
+    private BettingProvider $betProvider;
 
-    public function __construct(OddService $oddService)
+    public function __construct(BettingProvider $betProvider)
     {
-        $this->oddService = $oddService;
+        $this->betProvider = $betProvider;
     }
 
     /**
@@ -19,9 +21,9 @@ class PendingOddService
      */
     public function assignOdds(array $pendingOdds)
     {
-        $oddDict = collect($this->oddService->getOdds())->flatMap(
-            fn(array $event) => [
-                $event["Odds"][0]["EventID"] => $event["Odds"][0],
+        $oddDict = collect($this->betProvider->getOdds())->flatMap(
+            fn(SportEventOdd $sportEventOdd) => [
+                $sportEventOdd->getExternalEventId() => $sportEventOdd,
             ],
         );
 
@@ -33,26 +35,26 @@ class PendingOddService
         }
     }
 
-    private function getOddByType(array $odds, PendingOddType $type): int
+    private function getOddByType(SportEventOdd $sportEventOdd, PendingOddType $type): int
     {
         switch ($type) {
             case PendingOddType::MONEY_LINE_HOME():
-                return floatval($odds["MoneyLineHome"]);
+                return floatval($sportEventOdd->getMoneyLineHome());
 
             case PendingOddType::MONEY_LINE_AWAY():
-                return floatval($odds["MoneyLineAway"]);
+                return floatval($sportEventOdd->getMoneyLineAway());
 
             case PendingOddType::SPREAD_HOME():
-                return floatval($odds["SpreadHome"]);
+                return floatval($sportEventOdd->getPointSpreadHome());
 
             case PendingOddType::SPREAD_AWAY():
-                return floatval($odds["SpreadAway"]);
+                return floatval($sportEventOdd->getPointSpreadAway());
 
             case PendingOddType::TOTAL_UNDER():
-                return floatval($odds["UnderLine"]);
+                return floatval($sportEventOdd->getUnderLine());
 
             case PendingOddType::TOTAL_OVER():
-                return floatval($odds["OverLine"]);
+                return floatval($sportEventOdd->getOverLine());
 
             default:
                 throw new UnexpectedValueException("Unexpected odd type");

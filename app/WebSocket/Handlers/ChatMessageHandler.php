@@ -1,10 +1,10 @@
 <?php
-namespace App\WebSockets\Handlers;
+namespace App\WebSocket\Handlers;
 
-use App\Tournament\Events\ChatMessage;
 use App\Models\User;
-use App\WebSockets\Broadcaster;
-use App\WebSockets\MessageHandler;
+use App\Tournament\Events\ChatMessage;
+use App\WebSocket\Broadcaster;
+use App\WebSocket\MessageHandler;
 use BeyondCode\LaravelWebSockets\WebSockets\Channels\ChannelManager;
 
 class ChatMessageHandler implements MessageHandler

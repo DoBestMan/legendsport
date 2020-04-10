@@ -1,8 +1,8 @@
 import moment from "moment";
 import { PendingOdd, PendingOddType } from "../../types/window";
-import { Odd } from "../../../general/types/odd";
 import { Game } from "../../types/game";
 import { DeepReadonly } from "../../../general/types/types";
+import { Odd } from "../../types/odd";
 
 export const americanToDecimalOdd = (odd: number): number => (odd < 0 ? 100 / -odd : odd / 100);
 
@@ -50,20 +50,6 @@ export const getPendingOddTeam = (
 };
 
 export const formatOdd = (value: string): string => `${Number(value) > 0 ? "+" : ""}${value}`;
-
-export const formatChip = (value: number): string => {
-    const formatter = new Intl.NumberFormat("en-US");
-    return formatter.format(Math.floor(value));
-};
-
-export const formatDollars = (value: number): string => {
-    const formatter = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-        minimumFractionDigits: 0,
-    });
-    return formatter.format(value / 100);
-};
 
 export const diffHumanReadable = (value: string): string => {
     const date = moment(value);

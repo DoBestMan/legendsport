@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="text">{{ matchTime | toDateTime }}</div>
+        <div class="text">{{ startsAt | toDateTime }}</div>
         <div class="text game-frm">
             <div class="text team">{{ homeTeam }}</div>
             <div class="text score">0</div>
@@ -18,7 +18,7 @@ import Vue from "vue";
 export default Vue.extend({
     name: "BetContent",
     props: {
-        matchTime: String,
+        startsAt: String,
         homeTeam: String,
         awayTeam: String,
         selectedTeam: String,

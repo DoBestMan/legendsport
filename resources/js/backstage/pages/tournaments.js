@@ -87,20 +87,15 @@ new Vue({
         },
 
         includeEvent(event) {
-            if (this.selectedEvents.every(item => item.ID !== event.ID)) {
+            if (this.selectedEvents.every(item => item.external_id !== event.external_id)) {
                 this.selectedEvents.push(event);
             }
         },
 
         removeEvent(event) {
-            this.selectedEvents = [
-                ...this.selectedEvents.filter(
-                    selected =>
-                        selected.HomeTeam !== event.HomeTeam ||
-                        selected.AwayTeam !== event.AwayTeam ||
-                        selected.Sport !== event.Sport,
-                ),
-            ];
+            this.selectedEvents = this.selectedEvents.filter(
+                selected => selected.external_id !== event.external_id,
+            );
         },
 
         openDeleteModal(id, description) {
@@ -120,6 +115,8 @@ new Vue({
                 this.closeDeleteModal();
                 notificationStore.info("Tournament's been deleted.");
                 window.location = "/tournaments";
+            } catch (e) {
+                notificationStore.errorSync(e.response.data.message);
             } finally {
                 loaderStore.hide();
             }

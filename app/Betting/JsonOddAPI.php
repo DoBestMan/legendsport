@@ -1,7 +1,7 @@
 <?php
-namespace App\Services;
+namespace App\Betting;
 
-class JsonOddApiService
+class JsonOddAPI
 {
     private string $apiKey;
 

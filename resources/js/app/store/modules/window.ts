@@ -12,7 +12,7 @@ export type UpdateWindowPayload = Partial<StorableWindow> & Pick<StorableWindow,
 
 export interface ToggleSportPayload {
     windowId: number;
-    sportId: number;
+    sportId: string;
 }
 
 export interface PendingOddPayload extends PendingOdd {

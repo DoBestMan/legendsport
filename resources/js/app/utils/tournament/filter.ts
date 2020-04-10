@@ -35,7 +35,7 @@ const matchBuyIn = (expected: BuyInType | null, value: number): boolean => {
     }
 };
 
-const matchType = (expected: TournamentType | null, sports: number[]): boolean => {
+const matchType = (expected: TournamentType | null, sports: string[]): boolean => {
     switch (expected) {
         case TournamentType.Single:
             return sports.length === 1;

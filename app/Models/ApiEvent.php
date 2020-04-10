@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Betting\SportEvent;
+use Arr;
 use Carbon\Carbon;
 use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
@@ -10,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property int $id
  * @property string $api_id
- * @property array $api_data
+ * @property SportEvent $api_data
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read Collection|TournamentEvent[] $tournamentEvents
@@ -21,28 +23,26 @@ class ApiEvent extends Model
     protected $table = 'api_events';
     protected $primaryKey = 'id';
     protected $fillable = ['api_id', 'api_data'];
-    protected $casts = [
-        'api_data' => 'array',
-    ];
 
-    public function getMatchTime(): string
+    public function getApiDataAttribute(string $encoded): SportEvent
     {
-        return $this->api_data["MatchTime"];
+        $data = json_decode($encoded, true);
+
+        return new SportEvent(
+            $this->id,
+            $data["external_id"],
+            $data["starts_at"],
+            $data["sport_id"],
+            $data["home_team"],
+            $data["away_team"],
+            Arr::get($data, "provider"),
+        );
     }
 
-    public function getHomeTeam(): string
+    public function setApiDataAttribute(array $sportEvent): void
     {
-        return $this->api_data["HomeTeam"];
-    }
-
-    public function getAwayTeam(): string
-    {
-        return $this->api_data["AwayTeam"];
-    }
-
-    public function getSportId(): int
-    {
-        return (int) $this->api_data["Sport"];
+        unset($sportEvent["id"]);
+        $this->attributes["api_data"] = json_encode($sportEvent);
     }
 
     public function tournamentEvents()

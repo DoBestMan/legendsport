@@ -16,7 +16,7 @@
                     v-for="game in games"
                     :key="game.id"
                 >
-                    <td class="td col-time">{{ getMatchTime(game) }}</td>
+                    <td class="td col-time">{{ getStartsAt(game) }}</td>
                     <td class="td col-sport">{{ getSportName(game) }}</td>
                     <td class="td col-game">
                         <div class="team">{{ game.home_team }}</div>
@@ -54,12 +54,12 @@ export default Vue.extend({
     },
 
     methods: {
-        getMatchTime(game: Game): string {
-            return moment(game.match_time).format("MMM, DD");
+        getStartsAt(game: Game): string {
+            return moment(game.starts_at).format("MMM, DD");
         },
 
         getSportName(game: Game): string {
-            const dict: ReadonlyMap<number, string> = this.$stock.getters["sport/sportDictionary"];
+            const dict: ReadonlyMap<string, string> = this.$stock.getters["sport/sportDictionary"];
             return dict.get(game.sport_id) ?? String(game.sport_id);
         },
 

@@ -13,9 +13,9 @@ export interface BetEvent {
     awayTeam: string;
     homeTeam: string;
     id: number;
-    matchTime: string;
     odd: number;
     selectedTeam: string;
+    startsAt: string;
     status: BetStatus;
     type: PendingOddType;
 }

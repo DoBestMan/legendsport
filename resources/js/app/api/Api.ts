@@ -2,9 +2,9 @@ import { AxiosInstance } from "axios";
 import { mapMe, mapOdd, mapTournament } from "./mappings";
 import { Tournament } from "../types/tournament";
 import { Sport } from "../../general/types/sport";
-import { Odd } from "../../general/types/odd";
 import { User } from "../../general/types/user";
 import { PendingOddType } from "../types/window";
+import { Odd } from "../types/odd";
 
 export interface PlaceStraightBetBody {
     pending_odds: Array<{

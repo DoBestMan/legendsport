@@ -63,6 +63,8 @@ new Vue({
                 this.closeDeleteModal();
                 notificationStore.info("Admin's been deleted.");
                 window.location = "/admins";
+            } catch (e) {
+                notificationStore.errorSync(e.response.data.message);
             } finally {
                 loaderStore.hide();
             }

@@ -57,6 +57,8 @@
                         @endforeach
                     </tbody>
                 </table>
+
+                {{ $admins->links() }}
                 <hr>
             </div>
         </div>

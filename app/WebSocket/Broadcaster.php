@@ -1,5 +1,5 @@
 <?php
-namespace App\WebSockets;
+namespace App\WebSocket;
 
 use BeyondCode\LaravelWebSockets\WebSockets\Channels\ChannelManager;
 use Illuminate\Contracts\Broadcasting\Factory as BroadcastFactory;

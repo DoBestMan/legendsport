@@ -20,7 +20,7 @@ const module: Module<SportState, RootState> = {
     },
 
     getters: {
-        sportDictionary(state): ReadonlyMap<number, string> {
+        sportDictionary(state): ReadonlyMap<string, string> {
             return new Map(state.sports.map(sport => [sport.id, sport.name]));
         },
     },

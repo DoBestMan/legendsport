@@ -1,11 +1,11 @@
 <?php
 namespace App\Http\Controllers\Backstage\View;
 
+use App\Http\Controllers\Controller;
+use App\Models\Config;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use JavaScript;
-use Illuminate\Http\Request;
-use App\Models\Config;
-use App\Http\Controllers\Controller;
 
 class ConfigController extends Controller
 {

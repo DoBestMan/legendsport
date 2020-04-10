@@ -41,7 +41,7 @@ export default Vue.extend({
     components: { Multiselect },
 
     props: {
-        value: Array as PropType<number[]>,
+        value: Array as PropType<string[]>,
         sports: Array as PropType<Sport[]>,
     },
 
@@ -55,7 +55,7 @@ export default Vue.extend({
             ];
         },
 
-        sportsMap(): ReadonlyMap<number, Sport> {
+        sportsMap(): ReadonlyMap<string, Sport> {
             return new Map(this.sports.map(sport => [sport.id, sport]));
         },
 

@@ -2,23 +2,36 @@ import { Prize, Tournament } from "../types/tournament";
 import { Player } from "../types/player";
 import { User, UserPlayer } from "../../general/types/user";
 import { Bet, BetEvent } from "../types/bet";
-import { Odd } from "../../general/types/odd";
+import { Odd } from "../types/odd";
+import { Game } from "../types/game";
 
-export const mapTournament = (data: any): Tournament => ({
-    buyIn: data.buy_in,
-    chips: data.chips,
-    commission: data.commission,
-    games: data.games,
+export const mapTournament = (data: any): Tournament => {
+    const games: Game[] = data.games.map(mapGame);
+    return {
+        buyIn: data.buy_in,
+        chips: data.chips,
+        commission: data.commission,
+        games: games,
+        id: data.id,
+        name: data.name,
+        players: data.players.map(mapPlayer),
+        playersLimit: data.players_limit,
+        prizePoolMoney: data.prize_pool_money,
+        sportIds: [...new Set(games.map(game => game.sport_id))],
+        starts: data.starts,
+        state: data.state,
+        timeFrame: data.time_frame,
+        prizePool: data.prize_pool.map(mapPrize),
+    };
+};
+
+export const mapGame = (data: any): Game => ({
     id: data.id,
-    name: data.name,
-    players: data.players.map(mapPlayer),
-    playersLimit: data.players_limit,
-    prizePoolMoney: data.prize_pool_money,
-    sportIds: [...new Set<number>(data.games.map((game: any) => game.sport_id))],
-    starts: data.starts,
-    state: data.state,
-    timeFrame: data.time_frame,
-    prizePool: data.prize_pool.map(mapPrize),
+    event_id: data.external_id,
+    starts_at: data.starts_at,
+    sport_id: data.sport_id,
+    home_team: data.home_team,
+    away_team: data.away_team,
 });
 
 export const mapPlayer = (data: any): Player => ({
@@ -63,7 +76,7 @@ export const mapBetEvent = (data: any): BetEvent => ({
     awayTeam: data.away_team,
     homeTeam: data.home_team,
     id: data.id,
-    matchTime: data.match_time,
+    startsAt: data.starts_at,
     odd: data.odd,
     selectedTeam: data.selected_team,
     status: data.status,

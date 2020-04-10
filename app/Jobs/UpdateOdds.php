@@ -1,21 +1,17 @@
 <?php
 namespace App\Jobs;
 
-use App\Http\Transformers\App\EventOddTransformer;
-use App\Services\OddService;
+use App\Betting\BettingProvider;
+use App\Http\Transformers\App\SportEventOddTransformer;
 use App\Tournament\Events\OddsUpdate;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class UpdateOdds
 {
-    public function handle(Dispatcher $dispatcher, OddService $oddService)
+    public function handle(Dispatcher $dispatcher, BettingProvider $betProvider)
     {
-        $eventOdds = collect($oddService->getOdds())
-            ->map(fn(array $event) => $event["Odds"])
-            ->all();
-
         $odds = fractal()
-            ->collection($eventOdds, new EventOddTransformer())
+            ->collection($betProvider->getOdds(), new SportEventOddTransformer())
             ->toArray();
 
         $dispatcher->dispatch(new OddsUpdate($odds));

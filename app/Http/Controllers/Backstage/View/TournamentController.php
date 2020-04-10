@@ -2,12 +2,12 @@
 namespace App\Http\Controllers\Backstage\View;
 
 use App\Http\Controllers\Controller;
+use App\Http\Transformers\App\SportEventTransformer;
 use App\Models\ApiEvent;
 use App\Models\Config;
 use App\Models\Tournament;
 use App\Models\TournamentEvent;
 use App\Tournament\Events\TournamentUpdate;
-use DB;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -59,10 +59,6 @@ class TournamentController extends Controller
 
         $apiData = $request->ApiData ?? [];
 
-        foreach ($apiData as &$key) {
-            unset($key['Odds']);
-        }
-
         $tournament = new Tournament();
         $tournament->name = $request->name;
         $tournament->players_limit = $request->players_limit;
@@ -77,11 +73,14 @@ class TournamentController extends Controller
         $tournament->save();
 
         foreach ($apiData as $data) {
-            ApiEvent::firstOrCreate(['api_id' => $data['ID']], ['api_data' => $data]);
+            ApiEvent::firstOrCreate(['api_id' => $data['external_id']], ['api_data' => $data]);
 
             $tournament_event = new TournamentEvent();
             $tournament_event->tournament_id = $tournament->id;
-            $tournament_event->api_event_id = ApiEvent::where('api_id', $data['ID'])->value('id');
+            $tournament_event->api_event_id = ApiEvent::where(
+                'api_id',
+                $data['external_id'],
+            )->value('id');
             $tournament_event->save();
         }
 
@@ -92,26 +91,22 @@ class TournamentController extends Controller
 
     public function show(Tournament $tournament)
     {
-        $selectedEvents = [];
-        $api_event_id = DB::table('tournament_events')
-            ->where('tournament_id', $tournament->id)
-            ->get('api_event_id');
+        $selectedEvents = TournamentEvent::with(["apiEvent"])
+            ->where("tournament_id", $tournament->id)
+            ->get()
+            ->map(fn(TournamentEvent $tournamentEvent) => $tournamentEvent->apiEvent->api_data);
 
-        foreach ($api_event_id as $value) {
-            /** @var ApiEvent $apiEvent */
-            $apiEvent = ApiEvent::find($value->api_event_id);
-            array_push($selectedEvents, $apiEvent->api_data);
-        }
-
-        $rule = $tournament->late_register_rule;
+        $apiSelectedSports = fractal()
+            ->collection($selectedEvents, new SportEventTransformer())
+            ->toArray();
 
         JavaScript::put([
-            'apiSelectedSports' => $selectedEvents,
+            'apiSelectedSports' => $apiSelectedSports,
             'buyIn' => $tournament->buy_in,
             'chips' => $tournament->chips,
             'commission' => $tournament->commission,
             'config' => '',
-            'interval' => $rule['interval'] ?? '',
+            'interval' => $tournament->late_register_rule['interval'] ?? '',
             'lateRegister' => $tournament->late_register,
             'name' => $tournament->name,
             'playersLimit' => $tournament->players_limit,
@@ -119,7 +114,7 @@ class TournamentController extends Controller
             'prizePoolValue' => $tournament->prize_pool['fixed_value'],
             'state' => $tournament->state,
             'timeFrame' => $tournament->time_frame,
-            'value' => $rule['value'] ?? '',
+            'value' => $tournament->late_register_rule['value'] ?? '',
         ]);
 
         return view('backstage.tournaments.show')
@@ -130,16 +125,14 @@ class TournamentController extends Controller
 
     public function edit(Tournament $tournament)
     {
-        $selectedEvents = [];
-        $api_event_id = DB::table('tournament_events')
-            ->where('tournament_id', $tournament->id)
-            ->get('api_event_id');
+        $selectedEvents = TournamentEvent::with(["apiEvent"])
+            ->where("tournament_id", $tournament->id)
+            ->get()
+            ->map(fn(TournamentEvent $tournamentEvent) => $tournamentEvent->apiEvent->api_data);
 
-        foreach ($api_event_id as $value) {
-            /** @var ApiEvent $apiEvent */
-            $apiEvent = ApiEvent::find($value->api_event_id);
-            array_push($selectedEvents, $apiEvent->api_data);
-        }
+        $apiSelectedSports = fractal()
+            ->collection($selectedEvents, new SportEventTransformer())
+            ->toArray();
 
         $rule = $tournament->late_register_rule;
         JavaScript::put([
@@ -154,7 +147,7 @@ class TournamentController extends Controller
             'value' => $rule['value'] ?? '',
             'prizePool' => $tournament->prize_pool['type'],
             'prizePoolValue' => $tournament->prize_pool['fixed_value'],
-            'apiSelectedSports' => $selectedEvents,
+            'apiSelectedSports' => $apiSelectedSports,
             'state' => $tournament->state,
             'timeFrame' => $tournament->time_frame,
         ]);
@@ -171,12 +164,6 @@ class TournamentController extends Controller
 
         $apiData = $request->ApiData ?? [];
 
-        foreach ($apiData as &$key) {
-            if (array_key_exists('Odds', $key)) {
-                unset($key['Odds']);
-            }
-        }
-
         $tournament->name = $request->name;
         $tournament->players_limit = $request->players_limit;
         $tournament->buy_in = $request->buy_in;
@@ -189,7 +176,9 @@ class TournamentController extends Controller
         $tournament->time_frame = $request->time_frame;
         $tournament->save();
 
-        $apiDataDict = collect($apiData)->mapWithKeys(fn(array $data) => [$data['ID'] => $data]);
+        $apiDataDict = collect($apiData)->mapWithKeys(
+            fn(array $data) => [$data['external_id'] => $data],
+        );
         $tournamentEvents = TournamentEvent::with(["apiEvent"])
             ->where('tournament_id', $tournament->id)
             ->get();
@@ -205,7 +194,10 @@ class TournamentController extends Controller
 
         // Create new
         foreach ($apiData as $data) {
-            $apiEvent = ApiEvent::firstOrCreate(['api_id' => $data['ID']], ['api_data' => $data]);
+            $apiEvent = ApiEvent::firstOrCreate(
+                ['api_id' => $data['external_id']],
+                ['api_data' => $data],
+            );
 
             TournamentEvent::firstOrCreate([
                 'tournament_id' => $tournament->id,
@@ -220,8 +212,8 @@ class TournamentController extends Controller
 
     public function destroy(Tournament $tournament)
     {
+        $tournament->events()->delete();
         $tournament->delete();
-        TournamentEvent::where('tournament_id', $tournament->id)->delete();
         return new Response('', Response::HTTP_NO_CONTENT);
     }
 

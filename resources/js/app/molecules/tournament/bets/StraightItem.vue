@@ -6,7 +6,7 @@
             </div>
 
             <BetContent
-                :matchTime="game.match_time"
+                :startsAt="game.starts_at"
                 :homeTeam="game.home_team"
                 :awayTeam="game.away_team"
                 :selectedTeam="team"
@@ -31,7 +31,6 @@
 import Vue, { PropType } from "vue";
 import { Game } from "../../../types/game";
 import { PendingOdd } from "../../../types/window";
-import { Odd } from "../../../../general/types/odd";
 import {
     calculateWinFromAmericanOdd,
     getPendingOddTeam,
@@ -39,6 +38,7 @@ import {
 } from "../../../utils/game/bet";
 import BetContent from "./BetContent.vue";
 import ChipInput from "../../../../general/components/ChipInput.vue";
+import { Odd } from "../../../types/odd";
 
 export default Vue.extend({
     name: "StraightItem",

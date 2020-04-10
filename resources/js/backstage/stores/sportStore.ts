@@ -13,7 +13,7 @@ export default new Vue({
     },
 
     computed: {
-        sportDictionary(): ReadonlyMap<number, string> {
+        sportDictionary(): ReadonlyMap<string, string> {
             return new Map(this.sports.map(sport => [sport.id, sport.name]));
         },
     },

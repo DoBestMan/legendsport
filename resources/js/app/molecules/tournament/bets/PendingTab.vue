@@ -11,7 +11,7 @@
                     </div>
 
                     <BetContent
-                        :matchTime="event.matchTime"
+                        :startsAt="event.startsAt"
                         :homeTeam="event.homeTeam"
                         :awayTeam="event.awayTeam"
                         :selectedTeam="event.selectedTeam"

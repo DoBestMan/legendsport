@@ -27,7 +27,12 @@ class TournamentTransformer extends TransformerAbstract
 
     public function includeGames(Tournament $tournament)
     {
-        return $this->collection($tournament->events, new GameTransformer());
+        return $this->collection(
+            $tournament->events->map(
+                fn(TournamentEvent $tournamentEvent) => $tournamentEvent->apiEvent->api_data,
+            ),
+            new SportEventTransformer(),
+        );
     }
 
     public function includePlayers(Tournament $tournament)
@@ -41,16 +46,14 @@ class TournamentTransformer extends TransformerAbstract
         return $this->collection($tournament->getPrizes(), new PrizeTransformer());
     }
 
-    private function calculateStarts(Tournament $tournament)
+    private function calculateStarts(Tournament $tournament): ?string
     {
         return collect($tournament->events)
-            ->filter(
-                fn(TournamentEvent $event) => array_key_exists(
-                    "MatchTime",
-                    $event->apiEvent->api_data,
+            ->map(
+                fn(TournamentEvent $event) => format_datetime(
+                    $event->apiEvent->api_data->getStartsAt(),
                 ),
             )
-            ->map(fn(TournamentEvent $event) => $event->apiEvent->api_data["MatchTime"])
             ->min();
     }
 }

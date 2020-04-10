@@ -15,6 +15,7 @@
         "beyondcode/laravel-websockets": "^1.4",
         "fideloper/proxy": "^4.0",
         "firebase/php-jwt": "^5.2",
+        "guzzlehttp/guzzle": "^6.5",
         "laracasts/utilities": "^3.0",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",

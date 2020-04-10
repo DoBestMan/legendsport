@@ -99,17 +99,17 @@ export default Vue.extend({
                     empty(this.window.selectedSportIds) ||
                     this.window.selectedSportIds.includes(game.sport_id),
             );
-            return groupBy(filteredGames, game => game.match_time);
+            return groupBy(filteredGames, game => game.starts_at);
         },
     },
 
     methods: {
-        getSportName(sportId: number): string {
-            const dict: ReadonlyMap<number, string> = this.$stock.getters["sport/sportDictionary"];
+        getSportName(sportId: string): string {
+            const dict: ReadonlyMap<string, string> = this.$stock.getters["sport/sportDictionary"];
             return dict.get(sportId) ?? String(sportId);
         },
 
-        isSportSelected(sportId: number): boolean {
+        isSportSelected(sportId: string): boolean {
             return this.window.selectedSportIds.includes(sportId);
         },
 
@@ -121,7 +121,7 @@ export default Vue.extend({
             this.$stock.commit("window/updateWindow", payload);
         },
 
-        toggleSport(sportId: number): void {
+        toggleSport(sportId: string): void {
             const payload: ToggleSportPayload = {
                 windowId: this.window.id,
                 sportId,

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\WebSockets;
+namespace App\WebSocket;
 
 use App\Services\UserTokenService;
 use BeyondCode\LaravelWebSockets\WebSockets\Channels\ChannelManager;

@@ -91,10 +91,10 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import { Game } from "../../../types/game";
-import { Odd } from "../../../../general/types/odd";
 import { PendingOdd, PendingOddType, Window } from "../../../types/window";
 import { DeepReadonly } from "../../../../general/types/types";
 import DisabledButton from "./DisabledButton.vue";
+import { Odd } from "../../../types/odd";
 
 const createPendingOddKey = (pendingOdd: Pick<PendingOdd, "eventId" | "type">): string =>
     `${pendingOdd.eventId}#${pendingOdd.type}`;
@@ -115,19 +115,19 @@ export default Vue.extend({
         },
 
         moneyLineHome(): string {
-            return this.odd?.money_line_home ?? "n/a";
+            return String(this.odd?.money_line_home ?? "n/a");
         },
 
         moneyLineAway(): string {
-            return this.odd?.money_line_away ?? "n/a";
+            return String(this.odd?.money_line_away ?? "n/a");
         },
 
         pointSpreadHome(): string {
-            return this.odd?.point_spread_home ?? "n/a";
+            return String(this.odd?.point_spread_home ?? "n/a");
         },
 
         pointSpreadAway(): string {
-            return this.odd?.point_spread_away ?? "n/a";
+            return String(this.odd?.point_spread_away ?? "n/a");
         },
 
         pointSpreadHomeLine(): string {
@@ -139,11 +139,11 @@ export default Vue.extend({
         },
 
         overLine(): string {
-            return this.odd?.overline ?? "n/a";
+            return String(this.odd?.overline ?? "n/a");
         },
 
         underLine(): string {
-            return this.odd?.underline ?? "n/a";
+            return String(this.odd?.underline ?? "n/a");
         },
 
         totalNumber(): string {

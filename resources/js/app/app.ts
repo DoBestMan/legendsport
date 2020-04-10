@@ -6,13 +6,13 @@ import ToastsPlugin from "vue-bootstrap-toasts";
 import App from "./App.vue";
 import { createRouter } from "./routing";
 import { createStore } from "./store";
-import { toDateTime, toTime } from "./utils/date/utils";
-import { diffHumanReadable, formatChip, formatDollars, formatOdd } from "./utils/game/bet";
+import { toTime } from "./utils/date/utils";
+import { diffHumanReadable, formatOdd } from "./utils/game/bet";
 import { RootState } from "./store/types";
 import echo from "./echo";
 import { Echo } from "./utils/websockets/Echo";
 import { mapOdd, mapTournament } from "./api/mappings";
-import { formatCurrency } from "../general/utils/filters";
+import { formatChip, formatCurrency, formatDollars, toDateTime } from "../general/utils/filters";
 
 // @ts-ignore
 window.Pusher = Pusher;

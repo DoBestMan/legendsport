@@ -1,8 +1,8 @@
 <?php
-namespace App\WebSockets;
+namespace App\WebSocket;
 
-use App\WebSockets\Handlers\ChatMessageHandler;
-use App\WebSockets\Handlers\DummyHandler;
+use App\WebSocket\Handlers\ChatMessageHandler;
+use App\WebSocket\Handlers\DummyHandler;
 use Illuminate\Contracts\Foundation\Application;
 
 class MessageHandlerFactory

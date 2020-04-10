@@ -8,7 +8,7 @@ export interface StorableWindow {
     id: number;
     pendingOdds: PendingOdd[];
     selectedBetTypeTab: BetTypeTab;
-    selectedSportIds: number[];
+    selectedSportIds: string[];
     parlayWager: number;
 }
 

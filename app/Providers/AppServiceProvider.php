@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
-use App\Services\JsonOddApiService;
+use App\Betting\Bets365API;
+use App\Betting\BettingProvider;
+use App\Betting\JsonOdd;
+use App\Betting\JsonOddAPI;
 use App\Services\UserTokenService;
-use App\WebSockets\WebSocketHandler;
+use App\WebSocket\WebSocketHandler;
 use BeyondCode\LaravelWebSockets\WebSockets\WebSocketHandler as BaseWebSocketHandler;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,8 +20,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(JsonOddApiService::class, function () {
-            return new JsonOddApiService(env("JSONODDS_API_KEY"));
+        $this->app->bind(JsonOddAPI::class, function () {
+            return new JsonOddAPI(env("JSONODDS_API_KEY"));
+        });
+
+        $this->app->bind(Bets365API::class, function () {
+            return new Bets365API(env("BETS365_TOKEN"));
         });
 
         $this->app->bind(UserTokenService::class, function () {
@@ -26,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(BaseWebSocketHandler::class, WebSocketHandler::class);
+        $this->app->bind(BettingProvider::class, JsonOdd::class);
     }
 
     /**
