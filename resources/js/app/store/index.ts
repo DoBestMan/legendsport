@@ -2,6 +2,7 @@ import Vuex, { Store } from "vuex";
 import axios from "axios";
 import authModal from "./modules/authModal";
 import chat from "./modules/chat";
+import result from "./modules/result";
 import odd from "./modules/odd";
 import sport from "./modules/sport";
 import loader from "./modules/loader";
@@ -30,6 +31,7 @@ export const createStore = (): Store<RootState> => {
             loader,
             odd,
             placeBet,
+            result,
             sport,
             tournamentList,
             user,

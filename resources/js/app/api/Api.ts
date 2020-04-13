@@ -1,10 +1,11 @@
 import { AxiosInstance } from "axios";
-import { mapMe, mapOdd, mapTournament } from "./mappings";
+import { mapMe, mapOdd, mapResult, mapTournament } from "./mappings";
 import { Tournament } from "../types/tournament";
 import { Sport } from "../../general/types/sport";
 import { User } from "../../general/types/user";
 import { PendingOddType } from "../types/window";
 import { Odd } from "../types/odd";
+import { Result } from "../types/result";
 
 export interface PlaceStraightBetBody {
     pending_odds: Array<{
@@ -52,6 +53,11 @@ export class Api {
     public async getOdds(): Promise<Odd[]> {
         const response = await this.axios.get("/api/odds");
         return response.data.map(mapOdd);
+    }
+
+    public async getResults(): Promise<Result[]> {
+        const response = await this.axios.get("/api/results");
+        return response.data.map(mapResult);
     }
 
     public async getMe(): Promise<User> {

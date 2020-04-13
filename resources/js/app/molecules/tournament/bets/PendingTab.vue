@@ -4,16 +4,18 @@
 
         <div v-else class="items-frm">
             <div :key="bet.id" class="event-frm" v-for="bet in bets">
-                <div class="data-frm" v-for="(event, index) in bet.events">
+                <div :key="event.id" class="data-frm" v-for="(event, index) in bet.events">
                     <div v-if="index === 0" class="tag type-bet">
                         <span v-if="isParlay(bet)">Parlay</span>
                         <span v-else>Straight</span>
                     </div>
 
                     <BetContent
+                        :scoreAway="getScoreAway(event.externalId)"
+                        :scoreHome="getScoreHome(event.externalId)"
                         :startsAt="event.startsAt"
-                        :homeTeam="event.homeTeam"
-                        :awayTeam="event.awayTeam"
+                        :teamHome="event.teamHome"
+                        :teamAway="event.teamAway"
                         :selectedTeam="event.selectedTeam"
                         :odd="event.odd"
                     />
@@ -40,6 +42,7 @@ import { DeepReadonly } from "../../../../general/types/types";
 import { Window } from "../../../types/window";
 import BetContent from "./BetContent.vue";
 import { User } from "../../../../general/types/user";
+import { Result } from "../../../types/result";
 
 export default Vue.extend({
     name: "PendingTab",
@@ -61,6 +64,10 @@ export default Vue.extend({
             );
         },
 
+        resultDict(): ReadonlyMap<string, Result> {
+            return this.$stock.getters["result/resultDictionary"];
+        },
+
         isLoading(): boolean {
             return this.$stock.state.user.isLoading;
         },
@@ -69,6 +76,14 @@ export default Vue.extend({
     methods: {
         isParlay(bet: Bet): boolean {
             return bet.events.length > 1;
+        },
+
+        getScoreHome(externalEventId: string): number {
+            return this.resultDict.get(externalEventId)?.home ?? 0;
+        },
+
+        getScoreAway(externalEventId: string): number {
+            return this.resultDict.get(externalEventId)?.away ?? 0;
         },
     },
 });

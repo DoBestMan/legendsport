@@ -25,7 +25,7 @@ export interface UpdateOddsWagerPayload {
 }
 
 const pendingOddsMatch = (a: PendingOdd, b: PendingOdd): boolean =>
-    a.eventId === b.eventId && a.type === b.type;
+    a.externalId === b.externalId && a.type === b.type;
 
 const module: Module<WindowState, RootState> = {
     namespaced: true,
@@ -126,7 +126,7 @@ const module: Module<WindowState, RootState> = {
                 const newPendingOdd: PendingOdd = {
                     wager: 0,
                     tournamentEventId: payload.tournamentEventId,
-                    eventId: payload.eventId,
+                    externalId: payload.externalId,
                     type: payload.type,
                 };
 

@@ -17,9 +17,9 @@
 
         <div class="items-frm">
             <StraightItem
-                :key="`${pendingOdd.eventId}#${pendingOdd.type}`"
+                :key="`${pendingOdd.externalId}#${pendingOdd.type}`"
                 :pendingOdd="pendingOdd"
-                :game="gameDict.get(pendingOdd.eventId)"
+                :game="gameDict.get(pendingOdd.externalId)"
                 :value="pendingOdd.wager"
                 @delete="removeOdd(pendingOdd)"
                 @change="updateOdd(pendingOdd, $event)"
@@ -107,12 +107,12 @@ export default Vue.extend({
         },
 
         gameDict(): ReadonlyMap<string, Game> {
-            return new Map(this.window.tournament.games.map(game => [game.event_id, game]));
+            return new Map(this.window.tournament.games.map(game => [game.externalId, game]));
         },
 
         pendingOdds(): PendingOdd[] {
             return this.window.pendingOdds.filter(pendingOdd =>
-                this.gameDict.has(pendingOdd.eventId),
+                this.gameDict.has(pendingOdd.externalId),
             );
         },
 
@@ -136,7 +136,7 @@ export default Vue.extend({
                     const dictionary: ReadonlyMap<string, Odd> = this.$stock.getters[
                         "odd/oddDictionary"
                     ];
-                    const odd = dictionary.get(pendingOdd.eventId);
+                    const odd = dictionary.get(pendingOdd.externalId);
                     const oddValue = odd ? getPendingOddValue(pendingOdd, odd) : 0;
                     return calculateWinFromAmericanOdd(oddValue, pendingOdd.wager ?? 0);
                 })
@@ -149,7 +149,7 @@ export default Vue.extend({
             const payload: PendingOddPayload = {
                 windowId: this.window.id,
                 tournamentEventId: pendingOdd.tournamentEventId,
-                eventId: pendingOdd.eventId,
+                externalId: pendingOdd.externalId,
                 type: pendingOdd.type,
                 wager: value,
             };

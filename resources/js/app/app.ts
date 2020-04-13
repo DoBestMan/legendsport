@@ -11,7 +11,7 @@ import { diffHumanReadable, formatOdd } from "./utils/game/bet";
 import { RootState } from "./store/types";
 import echo from "./echo";
 import { Echo } from "./utils/websockets/Echo";
-import { mapOdd, mapTournament } from "./api/mappings";
+import { mapOdd, mapResult, mapTournament } from "./api/mappings";
 import { formatChip, formatCurrency, formatDollars, toDateTime } from "../general/utils/filters";
 
 // @ts-ignore
@@ -47,10 +47,14 @@ store.dispatch("user/load").catch(console.error);
 store.dispatch("tournamentList/load").catch(console.error);
 store.dispatch("sport/load").catch(console.error);
 store.dispatch("odd/load").catch(console.error);
+store.dispatch("result/load").catch(console.error);
 
 echo.channel("general")
     .listen("odds", ({ odds }: any) => {
         store.commit("odd/markAsLoaded", odds.map(mapOdd));
+    })
+    .listen("results", ({ results }: any) => {
+        store.commit("odd/markAsLoaded", results.map(mapResult));
     })
     .listen("tournament", ({ tournament }: any) => {
         store.commit("tournamentList/createOrUpdateTournament", mapTournament(tournament));

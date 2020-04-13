@@ -5,7 +5,6 @@ use Carbon\Carbon;
 
 class SportEvent
 {
-    private ?int $id;
     private string $externalId;
     private ?Carbon $startsAt;
     private string $sportId;
@@ -14,7 +13,6 @@ class SportEvent
     private ?string $provider;
 
     public function __construct(
-        ?int $id,
         string $externalId,
         $startsAt,
         string $sportId,
@@ -22,18 +20,12 @@ class SportEvent
         string $awayTeam,
         ?string $provider
     ) {
-        $this->id = $id;
         $this->externalId = $externalId;
         $this->startsAt = $startsAt ? new Carbon($startsAt) : null;
         $this->sportId = $sportId;
         $this->homeTeam = $homeTeam;
         $this->awayTeam = $awayTeam;
         $this->provider = $provider;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getExternalId(): string

@@ -3,7 +3,7 @@ namespace App\Http\Controllers\Backstage\Api;
 
 use App\Betting\BettingProvider;
 use App\Http\Controllers\Controller;
-use App\Http\Transformers\App\SportEventTransformer;
+use App\Http\Transformers\Backstage\SportEventTransformer;
 use Illuminate\Http\Request;
 
 class EventCollection extends Controller

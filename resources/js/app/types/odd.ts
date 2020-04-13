@@ -1,5 +1,5 @@
 export interface Odd {
-    id: string;
+    external_id: string;
     money_line_away: number;
     money_line_home: number;
     point_spread_away: number;

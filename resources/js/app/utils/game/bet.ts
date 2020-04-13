@@ -38,18 +38,19 @@ export const getPendingOddTeam = (
     switch (pendingOdd.type) {
         case PendingOddType.MoneyLineHome:
         case PendingOddType.SpreadHome:
-            return game.home_team;
+            return game.teamHome;
 
         case PendingOddType.MoneyLineAway:
         case PendingOddType.SpreadAway:
-            return game.away_team;
+            return game.teamAway;
 
         default:
             return "n/a";
     }
 };
 
-export const formatOdd = (value: string): string => `${Number(value) > 0 ? "+" : ""}${value}`;
+export const formatOdd = (value: string | number): string =>
+    `${Number(value) > 0 ? "+" : ""}${value}`;
 
 export const diffHumanReadable = (value: string): string => {
     const date = moment(value);

@@ -29,7 +29,7 @@ class TournamentTransformer extends TransformerAbstract
     {
         return $this->collection(
             $tournament->events->map(
-                fn(TournamentEvent $tournamentEvent) => $tournamentEvent->apiEvent->api_data,
+                fn(TournamentEvent $tournamentEvent) => $tournamentEvent->apiEvent,
             ),
             new SportEventTransformer(),
         );
@@ -49,11 +49,7 @@ class TournamentTransformer extends TransformerAbstract
     private function calculateStarts(Tournament $tournament): ?string
     {
         return collect($tournament->events)
-            ->map(
-                fn(TournamentEvent $event) => format_datetime(
-                    $event->apiEvent->api_data->getStartsAt(),
-                ),
-            )
+            ->map(fn(TournamentEvent $event) => format_datetime($event->apiEvent->starts_at))
             ->min();
     }
 }

@@ -2,9 +2,9 @@
     <div class="tab-content-frm">
         <div class="items-frm">
             <ParlayItem
-                :key="`${pendingOdd.eventId}#${pendingOdd.type}`"
+                :key="`${pendingOdd.externalId}#${pendingOdd.type}`"
                 :pendingOdd="pendingOdd"
-                :game="getGame(pendingOdd.eventId)"
+                :game="getGame(pendingOdd.externalId)"
                 :value="pendingOdd.wager"
                 @delete="removeOdd(pendingOdd)"
                 v-for="pendingOdd in pendingOdds"
@@ -115,7 +115,7 @@ export default Vue.extend({
                     const dictionary: ReadonlyMap<string, Odd> = this.$stock.getters[
                         "odd/oddDictionary"
                     ];
-                    const odd = dictionary.get(pendingOdd.eventId);
+                    const odd = dictionary.get(pendingOdd.externalId);
                     const oddValue = odd ? getPendingOddValue(pendingOdd, odd) : 0;
                     return 1 + americanToDecimalOdd(oddValue);
                 })
@@ -129,7 +129,7 @@ export default Vue.extend({
 
     methods: {
         getGame(eventId: string): Game | null {
-            return this.tournament.games.find(game => game.event_id === eventId) ?? null;
+            return this.tournament.games.find(game => game.externalId === eventId) ?? null;
         },
 
         removeOdd(pendingOdd: DeepReadonly<PendingOdd>) {

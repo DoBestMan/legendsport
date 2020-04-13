@@ -10,13 +10,16 @@ export interface Bet {
 }
 
 export interface BetEvent {
-    awayTeam: string;
-    homeTeam: string;
     id: number;
+    externalId: string;
     odd: number;
+    scoreAway: number;
+    scoreHome: number;
     selectedTeam: string;
     startsAt: string;
     status: BetStatus;
+    teamAway: string;
+    teamHome: string;
     type: PendingOddType;
 }
 

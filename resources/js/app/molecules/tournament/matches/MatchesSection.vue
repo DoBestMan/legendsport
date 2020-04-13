@@ -97,9 +97,9 @@ export default Vue.extend({
             const filteredGames = this.tournament.games.filter(
                 game =>
                     empty(this.window.selectedSportIds) ||
-                    this.window.selectedSportIds.includes(game.sport_id),
+                    this.window.selectedSportIds.includes(game.sportId),
             );
-            return groupBy(filteredGames, game => game.starts_at);
+            return groupBy(filteredGames, game => game.startsAt);
         },
     },
 
@@ -133,7 +133,7 @@ export default Vue.extend({
             const payload: PendingOddPayload = {
                 windowId: this.window.id,
                 tournamentEventId: pendingOdd.tournamentEventId,
-                eventId: pendingOdd.eventId,
+                externalId: pendingOdd.externalId,
                 type: pendingOdd.type,
             };
             this.$stock.dispatch("window/toggleOdd", payload);

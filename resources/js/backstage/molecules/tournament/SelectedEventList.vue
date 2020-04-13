@@ -15,15 +15,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="event in events" :key="event.ID">
+                    <tr v-for="event in events" :key="event.external_id">
                         <td class="text-truncate" width="300px">
                             {{ event.starts_at | toDateTime }}
                         </td>
                         <td class="text-truncate" width="210px">
-                            {{ event.home_team }}
+                            {{ event.team_home }}
                         </td>
                         <td class="text-truncate" width="230px">
-                            {{ event.away_team }}
+                            {{ event.team_away }}
                         </td>
                         <td class="text-truncate" width="200px">
                             {{ getSportName(event.sport_id) }}
@@ -47,18 +47,17 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue, { PropType } from "vue";
 import TableNoRecords from "../../../general/components/TableNoRecords";
 import sportStore from "../../stores/sportStore";
+import { Event } from "../../types/event";
 
 export default Vue.extend({
     name: "SelectedEventList",
     components: { TableNoRecords },
 
     props: {
-        events: {
-            type: Array,
-        },
+        events: Array as PropType<Event[]>,
     },
 
     methods: {

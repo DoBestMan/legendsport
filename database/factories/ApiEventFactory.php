@@ -1,5 +1,6 @@
 <?php
 
+use App\Betting\Bets365;
 use App\Models\ApiEvent;
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factory;
@@ -11,12 +12,10 @@ $factory->define(ApiEvent::class, function (Faker $faker) {
 
     return [
         "api_id" => $id,
-        "api_data" => [
-            "external_id" => $id,
-            "sport_id" => 11,
-            "away_team" => "Ion Cutelaba",
-            "home_team" => "Magomed Ankalaev",
-            "starts_at" => "2020-04-19T01:00:00",
-        ],
+        "provider" => Bets365::PROVIDER_NAME,
+        "sport_id" => 11,
+        "team_away" => "Ion Cutelaba",
+        "team_home" => "Magomed Ankalaev",
+        "starts_at" => "2020-04-19T01:00:00",
     ];
 });

@@ -27,7 +27,6 @@ class JsonOdd implements BettingProvider
         $results = collect($this->getRawOdds())
             ->map(
                 fn(array $odds) => new SportEvent(
-                    null,
                     $odds["ID"],
                     $odds["MatchTime"],
                     $odds["Sport"],
@@ -60,6 +59,11 @@ class JsonOdd implements BettingProvider
                 ),
             )
             ->all();
+    }
+
+    public function getResults(): array
+    {
+        return [];
     }
 
     public function getSports(): array

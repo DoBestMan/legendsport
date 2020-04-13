@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-use App\Betting\SportEvent;
-use Arr;
+use App\Betting\TimeStatus;
 use Carbon\Carbon;
 use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
@@ -12,7 +11,14 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property int $id
  * @property string $api_id
- * @property SportEvent $api_data
+ * @property TimeStatus $time_status
+ * @property Carbon|null $starts_at
+ * @property int|null $sport_id
+ * @property string $team_away
+ * @property string $team_home
+ * @property int|null $score_away
+ * @property int|null $score_home
+ * @property string $provider
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read Collection|TournamentEvent[] $tournamentEvents
@@ -21,28 +27,26 @@ use Illuminate\Database\Eloquent\Model;
 class ApiEvent extends Model
 {
     protected $table = 'api_events';
-    protected $primaryKey = 'id';
-    protected $fillable = ['api_id', 'api_data'];
+    protected $casts = [
+        "score_away" => "int",
+        "score_home" => "int",
+        "sport_id" => "int",
+        "starts_at" => "datetime",
+    ];
 
-    public function getApiDataAttribute(string $encoded): SportEvent
+    public static function findByApiId(string $apiId): ?ApiEvent
     {
-        $data = json_decode($encoded, true);
-
-        return new SportEvent(
-            $this->id,
-            $data["external_id"],
-            $data["starts_at"],
-            $data["sport_id"],
-            $data["home_team"],
-            $data["away_team"],
-            Arr::get($data, "provider"),
-        );
+        return static::where("api_id", $apiId)->first();
     }
 
-    public function setApiDataAttribute(array $sportEvent): void
+    public function setTimeStatusAttribute(TimeStatus $timeStatus): void
     {
-        unset($sportEvent["id"]);
-        $this->attributes["api_data"] = json_encode($sportEvent);
+        $this->attributes["time_status"] = $timeStatus->getValue();
+    }
+
+    public function getTimeStatusAttribute(string $value): TimeStatus
+    {
+        return new TimeStatus($value);
     }
 
     public function tournamentEvents()

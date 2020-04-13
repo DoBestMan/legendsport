@@ -1,28 +1,28 @@
 import { Module } from "vuex";
 import { RootState } from "../types";
 import { DeepReadonly } from "../../../general/types/types";
-import { Odd } from "../../types/odd";
+import { Result } from "../../types/result";
 
-export interface OddState {
+export interface ResultState {
     isLoading: boolean;
     isLoaded: boolean;
-    isFailed: boolean;
-    odds: Array<DeepReadonly<Odd>>;
+    error: Error | null;
+    results: Array<DeepReadonly<Result>>;
 }
 
-const module: Module<OddState, RootState> = {
+const module: Module<ResultState, RootState> = {
     namespaced: true,
 
     state: {
         isLoading: false,
         isLoaded: false,
-        isFailed: false,
-        odds: [],
+        error: null,
+        results: [],
     },
 
     getters: {
-        oddDictionary(state): ReadonlyMap<string, Odd> {
-            return new Map(state.odds.map(odd => [odd.external_id, odd]));
+        resultDictionary(state): ReadonlyMap<string, Result> {
+            return new Map(state.results.map(result => [result.externalId, result]));
         },
     },
 
@@ -31,22 +31,22 @@ const module: Module<OddState, RootState> = {
             state.isLoading = true;
         },
 
-        markAsLoaded(state, odds: Odd[]) {
+        markAsLoaded(state, results: Result[]) {
             state.isLoading = false;
-            state.isFailed = false;
+            state.error = null;
             state.isLoaded = true;
-            state.odds = odds;
+            state.results = results;
         },
 
-        markAsFailed(state) {
+        markAsFailed(state, error) {
             state.isLoading = false;
-            state.isFailed = true;
+            state.error = error;
         },
     },
 
     actions: {
         async load({ state, dispatch }) {
-            if (!state.odds.length) {
+            if (!state.results.length) {
                 await dispatch("reload");
             }
         },
@@ -55,8 +55,8 @@ const module: Module<OddState, RootState> = {
             commit("markAsLoading");
 
             try {
-                const odds = await rootState.api.getOdds();
-                commit("markAsLoaded", odds);
+                const results = await rootState.api.getResults();
+                commit("markAsLoaded", results);
             } catch (e) {
                 commit("markAsFailed");
             }

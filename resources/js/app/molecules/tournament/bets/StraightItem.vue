@@ -6,9 +6,11 @@
             </div>
 
             <BetContent
-                :startsAt="game.starts_at"
-                :homeTeam="game.home_team"
-                :awayTeam="game.away_team"
+                :scoreAway="scoreAway"
+                :scoreHome="scoreHome"
+                :startsAt="game.startsAt"
+                :teamHome="game.teamHome"
+                :teamAway="game.teamAway"
                 :selectedTeam="team"
                 :odd="oddValue"
             />
@@ -39,6 +41,7 @@ import {
 import BetContent from "./BetContent.vue";
 import ChipInput from "../../../../general/components/ChipInput.vue";
 import { Odd } from "../../../types/odd";
+import { Result } from "../../../types/result";
 
 export default Vue.extend({
     name: "StraightItem",
@@ -53,7 +56,7 @@ export default Vue.extend({
     computed: {
         odd(): Odd | null {
             const dictionary: ReadonlyMap<string, Odd> = this.$stock.getters["odd/oddDictionary"];
-            return dictionary.get(this.pendingOdd.eventId) ?? null;
+            return dictionary.get(this.pendingOdd.externalId) ?? null;
         },
 
         win(): number {
@@ -68,6 +71,18 @@ export default Vue.extend({
 
         oddValue(): number {
             return this.odd ? getPendingOddValue(this.pendingOdd, this.odd) : 0;
+        },
+
+        resultDict(): ReadonlyMap<string, Result> {
+            return this.$stock.getters["result/resultDictionary"];
+        },
+
+        scoreHome(): number {
+            return this.resultDict.get(this.game.externalId)?.home ?? 0;
+        },
+
+        scoreAway(): number {
+            return this.resultDict.get(this.game.externalId)?.away ?? 0;
         },
     },
 

@@ -4,6 +4,7 @@ import { User, UserPlayer } from "../../general/types/user";
 import { Bet, BetEvent } from "../types/bet";
 import { Odd } from "../types/odd";
 import { Game } from "../types/game";
+import { Result } from "../types/result";
 
 export const mapTournament = (data: any): Tournament => {
     const games: Game[] = data.games.map(mapGame);
@@ -17,7 +18,7 @@ export const mapTournament = (data: any): Tournament => {
         players: data.players.map(mapPlayer),
         playersLimit: data.players_limit,
         prizePoolMoney: data.prize_pool_money,
-        sportIds: [...new Set(games.map(game => game.sport_id))],
+        sportIds: [...new Set(games.map(game => game.sportId))],
         starts: data.starts,
         state: data.state,
         timeFrame: data.time_frame,
@@ -27,11 +28,13 @@ export const mapTournament = (data: any): Tournament => {
 
 export const mapGame = (data: any): Game => ({
     id: data.id,
-    event_id: data.external_id,
-    starts_at: data.starts_at,
-    sport_id: data.sport_id,
-    home_team: data.home_team,
-    away_team: data.away_team,
+    externalId: data.external_id,
+    startsAt: data.starts_at,
+    sportId: data.sport_id,
+    teamHome: data.team_home,
+    teamAway: data.team_away,
+    scoreHome: data.score_home,
+    scoreAway: data.score_away,
 });
 
 export const mapPlayer = (data: any): Player => ({
@@ -73,16 +76,25 @@ export const mapBet = (data: any): Bet => ({
 });
 
 export const mapBetEvent = (data: any): BetEvent => ({
-    awayTeam: data.away_team,
-    homeTeam: data.home_team,
     id: data.id,
-    startsAt: data.starts_at,
+    externalId: data.external_id,
     odd: data.odd,
+    scoreAway: data.score_away,
+    scoreHome: data.score_home,
     selectedTeam: data.selected_team,
+    startsAt: data.starts_at,
     status: data.status,
+    teamAway: data.team_away,
+    teamHome: data.team_home,
     type: data.type,
 });
 
 export const mapOdd = (data: any): Odd => ({
     ...data,
+});
+
+export const mapResult = (data: any): Result => ({
+    externalId: data.external_id,
+    home: data.home,
+    away: data.away,
 });

@@ -1,8 +1,10 @@
 export interface Game {
     id: number;
-    event_id: string;
-    starts_at: string;
-    sport_id: string;
-    home_team: string;
-    away_team: string;
+    externalId: string;
+    startsAt: string;
+    sportId: string;
+    teamHome: string;
+    teamAway: string;
+    scoreHome: number;
+    scoreAway: number;
 }

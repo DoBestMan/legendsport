@@ -65,11 +65,11 @@ class TournamentBetEvent extends Model
         switch ($this->type) {
             case PendingOddType::MONEY_LINE_HOME():
             case PendingOddType::SPREAD_HOME():
-                return $this->tournamentEvent->apiEvent->api_data->getHomeTeam();
+                return $this->tournamentEvent->apiEvent->team_home;
 
             case PendingOddType::MONEY_LINE_AWAY():
             case PendingOddType::SPREAD_AWAY():
-                return $this->tournamentEvent->apiEvent->api_data->getAwayTeam();
+                return $this->tournamentEvent->apiEvent->team_away;
 
             default:
                 return "n/a";

@@ -21,7 +21,7 @@ export enum BetTypeTab {
 
 export interface PendingOdd {
     tournamentEventId: number;
-    eventId: string;
+    externalId: string;
     type: PendingOddType;
     wager?: number;
 }

@@ -1,7 +1,7 @@
 <template>
     <div style="display: contents">
         <tr class="tr">
-            <td class="td col-datetime">{{ game.home_team }}</td>
+            <td class="td col-datetime">{{ game.teamHome }}</td>
 
             <td class="td col-money">
                 <button
@@ -44,7 +44,7 @@
         </tr>
 
         <tr class="tr">
-            <td class="td col-datetime">{{ game.away_team }}</td>
+            <td class="td col-datetime">{{ game.teamAway }}</td>
 
             <td class="td col-money">
                 <button
@@ -96,8 +96,8 @@ import { DeepReadonly } from "../../../../general/types/types";
 import DisabledButton from "./DisabledButton.vue";
 import { Odd } from "../../../types/odd";
 
-const createPendingOddKey = (pendingOdd: Pick<PendingOdd, "eventId" | "type">): string =>
-    `${pendingOdd.eventId}#${pendingOdd.type}`;
+const createPendingOddKey = (pendingOdd: Pick<PendingOdd, "externalId" | "type">): string =>
+    `${pendingOdd.externalId}#${pendingOdd.type}`;
 
 export default Vue.extend({
     name: "GameRow",
@@ -111,7 +111,7 @@ export default Vue.extend({
     computed: {
         odd(): Odd | null {
             const dict: ReadonlyMap<string, Odd> = this.$stock.getters["odd/oddDictionary"];
-            return dict.get(this.game.event_id) ?? null;
+            return dict.get(this.game.externalId) ?? null;
         },
 
         moneyLineHome(): string {
@@ -162,7 +162,7 @@ export default Vue.extend({
         selectedMoneyLineHome(): boolean {
             return this.pendingOddsDictionary.has(
                 createPendingOddKey({
-                    eventId: this.game.event_id,
+                    externalId: this.game.externalId,
                     type: PendingOddType.MoneyLineHome,
                 }),
             );
@@ -171,7 +171,7 @@ export default Vue.extend({
         selectedMoneyLineAway(): boolean {
             return this.pendingOddsDictionary.has(
                 createPendingOddKey({
-                    eventId: this.game.event_id,
+                    externalId: this.game.externalId,
                     type: PendingOddType.MoneyLineAway,
                 }),
             );
@@ -180,7 +180,7 @@ export default Vue.extend({
         selectedSpreadHome(): boolean {
             return this.pendingOddsDictionary.has(
                 createPendingOddKey({
-                    eventId: this.game.event_id,
+                    externalId: this.game.externalId,
                     type: PendingOddType.SpreadHome,
                 }),
             );
@@ -189,7 +189,7 @@ export default Vue.extend({
         selectedSpreadAway(): boolean {
             return this.pendingOddsDictionary.has(
                 createPendingOddKey({
-                    eventId: this.game.event_id,
+                    externalId: this.game.externalId,
                     type: PendingOddType.SpreadAway,
                 }),
             );
@@ -198,7 +198,7 @@ export default Vue.extend({
         selectedTotalUnder(): boolean {
             return this.pendingOddsDictionary.has(
                 createPendingOddKey({
-                    eventId: this.game.event_id,
+                    externalId: this.game.externalId,
                     type: PendingOddType.TotalUnder,
                 }),
             );
@@ -207,7 +207,7 @@ export default Vue.extend({
         selectedTotalOver(): boolean {
             return this.pendingOddsDictionary.has(
                 createPendingOddKey({
-                    eventId: this.game.event_id,
+                    externalId: this.game.externalId,
                     type: PendingOddType.TotalOver,
                 }),
             );
@@ -222,7 +222,7 @@ export default Vue.extend({
         emitToggleOdd(type: PendingOddType) {
             const payload: PendingOdd = {
                 tournamentEventId: this.game.id,
-                eventId: this.game.event_id,
+                externalId: this.game.externalId,
                 type,
             };
             this.$emit("toggleOdd", payload);

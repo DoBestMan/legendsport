@@ -21,7 +21,7 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof LimitExceededException) {
             return new Response(
-                ["message" => "JsonOdds API limit exceeded"],
+                ["message" => "Betting provider API limit exceeded"],
                 Response::HTTP_FAILED_DEPENDENCY,
             );
         }

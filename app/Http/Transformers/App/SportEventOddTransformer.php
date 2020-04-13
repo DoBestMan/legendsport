@@ -9,7 +9,7 @@ class SportEventOddTransformer extends TransformerAbstract
     public function transform(SportEventOdd $sportEventOdd)
     {
         return [
-            "id" => $sportEventOdd->getExternalEventId(),
+            "external_id" => $sportEventOdd->getExternalEventId(),
             "money_line_away" => $sportEventOdd->getMoneyLineAway(),
             "money_line_home" => $sportEventOdd->getMoneyLineHome(),
             "point_spread_away" => $sportEventOdd->getPointSpreadAway(),

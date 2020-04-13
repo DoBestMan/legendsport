@@ -1,8 +1,7 @@
 export interface Event {
-    id: number;
     external_id: string;
-    starts_at: string;
-    home_team: string;
-    away_team: string;
     sport_id: string;
+    starts_at: string;
+    team_away: string;
+    team_home: string;
 }

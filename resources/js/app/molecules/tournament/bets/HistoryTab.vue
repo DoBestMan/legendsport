@@ -1,4 +1,3 @@
-import {BetStatus} from "../../types/bet";
 <template>
     <div class="tab-content-frm">
         <SpinnerBox v-if="isLoading" />
@@ -12,9 +11,11 @@ import {BetStatus} from "../../types/bet";
                     </div>
 
                     <BetContent
+                        :scoreAway="event.scoreAway"
+                        :scoreHome="event.scoreHome"
                         :startsAt="event.startsAt"
-                        :homeTeam="event.homeTeam"
-                        :awayTeam="event.awayTeam"
+                        :teamHome="event.teamHome"
+                        :teamAway="event.teamAway"
                         :selectedTeam="event.selectedTeam"
                         :odd="event.odd"
                     />

@@ -8,16 +8,19 @@ class TournamentBetEventTransformer extends TransformerAbstract
 {
     public function transform(TournamentBetEvent $betEvent)
     {
-        $apiData = $betEvent->tournamentEvent->apiEvent->api_data;
+        $apiEvent = $betEvent->tournamentEvent->apiEvent;
 
         return [
-            "away_team" => $apiData->getAwayTeam(),
-            "home_team" => $apiData->getHomeTeam(),
             "id" => $betEvent->id,
-            "starts_at" => format_datetime($apiData->getStartsAt()),
+            "external_id" => $apiEvent->api_id,
             "odd" => $betEvent->odd,
+            "score_away" => $apiEvent->score_away,
+            "score_home" => $apiEvent->score_home,
             "selected_team" => $betEvent->getSelectedTeam(),
+            "starts_at" => format_datetime($apiEvent->starts_at),
             "status" => $betEvent->status,
+            "team_away" => $apiEvent->team_away,
+            "team_home" => $apiEvent->team_home,
             "type" => $betEvent->type,
         ];
     }

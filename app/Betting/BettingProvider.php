@@ -15,6 +15,11 @@ interface BettingProvider
     public function getOdds(): array;
 
     /**
+     * @return SportEventResult[]
+     */
+    public function getResults(): array;
+
+    /**
      * @return Sport[]
      */
     public function getSports(): array;

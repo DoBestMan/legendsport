@@ -19,10 +19,10 @@
                     <td class="td col-time">{{ getStartsAt(game) }}</td>
                     <td class="td col-sport">{{ getSportName(game) }}</td>
                     <td class="td col-game">
-                        <div class="team">{{ game.home_team }}</div>
+                        <div class="team">{{ game.teamHome }}</div>
                         <div class="score">0</div>
                         <div class="vs">@</div>
-                        <div class="team">{{ game.away_team }}</div>
+                        <div class="team">{{ game.teamAway }}</div>
                         <div class="score">0</div>
                     </td>
                 </tr>
@@ -55,12 +55,12 @@ export default Vue.extend({
 
     methods: {
         getStartsAt(game: Game): string {
-            return moment(game.starts_at).format("MMM, DD");
+            return moment(game.startsAt).format("MMM, DD");
         },
 
         getSportName(game: Game): string {
             const dict: ReadonlyMap<string, string> = this.$stock.getters["sport/sportDictionary"];
-            return dict.get(game.sport_id) ?? String(game.sport_id);
+            return dict.get(game.sportId) ?? String(game.sportId);
         },
 
         selectGame(game: Game) {
