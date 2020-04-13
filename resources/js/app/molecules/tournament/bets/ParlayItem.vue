@@ -27,6 +27,7 @@ import { getPendingOddTeam, getPendingOddValue } from "../../../utils/game/bet";
 import BetContent from "./BetContent.vue";
 import { Odd } from "../../../types/odd";
 import { Result } from "../../../types/result";
+import { getScoreAway, getScoreHome } from "../../../utils/game/match";
 
 export default Vue.extend({
     name: "ParlayItem",
@@ -55,11 +56,11 @@ export default Vue.extend({
         },
 
         scoreHome(): number {
-            return this.resultDict.get(this.game.externalId)?.home ?? 0;
+            return getScoreHome(this.game, this.resultDict);
         },
 
         scoreAway(): number {
-            return this.resultDict.get(this.game.externalId)?.away ?? 0;
+            return getScoreAway(this.game, this.resultDict);
         },
     },
 

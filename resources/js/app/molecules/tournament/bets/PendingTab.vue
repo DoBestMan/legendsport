@@ -4,20 +4,20 @@
 
         <div v-else class="items-frm">
             <div :key="bet.id" class="event-frm" v-for="bet in bets">
-                <div :key="event.id" class="data-frm" v-for="(event, index) in bet.events">
+                <div :key="betEvent.id" class="data-frm" v-for="(betEvent, index) in bet.events">
                     <div v-if="index === 0" class="tag type-bet">
                         <span v-if="isParlay(bet)">Parlay</span>
                         <span v-else>Straight</span>
                     </div>
 
                     <BetContent
-                        :scoreAway="getScoreAway(event.externalId)"
-                        :scoreHome="getScoreHome(event.externalId)"
-                        :startsAt="event.startsAt"
-                        :teamHome="event.teamHome"
-                        :teamAway="event.teamAway"
-                        :selectedTeam="event.selectedTeam"
-                        :odd="event.odd"
+                        :scoreAway="getScoreAway(betEvent)"
+                        :scoreHome="getScoreHome(betEvent)"
+                        :startsAt="betEvent.startsAt"
+                        :teamHome="betEvent.teamHome"
+                        :teamAway="betEvent.teamAway"
+                        :selectedTeam="betEvent.selectedTeam"
+                        :odd="betEvent.odd"
                     />
                 </div>
 
@@ -36,13 +36,14 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { Bet, BetStatus } from "../../../types/bet";
+import { Bet, BetEvent, BetStatus } from "../../../types/bet";
 import SpinnerBox from "../../../../general/components/SpinnerBox.vue";
 import { DeepReadonly } from "../../../../general/types/types";
 import { Window } from "../../../types/window";
 import BetContent from "./BetContent.vue";
 import { User } from "../../../../general/types/user";
 import { Result } from "../../../types/result";
+import { getScoreAway, getScoreHome } from "../../../utils/game/match";
 
 export default Vue.extend({
     name: "PendingTab",
@@ -78,12 +79,12 @@ export default Vue.extend({
             return bet.events.length > 1;
         },
 
-        getScoreHome(externalEventId: string): number {
-            return this.resultDict.get(externalEventId)?.home ?? 0;
+        getScoreHome(betEvent: BetEvent): number {
+            return getScoreHome(betEvent, this.resultDict);
         },
 
-        getScoreAway(externalEventId: string): number {
-            return this.resultDict.get(externalEventId)?.away ?? 0;
+        getScoreAway(betEvent: BetEvent): number {
+            return getScoreAway(betEvent, this.resultDict);
         },
     },
 });

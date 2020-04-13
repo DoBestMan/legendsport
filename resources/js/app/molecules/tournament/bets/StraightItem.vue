@@ -42,6 +42,7 @@ import BetContent from "./BetContent.vue";
 import ChipInput from "../../../../general/components/ChipInput.vue";
 import { Odd } from "../../../types/odd";
 import { Result } from "../../../types/result";
+import { getScoreAway, getScoreHome } from "../../../utils/game/match";
 
 export default Vue.extend({
     name: "StraightItem",
@@ -78,11 +79,11 @@ export default Vue.extend({
         },
 
         scoreHome(): number {
-            return this.resultDict.get(this.game.externalId)?.home ?? 0;
+            return getScoreHome(this.game, this.resultDict);
         },
 
         scoreAway(): number {
-            return this.resultDict.get(this.game.externalId)?.away ?? 0;
+            return getScoreAway(this.game, this.resultDict);
         },
     },
 
