@@ -50,11 +50,11 @@ store.dispatch("odd/load").catch(console.error);
 store.dispatch("result/load").catch(console.error);
 
 echo.channel("general")
-    .listen("odds", ({ odds }: any) => {
-        store.commit("odd/markAsLoaded", odds.map(mapOdd));
+    .listen("odds", (data: any) => {
+        store.commit("odd/markAsLoaded", data.odds.map(mapOdd));
     })
     .listen("results", ({ results }: any) => {
-        store.commit("odd/markAsLoaded", results.map(mapResult));
+        store.commit("result/markAsLoaded", results.map(mapResult));
     })
     .listen("tournament", ({ tournament }: any) => {
         store.commit("tournamentList/createOrUpdateTournament", mapTournament(tournament));

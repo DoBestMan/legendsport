@@ -100,10 +100,6 @@ class Bets365 implements BettingProvider
                 $pointSpreadAway = null;
                 $pointSpreadHomeLine = null;
                 $pointSpreadAwayLine = null;
-                $overLine = null;
-                $underLine = null;
-                $totalNumber = null;
-
                 foreach ($matchLine as $item) {
                     $teamName = Arr::get($item, "header");
                     $type = Arr::get($item, "name");
@@ -140,9 +136,9 @@ class Bets365 implements BettingProvider
                     $pointSpreadAway,
                     $pointSpreadHomeLine,
                     $pointSpreadAwayLine,
-                    $overLine,
-                    $underLine,
-                    $totalNumber,
+                    null,
+                    null,
+                    null,
                 );
             })
             ->all();

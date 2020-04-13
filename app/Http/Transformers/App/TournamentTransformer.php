@@ -31,7 +31,7 @@ class TournamentTransformer extends TransformerAbstract
             $tournament->events->map(
                 fn(TournamentEvent $tournamentEvent) => $tournamentEvent->apiEvent,
             ),
-            new SportEventTransformer(),
+            new ApiEventTransformer(),
         );
     }
 

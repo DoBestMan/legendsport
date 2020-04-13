@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $api_id
  * @property TimeStatus $time_status
  * @property Carbon|null $starts_at
- * @property int|null $sport_id
+ * @property string|null $sport_id
  * @property string $team_away
  * @property string $team_home
  * @property int|null $score_away
@@ -30,7 +30,7 @@ class ApiEvent extends Model
     protected $casts = [
         "score_away" => "int",
         "score_home" => "int",
-        "sport_id" => "int",
+        "sport_id" => "string",
         "starts_at" => "datetime",
     ];
 

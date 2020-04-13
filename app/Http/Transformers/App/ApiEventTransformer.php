@@ -4,7 +4,7 @@ namespace App\Http\Transformers\App;
 use App\Models\ApiEvent;
 use League\Fractal\TransformerAbstract;
 
-class SportEventTransformer extends TransformerAbstract
+class ApiEventTransformer extends TransformerAbstract
 {
     public function transform(ApiEvent $apiEvent)
     {

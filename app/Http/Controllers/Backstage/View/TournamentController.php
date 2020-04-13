@@ -3,7 +3,7 @@ namespace App\Http\Controllers\Backstage\View;
 
 use App\Betting\TimeStatus;
 use App\Http\Controllers\Controller;
-use App\Http\Transformers\App\SportEventTransformer;
+use App\Http\Transformers\App\ApiEventTransformer;
 use App\Models\ApiEvent;
 use App\Models\Config;
 use App\Models\Tournament;
@@ -95,7 +95,7 @@ class TournamentController extends Controller
             ->map(fn(TournamentEvent $tournamentEvent) => $tournamentEvent->apiEvent);
 
         $apiSelectedSports = fractal()
-            ->collection($selectedEvents, new SportEventTransformer())
+            ->collection($selectedEvents, new ApiEventTransformer())
             ->toArray();
 
         JavaScript::put([
@@ -129,7 +129,7 @@ class TournamentController extends Controller
             ->map(fn(TournamentEvent $tournamentEvent) => $tournamentEvent->apiEvent);
 
         $apiSelectedSports = fractal()
-            ->collection($selectedEvents, new SportEventTransformer())
+            ->collection($selectedEvents, new ApiEventTransformer())
             ->toArray();
 
         $rule = $tournament->late_register_rule;
