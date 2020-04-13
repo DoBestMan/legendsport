@@ -13,15 +13,15 @@ class TournamentCollectionTest extends TestCase
         // given
         /** @var Tournament $tournament */
         $tournament = factory(Tournament::class)->create();
-        factory(TournamentPlayer::class)->create([
+        $adamPlayer = factory(TournamentPlayer::class)->create([
             "tournament_id" => $tournament->id,
             "chips" => 300,
         ]);
-        factory(TournamentPlayer::class)->create([
+        $victoriaPlayer = factory(TournamentPlayer::class)->create([
             "tournament_id" => $tournament->id,
             "chips" => 400,
         ]);
-        factory(TournamentPlayer::class)->create([
+        $stefanPlayer = factory(TournamentPlayer::class)->create([
             "tournament_id" => $tournament->id,
             "chips" => 50,
         ]);
@@ -35,15 +35,15 @@ class TournamentCollectionTest extends TestCase
                 "players" => [
                     [
                         "balance" => 400,
-                        "id" => 2,
+                        "id" => $victoriaPlayer->getKey(),
                     ],
                     [
                         "balance" => 300,
-                        "id" => 1,
+                        "id" => $adamPlayer->getKey(),
                     ],
                     [
                         "balance" => 50,
-                        "id" => 3,
+                        "id" => $stefanPlayer->getKey(),
                     ],
                 ],
             ],

@@ -1,13 +1,13 @@
 <?php
-namespace App\Tournament;
+namespace App\Tournament\Exceptions;
 
 use Exception;
 use Throwable;
 
-class NotEnoughBalanceException extends Exception
+class MatchAlreadyStartedException extends Exception
 {
     public function __construct(
-        $message = "Not enough balance",
+        $message = "Match has already started",
         $code = 0,
         Throwable $previous = null
     ) {

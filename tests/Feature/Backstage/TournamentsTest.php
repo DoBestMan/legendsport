@@ -2,12 +2,19 @@
 
 namespace Tests\Feature\Backstage;
 
+use App\Models\Admin;
 use App\Models\Config;
 use App\Models\Tournament;
 use Tests\Utils\TestCase;
 
 class TournamentsTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->actingAsAdmin(factory(Admin::class)->create());
+    }
+
     private function createTournament(array $attributes = [])
     {
         return factory(Tournament::class)->create($attributes);

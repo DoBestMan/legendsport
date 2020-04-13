@@ -27,15 +27,15 @@ class SportEventOdd
 
     public function __construct(
         string $externalEventId,
-        ?int $moneyLineHome,
-        ?int $moneyLineAway,
-        ?int $pointSpreadHome,
-        ?int $pointSpreadAway,
-        ?Decimal $pointSpreadHomeLine,
-        ?Decimal $pointSpreadAwayLine,
-        ?int $overLine,
-        ?int $underLine,
-        ?Decimal $totalNumber
+        ?int $moneyLineHome = null,
+        ?int $moneyLineAway = null,
+        ?int $pointSpreadHome = null,
+        ?int $pointSpreadAway = null,
+        ?Decimal $pointSpreadHomeLine = null,
+        ?Decimal $pointSpreadAwayLine = null,
+        ?int $overLine = null,
+        ?int $underLine = null,
+        ?Decimal $totalNumber = null
     ) {
         $this->externalEventId = $externalEventId;
         $this->moneyLineHome = $moneyLineHome;

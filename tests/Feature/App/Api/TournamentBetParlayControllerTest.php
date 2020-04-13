@@ -1,6 +1,8 @@
 <?php
 namespace Tests\Feature\App\Api;
 
+use App\Betting\SportEventOdd;
+use App\Betting\TimeStatus;
 use App\Models\Tournament;
 use App\Models\TournamentEvent;
 use App\Models\User;
@@ -8,12 +10,12 @@ use App\Services\TournamentPlayerService;
 use App\Tournament\BetStatus;
 use App\Tournament\PendingOddType;
 use Illuminate\Http\Response;
-use Tests\Utils\Concerns\JsonOddApiServiceConcern;
+use Tests\Utils\Concerns\BettingProviderConcern;
 use Tests\Utils\TestCase;
 
 class TournamentBetParlayControllerTest extends TestCase
 {
-    use JsonOddApiServiceConcern;
+    use BettingProviderConcern;
 
     private Tournament $tournament;
     private TournamentPlayerService $tournamentPlayerService;
@@ -21,7 +23,7 @@ class TournamentBetParlayControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->mockJsonOddApiService();
+        $this->mockBettingProvider();
         $this->tournamentPlayerService = $this->app->make(TournamentPlayerService::class);
 
         /** @var Tournament $tournament */
@@ -38,30 +40,12 @@ class TournamentBetParlayControllerTest extends TestCase
                 "tournament_id" => $this->tournament->id,
             ]);
 
-        $this->jsonOddApiServiceMock->shouldReceive("getOdds")->andReturn([
-            [
-                "ID" => $events[0]->apiEvent->api_id,
-                "Odds" => [
-                    [
-                        "ID" => "",
-                        "EventID" => $events[0]->apiEvent->api_id,
-                        "MoneyLineHome" => -140,
-                        "MoneyLineAway" => 120,
-                    ],
-                ],
-            ],
-            [
-                "ID" => $events[1]->apiEvent->api_id,
-                "Odds" => [
-                    [
-                        "ID" => "",
-                        "EventID" => $events[1]->apiEvent->api_id,
-                        "MoneyLineHome" => -150,
-                        "MoneyLineAway" => 130,
-                    ],
-                ],
-            ],
-        ]);
+        $this->bettingProvider
+            ->shouldReceive("getOdds")
+            ->andReturn([
+                new SportEventOdd($events[0]->apiEvent->api_id, -140, 120),
+                new SportEventOdd($events[1]->apiEvent->api_id, -150, 130),
+            ]);
     }
 
     /** @test */
@@ -80,7 +64,7 @@ class TournamentBetParlayControllerTest extends TestCase
         $response = $this->postJson(
             "http://legendsports.local/api/tournaments/{$this->tournament->id}/bets/parlay",
             [
-                'pending_odds' => [
+                "pending_odds" => [
                     [
                         "event_id" => $this->tournament->events[0]->id,
                         "type" => "money_line_home",
@@ -90,7 +74,7 @@ class TournamentBetParlayControllerTest extends TestCase
                         "type" => "money_line_away",
                     ],
                 ],
-                'wager' => 500,
+                "wager" => 500,
             ],
         );
 
@@ -133,7 +117,7 @@ class TournamentBetParlayControllerTest extends TestCase
         $response = $this->postJson(
             "http://legendsports.local/api/tournaments/{$this->tournament->id}/bets/parlay",
             [
-                'pending_odds' => [
+                "pending_odds" => [
                     [
                         "event_id" => $this->tournament->events[0]->id,
                         "type" => "money_line_home",
@@ -143,7 +127,7 @@ class TournamentBetParlayControllerTest extends TestCase
                         "type" => "money_line_away",
                     ],
                 ],
-                'wager' => 500,
+                "wager" => 500,
             ],
         );
 
@@ -172,7 +156,7 @@ class TournamentBetParlayControllerTest extends TestCase
         $response = $this->postJson(
             "http://legendsports.local/api/tournaments/{$this->tournament->id}/bets/parlay",
             [
-                'pending_odds' => [
+                "pending_odds" => [
                     [
                         "event_id" => $this->tournament->events[0]->id,
                         "type" => "money_line_home",
@@ -182,7 +166,7 @@ class TournamentBetParlayControllerTest extends TestCase
                         "type" => "money_line_away",
                     ],
                 ],
-                'wager' => 2100,
+                "wager" => 2100,
             ],
         );
 
@@ -211,7 +195,7 @@ class TournamentBetParlayControllerTest extends TestCase
         $response = $this->postJson(
             "http://legendsports.local/api/tournaments/{$this->tournament->id}/bets/parlay",
             [
-                'pending_odds' => [
+                "pending_odds" => [
                     [
                         "event_id" => $this->tournament->events[0]->id,
                         "type" => "money_line_home",
@@ -221,7 +205,7 @@ class TournamentBetParlayControllerTest extends TestCase
                         "type" => "money_line_away",
                     ],
                 ],
-                'wager' => 99,
+                "wager" => 99,
             ],
         );
 
@@ -231,6 +215,50 @@ class TournamentBetParlayControllerTest extends TestCase
                 "wager" => ["The wager must be at least 100."],
             ],
             "message" => "The given data was invalid.",
+        ]);
+
+        $player->refresh();
+        $this->assertCount(0, $player->bets);
+    }
+
+    /** @test */
+    public function cannot_bet_if_match_has_already_begun()
+    {
+        // given
+        /** @var User $user */
+        $user = factory(User::class)->create([
+            "balance" => 1000,
+        ]);
+
+        $this->actingAs($user);
+        $player = $this->tournamentPlayerService->register($this->tournament, $user);
+
+        $tournamentEvent = $this->tournament->events[0];
+        $apiEvent = $tournamentEvent->apiEvent;
+        $apiEvent->time_status = TimeStatus::IN_PLAY();
+        $apiEvent->save();
+
+        // when
+        $response = $this->postJson(
+            "http://legendsports.local/api/tournaments/{$this->tournament->id}/bets/parlay",
+            [
+                "pending_odds" => [
+                    [
+                        "event_id" => $tournamentEvent->id,
+                        "type" => "money_line_home",
+                    ],
+                    [
+                        "event_id" => $this->tournament->events[1]->id,
+                        "type" => "money_line_away",
+                    ],
+                ],
+                "wager" => 100,
+            ],
+        );
+
+        // then
+        $response->assertStatus(Response::HTTP_BAD_REQUEST)->assertExactJson([
+            "message" => "The match has already begun.",
         ]);
 
         $player->refresh();

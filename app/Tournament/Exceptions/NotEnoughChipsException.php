@@ -1,5 +1,5 @@
 <?php
-namespace App\Tournament;
+namespace App\Tournament\Exceptions;
 
 use Exception;
 use Throwable;

@@ -4,9 +4,9 @@ namespace App\Services;
 use App\Models\Tournament;
 use App\Models\TournamentPlayer;
 use App\Models\User;
-use App\Tournament\AlreadyRegisteredException;
-use App\Tournament\NotEnoughBalanceException;
-use App\Tournament\NotRegisteredException;
+use App\Tournament\Exceptions\AlreadyRegisteredException;
+use App\Tournament\Exceptions\NotEnoughBalanceException;
+use App\Tournament\Exceptions\NotRegisteredException;
 use Illuminate\Database\DatabaseManager;
 
 class TournamentPlayerService

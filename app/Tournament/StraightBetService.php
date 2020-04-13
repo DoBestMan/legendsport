@@ -1,12 +1,16 @@
 <?php
 namespace App\Tournament;
 
+use App\Betting\TimeStatus;
 use App\Models\PendingOdd;
 use App\Models\Tournament;
 use App\Models\TournamentBet;
 use App\Models\TournamentBetEvent;
 use App\Models\User;
 use App\Services\TournamentPlayerService;
+use App\Tournament\Exceptions\MatchAlreadyStartedException;
+use App\Tournament\Exceptions\NotEnoughChipsException;
+use App\Tournament\Exceptions\NotRegisteredException;
 use Illuminate\Database\DatabaseManager;
 
 class StraightBetService
@@ -29,9 +33,17 @@ class StraightBetService
      * @return TournamentBet[]
      * @throws NotEnoughChipsException
      * @throws NotRegisteredException
+     * @throws MatchAlreadyStartedException
      */
     public function bet(Tournament $tournament, User $user, array $pendingOdds): array
     {
+        foreach ($pendingOdds as $pendingOdd) {
+            $timeStatus = $pendingOdd->getTournamentEvent()->apiEvent->time_status;
+            if (!$timeStatus->equals(TimeStatus::NOT_STARTED())) {
+                throw new MatchAlreadyStartedException();
+            }
+        }
+
         return $this->databaseManager->transaction(function () use (
             $tournament,
             $user,

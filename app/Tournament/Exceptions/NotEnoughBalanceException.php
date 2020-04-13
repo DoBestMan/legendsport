@@ -1,13 +1,13 @@
 <?php
-namespace App\Tournament;
+namespace App\Tournament\Exceptions;
 
 use Exception;
 use Throwable;
 
-class AlreadyRegisteredException extends Exception
+class NotEnoughBalanceException extends Exception
 {
     public function __construct(
-        $message = "Already registered",
+        $message = "Not enough balance",
         $code = 0,
         Throwable $previous = null
     ) {

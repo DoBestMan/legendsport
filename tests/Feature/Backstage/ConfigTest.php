@@ -2,11 +2,18 @@
 
 namespace Tests\Feature\Backstage;
 
+use App\Models\Admin;
 use App\Models\Config;
 use Tests\Utils\TestCase;
 
 class ConfigTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->actingAsAdmin(factory(Admin::class)->create());
+    }
+
     private function createConfig(array $attributes = [])
     {
         return factory(Config::class)->create($attributes);
@@ -15,7 +22,7 @@ class ConfigTest extends TestCase
     public function test_backstage_config_show()
     {
         // given
-        $config = $this->createConfig([
+        $this->createConfig([
             'config' => json_encode([
                 'chips' => 10000,
                 'commission' => 2,
@@ -24,7 +31,7 @@ class ConfigTest extends TestCase
         ]);
 
         // when
-        $response = $this->get(route('config.show', $config->config));
+        $response = $this->get(route('config.show'));
 
         // then
         $response->assertStatus(200)->assertSee('Configuration');

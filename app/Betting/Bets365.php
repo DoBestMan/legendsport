@@ -9,7 +9,6 @@ use Psr\SimpleCache\CacheInterface;
 
 class Bets365 implements BettingProvider
 {
-    // TODO Change it to 15 mins
     private const RESULTS_CACHE_TTL = 5 * 60;
     private const PREMATCH_CACHE_TTL = 12 * 60 * 60;
 

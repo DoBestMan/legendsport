@@ -8,8 +8,9 @@ use App\Models\TournamentBet;
 use App\Models\TournamentEvent;
 use App\Services\PendingOddService;
 use App\Tournament\Events\TournamentUpdate;
-use App\Tournament\NotEnoughChipsException;
-use App\Tournament\NotRegisteredException;
+use App\Tournament\Exceptions\MatchAlreadyStartedException;
+use App\Tournament\Exceptions\NotEnoughChipsException;
+use App\Tournament\Exceptions\NotRegisteredException;
 use App\Tournament\PendingOddType;
 use App\Tournament\StraightBetService;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -73,6 +74,13 @@ class TournamentBetStraightController extends Controller
             return new JsonResponse(
                 [
                     "message" => "You don't have enough chips.",
+                ],
+                Response::HTTP_BAD_REQUEST,
+            );
+        } catch (MatchAlreadyStartedException $e) {
+            return new JsonResponse(
+                [
+                    "message" => "The match has already begun.",
                 ],
                 Response::HTTP_BAD_REQUEST,
             );
