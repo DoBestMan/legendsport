@@ -4,7 +4,7 @@ namespace App\Tournament\Events;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class OddsUpdate implements ShouldBroadcast
+final class OddsUpdate implements ShouldBroadcast
 {
     public array $odds;
 

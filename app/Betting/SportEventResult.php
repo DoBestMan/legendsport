@@ -4,20 +4,20 @@ namespace App\Betting;
 class SportEventResult
 {
     private string $externalEventId;
-    private int $home;
-    private int $away;
     private TimeStatus $timeStatus;
+    private ?int $home;
+    private ?int $away;
 
     public function __construct(
         string $externalEventId,
-        int $home,
-        int $away,
-        TimeStatus $timeStatus
+        TimeStatus $timeStatus,
+        ?int $home,
+        ?int $away
     ) {
         $this->externalEventId = $externalEventId;
+        $this->timeStatus = $timeStatus;
         $this->home = $home;
         $this->away = $away;
-        $this->timeStatus = $timeStatus;
     }
 
     public function getExternalEventId(): string
@@ -25,12 +25,12 @@ class SportEventResult
         return $this->externalEventId;
     }
 
-    public function getHome(): int
+    public function getHome(): ?int
     {
         return $this->home;
     }
 
-    public function getAway(): int
+    public function getAway(): ?int
     {
         return $this->away;
     }

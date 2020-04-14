@@ -13,11 +13,13 @@ class PendingOdd
     public function __construct(
         PendingOddType $type,
         TournamentEvent $tournamentEvent,
-        ?int $wager = null
+        ?int $wager = null,
+        ?int $odd = null
     ) {
         $this->type = $type;
         $this->tournamentEvent = $tournamentEvent;
         $this->wager = $wager;
+        $this->odd = $odd;
     }
 
     public function getTournamentEvent(): TournamentEvent

@@ -6,18 +6,18 @@ use App\Models\Tournament;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class TournamentUpdate implements ShouldBroadcast
+final class TournamentUpdate implements ShouldBroadcast
 {
     public array $tournament;
 
     public function __construct(Tournament $tournament)
     {
         $tournament = $tournament->fresh([
-            'events',
-            'events.apiEvent',
-            'players',
-            'players.user',
-            'players.bets',
+            "events",
+            "events.apiEvent",
+            "players",
+            "players.user",
+            "players.bets",
         ]);
 
         $this->tournament = fractal()

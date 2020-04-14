@@ -21,7 +21,7 @@ class PendingOddService
      */
     public function assignOdds(array $pendingOdds)
     {
-        $oddDict = collect($this->betProvider->getOdds())->flatMap(
+        $oddDict = collect($this->betProvider->getOdds())->mapWithKeys(
             fn(SportEventOdd $sportEventOdd) => [
                 $sportEventOdd->getExternalEventId() => $sportEventOdd,
             ],
@@ -29,8 +29,8 @@ class PendingOddService
 
         foreach ($pendingOdds as $pendingOdd) {
             $tournamentEvent = $pendingOdd->getTournamentEvent();
-            $odds = $oddDict->get($tournamentEvent->apiEvent->api_id);
-            $oddValue = $this->getOddByType($odds, $pendingOdd->getType());
+            $sportEventOdd = $oddDict->get($tournamentEvent->apiEvent->api_id);
+            $oddValue = $this->getOddByType($sportEventOdd, $pendingOdd->getType());
             $pendingOdd->setOdd($oddValue);
         }
     }

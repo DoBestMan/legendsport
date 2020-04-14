@@ -6,7 +6,7 @@ use App\Http\Transformers\App\SportEventResultTransformer;
 use App\Tournament\Events\ResultsUpdate;
 use Illuminate\Contracts\Events\Dispatcher;
 
-class UpdateResults
+final class UpdateResults
 {
     public function handle(Dispatcher $dispatcher, BettingProvider $betProvider)
     {

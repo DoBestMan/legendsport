@@ -2,7 +2,6 @@
 namespace App\WebSocket;
 
 use App\WebSocket\Handlers\ChatMessageHandler;
-use App\WebSocket\Handlers\DummyHandler;
 use Illuminate\Contracts\Foundation\Application;
 
 class MessageHandlerFactory

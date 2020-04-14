@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read int $balance
- * @property-read int $pendingChips
+ * @property-read int $pending_chips
  * @property-read Tournament $tournament
  * @property-read User $user
  * @property-read Collection|TournamentBet[] $bets
@@ -49,12 +49,8 @@ class TournamentPlayer extends Model
     public function getPendingChipsAttribute(): int
     {
         return $this->bets
-            ->filter(
-                fn(TournamentBet $tournamentBet) => $tournamentBet
-                    ->getStatus()
-                    ->equals(BetStatus::PENDING()),
-            )
-            ->sum(fn(TournamentBet $tournamentBet) => $tournamentBet->chips_wager);
+            ->filter(fn(TournamentBet $bet) => $bet->status->equals(BetStatus::PENDING()))
+            ->sum(fn(TournamentBet $bet) => $bet->chips_wager);
     }
 
     /**
@@ -65,6 +61,6 @@ class TournamentPlayer extends Model
      */
     public function getBalanceAttribute(): int
     {
-        return $this->chips + $this->pendingChips;
+        return $this->chips + $this->pending_chips;
     }
 }

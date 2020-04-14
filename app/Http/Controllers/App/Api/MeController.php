@@ -12,7 +12,7 @@ class MeController extends Controller
     {
         /** @var User $user */
         $user = $request->user();
-        $user->load(["bets.betEvents.tournamentEvent.apiEvent", "players"]);
+        $user->load(["bets.betEvents.tournamentEvent.apiEvent", "players.bets"]);
 
         return fractal()
             ->item($user, new MeTransformer())

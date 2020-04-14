@@ -27,12 +27,7 @@ class TournamentTransformer extends TransformerAbstract
 
     public function includeGames(Tournament $tournament)
     {
-        return $this->collection(
-            $tournament->events->map(
-                fn(TournamentEvent $tournamentEvent) => $tournamentEvent->apiEvent,
-            ),
-            new ApiEventTransformer(),
-        );
+        return $this->collection($tournament->events, new TournamentEventTransformer());
     }
 
     public function includePlayers(Tournament $tournament)

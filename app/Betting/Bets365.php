@@ -128,6 +128,8 @@ class Bets365 implements BettingProvider
                     }
                 }
 
+                // TODO Implement extracting over/under line along with total number
+
                 return new SportEventOdd(
                     $eventId,
                     $moneyLineHome,
@@ -149,7 +151,7 @@ class Bets365 implements BettingProvider
         // Get all unfinished api events
         $apiEvents = ApiEvent::query()
             ->where("time_status", "<>", TimeStatus::ENDED())
-            ->where("starts_at", "<=", Carbon::now())
+            ->where("starts_at", "<=", Carbon::now()->subMinutes(5))
             ->where("provider", static::PROVIDER_NAME)
             ->get();
 
@@ -182,30 +184,15 @@ class Bets365 implements BettingProvider
             $eventsResults->push(...$results);
         }
 
-        // Map API items into SportEventResults
         return collect($eventsResults)
-            ->filter(function (array $item) {
-                $result = Arr::get($item, "ss");
-
-                if (!$result) {
-                    return false;
-                }
-
-                $exploded = explode("-", $item["ss"]);
-
-                if (count($exploded) !== 2) {
-                    return false;
-                }
-
-                return $item;
-            })
             ->map(function ($item) {
-                [$home, $away] = explode("-", $item["ss"]);
+                [$home, $away] = $this->extractScore(Arr::get($item, "ss"));
+
                 return new SportEventResult(
                     $item["bet365_id"],
+                    $this->mapTimeStatus($item["time_status"]),
                     $home,
                     $away,
-                    $this->mapTimeStatus($item["time_status"]),
                 );
             })
             ->all();
@@ -245,5 +232,24 @@ class Bets365 implements BettingProvider
             default:
                 return TimeStatus::ENDED();
         }
+    }
+
+    /**
+     * @param string|null $text
+     * @return int[]
+     */
+    private function extractScore(?string $text): array
+    {
+        if (!$text) {
+            return [null, null];
+        }
+
+        $exploded = explode("-", $text);
+
+        if (count($exploded) !== 2) {
+            return [null, null];
+        }
+
+        return [(int) $exploded[0], (int) $exploded[1]];
     }
 }

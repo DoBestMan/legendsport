@@ -13,6 +13,7 @@ use App\Tournament\Exceptions\NotEnoughChipsException;
 use App\Tournament\Exceptions\NotRegisteredException;
 use App\Tournament\PendingOddType;
 use App\Tournament\StraightBetService;
+use App\User\MeUpdate;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -42,6 +43,7 @@ class TournamentBetStraightController extends Controller
             'pending_odds.*.wager' => ['required', 'numeric', 'min:100'],
         ]);
 
+        $user = $request->user();
         $inputPendingOdds = $request->request->get("pending_odds");
 
         $tournamentEventsIds = collect($inputPendingOdds)->map(
@@ -62,7 +64,7 @@ class TournamentBetStraightController extends Controller
         $pendingOddService->assignOdds($pendingOdds);
 
         try {
-            $tournamentBets = $straightBetService->bet($tournament, $request->user(), $pendingOdds);
+            $tournamentBets = $straightBetService->bet($tournament, $user, $pendingOdds);
         } catch (NotRegisteredException $e) {
             return new JsonResponse(
                 [
@@ -87,6 +89,7 @@ class TournamentBetStraightController extends Controller
         }
 
         $dispatcher->dispatch(new TournamentUpdate($tournament));
+        $dispatcher->dispatch(new MeUpdate($user));
 
         return collect($tournamentBets)->map(fn(TournamentBet $bet) => $bet->id);
     }

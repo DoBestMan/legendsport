@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Eloquent;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 /**
  * @property int $id
@@ -13,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read ApiEvent $apiEvent
+ * @property-read Tournament $tournament
+ * @property-read Collection|TournamentBetEvent[] tournamentBetEvents
  * @mixin Eloquent
  */
 class TournamentEvent extends Model
@@ -23,13 +26,18 @@ class TournamentEvent extends Model
     protected $primaryKey = 'id';
     protected $fillable = ['tournament_id', 'api_event_id'];
 
+    public function apiEvent()
+    {
+        return $this->belongsTo(ApiEvent::class);
+    }
+
     public function tournament()
     {
         return $this->belongsTo(Tournament::class);
     }
 
-    public function apiEvent()
+    public function tournamentBetEvents()
     {
-        return $this->belongsTo(ApiEvent::class);
+        return $this->hasMany(TournamentBetEvent::class);
     }
 }

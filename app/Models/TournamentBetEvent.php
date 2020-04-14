@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $tournament_bet_id
  * @property int $tournament_event_id
- * @property float $odd
+ * @property int $odd
  * @property BetStatus $status
  * @property PendingOddType $type
  * @property Carbon $created_at
@@ -85,6 +85,12 @@ class TournamentBetEvent extends Model
     public function markAsLost()
     {
         $this->status = BetStatus::LOSS();
+        $this->save();
+    }
+
+    public function markAsPush()
+    {
+        $this->status = BetStatus::PUSH();
         $this->save();
     }
 }

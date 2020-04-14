@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Tournament\BetStatus;
+use App\Tournament\BetStatusCalculator;
 use Carbon\Carbon;
 use Decimal\Decimal;
 use Eloquent;
@@ -16,8 +17,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $chips_wager
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property-read int $chips_win
+ * @property-read BetStatus $status
  * @property-read Tournament $tournament
- * @property-read TournamentPlayer $player
+ * @property-read TournamentPlayer $tournamentPlayer
  * @property-read Collection|TournamentBetEvent[] $betEvents
  * @mixin Eloquent
  */
@@ -30,7 +33,7 @@ class TournamentBet extends Model
         "chips_wager" => "integer",
     ];
 
-    public function player()
+    public function tournamentPlayer()
     {
         return $this->belongsTo(TournamentPlayer::class);
     }
@@ -45,40 +48,35 @@ class TournamentBet extends Model
         return $this->hasMany(TournamentBetEvent::class);
     }
 
-    public function getStatus(): BetStatus
+    public function getStatusAttribute(): BetStatus
     {
         $betEventStatuses = $this->betEvents->map(
             fn(TournamentBetEvent $betEvent) => $betEvent->status,
         );
 
-        if (
-            $betEventStatuses->some(
-                fn(BetStatus $betStatus) => $betStatus->equals(BetStatus::LOSS()),
-            )
-        ) {
-            return BetStatus::LOSS();
-        }
-
-        if (
-            $betEventStatuses->some(
-                fn(BetStatus $betStatus) => $betStatus->equals(BetStatus::PENDING()),
-            )
-        ) {
-            return BetStatus::PENDING();
-        }
-
-        return BetStatus::WIN();
+        return (new BetStatusCalculator($betEventStatuses))->calculate();
     }
 
-    public function getChipsWin(): int
+    public function getChipsWinAttribute(): int
     {
-        return intval($this->chips_wager * $this->getMultiplier() - $this->chips_wager);
+        return intval($this->chips_wager * $this->getReducedMultiplier() - $this->chips_wager);
     }
 
-    public function getMultiplier(): Decimal
+    /**
+     * Get multiplier where PUSH bet events are ignored.
+     *
+     * @return Decimal
+     */
+    public function getReducedMultiplier(): Decimal
     {
         return $this->betEvents
-            ->map(fn(TournamentBetEvent $betEvent) => 1 + american_to_decimal($betEvent->odd))
-            ->reduce(fn($a, $b) => $a * $b, 1);
+            ->filter(fn(TournamentBetEvent $event) => !$event->status->equals(BetStatus::PUSH()))
+            ->map(fn(TournamentBetEvent $event) => 1 + american_to_decimal($event->odd))
+            ->reduce(fn($a, $b) => $a * $b, new Decimal(1));
+    }
+
+    public function isGraded(): bool
+    {
+        return !$this->status->equals(BetStatus::PENDING());
     }
 }

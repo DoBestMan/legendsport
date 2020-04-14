@@ -12,6 +12,7 @@ use App\Tournament\Exceptions\NotEnoughChipsException;
 use App\Tournament\Exceptions\NotRegisteredException;
 use App\Tournament\ParlayBetService;
 use App\Tournament\PendingOddType;
+use App\User\MeUpdate;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -41,7 +42,9 @@ class TournamentBetParlayController extends Controller
             'wager' => ['required', 'numeric', 'min:100'],
         ]);
 
+        $user = $request->user();
         $inputPendingOdds = $request->request->get("pending_odds");
+        $wager = (int) $request->request->get("wager");
 
         $tournamentEventsIds = collect($inputPendingOdds)->map(
             fn(array $event) => $event["event_id"],
@@ -60,12 +63,7 @@ class TournamentBetParlayController extends Controller
         $pendingOddService->assignOdds($pendingOdds);
 
         try {
-            $tournamentBet = $parlayBetService->bet(
-                $tournament,
-                $request->user(),
-                $pendingOdds,
-                (int) $request->request->get("wager"),
-            );
+            $tournamentBet = $parlayBetService->bet($tournament, $user, $pendingOdds, $wager);
         } catch (NotRegisteredException $e) {
             return new JsonResponse(
                 [
@@ -90,6 +88,7 @@ class TournamentBetParlayController extends Controller
         }
 
         $dispatcher->dispatch(new TournamentUpdate($tournament));
+        $dispatcher->dispatch(new MeUpdate($user));
 
         return [
             "id" => $tournamentBet->id,

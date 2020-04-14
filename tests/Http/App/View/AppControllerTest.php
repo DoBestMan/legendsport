@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Feature\App\View;
+namespace Tests\Http\App\View;
 
 use Tests\Utils\TestCase;
 

@@ -27,9 +27,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->job(SyncMatchesResults::class)->everyMinute();
         $schedule->job(UpdateOdds::class)->everyMinute();
         $schedule->job(UpdateResults::class)->everyMinute();
-        $schedule->job(SyncMatchesResults::class)->everyMinute();
     }
 
     /**

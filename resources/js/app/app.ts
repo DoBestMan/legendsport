@@ -11,8 +11,9 @@ import { diffHumanReadable, formatOdd } from "./utils/game/bet";
 import { RootState } from "./store/types";
 import echo from "./echo";
 import { Echo } from "./utils/websockets/Echo";
-import { mapOdd, mapResult, mapTournament } from "./api/mappings";
+import { mapMe, mapOdd, mapResult, mapTournament } from "./api/mappings";
 import { formatChip, formatCurrency, formatDollars, toDateTime } from "../general/utils/filters";
+import { saveWindows } from "./utils/local-storage/LocalStorageManager";
 
 // @ts-ignore
 window.Pusher = Pusher;
@@ -43,11 +44,20 @@ Object.defineProperty(Vue.prototype, "$echo", {
 const router = createRouter();
 const store = createStore();
 
-store.dispatch("user/load").catch(console.error);
-store.dispatch("tournamentList/load").catch(console.error);
-store.dispatch("sport/load").catch(console.error);
-store.dispatch("odd/load").catch(console.error);
-store.dispatch("result/load").catch(console.error);
+store.watch(state => state.window._windows, saveWindows);
+
+store.watch(
+    state => state.user.user,
+    (newVal, oldVal) => {
+        if (newVal && !oldVal) {
+            echo.private(`user.${newVal.id}`).listen("me", ({ user }: any) => {
+                store.commit("user/markAsLoaded", mapMe(user));
+            });
+        } else if (!newVal && oldVal) {
+            echo.private(`user.${oldVal.id}`).stopListening("me");
+        }
+    },
+);
 
 echo.channel("general")
     .listen("odds", (data: any) => {
@@ -59,6 +69,12 @@ echo.channel("general")
     .listen("tournament", ({ tournament }: any) => {
         store.commit("tournamentList/createOrUpdateTournament", mapTournament(tournament));
     });
+
+store.dispatch("user/load").catch(console.error);
+store.dispatch("tournamentList/load").catch(console.error);
+store.dispatch("sport/load").catch(console.error);
+store.dispatch("odd/load").catch(console.error);
+store.dispatch("result/load").catch(console.error);
 
 new Vue({
     el: "#main",

@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Feature\App\Api;
+namespace Tests\Http\App\Api;
 
 use App\Models\Tournament;
 use App\Models\TournamentPlayer;

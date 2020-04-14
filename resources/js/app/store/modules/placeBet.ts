@@ -42,7 +42,7 @@ const module: Module<PlaceBetState, RootState> = {
     },
 
     actions: {
-        async placeStraight({ commit, dispatch, rootState }, payload: PlaceStraightBetPayload) {
+        async placeStraight({ commit, rootState }, payload: PlaceStraightBetPayload) {
             commit("markAsLoading");
             commit("loader/show", null, { root: true });
 
@@ -52,7 +52,6 @@ const module: Module<PlaceBetState, RootState> = {
                     omit(payload, ["tournamentId"]),
                 );
                 commit("markAsLoaded");
-                dispatch("reloadBets");
             } catch (e) {
                 commit("markAsFailed", e);
             } finally {
@@ -60,7 +59,7 @@ const module: Module<PlaceBetState, RootState> = {
             }
         },
 
-        async placeParlay({ commit, dispatch, rootState }, payload: PlaceParlayBetPayload) {
+        async placeParlay({ commit, rootState }, payload: PlaceParlayBetPayload) {
             commit("markAsLoading");
             commit("loader/show", null, { root: true });
 
@@ -70,16 +69,11 @@ const module: Module<PlaceBetState, RootState> = {
                     omit(payload, ["tournamentId"]),
                 );
                 commit("markAsLoaded");
-                dispatch("reloadBets");
             } catch (e) {
                 commit("markAsFailed", e);
             } finally {
                 commit("loader/hide", null, { root: true });
             }
-        },
-
-        async reloadBets({ dispatch }) {
-            dispatch("user/reload", null, { root: true });
         },
     },
 };

@@ -12,7 +12,6 @@ import tournamentList from "./modules/tournamentList";
 import windowModule from "./modules/window";
 import { Api } from "../api/Api";
 import { RootState } from "./types";
-import { saveWindows } from "../utils/local-storage/LocalStorageManager";
 
 export const createStore = (): Store<RootState> => {
     const axiosInstance = axios.create({
@@ -21,7 +20,7 @@ export const createStore = (): Store<RootState> => {
         },
     });
 
-    const store = new Vuex.Store({
+    return new Vuex.Store({
         state: {
             api: new Api(axiosInstance),
         } as any,
@@ -39,8 +38,4 @@ export const createStore = (): Store<RootState> => {
         },
         strict: process.env.NODE_ENV !== "production",
     });
-
-    store.watch(state => state.window._windows, saveWindows);
-
-    return store;
 };

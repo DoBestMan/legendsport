@@ -4,7 +4,7 @@ namespace App\Tournament\Events;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ChatMessage implements ShouldBroadcast
+final class ChatMessage implements ShouldBroadcast
 {
     public string $id;
     public int $tournamentId;
@@ -30,6 +30,6 @@ class ChatMessage implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'message';
+        return "message";
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Backstage\View\HomeController as BackstageHomeControlle
 use App\Http\Controllers\Backstage\View\TournamentController as BackstageTournamentController;
 use App\Http\Controllers\Backstage\View\AdminController as BackstageUserController;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Broadcast;
 
 /** @var Router $router */
 

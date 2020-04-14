@@ -25,7 +25,7 @@ class MeTransformer extends TransformerAbstract
 
     public function includeBets(User $user)
     {
-        // TODO Do not return very old bets
+        // TODO Do not return bets from ended tournaments
         return $this->collection($user->bets, new TournamentBetTransformer());
     }
 }

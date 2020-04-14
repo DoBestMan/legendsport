@@ -24,7 +24,7 @@
                     :class="{ checked: selectedSpreadHome }"
                     @click="emitToggleOdd(PendingOddType.SpreadHome)"
                 >
-                    {{ pointSpreadHomeLine }}<br />{{ pointSpreadHome }}
+                    {{ pointSpreadHomeLine }}<br />{{ pointSpreadHome | formatOdd }}
                 </button>
                 <DisabledButton v-else />
             </td>
@@ -67,7 +67,7 @@
                     :class="{ checked: selectedSpreadAway }"
                     @click="emitToggleOdd(PendingOddType.SpreadAway)"
                 >
-                    {{ pointSpreadAwayLine }}<br />{{ pointSpreadAway }}
+                    {{ pointSpreadAwayLine }}<br />{{ pointSpreadAway | formatOdd }}
                 </button>
                 <DisabledButton v-else />
             </td>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Backstage;
+namespace Tests\Http\Backstage;
 
 use App\Models\Admin;
 use App\Models\Config;

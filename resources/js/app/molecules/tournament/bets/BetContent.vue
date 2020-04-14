@@ -15,6 +15,8 @@
 <script lang="ts">
 import Vue from "vue";
 
+// TODO Display status: WIN, LOSS or PUSH
+
 export default Vue.extend({
     name: "BetContent",
     props: {

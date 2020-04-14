@@ -1,7 +1,8 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Broadcast;
 
-//Broadcast::channel('chat.tournaments.{tournamentId}', function (User $user, $tournamentId) {
-//    return true;
-//});
+Broadcast::channel('user.{userId}', function (User $user, $userId) {
+    return $user->id === (int) $userId;
+});
