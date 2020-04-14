@@ -54,7 +54,7 @@ store.watch(
                 store.commit("user/markAsLoaded", mapMe(user));
             });
         } else if (!newVal && oldVal) {
-            echo.private(`user.${oldVal.id}`).stopListening("me");
+            echo.leave(`private-user.${oldVal.id}`);
         }
     },
 );
