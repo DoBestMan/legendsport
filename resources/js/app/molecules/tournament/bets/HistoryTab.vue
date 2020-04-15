@@ -37,7 +37,7 @@
                 </div>
 
                 <div v-else-if="bet.status === BetStatus.Push" class="result push">
-                    <i class="icon fas fa-frown"></i> PUSH
+                    <i class="icon fas fa-meh"></i> PUSH
                 </div>
             </div>
 

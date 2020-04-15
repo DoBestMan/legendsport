@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use UnexpectedValueException;
 
 // TODO Create tournament state enum
+// TODO Change complete to completed
 
 /**
  * @property int $id
