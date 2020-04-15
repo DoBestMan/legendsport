@@ -178,6 +178,10 @@
                 &.lost {
                     background-color: hsl(358, 67%, 48%);
                 }
+
+                &.push {
+                    background-color: $gb_color_ligth3;
+                }
             }
         }
     }

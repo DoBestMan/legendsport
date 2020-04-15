@@ -31,7 +31,7 @@ final class SyncMatchesResults
                 ->where("api_id", $result->getExternalEventId())
                 ->first();
 
-            if (!$apiEvent || $apiEvent->time_status->equals(TimeStatus::ENDED())) {
+            if (!$apiEvent || $apiEvent->isFinished()) {
                 continue;
             }
 

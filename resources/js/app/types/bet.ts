@@ -26,5 +26,6 @@ export interface BetEvent {
 export enum BetStatus {
     Win = "win",
     Loss = "loss",
+    Push = "push",
     Pending = "pending",
 }

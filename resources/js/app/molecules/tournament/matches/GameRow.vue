@@ -11,7 +11,7 @@
                     :class="{ checked: selectedMoneyLineHome }"
                     @click="emitToggleOdd(PendingOddType.MoneyLineHome)"
                 >
-                    {{ moneyLineHome | formatOdd }}
+                    {{ moneyLineHome | signedNumber }}
                 </button>
                 <DisabledButton v-else />
             </td>
@@ -24,7 +24,8 @@
                     :class="{ checked: selectedSpreadHome }"
                     @click="emitToggleOdd(PendingOddType.SpreadHome)"
                 >
-                    {{ pointSpreadHomeLine }}<br />{{ pointSpreadHome | formatOdd }}
+                    {{ pointSpreadHomeLine | signedNumber }}<br />
+                    {{ pointSpreadHome | signedNumber }}
                 </button>
                 <DisabledButton v-else />
             </td>
@@ -37,7 +38,7 @@
                     :class="{ checked: selectedTotalUnder }"
                     @click="emitToggleOdd(PendingOddType.TotalUnder)"
                 >
-                    U {{ totalNumber }}<br />{{ underLine | formatOdd }}
+                    U {{ totalNumber }}<br />{{ underLine | signedNumber }}
                 </button>
                 <DisabledButton v-else />
             </td>
@@ -54,7 +55,7 @@
                     :class="{ checked: selectedMoneyLineAway }"
                     @click="emitToggleOdd(PendingOddType.MoneyLineAway)"
                 >
-                    {{ moneyLineAway | formatOdd }}
+                    {{ moneyLineAway | signedNumber }}
                 </button>
                 <DisabledButton v-else />
             </td>
@@ -67,7 +68,8 @@
                     :class="{ checked: selectedSpreadAway }"
                     @click="emitToggleOdd(PendingOddType.SpreadAway)"
                 >
-                    {{ pointSpreadAwayLine }}<br />{{ pointSpreadAway | formatOdd }}
+                    {{ pointSpreadAwayLine | signedNumber }}<br />
+                    {{ pointSpreadAway | signedNumber }}
                 </button>
                 <DisabledButton v-else />
             </td>
@@ -80,7 +82,7 @@
                     :class="{ checked: selectedTotalOver }"
                     @click="emitToggleOdd(PendingOddType.TotalOver)"
                 >
-                    O {{ totalNumber }}<br />{{ overLine | formatOdd }}
+                    O {{ totalNumber }}<br />{{ overLine | signedNumber }}
                 </button>
                 <DisabledButton v-else />
             </td>

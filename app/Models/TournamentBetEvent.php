@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Casts\DecimalCast;
 use App\Tournament\BetStatus;
 use App\Tournament\PendingOddType;
 use Carbon\Carbon;
+use Decimal\Decimal;
 use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $tournament_bet_id
  * @property int $tournament_event_id
  * @property int $odd
+ * @property Decimal|null $handicap
  * @property BetStatus $status
  * @property PendingOddType $type
  * @property Carbon $created_at
@@ -28,6 +31,7 @@ class TournamentBetEvent extends Model
     protected $table = 'tournament_bet_events';
     protected $casts = [
         "odd" => "int",
+        "handicap" => DecimalCast::class,
     ];
 
     public function getStatusAttribute(string $value): BetStatus

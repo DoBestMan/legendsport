@@ -40,6 +40,10 @@ function decimal_to_american($odd): ?int
         return $result->round()->toInt();
     }
 
+    if ($odd == 1) {
+        return null;
+    }
+
     /** @var Decimal $result */
     $result = -100 / ($odd - 1);
     return $result->round()->toInt();

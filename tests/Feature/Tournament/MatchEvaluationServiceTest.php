@@ -212,4 +212,26 @@ class MatchEvaluationServiceTest extends TestCase
         $this->assertSameEnum(BetStatus::WIN(), $tournamentBet->status);
         $this->assertSame(1200, $this->player->chips);
     }
+
+    /** @test */
+    public function revert_bet_chips_in_case_of_canceled_match()
+    {
+        // given
+        $tournamentBets = $this->straightBetService->bet($this->tournament, $this->user, [
+            new PendingOdd(PendingOddType::MONEY_LINE_AWAY(), $this->tournamentEvent, 400, 140),
+        ]);
+
+        $this->apiEvent->time_status = TimeStatus::CANCELED();
+        $this->apiEvent->save();
+
+        // when
+        $this->matchEvaluationService->evaluateBets($this->apiEvent);
+
+        // then
+        $this->player->refresh();
+        $tournamentBet = $tournamentBets[0]->fresh();
+
+        $this->assertSameEnum(BetStatus::PUSH(), $tournamentBet->status);
+        $this->assertSame(500, $this->player->chips);
+    }
 }

@@ -18,6 +18,7 @@
                         :teamAway="betEvent.teamAway"
                         :selectedTeam="betEvent.selectedTeam"
                         :odd="betEvent.odd"
+                        :status="betEvent.status"
                     />
                 </div>
 

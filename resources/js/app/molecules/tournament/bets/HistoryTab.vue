@@ -18,6 +18,7 @@
                         :teamAway="event.teamAway"
                         :selectedTeam="event.selectedTeam"
                         :odd="event.odd"
+                        :status="event.status"
                     />
                 </div>
 
@@ -30,8 +31,12 @@
                     <i class="icon fas fa-laugh-beam"></i> YOU WON!
                 </div>
 
-                <div v-if="bet.status === BetStatus.Loss" class="result lost">
+                <div v-else-if="bet.status === BetStatus.Loss" class="result lost">
                     <i class="icon fas fa-frown"></i> YOU LOST!
+                </div>
+
+                <div v-else-if="bet.status === BetStatus.Push" class="result push">
+                    <i class="icon fas fa-frown"></i> PUSH
                 </div>
             </div>
 

@@ -3,6 +3,7 @@ namespace App\Betting;
 
 use App\Models\ApiEvent;
 use Carbon\Carbon;
+use Decimal\Decimal;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Psr\SimpleCache\CacheInterface;
@@ -100,35 +101,36 @@ class Bets365 implements BettingProvider
                 $pointSpreadAway = null;
                 $pointSpreadHomeLine = null;
                 $pointSpreadAwayLine = null;
+
                 foreach ($matchLine as $item) {
                     $teamName = Arr::get($item, "header");
                     $type = Arr::get($item, "name");
                     $odds = decimal_to_american(Arr::get($item, "odds"));
-                    $handicap = as_decimal(Arr::get($item, "handicap"));
 
-                    if ($type === "To Win" && $this->cmpStr($teamName, $apiEvent->team_home)) {
-                        $moneyLineHome = $odds;
-                    } elseif (
-                        $type === "To Win" &&
-                        $this->cmpStr($teamName, $apiEvent->team_away)
-                    ) {
-                        $moneyLineAway = $odds;
-                    } elseif (
-                        $type === "Handicap" &&
-                        $this->cmpStr($teamName, $apiEvent->team_home)
-                    ) {
-                        $pointSpreadHome = $odds;
-                        $pointSpreadHomeLine = $handicap;
-                    } elseif (
-                        $type === "Handicap" &&
-                        $this->cmpStr($teamName, $apiEvent->team_away)
-                    ) {
-                        $pointSpreadAway = $odds;
-                        $pointSpreadAwayLine = $handicap;
+                    if ($odds === null) {
+                        continue;
+                    }
+
+                    if ($type === "To Win") {
+                        if ($this->cmpStr($teamName, $apiEvent->team_home)) {
+                            $moneyLineHome = $odds;
+                        }
+
+                        if ($this->cmpStr($teamName, $apiEvent->team_away)) {
+                            $moneyLineAway = $odds;
+                        }
+                    } elseif ($type === "Handicap") {
+                        if ($this->cmpStr($teamName, $apiEvent->team_home)) {
+                            $pointSpreadHome = $odds;
+                            $pointSpreadHomeLine = new Decimal($item["handicap"]);
+                        }
+
+                        if ($this->cmpStr($teamName, $apiEvent->team_away)) {
+                            $pointSpreadAway = $odds;
+                            $pointSpreadAwayLine = new Decimal($item["handicap"]);
+                        }
                     }
                 }
-
-                // TODO Implement extracting over/under line along with total number
 
                 return new SportEventOdd(
                     $eventId,
@@ -224,13 +226,14 @@ class Bets365 implements BettingProvider
         // @see https://betsapi.com/docs/GLOSSARY.html
         switch ($timeStatus) {
             case "0":
+            case "2":
                 return TimeStatus::NOT_STARTED();
             case "1":
                 return TimeStatus::IN_PLAY();
-            //            case "3":
-            //                return TimeStatus::ENDED();
-            default:
+            case "3":
                 return TimeStatus::ENDED();
+            default:
+                return TimeStatus::CANCELED();
         }
     }
 

@@ -24,7 +24,7 @@ class MatchEvaluationService
      */
     public function evaluateBets(ApiEvent $apiEvent): array
     {
-        if (!$apiEvent->time_status->equals(TimeStatus::ENDED())) {
+        if (!$apiEvent->isFinished()) {
             return [];
         }
 
@@ -40,9 +40,8 @@ class MatchEvaluationService
                     continue;
                 }
 
-                $this->evaluatorFactory
-                    ->create($tournamentBetEvent->type)
-                    ->evaluate($tournamentBetEvent);
+                $tournamentBetEvent->status = $this->evaluateBetStatus($tournamentBetEvent);
+                $tournamentBetEvent->save();
 
                 // TournamentBet relations are already cached. Let's reload a model,
                 // so that we know its latest state.
@@ -70,5 +69,18 @@ class MatchEvaluationService
         }
 
         return $evaluatedTournamentEvents;
+    }
+
+    private function evaluateBetStatus(TournamentBetEvent $tournamentBetEvent): BetStatus
+    {
+        $apiEvent = $tournamentBetEvent->tournamentEvent->apiEvent;
+
+        if ($apiEvent->time_status->equals(TimeStatus::CANCELED())) {
+            return BetStatus::PUSH();
+        }
+
+        return $this->evaluatorFactory
+            ->create($tournamentBetEvent->type)
+            ->evaluate($apiEvent, $tournamentBetEvent->handicap);
     }
 }

@@ -8,14 +8,19 @@
             <div class="text team">{{ teamAway }}</div>
             <div class="text score">{{ scoreAway }}</div>
         </div>
-        <div class="text">{{ selectedTeam }} / {{ odd | formatOdd }}</div>
+        <div class="text">
+            <span>{{ selectedTeam }}</span>
+            <span> / {{ odd | signedNumber }}</span>
+            <span v-if="status"> / {{ status | capitalize }}</span>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue, { PropType } from "vue";
+import { BetStatus } from "../../../types/bet";
 
-// TODO Display status: WIN, LOSS or PUSH
+// TODO Mark bet type
 
 export default Vue.extend({
     name: "BetContent",
@@ -27,6 +32,7 @@ export default Vue.extend({
         startsAt: String,
         teamAway: String,
         teamHome: String,
+        status: String as PropType<BetStatus>,
     },
 });
 </script>

@@ -49,7 +49,7 @@ export const getPendingOddTeam = (
     }
 };
 
-export const formatOdd = (value: string | number): string =>
+export const signedNumber = (value: string | number): string =>
     `${Number(value) > 0 ? "+" : ""}${value}`;
 
 export const diffHumanReadable = (value: string): string => {

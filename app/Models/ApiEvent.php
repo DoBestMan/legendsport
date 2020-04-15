@@ -53,4 +53,10 @@ class ApiEvent extends Model
     {
         return $this->hasMany(TournamentEvent::class);
     }
+
+    public function isFinished(): bool
+    {
+        return $this->time_status->equals(TimeStatus::ENDED()) ||
+            $this->time_status->equals(TimeStatus::CANCELED());
+    }
 }

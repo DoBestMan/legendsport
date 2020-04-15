@@ -7,12 +7,18 @@ import App from "./App.vue";
 import { createRouter } from "./routing";
 import { createStore } from "./store";
 import { toTime } from "./utils/date/utils";
-import { diffHumanReadable, formatOdd } from "./utils/game/bet";
+import { diffHumanReadable, signedNumber } from "./utils/game/bet";
 import { RootState } from "./store/types";
 import echo from "./echo";
 import { Echo } from "./utils/websockets/Echo";
 import { mapMe, mapOdd, mapResult, mapTournament } from "./api/mappings";
-import { formatChip, formatCurrency, formatDollars, toDateTime } from "../general/utils/filters";
+import {
+    formatChip,
+    formatCurrency,
+    formatDollars,
+    toDateTime,
+    capitalize,
+} from "../general/utils/filters";
 import { saveWindows } from "./utils/local-storage/LocalStorageManager";
 
 // @ts-ignore
@@ -23,11 +29,12 @@ Vue.use(Vuex);
 Vue.use(ToastsPlugin);
 Vue.filter("toDateTime", toDateTime);
 Vue.filter("toTime", toTime);
-Vue.filter("formatOdd", formatOdd);
+Vue.filter("signedNumber", signedNumber);
 Vue.filter("formatChip", formatChip);
 Vue.filter("formatCurrency", formatCurrency);
 Vue.filter("formatDollars", formatDollars);
 Vue.filter("diffHumanReadable", diffHumanReadable);
+Vue.filter("capitalize", capitalize);
 
 Object.defineProperty(Vue.prototype, "$stock", {
     get(): Store<RootState> {
