@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use UnexpectedValueException;
 
+// TODO Create tournament state enum
+
 /**
  * @property int $id
  * @property string $name

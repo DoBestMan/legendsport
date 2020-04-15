@@ -12,6 +12,7 @@
             <span>{{ selectedTeam }}</span>
             <span> / {{ odd | signedNumber }}</span>
             <span v-if="status"> / {{ status | capitalize }}</span>
+            <span> - {{ typeName }}</span>
         </div>
     </div>
 </template>
@@ -19,8 +20,7 @@
 <script lang="ts">
 import Vue, { PropType } from "vue";
 import { BetStatus } from "../../../types/bet";
-
-// TODO Mark bet type
+import { PendingOddType } from "../../../types/window";
 
 export default Vue.extend({
     name: "BetContent",
@@ -33,6 +33,29 @@ export default Vue.extend({
         teamAway: String,
         teamHome: String,
         status: String as PropType<BetStatus>,
+        type: String as PropType<PendingOddType>,
+    },
+
+    computed: {
+        typeName(): string {
+            if ([PendingOddType.MoneyLineAway, PendingOddType.MoneyLineHome].includes(this.type)) {
+                return "Money Line";
+            }
+
+            if ([PendingOddType.SpreadAway, PendingOddType.SpreadHome].includes(this.type)) {
+                return "Spread";
+            }
+
+            if (this.type === PendingOddType.TotalOver) {
+                return "Total Over";
+            }
+
+            if (this.type === PendingOddType.TotalUnder) {
+                return "Total Under";
+            }
+
+            return "";
+        },
     },
 });
 </script>

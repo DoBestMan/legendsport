@@ -19,6 +19,7 @@
                         :selectedTeam="event.selectedTeam"
                         :odd="event.odd"
                         :status="event.status"
+                        :type="event.type"
                     />
                 </div>
 

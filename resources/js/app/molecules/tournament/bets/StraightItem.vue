@@ -13,6 +13,7 @@
                 :teamAway="game.teamAway"
                 :selectedTeam="team"
                 :odd="oddValue"
+                :type="pendingOdd.type"
             />
         </div>
 

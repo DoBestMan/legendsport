@@ -19,6 +19,7 @@
                         :selectedTeam="betEvent.selectedTeam"
                         :odd="betEvent.odd"
                         :status="betEvent.status"
+                        :type="betEvent.type"
                     />
                 </div>
 
