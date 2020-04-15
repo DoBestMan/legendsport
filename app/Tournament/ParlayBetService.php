@@ -8,11 +8,11 @@ use App\Models\TournamentBet;
 use App\Models\TournamentBetEvent;
 use App\Models\User;
 use App\Services\TournamentPlayerService;
+use App\Tournament\Exceptions\DuplicatedOddException;
 use App\Tournament\Exceptions\MatchAlreadyStartedException;
 use App\Tournament\Exceptions\NotEnoughChipsException;
 use App\Tournament\Exceptions\NotRegisteredException;
 use Illuminate\Database\DatabaseManager;
-use Ramsey\Uuid\Type\Time;
 
 class ParlayBetService
 {
@@ -36,6 +36,7 @@ class ParlayBetService
      * @throws NotEnoughChipsException
      * @throws NotRegisteredException
      * @throws MatchAlreadyStartedException
+     * @throws DuplicatedOddException
      */
     public function bet(
         Tournament $tournament,
@@ -48,6 +49,18 @@ class ParlayBetService
             if (!$timeStatus->equals(TimeStatus::NOT_STARTED())) {
                 throw new MatchAlreadyStartedException();
             }
+        }
+
+        $uniquePendingOddscount = collect($pendingOdds)
+            ->mapWithKeys(
+                fn(PendingOdd $pendingOdd) => [
+                    "{$pendingOdd->getTournamentEvent()->id}#{$pendingOdd->getType()}" => null,
+                ],
+            )
+            ->count();
+
+        if ($uniquePendingOddscount !== count($pendingOdds)) {
+            throw new DuplicatedOddException();
         }
 
         return $this->databaseManager->transaction(function () use (

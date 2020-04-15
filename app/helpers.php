@@ -40,6 +40,9 @@ function decimal_to_american($odd): ?int
         return $result->round()->toInt();
     }
 
+    // If odd equals 1 lets make it a null. Otherwise we would have to
+    // return -Inf which is impossible to display. What is more
+    // it doesn't make any sense.
     if ($odd == 1) {
         return null;
     }
