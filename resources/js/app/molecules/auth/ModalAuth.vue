@@ -1,6 +1,6 @@
 <template>
     <b-modal
-        modal-class="modal-auth"
+        modal-class="modal-text-lg modal-auth"
         :hide-footer="true"
         :visible="isVisible"
         @change="updateVisibility"

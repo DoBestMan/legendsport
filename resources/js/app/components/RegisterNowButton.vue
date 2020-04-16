@@ -36,9 +36,14 @@ export default Vue.extend({
             }
 
             if (
-                !confirm(
+                !(await this.$bvModal.msgBoxConfirm(
                     `Do you want to register at tournament '${this.tournament.name}' for ${this.price}?`,
-                )
+                    {
+                        title: "Registration",
+                        modalClass: "modal-text-lg",
+                        buttonSize: "lg",
+                    },
+                ))
             ) {
                 return;
             }

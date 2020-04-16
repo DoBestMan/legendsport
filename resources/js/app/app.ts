@@ -21,12 +21,14 @@ import {
 } from "../general/utils/filters";
 import { saveWindows } from "./utils/local-storage/LocalStorageManager";
 import { score } from "./utils/game/result";
+import BootstrapVue from "bootstrap-vue";
 
 // @ts-ignore
 window.Pusher = Pusher;
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
+Vue.use(BootstrapVue);
 Vue.use(ToastsPlugin);
 Vue.filter("toDateTime", toDateTime);
 Vue.filter("toTime", toTime);
