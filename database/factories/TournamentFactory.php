@@ -1,5 +1,8 @@
 <?php
 
+use App\Tournament\Enums\PlayersLimit;
+use App\Tournament\Enums\TimeFrame;
+use App\Tournament\Enums\TournamentState;
 use Faker\Generator as Faker;
 use App\Models\Tournament;
 use Illuminate\Database\Eloquent\Factory;
@@ -10,7 +13,7 @@ $factory->define(Tournament::class, function (Faker $faker) {
     $factoryArray = [
         'avatar' => $faker->numberBetween($min = 0, $max = 1),
         'name' => $faker->name,
-        'players_limit' => $faker->randomElement(['Heads-Up', 'Single table', 'Unlimited']),
+        'players_limit' => $faker->randomElement(PlayersLimit::values()),
         'buy_in' => $faker->numberBetween($min = 5, $max = 10) * 100,
         'chips' => $faker->numberBetween($min = 50, $max = 100) * 100,
         'commission' => $faker->numberBetween($min = 1, $max = 5) * 100,
@@ -18,15 +21,8 @@ $factory->define(Tournament::class, function (Faker $faker) {
             'type' => 'Fixed',
             'fixed_value' => 2,
         ],
-        'state' => $faker->randomElement([
-            'Announced',
-            'Registering',
-            'Late registering',
-            'Running',
-            'Complete',
-            'Cancel',
-        ]),
-        'time_frame' => $faker->randomElement(['Daily', 'Weekly', 'Monthly', 'Season long']),
+        'state' => $faker->randomElement(TournamentState::values()),
+        'time_frame' => $faker->randomElement(TimeFrame::values()),
     ];
 
     if ($factoryArray['players_limit'] == 'Unlimited') {

@@ -1,7 +1,7 @@
 <?php
 namespace App\Tournament\Evaluation;
 
-use App\Tournament\PendingOddType;
+use App\Tournament\Enums\PendingOddType;
 use Illuminate\Contracts\Foundation\Application;
 use UnexpectedValueException;
 

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Tournament\BetStatus;
 use App\Tournament\BetStatusCalculator;
+use App\Tournament\Enums\BetStatus;
 use Carbon\Carbon;
 use Decimal\Decimal;
 use Eloquent;

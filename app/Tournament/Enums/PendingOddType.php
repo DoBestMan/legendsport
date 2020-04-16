@@ -1,5 +1,5 @@
 <?php
-namespace App\Tournament;
+namespace App\Tournament\Enums;
 
 use MyCLabs\Enum\Enum;
 

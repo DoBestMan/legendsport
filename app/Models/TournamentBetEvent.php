@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Casts\BetStatusCast;
 use App\Casts\DecimalCast;
-use App\Tournament\BetStatus;
-use App\Tournament\PendingOddType;
+use App\Casts\PendingOddTypeCast;
+use App\Tournament\Enums\BetStatus;
+use App\Tournament\Enums\PendingOddType;
 use Carbon\Carbon;
 use Decimal\Decimal;
 use Eloquent;
@@ -30,29 +32,11 @@ class TournamentBetEvent extends Model
 
     protected $table = 'tournament_bet_events';
     protected $casts = [
-        "odd" => "int",
         "handicap" => DecimalCast::class,
+        "odd" => "int",
+        "status" => BetStatusCast::class,
+        "type" => PendingOddTypeCast::class,
     ];
-
-    public function getStatusAttribute(string $value): BetStatus
-    {
-        return new BetStatus($value);
-    }
-
-    public function setStatusAttribute(BetStatus $betStatus): void
-    {
-        $this->attributes["status"] = $betStatus->getValue();
-    }
-
-    public function getTypeAttribute(string $value): PendingOddType
-    {
-        return new PendingOddType($value);
-    }
-
-    public function setTypeAttribute(PendingOddType $pendingOddType): void
-    {
-        $this->attributes["type"] = $pendingOddType->getValue();
-    }
 
     public function tournamentBet()
     {
@@ -64,7 +48,7 @@ class TournamentBetEvent extends Model
         return $this->belongsTo(TournamentEvent::class);
     }
 
-    public function getSelectedTeam(): string
+    public function getSelectedTeam(): ?string
     {
         switch ($this->type) {
             case PendingOddType::MONEY_LINE_HOME():
@@ -76,25 +60,7 @@ class TournamentBetEvent extends Model
                 return $this->tournamentEvent->apiEvent->team_away;
 
             default:
-                return "n/a";
+                return null;
         }
-    }
-
-    public function markAsWin()
-    {
-        $this->status = BetStatus::WIN();
-        $this->save();
-    }
-
-    public function markAsLost()
-    {
-        $this->status = BetStatus::LOSS();
-        $this->save();
-    }
-
-    public function markAsPush()
-    {
-        $this->status = BetStatus::PUSH();
-        $this->save();
     }
 }

@@ -34,7 +34,7 @@ export const getPendingOddValue = (
 export const getPendingOddTeam = (
     pendingOdd: DeepReadonly<PendingOdd>,
     game: DeepReadonly<Game>,
-): string => {
+): string | null => {
     switch (pendingOdd.type) {
         case PendingOddType.MoneyLineHome:
         case PendingOddType.SpreadHome:
@@ -45,7 +45,7 @@ export const getPendingOddTeam = (
             return game.teamAway;
 
         default:
-            return "n/a";
+            return null;
     }
 };
 

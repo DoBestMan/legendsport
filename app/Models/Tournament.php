@@ -2,6 +2,12 @@
 
 namespace App\Models;
 
+use App\Casts\PlayersLimitCast;
+use App\Casts\TimeFrameCast;
+use App\Casts\TournamentStateCast;
+use App\Tournament\Enums\PlayersLimit;
+use App\Tournament\Enums\TimeFrame;
+use App\Tournament\Enums\TournamentState;
 use App\Tournament\TournamentPrizeStructure;
 use Carbon\Carbon;
 use Eloquent;
@@ -9,19 +15,16 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use UnexpectedValueException;
 
-// TODO Create tournament state enum
-// TODO Change complete to completed
-
 /**
  * @property int $id
  * @property string $name
- * @property string $players_limit
  * @property int $buy_in
  * @property int $chips
  * @property int $commission
  * @property bool $late_register
- * @property string $state
- * @property string $time_frame
+ * @property PlayersLimit $players_limit
+ * @property TournamentState $state
+ * @property TimeFrame $time_frame
  * @property array $late_register_rule
  * @property array $prize_pool
  * @property Carbon $created_at
@@ -36,13 +39,16 @@ class Tournament extends Model
 
     // TODO Handle players limit
 
-    protected $table = 'tournaments';
+    protected $table = "tournaments";
     protected $casts = [
-        'buy_in' => 'integer',
-        'chips' => 'integer',
-        'commission' => 'integer',
-        'late_register_rule' => 'json',
-        'prize_pool' => 'json',
+        "buy_in" => "integer",
+        "chips" => "integer",
+        "commission" => "integer",
+        "late_register_rule" => "json",
+        "players_limit" => PlayersLimitCast::class,
+        "prize_pool" => "json",
+        "state" => TournamentStateCast::class,
+        "time_frame" => TimeFrameCast::class,
     ];
 
     public function players()

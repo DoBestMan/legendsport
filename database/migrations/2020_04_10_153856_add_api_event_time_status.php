@@ -34,7 +34,7 @@ class AddApiEventTimeStatus extends Migration
                         "team_away" => $data["AwayTeam"],
                         "team_home" => $data["HomeTeam"],
                         "provider" => "jsonodd",
-                        "time_status" => (string) TimeStatus::ENDED(),
+                        "time_status" => TimeStatus::ENDED(),
                     ]);
             });
 

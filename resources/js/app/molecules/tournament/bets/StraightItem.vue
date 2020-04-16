@@ -6,8 +6,8 @@
             </div>
 
             <BetContent
-                :scoreAway="scoreAway"
-                :scoreHome="scoreHome"
+                :scoreAway="game.scoreAway"
+                :scoreHome="game.scoreHome"
                 :startsAt="game.startsAt"
                 :teamHome="game.teamHome"
                 :teamAway="game.teamAway"
@@ -42,8 +42,6 @@ import {
 import BetContent from "./BetContent.vue";
 import ChipInput from "../../../../general/components/ChipInput.vue";
 import { Odd } from "../../../types/odd";
-import { Result } from "../../../types/result";
-import { getScoreAway, getScoreHome } from "../../../utils/game/match";
 
 export default Vue.extend({
     name: "StraightItem",
@@ -67,24 +65,12 @@ export default Vue.extend({
             );
         },
 
-        team(): string {
+        team(): string | null {
             return getPendingOddTeam(this.pendingOdd, this.game);
         },
 
         oddValue(): number {
             return this.odd ? getPendingOddValue(this.pendingOdd, this.odd) : 0;
-        },
-
-        resultDict(): ReadonlyMap<string, Result> {
-            return this.$stock.getters["result/resultDictionary"];
-        },
-
-        scoreHome(): number {
-            return getScoreHome(this.game, this.resultDict);
-        },
-
-        scoreAway(): number {
-            return getScoreAway(this.game, this.resultDict);
         },
     },
 

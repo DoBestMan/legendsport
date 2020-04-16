@@ -8,32 +8,32 @@ class CreateTournamentPlayersTable extends Migration
 {
     public function up()
     {
-        Schema::create('tournament_players', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->charset = 'utf8';
-            $table->collation = 'utf8_unicode_ci';
+        Schema::create("tournament_players", function (Blueprint $table) {
+            $table->engine = "InnoDB";
+            $table->charset = "utf8";
+            $table->collation = "utf8_unicode_ci";
 
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('tournament_id');
-            $table->unsignedSmallInteger('user_id');
-            $table->unsignedInteger('chips');
+            $table->bigIncrements("id");
+            $table->unsignedBigInteger("tournament_id");
+            $table->unsignedSmallInteger("user_id");
+            $table->unsignedInteger("chips");
             $table->timestamps();
 
             $table
-                ->foreign('tournament_id')
-                ->references('id')
-                ->on('tournaments');
+                ->foreign("tournament_id")
+                ->references("id")
+                ->on("tournaments");
             $table
-                ->foreign('user_id')
-                ->references('id')
-                ->on('users');
+                ->foreign("user_id")
+                ->references("id")
+                ->on("users");
 
-            $table->unique(['tournament_id', 'user_id'], "tournament_id_user_id");
+            $table->unique(["tournament_id", "user_id"], "tournament_id_user_id");
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('tournament_players');
+        Schema::dropIfExists("tournament_players");
     }
 }

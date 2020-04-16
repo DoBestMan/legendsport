@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Tournament\BetStatus;
+use App\Tournament\Enums\BetStatus;
 use Carbon\Carbon;
 use Eloquent;
 use Illuminate\Database\Eloquent\Collection;

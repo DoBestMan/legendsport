@@ -11,7 +11,7 @@ import { diffHumanReadable, signedNumber } from "./utils/game/bet";
 import { RootState } from "./store/types";
 import echo from "./echo";
 import { Echo } from "./utils/websockets/Echo";
-import { mapMe, mapOdd, mapResult, mapTournament } from "./api/mappings";
+import { mapMe, mapOdd, mapTournament } from "./api/mappings";
 import {
     formatChip,
     formatCurrency,
@@ -20,6 +20,7 @@ import {
     capitalize,
 } from "../general/utils/filters";
 import { saveWindows } from "./utils/local-storage/LocalStorageManager";
+import { score } from "./utils/game/result";
 
 // @ts-ignore
 window.Pusher = Pusher;
@@ -35,6 +36,7 @@ Vue.filter("formatCurrency", formatCurrency);
 Vue.filter("formatDollars", formatDollars);
 Vue.filter("diffHumanReadable", diffHumanReadable);
 Vue.filter("capitalize", capitalize);
+Vue.filter("score", score);
 
 Object.defineProperty(Vue.prototype, "$stock", {
     get(): Store<RootState> {
@@ -70,9 +72,6 @@ echo.channel("general")
     .listen("odds", (data: any) => {
         store.commit("odd/markAsLoaded", data.odds.map(mapOdd));
     })
-    .listen("results", ({ results }: any) => {
-        store.commit("result/markAsLoaded", results.map(mapResult));
-    })
     .listen("tournament", ({ tournament }: any) => {
         store.commit("tournamentList/createOrUpdateTournament", mapTournament(tournament));
     });
@@ -81,7 +80,6 @@ store.dispatch("user/load").catch(console.error);
 store.dispatch("tournamentList/load").catch(console.error);
 store.dispatch("sport/load").catch(console.error);
 store.dispatch("odd/load").catch(console.error);
-store.dispatch("result/load").catch(console.error);
 
 new Vue({
     el: "#main",

@@ -4,7 +4,6 @@ import { User, UserPlayer } from "../../general/types/user";
 import { Bet, BetEvent } from "../types/bet";
 import { Odd } from "../types/odd";
 import { Game } from "../types/game";
-import { Result } from "../types/result";
 
 export const mapTournament = (data: any): Tournament => {
     const games: Game[] = data.games.map(mapGame);
@@ -91,10 +90,4 @@ export const mapBetEvent = (data: any): BetEvent => ({
 
 export const mapOdd = (data: any): Odd => ({
     ...data,
-});
-
-export const mapResult = (data: any): Result => ({
-    externalId: data.external_id,
-    home: data.home,
-    away: data.away,
 });

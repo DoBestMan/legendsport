@@ -1,6 +1,7 @@
 <?php
 namespace App\Tournament;
 
+use App\Tournament\Enums\BetStatus;
 use Illuminate\Support\Collection;
 
 class BetStatusCalculator

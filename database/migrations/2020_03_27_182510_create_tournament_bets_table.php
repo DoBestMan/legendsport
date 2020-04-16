@@ -8,30 +8,30 @@ class CreateTournamentBetsTable extends Migration
 {
     public function up()
     {
-        Schema::create('tournament_bets', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->charset = 'utf8';
-            $table->collation = 'utf8_unicode_ci';
+        Schema::create("tournament_bets", function (Blueprint $table) {
+            $table->engine = "InnoDB";
+            $table->charset = "utf8";
+            $table->collation = "utf8_unicode_ci";
 
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('tournament_id');
-            $table->unsignedBigInteger('tournament_player_id');
-            $table->mediumInteger('chips_wager');
+            $table->bigIncrements("id");
+            $table->unsignedBigInteger("tournament_id");
+            $table->unsignedBigInteger("tournament_player_id");
+            $table->mediumInteger("chips_wager");
             $table->timestamps();
 
             $table
-                ->foreign('tournament_id')
-                ->references('id')
-                ->on('tournaments');
+                ->foreign("tournament_id")
+                ->references("id")
+                ->on("tournaments");
             $table
-                ->foreign('tournament_player_id')
-                ->references('id')
-                ->on('tournament_players');
+                ->foreign("tournament_player_id")
+                ->references("id")
+                ->on("tournament_players");
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('tournament_bets');
+        Schema::dropIfExists("tournament_bets");
     }
 }

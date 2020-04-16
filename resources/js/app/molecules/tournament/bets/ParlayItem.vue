@@ -6,8 +6,8 @@
             </div>
 
             <BetContent
-                :scoreAway="scoreAway"
-                :scoreHome="scoreHome"
+                :scoreAway="game.scoreAway"
+                :scoreHome="game.scoreHome"
                 :startsAt="game.startsAt"
                 :teamHome="game.teamHome"
                 :teamAway="game.teamAway"
@@ -27,8 +27,6 @@ import { PendingOdd } from "../../../types/window";
 import { getPendingOddTeam, getPendingOddValue } from "../../../utils/game/bet";
 import BetContent from "./BetContent.vue";
 import { Odd } from "../../../types/odd";
-import { Result } from "../../../types/result";
-import { getScoreAway, getScoreHome } from "../../../utils/game/match";
 
 export default Vue.extend({
     name: "ParlayItem",
@@ -44,24 +42,12 @@ export default Vue.extend({
             return dictionary.get(this.pendingOdd.externalId) ?? null;
         },
 
-        team(): string {
+        team(): string | null {
             return getPendingOddTeam(this.pendingOdd, this.game);
         },
 
         oddValue(): number {
             return this.odd ? getPendingOddValue(this.pendingOdd, this.odd) : 0;
-        },
-
-        resultDict(): ReadonlyMap<string, Result> {
-            return this.$stock.getters["result/resultDictionary"];
-        },
-
-        scoreHome(): number {
-            return getScoreHome(this.game, this.resultDict);
-        },
-
-        scoreAway(): number {
-            return getScoreAway(this.game, this.resultDict);
         },
     },
 

@@ -1,7 +1,7 @@
 <?php
 namespace Tests\Unit\Tournament;
 
-use App\Tournament\BetStatus;
+use App\Tournament\Enums\BetStatus;
 use App\Tournament\BetStatusCalculator;
 use Tests\Utils\UnitTestCase;
 

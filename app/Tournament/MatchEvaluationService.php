@@ -4,6 +4,7 @@ namespace App\Tournament;
 use App\Betting\TimeStatus;
 use App\Models\ApiEvent;
 use App\Models\TournamentBetEvent;
+use App\Tournament\Enums\BetStatus;
 use App\Tournament\Evaluation\EvaluatorFactory;
 use Psr\Log\LoggerInterface;
 

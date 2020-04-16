@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Services\TournamentPlayerService;
 use App\Tournament\Exceptions\DuplicatedOddException;
 use App\Tournament\ParlayBetService;
-use App\Tournament\PendingOddType;
+use App\Tournament\Enums\PendingOddType;
 use Tests\Utils\TestCase;
 
 class ParlayBetServiceTest extends TestCase

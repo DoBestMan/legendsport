@@ -2,7 +2,7 @@
 namespace App\Tournament\Evaluation;
 
 use App\Models\ApiEvent;
-use App\Tournament\BetStatus;
+use App\Tournament\Enums\BetStatus;
 use Decimal\Decimal;
 
 class MoneyLineAwayEvaluator implements IEvaluator

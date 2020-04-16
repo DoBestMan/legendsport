@@ -2,7 +2,7 @@
 namespace Tests\Unit\Tournament\Evaluation;
 
 use App\Models\ApiEvent;
-use App\Tournament\BetStatus;
+use App\Tournament\Enums\BetStatus;
 use App\Tournament\Evaluation\TotalUnderEvaluator;
 use Decimal\Decimal;
 use Tests\Utils\UnitTestCase;

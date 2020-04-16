@@ -11,8 +11,8 @@
                     </div>
 
                     <BetContent
-                        :scoreAway="getScoreAway(betEvent)"
-                        :scoreHome="getScoreHome(betEvent)"
+                        :scoreAway="betEvent.scoreAway"
+                        :scoreHome="betEvent.scoreHome"
                         :startsAt="betEvent.startsAt"
                         :teamHome="betEvent.teamHome"
                         :teamAway="betEvent.teamAway"
@@ -38,14 +38,12 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { Bet, BetEvent, BetStatus } from "../../../types/bet";
+import { Bet, BetStatus } from "../../../types/bet";
 import SpinnerBox from "../../../../general/components/SpinnerBox.vue";
 import { DeepReadonly } from "../../../../general/types/types";
 import { Window } from "../../../types/window";
 import BetContent from "./BetContent.vue";
 import { User } from "../../../../general/types/user";
-import { Result } from "../../../types/result";
-import { getScoreAway, getScoreHome } from "../../../utils/game/match";
 
 export default Vue.extend({
     name: "PendingTab",
@@ -67,10 +65,6 @@ export default Vue.extend({
             );
         },
 
-        resultDict(): ReadonlyMap<string, Result> {
-            return this.$stock.getters["result/resultDictionary"];
-        },
-
         isLoading(): boolean {
             return this.$stock.state.user.isLoading;
         },
@@ -79,14 +73,6 @@ export default Vue.extend({
     methods: {
         isParlay(bet: Bet): boolean {
             return bet.events.length > 1;
-        },
-
-        getScoreHome(betEvent: BetEvent): number {
-            return getScoreHome(betEvent, this.resultDict);
-        },
-
-        getScoreAway(betEvent: BetEvent): number {
-            return getScoreAway(betEvent, this.resultDict);
         },
     },
 });

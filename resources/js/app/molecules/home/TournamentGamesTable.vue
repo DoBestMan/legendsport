@@ -20,10 +20,10 @@
                     <td class="td col-sport">{{ getSportName(game) }}</td>
                     <td class="td col-game">
                         <div class="team">{{ game.teamHome }}</div>
-                        <div class="score">{{ getGameScoreHome(game) }}</div>
+                        <div class="score">{{ game.scoreHome | score }}</div>
                         <div class="vs">@</div>
                         <div class="team">{{ game.teamAway }}</div>
-                        <div class="score">{{ getGameScoreAway(game) }}</div>
+                        <div class="score">{{ game.scoreAway | score }}</div>
                     </td>
                 </tr>
                 <TableNoRecords v-if="!games.length" />
@@ -38,8 +38,6 @@ import moment from "moment";
 import { Game } from "../../types/game";
 import TableNoRecords from "../../../general/components/TableNoRecords.vue";
 import { Nullable } from "../../../general/types/types";
-import { Result } from "../../types/result";
-import { getScoreAway, getScoreHome } from "../../utils/game/match";
 
 export default Vue.extend({
     name: "TournamentGamesTable",
@@ -55,12 +53,6 @@ export default Vue.extend({
         };
     },
 
-    computed: {
-        resultDict(): ReadonlyMap<string, Result> {
-            return this.$stock.getters["result/resultDictionary"];
-        },
-    },
-
     methods: {
         getStartsAt(game: Game): string {
             return moment(game.startsAt).format("MMM, DD");
@@ -69,14 +61,6 @@ export default Vue.extend({
         getSportName(game: Game): string {
             const dict: ReadonlyMap<string, string> = this.$stock.getters["sport/sportDictionary"];
             return dict.get(game.sportId) ?? String(game.sportId);
-        },
-
-        getGameScoreHome(game: Game): number {
-            return getScoreHome(game, this.resultDict);
-        },
-
-        getGameScoreAway(game: Game): number {
-            return getScoreAway(game, this.resultDict);
         },
 
         selectGame(game: Game) {

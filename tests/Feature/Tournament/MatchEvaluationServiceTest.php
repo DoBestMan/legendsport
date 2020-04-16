@@ -9,10 +9,10 @@ use App\Models\TournamentEvent;
 use App\Models\TournamentPlayer;
 use App\Models\User;
 use App\Services\TournamentPlayerService;
-use App\Tournament\BetStatus;
+use App\Tournament\Enums\BetStatus;
 use App\Tournament\MatchEvaluationService;
 use App\Tournament\ParlayBetService;
-use App\Tournament\PendingOddType;
+use App\Tournament\Enums\PendingOddType;
 use App\Tournament\StraightBetService;
 use Tests\Utils\TestCase;
 

@@ -1,8 +1,8 @@
 <?php
 
 use App\Models\TournamentBetEvent;
-use App\Tournament\BetStatus;
-use App\Tournament\PendingOddType;
+use App\Tournament\Enums\BetStatus;
+use App\Tournament\Enums\PendingOddType;
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factory;
 

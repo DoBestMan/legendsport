@@ -8,6 +8,7 @@ use App\Models\TournamentBet;
 use App\Models\TournamentBetEvent;
 use App\Models\User;
 use App\Services\TournamentPlayerService;
+use App\Tournament\Enums\BetStatus;
 use App\Tournament\Exceptions\MatchAlreadyStartedException;
 use App\Tournament\Exceptions\NotEnoughChipsException;
 use App\Tournament\Exceptions\NotRegisteredException;
@@ -74,6 +75,7 @@ class StraightBetService
                 $betEvent->tournament_event_id = $pendingOdd->getTournamentEvent()->id;
                 $betEvent->type = $pendingOdd->getType();
                 $betEvent->odd = $pendingOdd->getOdd();
+                $betEvent->handicap = $pendingOdd->getHandicap();
                 $betEvent->status = BetStatus::PENDING();
                 $betEvent->save();
 

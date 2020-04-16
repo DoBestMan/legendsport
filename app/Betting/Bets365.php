@@ -2,10 +2,10 @@
 namespace App\Betting;
 
 use App\Models\ApiEvent;
-use Carbon\Carbon;
 use Decimal\Decimal;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
 
 class Bets365 implements BettingProvider
@@ -17,11 +17,13 @@ class Bets365 implements BettingProvider
 
     private Bets365API $api;
     private CacheInterface $cache;
+    private LoggerInterface $logger;
 
-    public function __construct(CacheInterface $cache, Bets365API $api)
+    public function __construct(CacheInterface $cache, Bets365API $api, LoggerInterface $logger)
     {
         $this->api = $api;
         $this->cache = $cache;
+        $this->logger = $logger;
     }
 
     public function getEvents(int $page): Pagination
@@ -101,6 +103,9 @@ class Bets365 implements BettingProvider
                 $pointSpreadAway = null;
                 $pointSpreadHomeLine = null;
                 $pointSpreadAwayLine = null;
+                $overLine = null;
+                $underLine = null;
+                $totalNumber = null;
 
                 foreach ($matchLine as $item) {
                     $teamName = Arr::get($item, "header");
@@ -129,6 +134,16 @@ class Bets365 implements BettingProvider
                             $pointSpreadAway = $odds;
                             $pointSpreadAwayLine = new Decimal($item["handicap"]);
                         }
+                    } elseif ($type === "Total Maps") {
+                        if ($this->cmpStr($teamName, $apiEvent->team_home)) {
+                            $overLine = $odds;
+                            $totalNumber = new Decimal($item["handicap"]);
+                        }
+
+                        if ($this->cmpStr($teamName, $apiEvent->team_away)) {
+                            $underLine = $odds;
+                            $totalNumber = new Decimal($item["handicap"]);
+                        }
                     }
                 }
 
@@ -140,9 +155,9 @@ class Bets365 implements BettingProvider
                     $pointSpreadAway,
                     $pointSpreadHomeLine,
                     $pointSpreadAwayLine,
-                    null,
-                    null,
-                    null,
+                    $overLine,
+                    $underLine,
+                    $totalNumber,
                 );
             })
             ->all();
@@ -150,10 +165,8 @@ class Bets365 implements BettingProvider
 
     public function getResults(): array
     {
-        // Get all unfinished api events
-        $apiEvents = ApiEvent::query()
-            ->where("time_status", "<>", TimeStatus::ENDED())
-            ->where("starts_at", "<=", Carbon::now()->subMinutes(5))
+        $apiEvents = ApiEvent::notFinished()
+            ->started()
             ->where("provider", static::PROVIDER_NAME)
             ->get();
 
@@ -192,7 +205,7 @@ class Bets365 implements BettingProvider
 
                 return new SportEventResult(
                     $item["bet365_id"],
-                    $this->mapTimeStatus($item["time_status"]),
+                    $this->mapTimeStatus($item),
                     $home,
                     $away,
                 );
@@ -221,16 +234,26 @@ class Bets365 implements BettingProvider
         return strtolower(trim($a)) === strtolower(trim($b));
     }
 
-    private function mapTimeStatus(string $timeStatus): TimeStatus
+    private function mapTimeStatus(array $data): TimeStatus
     {
-        // @see https://betsapi.com/docs/GLOSSARY.html
+        $timeStatus = $data["time_status"];
+        $confirmed = !!Arr::get($data, "confirmed_at");
+
+        // @see https://betsapi.com/docs/GLOSSARY.html#time_status
         switch ($timeStatus) {
             case "0":
-            case "2":
                 return TimeStatus::NOT_STARTED();
             case "1":
                 return TimeStatus::IN_PLAY();
+            case "2":
+                return TimeStatus::TO_BE_FIXED();
             case "3":
+                if (!$confirmed) {
+                    $this->logger->info("Time status equals 'ended' but is not confirmed.", $data);
+                    return TimeStatus::TO_BE_FIXED();
+                }
+
+                $this->logger->info("Time status equals 'ended' and is confirmed.", $data);
                 return TimeStatus::ENDED();
             default:
                 return TimeStatus::CANCELED();

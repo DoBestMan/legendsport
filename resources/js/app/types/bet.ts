@@ -13,9 +13,9 @@ export interface BetEvent {
     id: number;
     externalId: string;
     odd: number;
-    scoreAway: number;
-    scoreHome: number;
-    selectedTeam: string;
+    scoreAway: number | null;
+    scoreHome: number | null;
+    selectedTeam: string | null;
     startsAt: string;
     status: BetStatus;
     teamAway: string;

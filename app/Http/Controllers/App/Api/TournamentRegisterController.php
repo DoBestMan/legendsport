@@ -3,8 +3,8 @@ namespace App\Http\Controllers\App\Api;
 
 use App\Models\Tournament;
 use App\Services\TournamentPlayerService;
-use App\Tournament\Exceptions\AlreadyRegisteredException;
 use App\Tournament\Events\TournamentUpdate;
+use App\Tournament\Exceptions\AlreadyRegisteredException;
 use App\Tournament\Exceptions\NotEnoughBalanceException;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\JsonResponse;

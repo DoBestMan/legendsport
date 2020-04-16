@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\App\Api\ResultCollection;
 use App\Http\Controllers\App\Api\SignInController as AppSignInController;
 use App\Http\Controllers\App\Api\MeController;
 use App\Http\Controllers\App\Api\OddCollection;
@@ -22,7 +21,6 @@ $router->domain($app)->group(function (Router $router) {
     $router->get('/tournaments', TournamentCollection::class . '@get');
     $router->get('/sports', SportCollection::class . '@get');
     $router->get('/odds', OddCollection::class . '@get');
-    $router->get('/results', ResultCollection::class . '@get');
 
     $router->post('/signin', AppSignInController::class . '@login');
     $router->post('/signup', SignUpController::class . '@post');

@@ -3,14 +3,14 @@
         <div class="text">{{ startsAt | toDateTime }}</div>
         <div class="text game-frm">
             <div class="text team">{{ teamHome }}</div>
-            <div class="text score">{{ scoreHome }}</div>
+            <div class="text score">{{ scoreHome | score }}</div>
             <div class="text vs">@</div>
             <div class="text team">{{ teamAway }}</div>
-            <div class="text score">{{ scoreAway }}</div>
+            <div class="text score">{{ scoreAway | score }}</div>
         </div>
         <div class="text">
-            <span>{{ selectedTeam }}</span>
-            <span> / {{ odd | signedNumber }}</span>
+            <span v-if="selectedTeam">{{ selectedTeam }} / </span>
+            <span>{{ odd | signedNumber }}</span>
             <span v-if="status"> / {{ status | capitalize }}</span>
             <span> - {{ typeName }}</span>
         </div>

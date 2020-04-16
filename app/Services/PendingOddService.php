@@ -4,7 +4,8 @@ namespace App\Services;
 use App\Betting\BettingProvider;
 use App\Betting\SportEventOdd;
 use App\Models\PendingOdd;
-use App\Tournament\PendingOddType;
+use App\Tournament\Enums\PendingOddType;
+use Decimal\Decimal;
 use UnexpectedValueException;
 
 class PendingOddService
@@ -31,7 +32,9 @@ class PendingOddService
             $tournamentEvent = $pendingOdd->getTournamentEvent();
             $sportEventOdd = $oddDict->get($tournamentEvent->apiEvent->api_id);
             $oddValue = $this->getOddByType($sportEventOdd, $pendingOdd->getType());
+            $handicapValue = $this->getHandicapByType($sportEventOdd, $pendingOdd->getType());
             $pendingOdd->setOdd($oddValue);
+            $pendingOdd->setHandicap($handicapValue);
         }
     }
 
@@ -39,22 +42,44 @@ class PendingOddService
     {
         switch ($type) {
             case PendingOddType::MONEY_LINE_HOME():
-                return floatval($sportEventOdd->getMoneyLineHome());
+                return $sportEventOdd->getMoneyLineHome();
 
             case PendingOddType::MONEY_LINE_AWAY():
-                return floatval($sportEventOdd->getMoneyLineAway());
+                return $sportEventOdd->getMoneyLineAway();
 
             case PendingOddType::SPREAD_HOME():
-                return floatval($sportEventOdd->getPointSpreadHome());
+                return $sportEventOdd->getPointSpreadHome();
 
             case PendingOddType::SPREAD_AWAY():
-                return floatval($sportEventOdd->getPointSpreadAway());
+                return $sportEventOdd->getPointSpreadAway();
 
             case PendingOddType::TOTAL_UNDER():
-                return floatval($sportEventOdd->getUnderLine());
+                return $sportEventOdd->getUnderLine();
 
             case PendingOddType::TOTAL_OVER():
-                return floatval($sportEventOdd->getOverLine());
+                return $sportEventOdd->getOverLine();
+
+            default:
+                throw new UnexpectedValueException("Unexpected odd type");
+        }
+    }
+
+    private function getHandicapByType(SportEventOdd $sportEventOdd, PendingOddType $type): ?Decimal
+    {
+        switch ($type) {
+            case PendingOddType::MONEY_LINE_HOME():
+            case PendingOddType::MONEY_LINE_AWAY():
+                return null;
+
+            case PendingOddType::SPREAD_HOME():
+                return $sportEventOdd->getPointSpreadHomeLine();
+
+            case PendingOddType::SPREAD_AWAY():
+                return $sportEventOdd->getPointSpreadAwayLine();
+
+            case PendingOddType::TOTAL_UNDER():
+            case PendingOddType::TOTAL_OVER():
+                return $sportEventOdd->getTotalNumber();
 
             default:
                 throw new UnexpectedValueException("Unexpected odd type");
