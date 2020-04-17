@@ -10,7 +10,7 @@ use App\Models\TournamentPlayer;
 use App\Models\User;
 use App\Services\TournamentPlayerService;
 use App\Tournament\Enums\BetStatus;
-use App\Tournament\MatchEvaluationService;
+use App\Tournament\BetEvaluatorService;
 use App\Tournament\ParlayBetService;
 use App\Tournament\Enums\PendingOddType;
 use App\Tournament\StraightBetService;
@@ -18,7 +18,7 @@ use Tests\Utils\TestCase;
 
 class MatchEvaluationServiceTest extends TestCase
 {
-    private MatchEvaluationService $matchEvaluationService;
+    private BetEvaluatorService $matchEvaluationService;
     private StraightBetService $straightBetService;
     private ParlayBetService $parlayBetService;
     private Tournament $tournament;
@@ -30,7 +30,7 @@ class MatchEvaluationServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->matchEvaluationService = $this->app->make(MatchEvaluationService::class);
+        $this->matchEvaluationService = $this->app->make(BetEvaluatorService::class);
         $this->straightBetService = $this->app->make(StraightBetService::class);
         $this->parlayBetService = $this->app->make(ParlayBetService::class);
         $tournamentPlayerService = $this->app->make(TournamentPlayerService::class);
@@ -67,7 +67,7 @@ class MatchEvaluationServiceTest extends TestCase
         $this->apiEvent->save();
 
         // when
-        $this->matchEvaluationService->evaluateBets($this->apiEvent);
+        $this->matchEvaluationService->evaluate($this->apiEvent);
 
         // then
         $this->player->refresh();
@@ -121,8 +121,8 @@ class MatchEvaluationServiceTest extends TestCase
         $anotherApiEvent->save();
 
         // when
-        $this->matchEvaluationService->evaluateBets($this->apiEvent);
-        $this->matchEvaluationService->evaluateBets($anotherApiEvent);
+        $this->matchEvaluationService->evaluate($this->apiEvent);
+        $this->matchEvaluationService->evaluate($anotherApiEvent);
 
         // then
         $this->player->refresh();
@@ -146,7 +146,7 @@ class MatchEvaluationServiceTest extends TestCase
         $this->apiEvent->save();
 
         // when
-        $this->matchEvaluationService->evaluateBets($this->apiEvent);
+        $this->matchEvaluationService->evaluate($this->apiEvent);
 
         // then
         $this->player->refresh();
@@ -200,8 +200,8 @@ class MatchEvaluationServiceTest extends TestCase
         $anotherApiEvent->save();
 
         // when
-        [$betEvent] = $this->matchEvaluationService->evaluateBets($this->apiEvent);
-        [$anotherBetEvent] = $this->matchEvaluationService->evaluateBets($anotherApiEvent);
+        [[$betEvent]] = $this->matchEvaluationService->evaluate($this->apiEvent);
+        [[$anotherBetEvent]] = $this->matchEvaluationService->evaluate($anotherApiEvent);
 
         // then
         $this->player->refresh();
@@ -225,7 +225,7 @@ class MatchEvaluationServiceTest extends TestCase
         $this->apiEvent->save();
 
         // when
-        $this->matchEvaluationService->evaluateBets($this->apiEvent);
+        $this->matchEvaluationService->evaluate($this->apiEvent);
 
         // then
         $this->player->refresh();

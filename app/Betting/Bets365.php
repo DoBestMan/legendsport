@@ -237,7 +237,6 @@ class Bets365 implements BettingProvider
     private function mapTimeStatus(array $data): TimeStatus
     {
         $timeStatus = $data["time_status"];
-        $confirmed = !!Arr::get($data, "confirmed_at");
 
         // @see https://betsapi.com/docs/GLOSSARY.html#time_status
         switch ($timeStatus) {
@@ -248,12 +247,7 @@ class Bets365 implements BettingProvider
             case "2":
                 return TimeStatus::TO_BE_FIXED();
             case "3":
-                if (!$confirmed) {
-                    $this->logger->info("Time status equals 'ended' but is not confirmed.", $data);
-                    return TimeStatus::TO_BE_FIXED();
-                }
-
-                $this->logger->info("Time status equals 'ended' and is confirmed.", $data);
+                $this->logger->info("Time status equals 'ended'.", $data);
                 return TimeStatus::ENDED();
             default:
                 return TimeStatus::CANCELED();

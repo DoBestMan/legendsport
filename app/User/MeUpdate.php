@@ -12,10 +12,8 @@ final class MeUpdate implements ShouldBroadcast
 
     public function __construct(User $user)
     {
-        $user = $user->fresh(["bets.betEvents.tournamentEvent.apiEvent", "players.bets"]);
-
         $this->user = fractal()
-            ->item($user, new MeTransformer())
+            ->item($user->fresh(), new MeTransformer())
             ->toArray();
     }
 

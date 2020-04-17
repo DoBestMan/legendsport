@@ -21,7 +21,7 @@ $factory->define(Tournament::class, function (Faker $faker) {
             'type' => 'Fixed',
             'fixed_value' => 2,
         ],
-        'state' => $faker->randomElement(TournamentState::values()),
+        'state' => TournamentState::REGISTERING(),
         'time_frame' => $faker->randomElement(TimeFrame::values()),
     ];
 

@@ -9,7 +9,7 @@ use MyCLabs\Enum\Enum;
  * @method static TournamentState LATE_REGISTERING()
  * @method static TournamentState RUNNING()
  * @method static TournamentState COMPLETED()
- * @method static TournamentState CANCEL()
+ * @method static TournamentState CANCELED()
  */
 final class TournamentState extends Enum
 {
@@ -18,5 +18,5 @@ final class TournamentState extends Enum
     private const LATE_REGISTERING = "Late registering";
     private const RUNNING = "Running";
     private const COMPLETED = "Completed";
-    private const CANCEL = "Cancel";
+    private const CANCELED = "Cancel";
 }

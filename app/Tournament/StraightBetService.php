@@ -9,6 +9,7 @@ use App\Models\TournamentBetEvent;
 use App\Models\User;
 use App\Services\TournamentPlayerService;
 use App\Tournament\Enums\BetStatus;
+use App\Tournament\Exceptions\BettingProhibitedException;
 use App\Tournament\Exceptions\MatchAlreadyStartedException;
 use App\Tournament\Exceptions\NotEnoughChipsException;
 use App\Tournament\Exceptions\NotRegisteredException;
@@ -38,6 +39,10 @@ class StraightBetService
      */
     public function bet(Tournament $tournament, User $user, array $pendingOdds): array
     {
+        if (!$tournament->canBetBePlaced()) {
+            throw new BettingProhibitedException();
+        }
+
         foreach ($pendingOdds as $pendingOdd) {
             $timeStatus = $pendingOdd->getTournamentEvent()->apiEvent->time_status;
             if (!$timeStatus->equals(TimeStatus::NOT_STARTED())) {

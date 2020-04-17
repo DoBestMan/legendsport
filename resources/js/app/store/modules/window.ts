@@ -27,6 +27,8 @@ export interface UpdateOddsWagerPayload {
 const pendingOddsMatch = (a: PendingOdd, b: PendingOdd): boolean =>
     a.externalId === b.externalId && a.type === b.type;
 
+// TODO Remove windows of non-existing tournaments
+
 const module: Module<WindowState, RootState> = {
     namespaced: true,
 

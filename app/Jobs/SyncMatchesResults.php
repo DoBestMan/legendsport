@@ -2,85 +2,82 @@
 namespace App\Jobs;
 
 use App\Betting\BettingProvider;
-use App\Betting\TimeStatus;
 use App\Models\ApiEvent;
 use App\Models\Tournament;
 use App\Models\TournamentBetEvent;
 use App\Models\TournamentEvent;
 use App\Models\User;
 use App\Tournament\Events\TournamentUpdate;
-use App\Tournament\MatchEvaluationService;
+use App\Tournament\SportEventResultProcessor;
+use App\Tournament\TournamentStateService;
 use App\User\MeUpdate;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Database\DatabaseManager;
+use Illuminate\Support\Collection;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 final class SyncMatchesResults
 {
     public function handle(
         BettingProvider $bettingProvider,
-        MatchEvaluationService $matchEvaluationService,
+        TournamentStateService $tournamentStateService,
+        SportEventResultProcessor $sportEventResultProcessor,
         LoggerInterface $logger,
-        DatabaseManager $databaseManager,
         Dispatcher $dispatcher
     ): void {
-        $evaluatedBetEvents = collect();
-        $updatedApiEvents = collect();
+        $results = $bettingProvider->getResults();
 
-        foreach ($bettingProvider->getResults() as $result) {
-            /** @var ApiEvent $apiEvent */
-            $apiEvent = ApiEvent::with([
-                "tournamentEvents.tournamentBetEvents.tournamentBet.tournamentPlayer",
-            ])
-                ->where("api_id", $result->getExternalEventId())
-                ->first();
-
-            if (!$apiEvent || $apiEvent->isFinished()) {
-                continue;
-            }
-
-            $databaseManager->transaction(function () use (
-                $apiEvent,
-                $result,
-                $logger,
-                $matchEvaluationService,
-                $evaluatedBetEvents,
-                $updatedApiEvents
-            ) {
-                $apiEvent->score_home = $result->getHome();
-                $apiEvent->score_away = $result->getAway();
-                $apiEvent->time_status = $result->getTimeStatus();
-
-                if ($apiEvent->isDirty()) {
-                    $apiEvent->save();
-                    $updatedApiEvents->push($apiEvent);
-                    $logger->info("Api event was updated.", [
-                        "api_event_id" => $apiEvent->id,
-                        "api_event_external_id" => $apiEvent->api_id,
-                        "score_home" => $result->getHome(),
-                        "score_away" => $result->getAway(),
-                        "time_status" => $result->getTimeStatus(),
-                    ]);
-                }
-
-                if ($result->getTimeStatus()->equals(TimeStatus::ENDED())) {
-                    $tournamentBetEvent = $matchEvaluationService->evaluateBets($apiEvent);
-                    $evaluatedBetEvents->push(...$tournamentBetEvent);
-                }
-            });
+        // If exception is thrown we don't want to stop code execution.
+        // There might be some processed bets that we want to inform users about.
+        try {
+            $sportEventResultProcessor->processMultiple($results);
+        } catch (Throwable $e) {
+            $logger->error($e->getMessage(), ["exception" => $e]);
         }
 
-        // Inform about tournaments results update
-        $updatedApiEvents
+        $affectedTournaments = $this->getAffectedTournaments(
+            $sportEventResultProcessor->getProcessedApiEvents(),
+        );
+        $affectedUsers = $this->getAffectedUsers(
+            $sportEventResultProcessor->getProcessedBetEvents(),
+        );
+
+        // Update tournaments state
+        //        foreach ($affectedTournaments as $tournament) {
+        //            $tournamentStateService->updateState($tournament);
+        //        }
+
+        // Inform about updated tournaments results
+        foreach ($affectedTournaments as $tournament) {
+            $dispatcher->dispatch(new TournamentUpdate($tournament));
+        }
+
+        // Inform about updated users bets
+        foreach ($affectedUsers as $user) {
+            $dispatcher->dispatch(new MeUpdate($user));
+        }
+    }
+
+    /**
+     * @param ApiEvent[] $apiEvents
+     * @return Tournament[]|Collection
+     */
+    private function getAffectedTournaments(iterable $apiEvents): Collection
+    {
+        return collect($apiEvents)
             ->flatMap(fn(ApiEvent $apiEvent) => $apiEvent->tournamentEvents)
             ->map(fn(TournamentEvent $tournamentEvent) => $tournamentEvent->tournament)
-            ->unique("id")
-            ->each(fn(Tournament $item) => $dispatcher->dispatch(new TournamentUpdate($item)));
+            ->unique("id");
+    }
 
-        // Inform about users bets update
-        $evaluatedBetEvents
+    /**
+     * @param TournamentBetEvent[] $betEvents
+     * @return User[]|Collection
+     */
+    private function getAffectedUsers(iterable $betEvents): Collection
+    {
+        return collect($betEvents)
             ->map(fn(TournamentBetEvent $event) => $event->tournamentBet->tournamentPlayer->user)
-            ->unique("id")
-            ->each(fn(User $user) => $dispatcher->dispatch(new MeUpdate($user)));
+            ->unique("id");
     }
 }

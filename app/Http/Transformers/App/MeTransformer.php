@@ -2,6 +2,7 @@
 namespace App\Http\Transformers\App;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use League\Fractal\TransformerAbstract;
 
 class MeTransformer extends TransformerAbstract
@@ -20,12 +21,23 @@ class MeTransformer extends TransformerAbstract
 
     public function includePlayers(User $user)
     {
-        return $this->collection($user->players, new MePlayerTransformer());
+        $players = $user
+            ->players()
+            ->with(["bets"])
+            ->whereHas("tournament", fn(Builder $query) => $query->active())
+            ->get();
+
+        return $this->collection($players, new MePlayerTransformer());
     }
 
     public function includeBets(User $user)
     {
-        // TODO Do not return bets from ended tournaments
-        return $this->collection($user->bets, new TournamentBetTransformer());
+        $bets = $user
+            ->bets()
+            ->with(["betEvents.tournamentEvent.apiEvent"])
+            ->whereHas("tournament", fn(Builder $query) => $query->active())
+            ->get();
+
+        return $this->collection($bets, new TournamentBetTransformer());
     }
 }

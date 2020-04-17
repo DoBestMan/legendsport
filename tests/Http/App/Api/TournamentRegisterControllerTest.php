@@ -3,6 +3,7 @@ namespace Tests\Http\App\Api;
 
 use App\Models\Tournament;
 use App\Models\User;
+use App\Tournament\Enums\TournamentState;
 use Illuminate\Http\Response;
 use Tests\Utils\TestCase;
 
@@ -75,5 +76,30 @@ class TournamentRegisterControllerTest extends TestCase
         $this->tournament->refresh();
         $this->assertSame(400, $user->balance);
         $this->assertCount(0, $this->tournament->players);
+    }
+
+    /** @test */
+    public function cannot_register_when_tournament_is_running()
+    {
+        // given
+        $this->tournament->state = TournamentState::RUNNING();
+        $this->tournament->save();
+
+        /** @var User $user */
+        $user = factory(User::class)->create([
+            "balance" => 1100,
+        ]);
+
+        $this->actingAs($user);
+
+        // when
+        $response = $this->postJson(
+            "http://legendsports.local/api/tournaments/{$this->tournament->id}/register",
+        );
+
+        // then
+        $response->assertStatus(Response::HTTP_BAD_REQUEST)->assertExactJson([
+            "message" => "You cannot register for this tournament.",
+        ]);
     }
 }

@@ -75,8 +75,23 @@ class TournamentBet extends Model
             ->reduce(fn($a, $b) => $a * $b, new Decimal(1));
     }
 
+    /**
+     * Have bet wagers been graded already
+     *
+     * @return bool
+     */
     public function isGraded(): bool
     {
         return !$this->status->equals(BetStatus::PENDING());
+    }
+
+    /**
+     * Whether the bet player should be awarded with chips
+     *
+     * @return bool
+     */
+    public function isAwardable(): bool
+    {
+        return $this->status->equals(BetStatus::WIN()) || $this->status->equals(BetStatus::PUSH());
     }
 }

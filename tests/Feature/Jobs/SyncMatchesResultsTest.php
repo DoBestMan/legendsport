@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Services\TournamentPlayerService;
 use App\Tournament\Enums\BetStatus;
 use App\Tournament\Enums\PendingOddType;
+use App\Tournament\Enums\TournamentState;
 use App\Tournament\Events\TournamentUpdate;
 use App\Tournament\StraightBetService;
 use App\User\MeUpdate;
@@ -21,11 +22,14 @@ use Illuminate\Support\Facades\Event;
 use Tests\Utils\Concerns\BettingProviderConcern;
 use Tests\Utils\TestCase;
 
+// TODO Check event status: 88196999, 88191028
+
 class SyncMatchesResultsTest extends TestCase
 {
     use BettingProviderConcern;
 
     private StraightBetService $straightBetService;
+    private TournamentPlayerService $tournamentPlayerService;
     private Tournament $tournament;
     private TournamentEvent $tournamentEvent;
     private TournamentPlayer $player;
@@ -37,9 +41,7 @@ class SyncMatchesResultsTest extends TestCase
         $this->mockBettingProvider();
 
         $this->straightBetService = $this->app->make(StraightBetService::class);
-
-        /** @var TournamentPlayerService $tournamentPlayerService */
-        $tournamentPlayerService = $this->app->make(TournamentPlayerService::class);
+        $this->tournamentPlayerService = $this->app->make(TournamentPlayerService::class);
 
         $apiEvent = factory(ApiEvent::class)->create([
             "api_id" => "event1",
@@ -56,7 +58,7 @@ class SyncMatchesResultsTest extends TestCase
         $this->user = factory(User::class)->create([
             "balance" => 1000,
         ]);
-        $this->player = $tournamentPlayerService->register($this->tournament, $this->user);
+        $this->player = $this->tournamentPlayerService->register($this->tournament, $this->user);
     }
 
     /** @test */
@@ -75,11 +77,13 @@ class SyncMatchesResultsTest extends TestCase
         $this->app->call([new SyncMatchesResults(), "handle"]);
 
         // then
-        $tournamentBet = $tournamentBets[0]->fresh();
+        $tournamentBet = $tournamentBets[0]->refresh();
         $this->player->refresh();
+        $this->tournament->refresh();
 
         $this->assertSameEnum(BetStatus::WIN(), $tournamentBet->status);
         $this->assertSame(1300, $this->player->chips);
+        $this->assertSameEnum(TournamentState::COMPLETED(), $this->tournament->state);
         Event::assertDispatched(MeUpdate::class, 1);
         Event::assertDispatched(TournamentUpdate::class, 1);
     }
@@ -100,11 +104,13 @@ class SyncMatchesResultsTest extends TestCase
         $this->app->call([new SyncMatchesResults(), "handle"]);
 
         // then
-        $tournamentBet = $tournamentBets[0]->fresh();
+        $tournamentBet = $tournamentBets[0]->refresh();
         $this->player->refresh();
+        $this->tournament->refresh();
 
         $this->assertSameEnum(BetStatus::LOSS(), $tournamentBet->status);
         $this->assertSame(100, $this->player->chips);
+        $this->assertSameEnum(TournamentState::COMPLETED(), $this->tournament->state);
         Event::assertDispatched(MeUpdate::class, 1);
         Event::assertDispatched(TournamentUpdate::class, 1);
     }
@@ -131,12 +137,48 @@ class SyncMatchesResultsTest extends TestCase
         $this->app->call([new SyncMatchesResults(), "handle"]);
 
         // then
-        $tournamentBet = $tournamentBets[0]->fresh();
+        $tournamentBet = $tournamentBets[0]->refresh();
+        $this->user->refresh();
         $this->player->refresh();
+        $this->tournament->refresh();
 
         $this->assertSameEnum(BetStatus::WIN(), $tournamentBet->status);
         $this->assertSame(1300, $this->player->chips);
+        $this->assertSameEnum(TournamentState::COMPLETED(), $this->tournament->state);
+        $this->assertSame(880, $this->user->balance);
         Event::assertDispatched(MeUpdate::class, 1);
         Event::assertDispatched(TournamentUpdate::class, 1);
+    }
+
+    /** @test */
+    public function assign_money_to_winner()
+    {
+        // given
+        /** @var User $david */
+        $david = factory(User::class)->create([
+            "balance" => 1000,
+        ]);
+        $this->tournamentPlayerService->register($this->tournament, $david);
+
+        $this->bettingProvider
+            ->shouldReceive("getResults")
+            ->andReturn([new SportEventResult("event1", TimeStatus::ENDED(), 5, 3)]);
+
+        $this->straightBetService->bet($this->tournament, $this->user, [
+            new PendingOdd(PendingOddType::MONEY_LINE_HOME(), $this->tournamentEvent, 400, 200),
+        ]);
+        $this->straightBetService->bet($this->tournament, $david, [
+            new PendingOdd(PendingOddType::MONEY_LINE_AWAY(), $this->tournamentEvent, 400, 200),
+        ]);
+
+        // when
+        $this->app->call([new SyncMatchesResults(), "handle"]);
+
+        // then
+        $this->user->refresh();
+        $david->refresh();
+
+        $this->assertSame(1080, $this->user->balance);
+        $this->assertSame(880, $david->balance);
     }
 }

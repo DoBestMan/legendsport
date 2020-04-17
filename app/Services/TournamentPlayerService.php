@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Tournament\Exceptions\AlreadyRegisteredException;
 use App\Tournament\Exceptions\NotEnoughBalanceException;
 use App\Tournament\Exceptions\NotRegisteredException;
+use App\Tournament\Exceptions\RegistrationProhibitedException;
 use Illuminate\Database\DatabaseManager;
 
 class TournamentPlayerService
@@ -24,9 +25,14 @@ class TournamentPlayerService
      * @return TournamentPlayer
      * @throws NotEnoughBalanceException
      * @throws AlreadyRegisteredException
+     * @throws RegistrationProhibitedException
      */
     public function register(Tournament $tournament, User $user): TournamentPlayer
     {
+        if (!$tournament->canUserRegister()) {
+            throw new RegistrationProhibitedException();
+        }
+
         return $this->databaseManager->transaction(function () use ($user, $tournament) {
             $playerExists = TournamentPlayer::where([
                 "tournament_id" => $tournament->id,

@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Services\TournamentPlayerService;
 use App\Tournament\Enums\BetStatus;
 use App\Tournament\Enums\PendingOddType;
+use App\Tournament\Enums\TournamentState;
 use Illuminate\Http\Response;
 use Tests\Utils\Concerns\BettingProviderConcern;
 use Tests\Utils\TestCase;
@@ -263,5 +264,44 @@ class TournamentBetParlayControllerTest extends TestCase
 
         $player->refresh();
         $this->assertCount(0, $player->bets);
+    }
+
+    /** @test */
+    public function cannot_bet_if_tournament_is_completed()
+    {
+        // given
+        /** @var User $user */
+        $user = factory(User::class)->create([
+            "balance" => 1000,
+        ]);
+
+        $this->actingAs($user);
+        $this->tournamentPlayerService->register($this->tournament, $user);
+
+        $this->tournament->state = TournamentState::COMPLETED();
+        $this->tournament->save();
+
+        // when
+        $response = $this->postJson(
+            "http://legendsports.local/api/tournaments/{$this->tournament->id}/bets/parlay",
+            [
+                "pending_odds" => [
+                    [
+                        "event_id" => $this->tournament->events[0]->id,
+                        "type" => "money_line_home",
+                    ],
+                    [
+                        "event_id" => $this->tournament->events[1]->id,
+                        "type" => "money_line_away",
+                    ],
+                ],
+                "wager" => 100,
+            ],
+        );
+
+        // then
+        $response->assertStatus(Response::HTTP_BAD_REQUEST)->assertExactJson([
+            "message" => "You cannot place a bet in this tournament.",
+        ]);
     }
 }

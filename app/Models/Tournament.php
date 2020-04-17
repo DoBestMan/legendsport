@@ -8,9 +8,11 @@ use App\Casts\TournamentStateCast;
 use App\Tournament\Enums\PlayersLimit;
 use App\Tournament\Enums\TimeFrame;
 use App\Tournament\Enums\TournamentState;
+use App\Tournament\Prize;
 use App\Tournament\TournamentPrizeStructure;
 use Carbon\Carbon;
 use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use UnexpectedValueException;
@@ -31,6 +33,7 @@ use UnexpectedValueException;
  * @property Carbon $updated_at
  * @property-read Collection|TournamentPlayer[] $players
  * @property-read Collection|TournamentEvent[] $events
+ * @method static Tournament active()
  * @mixin Eloquent
  */
 class Tournament extends Model
@@ -61,6 +64,39 @@ class Tournament extends Model
         return $this->hasMany(TournamentEvent::class);
     }
 
+    public function scopeActive(Builder $builder)
+    {
+        return $builder->whereNotIn("state", [
+            TournamentState::COMPLETED(),
+            TournamentState::CANCELED(),
+        ]);
+    }
+
+    public function isFinished(): bool
+    {
+        return in_array($this->state, [TournamentState::COMPLETED(), TournamentState::CANCELED()]);
+    }
+
+    public function canBetBePlaced(): bool
+    {
+        return in_array($this->state, [
+            TournamentState::REGISTERING(),
+            TournamentState::LATE_REGISTERING(),
+            TournamentState::RUNNING(),
+        ]);
+    }
+
+    public function canUserRegister(): bool
+    {
+        return in_array($this->state, [
+            TournamentState::REGISTERING(),
+            TournamentState::LATE_REGISTERING(),
+        ]);
+    }
+
+    /**
+     * @return Prize[]
+     */
     public function getPrizes(): array
     {
         $prizeStructure = new TournamentPrizeStructure(

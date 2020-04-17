@@ -6,6 +6,7 @@ use App\Services\TournamentPlayerService;
 use App\Tournament\Events\TournamentUpdate;
 use App\Tournament\Exceptions\AlreadyRegisteredException;
 use App\Tournament\Exceptions\NotEnoughBalanceException;
+use App\Tournament\Exceptions\RegistrationProhibitedException;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -32,6 +33,13 @@ class TournamentRegisterController
             return new JsonResponse(
                 [
                     "message" => "You don't have enough balance. Top up!",
+                ],
+                Response::HTTP_BAD_REQUEST,
+            );
+        } catch (RegistrationProhibitedException $e) {
+            return new JsonResponse(
+                [
+                    "message" => "You cannot register for this tournament.",
                 ],
                 Response::HTTP_BAD_REQUEST,
             );

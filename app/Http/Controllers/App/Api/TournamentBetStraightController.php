@@ -9,6 +9,7 @@ use App\Models\TournamentEvent;
 use App\Services\PendingOddService;
 use App\Tournament\Enums\PendingOddType;
 use App\Tournament\Events\TournamentUpdate;
+use App\Tournament\Exceptions\BettingProhibitedException;
 use App\Tournament\Exceptions\MatchAlreadyStartedException;
 use App\Tournament\Exceptions\NotEnoughChipsException;
 use App\Tournament\Exceptions\NotRegisteredException;
@@ -83,6 +84,13 @@ class TournamentBetStraightController extends Controller
             return new JsonResponse(
                 [
                     "message" => "The match has already begun.",
+                ],
+                Response::HTTP_BAD_REQUEST,
+            );
+        } catch (BettingProhibitedException $e) {
+            return new JsonResponse(
+                [
+                    "message" => "You cannot place a bet in this tournament.",
                 ],
                 Response::HTTP_BAD_REQUEST,
             );

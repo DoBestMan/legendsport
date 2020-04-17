@@ -1,5 +1,7 @@
 <template>
-    <button class="btn btn-action btn-register" @click="register">Register now {{ price }}</button>
+    <button v-if="canRegister" class="btn btn-action btn-register" @click="register">
+        Register now {{ price }}
+    </button>
 </template>
 
 <script lang="ts">
@@ -8,6 +10,7 @@ import { AxiosError } from "axios";
 import { Tournament } from "../types/tournament";
 import { AuthModalTab } from "../store/modules/authModal";
 import { formatDollars } from "../../general/utils/filters";
+import { TournamentState } from "../../general/types/tournament";
 
 export default Vue.extend({
     name: "RegisterNowButton",
@@ -25,6 +28,12 @@ export default Vue.extend({
             return `${formatDollars(this.tournament.buyIn)}+${formatDollars(
                 this.tournament.commission,
             )}`;
+        },
+
+        canRegister(): boolean {
+            return [TournamentState.Registering, TournamentState.LateRegistering].includes(
+                this.tournament.state,
+            );
         },
     },
 

@@ -9,6 +9,7 @@ use App\Models\TournamentBetEvent;
 use App\Models\User;
 use App\Services\TournamentPlayerService;
 use App\Tournament\Enums\BetStatus;
+use App\Tournament\Exceptions\BettingProhibitedException;
 use App\Tournament\Exceptions\DuplicatedOddException;
 use App\Tournament\Exceptions\MatchAlreadyStartedException;
 use App\Tournament\Exceptions\NotEnoughChipsException;
@@ -38,6 +39,7 @@ class ParlayBetService
      * @throws NotRegisteredException
      * @throws MatchAlreadyStartedException
      * @throws DuplicatedOddException
+     * @throws BettingProhibitedException
      */
     public function bet(
         Tournament $tournament,
@@ -45,6 +47,10 @@ class ParlayBetService
         array $pendingOdds,
         int $wager
     ): TournamentBet {
+        if (!$tournament->canBetBePlaced()) {
+            throw new BettingProhibitedException();
+        }
+
         foreach ($pendingOdds as $pendingOdd) {
             $timeStatus = $pendingOdd->getTournamentEvent()->apiEvent->time_status;
             if (!$timeStatus->equals(TimeStatus::NOT_STARTED())) {
