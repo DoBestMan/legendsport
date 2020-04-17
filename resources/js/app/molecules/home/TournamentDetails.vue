@@ -1,54 +1,6 @@
 <template>
     <div id="info-frm">
-        <div id="title-bar-frm">
-            <div id="img-frm">
-                <div id="img">
-                    <i class="icon fas fa-football-ball"></i>
-                </div>
-            </div>
-
-            <div id="title-frm">
-                <div id="title">{{ theTournament.name }}</div>
-            </div>
-
-            <div id="status-frm">
-                <div id="status">{{ theTournament.state }}</div>
-            </div>
-        </div>
-
-        <div id="data-frm">
-            <div class="row">
-                <div class="col-6">
-                    <div class="title">Start time</div>
-                    <div class="value">{{ theTournament.starts | toDateTime }}</div>
-                </div>
-
-                <div class="col-6">
-                    <div class="title">In</div>
-                    <div class="value">{{ theTournament.starts | diffHumanReadable }}</div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <div class="title"># Players</div>
-                    <div class="value">{{ theTournament.players.length }}</div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <div class="title">Sports</div>
-                    <div class="value">{{ sportsNames }}</div>
-                </div>
-            </div>
-
-            <RegisterNowButton
-                v-if="tournament && !isRegistered"
-                class="mb-3 mt-1"
-                :tournament="tournament"
-            />
-        </div>
+        <TournamentInfo :tournament="tournament" />
 
         <div class="tabs-frm">
             <div class="tab-frm">
@@ -75,8 +27,8 @@
             </div>
         </div>
 
-        <TournamentGamesTable v-if="activeTab === 'games'" :games="theTournament.games" />
-        <TournamentRankTable v-if="activeTab === 'rank'" :players="theTournament.players" />
+        <TournamentGamesTable v-if="activeTab === 'games'" :games="games" />
+        <TournamentRankTable v-if="activeTab === 'rank'" :players="players" />
     </div>
 </template>
 
@@ -87,14 +39,16 @@ import TournamentGamesTable from "./TournamentGamesTable.vue";
 import TournamentRankTable from "../general/TournamentRankTable.vue";
 import { TournamentState } from "../../../general/types/tournament";
 import RegisterNowButton from "../../components/RegisterNowButton.vue";
-import { UserPlayer } from "../../../general/types/user";
+import TournamentInfo from "../general/TournamentInfo.vue";
+import { Game } from "../../types/game";
+import { Player } from "../../types/player";
 
 export default Vue.extend({
     name: "TournamentDetails",
-    components: { RegisterNowButton, TournamentGamesTable, TournamentRankTable },
+    components: { RegisterNowButton, TournamentGamesTable, TournamentInfo, TournamentRankTable },
 
     props: {
-        tournament: Object as PropType<Tournament>,
+        tournament: Object as PropType<Tournament | null>,
     },
 
     data() {
@@ -104,46 +58,29 @@ export default Vue.extend({
     },
 
     computed: {
-        theTournament(): Tournament {
-            if (this.tournament) {
-                return this.tournament;
-            }
-
-            return {
-                games: [],
-                players: [],
-                sport_ids: [],
-            } as any;
+        games(): Game[] {
+            return this.tournament?.games ?? [];
         },
 
-        isRegistered(): boolean {
-            const playersDict: ReadonlyMap<number, UserPlayer> = this.$stock.getters[
-                "user/playersDictByTournament"
-            ];
-            return playersDict.has(this.theTournament.id);
-        },
-
-        sportsNames(): string {
-            const sportsIds = this.tournament?.sportIds ?? [];
-            const dict: ReadonlyMap<string, string> = this.$stock.getters["sport/sportDictionary"];
-            return sportsIds.map(sportId => dict.get(sportId) ?? sportId).join(", ") || "n/a";
+        players(): Player[] {
+            return this.tournament?.players ?? [];
         },
     },
 
     methods: {
         calculateActiveTab(): string {
-            const displayGames = [
+            const gameStates = [
                 TournamentState.Announced,
                 TournamentState.Registering,
                 TournamentState.Completed,
-            ].includes(this.tournament.state);
+            ];
 
-            return displayGames ? "games" : "rank";
+            return this.tournament && gameStates.includes(this.tournament.state) ? "games" : "rank";
         },
     },
 
     watch: {
-        tournamentId(newVal, oldVal) {
+        tournament(newVal, oldVal) {
             if (newVal !== oldVal) {
                 this.activeTab = this.calculateActiveTab();
             }
