@@ -25,6 +25,8 @@ use UnexpectedValueException;
  * @property int $commission
  * @property bool $late_register
  * @property PlayersLimit $players_limit
+ * @property Carbon $registration_deadline
+ * @property Carbon $late_registration_deadline
  * @property TournamentState $state
  * @property TimeFrame $time_frame
  * @property array $late_register_rule

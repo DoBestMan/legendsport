@@ -9,6 +9,7 @@ use App\Models\Config;
 use App\Models\Tournament;
 use App\Models\TournamentEvent;
 use App\Tournament\Events\TournamentUpdate;
+use Carbon\Carbon;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -60,6 +61,8 @@ class TournamentController extends Controller
 
         $apiData = $request->ApiData ?? [];
 
+        $registrationDeadlines = $this->calculateRegistrationDeadlines($apiData, $request->late_register, $request->late_register_rule);
+
         $tournament = new Tournament();
         $tournament->name = $request->name;
         $tournament->players_limit = $request->players_limit;
@@ -71,6 +74,8 @@ class TournamentController extends Controller
         $tournament->prize_pool = $request->prize_pool;
         $tournament->state = $request->state;
         $tournament->time_frame = $request->time_frame;
+        $tournament->registration_deadline = $registrationDeadlines['registration_deadline'];
+        $tournament->late_registration_deadline = $registrationDeadlines['late_registration_deadline'];
         $tournament->save();
 
         foreach ($apiData as $data) {
@@ -162,6 +167,8 @@ class TournamentController extends Controller
 
         $apiData = $request->ApiData ?? [];
 
+        $registrationDeadlines = $this->calculateRegistrationDeadlines($apiData, $request->late_register, $request->late_register_rule);
+
         $tournament->name = $request->name;
         $tournament->players_limit = $request->players_limit;
         $tournament->buy_in = $request->buy_in;
@@ -172,6 +179,8 @@ class TournamentController extends Controller
         $tournament->prize_pool = $request->prize_pool;
         $tournament->state = $request->state;
         $tournament->time_frame = $request->time_frame;
+        $tournament->registration_deadline = $registrationDeadlines['registration_deadline'];
+        $tournament->late_registration_deadline = $registrationDeadlines['late_registration_deadline'];
         $tournament->save();
 
         $apiDataDict = collect($apiData)->mapWithKeys(
@@ -296,5 +305,29 @@ class TournamentController extends Controller
         }
 
         return $apiEvent;
+    }
+
+    private function calculateRegistrationDeadlines(array $apiData, int $lateRegistrationAllowed, array $lateRegistrationRule): array
+    {
+        if (!isset($apiData[0]['starts_at'])) {
+            return ['registration_deadline' => null, 'late_registration_deadline' => null];
+        }
+
+        $registrationDeadline = Carbon::create($apiData[0]['starts_at']);
+        $lateRegistrationDeadline = null;
+
+        foreach ($apiData as $event) {
+            $startTime = Carbon::create($event['starts_at']);
+            if ($startTime < $registrationDeadline) {
+                $registrationDeadline = $startTime;
+            }
+        }
+
+        if ($lateRegistrationAllowed) {
+            $lateRegistrationDeadline = clone $registrationDeadline;
+            $lateRegistrationDeadline = $lateRegistrationDeadline->modify(sprintf('+ %d %s', $lateRegistrationRule['value'], $lateRegistrationRule['interval']));
+        }
+
+        return ['registration_deadline' => $registrationDeadline, 'late_registration_deadline' => $lateRegistrationDeadline];
     }
 }
