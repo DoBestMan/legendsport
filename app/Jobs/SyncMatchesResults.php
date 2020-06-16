@@ -9,7 +9,7 @@ use App\Models\TournamentEvent;
 use App\Models\User;
 use App\Tournament\Events\TournamentUpdate;
 use App\Tournament\SportEventResultProcessor;
-use App\Tournament\TournamentStateService;
+use App\Tournament\TournamentCompletionService;
 use App\User\MeUpdate;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Collection;
@@ -20,7 +20,7 @@ final class SyncMatchesResults
 {
     public function handle(
         BettingProvider $bettingProvider,
-        TournamentStateService $tournamentStateService,
+        TournamentCompletionService $tournamentStateService,
         SportEventResultProcessor $sportEventResultProcessor,
         LoggerInterface $logger,
         Dispatcher $dispatcher
@@ -43,9 +43,9 @@ final class SyncMatchesResults
         );
 
         // Update tournaments state
-        //        foreach ($affectedTournaments as $tournament) {
-        //            $tournamentStateService->updateState($tournament);
-        //        }
+        foreach ($affectedTournaments as $tournament) {
+            $tournamentStateService->updateState($tournament);
+        }
 
         // Inform about updated tournaments results
         foreach ($affectedTournaments as $tournament) {

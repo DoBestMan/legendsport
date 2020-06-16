@@ -7,7 +7,7 @@ use App\Models\TournamentEvent;
 use App\Tournament\Enums\TournamentState;
 use Illuminate\Database\DatabaseManager;
 
-class TournamentStateService
+class TournamentCompletionService
 {
     private TournamentPrizeService $tournamentPrizeService;
     private DatabaseManager $databaseManager;
@@ -27,27 +27,18 @@ class TournamentStateService
         }
 
         $this->databaseManager->transaction(function () use ($tournament) {
-            $tournament->state = $this->calculateCurrentState($tournament);
-            $tournament->save();
-
-            if ($tournament->state->equals(TournamentState::COMPLETED())) {
+            if ($this->isComplete($tournament)) {
+                $tournament->state = TournamentState::COMPLETED();
+                $tournament->save();
                 $this->tournamentPrizeService->creditMoney($tournament);
             }
         });
     }
 
-    public function calculateCurrentState(Tournament $tournament): TournamentState
+    public function isComplete(Tournament $tournament): bool
     {
-        $allEventsAreFinished = $tournament->events
-            ->flatMap(fn(TournamentEvent $tournamentEvent) => $tournamentEvent->apiEvent)
+        return $tournament->events
+            ->map(fn(TournamentEvent $tournamentEvent) => $tournamentEvent->apiEvent)
             ->every(fn(ApiEvent $apiEvent) => $apiEvent->isFinished());
-
-        if ($allEventsAreFinished) {
-            return TournamentState::COMPLETED();
-        }
-
-        // TODO Add more state transitions
-
-        return $tournament->state;
     }
 }
