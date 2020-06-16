@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Jobs\SyncMatchesResults;
 use App\Jobs\UpdateOdds;
+use App\Jobs\UpdateTournamentStates;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -28,6 +29,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->job(SyncMatchesResults::class)->everyMinute();
         $schedule->job(UpdateOdds::class)->everyMinute();
+        $schedule->job(UpdateTournamentStates::class)->everyMinute();
     }
 
     /**
