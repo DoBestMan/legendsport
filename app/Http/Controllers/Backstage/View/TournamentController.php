@@ -61,7 +61,7 @@ class TournamentController extends Controller
 
         $apiData = $request->ApiData ?? [];
 
-        $registrationDeadlines = $this->calculateRegistrationDeadlines($apiData, $request->late_register, $request->late_register_rule);
+        $registrationDeadlines = $this->calculateRegistrationDeadlines($apiData, (int) $request->late_register, $request->late_register_rule);
 
         $tournament = new Tournament();
         $tournament->name = $request->name;
@@ -167,7 +167,7 @@ class TournamentController extends Controller
 
         $apiData = $request->ApiData ?? [];
 
-        $registrationDeadlines = $this->calculateRegistrationDeadlines($apiData, $request->late_register, $request->late_register_rule);
+        $registrationDeadlines = $this->calculateRegistrationDeadlines($apiData, (int) $request->late_register, $request->late_register_rule);
 
         $tournament->name = $request->name;
         $tournament->players_limit = $request->players_limit;
@@ -307,7 +307,7 @@ class TournamentController extends Controller
         return $apiEvent;
     }
 
-    private function calculateRegistrationDeadlines(array $apiData, int $lateRegistrationAllowed, array $lateRegistrationRule): array
+    private function calculateRegistrationDeadlines(array $apiData, int $lateRegistrationAllowed, ?array $lateRegistrationRule): array
     {
         if (!isset($apiData[0]['starts_at'])) {
             return ['registration_deadline' => null, 'late_registration_deadline' => null];
