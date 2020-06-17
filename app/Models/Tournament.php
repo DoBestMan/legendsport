@@ -68,10 +68,12 @@ class Tournament extends Model
 
     public function scopeActive(Builder $builder)
     {
+        //@TODO log a specific finish time
+        $builder->where("updated_at", ">", Carbon::now()->subDay(), 'or');
         return $builder->whereNotIn("state", [
             TournamentState::COMPLETED(),
             TournamentState::CANCELED(),
-        ]);
+        ], 'or');
     }
 
     public function isFinished(): bool
