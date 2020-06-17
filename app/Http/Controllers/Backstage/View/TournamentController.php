@@ -219,9 +219,9 @@ class TournamentController extends Controller
     private function validation(Request $request)
     {
         $inputs = [
-            'buy_in' => 'required|numeric|min:1',
+            'buy_in' => 'required|numeric|min:0',
             'chips' => 'required|min:1',
-            'commission' => 'required|min:1',
+            'commission' => 'required|numeric|min:0',
             'name' => 'required',
             'players_limit' => 'required',
             'prize_pool.type' => 'required',
