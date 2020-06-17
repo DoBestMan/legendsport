@@ -28,6 +28,7 @@ use UnexpectedValueException;
  * @property Carbon $registration_deadline
  * @property Carbon $late_registration_deadline
  * @property TournamentState $state
+ * @property Carbon $completed_at
  * @property TimeFrame $time_frame
  * @property array $late_register_rule
  * @property array $prize_pool
@@ -68,8 +69,8 @@ class Tournament extends Model
 
     public function scopeActive(Builder $builder)
     {
-        //@TODO log a specific finish time
-        $builder->where("updated_at", ">", Carbon::now()->subDay(), 'or');
+        $builder->where("completed_at", ">", Carbon::now()->subDay(), 'or');
+        $builder->whereNull("completed_at", 'or');
         return $builder->whereNotIn("state", [
             TournamentState::COMPLETED(),
             TournamentState::CANCELED(),

@@ -5,6 +5,7 @@ use App\Models\ApiEvent;
 use App\Models\Tournament;
 use App\Models\TournamentEvent;
 use App\Tournament\Enums\TournamentState;
+use Carbon\Carbon;
 use Illuminate\Database\DatabaseManager;
 
 class TournamentCompletionService
@@ -29,6 +30,7 @@ class TournamentCompletionService
         $this->databaseManager->transaction(function () use ($tournament) {
             if ($this->isComplete($tournament)) {
                 $tournament->state = TournamentState::COMPLETED();
+                $tournament->completed_at = Carbon::now();
                 $tournament->save();
                 $this->tournamentPrizeService->creditMoney($tournament);
             }
