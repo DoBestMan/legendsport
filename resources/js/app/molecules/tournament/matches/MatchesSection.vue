@@ -64,19 +64,15 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from "vue";
-import { PendingOdd, Window } from "../../../types/window";
-import { Tournament } from "../../../types/tournament";
-import GameRow from "./GameRow.vue";
-import { Game } from "../../../types/game";
-import { empty, groupBy } from "../../../../general/utils/utils";
-import {
-    PendingOddPayload,
-    ToggleSportPayload,
-    UpdateWindowPayload,
-} from "../../../store/modules/window";
+    import Vue, {PropType} from "vue";
+    import {PendingOdd, Window} from "../../../types/window";
+    import {Tournament} from "../../../types/tournament";
+    import GameRow from "./GameRow.vue";
+    import {Game, GameState} from "../../../types/game";
+    import {empty, groupBy} from "../../../../general/utils/utils";
+    import {PendingOddPayload, ToggleSportPayload, UpdateWindowPayload,} from "../../../store/modules/window";
 
-export default Vue.extend({
+    export default Vue.extend({
     name: "MatchesSection",
     components: { GameRow },
 
@@ -96,8 +92,8 @@ export default Vue.extend({
         groupedGames(): Record<string, Game[]> {
             const filteredGames = this.tournament.games.filter(
                 game =>
-                    empty(this.window.selectedSportIds) ||
-                    this.window.selectedSportIds.includes(game.sportId),
+                    (empty(this.window.selectedSportIds) ||
+                    this.window.selectedSportIds.includes(game.sportId)) && game.timeStatus === GameState.NotStarted,
             );
             return groupBy(filteredGames, game => game.startsAt);
         },
