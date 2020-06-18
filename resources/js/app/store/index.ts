@@ -8,6 +8,7 @@ import loader from "./modules/loader";
 import placeBet from "./modules/placeBet";
 import user from "./modules/user";
 import tournamentList from "./modules/tournamentList";
+import tournamentHistoryList from "./modules/tournamentHistoryList";
 import windowModule from "./modules/window";
 import { Api } from "../api/Api";
 import { RootState } from "./types";
@@ -31,6 +32,7 @@ export const createStore = (): Store<RootState> => {
             placeBet,
             sport,
             tournamentList,
+            tournamentHistoryList,
             user,
             window: windowModule,
         },

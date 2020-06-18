@@ -43,7 +43,7 @@
                         </div>
                     </a>
 
-                    <a class="menu">
+                    <a class="menu" @click="tournamentHistory">
                         <div class="menuImg">
                             <i class="fas fa-history"></i>
                         </div>
@@ -111,6 +111,10 @@ export default Vue.extend({
         logout(): void {
             this.$stock.dispatch("user/logout");
             this.$toast.info("You've been logged out.");
+        },
+
+        tournamentHistory(): void {
+            this.$router.push("/history");
         },
 
         openSignUpModal(): void {

@@ -8,6 +8,7 @@ import { LoaderState } from "./modules/loader";
 import { PlaceBetState } from "./modules/placeBet";
 import { ChatState } from "./modules/chat";
 import { AuthModalState } from "./modules/authModal";
+import {TournamentHistoryListState} from "./modules/tournamentHistoryList";
 
 export interface RootState {
     api: Api;
@@ -18,6 +19,7 @@ export interface RootState {
     placeBet: PlaceBetState;
     sport: SportState;
     tournamentList: TournamentListState;
+    tournamentHistoryList: TournamentHistoryListState;
     user: UserState;
     window: WindowState;
 }

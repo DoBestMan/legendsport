@@ -55,6 +55,7 @@ export default Vue.extend({
                     password: this.password,
                 });
                 this.$toast.success("You've signed in.");
+                this.$stock.dispatch("tournamentHistoryList/load");
                 this.$emit("success");
             } catch (e) {
                 this.$toast.error((e as AxiosError).response?.data.message);

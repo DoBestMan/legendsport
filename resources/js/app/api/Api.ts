@@ -39,6 +39,11 @@ export class Api {
         //
     }
 
+    public async getTournamentHistory(): Promise<Tournament[]> {
+        const response = await this.axios.get("/api/history");
+        return response.data.map(mapTournament);
+    }
+
     public async getTournaments(): Promise<Tournament[]> {
         const response = await this.axios.get("/api/tournaments");
         return response.data.map(mapTournament);

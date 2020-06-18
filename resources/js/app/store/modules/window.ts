@@ -42,6 +42,10 @@ const module: Module<WindowState, RootState> = {
                 rootState.tournamentList.tournaments.map(tournament => [tournament.id, tournament]),
             );
 
+            rootState.tournamentHistoryList.tournaments.forEach(
+                function (tournament) { tournamentDict.set(tournament.id, tournament)}
+            );
+
             return state._windows
                 .filter(window => tournamentDict.has(window.id))
                 .map(tab => {
