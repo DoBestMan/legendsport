@@ -153,6 +153,8 @@ class SyncMatchesResultsTest extends TestCase
     /** @test */
     public function assign_money_to_winner()
     {
+        $this->tournament->prize_pool = ['type' => 'Auto'];
+        $this->tournament->save();
         // given
         /** @var User $david */
         $david = factory(User::class)->create([
@@ -165,7 +167,7 @@ class SyncMatchesResultsTest extends TestCase
             ->andReturn([new SportEventResult("event1", TimeStatus::ENDED(), 5, 3)]);
 
         $this->straightBetService->bet($this->tournament, $this->user, [
-            new PendingOdd(PendingOddType::MONEY_LINE_HOME(), $this->tournamentEvent, 400, 200),
+            new PendingOdd(PendingOddType::MONEY_LINE_HOME(), $this->tournamentEvent, 500, 200),
         ]);
         $this->straightBetService->bet($this->tournament, $david, [
             new PendingOdd(PendingOddType::MONEY_LINE_AWAY(), $this->tournamentEvent, 400, 200),
@@ -178,7 +180,7 @@ class SyncMatchesResultsTest extends TestCase
         $this->user->refresh();
         $david->refresh();
 
-        $this->assertSame(1080, $this->user->balance);
+        $this->assertSame(1080, $this->user->balance, 'User balance wasn\'t credited');
         $this->assertSame(880, $david->balance);
     }
 }

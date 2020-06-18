@@ -5,18 +5,18 @@ use Decimal\Decimal;
 
 class Prize
 {
-    private Decimal $prize;
+    private float $prizePercentage;
     private int $maxPosition;
 
-    public function __construct(int $maxPosition, $prize)
+    public function __construct(int $maxPosition, $prizePercentage)
     {
         $this->maxPosition = $maxPosition;
-        $this->prize = new Decimal($prize);
+        $this->prizePercentage = $prizePercentage;
     }
 
-    public function getPrize(): Decimal
+    public function getPrizePercentage(): float
     {
-        return $this->prize;
+        return $this->prizePercentage;
     }
 
     public function getMaxPosition(): int

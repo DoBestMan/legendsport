@@ -7,18 +7,18 @@ class TournamentPrizeStructure
 {
     private array $prizes;
 
-    private Decimal $money;
+    private int $money;
     private int $playersCount;
 
     public function __construct(int $money, int $playersCount)
     {
-        $this->money = new Decimal($money);
+        $this->money = $money;
         $this->playersCount = $playersCount;
         $this->initPrizes();
     }
 
     /**
-     * @return Prize[]
+     * @return PrizeMoney[]
      */
     public function getPrizes(): array
     {
@@ -29,9 +29,9 @@ class TournamentPrizeStructure
 
         return collect($prizeCollection->getPrizes())
             ->map(
-                fn(Prize $prize) => new Prize(
+                fn(Prize $prize) => new PrizeMoney(
                     $prize->getMaxPosition(),
-                    $this->money * ($prize->getPrize() / 100),
+                    $this->money * ($prize->getPrizePercentage() / 100),
                 ),
             )
             ->all();

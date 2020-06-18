@@ -24,10 +24,10 @@ class TournamentPrizeService
         }
     }
 
-    private function creditMoneyToUser(TournamentPlayer $player, Prize $prize): void
+    private function creditMoneyToUser(TournamentPlayer $player, PrizeMoney $prize): void
     {
         $user = $player->user;
-        $user->balance += $prize->getPrize() * 100;
+        $user->balance += $prize->getPrizeMoney();
         $user->save();
     }
 }

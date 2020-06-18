@@ -9,6 +9,7 @@ use App\Tournament\Enums\PlayersLimit;
 use App\Tournament\Enums\TimeFrame;
 use App\Tournament\Enums\TournamentState;
 use App\Tournament\Prize;
+use App\Tournament\PrizeMoney;
 use App\Tournament\TournamentPrizeStructure;
 use Carbon\Carbon;
 use Eloquent;
@@ -100,7 +101,7 @@ class Tournament extends Model
     }
 
     /**
-     * @return Prize[]
+     * @return PrizeMoney[]
      */
     public function getPrizes(): array
     {
