@@ -20,6 +20,7 @@
                         :odd="betEvent.odd"
                         :status="betEvent.status"
                         :type="betEvent.type"
+                        :type-extra="betEvent.handicap"
                     />
                 </div>
 

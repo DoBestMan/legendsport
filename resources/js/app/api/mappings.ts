@@ -86,6 +86,7 @@ export const mapBetEvent = (data: any): BetEvent => ({
     teamAway: data.team_away,
     teamHome: data.team_home,
     type: data.type,
+    handicap: data.handicap,
 });
 
 export const mapOdd = (data: any): Odd => ({

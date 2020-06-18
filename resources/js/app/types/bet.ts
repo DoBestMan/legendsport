@@ -21,6 +21,7 @@ export interface BetEvent {
     teamAway: string;
     teamHome: string;
     type: PendingOddType;
+    handicap: string;
 }
 
 export enum BetStatus {

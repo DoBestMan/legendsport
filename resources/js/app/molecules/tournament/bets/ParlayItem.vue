@@ -14,6 +14,7 @@
                 :selectedTeam="team"
                 :odd="oddValue"
                 :type="pendingOdd.type"
+                :type-extra="oddExtra"
             />
         </div>
     </div>
@@ -24,7 +25,7 @@ import Vue, { PropType } from "vue";
 import { DeepReadonly } from "../../../../general/types/types";
 import { Game } from "../../../types/game";
 import { PendingOdd } from "../../../types/window";
-import { getPendingOddTeam, getPendingOddValue } from "../../../utils/game/bet";
+import {getOddExtra, getPendingOddTeam, getPendingOddValue} from "../../../utils/game/bet";
 import BetContent from "./BetContent.vue";
 import { Odd } from "../../../types/odd";
 
@@ -49,6 +50,10 @@ export default Vue.extend({
         oddValue(): number {
             return this.odd ? getPendingOddValue(this.pendingOdd, this.odd) : 0;
         },
+
+        oddExtra(): string {
+            return this.odd ? getOddExtra(this.pendingOdd, this.odd) : "";
+        }
     },
 
     methods: {

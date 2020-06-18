@@ -31,6 +31,24 @@ export const getPendingOddValue = (
     }
 };
 
+export const getOddExtra = (
+    pendingOdd: DeepReadonly<PendingOdd>,
+    odd: DeepReadonly<Odd>,
+): string => {
+    switch (pendingOdd.type) {
+        case PendingOddType.SpreadHome:
+            return odd.point_spread_home_line;
+        case PendingOddType.SpreadAway:
+            return odd.point_spread_away_line;
+        case PendingOddType.TotalUnder:
+            return odd.total_number;
+        case PendingOddType.TotalOver:
+            return odd.total_number;
+        default:
+            return "";
+    }
+};
+
 export const getPendingOddTeam = (
     pendingOdd: DeepReadonly<PendingOdd>,
     game: DeepReadonly<Game>,

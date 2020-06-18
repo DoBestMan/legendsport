@@ -12,7 +12,7 @@
             <span v-if="selectedTeam">{{ selectedTeam }} / </span>
             <span>{{ odd | signedNumber }}</span>
             <span v-if="status"> / {{ status | capitalize }}</span>
-            <span> - {{ typeName }}</span>
+            <span> - {{ typeName }} {{ typeExtra }}</span>
         </div>
     </div>
 </template>
@@ -34,6 +34,7 @@ export default Vue.extend({
         teamHome: String,
         status: String as PropType<BetStatus>,
         type: String as PropType<PendingOddType>,
+        typeExtra: String,
     },
 
     computed: {

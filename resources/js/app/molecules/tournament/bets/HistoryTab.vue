@@ -20,6 +20,7 @@
                         :odd="event.odd"
                         :status="event.status"
                         :type="event.type"
+                        :type-extra="event.handicap"
                     />
                 </div>
 

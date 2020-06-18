@@ -22,6 +22,7 @@ class TournamentBetEventTransformer extends TransformerAbstract
             "team_away" => $apiEvent->team_away,
             "team_home" => $apiEvent->team_home,
             "type" => $betEvent->type,
+            "handicap" => $betEvent->handicap,
         ];
     }
 }

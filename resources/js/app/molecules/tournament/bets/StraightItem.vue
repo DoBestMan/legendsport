@@ -14,6 +14,7 @@
                 :selectedTeam="team"
                 :odd="oddValue"
                 :type="pendingOdd.type"
+                :type-extra="oddExtra"
             />
         </div>
 
@@ -38,6 +39,7 @@ import {
     calculateWinFromAmericanOdd,
     getPendingOddTeam,
     getPendingOddValue,
+    getOddExtra,
 } from "../../../utils/game/bet";
 import BetContent from "./BetContent.vue";
 import ChipInput from "../../../../general/components/ChipInput.vue";
@@ -72,6 +74,10 @@ export default Vue.extend({
         oddValue(): number {
             return this.odd ? getPendingOddValue(this.pendingOdd, this.odd) : 0;
         },
+
+        oddExtra(): string {
+            return this.odd ? getOddExtra(this.pendingOdd, this.odd) : "";
+        }
     },
 
     methods: {
