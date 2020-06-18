@@ -56,7 +56,7 @@ class ApiEvent extends Model
 
     public function scopeStarted(Builder $query)
     {
-        return $query->where("starts_at", "<=", Carbon::now()->subMinutes(5));
+        return $query->where("starts_at", "<=", Carbon::now()->addMinutes(5));
     }
 
     public function isFinished(): bool
