@@ -6,6 +6,7 @@ use App\Betting\Bets365;
 use App\Betting\Bets365API;
 use App\Betting\BettingProvider;
 use App\Betting\JsonOddAPI;
+use App\Betting\TestData;
 use App\Services\UserTokenService;
 use App\WebSocket\WebSocketHandler;
 use BeyondCode\LaravelWebSockets\WebSockets\WebSocketHandler as BaseWebSocketHandler;
@@ -33,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(BaseWebSocketHandler::class, WebSocketHandler::class);
-        $this->app->bind(BettingProvider::class, Bets365::class);
+        $this->app->bind(BettingProvider::class, TestData::class);
     }
 
     /**
