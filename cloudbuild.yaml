@@ -1,0 +1,7 @@
+steps:
+  - name: 'docker'
+    id: 'frontend build'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/nginx:$BUILD_ID', '-f', 'infrastructure/docker/frontend/Dockerfile', '.']
+    env:
+      - DOCKER_BUILDKIT=1
+images: ['gcr.io/$PROJECT_ID/nginx:$BUILD_ID']
