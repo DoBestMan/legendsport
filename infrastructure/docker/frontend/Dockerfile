@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.0.0-experimental
+# syntax=docker/dockerfile:1.0-experimental
 FROM node:14.4.0-alpine3.12 as build
 
 RUN mkdir /project
