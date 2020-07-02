@@ -1,5 +1,10 @@
 steps:
   - name: 'docker'
+    args: ['pull', 'docker/dockerfile:experimental']
+  - name: 'docker'
+    args: ['pull', 'docker/dockerfile:1.0-experimental']
+
+  - name: 'docker'
     id: 'frontend build'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/nginx:$BUILD_ID', '-f', 'infrastructure/docker/frontend/Dockerfile', '.']
     env:
