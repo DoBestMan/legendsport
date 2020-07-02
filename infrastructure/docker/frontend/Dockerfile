@@ -13,6 +13,6 @@ RUN yarn prod
 # alpine 3.11
 FROM nginx:1.19-alpine
 
-COPY --chown=nginx:nginx --from=build /project/public /var/www
+COPY --chown=nginx:nginx --from=build /project/public /usr/share/nginx/html
 
 
