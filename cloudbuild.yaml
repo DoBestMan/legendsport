@@ -3,6 +3,10 @@ steps:
     args: ['pull', 'docker/dockerfile:experimental']
   - name: 'docker'
     args: ['pull', 'docker/dockerfile:1.0-experimental']
+  - name: 'docker'
+    args: ['pull', 'node:14.4.0-alpine3.12']
+  - name: 'docker'
+    args: ['pull', 'nginx:1.19-alpine']
 
   - name: 'docker'
     id: 'frontend build'
