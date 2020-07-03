@@ -13,7 +13,7 @@ RUN yarn prod
 # alpine 3.11
 FROM nginx:1.19-alpine as nginx
 
-COPY --chown=nginx:nginx --from=build /project/public /var/www/html
+COPY --chown=nginx:nginx --from=build /project /var/www/html
 COPY --chown=root:root --from=build /project/infrastructure/docker/frontend/nginx.conf /etc/nginx/nginx.conf
 
 FROM php:7.4-fpm-alpine3.11 as php
