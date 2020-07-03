@@ -13,7 +13,7 @@ RUN yarn prod
 # alpine 3.11
 FROM nginx:1.19-alpine as nginx
 
-COPY --chown=nginx:nginx --from=build /project/public /usr/share/nginx/html
+COPY --chown=nginx:nginx --from=build /project/public /var/www/html
 COPY --chown=root:root --from=build /project/infrastructure/docker/frontend/nginx.conf /etc/nginx/nginx.conf
 
 FROM php:7.4-fpm-alpine3.11 as php
@@ -24,7 +24,7 @@ RUN groupmod -g 1000 www-data
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-COPY --chown=www-data:www-data --from=build /project /project
+COPY --chown=www-data:www-data --from=build /project /var/www/html
 
 RUN install-php-extensions decimal pdo_mysql
 
