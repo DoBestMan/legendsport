@@ -11,8 +11,24 @@ RUN yarn install --frozen-lockfile --production=true
 RUN yarn prod
 
 # alpine 3.11
-FROM nginx:1.19-alpine
+FROM nginx:1.19-alpine as nginx
 
 COPY --chown=nginx:nginx --from=build /project/public /usr/share/nginx/html
 
+FROM php:7.4-fpm-alpine3.11 as php
 
+RUN apk --no-cache add shadow
+RUN usermod -u 1000 www-data
+RUN groupmod -g 1000 www-data
+
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY --chown=www-data:www-data --from=build /project /project
+
+RUN install-php-extensions decimal pdo_mysql
+
+USER www-data
+WORKDIR /project
+
+RUN composer global require hirak/prestissimo
+RUN composer install --no-interaction
