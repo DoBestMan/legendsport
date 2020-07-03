@@ -28,4 +28,4 @@ steps:
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/nginx:$BUILD_ID', '-f', 'infrastructure/docker/frontend/Dockerfile', '--target', 'nginx', '.']
     env:
       - DOCKER_BUILDKIT=1
-images: ['gcr.io/$PROJECT_ID/nginx:$BUILD_ID']
+images: ['gcr.io/$PROJECT_ID/php:$BUILD_ID', 'gcr.io/$PROJECT_ID/nginx:$BUILD_ID']
