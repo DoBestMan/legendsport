@@ -29,7 +29,7 @@ COPY --chown=www-data:www-data --from=build /project /var/www/html
 RUN install-php-extensions decimal pdo_mysql
 
 USER www-data
-WORKDIR /project
+WORKDIR /var/www/html
 
 RUN composer global require hirak/prestissimo
 RUN composer install --no-interaction
