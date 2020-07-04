@@ -41,19 +41,6 @@ data:
 
   JSONODDS_API_KEY: 3b279a7d-7d95-4eda-89cb-3c1f96093fc6
   BETS365_TOKEN: 44933-Ygmt1mvQIl8hzp
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: web
-  annotations:
-    cloud.google.com/neg: '{"ingress": true}'
-spec:
-  ports:
-    - port: 80
-      targetPort: 80
-  selector:
-    application: web
 
 ---
 apiVersion: networking.k8s.io/v1beta1
@@ -76,3 +63,9 @@ spec:
           - backend:
               serviceName: web
               servicePort: 80
+    - host: ws.staging.legendsports.bet
+      http:
+        paths:
+          - backend:
+              serviceName: web
+              servicePort: 6001
