@@ -9,6 +9,8 @@ mkdir /tmp/staging
 
 cp infrastructure/kubernetes/staging/*.yaml /tmp/staging
 
-sed "s/BACKEND_IMAGE_NAME/${BACKEND_IMAGE}/g" infrastructure/kubernetes/staging/templated/php-fpm.yaml.tpl | sed "s/FRONTEND_IMAGE_NAME/${FRONTEND_IMAGE}/g" > /tmp/staging/php-fpm.yaml
+sed "s/BACKEND_IMAGE/${BACKEND_IMAGE}/g" ./infrastructure/kubernetes/staging/templated/php-fpm.yaml | sed "s/FRONTEND_IMAGE/${FRONTEND_IMAGE}/g" > /tmp/staging/php-fpm.yaml
+
+gcloud container clusters get-credentials --region "$CLOUDSDK_COMPUTE_REGION" "$CLOUDSDK_CONTAINER_CLUSTER"
 
 kubectl apply -f /tmp/staging
