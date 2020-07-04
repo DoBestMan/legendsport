@@ -27,7 +27,7 @@ spec:
       containers:
         - image: BACKEND_IMAGE
           name: websockets
-          cmd: ['/bin/sh', '-c']
+          command: ['/bin/sh', '-c']
           args:
             - "php artisan websockets:serve"
           imagePullPolicy: Always
