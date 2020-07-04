@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: web
+  template:
+    metadata:
+      labels:
+        application: web
+    spec:
+      containers:
+        - image: BACKEND_IMAGE
+          name: php
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: php-environment
+
+        - image: FRONTEND_IMAGE
+          name: nginx
+          imagePullPolicy: Always
