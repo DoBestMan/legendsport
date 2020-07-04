@@ -36,7 +36,7 @@ steps:
     id: 'push frontend image'
     args: ['push', 'gcr.io/$PROJECT_ID/nginx:$SHORT_SHA']
 
-  - name: 'grc.io/cloud-builders/kubectl'
+  - name: 'gcr.io/cloud-builders/kubectl'
     entrypoint: 'bash'
     args: ['infrastructure/build/deploy-staging.sh']
 
