@@ -23,16 +23,20 @@ steps:
       - DOCKER_BUILDKIT=1
 
   - name: 'docker'
+    id: 'push backend image'
+    args: ['push', 'gcr.io/$PROJECT_ID/php:$SHORT_SHA']
+
+  - name: 'docker'
     id: 'frontend build'
     args: ['build', '-t', 'gcr.io/$PROJECT_ID/nginx:$SHORT_SHA', '-f', 'infrastructure/docker/frontend/Dockerfile', '--target', 'nginx', '.']
     env:
       - DOCKER_BUILDKIT=1
 
   - name: 'docker'
-    id: 'push images'
-    entrypoint: 'bash'
-    args: ['-c', 'echo gcr.io/$PROJECT_ID/{nginx,php}:$SHORT_SHA | xargs -n 1 docker push']
+    id: 'push frontend image'
+    args: ['push', 'gcr.io/$PROJECT_ID/nginx:$SHORT_SHA']
 
   - name: 'grc.io/cloud-builders/kubectl'
     entrypoint: 'bash'
     args: ['infrastructure/build/deploy-staging.sh']
+
