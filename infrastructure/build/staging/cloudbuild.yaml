@@ -38,7 +38,7 @@ steps:
 
   - name: 'gcr.io/cloud-builders/kubectl'
     entrypoint: 'bash'
-    args: ['infrastructure/build/deploy-staging.sh']
+    args: ['infrastructure/build/staging/deploy.sh']
     env:
       - PROJECT_ID=$PROJECT_ID
       - SHORT_SHA=$SHORT_SHA

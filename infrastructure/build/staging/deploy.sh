@@ -17,4 +17,4 @@ sed "s!BACKEND_IMAGE!${BACKEND_IMAGE}!g" ./infrastructure/kubernetes/staging/tem
 
 gcloud container clusters get-credentials --region "$CLOUDSDK_COMPUTE_REGION" "$CLOUDSDK_CONTAINER_CLUSTER"
 
-kubectl apply -f /tmp/staging
+kubectl apply -f /tmp/staging -n staging
