@@ -58,5 +58,6 @@ spec:
             httpGet:
               port: 80
               httpHeaders:
-                Host: staging.legendsports.bet
+                - name: Host
+                  value: staging.legendsports.bet
 

@@ -62,5 +62,6 @@ spec:
             httpGet:
               port: 80
               httpHeaders:
-                Host: ######DOMAIN_NAME######
+                - name: Host
+                  value: ######DOMAIN_NAME######
 
