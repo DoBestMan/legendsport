@@ -9,6 +9,7 @@ use App\Betting\JsonOddAPI;
 use App\Betting\TestData;
 use App\Services\UserTokenService;
 use App\WebSocket\WebSocketHandler;
+use App\Http\Websockets\Healthcheck;
 use BeyondCode\LaravelWebSockets\WebSockets\WebSocketHandler as BaseWebSocketHandler;
 use Illuminate\Support\ServiceProvider;
 
@@ -45,5 +46,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        $this->app->get('websockets.router')->get('/', Healthcheck::class);
     }
 }

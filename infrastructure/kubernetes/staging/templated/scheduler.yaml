@@ -1,0 +1,24 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: scheduler
+spec:
+  schedule: "*/1 * * * *"
+  concurrencyPolicy: Replace
+  startingDeadlineSeconds: 30
+  suspend: false
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: scheduler
+              image: BACKEND_IMAGE
+              command: ['/bin/sh', '-c']
+              args:
+              - "php artisan schedule:run --verbose --no-interaction"
+              imagePullPolicy: Always
+              envFrom:
+                - configMapRef:
+                    name: php-environment
