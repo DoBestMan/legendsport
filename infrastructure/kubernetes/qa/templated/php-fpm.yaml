@@ -43,9 +43,7 @@ spec:
       initContainers:
         name: create-db
         image: ######BACKEND_IMAGE######
-          command: ['/bin/sh', '-c']
-          args:
-            - "php artisan migrate && php artisan db:seed"
+        command: ['/bin/sh', '-c', "php artisan migrate && php artisan db:seed"]
       containers:
         - image: ######BACKEND_IMAGE######
           name: php

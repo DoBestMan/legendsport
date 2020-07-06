@@ -25,7 +25,7 @@ spec:
         application: ######NAMESPACE######websockets
     spec:
       containers:
-        - image: BACKEND_IMAGE
+        - image: ######BACKEND_IMAGE######
           name: websockets
           command: ['/bin/sh', '-c']
           args:
