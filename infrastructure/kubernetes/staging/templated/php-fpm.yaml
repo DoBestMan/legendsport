@@ -52,10 +52,10 @@ spec:
           name: nginx
           imagePullPolicy: Always
           readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            timeoutSeconds: 15
             httpGet:
-              initialDelaySeconds: 10
-              periodSeconds: 15
-              timeoutSeconds: 15
               port: 80
               httpHeaders:
                 Host: staging.legendsports.bet
