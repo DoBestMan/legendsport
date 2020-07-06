@@ -1,0 +1,6 @@
+namePrefix: ######NAMESPACE######
+resources:
+  - configmap.yaml
+  - php-fpm.yaml
+  - scheduler.yaml
+  - websockets.yaml

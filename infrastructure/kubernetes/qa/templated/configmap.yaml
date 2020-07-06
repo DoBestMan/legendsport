@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: php-environment
+data:
+  APP_NAME: LEGENDSPORTS
+  APP_ENV: local
+  APP_KEY: "base64:we9GwZknrIHsiBOkXBLx4+sNcioxhXuH+zOdl2fHZ+0="
+  APP_DEBUG: "true"
+
+  APP_URL: http://######DOMAIN_NAME######
+  APP_URL_DOMAIN: ######DOMAIN_NAME######
+  BACKSTAGE_URL_SUBDOM: backstage
+
+  LOG_CHANNEL: stack
+
+  DB_CONNECTION: mysql
+  DB_HOST: 10.35.48.3
+  DB_PORT: "3306"
+  DB_DATABASE: ######DATABASE_NAME######
+  DB_USERNAME: root
+  DB_PASSWORD: L9cNIolfhAH0ysxD
+
+  BROADCAST_DRIVER: pusher
+  CACHE_DRIVER: file
+  QUEUE_CONNECTION: sync
+  SESSION_DRIVER: file
+  SESSION_LIFETIME: "120"
+
+  REDIS_HOST: 127.0.0.1
+  REDIS_PASSWORD: ""
+  REDIS_PORT: "6379"
+
+  PUSHER_APP_ID: legendsports
+  PUSHER_APP_KEY: my-secret-random-key
+  PUSHER_APP_SECRET: my-secret-random-secret-key
+  PUSHER_APP_CLUSTER: mt1
+
+  MIX_PUSHER_APP_KEY: my-secret-random-key
+  MIX_PUSHER_APP_CLUSTER: mt1
+
+  JSONODDS_API_KEY: 3b279a7d-7d95-4eda-89cb-3c1f96093fc6
+  BETS365_TOKEN: 44933-Ygmt1mvQIl8hzp
+

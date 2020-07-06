@@ -40,15 +40,21 @@ spec:
       labels:
         application: web
     spec:
+      initContainers:
+        name: create-db
+        image: ######BACKEND_IMAGE######
+          command: ['/bin/sh', '-c']
+          args:
+            - "php artisan migrate && php artisan db:seed"
       containers:
-        - image: BACKEND_IMAGE
+        - image: ######BACKEND_IMAGE######
           name: php
           imagePullPolicy: Always
           envFrom:
             - configMapRef:
                 name: php-environment
 
-        - image: FRONTEND_IMAGE
+        - image: ######FRONTEND_IMAGE######
           name: nginx
           imagePullPolicy: Always
           readinessProbe:
@@ -58,5 +64,5 @@ spec:
               timeoutSeconds: 15
               port: 80
               httpHeaders:
-                Host: staging.legendsports.bet
+                Host: ######DOMAIN_NAME######
 

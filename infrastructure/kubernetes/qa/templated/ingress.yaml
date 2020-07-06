@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: web
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: qa
+spec:
+  rules:
+    - host: ######DOMAIN_NAME######
+      http:
+        paths:
+          - backend:
+              serviceName: ######NAMESPACE######web
+              servicePort: 80
+    - host: backstage.######DOMAIN_NAME######
+      http:
+        paths:
+          - backend:
+              serviceName: ######NAMESPACE######web
+              servicePort: 80
+    - host: ws.######DOMAIN_NAME######
+      http:
+        paths:
+          - backend:
+              serviceName: ######NAMESPACE######web
+              servicePort: 6001
