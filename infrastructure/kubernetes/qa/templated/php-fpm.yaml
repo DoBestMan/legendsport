@@ -1,7 +1,7 @@
 apiVersion: cloud.google.com/v1
 kind: BackendConfig
 metadata:
-  name: websocket-backend-config
+  name: ######NAMESPACE######websocket-backend-config
 spec:
   timeoutSec: 3600
   connectionDraining:
@@ -10,35 +10,35 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: web
+  name: ######NAMESPACE######web
   annotations:
     cloud.google.com/neg: '{"ingress": true}'
-    cloud.google.com/backend-config: '{"ports": {"6001":"websocket-backend-config"}}'
+    cloud.google.com/backend-config: '{"ports": {"6001":"######NAMESPACE######websocket-backend-config"}}'
 spec:
   ports:
     - port: 80
-      name: web
+      name: ######NAMESPACE######web
       targetPort: 80
     - port: 6001
-      name: websockets
+      name: ######NAMESPACE######websockets
       targetPort: 6001
   selector:
-    application: web
+    application: ######NAMESPACE######web
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web
+  name: ######NAMESPACE######web
 spec:
   replicas: 1
   selector:
     matchLabels:
-      application: web
+      application: ######NAMESPACE######web
   template:
     metadata:
       labels:
-        application: web
+        application: ######NAMESPACE######web
     spec:
       initContainers:
         name: create-db
@@ -52,7 +52,7 @@ spec:
           imagePullPolicy: Always
           envFrom:
             - configMapRef:
-                name: php-environment
+                name: ######NAMESPACE######php-environment
 
         - image: ######FRONTEND_IMAGE######
           name: nginx

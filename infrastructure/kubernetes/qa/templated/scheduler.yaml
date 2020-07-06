@@ -1,7 +1,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: scheduler
+  name: ######NAMESPACE######scheduler
 spec:
   schedule: "*/1 * * * *"
   concurrencyPolicy: Replace
@@ -21,4 +21,4 @@ spec:
               imagePullPolicy: Always
               envFrom:
                 - configMapRef:
-                    name: php-environment
+                    name: ######NAMESPACE######php-environment

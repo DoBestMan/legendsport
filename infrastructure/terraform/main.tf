@@ -100,6 +100,10 @@ resource "google_compute_global_address" "production" {
     name = "production"
 }
 
+resource "google_compute_global_address" "qa" {
+    name = "qa"
+}
+
 resource "google_sql_database_instance" "production" {
     database_version              = "MYSQL_5_7"
     name                          = "production"

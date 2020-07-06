@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: php-environment
+  name: ######NAMESPACE######php-environment
 data:
   APP_NAME: LEGENDSPORTS
   APP_ENV: local

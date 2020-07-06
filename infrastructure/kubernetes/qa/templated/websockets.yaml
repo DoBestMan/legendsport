@@ -1,28 +1,28 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: websockets
+  name: ######NAMESPACE######websockets
 spec:
   ports:
     - port: 6001
       targetPort: 6001
   selector:
-    application: websockets
+    application: ######NAMESPACE######websockets
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: websockets
+  name: ######NAMESPACE######websockets
 spec:
   replicas: 1
   selector:
     matchLabels:
-      application: websockets
+      application: ######NAMESPACE######websockets
   template:
     metadata:
       labels:
-        application: websockets
+        application: ######NAMESPACE######websockets
     spec:
       containers:
         - image: BACKEND_IMAGE
@@ -33,5 +33,5 @@ spec:
           imagePullPolicy: Always
           envFrom:
             - configMapRef:
-                name: php-environment
+                name: ######NAMESPACE######php-environment
 
