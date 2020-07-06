@@ -14,14 +14,14 @@ cp infrastructure/kubernetes/qa/*.yaml /tmp/qa
 
 echo "Deploying: $BACKEND_IMAGE and $FRONTEND_IMAGE"
 
-gcloud sql databases create $DATABASE_NAME --instance="legend-sports-production:us-central1:production"
+gcloud sql databases create $DATABASE_NAME --instance="production"
 
-REPLACEMENTS="
-s!######BACKEND_IMAGE######!${BACKEND_IMAGE}!g;
-s!######FRONTEND_IMAGE######!${FRONTEND_IMAGE}!g;
-s!######DOMAIN_NAME######!${DOMAIN_NAME}!g;
-s!######DATABASE_NAME######!${DATABASE_NAME}!g;
-s!######NAMESPACE######!${NAMESPACE}!g
+REPLACEMENTS="\
+s!######BACKEND_IMAGE######!${BACKEND_IMAGE}!g;\
+s!######FRONTEND_IMAGE######!${FRONTEND_IMAGE}!g;\
+s!######DOMAIN_NAME######!${DOMAIN_NAME}!g;\
+s!######DATABASE_NAME######!${DATABASE_NAME}!g;\
+s!######NAMESPACE######!${NAMESPACE}!g\
 "
 
 sed $REPLACEMENTS ./infrastructure/kubernetes/qa/templated/php-fpm.yaml  > /tmp/qa/php-fpm.yaml
@@ -31,7 +31,7 @@ sed $REPLACEMENTS ./infrastructure/kubernetes/qa/templated/configmap.yaml > /tmp
 
 gcloud container clusters get-credentials --region "$CLOUDSDK_COMPUTE_REGION" "$CLOUDSDK_CONTAINER_CLUSTER"
 
-kubectl apply -k /tmp/qa -n qa
+kubectl apply -f /tmp/qa -n qa
 
 sed $REPLACEMENTS ./infrastructure/kubernetes/qa/templated/ingress.yaml > /tmp/qa/ingress.yaml
 
