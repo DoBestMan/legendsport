@@ -31,8 +31,12 @@ sed $REPLACEMENTS ./infrastructure/kubernetes/qa/templated/configmap.yaml > /tmp
 
 gcloud container clusters get-credentials --region "$CLOUDSDK_COMPUTE_REGION" "$CLOUDSDK_CONTAINER_CLUSTER"
 
+cat /tmp/qa/php-fpm.yaml
+
 kubectl apply -f /tmp/qa -n qa
 
 sed $REPLACEMENTS ./infrastructure/kubernetes/qa/templated/ingress.yaml > /tmp/qa/ingress.yaml
 
-kubectl patch -f /tmp/qa/ingress.yaml -n qa
+cat /tmp/qa/ingress.yaml
+
+#kubectl patch -f /tmp/qa/ingress.yaml -n qa
