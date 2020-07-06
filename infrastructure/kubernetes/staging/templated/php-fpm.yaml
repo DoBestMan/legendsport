@@ -1,9 +1,19 @@
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: websocket-backend-config
+spec:
+  timeoutSec: 3600
+  connectionDraining:
+    drainingTimeoutSec: 3600
+---
 apiVersion: v1
 kind: Service
 metadata:
   name: web
   annotations:
     cloud.google.com/neg: '{"ingress": true}'
+    cloud.google.com/backend-config: '{"ports": {"6001":"websocket-backend-config"}}'
 spec:
   ports:
     - port: 80
