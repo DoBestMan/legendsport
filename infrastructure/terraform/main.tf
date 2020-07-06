@@ -154,7 +154,7 @@ resource "google_sql_user" "staging" {
 resource "google_cloudbuild_trigger" "build-prs" {
     provider = google-beta
     disabled       = false
-    filename       = "infrastructure/build/cloudbuild.yaml"
+    filename       = "infrastructure/build/qa/cloudbuild.yaml"
     ignored_files  = []
     included_files = []
     name           = "Build-PRs"
