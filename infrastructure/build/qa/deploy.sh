@@ -10,8 +10,6 @@ DATABASE_NAME="lsqa-$BRANCH_NAME"
 
 mkdir /tmp/qa
 
-cp infrastructure/kubernetes/qa/*.yaml /tmp/qa
-
 echo "Deploying: $BACKEND_IMAGE and $FRONTEND_IMAGE"
 
 gcloud sql databases create $DATABASE_NAME --instance="production"
@@ -31,12 +29,17 @@ sed $REPLACEMENTS ./infrastructure/kubernetes/qa/templated/configmap.yaml > /tmp
 
 gcloud container clusters get-credentials --region "$CLOUDSDK_COMPUTE_REGION" "$CLOUDSDK_CONTAINER_CLUSTER"
 
-cat /tmp/qa/php-fpm.yaml
+cp infrastructure/kubernetes/qa/*.yaml /tmp/qa
 
 kubectl apply -f /tmp/qa -n qa
 
-sed $REPLACEMENTS ./infrastructure/kubernetes/qa/templated/ingress.yaml > /tmp/qa/ingress.yaml
+sed $REPLACEMENTS ./infrastructure/kubernetes/qa/templated/ingress.yaml > /tmp/qa/ingress-patch.yaml
 
-cat /tmp/qa/ingress.yaml
+cat /tmp/qa/ingress-patch.yaml
 
-#kubectl patch -f /tmp/qa/ingress.yaml -n qa
+kubectl patch ingress web --patch "$(cat /tmp/qa/ingress-patch.yaml)" -n qa
+
+# Force recreation of ingress after patch so the change is synced to the loadbaclancer :(
+kubectl get ingress web -n qa --output yaml > /tmp/current.ingress.yaml
+kubectl delete ingress web -n qa
+kubectl apply -f /tmp/current.ingress.yaml
