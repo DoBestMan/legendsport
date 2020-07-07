@@ -52,7 +52,7 @@ spec:
           name: nginx
           imagePullPolicy: Always
           env:
-            - name: WEBSOCKET_HOST
+            - name: WEBSOCKETS_HOST
               value: websockets
           readinessProbe:
             initialDelaySeconds: 10
