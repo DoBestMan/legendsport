@@ -51,3 +51,8 @@ spec:
         - image: FRONTEND_IMAGE
           name: nginx
           imagePullPolicy: Always
+          env:
+            - name: WEBSOCKETS_HOST
+              value: websockets
+            - name: DOMAIN_NAME
+              value: staging.legendsports.bet

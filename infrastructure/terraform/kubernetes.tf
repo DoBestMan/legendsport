@@ -8,6 +8,12 @@ provider "kubernetes" {
     )
 }
 
+resource "kubernetes_namespace" "qa" {
+    metadata {
+        name = "qa"
+    }
+}
+
 resource "kubernetes_namespace" "staging" {
     metadata {
         name = "staging"

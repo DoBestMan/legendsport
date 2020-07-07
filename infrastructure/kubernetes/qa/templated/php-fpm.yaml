@@ -1,0 +1,66 @@
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: ######NAMESPACE######websocket-backend-config
+spec:
+  timeoutSec: 3600
+  connectionDraining:
+    drainingTimeoutSec: 3600
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ######NAMESPACE######web
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+    cloud.google.com/backend-config: '{"ports": {"6001":"######NAMESPACE######websocket-backend-config"}}'
+spec:
+  ports:
+    - port: 80
+      name: ######NAMESPACE######web
+      targetPort: 80
+    - port: 6001
+      name: ######NAMESPACE######websockets
+      targetPort: 6001
+  selector:
+    application: ######NAMESPACE######web
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ######NAMESPACE######web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: ######NAMESPACE######web
+  template:
+    metadata:
+      labels:
+        application: ######NAMESPACE######web
+    spec:
+      initContainers:
+        - name: create-db
+          image: ######BACKEND_IMAGE######
+          command: ['/bin/sh', '-c', "php artisan migrate && php artisan db:seed"]
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: ######NAMESPACE######php-environment
+      containers:
+        - image: ######BACKEND_IMAGE######
+          name: php
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: ######NAMESPACE######php-environment
+
+        - image: ######FRONTEND_IMAGE######
+          name: nginx
+          imagePullPolicy: Always
+          env:
+            - name: WEBSOCKETS_HOST
+              value: ######NAMESPACE######websockets
+            - name: DOMAIN_NAME
+              value: ######DOMAIN_NAME######

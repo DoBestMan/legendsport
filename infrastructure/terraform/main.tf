@@ -100,6 +100,10 @@ resource "google_compute_global_address" "production" {
     name = "production"
 }
 
+resource "google_compute_global_address" "qa" {
+    name = "qa"
+}
+
 resource "google_sql_database_instance" "production" {
     database_version              = "MYSQL_5_7"
     name                          = "production"
@@ -154,7 +158,7 @@ resource "google_sql_user" "staging" {
 resource "google_cloudbuild_trigger" "build-prs" {
     provider = google-beta
     disabled       = false
-    filename       = "infrastructure/build/cloudbuild.yaml"
+    filename       = "infrastructure/build/qa/cloudbuild.yaml"
     ignored_files  = []
     included_files = []
     name           = "Build-PRs"
