@@ -54,13 +54,5 @@ spec:
           env:
             - name: WEBSOCKETS_HOST
               value: websockets
-          readinessProbe:
-            initialDelaySeconds: 10
-            periodSeconds: 15
-            timeoutSeconds: 15
-            httpGet:
-              port: 80
-              httpHeaders:
-                - name: Host
-                  value: staging.legendsports.bet
-
+            - name: DOMAIN_NAME
+              value: staging.legendsports.bet

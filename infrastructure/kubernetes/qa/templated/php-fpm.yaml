@@ -62,12 +62,5 @@ spec:
           env:
             - name: WEBSOCKETS_HOST
               value: ######NAMESPACE######websockets
-          readinessProbe:
-            initialDelaySeconds: 10
-            periodSeconds: 15
-            timeoutSeconds: 15
-            httpGet:
-              port: 80
-              httpHeaders:
-                - name: Host
-                  value: ######DOMAIN_NAME######
+            - name: DOMAIN_NAME
+              value: ######DOMAIN_NAME######
