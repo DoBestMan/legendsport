@@ -44,6 +44,10 @@ spec:
         - name: create-db
           image: ######BACKEND_IMAGE######
           command: ['/bin/sh', '-c', "php artisan migrate && php artisan db:seed"]
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: ######NAMESPACE######php-environment
       containers:
         - image: ######BACKEND_IMAGE######
           name: php
