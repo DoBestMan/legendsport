@@ -51,6 +51,9 @@ spec:
         - image: FRONTEND_IMAGE
           name: nginx
           imagePullPolicy: Always
+          env:
+            - name: WEBSOCKET_HOST
+              value: websockets
           readinessProbe:
             initialDelaySeconds: 10
             periodSeconds: 15

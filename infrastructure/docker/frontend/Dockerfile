@@ -13,8 +13,13 @@ RUN yarn prod
 # alpine 3.11
 FROM nginx:1.19-alpine as nginx
 
+ENV NGINX_ENVSUBST_OUTPUT_DIR="/etc/nginx"
+ENV NGINX_ENVSUBST_TEMPLATE_DIR="/etc/nginx-templates"
+
+RUN mkdir /etc/nginx-templates
+
 COPY --chown=nginx:nginx --from=build /project /var/www/html
-COPY --chown=root:root --from=build /project/infrastructure/docker/frontend/nginx.conf /etc/nginx/nginx.conf
+COPY --chown=root:root --from=build /project/infrastructure/docker/frontend/nginx.conf /etc/nginx-templates/nginx.conf.template
 
 FROM php:7.4-fpm-alpine3.11 as php
 
