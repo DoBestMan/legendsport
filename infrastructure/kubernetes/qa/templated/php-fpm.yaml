@@ -84,7 +84,7 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ######NAMESPACE######nginx-config
+  name: ######NAMESPACE######nginx-conf
 data:
   nginx.conf: |
     user  nginx;
