@@ -67,7 +67,7 @@ resource "kubernetes_deployment" "nginx_ingress_controller" {
         container {
           name  = "nginx-ingress-controller"
           image = "${var.image}:${var.image_version}"
-          args  = ["/nginx-ingress-controller", "--configmap=$(POD_NAMESPACE)/nginx-configuration", "--tcp-services-configmap=$(POD_NAMESPACE)/tcp-services", "--udp-services-configmap=$(POD_NAMESPACE)/udp-services", "--publish-service=$(POD_NAMESPACE)/ingress-nginx", "--annotations-prefix=nginx.ingress.kubernetes.io"]
+          args  = ["/nginx-ingress-controller", "--configmap=$(POD_NAMESPACE)/nginx-configuration", "--tcp-services-configmap=$(POD_NAMESPACE)/tcp-services", "--udp-services-configmap=$(POD_NAMESPACE)/udp-services", "--publish-service=$(POD_NAMESPACE)/nginx-ingress-service", "--annotations-prefix=nginx.ingress.kubernetes.io"]
 
           port {
             name           = "http"
@@ -198,6 +198,7 @@ resource "kubernetes_ingress" "nginx_ingress_ingress" {
 
         annotations = {
             "kubernetes.io/ingress.global-static-ip-name" = "production"
+            "kubernetes.io/ingress.class" = "gce"
         }
     }
     spec {
