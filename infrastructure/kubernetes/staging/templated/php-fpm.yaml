@@ -11,9 +11,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: web
-  annotations:
-    cloud.google.com/neg: '{"ingress": true}'
-    cloud.google.com/backend-config: '{"ports": {"6001":"websocket-backend-config"}}'
 spec:
   ports:
     - port: 80
