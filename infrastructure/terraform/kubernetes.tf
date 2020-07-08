@@ -25,3 +25,7 @@ resource "kubernetes_namespace" "production" {
         name = "production"
     }
 }
+
+module "nginx-ingress-controller" {
+    source = "./ingress-controller"
+}
