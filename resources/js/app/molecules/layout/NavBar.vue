@@ -110,7 +110,6 @@ export default Vue.extend({
     methods: {
         logout(): void {
             this.$stock.dispatch("user/logout");
-            this.$toast.info("You've been logged out.");
         },
 
         tournamentHistory(): void {

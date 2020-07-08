@@ -61,7 +61,6 @@ export default Vue.extend({
 
             try {
                 await this.$stock.state.api.registerForTournament(this.tournament.id);
-                this.$toast.info("You've registered for a tournament.");
             } catch (e) {
                 this.$toast.error((e as AxiosError).response?.data.message);
             } finally {
