@@ -2,3 +2,4 @@ Manual steps undertaken
 
 Iam role used by terraform given kubernetes cluster admin permissions
 Healthcheck on loadbalancer updated to use port: 10254 and path: /healthz as it doesn't pick it up correctly from spec.
+Update backend timeout on loadbalancer to 3600 to support websockets
