@@ -182,7 +182,6 @@ export default Vue.extend({
             } else {
                 this.removeOdds();
                 this.displayPendingTab();
-                this.$toast.success("You've placed a parlay bet.");
             }
         },
     },

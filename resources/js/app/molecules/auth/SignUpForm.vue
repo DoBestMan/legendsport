@@ -84,7 +84,6 @@ export default Vue.extend({
                     password: this.password,
                     password_confirmation: this.passwordConfirmation,
                 });
-                this.$toast.success("You've signed up.");
                 this.$emit("success");
             } catch (e) {
                 this.$toast.error((e as AxiosError).response?.data.message);
