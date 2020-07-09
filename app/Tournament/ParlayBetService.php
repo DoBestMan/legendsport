@@ -9,7 +9,9 @@ use App\Models\TournamentBetEvent;
 use App\Models\User;
 use App\Services\TournamentPlayerService;
 use App\Tournament\Enums\BetStatus;
+use App\Tournament\Enums\PendingOddType;
 use App\Tournament\Exceptions\BettingProhibitedException;
+use App\Tournament\Exceptions\CorrelatedParlayException;
 use App\Tournament\Exceptions\DuplicatedOddException;
 use App\Tournament\Exceptions\MatchAlreadyStartedException;
 use App\Tournament\Exceptions\NotEnoughChipsException;
@@ -51,23 +53,43 @@ class ParlayBetService
             throw new BettingProhibitedException();
         }
 
+        $duplicates = [];
+        $correlated = [];
+
         foreach ($pendingOdds as $pendingOdd) {
             $timeStatus = $pendingOdd->getTournamentEvent()->apiEvent->time_status;
             if (!$timeStatus->equals(TimeStatus::NOT_STARTED())) {
                 throw new MatchAlreadyStartedException();
             }
-        }
 
-        $uniquePendingOddscount = collect($pendingOdds)
-            ->mapWithKeys(
-                fn(PendingOdd $pendingOdd) => [
-                    "{$pendingOdd->getTournamentEvent()->id}#{$pendingOdd->getType()}" => null,
-                ],
-            )
-            ->count();
+            switch ((string) $pendingOdd->getType()) {
+                case (string) PendingOddType::SPREAD_HOME():
+                case (string) PendingOddType::SPREAD_AWAY():
+                case (string) PendingOddType::MONEY_LINE_AWAY():
+                case (string) PendingOddType::MONEY_LINE_HOME():
+                    $correlationType = 'result';
+                    break;
+                case (string) PendingOddType::TOTAL_OVER():
+                case (string) PendingOddType::TOTAL_UNDER():
+                    $correlationType = 'total';
+                    break;
+                default:
+                    $correlationType = 'unknown';
+            }
 
-        if ($uniquePendingOddscount !== count($pendingOdds)) {
-            throw new DuplicatedOddException();
+            $duplicateKey = "{$pendingOdd->getTournamentEvent()->id}#{$pendingOdd->getType()}";
+            $correlateKey = "{$pendingOdd->getTournamentEvent()->id}#{$correlationType}";
+
+            if (isset($duplicates[$duplicateKey])) {
+                throw new DuplicatedOddException();
+            }
+
+            if (isset($correlated[$correlateKey])) {
+                throw new CorrelatedParlayException();
+            }
+
+            $duplicates[$duplicateKey] = true;
+            $correlated[$correlateKey] = true;
         }
 
         return $this->databaseManager->transaction(function () use (

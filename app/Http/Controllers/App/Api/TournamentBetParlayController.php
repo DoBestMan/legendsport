@@ -9,6 +9,7 @@ use App\Services\PendingOddService;
 use App\Tournament\Enums\PendingOddType;
 use App\Tournament\Events\TournamentUpdate;
 use App\Tournament\Exceptions\BettingProhibitedException;
+use App\Tournament\Exceptions\CorrelatedParlayException;
 use App\Tournament\Exceptions\MatchAlreadyStartedException;
 use App\Tournament\Exceptions\NotEnoughChipsException;
 use App\Tournament\Exceptions\NotRegisteredException;
@@ -90,6 +91,13 @@ class TournamentBetParlayController extends Controller
             return new JsonResponse(
                 [
                     "message" => "You cannot place a bet in this tournament.",
+                ],
+                Response::HTTP_BAD_REQUEST,
+            );
+        } catch (CorrelatedParlayException $e) {
+            return new JsonResponse(
+                [
+                    "message" => "These events are correlated and cannot be parlayed together, please select different events",
                 ],
                 Response::HTTP_BAD_REQUEST,
             );
