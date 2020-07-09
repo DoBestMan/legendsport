@@ -14,7 +14,7 @@ class MoneyLineHome extends TournamentBetEvent
         $eventData = $this->getTournamentEvent()->getApiEvent();
 
         $result = $eventData->getScoreHome() - $eventData->getScoreAway();
-echo $result . "\n";
+
         if ($result > 0) {
             $this->result(BetStatus::WIN());
             return;

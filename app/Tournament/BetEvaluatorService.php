@@ -27,6 +27,7 @@ class BetEvaluatorService
     public function evaluate(ApiEvent $apiEvent): array
     {
         if (!$apiEvent->isFinished()) {
+            $apiEvent->save();
             return [[], []];
         }
 

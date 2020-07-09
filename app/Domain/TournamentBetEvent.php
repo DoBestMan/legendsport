@@ -2,7 +2,6 @@
 
 namespace App\Domain;
 
-use App\Domain\BetTypes\SpreadHome;
 use App\Tournament\Enums\BetStatus;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -144,8 +143,6 @@ abstract class TournamentBetEvent
             $this->result(BetStatus::PUSH());
             return;
         }
-
-        echo get_class($this) . "\n";
 
         $this->evaluateType();
     }
