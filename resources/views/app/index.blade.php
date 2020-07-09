@@ -33,7 +33,12 @@
             </div>
         </div>
     </div>
-
+    <script>
+        window.echo = {
+            "port": {{ config('broadcasting.client.port') }},
+            "key": "{{ config('broadcasting.client.key') }}"
+        }
+    </script>
     <script type="text/javascript" src="{{ mix('/backstage/js/manifest.js') }}"></script>
     <script type="text/javascript" src="{{ mix('/backstage/js/vendor.js') }}"></script>
     <script type="text/javascript" src="{{ mix('/app/js/app.js') }}"></script>

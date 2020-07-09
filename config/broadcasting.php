@@ -59,4 +59,9 @@ return [
 
     ],
 
+    'client' => [
+        'port' => env('PUSHER_CLIENT_PORT', 80),
+        'key' => env('PUSHER_APP_KEY'),
+    ]
+
 ];
