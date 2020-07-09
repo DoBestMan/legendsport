@@ -1,10 +1,13 @@
 import { Echo } from "./utils/websockets/Echo";
 
+declare var echo: any;
+
 export default new Echo({
     broadcaster: "pusher",
-    key: "my-secret-random-key",
+    key: echo.key,
     namespace: "",
     wsHost: "ws." + window.location.hostname,
-    wsPort: 80,
+    wsPort: echo.port,
     disableStats: true,
+    enabledTransports: ['ws', 'wss']
 });
