@@ -34,7 +34,7 @@
         </div>
     </div>
     <script>
-        window.echo = {
+        echo = {
             "port": {{ config('broadcasting.client.port') }},
             "key": "{{ config('broadcasting.client.key') }}"
         }
