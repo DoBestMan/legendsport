@@ -1,22 +1,20 @@
 <?php
 namespace App\Tournament;
 
-use App\Betting\TimeStatus;
 use App\Models\ApiEvent;
 use App\Models\TournamentBet;
 use App\Models\TournamentBetEvent;
 use App\Models\TournamentEvent;
-use App\Tournament\Enums\BetStatus;
-use App\Tournament\Evaluation\EvaluatorFactory;
+use Doctrine\ORM\EntityManager;
 use Illuminate\Support\Collection;
 
 class BetEvaluatorService
 {
-    private EvaluatorFactory $evaluatorFactory;
+    private EntityManager $entityManager;
 
-    public function __construct(EvaluatorFactory $evaluatorFactory)
+    public function __construct(EntityManager $entityManager)
     {
-        $this->evaluatorFactory = $evaluatorFactory;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -29,47 +27,38 @@ class BetEvaluatorService
     public function evaluate(ApiEvent $apiEvent): array
     {
         if (!$apiEvent->isFinished()) {
+            $apiEvent->save();
             return [[], []];
         }
 
-        /** @var TournamentBetEvent[]|Collection $betEventsToEvaluate */
-        $betEventsToEvaluate = $apiEvent->tournamentEvents
-            ->flatMap(fn(TournamentEvent $tournamentEvent) => $tournamentEvent->tournamentBetEvents)
-            // Do not evaluate bet if it is graded already.
-            // It means that bet was evaluated before.
-            ->filter(fn(TournamentBetEvent $betEvent) => !$betEvent->tournamentBet->isGraded());
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+        $query = $queryBuilder
+            ->select('te', 'ae')
+            ->from(\App\Domain\TournamentEvent::class, 'te')
+            ->join('te.apiEvent', 'ae')
+            ->where('ae.id = ?1')
+            ->getQuery();
 
-        foreach ($betEventsToEvaluate as $tournamentBetEvent) {
-            $tournamentBetEvent->status = $this->evaluateBetStatus($tournamentBetEvent);
-            $tournamentBetEvent->save();
+        /** @var \App\Domain\TournamentEvent[] $results */
+        $results = $query->setParameter(1, $apiEvent->id)->getResult();
+
+        foreach ($results as $result) {
+            $result->getApiEvent()->sync($apiEvent);
+            $result->evaluate();
         }
 
-        /** @var TournamentBet[]|Collection $betsToAward */
+        $this->entityManager->flush();
+
+        $betEventsToEvaluate = $apiEvent->tournamentEvents
+            ->flatMap(fn(TournamentEvent $tournamentEvent) => $tournamentEvent->tournamentBetEvents)
+            ->map(fn(TournamentBetEvent $tournamentBetEvent) => $tournamentBetEvent->refresh());
+
         $betsToAward = $betEventsToEvaluate
-            // TournamentBet relations are already cached. Let's reload a model,
-            // so that we know its latest state.
             ->map(fn(TournamentBetEvent $betEvent) => $betEvent->tournamentBet->refresh())
             ->filter(fn(TournamentBet $tournamentBet) => $tournamentBet->isAwardable());
 
-        foreach ($betsToAward as $tournamentBet) {
-            $player = $tournamentBet->tournamentPlayer;
-            $player->chips += $tournamentBet->chips_wager + $tournamentBet->chips_win;
-            $player->save();
-        }
+        /** @var TournamentBetEvent[]|Collection $betEventsToEvaluate */
 
         return [$betEventsToEvaluate, $betsToAward];
-    }
-
-    private function evaluateBetStatus(TournamentBetEvent $tournamentBetEvent): BetStatus
-    {
-        $apiEvent = $tournamentBetEvent->tournamentEvent->apiEvent;
-
-        if ($apiEvent->time_status->equals(TimeStatus::CANCELED())) {
-            return BetStatus::PUSH();
-        }
-
-        return $this->evaluatorFactory
-            ->create($tournamentBetEvent->type)
-            ->evaluate($apiEvent, $tournamentBetEvent->handicap);
     }
 }

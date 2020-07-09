@@ -64,12 +64,7 @@ class SportEventResultProcessor
             return;
         }
 
-        [$processedBetEvents, $awardedBets] = $this->databaseManager->transaction(function () use (
-            $apiEvent
-        ) {
-            $apiEvent->save();
-            return $this->betEvaluator->evaluate($apiEvent);
-        });
+        [$processedBetEvents, $awardedBets] = $this->betEvaluator->evaluate($apiEvent);
 
         $this->logger->info("Api event has been updated.", [
             "api_event_id" => $apiEvent->id,

@@ -17,6 +17,7 @@
         "firebase/php-jwt": "^5.2",
         "guzzlehttp/guzzle": "^6.5",
         "laracasts/utilities": "^3.0",
+        "laravel-doctrine/orm": "^1.6",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "league/fractal": "^0.19.2",
