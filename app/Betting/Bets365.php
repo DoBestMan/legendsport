@@ -1,8 +1,11 @@
 <?php
 namespace App\Betting;
 
+use App\Betting\Bet365\Model\Event;
 use App\Models\ApiEvent;
 use Decimal\Decimal;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Psr\Log\LoggerInterface;
@@ -18,35 +21,39 @@ class Bets365 implements BettingProvider
     private Bets365API $api;
     private CacheInterface $cache;
     private LoggerInterface $logger;
+    private EntityManager $entityManager;
 
-    public function __construct(CacheInterface $cache, Bets365API $api, LoggerInterface $logger)
+    public function __construct(CacheInterface $cache, Bets365API $api, LoggerInterface $logger, EntityManager $entityManager)
     {
         $this->api = $api;
         $this->cache = $cache;
         $this->logger = $logger;
+        $this->entityManager = $entityManager;
     }
 
     public function getEvents(int $page): Pagination
     {
-        // 151 - esport
-        $sportId = "151";
+        $perPage = 50;
 
-        $data = $this->api->getUpcomingEvents($sportId, $page);
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('e, l, s, h, a')
+            ->from(Event::class, 'e')
+            ->join('e.home', 'h')
+            ->join('e.away', 'a')
+            ->join('e.league', 'l')
+            ->join('l.sport', 's')
+            ->orderBy('e.time')
+            ->setMaxResults($perPage)
+            ->setFirstResult($perPage * ($page-1));
 
-        $results = collect($data["results"])
-            ->map(
-                fn(array $item) => new SportEvent(
-                    $item["id"],
-                    (int) $item["time"],
-                    $sportId,
-                    $item["home"]["name"],
-                    $item["away"]["name"],
-                    static::PROVIDER_NAME,
-                ),
-            )
-            ->all();
+        $paginator = new Paginator($qb);
+        $results = [];
 
-        return new Pagination($results, $data["pager"]["total"], $data["pager"]["per_page"]);
+        foreach ($paginator as $event) {
+            $results[] = $event->toSportEvent();
+        }
+
+        return new Pagination($results, $paginator->count(), $perPage);
     }
 
     public function getOdds(): array
@@ -215,8 +222,14 @@ class Bets365 implements BettingProvider
 
     public function getSports(): array
     {
-        // https://betsapi.com/docs/GLOSSARY.html#r-sportid
-        return [new Sport("1", "Soccer"), new Sport("151", "E-sports")];
+        $sports = $this->entityManager->getRepository(Bet365\Model\Sport::class)->findBy(['enabled' => true]);
+        $results = [];
+
+        foreach ($sports as $sport) {
+            $results[] = $sport->toSport();
+        }
+
+        return $results;
     }
 
     public function createPreMatchKey(string $eventId): string

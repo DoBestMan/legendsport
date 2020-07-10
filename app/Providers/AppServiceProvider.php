@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Betting\Bet365\Initaliser;
 use App\Betting\Bets365;
 use App\Betting\Bets365API;
 use App\Betting\BettingProvider;
@@ -11,6 +12,8 @@ use App\Services\UserTokenService;
 use App\WebSocket\WebSocketHandler;
 use App\Http\Websockets\Healthcheck;
 use BeyondCode\LaravelWebSockets\WebSockets\WebSocketHandler as BaseWebSocketHandler;
+use Doctrine\ORM\EntityManager;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,6 +31,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(Bets365API::class, function () {
             return new Bets365API(env("BETS365_TOKEN"));
+        });
+
+        $this->app->bind(Initaliser::class, function () {
+            return new Initaliser(env("BETS365_TOKEN"), $this->app->get(EntityManager::class));
         });
 
         $this->app->bind(UserTokenService::class, function () {
