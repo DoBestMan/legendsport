@@ -4,7 +4,7 @@ namespace App\Betting\Bet365\Parser;
 
 use App\Betting\SportEventOdd;
 
-class NoOdds
+class NoOdds extends AbstractParser
 {
     public function parseMainLines(array $apiResult, string $homeTeamName, string $awayTeamName)
     {

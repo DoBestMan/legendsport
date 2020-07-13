@@ -124,21 +124,14 @@ class Bets365 implements BettingProvider
 
                 $parser = new self::$parsers[$apiEvent->sport_id];
 
-                return $parser->parseMainLines($event, $apiEvent->team_home, $apiEvent->team_away);
+                $odds = $parser->parseMainLines($event, $apiEvent->team_home, $apiEvent->team_away);
+                $errors = $parser->getErrors();
+                return $odds;
             })
             ->all();
     }
 
-    public function getAvailableOdds(array $data)
-    {
-        unset($data['event_id'], $data['FI']);
-        $availableOdds = [];
-        foreach ($data as $category => $odds) {
-            $availableOdds[$category] = array_keys($odds['sp']);
-        }
 
-        return $availableOdds;
-    }
 
     public function getResults(): array
     {

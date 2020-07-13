@@ -2,66 +2,52 @@
 
 namespace App\Betting\Bet365\Parser;
 
+use App\Betting\Bet365\Parser\Exception\PathNotFound;
 use App\Betting\SportEventOdd;
-use Decimal\Decimal;
 
-class Soccer
+class Soccer extends AbstractParser
 {
+    protected string $moneyLineTeamField = 'name';
+    protected string $spreadTeamField = 'header';
+    protected string $totalsTypeField = 'header';
+    protected array $moneyLinePath = ['main', 'sp', 'draw_no_bet'];
+    protected array $spreadPath = ['main', 'sp', 'asian_handicap'];
+    protected array $totalsPath = ['main', 'sp', 'goals_over_under'];
+
     public function parseMainLines(array $apiResult, string $homeTeamName, string $awayTeamName)
     {
-        $moneyLineHome = null;
-        $moneyLineAway = null;
-        $pointSpreadHome = null;
-        $pointSpreadAway = null;
-        $pointSpreadHomeLine = null;
-        $pointSpreadAwayLine = null;
-        $overLine = null;
-        $underLine = null;
-        $totalNumber = null;
-
-        $moneyLine = $apiResult['main']['sp']['draw_no_bet'];
-        $spread = $apiResult['main']['sp']['asian_handicap'];
-        $totals = $apiResult['main']['sp']['goals_over_under'];
-
-        foreach ($moneyLine as $item) {
-            $odds = decimal_to_american($item['odds']);
-            if ($this->cmpStr($item['name'], $homeTeamName)) {
-                $moneyLineHome = $odds;
-            }
-
-            if ($this->cmpStr($item['name'], $awayTeamName)) {
-                $moneyLineAway = $odds;
-            }
+        try {
+            $moneyLine = $this->extractOddsGroup($apiResult, $this->moneyLinePath);
+            [$moneyLineHome, $moneyLineAway] = $this->extractMoneyLine(
+                $moneyLine,
+                $homeTeamName,
+                $awayTeamName
+            );
+        } catch (PathNotFound $e) {
+            $moneyLineHome = $moneyLineAway = null;
+            $this->errors[] = ['Money line not found', ['path' => $this->moneyLinePath, 'availableOdds' => $this->getAvailableOdds($apiResult)]];
         }
 
-        foreach ($spread as $item) {
-            $odds = decimal_to_american($item['odds']);
-            $handicap = new Decimal($item['handicap']);
-
-            if ($item['header'] === '1') {
-                $pointSpreadHome = $odds;
-                $pointSpreadHomeLine = $handicap;
-            }
-
-            if ($item['header'] === '2') {
-                $pointSpreadAway = $odds;
-                $pointSpreadAwayLine = $handicap;
-            }
+        try {
+            $spread = $this->extractOddsGroup($apiResult, $this->spreadPath);
+            [$pointSpreadHome, $pointSpreadHomeLine, $pointSpreadAway, $pointSpreadAwayLine] = $this->extractSpread(
+                $spread,
+                '1',
+                '2'
+            );
+        } catch (PathNotFound $e) {
+            $pointSpreadHome = $pointSpreadHomeLine = $pointSpreadAway = $pointSpreadAwayLine = null;
+            $this->errors[] = ['Spread not found', ['path' => $this->spreadPath, 'availableOdds' => $this->getAvailableOdds($apiResult)]];
         }
 
-        foreach ($totals as $item) {
-            $odds = decimal_to_american($item['odds']);
-            $handicap = new Decimal($item['handicap']);
-
-            if ($item['header'] === 'Over') {
-                $overLine = $odds;
-                $totalNumber = $handicap;
-            }
-
-            if ($item['header'] === 'Under') {
-                $underLine = $odds;
-                $totalNumber = $handicap;
-            }
+        try {
+            $totals = $this->extractOddsGroup($apiResult, $this->totalsPath);
+            [$overLine, $totalNumber, $underLine] = $this->extractTotals(
+                $totals
+            );
+        } catch (PathNotFound $e) {
+            $overLine = $totalNumber = $underLine = null;
+            $this->errors[] = ['Totals not found', ['path' => $this->totalsPath, 'availableOdds' => $this->getAvailableOdds($apiResult)]];
         }
 
         return new SportEventOdd(
@@ -76,10 +62,5 @@ class Soccer
             $underLine,
             $totalNumber,
         );
-    }
-
-    private function cmpStr(string $a, string $b): bool
-    {
-        return strtolower(trim($a)) === strtolower(trim($b));
     }
 }
