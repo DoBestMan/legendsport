@@ -2,6 +2,13 @@
 namespace App\Betting;
 
 use App\Betting\Bet365\Model\Event;
+use App\Betting\Bet365\Parser\AmericanFootball;
+use App\Betting\Bet365\Parser\Baseball;
+use App\Betting\Bet365\Parser\BasketBall;
+use App\Betting\Bet365\Parser\IceHockey;
+use App\Betting\Bet365\Parser\NoOdds;
+use App\Betting\Bet365\Parser\Soccer;
+use App\Betting\Bet365\Parser\Tennis;
 use App\Models\ApiEvent;
 use Decimal\Decimal;
 use Doctrine\ORM\EntityManager;
@@ -17,6 +24,15 @@ class Bets365 implements BettingProvider
     private const PREMATCH_CACHE_TTL = 12 * 60 * 60;
 
     const PROVIDER_NAME = "bet365";
+
+    private static array $parsers = [
+        1  => Soccer::class,
+        12 => AmericanFootball::class,
+        13 => Tennis::class,
+        16 => Baseball::class,
+        17 => IceHockey::class,
+        18 => BasketBall::class,
+    ];
 
     private Bets365API $api;
     private CacheInterface $cache;
@@ -99,75 +115,29 @@ class Bets365 implements BettingProvider
         return collect($preMatchOdds)
             ->map(function (array $event) use ($apiEventDict) {
                 $eventId = $event["FI"];
-                $matchLine = Arr::get($event, "main.sp.match_lines") ?? [];
-
                 /** @var ApiEvent $apiEvent */
                 $apiEvent = $apiEventDict[$eventId];
 
-                $moneyLineHome = null;
-                $moneyLineAway = null;
-                $pointSpreadHome = null;
-                $pointSpreadAway = null;
-                $pointSpreadHomeLine = null;
-                $pointSpreadAwayLine = null;
-                $overLine = null;
-                $underLine = null;
-                $totalNumber = null;
-
-                foreach ($matchLine as $item) {
-                    $teamName = Arr::get($item, "header");
-                    $type = Arr::get($item, "name");
-                    $odds = decimal_to_american(Arr::get($item, "odds"));
-
-                    if ($odds === null) {
-                        continue;
-                    }
-
-                    if ($type === "To Win") {
-                        if ($this->cmpStr($teamName, $apiEvent->team_home)) {
-                            $moneyLineHome = $odds;
-                        }
-
-                        if ($this->cmpStr($teamName, $apiEvent->team_away)) {
-                            $moneyLineAway = $odds;
-                        }
-                    } elseif ($type === "Handicap") {
-                        if ($this->cmpStr($teamName, $apiEvent->team_home)) {
-                            $pointSpreadHome = $odds;
-                            $pointSpreadHomeLine = new Decimal($item["handicap"]);
-                        }
-
-                        if ($this->cmpStr($teamName, $apiEvent->team_away)) {
-                            $pointSpreadAway = $odds;
-                            $pointSpreadAwayLine = new Decimal($item["handicap"]);
-                        }
-                    } elseif ($type === "Total Maps") {
-                        if ($this->cmpStr($teamName, $apiEvent->team_home)) {
-                            $overLine = $odds;
-                            $totalNumber = new Decimal($item["handicap"]);
-                        }
-
-                        if ($this->cmpStr($teamName, $apiEvent->team_away)) {
-                            $underLine = $odds;
-                            $totalNumber = new Decimal($item["handicap"]);
-                        }
-                    }
+                if (!isset(self::$parsers[$apiEvent->sport_id])) {
+                    return new SportEventOdd($eventId);
                 }
 
-                return new SportEventOdd(
-                    $eventId,
-                    $moneyLineHome,
-                    $moneyLineAway,
-                    $pointSpreadHome,
-                    $pointSpreadAway,
-                    $pointSpreadHomeLine,
-                    $pointSpreadAwayLine,
-                    $overLine,
-                    $underLine,
-                    $totalNumber,
-                );
+                $parser = new self::$parsers[$apiEvent->sport_id];
+
+                return $parser->parseMainLines($event, $apiEvent->team_home, $apiEvent->team_away);
             })
             ->all();
+    }
+
+    public function getAvailableOdds(array $data)
+    {
+        unset($data['event_id'], $data['FI']);
+        $availableOdds = [];
+        foreach ($data as $category => $odds) {
+            $availableOdds[$category] = array_keys($odds['sp']);
+        }
+
+        return $availableOdds;
     }
 
     public function getResults(): array

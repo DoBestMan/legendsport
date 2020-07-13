@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Http;
 
 class Initaliser
 {
-    private string $token;
     private static array $sports = [
         1 => ['name' => 'Soccer', 'enabled' => true],
         13 => ['name' => 'Tennis', 'enabled' => true],
@@ -38,11 +37,8 @@ class Initaliser
         95 => ['name' => 'Beach Volleyball', 'enabled' => false],
         107 => ['name' => 'Squash', 'enabled' => false],
     ];
-    /** @var Sport[] */
-    private array $sportEntities = [];
-    /**
-     * @var EntityManager
-     */
+
+    private string $token;
     private EntityManager $entityManager;
 
     public function __construct(string $token, EntityManager $entityManager)
@@ -110,7 +106,7 @@ class Initaliser
                 $league = $datum['league'];
                 if (!isset($leagues[$league['id']])) {
 
-                    $leagueEntity = $event = $this->entityManager->find(League::class, $league['id']);
+                    $leagueEntity = $this->entityManager->find(League::class, $league['id']);
 
                     if ($leagueEntity !== null) {
                         $leagues[$league['id']] = $leagueEntity;
@@ -153,21 +149,8 @@ class Initaliser
                     continue;
                 }
 
-                if (isset($teams[$datum['home']['id']])) {
-                    $home = $teams[$datum['home']['id']];
-                } else {
-                    $home = new Team($datum['home']['id'], $datum['home']['name']);
-                    $teams[$datum['home']['id']] = $home;
-                    $this->entityManager->persist($home);
-                }
-
-                if (isset($teams[$datum['away']['id']])) {
-                    $away = $teams[$datum['away']['id']];
-                } else {
-                    $away = new Team($datum['away']['id'], $datum['away']['name']);
-                    $teams[$datum['away']['id']] = $away;
-                    $this->entityManager->persist($away);
-                }
+                $home = $this->getTeam($teams, $datum['home']);
+                $away = $this->getTeam($teams, $datum['away']);
 
                 $event = new Event($datum['id'], $datum['time'], $league, $home, $away);
                 $this->entityManager->persist($event);
@@ -183,5 +166,21 @@ class Initaliser
     private function morePages(array $pager): bool
     {
         return $pager['per_page'] * $pager['page'] < $pager['total'];
+    }
+
+    private function getTeam(array &$teams, $teamData): Team
+    {
+        if (isset($teams[$teamData['id']])) {
+            $home = $teams[$teamData['id']];
+        } else {
+            $home = $this->entityManager->find(Team::class, $teamData['id']);
+            if ($home === null) {
+                $home = new Team($teamData['id'], $teamData['name']);
+                $teams[$teamData['id']] = $home;
+                $this->entityManager->persist($home);
+            }
+        }
+
+        return $home;
     }
 }
