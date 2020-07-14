@@ -13,7 +13,6 @@ use App\WebSocket\WebSocketHandler;
 use App\Http\Websockets\Healthcheck;
 use BeyondCode\LaravelWebSockets\WebSockets\WebSocketHandler as BaseWebSocketHandler;
 use Doctrine\ORM\EntityManager;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

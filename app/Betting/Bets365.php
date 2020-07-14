@@ -131,8 +131,6 @@ class Bets365 implements BettingProvider
             ->all();
     }
 
-
-
     public function getResults(): array
     {
         $apiEvents = ApiEvent::notFinished()
