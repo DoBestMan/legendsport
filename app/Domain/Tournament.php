@@ -132,4 +132,9 @@ class Tournament
      * @ORM\Column(name="completed_at", type="datetime", nullable=true)
      */
     private $completedAt;
+
+    /** @ORM\Column(name="bots", type="json", nullable=true) */
+    private $bots;
+    /** @ORM\Column(name="bots_registered", type="integer") */
+    private $botsRegistered = 0;
 }

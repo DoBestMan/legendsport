@@ -26,6 +26,10 @@
                 :prize-pool.sync="prizePool"
                 :prize-pool-value.sync="prizePoolValue"
                 :state.sync="state"
+                :min-bots="minBots"
+                :max-bots="maxBots"
+                :add-bots="addBots"
+                :player-bots="playerBots"
             ></tournament-form>
         </fieldset>
 

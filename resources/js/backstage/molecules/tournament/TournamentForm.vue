@@ -334,6 +334,111 @@
                     </div>
                 </div>
             </div>
+
+            <div id="bots" class="form-row form-group">
+                <div class="col-3 text-right">
+                    <label for="min_bots" class="col-form-label">Bot players</label>
+                </div>
+                <div class="col-12 col-lg-2">
+                    <input
+                        id="min_bots"
+                        name="bots['min']"
+                        type="number"
+                        :class="[
+                                errors['min_bots.value']
+                                    ? 'form-control is-invalid'
+                                    : 'form-control',
+                            ]"
+                        :value="minBots"
+                        @input="$emit('update:minBots', $event.target.value)"
+                        min="0"
+                        required
+                    />
+
+
+                    <div v-if="errors['min_bots.value']" class="invalid-feedback">
+                        {{ errors["min_bots.value"]["0"] }}
+                    </div>
+                </div>
+                <div class="col-2 text-left">
+                    <label for="min_bots" class="col-form-label">Min</label>
+                </div>
+
+                <div class="col-12 col-lg-2">
+                    <input
+                        name="bots['max']"
+                        type="number"
+                        :class="[
+                                errors['max_bots.value']
+                                    ? 'form-control is-invalid'
+                                    : 'form-control',
+                            ]"
+                        :value="maxBots"
+                        @input="$emit('update:maxBots', $event.target.value)"
+                        min="0"
+                        required
+                    />
+
+
+                    <div v-if="errors['max_bots.value']" class="invalid-feedback">
+                        {{ errors["max_bots.value"]["0"] }}
+                    </div>
+                </div>
+                <div class="col-1 text-left">
+                    <label for="min_bots" class="col-form-label">Max</label>
+                </div>
+            </div>
+            <div id="" class="form-row form-group">
+                <div class="col-3 text-right">
+                    <label for="add_bots" class="col-form-label">Add</label>
+                </div>
+                <div class="col-12 col-lg-2">
+                    <input
+                        id="add_bots"
+                        name="bots['add']"
+                        type="number"
+                        :class="[
+                                errors['add_bots.value']
+                                    ? 'form-control is-invalid'
+                                    : 'form-control',
+                            ]"
+                        :value="addBots"
+                        @input="$emit('update:addBots', $event.target.value)"
+                        min="0"
+                        required
+                    />
+
+                    <div v-if="errors['add_bots.value']" class="invalid-feedback">
+                        {{ errors["add_bots.value"]["0"] }}
+                    </div>
+                </div>
+                <div class="col-2 text-center">
+                    <label for="player_bots" class="col-form-label">bots for every</label>
+                </div>
+                <div class="col-12 col-lg-2">
+                    <input
+                        id="player_bots"
+                        name="bots['player']"
+                        type="number"
+                        :class="[
+                                errors['player_bots.value']
+                                    ? 'form-control is-invalid'
+                                    : 'form-control',
+                            ]"
+                        :value="playerBots"
+                        @input="$emit('update:playerBots', $event.target.value)"
+                        min="1"
+                        required
+                    />
+
+                    <div v-if="errors['player_bots.value']" class="invalid-feedback">
+                        {{ errors["player_bots.value"]["0"] }}
+                    </div>
+                </div>
+                <div class="col-1 text-right">
+                    <label for="player_bots" class="col-form-label">players</label>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -360,6 +465,10 @@ export default Vue.extend({
         "state",
         "timeFrame",
         "errors",
+        "minBots",
+        "maxBots",
+        "addBots",
+        "playerBots"
     ],
 
     data() {
