@@ -20,29 +20,9 @@ class LoadEvents extends Command
      * @var string
      */
     protected $description = 'Loads bet365 sport id\'s into the database. Should only be called once' ;
-    /**
-     * @var Initaliser
-     */
-    private Initaliser $client;
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct(Initaliser $client)
+    public function handle(Initaliser $client)
     {
-        parent::__construct();
-        $this->client = $client;
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle()
-    {
-        $this->client->loadAllEvents();
+        $client->loadAllEvents();
     }
 }
