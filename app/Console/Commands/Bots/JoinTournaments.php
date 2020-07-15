@@ -24,27 +24,15 @@ class JoinTournaments extends Command
      * @var string
      */
     protected $description = 'Gets bots to join tournaments' ;
-    private BotDirector $botDirector;
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct(BotDirector $botDirector)
-    {
-        parent::__construct();
-        $this->botDirector = $botDirector;
-    }
 
     /**
      * Execute the console command.
      *
      * @return mixed
      */
-    public function handle(Dispatcher $dispatcher)
+    public function handle(Dispatcher $dispatcher, BotDirector $botDirector)
     {
-        $tournamentsAffected = $this->botDirector->joinTournaments();
+        $tournamentsAffected = $botDirector->joinTournaments();
 
         $affectedTournaments = Tournament::whereIn('id', $tournamentsAffected)->get();
 
