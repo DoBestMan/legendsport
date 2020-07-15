@@ -2,6 +2,7 @@
 
 namespace App\Domain;
 
+use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,54 +14,66 @@ use Doctrine\ORM\Mapping as ORM;
 class TournamentPlayer
 {
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="bigint", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
-
+    private int $id;
+    /** @ORM\Column(name="chips", type="integer", nullable=false, options={"unsigned"=true}) */
+    private int $chips;
+    /** @ORM\Column(name="created_at", type="datetime", nullable=true) */
+    private ?\DateTime $createdAt;
+    /** @ORM\Column(name="updated_at", type="datetime", nullable=true) */
+    private ?\DateTime $updatedAt;
     /**
-     * @var int
-     *
-     * @ORM\Column(name="chips", type="integer", nullable=false, options={"unsigned"=true})
+     * @ORM\ManyToOne(targetEntity="App\Domain\Tournament", inversedBy="players")
+     * @ORM\JoinColumn(name="tournament_id", referencedColumnName="id")
      */
-    private $chips;
-
+    private Tournament $tournament;
     /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Domain\User", inversedBy="tournaments")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $createdAt;
+    private User $user;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
-     */
-    private $updatedAt;
+    public function __construct(Tournament $tournament, User $user, int $chips)
+    {
+        $this->chips = $chips;
+        $this->tournament = $tournament;
+        $this->user = $user;
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = Carbon::now();
+    }
 
-    /**
-     * @var Tournament
-     *
-     * @ORM\ManyToOne(targetEntity="App\Domain\Tournament")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="tournament_id", referencedColumnName="id")
-     * })
-     */
-    private $tournament;
+    public function getUser(): User
+    {
+        return $this->user;
+    }
 
-    /**
-     * @var User
-     *
-     * @ORM\ManyToOne(targetEntity="App\Domain\User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * })
-     */
-    private $user;
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getChips(): int
+    {
+        return $this->chips;
+    }
+
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    public function getTournament(): Tournament
+    {
+        return $this->tournament;
+    }
 
     public function addChips(int $chips): void
     {

@@ -2,6 +2,9 @@
 
 namespace App\Domain;
 
+use Carbon\Carbon;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,6 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="users", uniqueConstraints={@ORM\UniqueConstraint(name="users_email_unique", columns={"email"}), @ORM\UniqueConstraint(name="users_name_unique", columns={"name"})})
  * @ORM\Entity
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="is_bot", type="integer")
+ * @ORM\DiscriminatorMap({
+ *     1: "App\Domain\Bot",
+ *     0: "App\Domain\User",
+ * })
  */
 class User
 {
@@ -54,7 +63,7 @@ class User
      *
      * @ORM\Column(name="balance", type="integer", nullable=false, options={"unsigned"=true})
      */
-    private $balance;
+    private $balance = 0;
 
     /**
      * @var string|null
@@ -76,6 +85,19 @@ class User
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
+    /**
+     * @ORM\OneToMany(targetEntity="\App\Domain\TournamentPlayer", mappedBy="user")
+     */
+    private Collection $tournaments;
 
+    public function __construct(string $name, string $email, string $password)
+    {
+        $this->name = $name;
+        $this->email = $email;
+        $this->password = $password;
+        $this->tournaments = new ArrayCollection();
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = Carbon::now();
+    }
 
 }
