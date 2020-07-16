@@ -1,8 +1,18 @@
 <?php
 namespace App\Betting;
 
+use App\Betting\Bet365\Model\Event;
+use App\Betting\Bet365\Parser\AmericanFootball;
+use App\Betting\Bet365\Parser\Baseball;
+use App\Betting\Bet365\Parser\BasketBall;
+use App\Betting\Bet365\Parser\IceHockey;
+use App\Betting\Bet365\Parser\NoOdds;
+use App\Betting\Bet365\Parser\Soccer;
+use App\Betting\Bet365\Parser\Tennis;
 use App\Models\ApiEvent;
 use Decimal\Decimal;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Psr\Log\LoggerInterface;
@@ -15,38 +25,51 @@ class Bets365 implements BettingProvider
 
     const PROVIDER_NAME = "bet365";
 
+    private static array $parsers = [
+        1  => Soccer::class,
+        12 => AmericanFootball::class,
+        13 => Tennis::class,
+        16 => Baseball::class,
+        17 => IceHockey::class,
+        18 => BasketBall::class,
+    ];
+
     private Bets365API $api;
     private CacheInterface $cache;
     private LoggerInterface $logger;
+    private EntityManager $entityManager;
 
-    public function __construct(CacheInterface $cache, Bets365API $api, LoggerInterface $logger)
+    public function __construct(CacheInterface $cache, Bets365API $api, LoggerInterface $logger, EntityManager $entityManager)
     {
         $this->api = $api;
         $this->cache = $cache;
         $this->logger = $logger;
+        $this->entityManager = $entityManager;
     }
 
     public function getEvents(int $page): Pagination
     {
-        // 151 - esport
-        $sportId = "151";
+        $perPage = 50;
 
-        $data = $this->api->getUpcomingEvents($sportId, $page);
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('e, l, s, h, a')
+            ->from(Event::class, 'e')
+            ->join('e.home', 'h')
+            ->join('e.away', 'a')
+            ->join('e.league', 'l')
+            ->join('l.sport', 's')
+            ->orderBy('e.time')
+            ->setMaxResults($perPage)
+            ->setFirstResult($perPage * ($page-1));
 
-        $results = collect($data["results"])
-            ->map(
-                fn(array $item) => new SportEvent(
-                    $item["id"],
-                    (int) $item["time"],
-                    $sportId,
-                    $item["home"]["name"],
-                    $item["away"]["name"],
-                    static::PROVIDER_NAME,
-                ),
-            )
-            ->all();
+        $paginator = new Paginator($qb);
+        $results = [];
 
-        return new Pagination($results, $data["pager"]["total"], $data["pager"]["per_page"]);
+        foreach ($paginator as $event) {
+            $results[] = $event->toSportEvent();
+        }
+
+        return new Pagination($results, $paginator->count(), $perPage);
     }
 
     public function getOdds(): array
@@ -92,73 +115,18 @@ class Bets365 implements BettingProvider
         return collect($preMatchOdds)
             ->map(function (array $event) use ($apiEventDict) {
                 $eventId = $event["FI"];
-                $matchLine = Arr::get($event, "main.sp.match_lines") ?? [];
-
                 /** @var ApiEvent $apiEvent */
                 $apiEvent = $apiEventDict[$eventId];
 
-                $moneyLineHome = null;
-                $moneyLineAway = null;
-                $pointSpreadHome = null;
-                $pointSpreadAway = null;
-                $pointSpreadHomeLine = null;
-                $pointSpreadAwayLine = null;
-                $overLine = null;
-                $underLine = null;
-                $totalNumber = null;
-
-                foreach ($matchLine as $item) {
-                    $teamName = Arr::get($item, "header");
-                    $type = Arr::get($item, "name");
-                    $odds = decimal_to_american(Arr::get($item, "odds"));
-
-                    if ($odds === null) {
-                        continue;
-                    }
-
-                    if ($type === "To Win") {
-                        if ($this->cmpStr($teamName, $apiEvent->team_home)) {
-                            $moneyLineHome = $odds;
-                        }
-
-                        if ($this->cmpStr($teamName, $apiEvent->team_away)) {
-                            $moneyLineAway = $odds;
-                        }
-                    } elseif ($type === "Handicap") {
-                        if ($this->cmpStr($teamName, $apiEvent->team_home)) {
-                            $pointSpreadHome = $odds;
-                            $pointSpreadHomeLine = new Decimal($item["handicap"]);
-                        }
-
-                        if ($this->cmpStr($teamName, $apiEvent->team_away)) {
-                            $pointSpreadAway = $odds;
-                            $pointSpreadAwayLine = new Decimal($item["handicap"]);
-                        }
-                    } elseif ($type === "Total Maps") {
-                        if ($this->cmpStr($teamName, $apiEvent->team_home)) {
-                            $overLine = $odds;
-                            $totalNumber = new Decimal($item["handicap"]);
-                        }
-
-                        if ($this->cmpStr($teamName, $apiEvent->team_away)) {
-                            $underLine = $odds;
-                            $totalNumber = new Decimal($item["handicap"]);
-                        }
-                    }
+                if (!isset(self::$parsers[$apiEvent->sport_id])) {
+                    return new SportEventOdd($eventId);
                 }
 
-                return new SportEventOdd(
-                    $eventId,
-                    $moneyLineHome,
-                    $moneyLineAway,
-                    $pointSpreadHome,
-                    $pointSpreadAway,
-                    $pointSpreadHomeLine,
-                    $pointSpreadAwayLine,
-                    $overLine,
-                    $underLine,
-                    $totalNumber,
-                );
+                $parser = new self::$parsers[$apiEvent->sport_id];
+
+                $odds = $parser->parseMainLines($event, $apiEvent->team_home, $apiEvent->team_away);
+                $errors = $parser->getErrors();
+                return $odds;
             })
             ->all();
     }
@@ -215,8 +183,14 @@ class Bets365 implements BettingProvider
 
     public function getSports(): array
     {
-        // https://betsapi.com/docs/GLOSSARY.html#r-sportid
-        return [new Sport("1", "Soccer"), new Sport("151", "E-sports")];
+        $sports = $this->entityManager->getRepository(Bet365\Model\Sport::class)->findBy(['enabled' => true]);
+        $results = [];
+
+        foreach ($sports as $sport) {
+            $results[] = $sport->toSport();
+        }
+
+        return $results;
     }
 
     public function createPreMatchKey(string $eventId): string
