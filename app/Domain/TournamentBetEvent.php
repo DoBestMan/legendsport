@@ -3,6 +3,7 @@
 namespace App\Domain;
 
 use App\Tournament\Enums\BetStatus;
+use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -44,7 +45,7 @@ abstract class TournamentBetEvent
      *
      * @ORM\Column(name="status", type="string", length=255, nullable=false)
      */
-    private $status;
+    private $status = 'pending';
 
     /**
      * @var \DateTime|null
@@ -86,6 +87,17 @@ abstract class TournamentBetEvent
      * })
      */
     private $tournamentEvent;
+
+    public function __construct(TournamentEvent $tournamentEvent, TournamentBet $tournamentBet, ApiEventOdds $odds)
+    {
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = Carbon::now();
+        $this->tournamentEvent = $tournamentEvent;
+        $this->tournamentBet = $tournamentBet;
+        $this->odd = $odds->getOdds();
+        $this->handicap = $odds->getHandicap();
+        $tournamentBet->addEvent($this);
+    }
 
     public function getId(): int
     {

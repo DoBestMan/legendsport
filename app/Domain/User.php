@@ -100,4 +100,10 @@ class User
         $this->updatedAt = Carbon::now();
     }
 
+    public function getTournamentPlayer(Tournament $tournament): ?TournamentPlayer
+    {
+        return $this->tournaments->filter(function (TournamentPlayer $tournamentPlayer) use ($tournament) {
+            return $tournamentPlayer->getTournament()->getId() === $tournament->getId();
+        })->first() ?: null;
+    }
 }

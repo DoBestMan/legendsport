@@ -236,4 +236,14 @@ class ApiEvent
             $moneyLineAway->update($odds->getOverLine(), $odds->getTotalNumber());
         }
     }
+
+    public function getOddTypes(): array
+    {
+        return array_keys($this->odds->toArray());
+    }
+
+    public function getOdds(string $betType): ?ApiEventOdds
+    {
+        return $this->odds->get($betType);
+    }
 }

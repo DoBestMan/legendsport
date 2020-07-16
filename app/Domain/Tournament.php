@@ -58,10 +58,15 @@ class Tournament
     private int $botsRegistered = 0;
     /** @ORM\OneToMany(targetEntity="\App\Domain\TournamentPlayer", mappedBy="tournament", fetch="EXTRA_LAZY", cascade={"ALL"}) */
     private Collection $players;
+    /** @ORM\OneToMany(targetEntity="\App\Domain\TournamentEvent", mappedBy="tournament") */
+    private Collection $events;
+    /** @ORM\OneToMany(targetEntity="\App\Domain\TournamentBet", mappedBy="tournament", cascade={"ALL"}) */
+    private Collection $bets;
 
     public function __construct()
     {
         $this->players = new ArrayCollection();
+        $this->bets = new ArrayCollection();
     }
 
     public function getId(): int
@@ -162,6 +167,20 @@ class Tournament
     public function getPlayers()
     {
         return $this->players;
+    }
+
+    public function getEvents(): Collection
+    {
+        return new ArrayCollection($this->events->toArray());
+    }
+
+    public function placeStraightBet(TournamentPlayer $tournamentPlayer, TournamentEvent $event, string $betType, int $wager): void
+    {
+        $tournamentPlayer->reduceChips($wager);
+        $bet = new TournamentBet($this, $tournamentPlayer, $wager);
+        new $betType($event, $bet, $event->getApiEvent()->getOdds($betType));
+
+        $this->bets->add($bet);
     }
 
     /**

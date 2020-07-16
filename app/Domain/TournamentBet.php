@@ -3,6 +3,8 @@
 namespace App\Domain;
 
 use App\Tournament\Enums\BetStatus;
+use Carbon\Carbon;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,59 +17,44 @@ use Doctrine\ORM\Mapping as ORM;
 class TournamentBet
 {
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="bigint", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
-
+    private int $id;
+    /** @ORM\Column(name="chips_wager", type="integer", nullable=false) */
+    private int $chipsWager;
+    /** @ORM\Column(name="created_at", type="datetime", nullable=true) */
+    private ?\DateTime $createdAt;
+    /** @ORM\Column(name="updated_at", type="datetime", nullable=true) */
+    private ?\DateTime $updatedAt;
     /**
-     * @var int
-     *
-     * @ORM\Column(name="chips_wager", type="integer", nullable=false)
-     */
-    private $chipsWager;
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
-     */
-    private $createdAt;
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
-     */
-    private $updatedAt;
-
-    /**
-     * @var Tournament
-     *
      * @ORM\ManyToOne(targetEntity="App\Domain\Tournament")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="tournament_id", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(name="tournament_id", referencedColumnName="id")
      */
-    private $tournament;
-
+    private Tournament $tournament;
     /**
-     * @var TournamentPlayer
-     *
      * @ORM\ManyToOne(targetEntity="App\Domain\TournamentPlayer")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="tournament_player_id", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(name="tournament_player_id", referencedColumnName="id")
      */
-    private $tournamentPlayer;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Domain\TournamentBetEvent", mappedBy="tournamentBet")
-     */
+    private TournamentPlayer $tournamentPlayer;
+    /** @ORM\OneToMany(targetEntity="App\Domain\TournamentBetEvent", mappedBy="tournamentBet", cascade={"ALL"}) */
     private Collection $events;
+
+    public function __construct(Tournament $tournament, TournamentPlayer $tournamentPlayer, int $wager)
+    {
+        $this->tournament = $tournament;
+        $this->tournamentPlayer = $tournamentPlayer;
+        $this->chipsWager = $wager;
+        $this->events = new ArrayCollection();
+        $this->createdAt = Carbon::now();
+        $this->updatedAt = Carbon::now();
+    }
+
+    public function addEvent(TournamentBetEvent $event): void
+    {
+        $this->events->add($event);
+    }
 
     public function getId(): int
     {

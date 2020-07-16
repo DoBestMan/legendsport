@@ -79,4 +79,9 @@ class TournamentPlayer
     {
         $this->chips += $chips;
     }
+
+    public function reduceChips(int $chips): void
+    {
+        $this->chips -= $chips;
+    }
 }

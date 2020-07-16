@@ -37,6 +37,41 @@ class ApiEventOdds
         $this->updatedAt = Carbon::now();
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getBetType(): string
+    {
+        return $this->betType;
+    }
+
+    public function getOdds(): int
+    {
+        return $this->odds;
+    }
+
+    public function getHandicap(): ?Decimal
+    {
+        return $this->handicap;
+    }
+
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    public function getEvent(): ApiEvent
+    {
+        return $this->event;
+    }
+
     public function update(int $odds, ?Decimal $handicap = null): void
     {
         if ($this->odds !== $odds || $this->handicap !== $handicap) {

@@ -42,11 +42,29 @@ class BotFinder
         $bots = [];
         srand(random_int(0, \PHP_INT_MAX));
         for ($i=0; $i<$botsToCreate; $i++) {
-            $bot = Bot::create($this->faker->name);
+            $bot = Bot::create($this->faker->userName);
             $this->entityManager->persist($bot);
             $bots[] = $bot;
         }
 
         return $bots;
+    }
+
+    public function withChipsLeft(Tournament $tournament)
+    {
+        $in = $this->entityManager->createQueryBuilder();
+        $in->select('b.id')
+            ->from(Bot::class, 'b')
+            ->join('b.tournaments', 'tp', Expr\Join::WITH, 'tp.chips > 100')
+            ->join('tp.tournament', 't', Expr\Join::WITH, 't.id = ?1');
+
+        $qb = $this->entityManager->createQueryBuilder();
+        $qb->select('bot')
+            ->from(Bot::class, 'bot')
+            ->where($qb->expr()->in('bot.id', $in->getDQL()))
+            ->setParameter(1, $tournament->getId())
+            ->setMaxResults(100);
+
+        return $qb->getQuery()->execute();
     }
 }
