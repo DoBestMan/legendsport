@@ -5,11 +5,18 @@ namespace App\Betting;
 use App\Models\ApiEvent;
 use Carbon\Carbon;
 use Decimal\Decimal;
+use Doctrine\ORM\EntityManager;
 use Illuminate\Support\Collection;
 
 class TestData implements BettingProvider
 {
     const PROVIDER_NAME = "testdata";
+    private EntityManager $entityManager;
+
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
     public function getEvents(int $page): Pagination
     {
@@ -39,18 +46,21 @@ class TestData implements BettingProvider
      */
     public function getOdds(): array
     {
-        /** @var ApiEvent[]|Collection $apiEventDict */
-        $apiEventDict = ApiEvent::query()
-            ->where("provider", static::PROVIDER_NAME)
-            ->where("time_status", TimeStatus::NOT_STARTED())
-            ->get();
+        /** @var \App\Domain\ApiEvent[]|Collection $apiEventDict */
+        $qb = $this->entityManager->createQueryBuilder();
+        $apiEventDict = $qb->select('a')
+            ->from(\App\Domain\ApiEvent::class, 'a')
+            ->where($qb->expr()->eq('a.provider', '?1'))
+            ->andWhere($qb->expr()->eq('a.timeStatus', '?2'))
+            ->getQuery()
+            ->execute([1 => static::PROVIDER_NAME, 2 => TimeStatus::NOT_STARTED()->getValue()]);
 
         $odds = [];
 
         foreach ($apiEventDict as $item) {
-            srand($item->api_id);
-            $odds[] = new SportEventOdd(
-                $item->api_id,
+            srand($item->getApiId());
+            $odd = new SportEventOdd(
+                $item->getApiId(),
                 rand(-200, 500),
                 rand(-200, 500),
                 rand(-200, 500),
@@ -61,7 +71,11 @@ class TestData implements BettingProvider
                 rand(-200, 500),
                 new Decimal((string) (((int) rand(1, 5)) + .5))
             );
+            $item->updateOdds($odd);
+            $odds[] = $odd;
         }
+
+        $this->entityManager->flush();
 
         return $odds;
     }
