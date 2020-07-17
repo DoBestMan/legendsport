@@ -7,7 +7,7 @@ services:
         volumes:
             - ./:/var/www
         ports:
-            - "80:80"
+            - "8086:80"
         links:
             - app
 
@@ -51,6 +51,15 @@ services:
 
     database:
         image: mysql:8
+        ports:
+          - "3306:3306"
         environment:
             - "MYSQL_ROOT_PASSWORD=secret"
             - "MYSQL_DATABASE=legendsports"
+
+    node:
+      image: node:14.4.0-alpine3.12
+      volumes:
+        - ./:/app
+      working_dir: "/app"
+      command: ["/bin/sh", "-c", "yarn dev --watch"]
