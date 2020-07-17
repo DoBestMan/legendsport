@@ -161,7 +161,11 @@ resource "kubernetes_service" "nginx_ingress_service" {
 
         annotations = {
             "cloud.google.com/neg" = "{\"ingress\": true}"
+            "cloud.google.com/neg-status" = ""
         }
+    }
+    lifecycle {
+        ignore_changes = [metadata.0.annotations["cloud.google.com/neg-status"]]
     }
     spec {
         type = "ClusterIP"

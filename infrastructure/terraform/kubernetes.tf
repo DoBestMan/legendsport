@@ -26,6 +26,45 @@ resource "kubernetes_namespace" "production" {
     }
 }
 
+resource "kubernetes_secret" "qa_sql_credentials" {
+
+    metadata {
+        namespace = kubernetes_namespace.qa.metadata[0].name
+        name = "db-credentials"
+    }
+
+    data = {
+        username = google_sql_user.qa.name
+        password = google_sql_user.qa.password
+    }
+}
+
+resource "kubernetes_secret" "staging_sql_credentials" {
+
+    metadata {
+        namespace = kubernetes_namespace.staging.metadata[0].name
+        name = "db-credentials"
+    }
+
+    data = {
+        username = google_sql_user.staging.name
+        password = google_sql_user.staging.password
+    }
+}
+
+resource "kubernetes_secret" "production_sql_credentials" {
+
+    metadata {
+        namespace = kubernetes_namespace.production.metadata[0].name
+        name = "db-credentials"
+    }
+
+    data = {
+        username = google_sql_user.production.name
+        password = google_sql_user.production.password
+    }
+}
+
 module "nginx-ingress-controller" {
     source = "./ingress-controller"
 }
