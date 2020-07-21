@@ -10,7 +10,7 @@ spec:
     - hosts:
         - ######DOMAIN_NAME######
         - backstage.######DOMAIN_NAME######
-    secretName: ######NAMESPACE######-web-tls
+    - secretName: ######NAMESPACE######-web-tls
   rules:
     - host: ######DOMAIN_NAME######
       http:
@@ -38,7 +38,7 @@ spec:
   tls:
     - hosts:
         - ws.######DOMAIN_NAME######
-    secretName: ######NAMESPACE######-websocket-tls
+    - secretName: ######NAMESPACE######-websocket-tls
   rules:
     - host: ws.######DOMAIN_NAME######
       http:
