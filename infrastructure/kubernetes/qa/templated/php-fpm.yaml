@@ -42,6 +42,17 @@ spec:
           image: ######BACKEND_IMAGE######
           command: ['/bin/sh', '-c', "php artisan migrate && php artisan db:seed"]
           imagePullPolicy: Always
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
           envFrom:
             - configMapRef:
                 name: ######NAMESPACE######php-environment
@@ -49,6 +60,17 @@ spec:
         - image: ######BACKEND_IMAGE######
           name: php
           imagePullPolicy: Always
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
           envFrom:
             - configMapRef:
                 name: ######NAMESPACE######php-environment
