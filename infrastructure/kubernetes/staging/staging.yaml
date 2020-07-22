@@ -67,17 +67,11 @@ spec:
           - backend:
               serviceName: web
               servicePort: 80
-    - host: ws.staging.legendsports.bet
-      http:
-        paths:
-          - backend:
-              serviceName: web
-              servicePort: 6001
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: web
+  name: websockets
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt"
     kubernetes.io/ingress.class: "nginx"
