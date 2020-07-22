@@ -160,7 +160,7 @@ resource "kubernetes_service" "nginx_ingress_service" {
         }
 
         annotations = {
-            "cloud.google.com/neg" = "{\"ingress\": true}"
+            "cloud.google.com/neg" = "{\"exposed_ports\": {\"80\":{}, \"443\":{}}}"
             "cloud.google.com/neg-status" = ""
         }
     }
@@ -168,7 +168,8 @@ resource "kubernetes_service" "nginx_ingress_service" {
         ignore_changes = [metadata.0.annotations["cloud.google.com/neg-status"]]
     }
     spec {
-        type = "ClusterIP"
+        type = "LoadBalancer"
+        load_balancer_ip = var.loadbalancer_ip_address
         port {
             port = 80
             name = "http"
@@ -186,29 +187,6 @@ resource "kubernetes_service" "nginx_ingress_service" {
         selector = {
             "app.kubernetes.io/name" = local.name
             "app.kubernetes.io/part-of" = local.name
-        }
-    }
-}
-
-resource "kubernetes_ingress" "nginx_ingress_ingress" {
-    metadata {
-        name      = "nginx-ingress-ingress"
-        namespace = kubernetes_namespace.ingress_nginx.metadata.0.name
-
-        labels = {
-            "app.kubernetes.io/name"    = local.name
-            "app.kubernetes.io/part-of" = local.name
-        }
-
-        annotations = {
-            "kubernetes.io/ingress.global-static-ip-name" = "production"
-            "kubernetes.io/ingress.class" = "gce"
-        }
-    }
-    spec {
-        backend {
-            service_name = kubernetes_service.nginx_ingress_service.metadata.0.name
-            service_port = "80"
         }
     }
 }

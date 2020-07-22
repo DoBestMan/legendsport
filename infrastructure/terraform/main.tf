@@ -96,11 +96,13 @@ resource "google_container_node_pool" "primary_nodes" {
     }
 }
 
-resource "google_compute_global_address" "production" {
-    name = "production"
+resource "google_compute_address" "production" {
+    address            = "34.69.137.80"
+    address_type       = "EXTERNAL"
+    name               = "prod"
+    network_tier       = "PREMIUM"
+    timeouts {}
 }
-
-
 
 resource "google_cloudbuild_trigger" "build-prs" {
     provider = google-beta

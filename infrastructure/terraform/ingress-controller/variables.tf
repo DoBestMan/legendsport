@@ -9,3 +9,7 @@ variable "image_version" {
   description = "Docker image version for the nginx-ingress-controller"
   default = "0.24.1"
 }
+
+variable "loadbalancer_ip_address" {
+    description = "IP address to use for Load balancer"
+}
