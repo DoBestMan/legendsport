@@ -46,7 +46,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(BaseWebSocketHandler::class, WebSocketHandler::class);
-        $this->app->bind(BettingProvider::class, TestData::class);
+        $this->app->bind(BettingProvider::class, Bet365::class);
 
         $this->app->bind(RepositoryManager::class, function () {
             return new RepositoryManager(function (string $entityClass): Repository {
