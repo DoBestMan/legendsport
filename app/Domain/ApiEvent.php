@@ -9,6 +9,7 @@ use App\Domain\BetTypes\SpreadAway;
 use App\Domain\BetTypes\SpreadHome;
 use App\Domain\BetTypes\TotalOver;
 use App\Domain\BetTypes\TotalUnder;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -107,6 +108,11 @@ class ApiEvent
     private $provider;
     /** @ORM\OneToMany(targetEntity="\App\Domain\ApiEventOdds", mappedBy="event", indexBy="betType", cascade={"ALL"}) */
     private Collection $odds;
+
+    public function __construct()
+    {
+        $this->odds = new ArrayCollection();
+    }
 
     public function getId(): int
     {

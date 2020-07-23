@@ -62,9 +62,11 @@ class Tournament
     private Collection $events;
     /** @ORM\OneToMany(targetEntity="\App\Domain\TournamentBet", mappedBy="tournament", cascade={"ALL"}) */
     private Collection $bets;
+    private ?Collection $bettableEvents = null;
 
     public function __construct()
     {
+        $this->events = new ArrayCollection();
         $this->players = new ArrayCollection();
         $this->bets = new ArrayCollection();
     }
@@ -174,11 +176,46 @@ class Tournament
         return new ArrayCollection($this->events->toArray());
     }
 
-    public function placeStraightBet(TournamentPlayer $tournamentPlayer, TournamentEvent $event, string $betType, int $wager): void
+    public function getBettableEvents(): Collection
+    {
+        if ($this->bettableEvents === null) {
+            $this->bettableEvents = $this->events->filter(function (TournamentEvent $tournamentEvent) {
+                return $tournamentEvent->getApiEvent()->isUpcoming() && !empty($tournamentEvent->getApiEvent()->getOddTypes());
+            });
+        }
+
+        return $this->bettableEvents;
+    }
+
+    public function getBets(): Collection
+    {
+        return $this->bets;
+    }
+
+    public function placeStraightBet(TournamentPlayer $tournamentPlayer, int $wager, BetItem $betItem): void
     {
         $tournamentPlayer->reduceChips($wager);
-        $bet = new TournamentBet($this, $tournamentPlayer, $wager);
-        new $betType($event, $bet, $event->getApiEvent()->getOdds($betType));
+        $betEvent = $betItem->makeBetEvent();
+        $bet = new TournamentBet($this, $tournamentPlayer, $wager, $betEvent);
+
+        $this->bets->add($bet);
+    }
+
+    public function placeParlayBet(TournamentPlayer $tournamentPlayer, int $wager, BetItem ...$betItems): void
+    {
+        //@TODO test for correlated parlays
+        if (count($betItems) < 2) {
+            throw new \DomainException('Must be at least 2 bet items to place a parlay');
+        }
+
+        $tournamentPlayer->reduceChips($wager);
+
+        $betEvents = [];
+        foreach ($betItems as $betItem) {
+            $betEvents[] = $betItem->makeBetEvent();
+        }
+
+        $bet = new TournamentBet($this, $tournamentPlayer, $wager, ...$betEvents);
 
         $this->bets->add($bet);
     }
@@ -230,5 +267,11 @@ class Tournament
         $this->players->add(
             new TournamentPlayer($this, $bot, $this->chips)
         );
+    }
+
+    public function addEvent(ApiEvent $event): void
+    {
+        $tournamentEvent = new TournamentEvent($this, $event);
+        $this->events->add($tournamentEvent);
     }
 }

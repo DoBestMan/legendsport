@@ -2,6 +2,7 @@
 
 namespace App\Domain;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -51,6 +52,13 @@ class TournamentEvent
      * @ORM\OneToMany(targetEntity="App\Domain\TournamentBetEvent", mappedBy="tournamentEvent")
      */
     private Collection $bets;
+
+    public function __construct(Tournament $tournament, ApiEvent $apiEvent)
+    {
+        $this->bets = new ArrayCollection();
+        $this->apiEvent = $apiEvent;
+        $this->tournament = $tournament;
+    }
 
     public function getId(): int
     {

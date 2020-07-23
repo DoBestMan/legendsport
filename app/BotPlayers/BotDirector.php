@@ -2,21 +2,14 @@
 
 namespace App\BotPlayers;
 
-use App\Domain\BetTypes\MoneyLineAway;
-use App\Domain\BetTypes\MoneyLineHome;
-use App\Domain\BetTypes\SpreadAway;
-use App\Domain\BetTypes\SpreadHome;
-use App\Domain\BetTypes\TotalOver;
-use App\Domain\BetTypes\TotalUnder;
+use App\BotPlayers\BettingStrategy\StraightBets;
+use App\BotPlayers\BettingStrategy\ParlayBets;
+use App\BotPlayers\BettingStrategy\WagerCalculator;
 use App\Domain\Bot;
 use App\Domain\Tournament;
-use App\Domain\TournamentBet;
-use App\Domain\TournamentEvent;
 use App\Repository\RepositoryManager;
 use Carbon\Carbon;
 use Doctrine\Common\Collections\Criteria;
-use Ramsey\Uuid\Type\Decimal;
-use function foo\func;
 
 class BotDirector
 {
@@ -70,6 +63,11 @@ class BotDirector
     {
         srand(random_int(0, \PHP_INT_MAX));
 
+        $wagerCalculator = new WagerCalculator();
+        $straightBets = new StraightBets($wagerCalculator);
+        $twoParlayBets = new ParlayBets($wagerCalculator, 2);
+        $threeParlayBets = new ParlayBets($wagerCalculator, 3);
+
         $tournamentIdsAffected = [];
         $tournamentRepository = $this->repositoryManager->get(Tournament::class);
         $criteria = Criteria::create();
@@ -79,72 +77,28 @@ class BotDirector
         $tournaments = $tournamentRepository->matching($criteria);
 
         foreach ($tournaments as $tournament) {
-            $events = $tournament->getEvents()->filter(function (TournamentEvent $tournamentEvent) {
-                return $tournamentEvent->getApiEvent()->isUpcoming() && !empty($tournamentEvent->getApiEvent()->getOddTypes());
-            })->toArray();
+            $events = $tournament->getBettableEvents();
 
-            if (count($events)) {
+            if ($events->count() > 0) {
                 /** @var Bot[] $botsWithChips */
                 $botsWithChips = $this->botFinder->withChipsLeft($tournament);
 
-                $maxBetOptions = 0;
-                foreach ($events as $event) {
-                    $maxBetOptions += count($event->getApiEvent()->getOddTypes());
-                }
-
                 foreach ($botsWithChips as $bot) {
-                    /** @var Bot $bot */
                     $tournamentPlayer = $bot->getTournamentPlayer($tournament);
-                    $chips = intval($tournamentPlayer->getChips() / 100);
-                    $straightBetChips = intval(rand(30, 40) * $chips * 0.01);
+                    $hundredChips = intval($tournamentPlayer->getChips() / 100);
 
-                    $betsToPlace = min(rand(1, 8), $maxBetOptions);
+                    $straightBetChips = intval(rand(30, 40) * $hundredChips * 0.01);
+                    $straightBets->placeBets($tournament, $tournamentPlayer, $straightBetChips);
 
-                    $wagersToPlace = $this->calculateWagers($straightBetChips, $betsToPlace);
+                    $twoParlayChips = intval(rand(30, 40) * $hundredChips * 0.01);
+                    $twoParlayBets->placeBets($tournament, $tournamentPlayer, $twoParlayChips);
 
-                    $betsPlaced = [];
-
-                    foreach ($wagersToPlace as $wager) {
-                        if ($wager === 0) {
-                            continue;
-                        }
-
-                        $betPlaced = false;
-                        do {
-                            $event = $events[array_rand($events, 1)];
-                            $betTypes = $event->getApiEvent()->getOddTypes();
-                            $betType = $betTypes[array_rand($betTypes, 1)];
-
-                            if (!isset($betsPlaced[$event->getId()][$betType])) {
-                                $betsPlaced[$event->getId()][$betType] = true;
-                                $tournament->placeStraightBet($tournamentPlayer, $event, $betType, $wager * 100);
-                                $betPlaced = true;
-                            }
-                        } while (!$betPlaced);
-                    }
+                    $threeParleyChips = $hundredChips - ($straightBetChips + $twoParlayChips);
+                    $threeParlayBets->placeBets($tournament, $tournamentPlayer, $threeParleyChips);
                 }
             }
             $tournamentRepository->commit();
         }
         return $tournamentIdsAffected;
-    }
-
-    private function calculateWagers(int $straightBetChips, int $betsToPlace): array
-    {
-        $wagers = [0, $straightBetChips];
-        for ($i = 0; $i < $betsToPlace - 2; $i++) {
-            $wagers[] = intval(rand(0, $straightBetChips));
-        }
-
-        sort($wagers);
-        $wagersToPlace = [];
-        foreach ($wagers as $i => $wager) {
-            if ($i === 0) {
-                continue;
-            }
-            $wagersToPlace[] = $wager - $wagers[$i - 1];
-        }
-
-        return $wagersToPlace;
     }
 }

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /** @ORM\Entity() */
 class SpreadHome extends TournamentBetEvent
 {
+    public const CORRELATION_IDENTIFIER = 'result';
     protected function evaluateType(): void
     {
         $eventData = $this->getTournamentEvent()->getApiEvent();

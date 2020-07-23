@@ -41,7 +41,7 @@ class TournamentBet
     /** @ORM\OneToMany(targetEntity="App\Domain\TournamentBetEvent", mappedBy="tournamentBet", cascade={"ALL"}) */
     private Collection $events;
 
-    public function __construct(Tournament $tournament, TournamentPlayer $tournamentPlayer, int $wager)
+    public function __construct(Tournament $tournament, TournamentPlayer $tournamentPlayer, int $wager, TournamentBetEvent ...$tournamentBetEvents)
     {
         $this->tournament = $tournament;
         $this->tournamentPlayer = $tournamentPlayer;
@@ -49,11 +49,11 @@ class TournamentBet
         $this->events = new ArrayCollection();
         $this->createdAt = Carbon::now();
         $this->updatedAt = Carbon::now();
-    }
 
-    public function addEvent(TournamentBetEvent $event): void
-    {
-        $this->events->add($event);
+        foreach ($tournamentBetEvents as $tournamentBetEvent) {
+            $this->events->add($tournamentBetEvent);
+            $tournamentBetEvent->addToBet($this);
+        }
     }
 
     public function getId(): int
@@ -84,6 +84,11 @@ class TournamentBet
     public function getTournamentPlayer(): TournamentPlayer
     {
         return $this->tournamentPlayer;
+    }
+
+    public function getEvents(): Collection
+    {
+        return $this->events;
     }
 
     public function evaluate()

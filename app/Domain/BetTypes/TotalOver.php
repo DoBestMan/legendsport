@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /** @ORM\Entity() */
 class TotalOver extends TournamentBetEvent
 {
+    public const CORRELATION_IDENTIFIER = 'total';
     protected function evaluateType(): void
     {
         $eventData = $this->getTournamentEvent()->getApiEvent();

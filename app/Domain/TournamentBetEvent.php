@@ -88,15 +88,20 @@ abstract class TournamentBetEvent
      */
     private $tournamentEvent;
 
-    public function __construct(TournamentEvent $tournamentEvent, TournamentBet $tournamentBet, ApiEventOdds $odds)
+    public function __construct(TournamentEvent $tournamentEvent)
     {
+        $odds = $tournamentEvent->getApiEvent()->getOdds(static::class);
+
         $this->createdAt = Carbon::now();
         $this->updatedAt = Carbon::now();
         $this->tournamentEvent = $tournamentEvent;
-        $this->tournamentBet = $tournamentBet;
         $this->odd = $odds->getOdds();
         $this->handicap = $odds->getHandicap();
-        $tournamentBet->addEvent($this);
+    }
+
+    public function addToBet(TournamentBet $tournamentBet)
+    {
+        $this->tournamentBet = $tournamentBet;
     }
 
     public function getId(): int
