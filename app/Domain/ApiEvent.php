@@ -3,6 +3,7 @@
 namespace App\Domain;
 
 use App\Betting\SportEventOdd;
+use App\Betting\SportEventResult;
 use App\Domain\BetTypes\MoneyLineAway;
 use App\Domain\BetTypes\MoneyLineHome;
 use App\Domain\BetTypes\SpreadAway;
@@ -185,6 +186,13 @@ class ApiEvent
         $this->timeStatus = $apiEvent->time_status->getValue();
         $this->scoreHome = $apiEvent->score_home;
         $this->scoreAway = $apiEvent->score_away;
+    }
+
+    public function result(SportEventResult $sportEventResult): void
+    {
+        $this->timeStatus = $sportEventResult->getTimeStatus()->getValue();
+        $this->scoreHome = $sportEventResult->getHome();
+        $this->scoreAway = $sportEventResult->getAway();
     }
 
     public function isUpcoming()

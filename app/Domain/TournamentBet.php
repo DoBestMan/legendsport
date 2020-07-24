@@ -123,7 +123,7 @@ class TournamentBet
     {
         $odds = $this->events
             ->filter(fn(TournamentBetEvent $event) => !$event->isPush())
-            ->map(fn(TournamentBetEvent $event) => 1 + american_to_decimal($event->getOdd()));
+            ->map(fn(TournamentBetEvent $event) => 1 + Odds::americanToDecimal($event->getOdd()));
 
         $multiplier = 1;
         foreach ($odds as $odd) {

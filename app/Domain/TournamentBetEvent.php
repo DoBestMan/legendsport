@@ -164,10 +164,12 @@ abstract class TournamentBetEvent
         $this->evaluateType();
     }
 
+    abstract protected function evaluateType(): void;
+
     protected function result(BetStatus $status)
     {
         $this->status = $status->getValue();
-        $this->getTournamentBet()->evaluate();
+        $this->tournamentBet->evaluate();
     }
 
     public function isPending(): bool

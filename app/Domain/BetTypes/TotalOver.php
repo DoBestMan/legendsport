@@ -26,7 +26,7 @@ class TotalOver extends TournamentBetEvent
             return;
         }
 
-        if ($result === 0) {
+        if ($result === 0.0) {
             $this->result(BetStatus::PUSH());
             return;
         }
