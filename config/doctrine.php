@@ -74,6 +74,7 @@ return [
             */
             'mapping_types' => [
                 'enum' => 'string',
+                \App\Tournament\Enums\BetStatus::class => 'string',
             ]
         ]
     ],

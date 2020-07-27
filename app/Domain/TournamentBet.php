@@ -29,7 +29,7 @@ class TournamentBet
     /** @ORM\Column(name="updated_at", type="datetime", nullable=true) */
     private ?\DateTime $updatedAt;
     /**
-     * @ORM\ManyToOne(targetEntity="App\Domain\Tournament")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Tournament", inversedBy="bets")
      * @ORM\JoinColumn(name="tournament_id", referencedColumnName="id")
      */
     private Tournament $tournament;

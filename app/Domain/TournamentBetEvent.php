@@ -4,6 +4,7 @@ namespace App\Domain;
 
 use App\Tournament\Enums\BetStatus;
 use Carbon\Carbon;
+use Decimal\Decimal;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,68 +26,31 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class TournamentBetEvent
 {
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="bigint", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
-
+    private int $id;
+    /** @ORM\Column(name="odd", type="smallint", nullable=false) */
+    private int $odd;
+    /** @ORM\Column(name="status", type=BetStatus::class, length=255, nullable=false) */
+    private BetStatus $status;
+    /** @ORM\Column(name="created_at", type="datetime", nullable=true) */
+    private ?\DateTime $createdAt;
+    /** @ORM\Column(name="updated_at", type="datetime", nullable=true) */
+    private ?\DateTime $updatedAt;
+    /** @ORM\Column(name="handicap", type="decimal", precision=8, scale=2, nullable=true) */
+    private ?Decimal $handicap;
     /**
-     * @var int
-     *
-     * @ORM\Column(name="odd", type="smallint", nullable=false)
-     */
-    private $odd;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="status", type="string", length=255, nullable=false)
-     */
-    private $status = 'pending';
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
-     */
-    private $createdAt;
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
-     */
-    private $updatedAt;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="handicap", type="decimal", precision=8, scale=2, nullable=true)
-     */
-    private $handicap;
-
-    /**
-     * @var TournamentBet
-     *
      * @ORM\ManyToOne(targetEntity="App\Domain\TournamentBet", inversedBy="events")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="tournament_bet_id", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(name="tournament_bet_id", referencedColumnName="id")
      */
-    private $tournamentBet;
-
+    private TournamentBet $tournamentBet;
     /**
-     * @var TournamentEvent
-     *
      * @ORM\ManyToOne(targetEntity="App\Domain\TournamentEvent", inversedBy="bets")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="tournament_event_id", referencedColumnName="id")
-     * })
+     * @ORM\JoinColumn(name="tournament_event_id", referencedColumnName="id")
      */
-    private $tournamentEvent;
+    private TournamentEvent$tournamentEvent;
 
     public function __construct(TournamentEvent $tournamentEvent)
     {
@@ -97,6 +61,7 @@ abstract class TournamentBetEvent
         $this->tournamentEvent = $tournamentEvent;
         $this->odd = $odds->getOdds();
         $this->handicap = $odds->getHandicap();
+        $this->status = BetStatus::PENDING();
     }
 
     public function addToBet(TournamentBet $tournamentBet)
@@ -116,7 +81,7 @@ abstract class TournamentBetEvent
 
     public function getStatus(): BetStatus
     {
-        return new BetStatus($this->status);
+        return $this->status;
     }
 
     public function getCreatedAt(): ?\DateTime
@@ -146,11 +111,11 @@ abstract class TournamentBetEvent
 
     public function evaluate(): void
     {
-        if (!$this->getStatus()->equals(BetStatus::PENDING())) {
+        if (!$this->status->equals(BetStatus::PENDING())) {
             return;
         }
 
-        $eventData = $this->getTournamentEvent()->getApiEvent();
+        $eventData = $this->tournamentEvent->getApiEvent();
 
         if (!$eventData->isFinished()) {
             return;
@@ -166,29 +131,29 @@ abstract class TournamentBetEvent
 
     abstract protected function evaluateType(): void;
 
-    protected function result(BetStatus $status)
+    protected function result(BetStatus $status): void
     {
-        $this->status = $status->getValue();
+        $this->status = $status;
         $this->tournamentBet->evaluate();
     }
 
     public function isPending(): bool
     {
-        return $this->getStatus()->equals(BetStatus::PENDING());
+        return $this->status->equals(BetStatus::PENDING());
     }
 
     public function isLoss(): bool
     {
-        return $this->getStatus()->equals(BetStatus::LOSS());
+        return $this->status->equals(BetStatus::LOSS());
     }
 
     public function isWin(): bool
     {
-        return $this->getStatus()->equals(BetStatus::WIN());
+        return $this->status->equals(BetStatus::WIN());
     }
 
     public function isPush(): bool
     {
-        return $this->getStatus()->equals(BetStatus::PUSH());
+        return $this->status->equals(BetStatus::PUSH());
     }
 }
