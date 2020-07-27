@@ -50,8 +50,11 @@ class Initaliser
     public function loadSports()
     {
         foreach (self::$sports as $id => $sport) {
-            $sport = new Sport($id, $sport['name'], $sport['enabled']);
-            $this->entityManager->persist($sport);
+            $sportEntity = $this->entityManager->find(Sport::class, $id);
+            if ($sportEntity === null) {
+                $sport = new Sport($id, $sport['name'], $sport['enabled']);
+                $this->entityManager->persist($sport);
+            }
         }
 
         $this->entityManager->flush();

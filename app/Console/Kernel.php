@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Jobs\AddBotsToTournaments;
 use App\Jobs\PlaceBotBets;
+use App\Jobs\RefreshBet365Events;
 use App\Jobs\SyncMatchesResults;
 use App\Jobs\UpdateOdds;
 use App\Jobs\UpdateTournamentStates;
@@ -34,6 +35,8 @@ class Kernel extends ConsoleKernel
         $schedule->job(UpdateTournamentStates::class)->everyMinute();
         $schedule->job(AddBotsToTournaments::class)->everyMinute();
         $schedule->job(PlaceBotBets::class)->everyMinute();
+        $schedule->job(RefreshBet365Events::class)->twiceDaily(0, 6);
+        $schedule->job(RefreshBet365Events::class)->twiceDaily(12, 18);
     }
 
     /**
