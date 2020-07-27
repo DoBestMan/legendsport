@@ -58,9 +58,11 @@ class Bets365 implements BettingProvider
             ->join('e.away', 'a')
             ->join('e.league', 'l')
             ->join('l.sport', 's')
+            ->where('e.time > ?1')
             ->orderBy('e.time')
             ->setMaxResults($perPage)
-            ->setFirstResult($perPage * ($page-1));
+            ->setFirstResult($perPage * ($page-1))
+            ->setParameter(1, (new \DateTime())->format('U'));
 
         $paginator = new Paginator($qb);
         $results = [];
