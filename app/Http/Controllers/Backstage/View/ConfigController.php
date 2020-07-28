@@ -32,6 +32,7 @@ class ConfigController extends Controller
             'commission' => $config->config['commission'],
             'chips' => $config->config['chips'],
             'keepCompleted' => $config->config['keep_completed'],
+            'providers' => $config->config['providers'],
         ]);
 
         return view('backstage.config.show')->with('config', $config);
@@ -45,6 +46,7 @@ class ConfigController extends Controller
             'commission' => $config->config['commission'],
             'chips' => $config->config['chips'],
             'keepCompleted' => $config->config['keep_completed'],
+            'providers' => $config->config['providers'],
         ]);
 
         return view('backstage.config.edit')->with('config', $config);

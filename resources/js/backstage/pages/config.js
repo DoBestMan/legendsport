@@ -34,6 +34,7 @@ const vm = new Vue({
         commission: phpVars.commission / 100,
         chips: phpVars.chips,
         keepCompleted: phpVars.keepCompleted,
+        providers: phpVars.providers,
     },
 
     methods: {
@@ -46,6 +47,7 @@ const vm = new Vue({
                         commission: this.commission * 100,
                         chips: this.chips,
                         keep_completed: this.keepCompleted,
+                        providers: this.providers,
                     },
                 });
 

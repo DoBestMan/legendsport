@@ -35,13 +35,14 @@
                     v-if="Number(totalNumber)"
                     type="button"
                     class="btn"
-                    :class="{ checked: selectedTotalUnder }"
-                    @click="emitToggleOdd(PendingOddType.TotalUnder)"
+                    :class="{ checked: selectedTotalOver }"
+                    @click="emitToggleOdd(PendingOddType.TotalOver)"
                 >
-                    U {{ totalNumber }}<br />{{ underLine | signedNumber }}
+                    O {{ totalNumber }}<br />{{ overLine | signedNumber }}
                 </button>
                 <DisabledButton v-else />
             </td>
+
         </tr>
 
         <tr class="tr">
@@ -79,13 +80,14 @@
                     v-if="Number(totalNumber)"
                     type="button"
                     class="btn"
-                    :class="{ checked: selectedTotalOver }"
-                    @click="emitToggleOdd(PendingOddType.TotalOver)"
+                    :class="{ checked: selectedTotalUnder }"
+                    @click="emitToggleOdd(PendingOddType.TotalUnder)"
                 >
-                    O {{ totalNumber }}<br />{{ overLine | signedNumber }}
+                    U {{ totalNumber }}<br />{{ underLine | signedNumber }}
                 </button>
                 <DisabledButton v-else />
             </td>
+
         </tr>
     </div>
 </template>

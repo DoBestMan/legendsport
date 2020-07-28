@@ -30,7 +30,7 @@ class TestData implements BettingProvider
             ->map(fn (int $id) => new SportEvent(
                 $id,
                 (new \DateTime())->add(new \DateInterval('PT' . ($id - $startId) * 15 . 'S')),
-                rand(1, 4),
+                rand(1, 4) * 1000,
                 'Home team ' . $id,
                 'Away team ' . $id,
                 static::PROVIDER_NAME
@@ -126,10 +126,10 @@ class TestData implements BettingProvider
     public function getSports(): array
     {
         return [
-            new Sport(1, 'Laser Tag'),
-            new Sport(2, 'Air Hockey'),
-            new Sport(3, 'VR Dodgeball'),
-            new Sport(4, 'Jousting'),
+            new Sport(1000, 'Laser Tag'),
+            new Sport(2000, 'Air Hockey'),
+            new Sport(3000, 'VR Dodgeball'),
+            new Sport(4000, 'Jousting'),
         ];
     }
 }
