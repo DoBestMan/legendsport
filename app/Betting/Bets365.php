@@ -78,14 +78,15 @@ class Bets365 implements BettingProvider
     {
         /** @var \App\Domain\ApiEvent[]|Collection $apiEventDict */
         $qb = $this->entityManager->createQueryBuilder();
-        $apiEventDict = $qb->select('a')
+        $apiEventArray = $qb->select('a')
             ->from(\App\Domain\ApiEvent::class, 'a')
             ->where($qb->expr()->eq('a.provider', '?1'))
             ->andWhere($qb->expr()->eq('a.timeStatus', '?2'))
-            ->indexBy('a', 'apiId')
+            ->indexBy('a', 'a.apiId')
             ->getQuery()
             ->execute([1 => static::PROVIDER_NAME, 2 => TimeStatus::NOT_STARTED()->getValue()]);
 
+        $apiEventDict = collect($apiEventArray);
         $preMatchOdds = collect();
         $eventsIdsToRequest = collect();
 
