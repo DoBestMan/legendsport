@@ -46,6 +46,10 @@ class TournamentController extends Controller
             'prizePool' => 'Auto',
             'prizePoolValue' => 0,
             'playersLimit' => 'Unlimited',
+            'minBots' => 0,
+            'maxBots' => 0,
+            'addBots' => 0,
+            'playerBots' => 1,
         ]);
 
         return view('backstage.tournaments.create')
@@ -76,6 +80,7 @@ class TournamentController extends Controller
         $tournament->time_frame = $request->time_frame;
         $tournament->registration_deadline = $registrationDeadlines['registration_deadline'];
         $tournament->late_registration_deadline = $registrationDeadlines['late_registration_deadline'];
+        $tournament->bots = $request->bots;
         $tournament->save();
 
         foreach ($apiData as $data) {
@@ -118,6 +123,10 @@ class TournamentController extends Controller
             'state' => $tournament->state,
             'timeFrame' => $tournament->time_frame,
             'value' => $tournament->late_register_rule['value'] ?? '',
+            'minBots' => $tournament->bots['min'],
+            'maxBots' => $tournament->bots['max'],
+            'addBots' => $tournament->bots['add'],
+            'playerBots' => $tournament->bots['player'],
         ]);
 
         return view('backstage.tournaments.show')
@@ -153,6 +162,10 @@ class TournamentController extends Controller
             'apiSelectedSports' => $apiSelectedSports,
             'state' => $tournament->state,
             'timeFrame' => $tournament->time_frame,
+            'minBots' => $tournament->bots['min'],
+            'maxBots' => $tournament->bots['max'],
+            'addBots' => $tournament->bots['add'],
+            'playerBots' => $tournament->bots['player'],
         ]);
 
         return view('backstage.tournaments.edit')
@@ -181,6 +194,7 @@ class TournamentController extends Controller
         $tournament->time_frame = $request->time_frame;
         $tournament->registration_deadline = $registrationDeadlines['registration_deadline'];
         $tournament->late_registration_deadline = $registrationDeadlines['late_registration_deadline'];
+        $tournament->bots = $request->bots;
         $tournament->save();
 
         $apiDataDict = collect($apiData)->mapWithKeys(
@@ -227,6 +241,10 @@ class TournamentController extends Controller
             'prize_pool.type' => 'required',
             'state' => 'required',
             'time_frame' => 'required',
+            'bots.min' => 'required|numeric|min:0',
+            'bots.max' => 'required|numeric|min:0',
+            'bots.add' => 'required|numeric|min:0',
+            'bots.player' => 'required|numeric|min:1',
         ];
 
         $messages = [

@@ -4,8 +4,57 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "13e2fe400a834952ba8d2a47c61f2437",
+    "content-hash": "259e98fcd3dae068807dbffae88229c8",
     "packages": [
+        {
+            "name": "acelaya/doctrine-enum-type",
+            "version": "v2.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/acelaya/doctrine-enum-type.git",
+                "reference": "4db8de01d8044446c6e5ec4958e082a2be65000c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/acelaya/doctrine-enum-type/zipball/4db8de01d8044446c6e5ec4958e082a2be65000c",
+                "reference": "4db8de01d8044446c6e5ec4958e082a2be65000c",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "^2.6",
+                "myclabs/php-enum": "^1.4",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "infection/infection": "^0.15.0",
+                "phpstan/phpstan": "^0.12.0",
+                "phpunit/phpunit": "^8.0",
+                "shlinkio/php-coding-standard": "~2.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Acelaya\\Doctrine\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alejandro Celaya",
+                    "email": "alejandro@alejandrocelaya.com"
+                }
+            ],
+            "description": "A custom Doctrine type that maps column values to enum objects using myclabs/php-enum",
+            "keywords": [
+                "doctrine",
+                "enum",
+                "type"
+            ],
+            "time": "2019-12-14T10:50:45+00:00"
+        },
         {
             "name": "beyondcode/laravel-websockets",
             "version": "1.4.1",

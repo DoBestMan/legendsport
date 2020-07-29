@@ -2,13 +2,18 @@
 
 namespace App\Providers;
 
+use Acelaya\Doctrine\Type\PhpEnumType;
 use App\Betting\Bet365\Initaliser;
 use App\Betting\Bets365;
 use App\Betting\Bets365API;
 use App\Betting\BettingProvider;
 use App\Betting\JsonOddAPI;
 use App\Betting\TestData;
+use App\Repository\OrmRepository;
+use App\Repository\Repository;
+use App\Repository\RepositoryManager;
 use App\Services\UserTokenService;
+use App\Tournament\Enums\BetStatus;
 use App\WebSocket\WebSocketHandler;
 use App\Http\Websockets\Healthcheck;
 use BeyondCode\LaravelWebSockets\WebSockets\WebSocketHandler as BaseWebSocketHandler;
@@ -42,6 +47,14 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(BaseWebSocketHandler::class, WebSocketHandler::class);
         $this->app->bind(BettingProvider::class, TestData::class);
+
+        $this->app->bind(RepositoryManager::class, function () {
+            return new RepositoryManager(function (string $entityClass): Repository {
+                return new OrmRepository($entityClass, $this->app->get(EntityManager::class));
+            });
+        });
+
+        PhpEnumType::registerEnumType(BetStatus::class);
     }
 
     /**

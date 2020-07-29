@@ -241,7 +241,7 @@ class TournamentPrizeStructure
                 new Prize(99, "0.21"),
                 new Prize(126, "0.19"),
             ]),
-            new PrizeCollection(1100, [
+            new PrizeCollection(\PHP_INT_MAX, [
                 new Prize(1, "19.11"),
                 new Prize(2, "11.8"),
                 new Prize(3, "8.2"),

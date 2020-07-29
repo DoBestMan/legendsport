@@ -33,6 +33,8 @@ use UnexpectedValueException;
  * @property TimeFrame $time_frame
  * @property array $late_register_rule
  * @property array $prize_pool
+ * @property array $bots
+ * @property int $bots_registered
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property-read Collection|TournamentPlayer[] $players
@@ -52,6 +54,7 @@ class Tournament extends Model
         "chips" => "integer",
         "commission" => "integer",
         "late_register_rule" => "json",
+        "bots" => "json",
         "players_limit" => PlayersLimitCast::class,
         "prize_pool" => "json",
         "state" => TournamentStateCast::class,

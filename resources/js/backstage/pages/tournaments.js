@@ -42,6 +42,10 @@ new Vue({
         selectedEvents: [],
         timeFrame: "",
         errors: {},
+        minBots: 0,
+        maxBots: 0,
+        addBots: 0,
+        playerBots: 1,
 
         isModalAvailableEventListVisible: false,
         modalDeleteId: null,
@@ -69,6 +73,10 @@ new Vue({
         this.playersLimit = phpVars.playersLimit;
         this.state = phpVars.state;
         this.timeFrame = phpVars.timeFrame;
+        this.minBots = phpVars.minBots;
+        this.maxBots = phpVars.maxBots;
+        this.addBots = phpVars.addBots;
+        this.playerBots = phpVars.playerBots;
     },
 
     mounted() {
@@ -144,6 +152,12 @@ new Vue({
                     },
                     state: this.state,
                     time_frame: this.timeFrame,
+                    bots: {
+                        min: this.minBots * 1,
+                        max: this.maxBots * 1,
+                        add: this.addBots * 1,
+                        player: this.playerBots * 1,
+                    }
                 });
 
                 notificationStore.info("New tournament's been created.");
@@ -178,6 +192,12 @@ new Vue({
                     },
                     state: this.state,
                     time_frame: this.timeFrame,
+                    bots: {
+                        min: this.minBots * 1,
+                        max: this.maxBots * 1,
+                        add: this.addBots * 1,
+                        player: this.playerBots * 1,
+                    }
                 });
 
                 notificationStore.info("Tournament's been updated.");

@@ -21,7 +21,7 @@ use Psr\SimpleCache\CacheInterface;
 class Bets365 implements BettingProvider
 {
     private const RESULTS_CACHE_TTL = 5 * 60;
-    private const PREMATCH_CACHE_TTL = 12 * 60 * 60;
+    private const PREMATCH_CACHE_TTL = 2 * 60;
 
     const PROVIDER_NAME = "bet365";
 
@@ -74,28 +74,30 @@ class Bets365 implements BettingProvider
 
     public function getOdds(): array
     {
-        // Get all upcoming api events
-        /** @var ApiEvent[]|Collection $apiEventDict */
-        $apiEventDict = ApiEvent::query()
-            ->where("provider", static::PROVIDER_NAME)
-            ->where("time_status", TimeStatus::NOT_STARTED())
-            ->get()
-            ->mapWithKeys(fn(ApiEvent $apiEvent) => [$apiEvent->api_id => $apiEvent]);
+        /** @var \App\Domain\ApiEvent[]|Collection $apiEventDict */
+        $qb = $this->entityManager->createQueryBuilder();
+        $apiEventDict = $qb->select('a')
+            ->from(\App\Domain\ApiEvent::class, 'a')
+            ->where($qb->expr()->eq('a.provider', '?1'))
+            ->andWhere($qb->expr()->eq('a.timeStatus', '?2'))
+            ->indexBy('a', 'apiId')
+            ->getQuery()
+            ->execute([1 => static::PROVIDER_NAME, 2 => TimeStatus::NOT_STARTED()->getValue()]);
 
         $preMatchOdds = collect();
         $eventsIdsToRequest = collect();
 
         $cacheKeys = $apiEventDict->map(
-            fn(ApiEvent $apiEvent) => $this->createPreMatchKey($apiEvent->api_id),
+            fn(\App\Domain\ApiEvent $apiEvent) => $this->createPreMatchKey($apiEvent->getApiId()),
         );
         $cachePreMatchOdds = collect($this->cache->getMultiple($cacheKeys));
 
         foreach ($apiEventDict as $apiEvent) {
-            $cacheItem = $cachePreMatchOdds->get($this->createPreMatchKey($apiEvent->api_id));
+            $cacheItem = $cachePreMatchOdds->get($this->createPreMatchKey($apiEvent->getApiId()));
             if ($cacheItem) {
                 $preMatchOdds->push($cacheItem);
             } else {
-                $eventsIdsToRequest->push($apiEvent->api_id);
+                $eventsIdsToRequest->push($apiEvent->getApiId());
             }
         }
 
@@ -112,23 +114,28 @@ class Bets365 implements BettingProvider
         }
 
         // Map API items into SportEventOdds
-        return collect($preMatchOdds)
+        $odds = collect($preMatchOdds)
             ->map(function (array $event) use ($apiEventDict) {
                 $eventId = $event["FI"];
-                /** @var ApiEvent $apiEvent */
+                /** @var \App\Domain\ApiEvent $apiEvent */
                 $apiEvent = $apiEventDict[$eventId];
 
-                if (!isset(self::$parsers[$apiEvent->sport_id])) {
+                if (!isset(self::$parsers[$apiEvent->getSportId()])) {
                     return new SportEventOdd($eventId);
                 }
 
-                $parser = new self::$parsers[$apiEvent->sport_id];
+                $parser = new self::$parsers[$apiEvent->getSportId()];
 
-                $odds = $parser->parseMainLines($event, $apiEvent->team_home, $apiEvent->team_away);
+                $odds = $parser->parseMainLines($event, $apiEvent->getTeamHome(), $apiEvent->getTeamAway());
+                $apiEvent->updateOdds($odds);
                 $errors = $parser->getErrors();
                 return $odds;
             })
             ->all();
+
+        $this->entityManager->flush();
+
+        return $odds;
     }
 
     public function getResults(): array
@@ -201,11 +208,6 @@ class Bets365 implements BettingProvider
     public function createResultKey(string $eventId): string
     {
         return "bets365.result.{$eventId}";
-    }
-
-    private function cmpStr(string $a, string $b): bool
-    {
-        return strtolower(trim($a)) === strtolower(trim($b));
     }
 
     private function mapTimeStatus(array $data): TimeStatus

@@ -2,6 +2,16 @@
 
 namespace App\Domain;
 
+use App\Betting\SportEventOdd;
+use App\Betting\SportEventResult;
+use App\Domain\BetTypes\MoneyLineAway;
+use App\Domain\BetTypes\MoneyLineHome;
+use App\Domain\BetTypes\SpreadAway;
+use App\Domain\BetTypes\SpreadHome;
+use App\Domain\BetTypes\TotalOver;
+use App\Domain\BetTypes\TotalUnder;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -97,6 +107,13 @@ class ApiEvent
      * @ORM\Column(name="provider", type="string", length=255, nullable=false)
      */
     private $provider;
+    /** @ORM\OneToMany(targetEntity="\App\Domain\ApiEventOdds", mappedBy="event", indexBy="betType", cascade={"ALL"}) */
+    private Collection $odds;
+
+    public function __construct()
+    {
+        $this->odds = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -169,5 +186,78 @@ class ApiEvent
         $this->timeStatus = $apiEvent->time_status->getValue();
         $this->scoreHome = $apiEvent->score_home;
         $this->scoreAway = $apiEvent->score_away;
+    }
+
+    public function result(SportEventResult $sportEventResult): void
+    {
+        $this->timeStatus = $sportEventResult->getTimeStatus()->getValue();
+        $this->scoreHome = $sportEventResult->getHome();
+        $this->scoreAway = $sportEventResult->getAway();
+    }
+
+    public function isUpcoming()
+    {
+        return $this->timeStatus === 'not_started';
+    }
+
+    public function updateOdds(SportEventOdd $odds): void
+    {
+        $moneyLineHome = $this->odds->get(MoneyLineHome::class);
+        if ($moneyLineHome === null) {
+            $moneyLineHome = new ApiEventOdds($this, MoneyLineHome::class, $odds->getMoneyLineHome());
+            $this->odds->set(MoneyLineHome::class, $moneyLineHome);
+        } else {
+            $moneyLineHome->update($odds->getMoneyLineHome());
+        }
+
+        $moneyLineAway = $this->odds->get(MoneyLineAway::class);
+        if ($moneyLineAway === null) {
+            $moneyLineAway = new ApiEventOdds($this, MoneyLineAway::class, $odds->getMoneyLineAway());
+            $this->odds->set(MoneyLineAway::class, $moneyLineAway);
+        } else {
+            $moneyLineHome->update($odds->getMoneyLineAway());
+        }
+
+        $spreadHome = $this->odds->get(SpreadHome::class);
+        if ($spreadHome === null) {
+            $spreadHome = new ApiEventOdds($this, SpreadHome::class, $odds->getPointSpreadHome(), $odds->getPointSpreadHomeLine());
+            $this->odds->set(SpreadHome::class, $spreadHome);
+        } else {
+            $moneyLineHome->update($odds->getPointSpreadHome(), $odds->getPointSpreadHomeLine());
+        }
+
+        $spreadAway = $this->odds->get(SpreadAway::class);
+        if ($spreadAway === null) {
+            $spreadAway = new ApiEventOdds($this, SpreadAway::class, $odds->getPointSpreadAway(), $odds->getPointSpreadAwayLine());
+            $this->odds->set(SpreadAway::class, $spreadAway);
+        } else {
+            $moneyLineAway->update($odds->getPointSpreadAway(), $odds->getPointSpreadAwayLine());
+        }
+
+        $totalOver = $this->odds->get(TotalOver::class);
+        if ($totalOver === null) {
+            $totalOver = new ApiEventOdds($this, TotalOver::class, $odds->getOverLine(), $odds->getTotalNumber());
+            $this->odds->set(TotalOver::class, $totalOver);
+        } else {
+            $moneyLineAway->update($odds->getOverLine(), $odds->getTotalNumber());
+        }
+
+        $totalUnder = $this->odds->get(TotalUnder::class);
+        if ($totalUnder === null) {
+            $totalUnder = new ApiEventOdds($this, TotalUnder::class, $odds->getOverLine(), $odds->getTotalNumber());
+            $this->odds->set(TotalUnder::class, $totalUnder);
+        } else {
+            $moneyLineAway->update($odds->getOverLine(), $odds->getTotalNumber());
+        }
+    }
+
+    public function getOddTypes(): array
+    {
+        return array_keys($this->odds->toArray());
+    }
+
+    public function getOdds(string $betType): ?ApiEventOdds
+    {
+        return $this->odds->get($betType);
     }
 }

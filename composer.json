@@ -12,6 +12,7 @@
         "ext-curl": "*",
         "ext-decimal": "*",
         "ext-json": "*",
+        "acelaya/doctrine-enum-type": "^2.3",
         "beyondcode/laravel-websockets": "^1.4",
         "fideloper/proxy": "^4.0",
         "firebase/php-jwt": "^5.2",
