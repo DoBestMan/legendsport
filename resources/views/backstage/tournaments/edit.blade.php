@@ -36,6 +36,7 @@
                 :max-bots.sync="maxBots"
                 :add-bots.sync="addBots"
                 :player-bots.sync="playerBots"
+                :auto-end.sync="autoEnd"
             ></tournament-form>
 
             <hr/>

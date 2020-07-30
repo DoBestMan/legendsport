@@ -39,7 +39,7 @@ class TournamentCompletionService
 
     public function isComplete(Tournament $tournament): bool
     {
-        return $tournament->events
+        return $tournament->auto_end && $tournament->events
             ->map(fn(TournamentEvent $tournamentEvent) => $tournamentEvent->apiEvent)
             ->every(fn(ApiEvent $apiEvent) => $apiEvent->isFinished());
     }

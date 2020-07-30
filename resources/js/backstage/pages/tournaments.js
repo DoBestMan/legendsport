@@ -1,6 +1,6 @@
 import Vue from "vue";
 import axios from "axios";
-import { setup } from "../utils/setup.js";
+import {setup} from "../utils/setup.js";
 import ModalDelete from "../components/ModalDelete";
 import ModalAvailableEventList from "../molecules/tournament/ModalAvailableEventList";
 import SelectedEventList from "../molecules/tournament/SelectedEventList";
@@ -46,6 +46,7 @@ new Vue({
         maxBots: 0,
         addBots: 0,
         playerBots: 1,
+        autoEnd: 0,
 
         isModalAvailableEventListVisible: false,
         modalDeleteId: null,
@@ -77,6 +78,7 @@ new Vue({
         this.maxBots = phpVars.maxBots;
         this.addBots = phpVars.addBots;
         this.playerBots = phpVars.playerBots;
+        this.autoEnd = phpVars.autoEnd;
     },
 
     mounted() {
@@ -152,6 +154,7 @@ new Vue({
                     },
                     state: this.state,
                     time_frame: this.timeFrame,
+                    auto_end: this.autoEnd,
                     bots: {
                         min: this.minBots * 1,
                         max: this.maxBots * 1,
@@ -192,6 +195,7 @@ new Vue({
                     },
                     state: this.state,
                     time_frame: this.timeFrame,
+                    auto_end: this.autoEnd,
                     bots: {
                         min: this.minBots * 1,
                         max: this.maxBots * 1,

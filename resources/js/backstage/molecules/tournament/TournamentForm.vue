@@ -78,6 +78,29 @@
                 </div>
             </div>
 
+            <div id="auto_endFrm" class="form-row form-group">
+                <div class="col-4 text-right">
+                    <label for="auto_end" class="col-form-label">Auto end</label>
+                </div>
+
+                <div class="col-8">
+                    <input
+                        type="checkbox"
+                        name="auto_end"
+                        id="auto_end"
+                        :class="[errors['auto_end'] ? 'form-control is-invalid' : 'form-control']"
+                        :checked="autoEnd"
+
+                        @change="$emit('update:autoEnd', $event.target.checked)"
+                    />
+
+
+                    <div v-if="errors['auto_end']" class="invalid-feedback">
+                        {{ errors["auto_end"]["0"] }}
+                    </div>
+                </div>
+            </div>
+
             <div id="buy_inFrm" class="form-row form-group">
                 <div class="col-4 text-right">
                     <label for="buy_in" class="col-form-label">Buy-in</label>
@@ -468,7 +491,8 @@ export default Vue.extend({
         "minBots",
         "maxBots",
         "addBots",
-        "playerBots"
+        "playerBots",
+        "autoEnd"
     ],
 
     data() {
