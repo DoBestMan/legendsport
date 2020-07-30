@@ -7,7 +7,6 @@ use App\Betting\Bet365\Initaliser;
 use App\Betting\Bets365;
 use App\Betting\Bets365API;
 use App\Betting\BettingProvider;
-use App\Betting\JsonOddAPI;
 use App\Betting\MultiProvider;
 use App\Betting\TestData;
 use App\Repository\OrmRepository;
@@ -30,10 +29,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(JsonOddAPI::class, function () {
-            return new JsonOddAPI(env("JSONODDS_API_KEY"));
-        });
-
         $this->app->bind(Bets365API::class, function () {
             return new Bets365API(env("BETS365_TOKEN"));
         });
