@@ -28,4 +28,9 @@ class BetPlacementException extends \DomainException
     {
         return new self('That event is not part of this tournament');
     }
+
+    public static function correlatedEvents()
+    {
+        return new self('These events are correlated and cannot be parlayed together, please select different events');
+    }
 }

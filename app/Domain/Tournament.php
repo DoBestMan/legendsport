@@ -235,7 +235,10 @@ class Tournament
 
     public function placeParlayBet(TournamentPlayer $tournamentPlayer, int $wager, BetItem ...$betItems): void
     {
-        //@TODO test for correlated parlays
+        if (!$this->canBetBePlaced()) {
+            throw BetPlacementException::tournamentOver();
+        }
+
         if (count($betItems) < 2) {
             throw new \DomainException('Must be at least 2 bet items to place a parlay');
         }
@@ -243,7 +246,21 @@ class Tournament
         $tournamentPlayer->reduceChips($wager);
 
         $betEvents = [];
+        $placedBets = [];
         foreach ($betItems as $betItem) {
+            if (!$betItem->getEvent()->canBetBePlaced()) {
+                throw BetPlacementException::eventStarted();
+            }
+
+            if (!$this->events->contains($betItem->getEvent())) {
+                throw BetPlacementException::invalidEvent();
+            }
+
+            if (isset($placedBets[$betItem->getCorrelationIdentifier()])) {
+                throw BetPlacementException::correlatedEvents();
+            }
+
+            $placedBets[$betItem->getCorrelationIdentifier()] = true;
             $betEvents[] = $betItem->makeBetEvent();
         }
 
