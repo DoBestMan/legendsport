@@ -45,15 +45,6 @@ class TournamentBetStraightController extends Controller
             'pending_odds.*.wager' => ['required', 'numeric', 'min:100'],
         ]);
 
-        $classMap = [
-            'money_line_home' => MoneyLineHome::class,
-            'money_line_away' => MoneyLineAway::class,
-            'spread_home' => SpreadHome::class,
-            'spread_away' => SpreadAway::class,
-            'total_under' => TotalUnder::class,
-            'total_over' => TotalOver::class,
-        ];
-
         /** @var User $user */
         $user = $entityManager->find(User::class, $request->user()->id);
         /** @var \App\Domain\Tournament $tournamentEntity */
@@ -70,8 +61,7 @@ class TournamentBetStraightController extends Controller
                     throw BetPlacementException::invalidEvent();
                 }
 
-                $type = $classMap[$pendingWager['type']];
-                $betItem = new BetItem($type, $tournamentEvent);
+                $betItem = BetItem::createFromBetTypeAlias($pendingWager['type'], $tournamentEvent);
                 $tournamentEntity->placeStraightBet($tournamentPlayer, (int)$pendingWager['wager'], $betItem);
             }
         } catch (BetPlacementException $e) {

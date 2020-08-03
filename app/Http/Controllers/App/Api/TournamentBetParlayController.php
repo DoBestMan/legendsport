@@ -45,15 +45,6 @@ class TournamentBetParlayController extends Controller
             'wager' => ['required', 'numeric', 'min:100'],
         ]);
 
-        $classMap = [
-            'money_line_home' => MoneyLineHome::class,
-            'money_line_away' => MoneyLineAway::class,
-            'spread_home' => SpreadHome::class,
-            'spread_away' => SpreadAway::class,
-            'total_under' => TotalUnder::class,
-            'total_over' => TotalOver::class,
-        ];
-
         /** @var User $user */
         $user = $entityManager->find(User::class, $request->user()->id);
         /** @var \App\Domain\Tournament $tournamentEntity */
@@ -72,8 +63,7 @@ class TournamentBetParlayController extends Controller
                     throw BetPlacementException::invalidEvent();
                 }
 
-                $type = $classMap[$pendingWager['type']];
-                $betItems[] = new BetItem($type, $tournamentEvent);
+                $betItems[] = BetItem::createFromBetTypeAlias($pendingWager['type'], $tournamentEvent);
             }
 
             $tournamentEntity->placeParlayBet($tournamentPlayer, (int) $pendingWager['wager'], ...$betItems);
