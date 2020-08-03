@@ -106,4 +106,9 @@ class User
             return $tournamentPlayer->getTournament()->getId() === $tournament->getId();
         })->first() ?: null;
     }
+
+    public function joinTournament(TournamentPlayer $tournament): void
+    {
+        $this->tournaments->add($tournament);
+    }
 }

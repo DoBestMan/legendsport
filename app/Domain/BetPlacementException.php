@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Domain;
+
+class BetPlacementException extends \DomainException
+{
+    public static function tournamentOver()
+    {
+        return new self('You cannot place a bet in this tournament');
+    }
+
+    public static function eventStarted()
+    {
+        return new self('The event has already begun.');
+    }
+
+    public static function notEnoughChips()
+    {
+        return new self('You don\'t have enough chips.');
+    }
+
+    public static function notRegistered()
+    {
+        return new self('You need to be registered to place a bet.');
+    }
+
+    public static function invalidEvent()
+    {
+        return new self('That event is not part of this tournament');
+    }
+}

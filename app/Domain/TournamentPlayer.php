@@ -43,6 +43,7 @@ class TournamentPlayer
         $this->user = $user;
         $this->createdAt = Carbon::now();
         $this->updatedAt = Carbon::now();
+        $user->joinTournament($this);
     }
 
     public function getUser(): User
@@ -82,6 +83,10 @@ class TournamentPlayer
 
     public function reduceChips(int $chips): void
     {
+        if ($chips > $this->chips) {
+            throw BetPlacementException::notEnoughChips();
+        }
+
         $this->chips -= $chips;
     }
 }

@@ -14,6 +14,7 @@ use App\Repository\Repository;
 use App\Repository\RepositoryManager;
 use App\Services\UserTokenService;
 use App\Tournament\Enums\BetStatus;
+use App\Tournament\Enums\TournamentState;
 use App\WebSocket\WebSocketHandler;
 use App\Http\Websockets\Healthcheck;
 use BeyondCode\LaravelWebSockets\WebSockets\WebSocketHandler as BaseWebSocketHandler;
@@ -61,6 +62,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(BaseWebSocketHandler::class, WebSocketHandler::class);
         $this->app->bind(BettingProvider::class, MultiProvider::class);
         PhpEnumType::registerEnumType(BetStatus::class);
+        PhpEnumType::registerEnumType(TournamentState::class);
     }
 
     /**

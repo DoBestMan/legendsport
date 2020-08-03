@@ -1,20 +1,22 @@
 <?php
 namespace App\Http\Controllers\App\Api;
 
+use App\Domain\BetItem;
+use App\Domain\BetPlacementException;
+use App\Domain\BetTypes\MoneyLineAway;
+use App\Domain\BetTypes\MoneyLineHome;
+use App\Domain\BetTypes\SpreadAway;
+use App\Domain\BetTypes\SpreadHome;
+use App\Domain\BetTypes\TotalOver;
+use App\Domain\BetTypes\TotalUnder;
+use App\Domain\User;
 use App\Http\Controllers\Controller;
-use App\Models\PendingOdd;
 use App\Models\Tournament;
-use App\Models\TournamentBet;
 use App\Models\TournamentEvent;
-use App\Services\PendingOddService;
 use App\Tournament\Enums\PendingOddType;
 use App\Tournament\Events\TournamentUpdate;
-use App\Tournament\Exceptions\BettingProhibitedException;
-use App\Tournament\Exceptions\MatchAlreadyStartedException;
-use App\Tournament\Exceptions\NotEnoughChipsException;
-use App\Tournament\Exceptions\NotRegisteredException;
-use App\Tournament\StraightBetService;
 use App\User\MeUpdate;
+use Doctrine\ORM\EntityManager;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -26,9 +28,8 @@ class TournamentBetStraightController extends Controller
     public function post(
         Tournament $tournament,
         Request $request,
-        StraightBetService $straightBetService,
-        PendingOddService $pendingOddService,
-        Dispatcher $dispatcher
+        Dispatcher $dispatcher,
+        EntityManager $entityManager
     ) {
         $request->validate([
             'pending_odds' => ['required', 'array', 'min:1'],
@@ -44,61 +45,50 @@ class TournamentBetStraightController extends Controller
             'pending_odds.*.wager' => ['required', 'numeric', 'min:100'],
         ]);
 
-        $user = $request->user();
-        $inputPendingOdds = $request->request->get("pending_odds");
+        $classMap = [
+            'money_line_home' => MoneyLineHome::class,
+            'money_line_away' => MoneyLineAway::class,
+            'spread_home' => SpreadHome::class,
+            'spread_away' => SpreadAway::class,
+            'total_under' => TotalUnder::class,
+            'total_over' => TotalOver::class,
+        ];
 
-        $tournamentEventsIds = collect($inputPendingOdds)->map(
-            fn(array $event) => $event["event_id"],
-        );
-        $tournamentEventsDict = TournamentEvent::findMany($tournamentEventsIds)->getDictionary();
-
-        $pendingOdds = collect($inputPendingOdds)
-            ->map(
-                fn(array $pendingOdd) => new PendingOdd(
-                    new PendingOddType($pendingOdd["type"]),
-                    $tournamentEventsDict[$pendingOdd["event_id"]],
-                    (int) $pendingOdd["wager"],
-                ),
-            )
-            ->all();
-
-        $pendingOddService->assignOdds($pendingOdds);
-
+        /** @var User $user */
+        $user = $entityManager->find(User::class, $request->user()->id);
+        /** @var \App\Domain\Tournament $tournamentEntity */
+        $tournamentEntity = $entityManager->find(\App\Domain\Tournament::class, $tournament->id);
+        $tournamentPlayer = $user->getTournamentPlayer($tournamentEntity);
         try {
-            $tournamentBets = $straightBetService->bet($tournament, $user, $pendingOdds);
-        } catch (NotRegisteredException $e) {
+            if ($tournamentPlayer === null) {
+                throw BetPlacementException::notRegistered();
+            }
+
+            foreach ($request->request->get('pending_odds') as $pendingWager) {
+                $tournamentEvent = $tournamentEntity->getEvent($pendingWager['event_id']);
+                if ($tournamentEvent === null) {
+                    throw BetPlacementException::invalidEvent();
+                }
+
+                $type = $classMap[$pendingWager['type']];
+                $betItem = new BetItem($type, $tournamentEvent);
+                $tournamentEntity->placeStraightBet($tournamentPlayer, (int)$pendingWager['wager'], $betItem);
+            }
+        } catch (BetPlacementException $e) {
+            $entityManager->rollback();
             return new JsonResponse(
                 [
-                    "message" => "You need to be registered to place a bet.",
-                ],
-                Response::HTTP_BAD_REQUEST,
-            );
-        } catch (NotEnoughChipsException $e) {
-            return new JsonResponse(
-                [
-                    "message" => "You don't have enough chips.",
-                ],
-                Response::HTTP_BAD_REQUEST,
-            );
-        } catch (MatchAlreadyStartedException $e) {
-            return new JsonResponse(
-                [
-                    "message" => "The match has already begun.",
-                ],
-                Response::HTTP_BAD_REQUEST,
-            );
-        } catch (BettingProhibitedException $e) {
-            return new JsonResponse(
-                [
-                    "message" => "You cannot place a bet in this tournament.",
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_BAD_REQUEST,
             );
         }
 
-        $dispatcher->dispatch(new TournamentUpdate($tournament));
-        $dispatcher->dispatch(new MeUpdate($user));
+        $entityManager->flush();
 
-        return collect($tournamentBets)->map(fn(TournamentBet $bet) => $bet->id);
+        $dispatcher->dispatch(new TournamentUpdate($tournament));
+        $dispatcher->dispatch(new MeUpdate($request->user()));
+
+        return [];
     }
 }

@@ -34,7 +34,6 @@ class SpreadAwayTest extends TestCase
     public function testEvaluate($home, $away, $result)
     {
         $apiEvent = ApiEventFactory::create();
-        $apiEvent->result(new SportEventResult('eid', TimeStatus::ENDED(), $home, $away));
         $tournament = new Tournament();
         $tournament->addEvent($apiEvent);
         $tournamentEvent = $tournament->getEvents()->first();
@@ -43,6 +42,7 @@ class SpreadAwayTest extends TestCase
         $player = new TournamentPlayer($tournament, $user, 1000);
 
         $tournament->placeStraightBet($player, 1000, new BetItem(SpreadAway::class, $tournamentEvent));
+        $apiEvent->result(new SportEventResult('eid', TimeStatus::ENDED(), $home, $away));
 
         $sut = $tournament->getBets()->first()->getEvents()->first();
 

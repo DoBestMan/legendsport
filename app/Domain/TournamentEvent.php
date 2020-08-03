@@ -73,10 +73,16 @@ class TournamentEvent
         return $this->tournament;
     }
 
-    public function evaluate()
+    public function evaluate(): void
     {
         foreach ($this->bets as $bet) {
             $bet->evaluate();
         }
+    }
+
+    public function canBetBePlaced(): bool
+    {
+        //@TODO make this check avoid loading the collection
+        return $this->apiEvent->isUpcoming() && !empty($this->apiEvent->getOddTypes());
     }
 }
