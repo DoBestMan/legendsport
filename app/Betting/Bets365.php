@@ -10,11 +10,13 @@ use App\Betting\Bet365\Parser\NoOdds;
 use App\Betting\Bet365\Parser\Soccer;
 use App\Betting\Bet365\Parser\Tennis;
 use App\Models\ApiEvent;
+use Carbon\Carbon;
 use Decimal\Decimal;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use Psr\Log\LoggerInterface;
 use Psr\SimpleCache\CacheInterface;
 
@@ -82,37 +84,27 @@ class Bets365 implements BettingProvider
             ->from(\App\Domain\ApiEvent::class, 'a')
             ->where($qb->expr()->eq('a.provider', '?1'))
             ->andWhere($qb->expr()->eq('a.timeStatus', '?2'))
+            ->andWhere($qb->expr()->lt('a.updatedAt', '?3'))
             ->indexBy('a', 'a.apiId')
             ->getQuery()
-            ->execute([1 => static::PROVIDER_NAME, 2 => TimeStatus::NOT_STARTED()->getValue()]);
+            ->execute([
+                1 => static::PROVIDER_NAME,
+                2 => TimeStatus::NOT_STARTED()->getValue(),
+                3 => (Carbon::now()->addSeconds(self::PREMATCH_CACHE_TTL))
+            ]);
 
         $apiEventDict = collect($apiEventArray);
         $preMatchOdds = collect();
         $eventsIdsToRequest = collect();
 
-        $cacheKeys = $apiEventDict->map(
-            fn(\App\Domain\ApiEvent $apiEvent) => $this->createPreMatchKey($apiEvent->getApiId()),
-        );
-        $cachePreMatchOdds = collect($this->cache->getMultiple($cacheKeys));
-
         foreach ($apiEventDict as $apiEvent) {
-            $cacheItem = $cachePreMatchOdds->get($this->createPreMatchKey($apiEvent->getApiId()));
-            if ($cacheItem) {
-                $preMatchOdds->push($cacheItem);
-            } else {
-                $eventsIdsToRequest->push($apiEvent->getApiId());
-            }
+            $eventsIdsToRequest->push($apiEvent->getApiId());
         }
 
         // Call API for data in 10-elements chunks
         foreach ($eventsIdsToRequest->chunk(10) as $keys) {
             $results = collect($this->api->getPreMatchOdds($keys->values()));
-            $this->cache->setMultiple(
-                $results->mapWithKeys(
-                    fn(array $event) => [$this->createPreMatchKey($event['FI']) => $event],
-                ),
-                static::PREMATCH_CACHE_TTL,
-            );
+            $this->logger->info(sprintf('Retrieving odds for events: %s', $keys->values()->implode(',')));
             $preMatchOdds->push(...$results);
         }
 
@@ -132,6 +124,18 @@ class Bets365 implements BettingProvider
                 $odds = $parser->parseMainLines($event, $apiEvent->getTeamHome(), $apiEvent->getTeamAway());
                 $apiEvent->updateOdds($odds);
                 $errors = $parser->getErrors();
+
+                if (count($errors)) {
+                    $content = json_encode($event, \JSON_PRETTY_PRINT);
+                    $filename = $apiEvent->getId() . '.' . md5($content) . '.requestdata.json';
+                    Storage::disk('local')->put($filename, $content);
+                    $this->logger->info('Dumped request to ' . $filename);
+                }
+
+                foreach ($errors as $error) {
+                    $this->logger->warning(...$error);
+                }
+
                 return $odds;
             })
             ->all();

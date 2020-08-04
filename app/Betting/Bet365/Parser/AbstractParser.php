@@ -195,6 +195,10 @@ class AbstractParser
                 continue;
             }
 
+            if ($this->cmpStr($item[$this->moneyLineTeamField], 'Tie')) {
+                continue;
+            }
+
             $this->errors[] = ['Unable to map odds for money line, no matches found', ['item' => $item]];
         }
 

@@ -218,7 +218,7 @@ class ApiEvent
                 $moneyLineAway = new ApiEventOdds($this, MoneyLineAway::class, $odds->getMoneyLineAway());
                 $this->odds->set(MoneyLineAway::class, $moneyLineAway);
             } else {
-                $moneyLineHome->update($odds->getMoneyLineAway());
+                $moneyLineAway->update($odds->getMoneyLineAway());
             }
         }
 
@@ -228,7 +228,7 @@ class ApiEvent
                 $spreadHome = new ApiEventOdds($this, SpreadHome::class, $odds->getPointSpreadHome(), $odds->getPointSpreadHomeLine());
                 $this->odds->set(SpreadHome::class, $spreadHome);
             } else {
-                $moneyLineHome->update($odds->getPointSpreadHome(), $odds->getPointSpreadHomeLine());
+                $spreadHome->update($odds->getPointSpreadHome(), $odds->getPointSpreadHomeLine());
             }
         }
 
@@ -238,7 +238,7 @@ class ApiEvent
                 $spreadAway = new ApiEventOdds($this, SpreadAway::class, $odds->getPointSpreadAway(), $odds->getPointSpreadAwayLine());
                 $this->odds->set(SpreadAway::class, $spreadAway);
             } else {
-                $moneyLineAway->update($odds->getPointSpreadAway(), $odds->getPointSpreadAwayLine());
+                $spreadAway->update($odds->getPointSpreadAway(), $odds->getPointSpreadAwayLine());
             }
         }
 
@@ -248,17 +248,17 @@ class ApiEvent
                 $totalOver = new ApiEventOdds($this, TotalOver::class, $odds->getOverLine(), $odds->getTotalNumber());
                 $this->odds->set(TotalOver::class, $totalOver);
             } else {
-                $moneyLineAway->update($odds->getOverLine(), $odds->getTotalNumber());
+                $totalOver->update($odds->getOverLine(), $odds->getTotalNumber());
             }
         }
 
         if ($odds->getUnderLine() !== null) {
             $totalUnder = $this->odds->get(TotalUnder::class);
             if ($totalUnder === null) {
-                $totalUnder = new ApiEventOdds($this, TotalUnder::class, $odds->getOverLine(), $odds->getTotalNumber());
+                $totalUnder = new ApiEventOdds($this, TotalUnder::class, $odds->getUnderLine(), $odds->getTotalNumber());
                 $this->odds->set(TotalUnder::class, $totalUnder);
             } else {
-                $moneyLineAway->update($odds->getOverLine(), $odds->getTotalNumber());
+                $totalUnder->update($odds->getUnderLine(), $odds->getTotalNumber());
             }
         }
     }
