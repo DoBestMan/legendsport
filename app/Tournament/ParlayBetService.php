@@ -18,6 +18,10 @@ use App\Tournament\Exceptions\NotEnoughChipsException;
 use App\Tournament\Exceptions\NotRegisteredException;
 use Illuminate\Database\DatabaseManager;
 
+/**
+ * @codeCoverageIgnore
+ * @deprecated
+ */
 class ParlayBetService
 {
     private DatabaseManager $databaseManager;

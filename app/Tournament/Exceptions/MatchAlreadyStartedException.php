@@ -4,6 +4,10 @@ namespace App\Tournament\Exceptions;
 use Exception;
 use Throwable;
 
+/**
+ * @codeCoverageIgnore
+ * @deprecated
+ */
 class MatchAlreadyStartedException extends Exception
 {
     public function __construct(
