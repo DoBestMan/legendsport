@@ -33,4 +33,9 @@ class BetPlacementException extends \DomainException
     {
         return new self('These events are correlated and cannot be parlayed together, please select different events');
     }
+
+    public static function insufficientEvents()
+    {
+        return new self('Must be at least 2 bet items to place a parlay');
+    }
 }

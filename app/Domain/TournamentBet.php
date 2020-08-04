@@ -133,12 +133,12 @@ class TournamentBet
         return $multiplier;
     }
 
-    public function refund(): void
+    private function refund(): void
     {
         $this->tournamentPlayer->addChips($this->chipsWager);
     }
 
-    public function creditWinnings(): void
+    private function creditWinnings(): void
     {
         $this->tournamentPlayer->addChips(intval(($this->getReducedDecimalOdds() - 1) * $this->chipsWager));
     }

@@ -214,6 +214,10 @@ class Tournament
 
     public function placeStraightBet(TournamentPlayer $tournamentPlayer, int $wager, BetItem $betItem): void
     {
+        if (!$this->players->contains($tournamentPlayer)) {
+            throw BetPlacementException::notRegistered();
+        }
+
         if (!$this->canBetBePlaced()) {
             throw BetPlacementException::tournamentOver();
         }
@@ -235,12 +239,16 @@ class Tournament
 
     public function placeParlayBet(TournamentPlayer $tournamentPlayer, int $wager, BetItem ...$betItems): void
     {
+        if (!$this->players->contains($tournamentPlayer)) {
+            throw BetPlacementException::notRegistered();
+        }
+
         if (!$this->canBetBePlaced()) {
             throw BetPlacementException::tournamentOver();
         }
 
         if (count($betItems) < 2) {
-            throw new \DomainException('Must be at least 2 bet items to place a parlay');
+            throw BetPlacementException::insufficientEvents();
         }
 
         $tournamentPlayer->reduceChips($wager);

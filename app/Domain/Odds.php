@@ -40,5 +40,4 @@ class Odds
         $result = -100 / ($odd - 1);
         return $result->round()->toInt();
     }
-
 }
