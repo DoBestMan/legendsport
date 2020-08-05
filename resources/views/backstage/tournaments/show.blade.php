@@ -30,6 +30,7 @@
                 :max-bots="maxBots"
                 :add-bots="addBots"
                 :player-bots="playerBots"
+                :auto-end="autoEnd"
             ></tournament-form>
         </fieldset>
 

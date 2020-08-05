@@ -7,7 +7,7 @@ use App\Betting\Bet365\Initaliser;
 use App\Betting\Bets365;
 use App\Betting\Bets365API;
 use App\Betting\BettingProvider;
-use App\Betting\JsonOddAPI;
+use App\Betting\MultiProvider;
 use App\Betting\TestData;
 use App\Repository\OrmRepository;
 use App\Repository\Repository;
@@ -29,10 +29,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(JsonOddAPI::class, function () {
-            return new JsonOddAPI(env("JSONODDS_API_KEY"));
-        });
-
         $this->app->bind(Bets365API::class, function () {
             return new Bets365API(env("BETS365_TOKEN"));
         });
@@ -45,8 +41,16 @@ class AppServiceProvider extends ServiceProvider
             return new UserTokenService(env("APP_KEY"));
         });
 
+        $this->app->bind(MultiProvider::class, function () {
+            return new MultiProvider(
+                $this->app->get(EntityManager::class),
+                $this->app->get(Bets365::class),
+                $this->app->get(TestData::class)
+            );
+        });
+
         $this->app->bind(BaseWebSocketHandler::class, WebSocketHandler::class);
-        $this->app->bind(BettingProvider::class, TestData::class);
+        $this->app->bind(BettingProvider::class, Bets365::class);
 
         $this->app->bind(RepositoryManager::class, function () {
             return new RepositoryManager(function (string $entityClass): Repository {
@@ -54,6 +58,8 @@ class AppServiceProvider extends ServiceProvider
             });
         });
 
+        $this->app->bind(BaseWebSocketHandler::class, WebSocketHandler::class);
+        $this->app->bind(BettingProvider::class, MultiProvider::class);
         PhpEnumType::registerEnumType(BetStatus::class);
     }
 

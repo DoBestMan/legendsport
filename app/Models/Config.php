@@ -22,6 +22,7 @@ class Config extends Model
             'chips' => Arr::get($value, 'chips') ?? 10000,
             'commission' => Arr::get($value, 'commission') ?? 2,
             'keep_completed' => Arr::get($value, 'keep_completed') ?? 1,
+            'providers' => Arr::get($value, 'providers') ?? ['testdata'],
         ]);
 
         return json_decode($config, true);

@@ -108,6 +108,43 @@
                 </label>
             </div>
 
+            <h2>API providers</h2>
+
+            <hr>
+
+            <div inside="providers" class="form-row form-group">
+                <div class="col-2 text-right">
+                    <label for="providers" class="col-form-label">Bet 365</label>
+                </div>
+
+                <div class="col-1">
+                    <input v-model="providers" class="form-control text-right" type="checkbox" value="bet365" />
+
+                    @error('providers')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                <label class="col-auto col-form-label text-muted">
+                    Enable/Disable provider
+                </label>
+            </div>
+            <div inside="providers" class="form-row form-group">
+                <div class="col-2 text-right">
+                    <label for="providers" class="col-form-label">Test data</label>
+                </div>
+
+                <div class="col-1">
+                    <input v-model="providers" class="form-control text-right" type="checkbox" value="testdata" />
+
+                    @error('providers')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                <label class="col-auto col-form-label text-muted">
+                    Enable/Disable provider
+                </label>
+            </div>
+
             @yield('HTML-btnAction')
         </form>
     </div>

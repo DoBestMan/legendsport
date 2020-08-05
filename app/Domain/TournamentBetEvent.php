@@ -39,7 +39,7 @@ abstract class TournamentBetEvent
     private ?\DateTime $createdAt;
     /** @ORM\Column(name="updated_at", type="datetime", nullable=true) */
     private ?\DateTime $updatedAt;
-    /** @ORM\Column(name="handicap", type="decimal", precision=8, scale=2, nullable=true) */
+    /** @ORM\Column(name="handicap", type="DecimalObject", nullable=true) */
     private ?Decimal $handicap;
     /**
      * @ORM\ManyToOne(targetEntity="App\Domain\TournamentBet", inversedBy="events")

@@ -27,6 +27,11 @@ class League
         $this->id = $id;
         $this->name = $name;
         $this->sport = $sport;
+
+        //@TODO remove this when league admin panel is built.
+        if (in_array($name, ['NHL', 'NFL', 'NBA', 'MLB'])) {
+            $this->enabled = true;
+        }
     }
 
     public function getId(): string

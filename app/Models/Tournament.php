@@ -37,6 +37,7 @@ use UnexpectedValueException;
  * @property int $bots_registered
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property bool $auto_end
  * @property-read Collection|TournamentPlayer[] $players
  * @property-read Collection|TournamentEvent[] $events
  * @method static Tournament active()

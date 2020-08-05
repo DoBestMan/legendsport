@@ -63,6 +63,8 @@ class Tournament
     /** @ORM\OneToMany(targetEntity="\App\Domain\TournamentBet", mappedBy="tournament", cascade={"ALL"}) */
     private Collection $bets;
     private ?Collection $bettableEvents = null;
+    /** @ORM\Column(name="auto_end", type="boolean") */
+    private bool $autoEnd = true;
 
     public function __construct()
     {
@@ -169,6 +171,11 @@ class Tournament
     public function getPlayers()
     {
         return $this->players;
+    }
+
+    public function shouldAutoEnd(): bool
+    {
+        return $this->autoEnd;
     }
 
     public function getEvents(): Collection

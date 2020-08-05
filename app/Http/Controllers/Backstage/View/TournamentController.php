@@ -42,6 +42,7 @@ class TournamentController extends Controller
 
         JavaScript::put([
             'config' => $config->config,
+            'autoEnd' => 1,
             'lateRegister' => 0,
             'prizePool' => 'Auto',
             'prizePoolValue' => 0,
@@ -81,6 +82,7 @@ class TournamentController extends Controller
         $tournament->registration_deadline = $registrationDeadlines['registration_deadline'];
         $tournament->late_registration_deadline = $registrationDeadlines['late_registration_deadline'];
         $tournament->bots = $request->bots;
+        $tournament->auto_end = $request->auto_end;
         $tournament->save();
 
         foreach ($apiData as $data) {
@@ -127,6 +129,7 @@ class TournamentController extends Controller
             'maxBots' => $tournament->bots['max'],
             'addBots' => $tournament->bots['add'],
             'playerBots' => $tournament->bots['player'],
+            'autoEnd' => $tournament->auto_end,
         ]);
 
         return view('backstage.tournaments.show')
@@ -166,6 +169,7 @@ class TournamentController extends Controller
             'maxBots' => $tournament->bots['max'],
             'addBots' => $tournament->bots['add'],
             'playerBots' => $tournament->bots['player'],
+            'autoEnd' => $tournament->auto_end,
         ]);
 
         return view('backstage.tournaments.edit')
@@ -195,6 +199,7 @@ class TournamentController extends Controller
         $tournament->registration_deadline = $registrationDeadlines['registration_deadline'];
         $tournament->late_registration_deadline = $registrationDeadlines['late_registration_deadline'];
         $tournament->bots = $request->bots;
+        $tournament->auto_end = $request->auto_end;
         $tournament->save();
 
         $apiDataDict = collect($apiData)->mapWithKeys(
