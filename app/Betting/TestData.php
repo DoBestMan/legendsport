@@ -126,10 +126,10 @@ class TestData implements BettingProvider
     public function getSports(): array
     {
         return [
-            new Sport(1000, 'Laser Tag'),
-            new Sport(2000, 'Air Hockey'),
-            new Sport(3000, 'VR Dodgeball'),
-            new Sport(4000, 'Jousting'),
+            new Sport(1000, 'Laser Tag', self::PROVIDER_NAME),
+            new Sport(2000, 'Air Hockey',self::PROVIDER_NAME),
+            new Sport(3000, 'VR Dodgeball', self::PROVIDER_NAME),
+            new Sport(4000, 'Jousting', self::PROVIDER_NAME),
         ];
     }
 }

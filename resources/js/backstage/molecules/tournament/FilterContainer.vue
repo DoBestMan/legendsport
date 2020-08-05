@@ -36,7 +36,7 @@
 import Vue, { PropType } from "vue";
 import SportSelect from "../../../general/components/SportSelect.vue";
 import sportStore from "../../stores/sportStore";
-import { Sport } from "../../../general/types/sport";
+import { SportOption } from "../../../general/types/sport";
 
 export default Vue.extend({
     name: "FilterContainer",
@@ -48,8 +48,8 @@ export default Vue.extend({
     },
 
     computed: {
-        sportOptions(): Sport[] {
-            return sportStore.sports;
+        sportOptions(): SportOption[] {
+            return sportStore.sports.map(sport => new SportOption(sport.id, sport.name + " (" + sport.provider + ")"));
         },
     },
 

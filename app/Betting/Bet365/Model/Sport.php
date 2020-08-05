@@ -2,6 +2,8 @@
 
 namespace App\Betting\Bet365\Model;
 
+use App\Betting\Bets365;
+use App\Betting\Sport as SportVO;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,6 @@ class Sport
 
     public function toSport(): \App\Betting\Sport
     {
-        return new \App\Betting\Sport($this->id, $this->name);
+        return new SportVO($this->id, $this->name, Bets365::PROVIDER_NAME);
     }
 }
