@@ -34,11 +34,11 @@ class MultiProvider implements BettingProvider
         return $pagination;
     }
 
-    public function getOdds(): array
+    public function getOdds(bool $updatesOnly): array
     {
         $odds = [];
         foreach ($this->getEnabledProviders() as $provider) {
-            $odds = array_merge($odds, $provider->getOdds());
+            $odds = array_merge($odds, $provider->getOdds($updatesOnly));
         }
 
         return $odds;

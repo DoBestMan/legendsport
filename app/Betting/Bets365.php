@@ -76,29 +76,28 @@ class Bets365 implements BettingProvider
         return new Pagination($results, $paginator->count(), $perPage);
     }
 
-    public function getOdds(): array
+    public function getOdds(bool $updatesOnly): array
     {
         /** @var \App\Domain\ApiEvent[]|Collection $apiEventDict */
         $qb = $this->entityManager->createQueryBuilder();
-        $apiEventArray = $qb->select('a')
+        $apiEventDict = $qb->select('a')
             ->from(\App\Domain\ApiEvent::class, 'a')
             ->where($qb->expr()->eq('a.provider', '?1'))
             ->andWhere($qb->expr()->eq('a.timeStatus', '?2'))
-            ->andWhere($qb->expr()->lt('a.updatedAt', '?3'))
             ->indexBy('a', 'a.apiId')
             ->getQuery()
             ->execute([
                 1 => static::PROVIDER_NAME,
                 2 => TimeStatus::NOT_STARTED()->getValue(),
-                3 => (Carbon::now()->addSeconds(self::PREMATCH_CACHE_TTL))
             ]);
 
-        $apiEventDict = collect($apiEventArray);
         $preMatchOdds = collect();
         $eventsIdsToRequest = collect();
 
         foreach ($apiEventDict as $apiEvent) {
-            $eventsIdsToRequest->push($apiEvent->getApiId());
+            if (!$apiEvent->isFresherThan(self::PREMATCH_CACHE_TTL)) {
+                $eventsIdsToRequest->push($apiEvent->getApiId());
+            }
         }
 
         // Call API for data in 10-elements chunks
@@ -108,41 +107,30 @@ class Bets365 implements BettingProvider
             $preMatchOdds->push(...$results);
         }
 
+        $updates = [];
         // Map API items into SportEventOdds
-        $odds = collect($preMatchOdds)
-            ->map(function (array $event) use ($apiEventDict) {
-                $eventId = $event["FI"];
-                /** @var \App\Domain\ApiEvent $apiEvent */
-                $apiEvent = $apiEventDict[$eventId];
+        foreach ($preMatchOdds as $event) {
+            $eventId = $event["FI"];
+            /** @var \App\Domain\ApiEvent $apiEvent */
+            $apiEvent = $apiEventDict[$eventId];
 
-                if (!isset(self::$parsers[$apiEvent->getSportId()])) {
-                    return new SportEventOdd($eventId);
-                }
+            if (!isset(self::$parsers[$apiEvent->getSportId()])) {
+                continue;
+            }
 
-                $parser = new self::$parsers[$apiEvent->getSportId()];
+            $parser = new self::$parsers[$apiEvent->getSportId()];
 
-                $odds = $parser->parseMainLines($event, $apiEvent->getTeamHome(), $apiEvent->getTeamAway());
-                $apiEvent->updateOdds($odds);
-                $errors = $parser->getErrors();
+            $odds = $parser->parseMainLines($event, $apiEvent->getTeamHome(), $apiEvent->getTeamAway());
+            $apiEvent->updateOdds($odds);
+            $errors = $parser->getErrors();
 
-                if (count($errors)) {
-                    $content = json_encode($event, \JSON_PRETTY_PRINT);
-                    $filename = $apiEvent->getId() . '.' . md5($content) . '.requestdata.json';
-                    Storage::disk('local')->put($filename, $content);
-                    $this->logger->info('Dumped request to ' . $filename);
-                }
-
-                foreach ($errors as $error) {
-                    $this->logger->warning(...$error);
-                }
-
-                return $odds;
-            })
-            ->all();
+            $this->handleErrors($errors, $event, $apiEvent);
+            $updates[] = $apiEvent;
+        }
 
         $this->entityManager->flush();
 
-        return $odds;
+        return $updatesOnly ? $updates : $apiEventDict;
     }
 
     public function getResults(): array
@@ -207,11 +195,6 @@ class Bets365 implements BettingProvider
         return $results;
     }
 
-    public function createPreMatchKey(string $eventId): string
-    {
-        return "bets365.prematch.{$eventId}";
-    }
-
     public function createResultKey(string $eventId): string
     {
         return "bets365.result.{$eventId}";
@@ -254,5 +237,19 @@ class Bets365 implements BettingProvider
         }
 
         return [(int) $exploded[0], (int) $exploded[1]];
+    }
+
+    private function handleErrors($errors, $event, \App\Domain\ApiEvent $apiEvent): void
+    {
+        if (count($errors)) {
+            $content = json_encode($event, \JSON_PRETTY_PRINT);
+            $filename = $apiEvent->getId() . '.' . md5($content) . '.requestdata.json';
+            Storage::disk('local')->put($filename, $content);
+            $this->logger->info('Dumped request to ' . $filename);
+        }
+
+        foreach ($errors as $error) {
+            $this->logger->warning(...$error);
+        }
     }
 }

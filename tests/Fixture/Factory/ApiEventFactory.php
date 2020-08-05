@@ -23,6 +23,7 @@ class ApiEventFactory extends FactoryAbstract
             new Decimal('4')
         );
         $apiEvent->updateOdds($odds);
+        self::setProperty($apiEvent, 'apiId', 'eid');
         self::setProperty($apiEvent, 'timeStatus', 'not_started');
         self::setProperty($apiEvent, 'id', 1);
 

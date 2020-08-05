@@ -44,7 +44,7 @@ class TestData implements BettingProvider
     /**
      * @inheritDoc
      */
-    public function getOdds(): array
+    public function getOdds(bool $updatesOnly): array
     {
         /** @var \App\Domain\ApiEvent[]|Collection $apiEventDict */
         $qb = $this->entityManager->createQueryBuilder();
@@ -77,7 +77,7 @@ class TestData implements BettingProvider
 
         $this->entityManager->flush();
 
-        return $odds;
+        return $apiEventDict;
     }
 
     public function getResults(): array

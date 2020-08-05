@@ -10,6 +10,7 @@ use App\Domain\BetTypes\SpreadAway;
 use App\Domain\BetTypes\SpreadHome;
 use App\Domain\BetTypes\TotalOver;
 use App\Domain\BetTypes\TotalUnder;
+use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -180,6 +181,12 @@ class ApiEvent
         return $this->timeStatus === 'ended' || $this->isCancelled();
     }
 
+    public function isFresherThan(int $seconds): bool
+    {
+        $updatedAt = \DateTimeImmutable::createFromMutable($this->updatedAt);
+        return $updatedAt->add(new \DateInterval('PT' . $seconds . 'S')) > new \DateTimeImmutable();
+    }
+
     //@TODO remove this method, exists to allow syncing uncommited eloquent changes while running in hybrid mode.
     public function sync(\App\Models\ApiEvent $apiEvent): void
     {
@@ -193,6 +200,7 @@ class ApiEvent
         $this->timeStatus = $sportEventResult->getTimeStatus()->getValue();
         $this->scoreHome = $sportEventResult->getHome();
         $this->scoreAway = $sportEventResult->getAway();
+        $this->updatedAt = Carbon::now();
     }
 
     public function isUpcoming()
@@ -202,6 +210,7 @@ class ApiEvent
 
     public function updateOdds(SportEventOdd $odds): void
     {
+        $this->updatedAt = Carbon::now();
         if ($odds->getMoneyLineHome() !== null) {
             $moneyLineHome = $this->odds->get(MoneyLineHome::class);
             if ($moneyLineHome === null) {
@@ -271,5 +280,10 @@ class ApiEvent
     public function getOdds(string $betType): ?ApiEventOdds
     {
         return $this->odds->get($betType);
+    }
+
+    public function getAllOdds(): Collection
+    {
+        return $this->odds;
     }
 }
