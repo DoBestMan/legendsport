@@ -1,11 +1,17 @@
 <template>
-    <section class="col-3 h-100">
+    <!-- <section class="col-3 h-100">
         <div class="section info">
             <TournamentInfo :tournament="tournament" />
             <PrizePool :tournament="tournament" />
             <TournamentRankTable :players="tournament.players" />
             <ChatContainer :messages="chatMessages" @sendMessage="sendMessage" />
         </div>
+    </section> -->
+    <section class="layout__content__sidebar b--dark-3 layout__content__sidebar--left">
+        <TournamentInfo :tournament="tournament" />
+        <PrizePool :tournament="tournament" />
+        <TournamentRankTable :players="tournament.players" />
+        <ChatContainer :messages="chatMessages" @sendMessage="sendMessage" />
     </section>
 </template>
 
