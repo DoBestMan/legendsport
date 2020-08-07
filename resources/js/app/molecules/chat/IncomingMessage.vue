@@ -1,22 +1,22 @@
 <template>
-    <div class="message incoming">
-        <div class="message-header">
-            <div class="date text-muted">
-                {{ timestamp | toTime }}
-            </div>
-            <div class="user">
-                <i class="icon fas fa-user-circle"></i>
-                {{ user }}:
-            </div>
-            <div class="tag-frm">
-                <span v-if="!participant" class="tag">
-                    Invited
-                </span>
-            </div>
+    <div class="message">
+        <div class="message__avatar">
+            <i class="icon icon--person icon--micro"></i>
         </div>
-
-        <div>
-            {{ message }}
+        <div class="message__content">
+            <div class="message__content__details">
+                <div class="message__content__details__detail">{{ user }}</div>
+                <div class="message__content__details__detail">{{ timestamp | toTime }}</div>
+                <!-- Todo: check if invited or not
+                <div class="tag-frm">
+                    <span v-if="!participant" class="tag">
+                        Invited
+                    </span>
+                </div> -->
+            </div>
+            <div class="message__content__message">
+                {{ message }}
+            </div>
         </div>
     </div>
 </template>
