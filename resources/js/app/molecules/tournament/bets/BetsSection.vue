@@ -1,5 +1,5 @@
 <template>
-    <section class="col-3 h-100">
+    <!-- <section class="col-3 h-100">
         <div class="section bets">
             <div class="title-bar-frm">
                 <span v-if="isRegistered" class="title">
@@ -29,6 +29,71 @@
             <HistoryTab v-if="isBetTabSelected(BetTypeTab.History)" :window="window" />
             <StraightTab v-if="isBetTabSelected(BetTypeTab.Straight)" :window="window" />
             <ParlayTab v-if="isBetTabSelected(BetTypeTab.Parlay)" :window="window" />
+        </div>
+    </section> -->
+    <section class="layout__content__sidebar">
+        <div class="layout__content__sidebar__header">
+            <div class="layout__content__sidebar__header__bet">
+                <i class="icon m--r--2 icon--slip"></i>
+                <div class="layout__content__sidebar__header__bet__content">
+                    <div class="layout__content__sidebar__header__bet__content__title">
+                        Bet Slip
+                    </div>
+                    <div
+                        class="layout__content__sidebar__header__bet__content__group"
+                        v-if="isRegistered"
+                    >
+                        <div class="layout__content__sidebar__header__bet__content__group__coins">
+                            <i
+                                class="icon icon--atom icon--color--yellow-2 icon--coins m--r--1"
+                            ></i>
+                            Balance
+                        </div>
+                        <div class="layout__content__sidebar__header__bet__content__group__balance">
+                            {{ player.chips | formatChip }} ({{ player.pendingChips | formatChip }})
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="tab--large">
+                <div class="tab--large__item"
+                    :class="{ active: isBetTabSelected('Straight') }"
+                    @click="selectBetTab('Straight')"
+                >
+                    Straight
+                </div>
+                <div class="tab--large__item"
+                    :class="{ active: isBetTabSelected('Parlay') }"
+                    @click="selectBetTab('Parlay')"
+                >
+                    Parlay
+                </div>
+                <div class="tab--large__item"
+                    :class="{ active: isBetTabSelected('Pending') }"
+                    @click="selectBetTab('Pending')"
+                >
+                    Pending
+                </div>
+                <div class="tab--large__item"
+                    :class="{ active: isBetTabSelected('Straight') }"
+                    @click="selectBetTab('History')"
+                >
+                    History
+                </div>
+            </div> -->
+
+            <div v-for="betTab in betTabs" :key="betTab">
+                <div class="tab--large">
+                    <div
+                        class="tab--large__item"
+                        :class="{ active: isBetTabSelected(betTab) }"
+                        @click="selectBetTab(betTab)"
+                    >
+                        {{ betTab }}
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </template>
@@ -86,6 +151,7 @@ export default Vue.extend({
 
     methods: {
         isBetTabSelected(type: BetTypeTab): boolean {
+            console.log("type", type);
             return this.window.selectedBetTypeTab === type;
         },
 
