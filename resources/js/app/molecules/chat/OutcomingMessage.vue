@@ -1,5 +1,16 @@
 <template>
-    <div class="message outcoming"><strong>Me:</strong> {{ message }}</div>
+    <div class="message message--self">
+        <div class="message__content">
+            <!-- Todo: to get time -->
+            <div class="message__content__details">
+                <div class="message__content__details__detail"></div>
+                <div class="message__content__details__detail">11.10 am</div>
+            </div>
+            <div class="message__content__message">
+                {{ message }}
+            </div>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
