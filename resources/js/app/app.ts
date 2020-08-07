@@ -23,6 +23,8 @@ import { saveWindows } from "./utils/local-storage/LocalStorageManager";
 import { score } from "./utils/game/result";
 import BootstrapVue from "bootstrap-vue";
 
+import "../../sass/style.css";
+
 // @ts-ignore
 window.Pusher = Pusher;
 
@@ -78,11 +80,14 @@ echo.channel("general")
         store.commit("tournamentList/createOrUpdateTournament", mapTournament(tournament));
     });
 
-store.dispatch("user/load").then(function () {
-    if (!!store.state.user.user) {
-        store.dispatch("tournamentHistoryList/load").catch(console.error);
-    }
-}).catch(console.error);
+store
+    .dispatch("user/load")
+    .then(function() {
+        if (!!store.state.user.user) {
+            store.dispatch("tournamentHistoryList/load").catch(console.error);
+        }
+    })
+    .catch(console.error);
 store.dispatch("tournamentList/load").catch(console.error);
 store.dispatch("sport/load").catch(console.error);
 store.dispatch("odd/load").catch(console.error);
