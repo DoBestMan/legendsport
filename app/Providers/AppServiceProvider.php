@@ -8,7 +8,9 @@ use App\Betting\Bets365;
 use App\Betting\Bets365API;
 use App\Betting\BettingProvider;
 use App\Betting\MultiProvider;
+use App\Betting\SportsData\NBA;
 use App\Betting\TestData;
+use App\Betting\TimeStatus;
 use App\Repository\OrmRepository;
 use App\Repository\Repository;
 use App\Repository\RepositoryManager;
@@ -23,35 +25,27 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
     public function register()
     {
-        $this->app->bind(Bets365API::class, function () {
-            return new Bets365API(env("BETS365_TOKEN"));
-        });
+        $this->app->when([Bets365API::class, Initaliser::class])
+            ->needs('$token')
+            ->give(env("BETS365_TOKEN"));
 
-        $this->app->bind(Initaliser::class, function () {
-            return new Initaliser(env("BETS365_TOKEN"), $this->app->get(EntityManager::class));
-        });
+        $this->app->when(NBA::class)
+            ->needs('$apiKey')
+            ->give(env('SPORTSDATA_NBA_ODDS_KEY'));
 
-        $this->app->bind(UserTokenService::class, function () {
-            return new UserTokenService(env("APP_KEY"));
-        });
+        $this->app->when(UserTokenService::class)
+            ->needs('$secret')
+            ->give(env("APP_KEY"));
 
-        $this->app->bind(MultiProvider::class, function () {
-            return new MultiProvider(
-                $this->app->get(EntityManager::class),
-                $this->app->get(Bets365::class),
-                $this->app->get(TestData::class)
-            );
-        });
+        $this->app->tag([Bets365::class, TestData::class, NBA::class], ['betting_provider']);
+
+        $this->app->when(MultiProvider::class)
+            ->needs(BettingProvider::class)
+            ->giveTagged('betting_provider');
 
         $this->app->bind(BaseWebSocketHandler::class, WebSocketHandler::class);
-        $this->app->bind(BettingProvider::class, Bets365::class);
 
         $this->app->bind(RepositoryManager::class, function () {
             return new RepositoryManager(function (string $entityClass): Repository {
@@ -63,16 +57,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(BettingProvider::class, MultiProvider::class);
         PhpEnumType::registerEnumType(BetStatus::class);
         PhpEnumType::registerEnumType(TournamentState::class);
+        PhpEnumType::registerEnumType(TimeStatus::class);
     }
 
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
     public function boot()
     {
-        //
         $this->app->get('websockets.router')->get('/', Healthcheck::class);
     }
 }

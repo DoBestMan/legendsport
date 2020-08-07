@@ -35,5 +35,8 @@ class ApiEventToOddsTest extends TestCase
         $result = $sut->transform($apiEvent);
 
         self::assertEquals($expected, $result);
+        self::assertEquals('-2', $result['point_spread_away_line']->toString());
+        self::assertEquals('2', $result['point_spread_home_line']->toString());
+        self::assertEquals('4', $result['total_number']->toString());
     }
 }

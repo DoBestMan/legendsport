@@ -4,6 +4,7 @@ namespace App\Domain;
 
 use App\Betting\SportEventOdd;
 use App\Betting\SportEventResult;
+use App\Betting\TimeStatus;
 use App\Domain\BetTypes\MoneyLineAway;
 use App\Domain\BetTypes\MoneyLineHome;
 use App\Domain\BetTypes\SpreadAway;
@@ -60,12 +61,8 @@ class ApiEvent
      */
     private $sportId;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="time_status", type="string", length=255, nullable=false)
-     */
-    private $timeStatus;
+    /** @ORM\Column(name="time_status", type=TimeStatus::class, length=255, nullable=false) */
+    private TimeStatus $timeStatus;
 
     /**
      * @var \DateTime|null
@@ -141,7 +138,7 @@ class ApiEvent
         return $this->sportId;
     }
 
-    public function getTimeStatus(): string
+    public function getTimeStatus(): TimeStatus
     {
         return $this->timeStatus;
     }
@@ -197,7 +194,7 @@ class ApiEvent
 
     public function result(SportEventResult $sportEventResult): void
     {
-        $this->timeStatus = $sportEventResult->getTimeStatus()->getValue();
+        $this->timeStatus = $sportEventResult->getTimeStatus();
         $this->scoreHome = $sportEventResult->getHome();
         $this->scoreAway = $sportEventResult->getAway();
         $this->updatedAt = Carbon::now();
