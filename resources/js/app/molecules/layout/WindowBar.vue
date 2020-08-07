@@ -1,13 +1,12 @@
 <template>
-    <section class="row">
-        <HorizontallyScrollable class="col tabs-row-frm">
+    <section class="layout__header">
+        <!-- <HorizontallyScrollable class="col tabs-row-frm">
             <div class="tabs-frm">
                 <div class="tab-frm">
                     <router-link tag="button" class="btn tab" to="/" exact>
                         <i class="icon fas fa-home"></i>
                         Home
                     </router-link>
-                    <span class="separator">|</span>
                 </div>
 
                 <div class="tab-frm" v-for="window in windows" :key="window.id">
@@ -15,10 +14,22 @@
                         {{ window.tournament.name }}
                     </router-link>
                     <div class="delete" style="margin-left: -5px" @click="closeWindow(window)" />
-                    <span class="separator">|</span>
                 </div>
             </div>
-        </HorizontallyScrollable>
+        </HorizontallyScrollable> -->
+        <div>
+            <router-link class="tab" to="/" exact>
+                <i class="icon icon--home icon--micro m--r--2"></i>
+                Home
+            </router-link>
+        </div>
+
+        <div v-for="window in windows" :key="window.id">
+            <router-link class="tab" :to="`/tournaments/${window.id}`">
+                <i class="icon icon--cup icon--micro m--r--2"></i>
+                {{ window.tournament.name }}
+            </router-link>
+        </div>
     </section>
 </template>
 
