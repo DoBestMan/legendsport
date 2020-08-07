@@ -1,9 +1,9 @@
 <template>
-    <div class="app container-fluid">
+    <div class="layout">
         <NavBar />
         <WindowBar />
         <router-view />
-        <Footer />
+        <!-- Todo: <Footer /> -->
         <FullLoader v-if="isLoaderVisible" />
         <Toasts :timeOut="7000" :closeable="true" />
         <ModalAuth />
