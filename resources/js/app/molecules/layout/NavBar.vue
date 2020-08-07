@@ -1,37 +1,39 @@
 <template>
-    <nav id="menu-frm" class="row">
-        <div class="col-4">
-            <router-link id="brand-frm" to="/">
-                <div id="logo-text-frm" class="d-inline-blockx align-top">
-                    <div id="logo-text" class="">LS</div>
-                </div>
-                <span id="text">Legend Sports</span>
-            </router-link>
+    <div class="layout__navbar">
+        <div class="logo" to="/">
+            <div class="logo__icon">LS</div>
+            <span class="logo__text d--only--desktop">Legend Sports</span>
         </div>
 
-        <div v-if="isAuthenticated" class="offset-5 col-3">
-            <div id="usermenu-frm">
-                <div id="img-frm">
-                    <div id="img">
-                        <i class="icon fas fa-user"></i>
-                    </div>
+        <div v-if="isAuthenticated" class="layout__navbar__content">
+            <div class="profile">
+                <div class="avatar">
+                    <i class="icon icon--avatar icon--small"></i>
                 </div>
 
-                <div id="title-frm">
-                    <div id="title">
+                <div class="profile__content">
+                    <div class="profile__content__name">
                         {{ user.name }}
-                        <br />
-                        <span class="balance">Bal: {{ user.balance | formatCurrency }}</span>
+                    </div>
+                    <div class="profile__content__balance">
+                        Bal: {{ user.balance | formatCurrency }}
                     </div>
                 </div>
 
-                <div class="btnMenuFrm col-1">
+                <!-- Todo -->
+                <!-- <div class="btnMenuFrm col-1">
                     <label class="iconFrm" for="btnMenuCheck">
                         <i class="icon fas fa-bars"></i>
                     </label>
-                </div>
+                </div> -->
 
-                <input type="checkbox" id="btnMenuCheck" />
+                <i class="icon icon--small icon--menu d--only--desktop"></i>
+                <i
+                    class="icon icon--small icon--menu-mobile d--only--mobile icon--color--light-1"
+                ></i>
+
+                <!-- Todo -->
+                <!-- <input type="checkbox" id="btnMenuCheck" />
                 <div class="btnMenuSubmenu">
                     <a class="menu">
                         <div class="menuImg">
@@ -72,19 +74,20 @@
                             logout
                         </div>
                     </a>
-                </div>
+                </div> -->
             </div>
         </div>
 
-        <div v-else class="sign-frm offset-4 col-4">
+        <!-- Todo -->
+        <!-- <div v-else class="sign-frm offset-4 col-4">
             <button class="btn sign-up-btn center" @click="openSignUpModal">
                 Sign up
             </button>
             <button class="btn sign-in-btn center" @click="openSignInModal">
                 Sign in
             </button>
-        </div>
-    </nav>
+        </div> -->
+    </div>
 </template>
 
 <script lang="ts">
