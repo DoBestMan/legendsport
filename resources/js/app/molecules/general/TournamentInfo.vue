@@ -1,5 +1,5 @@
 <template>
-    <div class="tournament-info-frm">
+    <!-- <div class="tournament-info-frm">
         <div class="title-bar-frm">
             <div class="img-frm">
                 <div class="img">
@@ -58,6 +58,90 @@
                 class="mb-3 mt-1"
                 :tournament="tournament"
             />
+        </div>
+    </div> -->
+
+    <div class="tournament">
+        <div class="tournament--sidebar">
+            <div class="tournament--sidebar__header">
+                <div class="tournament--sidebar__header__icon">
+                    <i class="icon icon--tourney"></i>
+                </div>
+                <div class="tournament--sidebar__header__content">
+                    <div class="tournament--sidebar__header__content__title">
+                        {{ theTournament.name }}
+                    </div>
+                    <div class="tournament--sidebar__header__content__label">
+                        {{ theTournament.state }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="tournament--sidebar__details">
+                <div class="tournament--sidebar__details__detail">
+                    <div class="tournament--sidebar__details__detail__item">
+                        <div class="tournament--sidebar__details__detail__item__label">
+                            START TIME
+                        </div>
+                        <div class="tournament--sidebar__details__detail__item__content">
+                            {{ theTournament.starts | toDateTime }}
+                        </div>
+                    </div>
+                    <div class="tournament--sidebar__details">
+                        <div class="tournament--sidebar__details__detail">
+                            <div class="tournament--sidebar__details__detail__item">
+                                <div class="tournament--sidebar__details__detail__item__label">
+                                    # PLAYERS
+                                </div>
+                                <div class="tournament--sidebar__details__detail__item__content">
+                                    {{ theTournament.players.length }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tournament--sidebar__details__detail">
+                            <div class="tournament--sidebar__details__detail__item">
+                                <div class="tournament--sidebar__details__detail__item__label">
+                                    BUY-IN
+                                </div>
+                                <div class="tournament--sidebar__details__detail__item__content">
+                                    {{ theTournament.buyIn | formatDollars }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tournament--sidebar__details__detail">
+                    <div class="tournament--sidebar__details__detail__item">
+                        <div class="tournament--sidebar__details__detail__item__label">
+                            Time Frame
+                        </div>
+                        <div class="tournament--sidebar__details__detail__item__content">
+                            Monthly
+                        </div>
+                    </div>
+                    <div class="tournament--sidebar__details__detail__item">
+                        <div class="tournament--sidebar__details__detail__item__label">
+                            Prize Pool
+                        </div>
+                        <div class="tournament--sidebar__details__detail__item__content">
+                            {{ theTournament.prizePoolMoney | formatDollars }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tournament--sidebar__details">
+                <div class="tournament--sidebar__details__detail">
+                    <div class="tournament--sidebar__details__detail__item">
+                        <div class="tournament--sidebar__details__detail__item__label">
+                            Sports
+                        </div>
+                        <div class="tournament--sidebar__details__detail__item__content">
+                            {{ sportsNames }}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
