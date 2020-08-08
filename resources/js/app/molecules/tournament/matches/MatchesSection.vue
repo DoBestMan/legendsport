@@ -1,51 +1,61 @@
 <template>
-    <section class="col-6 h-100">
-        <div class="section matches">
-            <div class="tabs-frm">
-                <div class="tab-frm">
-                    <button
-                        type="button"
-                        class="btn tab"
-                        :class="{ active: areAllSportsSelected }"
+    <section class="layout__content__container">
+        <div class="layout__content__container__content">
+            <div class="odds">
+                <div class="tab--large">
+                    <div
+                        class="tab--large__item"
+                        :class="{ 'tab--large__item--active': areAllSportsSelected }"
                         @click="selectAllSports"
                     >
                         All
-                    </button>
-                    <span class="separator">|</span>
-                </div>
+                    </div>
 
-                <div class="tab-frm" v-for="sportId in tournament.sportIds">
-                    <button
-                        type="button"
-                        class="btn tab"
-                        :class="{ active: isSportSelected(sportId) }"
+                    <div
+                        v-for="sportId in tournament.sportIds"
+                        :key="sportId"
+                        class="tab--large__item"
+                        :class="{ 'tab--large__item--active': isSportSelected(sportId) }"
                         @click="toggleSport(sportId)"
                     >
                         {{ getSportName(sportId) }}
-                    </button>
-                    <span class="separator">|</span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="actions-frm">
-                <button type="button" class="btn game-line">Game Line</button>
-                <button type="button" class="btn game-first-half checked">
-                    1st half
-                </button>
-                <button type="button" class="btn update">Update</button>
-            </div>
+                <div class="odds__header">
+                    <div class="odds__header__tabs">
+                        <div class="odds__header__tabs__tab odds__header__tabs__tab--active">
+                            GAME LINE
+                        </div>
+                        <div class="odds__header__tabs__tab">
+                            1st HALF
+                        </div>
+                        <div class="odds__header__tabs__tab">
+                            2nd HALF
+                        </div>
+                    </div>
+                    <div class="odds__header__button">
+                        REFRESH ODDS
+                    </div>
+                </div>
 
-            <div class="table-frm overflow-auto">
-                <table class="match table" v-for="(games, date) in groupedGames" :key="date">
-                    <thead class="thead">
-                        <tr class="tr">
-                            <th class="th col-datetime" scope="col">{{ date | toDateTime }}</th>
-                            <th class="th col-money" scope="col">Money line</th>
-                            <th class="th col-spread" scope="col">Spread</th>
-                            <th class="th col-total" scope="col">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody class="tbody">
+                <div class="odd" v-for="(games, date) in groupedGames" :key="date">
+                    <div class="odd__header">
+                        <div class="odd__header__time">{{ date | toDateTime }}</div>
+                        <div class="odd__header__table">
+                            <div class="odd__header__table__item">
+                                MONEY
+                            </div>
+                            <div class="odd__header__table__item">
+                                SPREAD
+                            </div>
+                            <div class="odd__header__table__item">
+                                TOTAL
+                            </div>
+                        </div>
+                        <div class="odd__header__margin"></div>
+                    </div>
+                    <div class="odd__container">
                         <GameRow
                             :key="game.id"
                             :window="window"
@@ -53,8 +63,9 @@
                             @toggleOdd="toggleOdd"
                             v-for="game in games"
                         />
-                    </tbody>
-                </table>
+                        <div class="odd__container__seperator"></div>
+                    </div>
+                </div>
                 <div v-if="!Object.keys(groupedGames).length" class="h3 p-5 text-center">
                     No records
                 </div>
@@ -64,15 +75,19 @@
 </template>
 
 <script lang="ts">
-    import Vue, {PropType} from "vue";
-    import {PendingOdd, Window} from "../../../types/window";
-    import {Tournament} from "../../../types/tournament";
-    import GameRow from "./GameRow.vue";
-    import {Game, GameState} from "../../../types/game";
-    import {empty, groupBy} from "../../../../general/utils/utils";
-    import {PendingOddPayload, ToggleSportPayload, UpdateWindowPayload,} from "../../../store/modules/window";
+import Vue, { PropType } from "vue";
+import { PendingOdd, Window } from "../../../types/window";
+import { Tournament } from "../../../types/tournament";
+import GameRow from "./GameRow.vue";
+import { Game, GameState } from "../../../types/game";
+import { empty, groupBy } from "../../../../general/utils/utils";
+import {
+    PendingOddPayload,
+    ToggleSportPayload,
+    UpdateWindowPayload,
+} from "../../../store/modules/window";
 
-    export default Vue.extend({
+export default Vue.extend({
     name: "MatchesSection",
     components: { GameRow },
 
@@ -93,7 +108,8 @@
             const filteredGames = this.tournament.games.filter(
                 game =>
                     (empty(this.window.selectedSportIds) ||
-                    this.window.selectedSportIds.includes(game.sportId)) && game.timeStatus === GameState.NotStarted,
+                        this.window.selectedSportIds.includes(game.sportId)) &&
+                    game.timeStatus === GameState.NotStarted,
             );
             return groupBy(filteredGames, game => game.startsAt);
         },
