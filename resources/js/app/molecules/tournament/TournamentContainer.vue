@@ -1,9 +1,5 @@
 <template>
-    <!-- <section class="tab-content-frm tab-tournament-frm row">
-        <InfoSection :window="window" />
-        <MatchesSection :window="window" />
-        <BetsSection :window="window" />
-    </section> -->
+    <!-- ToDo: <section class="tab-content-frm tab-tournament-frm row"> -->
     <section class="layout__content">
         <InfoSection :window="window" />
         <MatchesSection :window="window" />
