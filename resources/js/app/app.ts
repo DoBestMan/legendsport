@@ -23,8 +23,6 @@ import { saveWindows } from "./utils/local-storage/LocalStorageManager";
 import { score } from "./utils/game/result";
 import BootstrapVue from "bootstrap-vue";
 
-import "../../sass/style.css";
-
 // @ts-ignore
 window.Pusher = Pusher;
 
