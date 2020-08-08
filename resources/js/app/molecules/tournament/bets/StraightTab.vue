@@ -1,36 +1,19 @@
 <template>
-    <div class="tab-content-frm">
-        <div class="tab-header-frm">
-            <div class="field">
-                <strong class="field-title">Bet</strong>
-                <ChipInput v-model="wager" />
-            </div>
+    <div>
+        <StraightItem
+            :key="`${pendingOdd.externalId}#${pendingOdd.type}`"
+            :pendingOdd="pendingOdd"
+            :game="gameDict.get(pendingOdd.externalId)"
+            :value="pendingOdd.wager"
+            @delete="removeOdd(pendingOdd)"
+            @change="updateOdd(pendingOdd, $event)"
+            v-for="pendingOdd in pendingOdds"
+        />
+        <div v-if="!pendingOdds.length" class="h3 text-center p-5">No records</div>
 
-            <button class="btn btn-action mx-3 px-5" @click="updateOddsWager">
-                Set to all bets
-            </button>
+        <!-- TODO: -->
 
-            <div class="btn btn-trash center" @click="removeOdds">
-                <i class="icon fas fa-trash-alt"></i>
-            </div>
-        </div>
-
-        <div class="items-frm">
-            <StraightItem
-                :key="`${pendingOdd.externalId}#${pendingOdd.type}`"
-                :pendingOdd="pendingOdd"
-                :game="gameDict.get(pendingOdd.externalId)"
-                :value="pendingOdd.wager"
-                @delete="removeOdd(pendingOdd)"
-                @change="updateOdd(pendingOdd, $event)"
-                v-for="pendingOdd in pendingOdds"
-            />
-            <div v-if="!pendingOdds.length" class="h3 text-center p-5">
-                No records
-            </div>
-        </div>
-
-        <transition name="slidey">
+        <!-- <transition name="slidey">
             <div v-if="pendingOdds.length" class="tab-footer-frm">
                 <div class="header-frm">
                     <div class="h4">SUMMARY</div>
@@ -61,7 +44,7 @@
                     @placeBet="placeBet"
                 />
             </div>
-        </transition>
+        </transition>-->
     </div>
 </template>
 
