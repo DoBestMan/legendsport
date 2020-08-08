@@ -1,6 +1,6 @@
 <template>
-    <div class="tab-content-frm">
-        <div class="items-frm">
+    <div>
+        <div>
             <ParlayItem
                 :key="`${pendingOdd.externalId}#${pendingOdd.type}`"
                 :pendingOdd="pendingOdd"
@@ -9,12 +9,12 @@
                 @delete="removeOdd(pendingOdd)"
                 v-for="pendingOdd in pendingOdds"
             />
-            <div v-if="!pendingOdds.length" class="h3 text-center p-5">
-                No records
-            </div>
+            <div v-if="!pendingOdds.length" class="h3 text-center p-5">No records</div>
         </div>
 
-        <transition name="slidey">
+        <!-- ToDo: -->
+
+        <!-- <transition name="slidey">
             <div v-if="hasEnoughPendingOdds" class="tab-footer-frm">
                 <div class="header-frm">
                     <div class="h4">SUMMARY</div>
@@ -43,7 +43,7 @@
                     @placeBet="placeBet"
                 />
             </div>
-        </transition>
+        </transition>-->
     </div>
 </template>
 
