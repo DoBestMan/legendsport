@@ -13,10 +13,10 @@ export interface StorableWindow {
 }
 
 export enum BetTypeTab {
-    Pending = "Pending",
-    History = "History",
     Straight = "Straight",
     Parlay = "Parlay",
+    Pending = "Pending",
+    History = "History",
 }
 
 export interface PendingOdd {
