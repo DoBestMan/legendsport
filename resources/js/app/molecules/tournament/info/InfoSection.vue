@@ -10,7 +10,7 @@
     <section class="layout__content__sidebar b--dark-3 layout__content__sidebar--left">
         <TournamentInfo :tournament="tournament" />
         <PrizePool :tournament="tournament" />
-        <TournamentRankTable :players="tournament.players" />
+        <!-- Todo: <TournamentRankTable :players="tournament.players" /> -->
         <ChatContainer :messages="chatMessages" @sendMessage="sendMessage" />
     </section>
 </template>
