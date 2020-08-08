@@ -143,6 +143,8 @@
                 </div>
             </div>
         </div>
+
+        <a href="#" class="button--large">REGISTER NOW ($1000+$100)</a>
     </div>
 </template>
 
