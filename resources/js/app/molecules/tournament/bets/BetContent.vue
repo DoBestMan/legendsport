@@ -1,20 +1,26 @@
 <template>
-    <div>
-        <div class="text">{{ startsAt | toDateTime }}</div>
-        <div class="text game-frm">
-            <div class="text team">{{ teamHome }}</div>
-            <div class="text score">{{ scoreHome | score }}</div>
-            <div class="text vs">@</div>
-            <div class="text team">{{ teamAway }}</div>
-            <div class="text score">{{ scoreAway | score }}</div>
+    <div class="bet__container">
+        <div class="bet__container__content">
+            <div class="bet__container__content__subtitle">
+                {{ typeName }}{{ typeExtra }} - {{ status | capitalize }}
+            </div>
+            <div class="bet__container__content__title">
+                {{ selectedTeam }} {{ odd | signedNumber }}
+            </div>
         </div>
-        <div class="text">
-            <span v-if="selectedTeam">{{ selectedTeam }} / </span>
-            <span>{{ odd | signedNumber }}</span>
-            <span v-if="status"> / {{ status | capitalize }}</span>
-            <span> - {{ typeName }} {{ typeExtra }}</span>
+        <div class="bet__container__tag">
+            <div class="tag tag--medium tag--color--yellow">-110</div>
         </div>
     </div>
+
+    <!-- TODO: -->
+
+    <!-- <div class="text">
+        <span v-if="selectedTeam">{{ selectedTeam }} /</span>
+        <span>{{ odd | signedNumber }}</span>
+        <span v-if="status">/ {{ status | capitalize }}</span>
+        <span>- {{ typeName }} {{ typeExtra }}</span>
+    </div>-->
 </template>
 
 <script lang="ts">
@@ -26,12 +32,7 @@ export default Vue.extend({
     name: "BetContent",
     props: {
         odd: Number,
-        scoreAway: Number,
-        scoreHome: Number,
         selectedTeam: String,
-        startsAt: String,
-        teamAway: String,
-        teamHome: String,
         status: String as PropType<BetStatus>,
         type: String as PropType<PendingOddType>,
         typeExtra: String,

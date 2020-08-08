@@ -1,36 +1,4 @@
 <template>
-    <!-- <section class="col-3 h-100">
-        <div class="section bets">
-            <div class="title-bar-frm">
-                <span v-if="isRegistered" class="title">
-                    <i class="fas fa-coins"></i>
-                    Balance: {{ player.chips | formatChip }} ({{
-                        player.pendingChips | formatChip
-                    }})
-                </span>
-                <RegisterNowButton v-else :tournament="tournament" />
-            </div>
-
-            <div class="tabs-frm">
-                <div class="tab-frm" v-for="betTab in betTabs">
-                    <button
-                        type="button"
-                        class="btn tab"
-                        :class="{ active: isBetTabSelected(betTab) }"
-                        @click="selectBetTab(betTab)"
-                    >
-                        {{ betTab }}
-                    </button>
-                    <span class="separator">|</span>
-                </div>
-            </div>
-
-            <PendingTab v-if="isBetTabSelected(BetTypeTab.Pending)" :window="window" />
-            <HistoryTab v-if="isBetTabSelected(BetTypeTab.History)" :window="window" />
-            <StraightTab v-if="isBetTabSelected(BetTypeTab.Straight)" :window="window" />
-            <ParlayTab v-if="isBetTabSelected(BetTypeTab.Parlay)" :window="window" />
-        </div>
-    </section> -->
     <section class="layout__content__sidebar">
         <div class="layout__content__sidebar__header">
             <div class="layout__content__sidebar__header__bet">
@@ -39,10 +7,7 @@
                     <div class="layout__content__sidebar__header__bet__content__title">
                         Bet Slip
                     </div>
-                    <div
-                        class="layout__content__sidebar__header__bet__content__group"
-                        v-if="isRegistered"
-                    >
+                    <div class="layout__content__sidebar__header__bet__content__group">
                         <div class="layout__content__sidebar__header__bet__content__group__coins">
                             <i
                                 class="icon icon--atom icon--color--yellow-2 icon--coins m--r--1"
@@ -50,51 +15,52 @@
                             Balance
                         </div>
                         <div class="layout__content__sidebar__header__bet__content__group__balance">
-                            {{ player.chips | formatChip }} ({{ player.pendingChips | formatChip }})
+                            <!-- TODO: -->
+
+                            <!-- {{ player.chips | formatChip }} ({{
+                            player.pendingChips | formatChip
+                            }})-->
                         </div>
                     </div>
                 </div>
+                <!-- TODO: -->
+                <!-- <RegisterNowButton v-else :tournament="tournament" /> -->
             </div>
 
-            <!-- <div class="tab--large">
-                <div class="tab--large__item"
-                    :class="{ active: isBetTabSelected('Straight') }"
-                    @click="selectBetTab('Straight')"
+            <div class="tab--large">
+                <div
+                    v-for="betTab in betTabs"
+                    :key="betTab"
+                    class="tab--large__item"
+                    :class="{
+                        'tab--large__item--active': isBetTabSelected(betTab),
+                    }"
+                    @click="selectBetTab(betTab)"
                 >
-                    Straight
+                    {{ betTab }}
                 </div>
-                <div class="tab--large__item"
-                    :class="{ active: isBetTabSelected('Parlay') }"
-                    @click="selectBetTab('Parlay')"
-                >
-                    Parlay
-                </div>
-                <div class="tab--large__item"
-                    :class="{ active: isBetTabSelected('Pending') }"
-                    @click="selectBetTab('Pending')"
-                >
-                    Pending
-                </div>
-                <div class="tab--large__item"
-                    :class="{ active: isBetTabSelected('Straight') }"
-                    @click="selectBetTab('History')"
-                >
-                    History
-                </div>
-            </div> -->
+            </div>
 
-            <div v-for="betTab in betTabs" :key="betTab">
-                <div class="tab--large">
-                    <div
-                        class="tab--large__item"
-                        :class="{ active: isBetTabSelected(betTab) }"
-                        @click="selectBetTab(betTab)"
-                    >
-                        {{ betTab }}
+            <div
+                v-if="isBetTabSelected(BetTypeTab.Straight)"
+                class="layout__content__sidebar__header__input"
+            >
+                <div class="form">
+                    <div class="form__control">
+                        <div class="form__control__icon form__control__icon--left">
+                            <i class="icon icon--micro icon--usd icon--color--light-1"></i>
+                        </div>
+                        <input class="input input--padding--left" placeholder="Bet" />
                     </div>
                 </div>
+                <div class="button button--small button--yellow m--l--4">SET TO ALL</div>
             </div>
         </div>
+
+        <StraightTab v-if="isBetTabSelected(BetTypeTab.Straight)" :window="window" />
+        <ParlayTab v-if="isBetTabSelected(BetTypeTab.Parlay)" :window="window" />
+        <PendingTab v-if="isBetTabSelected(BetTypeTab.Pending)" :window="window" />
+        <HistoryTab v-if="isBetTabSelected(BetTypeTab.History)" :window="window" />
     </section>
 </template>
 
@@ -151,7 +117,6 @@ export default Vue.extend({
 
     methods: {
         isBetTabSelected(type: BetTypeTab): boolean {
-            console.log("type", type);
             return this.window.selectedBetTypeTab === type;
         },
 
