@@ -16,7 +16,7 @@
                         {{ user.name }}
                     </div>
                     <div class="profile__content__balance">
-                        Bal: {{ user.balance | formatCurrency }}
+                        {{ user.balance | formatCurrency }}
                     </div>
                 </div>
 
@@ -79,14 +79,14 @@
         </div>
 
         <!-- Todo -->
-        <!-- <div v-else class="sign-frm offset-4 col-4">
+        <div v-else class="sign-frm offset-4 col-4">
             <button class="btn sign-up-btn center" @click="openSignUpModal">
                 Sign up
             </button>
             <button class="btn sign-in-btn center" @click="openSignInModal">
                 Sign in
             </button>
-        </div> -->
+        </div>
     </div>
 </template>
 
