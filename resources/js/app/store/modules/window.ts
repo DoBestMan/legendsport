@@ -1,7 +1,13 @@
 import { Module } from "vuex";
 import { RootState } from "../types";
 import { getWindows } from "../../utils/local-storage/LocalStorageManager";
-import { BetTypeTab, PendingOdd, StorableWindow, Window } from "../../types/window";
+import {
+    BetTypeTab,
+    TournamentInfoTab,
+    PendingOdd,
+    StorableWindow,
+    Window,
+} from "../../types/window";
 import { DeepReadonlyArray } from "../../../general/types/types";
 
 export interface WindowState {
@@ -42,9 +48,9 @@ const module: Module<WindowState, RootState> = {
                 rootState.tournamentList.tournaments.map(tournament => [tournament.id, tournament]),
             );
 
-            rootState.tournamentHistoryList.tournaments.forEach(
-                function (tournament) { tournamentDict.set(tournament.id, tournament)}
-            );
+            rootState.tournamentHistoryList.tournaments.forEach(function(tournament) {
+                tournamentDict.set(tournament.id, tournament);
+            });
 
             return state._windows
                 .filter(window => tournamentDict.has(window.id))
@@ -53,6 +59,7 @@ const module: Module<WindowState, RootState> = {
 
                     return {
                         pendingOdds: [],
+                        selectedTournamentInfoTab: TournamentInfoTab.Games,
                         selectedBetTypeTab: BetTypeTab.Pending,
                         selectedSportIds: [],
                         ...tab,
@@ -73,6 +80,7 @@ const module: Module<WindowState, RootState> = {
                 id: payload,
                 parlayWager: 0,
                 pendingOdds: [],
+                selectedTournamentInfoTab: TournamentInfoTab.Games,
                 selectedBetTypeTab: BetTypeTab.Pending,
                 selectedSportIds: [],
             });
