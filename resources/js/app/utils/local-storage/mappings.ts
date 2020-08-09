@@ -1,9 +1,10 @@
-import { BetTypeTab, PendingOdd, StorableWindow } from "../../types/window";
+import { BetTypeTab, TournamentInfoTab, PendingOdd, StorableWindow } from "../../types/window";
 
 export const mapStorableWindow = (data: any): StorableWindow => ({
     id: data.id,
     selectedSportIds: data.selectedSportIds ?? [],
     selectedBetTypeTab: data.selectedBetTypeTab ?? BetTypeTab.Pending,
+    selectedTournamentInfoTab: data.selectedTournamentInfoTab ?? TournamentInfoTab.Games,
     parlayWager: data.parlayWager,
     pendingOdds: (data.pendingOdds ?? []).map(mapPendingOdd),
 });
