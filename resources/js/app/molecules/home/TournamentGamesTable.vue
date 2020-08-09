@@ -1,34 +1,36 @@
 <template>
-    <div class="table-frm">
-        <table id="games" class="table table-fixed">
-            <thead class="thead">
-                <tr class="tr">
-                    <th id="col-time" class="th" scope="col">Time</th>
-                    <th id="col-sport" class="th" scope="col">Sport</th>
-                    <th id="col-game" class="th" scope="col">Game</th>
-                </tr>
-            </thead>
-            <tbody class="tbody">
-                <tr
-                    class="tr"
-                    :class="{ selected: game.id === selectedGameId }"
-                    @click="selectGame(game)"
-                    v-for="game in games"
-                    :key="game.id"
-                >
-                    <td class="td col-time">{{ getStartsAt(game) }}</td>
-                    <td class="td col-sport">{{ getSportName(game) }}</td>
-                    <td class="td col-game">
-                        <div class="team">{{ game.teamHome }}</div>
-                        <div class="score">{{ game.scoreHome | score }}</div>
-                        <div class="vs">@</div>
-                        <div class="team">{{ game.teamAway }}</div>
-                        <div class="score">{{ game.scoreAway | score }}</div>
-                    </td>
-                </tr>
-                <TableNoRecords v-if="!games.length" />
-            </tbody>
-        </table>
+    <div>
+        <div class="game" v-for="game in games" :key="game.id">
+            <div class="game__header">
+                <div class="game__header__detail">
+                    <div class="game__header__detail__date">{{ getStartsDateAt(game) }}</div>
+                    <div class="game__header__detail__timezone">at {{ getStartsTimeAt(game) }}</div>
+                </div>
+                <div class="game__header__sport">
+                    <i class="m--r--1 icon icon--sport-nba icon--micro icon--color--light-2"></i>
+                    {{ getSportName(game) }}
+                </div>
+            </div>
+            <div class="game__footer">
+                <div class="game__footer__detail">
+                    <div class="game__footer__detail__label">HOME</div>
+                    <div class="game__footer__detail__team">{{ game.teamHome }}</div>
+                </div>
+                <div class="game__footer__score">
+                    <div class="game__footer__score__item">{{ game.scoreHome | score }}</div>
+                    <div class="game__footer__score__seperator">:</div>
+                    <div class="game__footer__score__item">{{ game.scoreAway | score }}</div>
+                </div>
+                <div class="game__footer__detail">
+                    <div class="game__footer__detail__label game__footer__detail__label--right">
+                        AWAY
+                    </div>
+                    <div class="game__footer__detail__team game__footer__detail__team--right">
+                        {{ game.teamAway }}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -36,35 +38,26 @@
 import Vue, { PropType } from "vue";
 import moment from "moment";
 import { Game } from "../../types/game";
-import TableNoRecords from "../../../general/components/TableNoRecords.vue";
-import { Nullable } from "../../../general/types/types";
 
 export default Vue.extend({
     name: "TournamentGamesTable",
-    components: { TableNoRecords },
 
     props: {
         games: Array as PropType<Game[]>,
     },
 
-    data() {
-        return {
-            selectedGameId: null as Nullable<number>,
-        };
-    },
-
     methods: {
-        getStartsAt(game: Game): string {
+        getStartsDateAt(game: Game): string {
             return moment(game.startsAt).format("MMM, DD");
+        },
+
+        getStartsTimeAt(game: Game): string {
+            return moment(game.startsAt).format("hh:mm zz");
         },
 
         getSportName(game: Game): string {
             const dict: ReadonlyMap<string, string> = this.$stock.getters["sport/sportDictionary"];
             return dict.get(game.sportId) ?? String(game.sportId);
-        },
-
-        selectGame(game: Game) {
-            this.selectedGameId = game.id;
         },
     },
 });
