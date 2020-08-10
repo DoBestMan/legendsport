@@ -2,6 +2,8 @@
     <div class="layout__content__sidebar__games">
         <TournamentInfo :tournament="tournament" />
 
+        <a href="#" class="button--large">REGISTER NOW ($1000+$100)</a>
+
         <div class="switch">
             <div
                 class="switch__item"
