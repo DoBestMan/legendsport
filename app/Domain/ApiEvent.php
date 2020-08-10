@@ -170,12 +170,12 @@ class ApiEvent
 
     public function isCancelled(): bool
     {
-        return $this->timeStatus === 'canceled';
+        return $this->timeStatus->equals(TimeStatus::CANCELED());
     }
 
     public function isFinished(): bool
     {
-        return $this->timeStatus === 'ended' || $this->isCancelled();
+        return $this->timeStatus->equals(TimeStatus::ENDED()) || $this->isCancelled();
     }
 
     public function isFresherThan(int $seconds): bool
@@ -202,7 +202,7 @@ class ApiEvent
 
     public function isUpcoming()
     {
-        return $this->timeStatus === 'not_started';
+        return $this->timeStatus->equals(TimeStatus::NOT_STARTED());
     }
 
     public function updateOdds(SportEventOdd $odds): void

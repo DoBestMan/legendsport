@@ -45,6 +45,7 @@ class TournamentBetStraightController extends Controller
             'pending_odds.*.wager' => ['required', 'numeric', 'min:100'],
         ]);
 
+        $entityManager->beginTransaction();
         /** @var User $user */
         $user = $entityManager->find(User::class, $request->user()->id);
         /** @var \App\Domain\Tournament $tournamentEntity */

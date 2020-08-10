@@ -2,6 +2,7 @@
 
 namespace Unit\Domain;
 
+use App\Betting\TimeStatus;
 use App\Domain\BetItem;
 use App\Domain\BetPlacementException;
 use App\Domain\BetTypes\MoneyLineAway;
@@ -97,7 +98,7 @@ class TournamentTest extends TestCase
         $event = $tournament->getBettableEvents()->first();
         $player = $user->getTournamentPlayer($tournament);
 
-        FactoryAbstract::setProperty($apiEvent, 'timeStatus', 'ended');
+        FactoryAbstract::setProperty($apiEvent, 'timeStatus', TimeStatus::ENDED());
         $this->expectException(BetPlacementException::class);
         $this->expectExceptionMessage(BetPlacementException::eventStarted()->getMessage());
         $tournament->placeStraightBet($player, 500, new BetItem(MoneyLineAway::class, $event));
@@ -205,7 +206,7 @@ class TournamentTest extends TestCase
         $event = $tournament->getBettableEvents()->first();
         $player = $user->getTournamentPlayer($tournament);
 
-        FactoryAbstract::setProperty($apiEvent, 'timeStatus', 'ended');
+        FactoryAbstract::setProperty($apiEvent, 'timeStatus', TimeStatus::ENDED());
         $this->expectException(BetPlacementException::class);
         $this->expectExceptionMessage(BetPlacementException::eventStarted()->getMessage());
         $tournament->placeParlayBet(

@@ -3,6 +3,7 @@
 namespace Tests\Fixture\Factory;
 
 use App\Betting\SportEventOdd;
+use App\Betting\TimeStatus;
 use Decimal\Decimal;
 
 class ApiEventFactory extends FactoryAbstract
@@ -24,7 +25,7 @@ class ApiEventFactory extends FactoryAbstract
         );
         $apiEvent->updateOdds($odds);
         self::setProperty($apiEvent, 'apiId', 'eid');
-        self::setProperty($apiEvent, 'timeStatus', 'not_started');
+        self::setProperty($apiEvent, 'timeStatus', TimeStatus::NOT_STARTED());
         self::setProperty($apiEvent, 'id', 1);
 
         return $apiEvent;
