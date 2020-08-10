@@ -10,7 +10,8 @@ use Illuminate\Support\Collection;
 
 class TestData implements BettingProvider
 {
-    const PROVIDER_NAME = "testdata";
+    public const PROVIDER_NAME = "testdata";
+    public const PROVIDER_DESCRIPTION = 'Test data';
     private EntityManager $entityManager;
 
     public function __construct(EntityManager $entityManager)

@@ -112,45 +112,13 @@
 
             <hr>
 
-            <div inside="providers" class="form-row form-group">
+            <div v-for="(label, key) in availableProviders" inside="providers" class="form-row form-group">
                 <div class="col-2 text-right">
-                    <label for="providers" class="col-form-label">Bet 365</label>
+                    <label for="providers" class="col-form-label">@{{ label }}</label>
                 </div>
 
                 <div class="col-1">
-                    <input v-model="providers" class="form-control text-right" type="checkbox" value="bet365" />
-
-                    @error('providers')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-                <label class="col-auto col-form-label text-muted">
-                    Enable/Disable provider
-                </label>
-            </div>
-            <div inside="providers" class="form-row form-group">
-                <div class="col-2 text-right">
-                    <label for="providers" class="col-form-label">Test data</label>
-                </div>
-
-                <div class="col-1">
-                    <input v-model="providers" class="form-control text-right" type="checkbox" value="testdata" />
-
-                    @error('providers')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-                <label class="col-auto col-form-label text-muted">
-                    Enable/Disable provider
-                </label>
-            </div>
-            <div inside="providers" class="form-row form-group">
-                <div class="col-2 text-right">
-                    <label for="providers" class="col-form-label">SportsData.io NBA</label>
-                </div>
-
-                <div class="col-1">
-                    <input v-model="providers" class="form-control text-right" type="checkbox" value="sportsdata.io/nba" />
+                    <input v-model="providers" class="form-control text-right" type="checkbox" v-bind:value="key" />
 
                     @error('providers')
                     <div class="invalid-feedback">{{ $message }}</div>

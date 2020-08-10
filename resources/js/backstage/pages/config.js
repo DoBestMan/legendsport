@@ -35,6 +35,7 @@ const vm = new Vue({
         chips: phpVars.chips,
         keepCompleted: phpVars.keepCompleted,
         providers: phpVars.providers,
+        availableProviders: phpVars.availableProviders,
     },
 
     methods: {

@@ -6,13 +6,11 @@ use App\Betting\BettingProvider;
 use App\Betting\Pagination;
 use App\Betting\Sport;
 use App\Betting\SportEvent;
-use App\Betting\SportEventOdd;
 use App\Betting\SportEventResult;
 use App\Betting\SportsData\OddsFilters\HasOddsFromChosenSportsbook;
 use App\Betting\SportsData\OddsFilters\MainLines;
 use App\Betting\TimeStatus;
 use App\Domain\ApiEvent;
-use Decimal\Decimal;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
@@ -20,8 +18,10 @@ use Psr\Log\LoggerInterface;
 
 class NBA implements BettingProvider
 {
-    const PROVIDER_NAME = "sportsdata.io/nba";
-    const PREMATCH_CACHE_TTL = 120;
+    private const PREMATCH_CACHE_TTL = 120;
+    public const PROVIDER_NAME = "sportsdata.io/nba";
+    public const PROVIDER_DESCRIPTION = 'SportsData.io NBA';
+
     private string $apiKey;
     private EntityManager $entityManager;
     private LoggerInterface $logger;

@@ -25,7 +25,8 @@ class Bets365 implements BettingProvider
     private const RESULTS_CACHE_TTL = 5 * 60;
     private const PREMATCH_CACHE_TTL = 2 * 60;
 
-    const PROVIDER_NAME = "bet365";
+    public const PROVIDER_NAME = "bet365";
+    public const PROVIDER_DESCRIPTION = 'Bet 365';
 
     private static array $parsers = [
         1  => Soccer::class,
