@@ -1,81 +1,154 @@
 <template>
-    <LoadingOverlay :loading="isLoading" :failed="isFailed" @retry="load">
-        <div id="table-frm" class="table-frm">
-            <table id="tournaments" class="table table-fixed">
-                <thead class="thead">
-                    <tr class="tr">
-                        <th class="th col-start" scope="col">Start</th>
-                        <th class="th col-sports" scope="col">Sports</th>
-                        <th class="th col-buy-in" scope="col">Buy-In</th>
-                        <th class="th col-name" scope="col">Tournament name</th>
-                        <th class="th col-time-frame" scope="col">
-                            Time Frame
-                        </th>
-                        <th class="th col-status" scope="col">Status</th>
-                        <th class="th col-enrolled" scope="col">Enrolled</th>
-                        <th class="th col-players" scope="col">Players</th>
-                    </tr>
-                </thead>
-                <tbody class="tbody">
-                    <tr
-                        class="tr"
-                        :class="{ selected: isSelected(tournament) }"
-                        @click="selectTournament(tournament)"
-                        @dblclick="openTournament(tournament)"
-                        v-for="tournament in filteredTournaments"
-                        :key="tournament.id"
-                    >
-                        <td class="td col-start">
-                            {{ tournament.starts | toDateTime }}
-                        </td>
-                        <td class="td col-sports">
-                            {{ getSportsNames(tournament.sportIds) }}
-                        </td>
-                        <td class="tdcol-buy-in">
-                            {{ tournament.buyIn | formatDollars }}
-                        </td>
-                        <td class="td col-name">
-                            <span
-                                v-if="isRegistered(tournament)"
-                                title="You're registered for this tournament"
-                            >
-                                <strong>{{ tournament.name }}</strong>
-                                <i class="fas fa-check-circle"></i>
-                            </span>
-
-                            <span v-else>{{ tournament.name }}</span>
-                        </td>
-                        <td class="td col-time-frame">
-                            {{ tournament.timeFrame }}
-                        </td>
-                        <td class="td col-status">
-                            {{ tournament.state }}
-                        </td>
-                        <td class="td col-enrolled">
-                            {{ tournament.players.length }}
-                        </td>
-                        <td class="td col-players">
-                            {{ tournament.players.length }}
-                        </td>
-                    </tr>
-
-                    <TableNoRecords v-if="!filteredTournaments.length" />
-                </tbody>
-            </table>
+    <div class="layout__content__container__content__container">
+        <div class="table d--only--desktop">
+            <div class="table__header">
+                <div class="table__header__label">START</div>
+                <div class="table__header__label">TOURNAMENT NAME</div>
+                <div class="table__header__label">BUY-IN</div>
+                <div class="table__header__label">TIME FRAME</div>
+                <div class="table__header__label">STATUS</div>
+                <div class="table__header__label">PLAYERS</div>
+            </div>
         </div>
-    </LoadingOverlay>
+        <div class="tournament">
+            <div
+                class="tournament--desktop"
+                @click="selectTournament(tournament)"
+                @dblclick="openTournament(tournament)"
+                v-for="tournament in filteredTournaments"
+                :key="tournament.id"
+            >
+                <div class="tournament--desktop__item">{{ tournament.starts | toDateTime }}</div>
+                <div class="tournament--desktop__item">{{ tournament.name }}</div>
+                <div class="tournament--desktop__item">{{ tournament.buyIn | formatDollars }}</div>
+                <div class="tournament--desktop__item">{{ tournament.timeFrame }}</div>
+                <div class="tournament--desktop__item">{{ tournament.state }}</div>
+                <div class="tournament--desktop__item">{{ tournament.players.length }}</div>
+            </div>
+            <div
+                class="tournament--mobile"
+                @click="selectTournament(tournament)"
+                @dblclick="openTournament(tournament)"
+                v-for="tournament in filteredTournaments"
+                :key="tournament.id"
+            >
+                <div class="tournament--mobile__container">
+                    <div class="tournament--mobile__container__sidebar">
+                        <div class="tournament--mobile__container__sidebar__date">
+                            <div class="tournament--mobile__container__sidebar__date__weekday">
+                                WED
+                            </div>
+                            <div class="tournament--mobile__container__sidebar__date__day">
+                                24
+                            </div>
+                            <div class="tournament--mobile__container__sidebar__date__month">
+                                JUN
+                            </div>
+                        </div>
+                        <div class="tournament--mobile__container__sidebar__time">
+                            <div class="tournament--mobile__container__sidebar__time__hour">
+                                23.30
+                            </div>
+                            <div class="tournament--mobile__container__sidebar__time__timezone">
+                                ET
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tournament--mobile__container__content">
+                        <div class="tournament--mobile__container__content__status">
+                            {{ tournament.state }}
+                        </div>
+                        <div class="tournament--mobile__container__content__title">
+                            {{ tournament.name }}
+                        </div>
+                        <div class="tournament--mobile__container__content__icons">
+                            <i
+                                class="icon icon--color--light-2 icon--nano icon--sport-nba m--r--1"
+                            ></i>
+                            <i
+                                class="icon icon--color--light-2 icon--nano icon--sport-nfl m--r--1"
+                            ></i>
+                            <i
+                                class="icon icon--color--light-2 icon--nano icon--sport-tennis m--r--1"
+                            ></i>
+                            <i
+                                class="icon icon--color--light-2 icon--nano icon--sport-hockey m--r--1"
+                            ></i>
+                            <i
+                                class="icon icon--color--light-2 icon--nano icon--sport-boxing m--r--1"
+                            ></i>
+                            <i
+                                class="icon icon--color--light-2 icon--nano icon--sport-esports m--r--1"
+                            ></i>
+                            <i
+                                class="icon icon--color--light-2 icon--nano icon--sport-baseball m--r--1"
+                            ></i>
+                        </div>
+                        <div class="tournament--mobile__container__content__details">
+                            <div class="tournament--mobile__container__content__details__item">
+                                <i class="icon icon--people icon--micro"></i>
+                                {{ tournament.players.length }}
+                            </div>
+                            <div class="tournament--mobile__container__content__details__item">
+                                <i class="icon icon--calendar icon--micro"></i>
+                                {{ tournament.timeFrame }}
+                            </div>
+                        </div>
+                        <div class="tournament--mobile__container__content__prices">
+                            <div class="tournament--mobile__container__content__prices__item">
+                                <div
+                                    class="tournament--mobile__container__content__prices__item__label"
+                                >
+                                    BUY-IN
+                                </div>
+                                <div
+                                    class="tournament--mobile__container__content__prices__item__price"
+                                >
+                                    {{ tournament.buyIn | formatDollars }}
+                                </div>
+                            </div>
+                            <div class="tournament--mobile__container__content__prices__item">
+                                <div
+                                    class="tournament--mobile__container__content__prices__item__label"
+                                >
+                                    PRIZE POOL
+                                </div>
+                                <div
+                                    class="tournament--mobile__container__content__prices__item__price"
+                                >
+                                    $10,000
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tournament--mobile__buttons">
+                    <div class="tournament--mobile__buttons__button">
+                        <i class="icon icon--micro icon--games m--r--2"></i>
+                        GAMES
+                    </div>
+                    <div class="tournament--mobile__buttons__button">
+                        <i class="icon icon--micro icon--rank m--r--2"></i>
+                        RANKS
+                    </div>
+                </div>
+                <div class="tournament--mobile__offer">
+                    REGISTER NOW ($1000+$100)
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import { Tournament } from "../../types/tournament";
-import LoadingOverlay from "../../../general/components/LoadingOverlay";
 import TableNoRecords from "../../../general/components/TableNoRecords.vue";
 import { UserPlayer } from "../../../general/types/user";
 
 export default Vue.extend({
     name: "TournamentList",
-    components: { LoadingOverlay, TableNoRecords },
+    components: { TableNoRecords },
     props: {
         selectedTournamentId: Number,
     },
