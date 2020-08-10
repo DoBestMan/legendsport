@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-1">
             <label for="type" class="control-title">Type</label>
             <MultiSelect id="type" :options="typeOptions" v-model="type" />
@@ -49,12 +49,151 @@
 
             <input id="search" type="text" v-model="search" class="form-control control-input" />
         </div>
+    </div> -->
+
+    <div class="layout__content__container__filter">
+        <div
+            class="layout__content__container__filter__content layout__content__container__filter__content--sidebar"
+        >
+            <div class="label">
+                SEARCH
+            </div>
+            <input id="search" class="input" placeholder="Search..." v-model="search" />
+        </div>
+        <div class="layout__content__container__filter__filters">
+            <div class="layout__content__container__filter__filters__content">
+                <div class="label">
+                    TYPE
+                </div>
+                <div class="dropdown">
+                    <div class="form__control">
+                        <input class="input" type="text" v-model="type" readonly="readonly" />
+                        <div class="form__control__icon--right">
+                            <i class="icon icon--micro icon--down"></i>
+                        </div>
+                    </div>
+                    <div class="dropdown__content">
+                        <div class="dropdown__content__item">
+                            All
+                            <i class="icon icon--smaller icon--check icon--color--yellow-1"></i>
+                        </div>
+                        <div class="dropdown__content__item">Free Roll</div>
+                        <div class="dropdown__content__item">Low</div>
+                        <div class="dropdown__content__item">Medium</div>
+                        <div class="dropdown__content__item">High</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layout__content__container__filter__filters__content">
+                <div class="label">
+                    SPORT
+                </div>
+                <div class="dropdown">
+                    <div class="form__control">
+                        <input class="input" type="text" v-model="sports" readonly="readonly" />
+                        <div class="form__control__icon--right">
+                            <i class="icon icon--micro icon--down"></i>
+                        </div>
+                    </div>
+                    <div class="dropdown__content">
+                        <div class="dropdown__content__item">
+                            All
+                            <i class="icon icon--smaller icon--check icon--color--yellow-1"></i>
+                        </div>
+                        <div class="dropdown__content__item">Free Roll</div>
+                        <div class="dropdown__content__item">Low</div>
+                        <div class="dropdown__content__item">Medium</div>
+                        <div class="dropdown__content__item">High</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layout__content__container__filter__filters__content">
+                <div class="label">
+                    BUY-IN
+                </div>
+                <div class="dropdown">
+                    <div class="form__control">
+                        <input class="input" type="text" v-model="buyIn" readonly="readonly" />
+                        <div class="form__control__icon--right">
+                            <i class="icon icon--micro icon--down"></i>
+                        </div>
+                    </div>
+                    <div class="dropdown__content">
+                        <div class="dropdown__content__item">
+                            All
+                            <i class="icon icon--smaller icon--check icon--color--yellow-1"></i>
+                        </div>
+                        <div class="dropdown__content__item">Free Roll</div>
+                        <div class="dropdown__content__item">Low</div>
+                        <div class="dropdown__content__item">Medium</div>
+                        <div class="dropdown__content__item">High</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layout__content__container__filter__filters__content">
+                <div class="label">
+                    TIME FRAME
+                </div>
+                <div class="dropdown">
+                    <div class="form__control">
+                        <input class="input" type="text" v-model="timeFrame" readonly="readonly" />
+                        <div class="form__control__icon--right">
+                            <i class="icon icon--micro icon--down"></i>
+                        </div>
+                    </div>
+                    <div class="dropdown__content">
+                        <div class="dropdown__content__item">
+                            All
+                            <i class="icon icon--smaller icon--check icon--color--yellow-1"></i>
+                        </div>
+                        <div class="dropdown__content__item">Free Roll</div>
+                        <div class="dropdown__content__item">Low</div>
+                        <div class="dropdown__content__item">Medium</div>
+                        <div class="dropdown__content__item">High</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layout__content__container__filter__filters__content">
+                <div class="label">
+                    PLAYERS
+                </div>
+                <div class="dropdown">
+                    <div class="form__control">
+                        <input
+                            class="input"
+                            type="text"
+                            v-model="playersLimit"
+                            readonly="readonly"
+                        />
+                        <div class="form__control__icon--right">
+                            <i class="icon icon--micro icon--down"></i>
+                        </div>
+                    </div>
+                    <div class="dropdown__content">
+                        <div class="dropdown__content__item">
+                            All
+                            <i class="icon icon--smaller icon--check icon--color--yellow-1"></i>
+                        </div>
+                        <div class="dropdown__content__item">Free Roll</div>
+                        <div class="dropdown__content__item">Low</div>
+                        <div class="dropdown__content__item">Medium</div>
+                        <div class="dropdown__content__item">High</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layout__content__container__filter__filters__content">
+                <div class="label">
+                    UPCOMING ONLY
+                </div>
+                <input class="checkbox" type="checkbox" />
+            </div>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import MultiSelect from "../../components/MultiSelect";
+import MultiSelect from "../../components/MultiSelect.vue";
 import SportSelect from "../../../general/components/SportSelect.vue";
 import { BuyInType, PlayersLimitType, TimeFrame, TournamentType } from "../../types/tournament";
 import { mapEnumToSelecOptions } from "../../../general/utils/utils";
@@ -69,6 +208,7 @@ export default Vue.extend({
         typeOptions(): any {
             return [{ id: null, name: "All" }, ...mapEnumToSelecOptions(TournamentType)];
         },
+
         buyInOptions(): any {
             return [{ id: null, name: "All" }, ...mapEnumToSelecOptions(BuyInType)];
         },
