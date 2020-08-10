@@ -1,66 +1,4 @@
 <template>
-    <!-- <div class="tournament-info-frm">
-        <div class="title-bar-frm">
-            <div class="img-frm">
-                <div class="img">
-                    <i class="icon fas fa-football-ball"></i>
-                </div>
-            </div>
-
-            <div class="title-frm">
-                <div class="title">{{ theTournament.name }}</div>
-            </div>
-
-            <div class="status-frm">
-                <div class="status">{{ theTournament.state }}</div>
-            </div>
-        </div>
-
-        <div class="tournament-frm">
-            <div class="row">
-                <div class="col-6">
-                    <div class="title">Start time</div>
-                    <div class="value">{{ theTournament.starts | toDateTime }}</div>
-                </div>
-
-                <div class="col-6">
-                    <div class="title">In</div>
-                    <div class="value">{{ theTournament.starts | diffHumanReadable }}</div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-4">
-                    <div class="title"># Players</div>
-                    <div class="value">{{ theTournament.players.length }}</div>
-                </div>
-
-                <div class="col-4">
-                    <div class="title">Buy-In</div>
-                    <div class="value">{{ theTournament.buyIn | formatDollars }}</div>
-                </div>
-
-                <div class="col-4">
-                    <div class="title">Prize pool</div>
-                    <div class="value">{{ theTournament.prizePoolMoney | formatDollars }}</div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <div class="title">Sports</div>
-                    <div class="value">{{ sportsNames }}</div>
-                </div>
-            </div>
-
-            <RegisterNowButton
-                v-if="tournament && !isRegistered"
-                class="mb-3 mt-1"
-                :tournament="tournament"
-            />
-        </div>
-    </div> -->
-
     <div class="tournament">
         <div class="tournament--sidebar">
             <div class="tournament--sidebar__header">
@@ -116,7 +54,7 @@
                             Time Frame
                         </div>
                         <div class="tournament--sidebar__details__detail__item__content">
-                            Monthly
+                            {{ theTournament.timeFrame }}
                         </div>
                     </div>
                     <div class="tournament--sidebar__details__detail__item">
@@ -143,8 +81,6 @@
                 </div>
             </div>
         </div>
-
-        <a href="#" class="button--large">REGISTER NOW ($1000+$100)</a>
     </div>
 </template>
 
