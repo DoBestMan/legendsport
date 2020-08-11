@@ -12,15 +12,15 @@ use App\Betting\TimeStatus;
 use App\Domain\ApiEvent;
 use Illuminate\Support\Collection;
 
-class NBA extends AbstractSportsData
+class MLB extends AbstractSportsData
 {
     private const PREMATCH_CACHE_TTL = 120;
-    public const PROVIDER_NAME = "sportsdata.io/nba";
-    public const PROVIDER_DESCRIPTION = 'SportsData.io NBA';
+    public const PROVIDER_NAME = "sportsdata.io/mlb";
+    public const PROVIDER_DESCRIPTION = 'SportsData.io MLB';
 
     public function getEvents(int $page): Pagination
     {
-        $data = $this->get('https://api.sportsdata.io/v3/nba/odds/json/BettingEvents/2020');
+        $data = $this->get('https://api.sportsdata.io/v3/mlb/odds/json/BettingEvents/2020');
 
         foreach ($data as $event) {
             if ($event['GameID'] === null) {
@@ -36,7 +36,7 @@ class NBA extends AbstractSportsData
             $results[] = new SportEvent(
                 $event['BettingEventID'],
                 $event['StartDate'],
-                '10001',
+                '10002',
                 $event['HomeTeam'] . ' ' . $home,
                 $event['AwayTeam'] . ' ' . $away,
                 self::PROVIDER_NAME
@@ -48,7 +48,6 @@ class NBA extends AbstractSportsData
 
     public function getOdds(bool $updatesOnly): array
     {
-        //https://api.sportsdata.io/v3/nba/odds/json/BettingMarkets/542
         /** @var \App\Domain\ApiEvent[]|Collection $apiEventDict */
         $qb = $this->entityManager->createQueryBuilder();
         $apiEventDict = $qb->select('a')
@@ -69,12 +68,13 @@ class NBA extends AbstractSportsData
             if (!$apiEvent->isFresherThan(self::PREMATCH_CACHE_TTL)) {
                 $key = $apiEvent->getApiId();
 
-                $results = $this->get(sprintf('https://api.sportsdata.io/v3/nba/odds/json/BettingMarkets/%s', $key));
+                $results = $this->get(sprintf('https://api.sportsdata.io/v3/mlb/odds/json/BettingMarkets/%s', $key));
 
                 $this->logger->info(sprintf('Retrieving odds for events: %s', $key));
 
+                $matchOdds = new MainLines(new HasOddsFromChosenSportsbook(new \ArrayIterator($results)));
                 $preMatchOdds = $parser->parseMainLines(
-                    new MainLines(new HasOddsFromChosenSportsbook(new \ArrayIterator($results)))
+                    $matchOdds
                 );
 
                 $apiEvent->updateOdds($preMatchOdds);
@@ -89,7 +89,7 @@ class NBA extends AbstractSportsData
 
     public function getResults(): array
     {
-        $data = $this->get('https://api.sportsdata.io/v3/nba/odds/json/BettingEvents/2020');
+        $data = $this->get('https://api.sportsdata.io/v3/mlb/odds/json/BettingEvents/2020');
         $results = [];
 
         foreach ($data as $event) {
@@ -127,7 +127,7 @@ class NBA extends AbstractSportsData
 
     public function getSports(): array
     {
-        return [new Sport('10001', 'Basketball', self::PROVIDER_NAME)];
+        return [new Sport('10002', 'Baseball', self::PROVIDER_NAME)];
     }
 
     private function mapTimeStatus(string $status): TimeStatus

@@ -8,6 +8,7 @@ use App\Betting\Bets365;
 use App\Betting\Bets365API;
 use App\Betting\BettingProvider;
 use App\Betting\MultiProvider;
+use App\Betting\SportsData\MLB;
 use App\Betting\SportsData\NBA;
 use App\Betting\TestData;
 use App\Betting\TimeStatus;
@@ -35,11 +36,15 @@ class BettingApiServiceProvider extends ServiceProvider
             ->needs('$apiKey')
             ->give(env('SPORTSDATA_NBA_ODDS_KEY'));
 
+        $this->app->when(MLB::class)
+            ->needs('$apiKey')
+            ->give(env('SPORTSDATA_MLB_ODDS_KEY'));
+
         $this->app->when(UserTokenService::class)
             ->needs('$secret')
             ->give(env("APP_KEY"));
 
-        $this->app->tag([Bets365::class, TestData::class, NBA::class], ['betting_provider']);
+        $this->app->tag([Bets365::class, TestData::class, NBA::class, MLB::class], ['betting_provider']);
 
         $this->app->when(MultiProvider::class)
             ->needs(BettingProvider::class)

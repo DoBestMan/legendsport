@@ -39,6 +39,7 @@ data:
 
   BETS365_TOKEN: 44933-Ygmt1mvQIl8hzp
   SPORTSDATA_NBA_ODDS_KEY: 692b1abd30fc47a1981cc85172860b52
+  SPORTSDATA_MLB_ODDS_KEY: d702ad0d6c2749399fd023fe12c157f8
 
 ---
 apiVersion: networking.k8s.io/v1beta1

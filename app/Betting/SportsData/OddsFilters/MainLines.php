@@ -14,6 +14,10 @@ class MainLines extends \FilterIterator
             return false;
         }
 
+        if ($record['BettingMarketTypeID'] !== 1) {
+            return false;
+        }
+
         if ($record['BettingPeriodTypeID'] !== 1) {
             return false;
         }
