@@ -9,9 +9,11 @@ class Parser
 {
     public function parseMainLines(iterable $preMatchOdds)
     {
+        $bettingEventId = '';
         $homeMoneyLine = $awayMoneyLine = $homeSpread = $awaySpread = $homeSpreadLine = $awaySpreadLine = $totalNumber = $overLine = $underLine = null;
 
         foreach ($preMatchOdds as $preMatchOdd) {
+            $bettingEventId = $preMatchOdd['BettingEventID'];
             foreach ($preMatchOdd['BettingOutcomes'] as $bettingOutcome) {
                 switch (true) {
                     case $preMatchOdd['BettingBetTypeID'] === 1 && $bettingOutcome['BettingOutcomeTypeID'] === 1:
@@ -41,7 +43,7 @@ class Parser
         }
 
         return new SportEventOdd(
-            '',
+            $bettingEventId,
             $homeMoneyLine,
             $awayMoneyLine,
             $homeSpread,
