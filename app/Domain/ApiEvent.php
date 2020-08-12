@@ -168,6 +168,11 @@ class ApiEvent
         return $this->scoreHome;
     }
 
+    public function getProvider(): string
+    {
+        return $this->provider;
+    }
+
     public function isCancelled(): bool
     {
         return $this->timeStatus->equals(TimeStatus::CANCELED());
@@ -187,7 +192,7 @@ class ApiEvent
     //@TODO remove this method, exists to allow syncing uncommited eloquent changes while running in hybrid mode.
     public function sync(\App\Models\ApiEvent $apiEvent): void
     {
-        $this->timeStatus = $apiEvent->time_status->getValue();
+        $this->timeStatus = $apiEvent->time_status;
         $this->scoreHome = $apiEvent->score_home;
         $this->scoreAway = $apiEvent->score_away;
     }

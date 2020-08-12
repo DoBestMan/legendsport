@@ -3,6 +3,7 @@
 namespace App\Betting\SportsData;
 
 use App\Betting\Pagination;
+use App\Betting\SingleEventUpdater;
 use App\Betting\Sport;
 use App\Betting\SportEvent;
 use App\Betting\SportEventResult;
@@ -12,7 +13,7 @@ use App\Betting\TimeStatus;
 use App\Domain\ApiEvent;
 use Illuminate\Support\Collection;
 
-class NBA extends AbstractSportsData
+class NBA extends AbstractSportsData implements SingleEventUpdater
 {
     private const PREMATCH_CACHE_TTL = 120;
     public const PROVIDER_NAME = "sportsdata.io/nba";
@@ -63,21 +64,10 @@ class NBA extends AbstractSportsData
             ]);
 
         $updates = [];
-        $parser = new Parser();
 
         foreach ($apiEventDict as $apiEvent) {
             if (!$apiEvent->isFresherThan(self::PREMATCH_CACHE_TTL)) {
-                $key = $apiEvent->getApiId();
-
-                $results = $this->get(sprintf('https://api.sportsdata.io/v3/nba/odds/json/BettingMarkets/%s', $key));
-
-                $this->logger->info(sprintf('Retrieving odds for events: %s', $key));
-
-                $preMatchOdds = $parser->parseMainLines(
-                    new MainLines(new HasOddsFromChosenSportsbook(new \ArrayIterator($results)))
-                );
-
-                $apiEvent->updateOdds($preMatchOdds);
+                $this->dispatcher->dispatch(new UpdateOddsJob($apiEvent->getId()));
                 $updates[] = $apiEvent;
             }
         }
@@ -146,5 +136,20 @@ class NBA extends AbstractSportsData
             default:
                 return TimeStatus::CANCELED();
         }
+    }
+
+    public function updateEventOdds(ApiEvent $apiEvent): void
+    {
+        $key = $apiEvent->getApiId();
+
+        $results = $this->get(sprintf('https://api.sportsdata.io/v3/nba/odds/json/BettingMarkets/%s', $key));
+
+        $this->logger->info(sprintf('Retrieving odds for events: %s', $key));
+
+        $preMatchOdds = $this->parser->parseMainLines(
+            new MainLines(new HasOddsFromChosenSportsbook(new \ArrayIterator($results)))
+        );
+
+        $apiEvent->updateOdds($preMatchOdds);
     }
 }

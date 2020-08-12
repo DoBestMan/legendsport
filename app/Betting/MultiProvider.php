@@ -21,6 +21,11 @@ class MultiProvider implements BettingProvider
         }
     }
 
+    public function getProvider(string $name): BettingProvider
+    {
+        return $this->providers[$name];
+    }
+
     public function getProviderMap(): array
     {
         return $this->providerMap;

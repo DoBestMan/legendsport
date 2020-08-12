@@ -4,20 +4,25 @@ namespace App\Betting\SportsData;
 
 use App\Betting\BettingProvider;
 use Doctrine\ORM\EntityManager;
+use Illuminate\Bus\Dispatcher;
 use Illuminate\Support\Facades\Http;
 use Psr\Log\LoggerInterface;
 
 abstract class AbstractSportsData implements BettingProvider
 {
     protected EntityManager $entityManager;
+    protected Parser $parser;
+    protected Dispatcher $dispatcher;
     private string $apiKey;
     protected LoggerInterface $logger;
 
-    public function __construct(string $apiKey, EntityManager $entityManager, LoggerInterface $logger)
+    public function __construct(string $apiKey, EntityManager $entityManager, LoggerInterface $logger, Dispatcher $dispatcher)
     {
         $this->entityManager = $entityManager;
         $this->logger = $logger;
         $this->apiKey = $apiKey;
+        $this->parser = new Parser();
+        $this->dispatcher = $dispatcher;
     }
 
     public function get(string $url): array

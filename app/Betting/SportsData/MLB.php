@@ -3,6 +3,7 @@
 namespace App\Betting\SportsData;
 
 use App\Betting\Pagination;
+use App\Betting\SingleEventUpdater;
 use App\Betting\Sport;
 use App\Betting\SportEvent;
 use App\Betting\SportEventResult;
@@ -10,9 +11,11 @@ use App\Betting\SportsData\OddsFilters\HasOddsFromChosenSportsbook;
 use App\Betting\SportsData\OddsFilters\MainLines;
 use App\Betting\TimeStatus;
 use App\Domain\ApiEvent;
+use Doctrine\ORM\EntityManager;
 use Illuminate\Support\Collection;
+use Psr\Log\LoggerInterface;
 
-class MLB extends AbstractSportsData
+class MLB extends AbstractSportsData implements SingleEventUpdater
 {
     private const PREMATCH_CACHE_TTL = 120;
     public const PROVIDER_NAME = "sportsdata.io/mlb";
@@ -62,22 +65,10 @@ class MLB extends AbstractSportsData
             ]);
 
         $updates = [];
-        $parser = new Parser();
 
         foreach ($apiEventDict as $apiEvent) {
             if (!$apiEvent->isFresherThan(self::PREMATCH_CACHE_TTL)) {
-                $key = $apiEvent->getApiId();
-
-                $results = $this->get(sprintf('https://api.sportsdata.io/v3/mlb/odds/json/BettingMarkets/%s', $key));
-
-                $this->logger->info(sprintf('Retrieving odds for events: %s', $key));
-
-                $matchOdds = new MainLines(new HasOddsFromChosenSportsbook(new \ArrayIterator($results)));
-                $preMatchOdds = $parser->parseMainLines(
-                    $matchOdds
-                );
-
-                $apiEvent->updateOdds($preMatchOdds);
+                $this->dispatcher->dispatch(new UpdateOddsJob($apiEvent->getId()));
                 $updates[] = $apiEvent;
             }
         }
@@ -146,5 +137,21 @@ class MLB extends AbstractSportsData
             default:
                 return TimeStatus::CANCELED();
         }
+    }
+
+    public function updateEventOdds(ApiEvent $apiEvent): void
+    {
+        $key = $apiEvent->getApiId();
+
+        $results = $this->get(sprintf('https://api.sportsdata.io/v3/mlb/odds/json/BettingMarkets/%s', $key));
+
+        $this->logger->info(sprintf('Retrieving odds for events: %s', $key));
+
+        $matchOdds = new MainLines(new HasOddsFromChosenSportsbook(new \ArrayIterator($results)));
+        $preMatchOdds = $this->parser->parseMainLines(
+            $matchOdds
+        );
+
+        $apiEvent->updateOdds($preMatchOdds);
     }
 }
