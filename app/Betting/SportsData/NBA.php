@@ -11,7 +11,9 @@ use App\Betting\SportsData\OddsFilters\HasOddsFromChosenSportsbook;
 use App\Betting\SportsData\OddsFilters\MainLines;
 use App\Betting\TimeStatus;
 use App\Domain\ApiEvent;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 
 class NBA extends AbstractSportsData implements SingleEventUpdater
 {
@@ -34,9 +36,12 @@ class NBA extends AbstractSportsData implements SingleEventUpdater
 
             [$away, $home] = explode(' @ ', $event['Name']);
 
+            $startDate = Carbon::createFromFormat('Y-m-d\TH:i:s', $event['StartDate'], 'EST');
+            $startDate->setTimezone('UTC');
+
             $results[] = new SportEvent(
                 $event['BettingEventID'],
-                $event['StartDate'],
+                $startDate->format('Y-m-d\TH:i:s'),
                 '10001',
                 $event['HomeTeam'] . ' ' . $home,
                 $event['AwayTeam'] . ' ' . $away,
