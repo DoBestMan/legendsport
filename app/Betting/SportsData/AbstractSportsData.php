@@ -29,7 +29,7 @@ abstract class AbstractSportsData implements BettingProvider
     {
         $result = Http::withHeaders([
             'Ocp-Apim-Subscription-Key' => $this->apiKey,
-        ])->get($url);
+        ])->timeout(60)->get($url);
 
         $data = $result->json();
 
