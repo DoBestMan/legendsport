@@ -67,7 +67,7 @@ class TournamentBetParlayController extends Controller
                 $betItems[] = BetItem::createFromBetTypeAlias($pendingWager['type'], $tournamentEvent);
             }
 
-            $tournamentEntity->placeParlayBet($tournamentPlayer, (int) $pendingWager['wager'], ...$betItems);
+            $tournamentEntity->placeParlayBet($tournamentPlayer, (int) $request->get('wager'), ...$betItems);
         } catch (BetPlacementException $e) {
             $entityManager->rollback();
             return new JsonResponse(
