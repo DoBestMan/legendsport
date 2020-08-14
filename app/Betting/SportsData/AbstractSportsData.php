@@ -116,7 +116,7 @@ abstract class AbstractSportsData implements BettingProvider
             $results[] = new SportEvent(
                 $event['BettingEventID'],
                 $startDate->format('Y-m-d\TH:i:s'),
-                '10002',
+                static::SPORT_ID,
                 $event['HomeTeam'] . ' ' . $home,
                 $event['AwayTeam'] . ' ' . $away,
                 static::PROVIDER_NAME

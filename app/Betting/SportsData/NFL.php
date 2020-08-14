@@ -13,6 +13,7 @@ class NFL extends AbstractSportsData implements SingleEventUpdater
 {
     public const PROVIDER_NAME = "sportsdata.io/nfl";
     public const PROVIDER_DESCRIPTION = 'SportsData.io NFL';
+    public const SPORT_ID = '10003';
 
     public function getEvents(int $page): Pagination
     {

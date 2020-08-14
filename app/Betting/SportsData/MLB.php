@@ -13,6 +13,7 @@ class MLB extends AbstractSportsData implements SingleEventUpdater
 {
     public const PROVIDER_NAME = "sportsdata.io/mlb";
     public const PROVIDER_DESCRIPTION = 'SportsData.io MLB';
+    public const SPORT_ID = '10002';
 
     public function getEvents(int $page): Pagination
     {

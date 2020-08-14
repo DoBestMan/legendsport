@@ -49,7 +49,7 @@ class BettingApiServiceProvider extends ServiceProvider
             ->needs('$secret')
             ->give(env("APP_KEY"));
 
-        $this->app->tag([Bets365::class, TestData::class, NBA::class, MLB::class, NFL::class], ['betting_provider']);
+        $this->app->tag([TestData::class, NBA::class, MLB::class, NFL::class], ['betting_provider']);
 
         $this->app->when(MultiProvider::class)
             ->needs(BettingProvider::class)

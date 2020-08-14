@@ -13,6 +13,7 @@ class NBA extends AbstractSportsData implements SingleEventUpdater
 {
     public const PROVIDER_NAME = "sportsdata.io/nba";
     public const PROVIDER_DESCRIPTION = 'SportsData.io NBA';
+    public const SPORT_ID = '10001';
 
     public function getEvents(int $page): Pagination
     {
@@ -30,7 +31,7 @@ class NBA extends AbstractSportsData implements SingleEventUpdater
 
     public function getSports(): array
     {
-        return [new Sport('10001', 'Basketball', self::PROVIDER_NAME)];
+        return [new Sport(static::SPORT_ID, 'Basketball', self::PROVIDER_NAME)];
     }
 
     public function updateEventOdds(ApiEvent $apiEvent): void
