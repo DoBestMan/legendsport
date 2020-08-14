@@ -19,7 +19,8 @@
 
                             <!-- {{ player.chips | formatChip }} ({{
                             player.pendingChips | formatChip
-                            }})-->
+                            }}) -->
+                            1,000,000
                         </div>
                     </div>
                 </div>

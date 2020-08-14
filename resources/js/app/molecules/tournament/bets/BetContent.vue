@@ -12,15 +12,6 @@
             <div class="tag tag--medium tag--color--yellow">-110</div>
         </div>
     </div>
-
-    <!-- TODO: -->
-
-    <!-- <div class="text">
-        <span v-if="selectedTeam">{{ selectedTeam }} /</span>
-        <span>{{ odd | signedNumber }}</span>
-        <span v-if="status">/ {{ status | capitalize }}</span>
-        <span>- {{ typeName }} {{ typeExtra }}</span>
-    </div>-->
 </template>
 
 <script lang="ts">
