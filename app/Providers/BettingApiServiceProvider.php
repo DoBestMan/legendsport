@@ -10,6 +10,7 @@ use App\Betting\BettingProvider;
 use App\Betting\MultiProvider;
 use App\Betting\SportsData\MLB;
 use App\Betting\SportsData\NBA;
+use App\Betting\SportsData\NFL;
 use App\Betting\TestData;
 use App\Betting\TimeStatus;
 use App\Repository\OrmRepository;
@@ -40,21 +41,20 @@ class BettingApiServiceProvider extends ServiceProvider
             ->needs('$apiKey')
             ->give(env('SPORTSDATA_MLB_ODDS_KEY'));
 
+        $this->app->when(NFL::class)
+            ->needs('$apiKey')
+            ->give(env('SPORTSDATA_NFL_ODDS_KEY'));
+
         $this->app->when(UserTokenService::class)
             ->needs('$secret')
             ->give(env("APP_KEY"));
 
-        $this->app->tag([Bets365::class, TestData::class, NBA::class, MLB::class], ['betting_provider']);
+        $this->app->tag([Bets365::class, TestData::class, NBA::class, MLB::class, NFL::class], ['betting_provider']);
 
         $this->app->when(MultiProvider::class)
             ->needs(BettingProvider::class)
             ->giveTagged('betting_provider');
 
         $this->app->bind(BettingProvider::class, MultiProvider::class);
-    }
-
-    public function boot()
-    {
-        $this->app->get('websockets.router')->get('/', Healthcheck::class);
     }
 }
