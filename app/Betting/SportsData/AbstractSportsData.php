@@ -110,7 +110,7 @@ abstract class AbstractSportsData implements BettingProvider
 
             [$away, $home] = explode(' @ ', $event['Name']);
 
-            $startDate = Carbon::createFromFormat('Y-m-d\TH:i:s', $event['StartDate'], 'EST');
+            $startDate = Carbon::createFromFormat('Y-m-d\TH:i:s', $event['StartDate'], 'America/New_York');
             $startDate->setTimezone('UTC');
 
             $results[] = new SportEvent(
@@ -119,7 +119,7 @@ abstract class AbstractSportsData implements BettingProvider
                 '10002',
                 $event['HomeTeam'] . ' ' . $home,
                 $event['AwayTeam'] . ' ' . $away,
-                MLB::PROVIDER_NAME
+                static::PROVIDER_NAME
             );
         }
 
@@ -143,7 +143,7 @@ abstract class AbstractSportsData implements BettingProvider
             /** @var ApiEvent|null $apiEvent */
             $apiEvent = current($this->entityManager->getRepository(ApiEvent::class)->findBy([
                 'apiId' => $event['BettingEventID'],
-                'provider' => MLB::PROVIDER_NAME,
+                'provider' => static::PROVIDER_NAME,
             ])) ?: null;
 
             if ($apiEvent === null) {
