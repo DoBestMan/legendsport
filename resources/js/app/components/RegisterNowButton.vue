@@ -1,5 +1,5 @@
 <template>
-    <button v-if="canRegister" class="btn btn-action btn-register" @click="register">
+    <button v-if="canRegister" :class="className" @click="register">
         Register now {{ price }}
     </button>
 </template>
@@ -17,6 +17,7 @@ export default Vue.extend({
 
     props: {
         tournament: Object as PropType<Tournament>,
+        className: String,
     },
 
     computed: {
@@ -31,6 +32,7 @@ export default Vue.extend({
         },
 
         canRegister(): boolean {
+            if (!this.tournament) return false;
             return [TournamentState.Registering, TournamentState.LateRegistering].includes(
                 this.tournament.state,
             );
