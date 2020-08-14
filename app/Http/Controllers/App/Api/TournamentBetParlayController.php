@@ -79,6 +79,7 @@ class TournamentBetParlayController extends Controller
         }
 
         $entityManager->flush();
+        $entityManager->commit();
 
         $dispatcher->dispatch(new TournamentUpdate($tournament));
         $dispatcher->dispatch(new MeUpdate($request->user()));
