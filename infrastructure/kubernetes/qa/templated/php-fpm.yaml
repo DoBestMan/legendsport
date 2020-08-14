@@ -40,7 +40,7 @@ spec:
       initContainers:
         - name: create-db
           image: ######BACKEND_IMAGE######
-          command: ['/bin/sh', '-c', "php artisan migrate && php artisan db:seed && php artisan bet365:init"]
+          command: ['/bin/sh', '-c', "php artisan migrate && php artisan db:seed"]
           imagePullPolicy: Always
           env:
             - name: DB_USERNAME
