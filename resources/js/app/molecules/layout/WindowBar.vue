@@ -1,57 +1,37 @@
 <template>
-    <section class="layout__header">
-        <!-- <div>
-            <router-link
+    <div>
+        <section class="layout__header">
+            <div
                 class="tab"
-                to="/"
                 :class="{
                     'tab--active': isHomeSelected(),
                 }"
                 @click="selectWindowTabs(-1)"
             >
-                <i class="icon icon--home icon--micro m--r--2"></i>
+                <i
+                    class="icon icon--home icon--micro m--r--2"
+                    :class="{ 'b--yellow-1': isHomeSelected() }"
+                ></i>
                 Home
-            </router-link>
-        </div>
+            </div>
 
-        <div v-for="window in windows" :key="window.id">
-            <router-link
+            <div
+                v-for="window in windows"
+                :key="window.id"
                 class="tab"
-                :to="`/tournaments/${window.id}`"
                 :class="{
                     'tab--active': isWindowsSelected(window.id),
                 }"
                 @click="selectWindowTabs(window.id)"
             >
-                <i class="icon icon--cup icon--micro m--r--2"></i>
+                <i
+                    class="icon icon--cup icon--micro m--r--2"
+                    :class="{ 'b--yellow-1': isWindowsSelected(window.id) }"
+                ></i>
                 {{ window.tournament.name }}
-            </router-link>
-        </div> -->
-
-        <div
-            class="tab"
-            :class="{
-                'tab--active': isHomeSelected(),
-            }"
-            @click="selectWindowTabs(-1)"
-        >
-            <i class="icon icon--home icon--micro m--r--2"></i>
-            Home
-        </div>
-
-        <div
-            v-for="window in windows"
-            :key="window.id"
-            class="tab"
-            :class="{
-                'tab--active': isWindowsSelected(window.id),
-            }"
-            @click="selectWindowTabs(window.id)"
-        >
-            <i class="icon icon--cup icon--micro m--r--2"></i>
-            {{ window.tournament.name }}
-        </div>
-    </section>
+            </div>
+        </section>
+    </div>
 </template>
 
 <script lang="ts">
