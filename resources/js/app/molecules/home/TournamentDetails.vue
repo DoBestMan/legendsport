@@ -2,7 +2,7 @@
     <div class="layout__content__sidebar__games">
         <TournamentInfo :tournament="tournament" />
 
-        <a href="#" class="button--large">REGISTER NOW ($1000+$100)</a>
+        <RegisterNowButton className="button--large" :tournament="tournament" />
 
         <div class="switch">
             <div
@@ -10,7 +10,7 @@
                 :class="{ 'switch__item--active': activeTab === 'games' }"
                 @click="activeTab = 'games'"
             >
-                <i class="icon icon--color--dark-4 icon--games m--r--1"></i>
+                <i class="icon icon--games m--r--1"></i>
                 GAMES
             </div>
             <div

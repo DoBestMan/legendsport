@@ -132,9 +132,8 @@
                         RANKS
                     </div>
                 </div>
-                <div class="tournament--mobile__offer">
-                    REGISTER NOW ($1000+$100)
-                </div>
+
+                <RegisterNowButton className="tournament--mobile__offer" :tournament="tournament" />
             </div>
         </div>
     </div>
