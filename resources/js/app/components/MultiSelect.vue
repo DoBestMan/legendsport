@@ -1,24 +1,12 @@
 <template>
-    <!-- <multiselect
-        trackBy="id"
-        label="name"
-        selectLabel=""
-        deselectLabel=""
-        selectedLabel=""
-        :allowEmpty="false"
-        :value="formattedValue"
-        :options="options"
-        v-bind="$attrs"
-        v-on="listeners"
-    >
-        <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
-            <slot :name="slot" v-bind="scope" />
-        </template>
-    </multiselect> -->
-
     <div class="dropdown">
         <div class="form__control">
-            <input class="input" type="text" :value="selectedVal.name" readonly="readonly" />
+            <input
+                class="input"
+                type="text"
+                :value="selectedVal ? selectedVal : 'All'"
+                readonly="readonly"
+            />
             <div class="form__control__icon--right">
                 <i class="icon icon--micro icon--down"></i>
             </div>
@@ -62,10 +50,7 @@ export default Vue.extend({
 
     data() {
         return {
-            selectedVal: {
-                id: null,
-                name: "All",
-            },
+            selectedVal: "" as string | null,
         };
     },
 
@@ -73,27 +58,17 @@ export default Vue.extend({
         formattedValue(): SelectOption | null {
             return this.options.find(option => option.id === this.value) ?? null;
         },
-
-        // listeners(): object {
-        //     return {
-        //         ...this.$listeners,
-        //         input: this.onInput,
-        //     };
-        // },
     },
 
     methods: {
-        // onInput(val: SelectOption | null): void {
-        //     this.$emit("input", val?.id);
-        // },
-
         handleSelectOption(val: SelectOption): void {
-            this.selectedVal = val;
+            this.selectedVal = val.id;
             this.$emit("change", val.id);
         },
 
         isSelectedOption(val: SelectOption): boolean {
-            return this.selectedVal.id === val.id;
+            if (!this.selectedVal && val.id === null) return true;
+            return this.selectedVal === val.id;
         },
     },
 });
