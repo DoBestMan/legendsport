@@ -2,8 +2,6 @@
     <section class="layout__content__sidebar b--dark-3 layout__content__sidebar--left">
         <TournamentInfo :tournament="tournament" />
         <InfoDetailSection :tournament="tournament" :window="window" />
-        <!-- <PrizePool :tournament="tournament" /> -->
-        <!-- Todo: <TournamentRankTable :players="tournament.players" /> -->
         <ChatContainer :messages="chatMessages" @sendMessage="sendMessage" />
     </section>
 </template>
@@ -15,7 +13,6 @@ import { Tournament } from "../../../types/tournament";
 import ChatContainer from "../../chat/ChatContainer.vue";
 import InfoDetailSection from "./InfoDetailSection.vue";
 import TournamentRankTable from "../../general/TournamentRankTable.vue";
-import PrizePool from "./PrizePool.vue";
 import { ChatMessage } from "../../../types/chat";
 import { NewChatMessage } from "../../../utils/websockets/NewChatMessage";
 import { User } from "../../../../general/types/user";
@@ -26,7 +23,6 @@ export default Vue.extend({
     name: "InfoSection",
     components: {
         InfoDetailSection,
-        PrizePool,
         RegisterNowButton,
         TournamentInfo,
         TournamentRankTable,

@@ -34,6 +34,10 @@
             v-if="isTournamentInfoSelected(TournamentInfoTab.Ranks)"
             :players="players"
         />
+        <PrizePool
+            v-if="isTournamentInfoSelected(TournamentInfoTab.Prizes)"
+            :tournament="tournament"
+        />
     </div>
 </template>
 
@@ -41,6 +45,7 @@
 import Vue, { PropType } from "vue";
 import TournamentGamesTable from "../../home/TournamentGamesTable.vue";
 import TournamentRankTable from "../../general/TournamentRankTable.vue";
+import PrizePool from "./PrizePool.vue";
 import { TournamentInfoTab, Window } from "../../../types/window";
 import { Tournament } from "../../../types/tournament";
 import { UpdateWindowPayload } from "resources/js/app/store/modules/window";
@@ -53,6 +58,7 @@ export default Vue.extend({
     components: {
         TournamentGamesTable,
         TournamentRankTable,
+        PrizePool,
     },
 
     props: {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div>
+        <div class="bets__container__scroll">
             <ParlayItem
                 :key="`${pendingOdd.externalId}#${pendingOdd.type}`"
                 :pendingOdd="pendingOdd"

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="game__rank__container__scroll">
         <div class="rank" v-for="(player, index) in players" :key="player.id">
             <div class="rank__content">
                 <div class="rank__content__order">

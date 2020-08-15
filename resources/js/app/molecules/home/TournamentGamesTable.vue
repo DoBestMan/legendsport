@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="game__rank__container__scroll">
         <div class="game" v-for="game in games" :key="game.id">
             <div class="game__header">
                 <div class="game__header__detail">

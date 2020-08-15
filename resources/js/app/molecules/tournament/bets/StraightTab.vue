@@ -1,50 +1,70 @@
 <template>
     <div>
-        <StraightItem
-            :key="`${pendingOdd.externalId}#${pendingOdd.type}`"
-            :pendingOdd="pendingOdd"
-            :game="gameDict.get(pendingOdd.externalId)"
-            :value="pendingOdd.wager"
-            @delete="removeOdd(pendingOdd)"
-            @change="updateOdd(pendingOdd, $event)"
-            v-for="pendingOdd in pendingOdds"
-        />
-        <div v-if="!pendingOdds.length" class="h3 text-center p-5">No records</div>
+        <div class="layout__content__sidebar__header__input">
+            <div class="form">
+                <div class="form__control">
+                    <div class="form__control__icon form__control__icon--left">
+                        <i class="icon icon--micro icon--usd icon--color--light-1"></i>
+                    </div>
+                    <ChipInput v-model="wager" placeholder="Bet" />
+                </div>
+            </div>
+            <div class="button button--small button--yellow m--l--4" @click="updateOddsWager">
+                SET TO ALL
+            </div>
+        </div>
 
-        <!-- TODO: -->
+        <div class="bets__container__scroll">
+            <StraightItem
+                :key="`${pendingOdd.externalId}#${pendingOdd.type}`"
+                :pendingOdd="pendingOdd"
+                :game="gameDict.get(pendingOdd.externalId)"
+                :value="pendingOdd.wager"
+                @delete="removeOdd(pendingOdd)"
+                @change="updateOdd(pendingOdd, $event)"
+                v-for="pendingOdd in pendingOdds"
+            />
+            <div v-if="!pendingOdds.length" class="h3 text-center p-5">No records</div>
+        </div>
 
-        <!-- <transition name="slidey">
-            <div v-if="pendingOdds.length" class="tab-footer-frm">
-                <div class="header-frm">
-                    <div class="h4">SUMMARY</div>
-
-                    <div class="btn btn-trash" @click="removeOdds">
-                        <i class="icon fas fa-trash-alt"></i>
+        <div class="layout__content__sidebar__bet" v-if="pendingOdds.length">
+            <div class="bet__footer__line__total bet__footer__line__padding">
+                <div class="bet__footer__line__name">
+                    Total Active Bets
+                </div>
+                <div class="bet__footer__line__detail">
+                    {{ pendingOdds.length }}
+                </div>
+            </div>
+            <div class="bet__footer__line__total bet__footer__line__padding">
+                <div class="bet__footer__line__name">
+                    Total Bet
+                </div>
+                <div class="bet__footer__line__detail">
+                    {{ totalBets | formatChip }}
+                </div>
+            </div>
+            <div class="bet__footer__line__total bet__footer__line__padding">
+                <div class="bet__footer__line__name">
+                    Total Potential Win
+                </div>
+                <div class="bet__footer__line__detail">
+                    {{ totalWin | formatChip }}
+                </div>
+            </div>
+            <div class="bet__footer__line__total bet__footer__line__padding">
+                <div class="bet__footer__line__name">
+                    <div class="bet__footer__line__delete" @click="removeOdds">
+                        <i class="icon icon--delete icon--large"></i>
                     </div>
                 </div>
-
-                <div class="content-frm row">
-                    <div class="col">
-                        <div>Total<br />Active&nbsp;Bets</div>
-                        <div class="h4">{{ pendingOdds.length }}</div>
-                    </div>
-                    <div class="col">
-                        <div>Total<br />Bets</div>
-                        <div class="h4">{{ totalBets | formatChip }}</div>
-                    </div>
-                    <div class="col">
-                        <div>Total<br />Potential&nbsp;Bets</div>
-                        <div class="h4">{{ totalWin | formatChip }}</div>
-                    </div>
-                </div>
-
                 <PlaceBetButton
                     :tournament="window.tournament"
                     :disabled="!canPlaceBet"
                     @placeBet="placeBet"
                 />
             </div>
-        </transition>-->
+        </div>
     </div>
 </template>
 
