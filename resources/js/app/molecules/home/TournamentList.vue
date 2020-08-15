@@ -144,10 +144,11 @@ import Vue from "vue";
 import { Tournament } from "../../types/tournament";
 import TableNoRecords from "../../../general/components/TableNoRecords.vue";
 import { UserPlayer } from "../../../general/types/user";
+import RegisterNowButton from "../../components/RegisterNowButton.vue";
 
 export default Vue.extend({
     name: "TournamentList",
-    components: { TableNoRecords },
+    components: { TableNoRecords, RegisterNowButton },
     props: {
         selectedTournamentId: Number,
     },

@@ -21,7 +21,7 @@
                 <div class="label">
                     SPORT
                 </div>
-                <SportSelect v-model="sports" :sports="sportOptions" />
+                <SportFilterSelect v-model="sports" :sports="sportOptions" />
             </div>
 
             <div class="layout__content__container__filter__filters__content">
@@ -58,7 +58,7 @@
 <script lang="ts">
 import Vue from "vue";
 import MultiSelect from "../../components/MultiSelect.vue";
-import SportSelect from "../../../general/components/SportSelect.vue";
+import SportFilterSelect from "../../../general/components/SportFilterSelect.vue";
 import { BuyInType, PlayersLimitType, TimeFrame, TournamentType } from "../../types/tournament";
 import { mapEnumToSelecOptions } from "../../../general/utils/utils";
 import { mapFields } from "../../store/utils";
@@ -66,7 +66,7 @@ import { Sport } from "../../../general/types/sport";
 
 export default Vue.extend({
     name: "FilterContainer",
-    components: { MultiSelect, SportSelect },
+    components: { MultiSelect, SportFilterSelect },
 
     computed: {
         typeOptions(): any {

@@ -69,6 +69,7 @@
                 <div class="paragraph paragraph--small">
                     Already have an account?
                     <a href="/login" class="link">Log in</a>
+                    <a href="/" class="link link--back">Back</a>
                 </div>
                 <div class="seperator"></div>
                 <div class="paragraph paragraph--tiny">

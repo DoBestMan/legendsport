@@ -183,6 +183,24 @@ body {
     position: relative;
     min-width: 320px;
 }
+.layout__content__sidebar__bet {
+    width: 320px;
+    height: 182px;
+    box-shadow: 0 -2px 16px 0 rgba(0, 0, 0, 0.2);
+    background-color: #3a454d;
+    display: flex;
+    flex-direction: column;
+    margin-left: -16px;
+}
+.layout__content__sidebar__bet__text {
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    color: #ffffff;
+}
 .layout__content__sidebar__seperator {
     width: calc(100% + 32px);
     position: relative;
@@ -249,11 +267,15 @@ body {
 }
 .layout__content__sidebar__header__input {
     box-sizing: border-box;
-    width: 100%;
     padding: 8px 16px;
     background: #2c343a;
     display: flex;
     align-items: center;
+
+    margin-top: -32px;
+    margin-bottom: 20px;
+    margin-left: -16px;
+    width: 320px;
 }
 .layout__content__sidebar__header__bet {
     display: flex;
@@ -1604,6 +1626,10 @@ textarea.input {
     overflow: hidden;
 }
 
+.game__rank__container__scroll {
+    height: 480px;
+    overflow-y: auto;
+}
 .game {
     border-radius: 8px;
     background: #2c343a;
@@ -1784,6 +1810,10 @@ textarea.input {
 .switch__item--active {
     background: #ffffff;
     color: #2c343a;
+}
+.bets__container__scroll {
+    height: 468px;
+    overflow-y: auto;
 }
 
 .odds {
@@ -1979,6 +2009,16 @@ textarea.input {
     align-items: center;
     justify-content: space-between;
 }
+.bet__footer__line__total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.bet__footer__line__padding {
+    padding-left: 27px;
+    padding-top: 20px;
+    padding-right: 18px;
+}
 .bet__footer__line__name {
     font-size: 14px;
     font-weight: 500;
@@ -1990,6 +2030,13 @@ textarea.input {
     line-height: 1;
     text-align: right;
     color: #ffffff;
+}
+.bet__footer__line__delete {
+    width: 44px;
+    height: 44px;
+    padding: 6px;
+    border-radius: 4px;
+    border: solid 1px #505d66;
 }
 .bet__seperator {
     height: 0px;
@@ -2157,6 +2204,23 @@ textarea.input {
     cursor: pointer;
     background: #2ecc71;
 }
+.button--large--bet {
+    border-radius: 4px;
+    height: 44px;
+    line-height: 44px;
+    padding: 0 16px;
+    box-sizing: border-box;
+    width: 216px;
+    background-color: #02f683;
+    color: #2c343a;
+    display: block;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    outline: none;
+}
 
 .dropdown:hover .dropdown__content {
     display: block;
@@ -2289,6 +2353,9 @@ textarea.input {
     line-height: 1.17;
     color: #f2cd5d;
     text-decoration: none;
+}
+.link--back {
+    float: right;
 }
 
 .rank {

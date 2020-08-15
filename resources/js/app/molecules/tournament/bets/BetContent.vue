@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="bet__container__tag">
-            <div class="tag tag--medium tag--color--yellow">-110</div>
+            <div class="tag tag--medium tag--color--yellow">{{ odd | signedNumber }}</div>
         </div>
     </div>
 </template>

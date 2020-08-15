@@ -1,7 +1,7 @@
 <template>
     <SpinnerBox v-if="isLoading" />
 
-    <div v-else class="bet">
+    <div v-else class="bet bets__container__scroll">
         <div :key="bet.id" v-for="bet in bets">
             <div :key="event.id" v-for="(event, index) in bet.events">
                 <div class="bet__header" v-if="index === 0">

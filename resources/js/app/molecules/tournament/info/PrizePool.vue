@@ -1,25 +1,21 @@
 <template>
-    <table class="awards table">
-        <thead class="thead">
-            <tr class="tr">
-                <th class="th col-position" scope="col">Position</th>
-                <th class="th col-prize" scope="col">Prize</th>
-            </tr>
-        </thead>
-        <tbody class="tbody">
-            <tr
-                :key="prize.position"
-                class="tr"
-                :class="{ selected: prize.maxPosition === selectedPrize }"
-                @click="selectPrize(prize)"
-                v-for="prize in prizes"
-            >
-                <td class="td col-position">{{ prize.position }}</td>
-                <td class="td col-prize">{{ prize.prize | formatCurrency }}</td>
-            </tr>
-            <TableNoRecords v-if="!tournament.prizePool.length" />
-        </tbody>
-    </table>
+    <div class="game__rank__container__scroll">
+        <div class="rank" v-for="prize in prizes" :key="prize" @click="selectPrize(prize)">
+            <div class="rank__content">
+                <div class="rank__content__user">
+                    <div class="rank__content__user__name">
+                        {{ prize.position }}
+                    </div>
+                </div>
+            </div>
+            <div class="rank__content">
+                <div class="rank__content__coins">
+                    <i class="icon icon--atom icon--coins icon--color--yellow-2 m--r--1"></i>
+                    {{ prize.prize | formatCurrency }}
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script lang="ts">

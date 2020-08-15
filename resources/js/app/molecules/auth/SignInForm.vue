@@ -42,7 +42,8 @@
                 <div class="seperator"></div>
                 <div class="paragraph paragraph--small">
                     Don’t have an account?
-                    <a href="#" class="link">Join Us</a>
+                    <a href="/signup" class="link">Join Us</a>
+                    <a href="/" class="link link--back">Back</a>
                 </div>
             </div>
         </div>

@@ -5,13 +5,6 @@
                 <i class="icon icon--sport-nfl icon--micro"></i>
             </div>
             <div class="bet__details__content">
-                <!-- TODO: -->
-
-                <!-- <div class="text team">{{ teamHome }}</div>
-                <div class="text score">{{ scoreHome | score }}</div>
-                <div class="text vs">@</div>
-                <div class="text team">{{ teamAway }}</div>
-                <div class="text score">{{ scoreAway | score }}</div>-->
                 <div class="bet__details__content__title">
                     {{ game.teamHome }} - {{ game.teamAway }}
                 </div>

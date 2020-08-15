@@ -1,15 +1,15 @@
 <template>
-    <div class="footer-frm">
+    <div class="bet__footer__line__detail">
         <button
+            class="button--large--bet"
             v-if="isRegistered"
-            class="btn btn-action btn-place-bet"
             @click="placeBet"
             :disabled="disabled"
         >
-            Place Bet
+            PLACE BET
         </button>
 
-        <RegisterNowButton v-else class="btn-place-bet" :tournament="tournament" />
+        <RegisterNowButton v-else class="button--large--bet" :tournament="tournament" />
     </div>
 </template>
 
@@ -39,6 +39,7 @@ export default Vue.extend({
 
     methods: {
         placeBet() {
+            console.log("asdfwoejrowejrowjerowjero");
             this.$emit("placeBet");
         },
     },

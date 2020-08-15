@@ -16,10 +16,6 @@
                         </div>
                         <div class="layout__content__sidebar__header__bet__content__group__balance">
                             <!-- TODO: -->
-
-                            <!-- {{ player.chips | formatChip }} ({{
-                            player.pendingChips | formatChip
-                            }}) -->
                             1,000,000
                         </div>
                     </div>
@@ -41,21 +37,6 @@
                     {{ betTab }}
                 </div>
             </div>
-
-            <div
-                v-if="isBetTabSelected(BetTypeTab.Straight)"
-                class="layout__content__sidebar__header__input"
-            >
-                <div class="form">
-                    <div class="form__control">
-                        <div class="form__control__icon form__control__icon--left">
-                            <i class="icon icon--micro icon--usd icon--color--light-1"></i>
-                        </div>
-                        <input class="input input--padding--left" placeholder="Bet" />
-                    </div>
-                </div>
-                <div class="button button--small button--yellow m--l--4">SET TO ALL</div>
-            </div>
         </div>
 
         <StraightTab v-if="isBetTabSelected(BetTypeTab.Straight)" :window="window" />
@@ -74,8 +55,8 @@ import HistoryTab from "./HistoryTab.vue";
 import ParlayTab from "./ParlayTab.vue";
 import PendingTab from "./PendingTab.vue";
 import StraightTab from "./StraightTab.vue";
-import { UpdateWindowPayload } from "../../../store/modules/window";
 import RegisterNowButton from "../../../components/RegisterNowButton.vue";
+import { UpdateWindowPayload } from "../../../store/modules/window";
 
 export default Vue.extend({
     name: "BetsSection",
