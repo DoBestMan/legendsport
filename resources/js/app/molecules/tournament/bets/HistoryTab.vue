@@ -46,10 +46,10 @@
                             <div class="text team">{{ teamAway }}</div>
                         <div class="text score">{{ scoreAway | score }}</div>-->
                         <div class="bet__details__content__title">
-                            {{ game.teamHome }} - {{ game.teamAway }}
+                            {{ event.teamHome }} - {{ event.teamAway }}
                         </div>
                         <div class="bet__details__content__subtitle">
-                            {{ game.startsAt | toDateTime }}
+                            {{ event.startsAt | toDateTime }}
                         </div>
                     </div>
                     <div class="bet__details__icon">
