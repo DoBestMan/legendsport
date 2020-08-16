@@ -9,10 +9,9 @@
                 @delete="removeOdd(pendingOdd)"
                 v-for="pendingOdd in pendingOdds"
             />
-            <div v-if="!pendingOdds.length" class="h3 text-center p-5">No records</div>
         </div>
 
-        <div class="layout__content__sidebar__bet" v-if="hasEnoughPendingOdds">
+        <div name="slidey" class="layout__content__sidebar__bet" v-if="hasEnoughPendingOdds">
             <div
                 class="bet__footer__line__total bet__footer__line__padding"
                 style="padding-top: 15px;"
@@ -21,24 +20,10 @@
                     <strong>Bet</strong>
                     <ChipInput :value="wager" @input="updateWager" />
                 </div>
-            </div>
-            <div
-                class="bet__footer__line__total bet__footer__line__padding"
-                style="padding-top: 15px;"
-            >
-                <div class="bet__footer__line__name">
-                    Total Bet
+                <div style="width: 280px;">
+                    <strong>Win</strong>
+                    <ChipInput :value="win" readonly />
                 </div>
-                <div class="bet__footer__line__detail">$ {{ totalBets | formatChip }}</div>
-            </div>
-            <div
-                class="bet__footer__line__total bet__footer__line__padding"
-                style="padding-top: 15px;"
-            >
-                <div class="bet__footer__line__name">
-                    Total Potential Win
-                </div>
-                <div class="bet__footer__line__detail">$ {{ totalWin | formatChip }}</div>
             </div>
             <div
                 class="bet__footer__line__total bet__footer__line__padding"
@@ -182,6 +167,7 @@ export default Vue.extend({
         },
 
         updateWager(value: number) {
+            console.log("wager value", value);
             const payload: UpdateWindowPayload = {
                 id: this.window.id,
                 parlayWager: value,

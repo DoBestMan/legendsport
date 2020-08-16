@@ -39,35 +39,34 @@
                     </div>
                 </div>
 
-                <div class="odd" v-for="(games, date) in groupedGames" :key="date">
-                    <div class="odd__header">
-                        <div class="odd__header__time">{{ date | toDateTime }}</div>
-                        <div class="odd__header__table">
-                            <div class="odd__header__table__item">
-                                MONEY
+                <div style="height: 700px; overflow-y: auto;">
+                    <div class="odd" v-for="(games, date) in groupedGames" :key="date">
+                        <div class="odd__header">
+                            <div class="odd__header__time">{{ date | toDateTime }}</div>
+                            <div class="odd__header__table">
+                                <div class="odd__header__table__item">
+                                    MONEY
+                                </div>
+                                <div class="odd__header__table__item">
+                                    SPREAD
+                                </div>
+                                <div class="odd__header__table__item">
+                                    TOTAL
+                                </div>
                             </div>
-                            <div class="odd__header__table__item">
-                                SPREAD
-                            </div>
-                            <div class="odd__header__table__item">
-                                TOTAL
-                            </div>
+                            <div class="odd__header__margin"></div>
                         </div>
-                        <div class="odd__header__margin"></div>
+                        <div class="odd__container">
+                            <GameRow
+                                :key="game.id"
+                                :window="window"
+                                :game="game"
+                                @toggleOdd="toggleOdd"
+                                v-for="game in games"
+                            />
+                            <div class="odd__container__seperator"></div>
+                        </div>
                     </div>
-                    <div class="odd__container">
-                        <GameRow
-                            :key="game.id"
-                            :window="window"
-                            :game="game"
-                            @toggleOdd="toggleOdd"
-                            v-for="game in games"
-                        />
-                        <div class="odd__container__seperator"></div>
-                    </div>
-                </div>
-                <div v-if="!Object.keys(groupedGames).length" class="h3 p-5 text-center">
-                    No records
                 </div>
             </div>
         </div>

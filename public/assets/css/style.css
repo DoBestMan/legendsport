@@ -1627,7 +1627,7 @@ textarea.input {
 }
 
 .game__rank__container__scroll {
-    height: 480px;
+    height: 550px;
     overflow-y: auto;
 }
 .game {
@@ -1812,7 +1812,7 @@ textarea.input {
     color: #2c343a;
 }
 .bets__container__scroll {
-    height: 468px;
+    height: 600px;
     overflow-y: auto;
 }
 
