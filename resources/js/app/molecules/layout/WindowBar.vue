@@ -29,6 +29,11 @@
                     :class="{ 'b--yellow-1': isWindowsSelected(window.id) }"
                 ></i>
                 {{ window.tournament.name }}
+                <div
+                    class="delete"
+                    style="margin-left: 5px; margin-top: -15px;"
+                    @click="closeWindow(window)"
+                />
             </div>
         </section>
     </div>
@@ -46,6 +51,7 @@ export default Vue.extend({
     data() {
         return {
             windowId: -1,
+            closedWindow: 0,
         };
     },
 
@@ -57,15 +63,20 @@ export default Vue.extend({
 
     methods: {
         closeWindow(window: Window): void {
+            this.closedWindow = 1;
             this.$stock.commit("window/closeWindow", window.id);
         },
 
         selectWindowTabs(window_id: number) {
             this.windowId = window_id;
-            if (window_id === -1) {
+            if (this.closedWindow === 1) {
+                this.windowId = -1;
+                this.closedWindow = 0;
+            }
+            if (this.windowId === -1) {
                 this.$router.push("/");
             } else {
-                this.$router.push(`/tournaments/${window_id}`);
+                this.$router.push(`/tournaments/${this.windowId}`);
             }
         },
 
