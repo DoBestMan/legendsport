@@ -1,7 +1,7 @@
 <template>
     <section class="layout__content__sidebar">
         <div class="layout__content__sidebar__header">
-            <div class="layout__content__sidebar__header__bet">
+            <div class="layout__content__sidebar__header__bet" v-if="isRegistered">
                 <i class="icon m--r--2 icon--slip"></i>
                 <div class="layout__content__sidebar__header__bet__content">
                     <div class="layout__content__sidebar__header__bet__content__title">
@@ -16,13 +16,13 @@
                         </div>
                         <div class="layout__content__sidebar__header__bet__content__group__balance">
                             <!-- TODO: -->
-                            1,000,000
+                            {{ player.chips | formatChip }} ({{ player.pendingChips | formatChip }})
                         </div>
                     </div>
                 </div>
                 <!-- TODO: -->
-                <!-- <RegisterNowButton v-else :tournament="tournament" /> -->
             </div>
+            <RegisterNowButton class="button--large" v-else :tournament="tournament" />
 
             <div class="tab--large">
                 <div
