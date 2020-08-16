@@ -1,7 +1,7 @@
 <template>
     <SpinnerBox v-if="isLoading" />
 
-    <div v-else class="bet bets__container__scroll">
+    <div v-else class="bet bets__container__scroll" style="background-color: transparent;">
         <div :key="bet.id" v-for="bet in bets">
             <div :key="event.id" v-for="(event, index) in bet.events">
                 <div class="bet__header" v-if="index === 0">
@@ -67,10 +67,6 @@
                     <div class="bet__footer__line__detail">{{ bet.chipsWager | formatChip }}</div>
                 </div>
             </div>
-        </div>
-
-        <div v-if="!bets.length" class="h3 text-center p-5">
-            No records
         </div>
     </div>
 </template>
