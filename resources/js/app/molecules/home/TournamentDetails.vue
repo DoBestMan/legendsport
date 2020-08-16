@@ -2,8 +2,6 @@
     <div class="layout__content__sidebar__games">
         <TournamentInfo :tournament="tournament" />
 
-        <RegisterNowButton className="button--large" :tournament="tournament" />
-
         <div class="switch">
             <div
                 class="switch__item"
