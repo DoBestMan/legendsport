@@ -12,7 +12,7 @@
 
                     <div
                         v-if="bet.status === BetStatus.Win"
-                        class="bet__header__tag bet__header__tag--red"
+                        class="bet__header__tag bet__header__tag--green"
                     >
                         WON
                     </div>
@@ -27,7 +27,7 @@
                     <!-- ToDo: make sure 'PUSH' -->
                     <div
                         v-else-if="bet.status === BetStatus.Push"
-                        class="bet__header__tag bet__header__tag--red"
+                        class="bet__header__tag bet__header__tag--green"
                     >
                         PUSH
                     </div>
@@ -38,22 +38,12 @@
                         <i class="icon icon--sport-nfl icon--micro"></i>
                     </div>
                     <div class="bet__details__content">
-                        <!-- TODO: -->
-
-                        <!-- <div class="text team">{{ teamHome }}</div>
-                            <div class="text score">{{ scoreHome | score }}</div>
-                            <div class="text vs">@</div>
-                            <div class="text team">{{ teamAway }}</div>
-                        <div class="text score">{{ scoreAway | score }}</div>-->
                         <div class="bet__details__content__title">
                             {{ event.teamHome }} - {{ event.teamAway }}
                         </div>
                         <div class="bet__details__content__subtitle">
                             {{ event.startsAt | toDateTime }}
                         </div>
-                    </div>
-                    <div class="bet__details__icon">
-                        <i class="icon icon--delete icon--micro"></i>
                     </div>
                 </div>
 
@@ -76,30 +66,7 @@
                     <div class="bet__footer__line__name">Total Bet</div>
                     <div class="bet__footer__line__detail">{{ bet.chipsWager | formatChip }}</div>
                 </div>
-                <div class="bet__footer__line">
-                    <div class="bet__footer__line__name">Total Win</div>
-                    <div class="bet__footer__line__detail">{{ bet.chipsWin | formatChip }}</div>
-                </div>
             </div>
-
-            <!-- ToDo: -->
-
-            <!-- <div class="bet-frm">
-                <div>Bet: {{ bet.chipsWager | formatChip }}</div>
-                <div>Win: {{ bet.chipsWin | formatChip }}</div>
-            </div>
-
-            <div v-if="bet.status === BetStatus.Win" class="result win">
-                <i class="icon fas fa-laugh-beam"></i> YOU WON!
-            </div>
-
-            <div v-else-if="bet.status === BetStatus.Loss" class="result lost">
-                <i class="icon fas fa-frown"></i> YOU LOST!
-            </div>
-
-            <div v-else-if="bet.status === BetStatus.Push" class="result push">
-                <i class="icon fas fa-meh"></i> PUSH
-            </div> -->
         </div>
 
         <div v-if="!bets.length" class="h3 text-center p-5">
