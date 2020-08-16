@@ -19,7 +19,16 @@
                 :key="tournament.id"
             >
                 <div class="tournament--desktop__item">{{ tournament.starts | toDateTime }}</div>
-                <div class="tournament--desktop__item">{{ tournament.name }}</div>
+                <div class="tournament--desktop__item">
+                    <span
+                        v-if="isRegistered(tournament)"
+                        title="You're registered for this tournament"
+                    >
+                        <strong>{{ tournament.name }}</strong>
+                        <i class="icon icon--smaller icon--check icon--color--yellow-1" />
+                    </span>
+                    <span v-else>{{ tournament.name }}</span>
+                </div>
                 <div class="tournament--desktop__item">{{ tournament.buyIn | formatDollars }}</div>
                 <div class="tournament--desktop__item">{{ tournament.timeFrame }}</div>
                 <div class="tournament--desktop__item">{{ tournament.state }}</div>
