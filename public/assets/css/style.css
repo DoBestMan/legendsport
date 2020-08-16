@@ -1939,6 +1939,10 @@ textarea.input {
     border-radius: 6px;
     box-sizing: border-box;
 }
+.odd__container__content__details__line__tags__tag:hover {
+    background-color: #f2cd5d;
+    color: #191e24;
+}
 .odd__container__content__details__line__tags__tag--empty {
     background: transparent;
     border: 1px solid #3a454d;

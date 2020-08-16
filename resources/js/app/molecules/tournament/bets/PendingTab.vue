@@ -4,11 +4,6 @@
     <div v-else class="bet bets__container__scroll">
         <div :key="bet.id" v-for="bet in bets">
             <div :key="betEvent.id" v-for="(betEvent, index) in bet.events">
-                <!-- <div v-if="index === 0" class="tag type-bet">
-                        <span v-if="isParlay(bet)">Parlay</span>
-                        <span v-else>Straight</span>
-                </div>-->
-
                 <div class="bet__header" v-if="index === 0">
                     <div class="bet__header__type">
                         <span v-if="isParlay(bet)">Parlay</span>
@@ -21,13 +16,6 @@
                         <i class="icon icon--sport-nfl icon--micro"></i>
                     </div>
                     <div class="bet__details__content">
-                        <!-- TODO: -->
-
-                        <!-- <div class="text team">{{ teamHome }}</div>
-                            <div class="text score">{{ scoreHome | score }}</div>
-                            <div class="text vs">@</div>
-                            <div class="text team">{{ teamAway }}</div>
-                        <div class="text score">{{ scoreAway | score }}</div>-->
                         <div class="bet__details__content__title">
                             {{ betEvent.teamHome }} - {{ betEvent.teamAway }}
                         </div>
@@ -53,18 +41,17 @@
                     :type-extra="betEvent.handicap"
                 />
             </div>
-
-            <div class="bet__footer">
-                <div class="bet__footer__line">
-                    <div class="bet__footer__line__name">Total Bet</div>
-                    <div class="bet__footer__line__detail">
-                        {{ bet.chipsWager | formatChip }}
-                    </div>
+        </div>
+        <div class="bet__footer">
+            <div class="bet__footer__line">
+                <div class="bet__footer__line__name">Total Bet</div>
+                <div class="bet__footer__line__detail">
+                    {{ bet.chipsWager | formatChip }}
                 </div>
-                <div class="bet__footer__line">
-                    <div class="bet__footer__line__name">Total Win</div>
-                    <div class="bet__footer__line__detail">{{ bet.chipsWin | formatChip }}</div>
-                </div>
+            </div>
+            <div class="bet__footer__line">
+                <div class="bet__footer__line__name">Total Win</div>
+                <div class="bet__footer__line__detail">{{ bet.chipsWin | formatChip }}</div>
             </div>
         </div>
 

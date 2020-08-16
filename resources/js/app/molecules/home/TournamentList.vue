@@ -179,7 +179,6 @@ export default Vue.extend({
 
     methods: {
         getWeekday(day: Date): string {
-            console.log("day: ", day);
             const newDate = new Date(day);
             const wd = newDate.getDay();
             let str_wd = "";

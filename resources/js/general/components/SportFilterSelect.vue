@@ -82,7 +82,6 @@ export default Vue.extend({
 
     methods: {
         selectedOption(option: Sport): void {
-            console.log("selected Option: ", option);
             var check = 0;
             for (var i = 0; i < this.selectedVal.length; i += 1) {
                 if (this.selectedVal[i].id === option.id) {
