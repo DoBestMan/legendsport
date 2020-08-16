@@ -1,69 +1,4 @@
 <template>
-    <!-- <LoadingOverlay :loading="isLoading" :failed="isFailed" @retry="load">
-        <div id="table-frm" class="table-frm">
-            <table id="tournaments" class="table table-fixed">
-                <thead class="thead">
-                    <tr class="tr">
-                        <th class="th col-start" scope="col">Start</th>
-                        <th class="th col-sports" scope="col">Sports</th>
-                        <th class="th col-buy-in" scope="col">Buy-In</th>
-                        <th class="th col-name" scope="col">Tournament name</th>
-                        <th class="th col-time-frame" scope="col">
-                            Time Frame
-                        </th>
-                        <th class="th col-status" scope="col">Status</th>
-                        <th class="th col-enrolled" scope="col">Enrolled</th>
-                        <th class="th col-players" scope="col">Players</th>
-                    </tr>
-                </thead>
-                <tbody class="tbody">
-                    <tr
-                        class="tr"
-                        :class="{ selected: isSelected(tournament) }"
-                        @click="selectTournament(tournament)"
-                        @dblclick="openTournament(tournament)"
-                        v-for="tournament in filteredTournaments"
-                        :key="tournament.id"
-                    >
-                        <td class="td col-start">
-                            {{ tournament.starts | toDateTime }}
-                        </td>
-                        <td class="td col-sports">
-                            {{ getSportsNames(tournament.sportIds) }}
-                        </td>
-                        <td class="tdcol-buy-in">
-                            {{ tournament.buyIn | formatDollars }}
-                        </td>
-                        <td class="td col-name">
-                            <span
-                                v-if="isRegistered(tournament)"
-                                title="You're registered for this tournament"
-                            >
-                                <strong>{{ tournament.name }}</strong>
-                                <i class="fas fa-check-circle"></i>
-                            </span>
-
-                            <span v-else>{{ tournament.name }}</span>
-                        </td>
-                        <td class="td col-time-frame">
-                            {{ tournament.timeFrame }}
-                        </td>
-                        <td class="td col-status">
-                            {{ tournament.state }}
-                        </td>
-                        <td class="td col-enrolled">
-                            {{ tournament.players.length }}
-                        </td>
-                        <td class="td col-players">
-                            {{ tournament.players.length }}
-                        </td>
-                    </tr>
-
-                    <TableNoRecords v-if="!filteredTournaments.length" />
-                </tbody>
-            </table>
-        </div>
-    </LoadingOverlay> -->
     <div
         class="layout__content__container__content__container layout__content__container__content__container--paddingless-mobile"
     >
@@ -132,16 +67,16 @@
                     <div class="tournament--mobile__container__sidebar">
                         <div class="tournament--mobile__container__sidebar__date">
                             <div class="tournament--mobile__container__sidebar__date__weekday">
-                                WED
+                                {{ getWeekday(tournament.starts) }}
                             </div>
                             <div class="tournament--mobile__container__sidebar__date__day">24</div>
                             <div class="tournament--mobile__container__sidebar__date__month">
-                                JUN
+                                {{ getMonth(tournament.starts) }}
                             </div>
                         </div>
                         <div class="tournament--mobile__container__sidebar__time">
                             <div class="tournament--mobile__container__sidebar__time__hour">
-                                23.30
+                                {{ getTime(tournamnet.starts) }}
                             </div>
                             <div class="tournament--mobile__container__sidebar__time__timezone">
                                 ET
@@ -243,7 +178,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { Tournament } from "../../types/tournament";
-import LoadingOverlay from "../../../general/components/LoadingOverlay";
+import LoadingOverlay from "../../../general/components/LoadingOverlay.vue";
 import TableNoRecords from "../../../general/components/TableNoRecords.vue";
 import { UserPlayer } from "../../../general/types/user";
 
@@ -269,6 +204,90 @@ export default Vue.extend({
     },
 
     methods: {
+        getWeekday(day: Date): string {
+            const newDate = new Date(day);
+            const wd = newDate.getDay();
+            let str_wd = "";
+            switch (wd) {
+                case 0:
+                    str_wd = "SUN";
+                    break;
+                case 1:
+                    str_wd = "MON";
+                    break;
+                case 2:
+                    str_wd = "TUE";
+                    break;
+                case 3:
+                    str_wd = "WED";
+                    break;
+                case 4:
+                    str_wd = "THU";
+                    break;
+                case 5:
+                    str_wd = "FRI";
+                    break;
+                case 6:
+                    str_wd = "SAT";
+                    break;
+                default:
+                    break;
+            }
+            return str_wd;
+        },
+
+        getMonth(day: Date): string {
+            const newDate = new Date(day);
+            const wd = newDate.getMonth();
+            let str_month = "";
+            switch (wd) {
+                case 0:
+                    str_month = "JAN";
+                    break;
+                case 1:
+                    str_month = "FEB";
+                    break;
+                case 2:
+                    str_month = "MAR";
+                    break;
+                case 3:
+                    str_month = "APR";
+                    break;
+                case 4:
+                    str_month = "MAY";
+                    break;
+                case 5:
+                    str_month = "JUN";
+                    break;
+                case 6:
+                    str_month = "JUL";
+                    break;
+                case 7:
+                    str_month = "AUG";
+                    break;
+                case 8:
+                    str_month = "SEP";
+                    break;
+                case 9:
+                    str_month = "OCT";
+                    break;
+                case 10:
+                    str_month = "NOV";
+                    break;
+                case 10:
+                    str_month = "DEC";
+                    break;
+                default:
+                    break;
+            }
+            return str_month;
+        },
+
+        getTime(day: Date): string {
+            const newDate = new Date(day);
+            return newDate.getHours() + "." + newDate.getMinutes();
+        },
+
         load() {
             this.$stock.dispatch("tournamentHistoryList/reload");
         },
