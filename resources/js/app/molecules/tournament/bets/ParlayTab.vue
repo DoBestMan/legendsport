@@ -12,38 +12,50 @@
             <div v-if="!pendingOdds.length" class="h3 text-center p-5">No records</div>
         </div>
 
-        <!-- ToDo: -->
-
-        <!-- <transition name="slidey">
-            <div v-if="hasEnoughPendingOdds" class="tab-footer-frm">
-                <div class="header-frm">
-                    <div class="h4">SUMMARY</div>
-
-                    <div class="btn btn-trash" @click="removeOdds">
-                        <i class="icon fas fa-trash-alt"></i>
+        <div class="layout__content__sidebar__bet" v-if="hasEnoughPendingOdds">
+            <div
+                class="bet__footer__line__total bet__footer__line__padding"
+                style="padding-top: 15px;"
+            >
+                <div style="width: 280px;">
+                    <strong>Bet</strong>
+                    <ChipInput :value="wager" @input="updateWager" />
+                </div>
+            </div>
+            <div
+                class="bet__footer__line__total bet__footer__line__padding"
+                style="padding-top: 15px;"
+            >
+                <div class="bet__footer__line__name">
+                    Total Bet
+                </div>
+                <div class="bet__footer__line__detail">$ {{ totalBets | formatChip }}</div>
+            </div>
+            <div
+                class="bet__footer__line__total bet__footer__line__padding"
+                style="padding-top: 15px;"
+            >
+                <div class="bet__footer__line__name">
+                    Total Potential Win
+                </div>
+                <div class="bet__footer__line__detail">$ {{ totalWin | formatChip }}</div>
+            </div>
+            <div
+                class="bet__footer__line__total bet__footer__line__padding"
+                style="padding-top: 15px;"
+            >
+                <div class="bet__footer__line__name">
+                    <div class="bet__footer__line__delete" @click="removeOdds">
+                        <i class="icon icon--delete icon--large"></i>
                     </div>
                 </div>
-
-                <div class="content-frm">
-                    <div class="bet-frm">
-                        <div class="field">
-                            <strong class="field-title">Bet</strong>
-                            <ChipInput :value="wager" @input="updateWager" />
-                        </div>
-                        <div class="field">
-                            <strong class="field-title">Win</strong>
-                            <ChipInput class="input-win" :value="win" readonly />
-                        </div>
-                    </div>
-                </div>
-
                 <PlaceBetButton
-                    :tournament="tournament"
+                    :tournament="window.tournament"
                     :disabled="!canPlaceBet"
                     @placeBet="placeBet"
                 />
             </div>
-        </transition>-->
+        </div>
     </div>
 </template>
 
@@ -55,7 +67,11 @@ import { BetTypeTab, PendingOdd, Window } from "../../../types/window";
 import { PendingOddPayload, UpdateWindowPayload } from "../../../store/modules/window";
 import { Game } from "../../../types/game";
 import MoneyInput from "../../../../general/components/MoneyInput.vue";
-import { americanToDecimalOdd, getPendingOddValue } from "../../../utils/game/bet";
+import {
+    americanToDecimalOdd,
+    calculateWinFromAmericanOdd,
+    getPendingOddValue,
+} from "../../../utils/game/bet";
 import { PlaceParlayBetPayload } from "../../../store/modules/placeBet";
 import PlaceBetButton from "./PlaceBetButton.vue";
 import ChipInput from "../../../../general/components/ChipInput.vue";
@@ -122,6 +138,25 @@ export default Vue.extend({
                 .reduce((a, b) => a * b, 1);
         },
 
+        totalBets(): number {
+            return this.pendingOdds
+                .map(pendingOdd => pendingOdd.wager ?? 0)
+                .reduce((a, b) => a + b, 0);
+        },
+
+        totalWin(): number {
+            return this.pendingOdds
+                .map(pendingOdd => {
+                    const dictionary: ReadonlyMap<string, Odd> = this.$stock.getters[
+                        "odd/oddDictionary"
+                    ];
+                    const odd = dictionary.get(pendingOdd.externalId);
+                    const oddValue = odd ? getPendingOddValue(pendingOdd, odd) : 0;
+                    return calculateWinFromAmericanOdd(oddValue, pendingOdd.wager ?? 0);
+                })
+                .reduce((a, b) => a + b, 0);
+        },
+
         hasEnoughPendingOdds(): boolean {
             return this.pendingOdds.length > 1;
         },
@@ -133,6 +168,7 @@ export default Vue.extend({
         },
 
         removeOdd(pendingOdd: DeepReadonly<PendingOdd>) {
+            console.log("removeOdd: ", pendingOdd);
             const payload: PendingOddPayload = {
                 windowId: this.window.id,
                 ...pendingOdd,
