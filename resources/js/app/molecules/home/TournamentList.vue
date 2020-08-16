@@ -36,6 +36,7 @@
             </div>
             <div
                 class="tournament--mobile"
+                style="margin-bottom: 10px;"
                 @click="selectTournament(tournament)"
                 @dblclick="openTournament(tournament)"
                 v-for="tournament in filteredTournaments"
@@ -45,18 +46,18 @@
                     <div class="tournament--mobile__container__sidebar">
                         <div class="tournament--mobile__container__sidebar__date">
                             <div class="tournament--mobile__container__sidebar__date__weekday">
-                                WED
+                                {{ getWeekday(tournament.starts) }}
                             </div>
                             <div class="tournament--mobile__container__sidebar__date__day">
-                                24
+                                {{ getDate(tournament.starts) }}
                             </div>
                             <div class="tournament--mobile__container__sidebar__date__month">
-                                JUN
+                                {{ getMonth(tournament.starts) }}
                             </div>
                         </div>
                         <div class="tournament--mobile__container__sidebar__time">
                             <div class="tournament--mobile__container__sidebar__time__hour">
-                                23.30
+                                {{ getTime(tournament.starts) }}
                             </div>
                             <div class="tournament--mobile__container__sidebar__time__timezone">
                                 ET
@@ -125,7 +126,7 @@
                                 <div
                                     class="tournament--mobile__container__content__prices__item__price"
                                 >
-                                    $10,000
+                                    {{ tournament.prizePoolMoney | formatDollars }}
                                 </div>
                             </div>
                         </div>
@@ -177,6 +178,96 @@ export default Vue.extend({
     },
 
     methods: {
+        getWeekday(day: Date): string {
+            console.log("day: ", day);
+            const newDate = new Date(day);
+            const wd = newDate.getDay();
+            let str_wd = "";
+            switch (wd) {
+                case 0:
+                    str_wd = "SUN";
+                    break;
+                case 1:
+                    str_wd = "MON";
+                    break;
+                case 2:
+                    str_wd = "TUE";
+                    break;
+                case 3:
+                    str_wd = "WED";
+                    break;
+                case 4:
+                    str_wd = "THU";
+                    break;
+                case 5:
+                    str_wd = "FRI";
+                    break;
+                case 6:
+                    str_wd = "SAT";
+                    break;
+                default:
+                    break;
+            }
+            return str_wd;
+        },
+
+        getDate(day: Date): number {
+            const newDate = new Date(day);
+            return newDate.getDate();
+        },
+
+        getMonth(day: Date): string {
+            const newDate = new Date(day);
+            const wd = newDate.getMonth();
+            let str_month = "";
+            switch (wd) {
+                case 0:
+                    str_month = "JAN";
+                    break;
+                case 1:
+                    str_month = "FEB";
+                    break;
+                case 2:
+                    str_month = "MAR";
+                    break;
+                case 3:
+                    str_month = "APR";
+                    break;
+                case 4:
+                    str_month = "MAY";
+                    break;
+                case 5:
+                    str_month = "JUN";
+                    break;
+                case 6:
+                    str_month = "JUL";
+                    break;
+                case 7:
+                    str_month = "AUG";
+                    break;
+                case 8:
+                    str_month = "SEP";
+                    break;
+                case 9:
+                    str_month = "OCT";
+                    break;
+                case 10:
+                    str_month = "NOV";
+                    break;
+                case 10:
+                    str_month = "DEC";
+                    break;
+                default:
+                    break;
+            }
+            return str_month;
+        },
+
+        getTime(day: Date): string {
+            const newDate = new Date(day);
+            return newDate.getHours() + "." + newDate.getMinutes();
+        },
+
         load() {
             this.$stock.dispatch("tournamentList/reload");
         },
