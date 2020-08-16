@@ -39,7 +39,6 @@ export default Vue.extend({
 
     methods: {
         placeBet() {
-            console.log("asdfwoejrowejrowjerowjero");
             this.$emit("placeBet");
         },
     },

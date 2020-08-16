@@ -1,7 +1,7 @@
 <template>
     <div class="bet">
         <div class="bet__details">
-            <div class="bet__details__icon" @click="remove">
+            <div class="bet__details__icon">
                 <i class="icon icon--sport-nfl icon--micro"></i>
             </div>
             <div class="bet__details__content">
@@ -10,7 +10,7 @@
                 </div>
                 <div class="bet__details__content__subtitle">{{ game.startsAt | toDateTime }}</div>
             </div>
-            <div class="bet__details__icon">
+            <div class="bet__details__icon" @click="remove">
                 <i class="icon icon--delete icon--micro"></i>
             </div>
         </div>
