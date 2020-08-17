@@ -51,7 +51,7 @@
                                 BET SLIP
                             </div>
                             <div class="layout__content__sidebar__chat__cta__action">
-                                <span class="tag tag--color--red tag--medium m--r--2">2</span>
+                                <span class="tag tag--color--red tag--medium m--r--2">1</span>
                                 <i
                                     class="icon icon--micro icon--expand icon--color--light-2"
                                     @click="handleExpandSlip"

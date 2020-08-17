@@ -1,6 +1,9 @@
 <template>
-    <div class="layout__content__sidebar__games">
-        <div class="layout__content__sidebar__header__input">
+    <div
+        class="layout__content__sidebar__games"
+        style="width: 320px; margin-left: -15px; margin-top: -32px;"
+    >
+        <div class="layout__content__sidebar__header__input" style="margin-bottom: 10px;">
             <div class="form">
                 <div class="form__control">
                     <div class="form__control__icon form__control__icon--left">
