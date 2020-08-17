@@ -80,12 +80,6 @@
                     </div>
                 </div>
             </div>
-
-            <RegisterNowButton
-                v-if="tournament && !isRegistered"
-                class="button--large"
-                :tournament="tournament"
-            />
         </div>
     </div>
 </template>
