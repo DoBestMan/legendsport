@@ -1,56 +1,58 @@
 <template>
     <SpinnerBox v-if="isLoading" />
 
-    <div v-else class="bet bets__container__scroll" style="background-color: transparent;">
-        <div :key="bet.id" v-for="bet in bets">
-            <div :key="betEvent.id" v-for="(betEvent, index) in bet.events">
-                <div class="bet__header" v-if="index === 0">
-                    <div class="bet__header__type">
-                        <span v-if="isParlay(bet)">Parlay</span>
-                        <span v-else>Straight</span>
-                    </div>
-                </div>
-
-                <div class="bet__details">
-                    <div class="bet__details__icon" @click="remove">
-                        <i class="icon icon--sport-nfl icon--micro"></i>
-                    </div>
-                    <div class="bet__details__content">
-                        <div class="bet__details__content__title">
-                            {{ betEvent.teamHome }} - {{ betEvent.teamAway }}
-                        </div>
-                        <div class="bet__details__content__subtitle">
-                            {{ betEvent.startsAt | toDateTime }}
+    <div v-else class="layout__content__sidebar__games">
+        <div class="bet" style="background-color: transparent;">
+            <div :key="bet.id" v-for="bet in bets">
+                <div :key="betEvent.id" v-for="(betEvent, index) in bet.events">
+                    <div class="bet__header" v-if="index === 0">
+                        <div class="bet__header__type">
+                            <span v-if="isParlay(bet)">Parlay</span>
+                            <span v-else>Straight</span>
                         </div>
                     </div>
-                    <div class="bet__details__icon">
-                        <i class="icon icon--delete icon--micro"></i>
-                    </div>
-                </div>
 
-                <BetContent
-                    :scoreAway="betEvent.scoreAway"
-                    :scoreHome="betEvent.scoreHome"
-                    :startsAt="betEvent.startsAt"
-                    :teamHome="betEvent.teamHome"
-                    :teamAway="betEvent.teamAway"
-                    :selectedTeam="betEvent.selectedTeam"
-                    :odd="betEvent.odd"
-                    :status="betEvent.status"
-                    :type="betEvent.type"
-                    :type-extra="betEvent.handicap"
-                />
-            </div>
-            <div class="bet__footer">
-                <div class="bet__footer__line">
-                    <div class="bet__footer__line__name">Total Bet</div>
-                    <div class="bet__footer__line__detail">
-                        {{ bet.chipsWager | formatChip }}
+                    <div class="bet__details">
+                        <div class="bet__details__icon" @click="remove">
+                            <i class="icon icon--sport-nfl icon--micro"></i>
+                        </div>
+                        <div class="bet__details__content">
+                            <div class="bet__details__content__title">
+                                {{ betEvent.teamHome }} - {{ betEvent.teamAway }}
+                            </div>
+                            <div class="bet__details__content__subtitle">
+                                {{ betEvent.startsAt | toDateTime }}
+                            </div>
+                        </div>
+                        <div class="bet__details__icon">
+                            <i class="icon icon--delete icon--micro"></i>
+                        </div>
                     </div>
+
+                    <BetContent
+                        :scoreAway="betEvent.scoreAway"
+                        :scoreHome="betEvent.scoreHome"
+                        :startsAt="betEvent.startsAt"
+                        :teamHome="betEvent.teamHome"
+                        :teamAway="betEvent.teamAway"
+                        :selectedTeam="betEvent.selectedTeam"
+                        :odd="betEvent.odd"
+                        :status="betEvent.status"
+                        :type="betEvent.type"
+                        :type-extra="betEvent.handicap"
+                    />
                 </div>
-                <div class="bet__footer__line">
-                    <div class="bet__footer__line__name">Total Win</div>
-                    <div class="bet__footer__line__detail">{{ bet.chipsWin | formatChip }}</div>
+                <div class="bet__footer">
+                    <div class="bet__footer__line">
+                        <div class="bet__footer__line__name">Total Bet</div>
+                        <div class="bet__footer__line__detail">
+                            {{ bet.chipsWager | formatChip }}
+                        </div>
+                    </div>
+                    <div class="bet__footer__line">
+                        <div class="bet__footer__line__name">Total Win</div>
+                        <div class="bet__footer__line__detail">{{ bet.chipsWin | formatChip }}</div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,15 +1,13 @@
 <template>
-    <div>
-        <div class="bets__container__scroll">
-            <ParlayItem
-                :key="`${pendingOdd.externalId}#${pendingOdd.type}`"
-                :pendingOdd="pendingOdd"
-                :game="getGame(pendingOdd.externalId)"
-                :value="pendingOdd.wager"
-                @delete="removeOdd(pendingOdd)"
-                v-for="pendingOdd in pendingOdds"
-            />
-        </div>
+    <div class="layout__content__sidebar__games">
+        <ParlayItem
+            :key="`${pendingOdd.externalId}#${pendingOdd.type}`"
+            :pendingOdd="pendingOdd"
+            :game="getGame(pendingOdd.externalId)"
+            :value="pendingOdd.wager"
+            @delete="removeOdd(pendingOdd)"
+            v-for="pendingOdd in pendingOdds"
+        />
 
         <div name="slidey" class="layout__content__sidebar__bet" v-if="hasEnoughPendingOdds">
             <div
