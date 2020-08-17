@@ -2,16 +2,25 @@
     <section class="layout__content__container">
         <div class="layout__content__container__mobile">
             <div class="layout__content__container__mobile__switch">
-                <div class="layout__content__container__mobile__switch__icon">
+                <div class="layout__content__container__mobile__switch__icon" @click="goToHome">
                     <i class="icon icon--left icon--color--light-1"></i>
                 </div>
-                <div class="layout__content__container__mobile__switch__icon" @click="goToHome">
+                <div
+                    class="layout__content__container__mobile__switch__icon"
+                    @click="handleModalTournamentSwitch"
+                >
                     <i class="icon icon--all icon--micro"></i>
                 </div>
-                <div class="layout__content__container__mobile__switch__title">
+                <div
+                    class="layout__content__container__mobile__switch__title"
+                    @click="handleModalTournamentSwitch"
+                >
                     All Sports
                 </div>
-                <div class="layout__content__container__mobile__switch__icon">
+                <div
+                    class="layout__content__container__mobile__switch__icon"
+                    @click="handleModalTournamentSwitch"
+                >
                     <i class="icon icon--down icon--micro icon--color--light-1"></i>
                 </div>
             </div>
@@ -40,6 +49,45 @@
                         @click="toggleSport(sportId)"
                     >
                         {{ getSportName(sportId) }}
+                    </div>
+                </div>
+
+                <div class="modal modal--active" v-show="isModalTournamentSwitch">
+                    <div class="modal__row" @click="selectAllSports">
+                        <div class="modal__row__item">
+                            <i
+                                class="icon icon--small icon--all m--r--2"
+                                :class="{ 'icon--color--yellow-2': areAllSportsSelected }"
+                            ></i>
+                            All Sports
+                        </div>
+                        <div class="modal__row__item">
+                            <i
+                                class="icon icon--small icon--check"
+                                :class="{ 'icon--color--yellow-2': areAllSportsSelected }"
+                            ></i>
+                        </div>
+                    </div>
+
+                    <div
+                        v-for="sportId in tournament.sportIds"
+                        :key="sportId"
+                        class="modal__row"
+                        @click="toggleSport(sportId)"
+                    >
+                        <div class="modal__row__item">
+                            <i
+                                class="icon icon--small icon--sport-nfl m--r--2"
+                                :class="{ 'icon--color--yellow-2': isSportSelected(sportId) }"
+                            ></i>
+                            {{ getSportName(sportId) }}
+                        </div>
+                        <div class="modal__row__item">
+                            <i
+                                class="icon icon--small icon--check"
+                                :class="{ 'icon--color--yellow-2': isSportSelected(sportId) }"
+                            ></i>
+                        </div>
                     </div>
                 </div>
 
@@ -115,6 +163,12 @@ export default Vue.extend({
         window: Object as PropType<Window>,
     },
 
+    data() {
+        return {
+            isModalTournamentSwitch: false,
+        };
+    },
+
     computed: {
         tournament(): Tournament {
             return this.window.tournament;
@@ -136,10 +190,6 @@ export default Vue.extend({
     },
 
     methods: {
-        goToHome(): void {
-            this.$router.push("/");
-        },
-
         getSportName(sportId: string): string {
             const dict: ReadonlyMap<string, string> = this.$stock.getters["sport/sportDictionary"];
             return dict.get(sportId) ?? String(sportId);
@@ -173,6 +223,14 @@ export default Vue.extend({
                 type: pendingOdd.type,
             };
             this.$stock.dispatch("window/toggleOdd", payload);
+        },
+
+        handleModalTournamentSwitch(): void {
+            this.isModalTournamentSwitch = true;
+        },
+
+        goToHome(): void {
+            this.isModalTournamentSwitch = false;
         },
     },
 });
