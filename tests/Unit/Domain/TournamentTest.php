@@ -51,6 +51,32 @@ class TournamentTest extends TestCase
         self::assertEquals(1, $bet->getEvents()->count());
     }
 
+    public function testPlaceStraightBetInTournamentWithStartedEvents()
+    {
+        $user = new User('player 1', 'player1@test.com', '...');
+        $tournament = new Tournament();
+        FactoryAbstract::setProperty($tournament, 'id', 1);
+        FactoryAbstract::setProperty($tournament, 'chips', 10000);
+        FactoryAbstract::setProperty($tournament, 'state', TournamentState::RUNNING());
+        $tournament->registerPlayer($user);
+        $tournament->addEvent(ApiEventFactory::createStartedEvent());
+        $tournament->addEvent(ApiEventFactory::create());
+        $event = $tournament->getBettableEvents()->first();
+
+        $player = $user->getTournamentPlayer($tournament);
+
+        $tournament->placeStraightBet($player, 500, new BetItem(MoneyLineAway::class, $event));
+
+        self::assertEquals(1, $tournament->getBets()->count());
+
+        /** @var TournamentBet $bet */
+        $bet = $tournament->getBets()->first();
+
+        self::assertEquals(500, $bet->getChipsWager());
+        self::assertSame($player, $bet->getTournamentPlayer());
+        self::assertEquals(1, $bet->getEvents()->count());
+    }
+
     public function testPlaceStraightBetNotRegistered()
     {
         $apiEvent = ApiEventFactory::create();
@@ -123,13 +149,43 @@ class TournamentTest extends TestCase
 
     public function testPlaceParlayBet()
     {
-        $apiEvent = ApiEventFactory::create();
         $user = new User('player 1', 'player1@test.com', '...');
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 10000);
         $tournament->registerPlayer($user);
-        $tournament->addEvent($apiEvent);
+        $tournament->addEvent(ApiEventFactory::create());
+        $event = $tournament->getBettableEvents()->first();
+        FactoryAbstract::setProperty($event, 'id', 1);
+
+        $player = $user->getTournamentPlayer($tournament);
+
+        $tournament->placeParlayBet(
+            $player, 500,
+            new BetItem(MoneyLineAway::class, $event),
+            new BetItem(TotalOver::class, $event)
+        );
+
+        self::assertEquals(1, $tournament->getBets()->count());
+
+        /** @var TournamentBet $bet */
+        $bet = $tournament->getBets()->first();
+
+        self::assertEquals(500, $bet->getChipsWager());
+        self::assertSame($player, $bet->getTournamentPlayer());
+        self::assertEquals(2, $bet->getEvents()->count());
+    }
+
+    public function testPlaceParlayBetInTournamentWithStartedEvent()
+    {
+        $user = new User('player 1', 'player1@test.com', '...');
+        $tournament = new Tournament();
+        FactoryAbstract::setProperty($tournament, 'id', 1);
+        FactoryAbstract::setProperty($tournament, 'chips', 10000);
+        FactoryAbstract::setProperty($tournament, 'state', TournamentState::RUNNING());
+        $tournament->registerPlayer($user);
+        $tournament->addEvent(ApiEventFactory::create());
+        $tournament->addEvent(ApiEventFactory::createStartedEvent());
         $event = $tournament->getBettableEvents()->first();
         FactoryAbstract::setProperty($event, 'id', 1);
 

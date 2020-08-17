@@ -30,4 +30,27 @@ class ApiEventFactory extends FactoryAbstract
 
         return $apiEvent;
     }
+
+    public static function createStartedEvent()
+    {
+        $apiEvent = new \App\Domain\ApiEvent();
+        $odds = new SportEventOdd(
+            'eid',
+            200,
+            -200,
+            275,
+            -125,
+            new Decimal('2'),
+            new Decimal('-2'),
+            150,
+            -175,
+            new Decimal('4')
+        );
+        $apiEvent->updateOdds($odds);
+        self::setProperty($apiEvent, 'apiId', 'started-eid');
+        self::setProperty($apiEvent, 'timeStatus', TimeStatus::IN_PLAY());
+        self::setProperty($apiEvent, 'id', 2);
+
+        return $apiEvent;
+    }
 }
