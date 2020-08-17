@@ -1,5 +1,5 @@
 <template>
-    <div class="game__rank__container__scroll">
+    <div>
         <div class="rank" v-for="prize in prizes" :key="prize" @click="selectPrize(prize)">
             <div class="rank__content">
                 <div class="rank__content__user">
