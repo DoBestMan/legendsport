@@ -8,10 +8,11 @@ import {
     StorableWindow,
     Window,
 } from "../../types/window";
-import { DeepReadonlyArray } from "../../../general/types/types";
+import { DeepReadonlyArray, DeepReadonly } from "../../../general/types/types";
 
 export interface WindowState {
     _windows: StorableWindow[];
+    _activeWindowId: number;
 }
 
 export type UpdateWindowPayload = Partial<StorableWindow> & Pick<StorableWindow, "id">;
@@ -40,6 +41,7 @@ const module: Module<WindowState, RootState> = {
 
     state: {
         _windows: getWindows(),
+        _activeWindowId: -1,
     },
 
     getters: {
@@ -67,6 +69,10 @@ const module: Module<WindowState, RootState> = {
                     };
                 });
         },
+
+        activeWindowId(state, _getters): DeepReadonly<number> {
+            return state._activeWindowId;
+        },
     },
 
     mutations: {
@@ -84,9 +90,11 @@ const module: Module<WindowState, RootState> = {
                 selectedBetTypeTab: BetTypeTab.Pending,
                 selectedSportIds: [],
             });
+            state._activeWindowId = payload;
         },
 
         closeWindow(state, payload: number) {
+            state._activeWindowId = -1;
             state._windows = state._windows.filter(window => window.id !== payload);
         },
 
@@ -98,6 +106,10 @@ const module: Module<WindowState, RootState> = {
 
                 return { ...window, ...payload };
             });
+        },
+
+        toggleWindow(state, payload: number) {
+            state._activeWindowId = payload;
         },
 
         toggleSport(state, payload: ToggleSportPayload) {
