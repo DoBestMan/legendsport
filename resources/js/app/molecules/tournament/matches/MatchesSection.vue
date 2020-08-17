@@ -5,16 +5,10 @@
                 <div class="layout__content__container__mobile__switch__icon" @click="goToHome">
                     <i class="icon icon--left icon--color--light-1"></i>
                 </div>
-                <div
-                    class="layout__content__container__mobile__switch__icon"
-                    @click="handleModalTournamentSwitch"
-                >
+                <div class="layout__content__container__mobile__switch__icon">
                     <i class="icon icon--all icon--micro"></i>
                 </div>
-                <div
-                    class="layout__content__container__mobile__switch__title"
-                    @click="handleModalTournamentSwitch"
-                >
+                <div class="layout__content__container__mobile__switch__title">
                     All Sports
                 </div>
                 <div
@@ -226,11 +220,11 @@ export default Vue.extend({
         },
 
         handleModalTournamentSwitch(): void {
-            this.isModalTournamentSwitch = true;
+            this.isModalTournamentSwitch = !this.isModalTournamentSwitch;
         },
 
         goToHome(): void {
-            this.isModalTournamentSwitch = false;
+            this.$router.push("/");
         },
     },
 });
