@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="layout__content__sidebar__games">
         <div class="layout__content__sidebar__header__input">
             <div class="form">
                 <div class="form__control">
@@ -14,18 +14,15 @@
             </div>
         </div>
 
-        <div class="bets__container__scroll">
-            <StraightItem
-                :key="`${pendingOdd.externalId}#${pendingOdd.type}`"
-                :pendingOdd="pendingOdd"
-                :game="gameDict.get(pendingOdd.externalId)"
-                :value="pendingOdd.wager"
-                @delete="removeOdd(pendingOdd)"
-                @change="updateOdd(pendingOdd, $event)"
-                v-for="pendingOdd in pendingOdds"
-            />
-            <div v-if="!pendingOdds.length" class="h3 text-center p-5">No records</div>
-        </div>
+        <StraightItem
+            :key="`${pendingOdd.externalId}#${pendingOdd.type}`"
+            :pendingOdd="pendingOdd"
+            :game="gameDict.get(pendingOdd.externalId)"
+            :value="pendingOdd.wager"
+            @delete="removeOdd(pendingOdd)"
+            @change="updateOdd(pendingOdd, $event)"
+            v-for="pendingOdd in pendingOdds"
+        />
 
         <div class="layout__content__sidebar__bet" v-if="pendingOdds.length">
             <div class="bet__footer__line__total bet__footer__line__padding">
