@@ -31,7 +31,7 @@
             <div
                 class="delete"
                 style="margin-left: 5px; margin-top: -15px;"
-                @click="closeWindow(window)"
+                @click.stop="closeWindow(window)"
             />
         </div>
     </section>
@@ -46,44 +46,38 @@ export default Vue.extend({
     name: "WindowBar",
     components: { HorizontallyScrollable },
 
-    data() {
-        return {
-            windowId: -1,
-            closedWindow: 0,
-        };
-    },
-
     computed: {
         windows(): Window[] {
             return Object.values(this.$stock.getters["window/windows"]);
+        },
+
+        activeWindowId(): number {
+            return this.$stock.getters["window/activeWindowId"];
         },
     },
 
     methods: {
         closeWindow(window: Window): void {
-            this.closedWindow = 1;
             this.$stock.commit("window/closeWindow", window.id);
+            this.$router.push("/");
         },
 
         selectWindowTabs(window_id: number) {
-            this.windowId = window_id;
-            if (this.closedWindow === 1) {
-                this.windowId = -1;
-                this.closedWindow = 0;
-            }
-            if (this.windowId === -1) {
+            if (window_id === -1) {
+                this.$stock.commit("window/toggleWindow", window_id);
                 this.$router.push("/");
             } else {
-                this.$router.push(`/tournaments/${this.windowId}`);
+                this.$stock.commit("window/toggleWindow", window_id);
+                this.$router.push(`/tournaments/${window_id}`);
             }
         },
 
         isHomeSelected(): boolean {
-            return this.windowId === -1;
+            return this.activeWindowId === -1;
         },
 
         isWindowsSelected(window_id: number): boolean {
-            return window_id === this.windowId;
+            return window_id === this.activeWindowId;
         },
     },
 });
