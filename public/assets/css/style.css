@@ -183,6 +183,7 @@ body {
     position: relative;
     min-width: 320px;
 }
+
 .layout__content__sidebar__bet {
     width: 320px;
     height: 182px;
@@ -267,15 +268,11 @@ body {
 }
 .layout__content__sidebar__header__input {
     box-sizing: border-box;
+    width: 100%;
     padding: 8px 16px;
     background: #2c343a;
     display: flex;
     align-items: center;
-
-    margin-top: -32px;
-    margin-bottom: 20px;
-    margin-left: -16px;
-    width: 320px;
 }
 .layout__content__sidebar__header__bet {
     display: flex;
@@ -310,9 +307,8 @@ body {
     color: #ffffff;
 }
 .layout__content__sidebar__games {
-    display: flex;
-    flex-direction: column;
     width: 100%;
+    flex: 1;
 }
 .layout__content__sidebar__games__container {
     flex: 1;
@@ -1049,6 +1045,17 @@ textarea.input {
 /* Tablets */
 /* Small Laptops */
 @media (min-width: 992px) {
+    .odds {
+        overflow-y: auto;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .odds__scroll {
+        flex: 1;
+        overflow-y: auto;
+    }
+
     .sliders--mobile {
         display: none;
     }
@@ -1061,6 +1068,21 @@ textarea.input {
         display: none !important;
     }
 
+    .layout__content:not(.layout__content--home) {
+        max-height: calc(100% - 110px);
+    }
+    .layout__content__container__mobile {
+        display: none;
+    }
+    .layout__content__container__content {
+        height: 100%;
+    }
+    .layout__content__sidebar__games {
+        max-height: 100%;
+        overflow-y: auto;
+        padding-bottom: 44px;
+        box-sizing: border-box;
+    }
     .layout__content__sidebar__chat {
         max-height: 60%;
         overflow-y: auto;
@@ -1336,6 +1358,11 @@ textarea.input {
     background: transparent;
     margin-bottom: 8px;
     cursor: pointer;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+}
+.tournament--desktop:hover {
+    border: 1px solid #f2cd5d;
 }
 .tournament--desktop__item {
     flex: 1;
@@ -1350,6 +1377,7 @@ textarea.input {
     border-radius: 8px;
     overflow: hidden;
     background: #2c343a;
+    margin-bottom: 16px;
 }
 .tournament--mobile__offer {
     padding: 14px;
@@ -1625,7 +1653,6 @@ textarea.input {
     border-radius: 6px;
     overflow: hidden;
 }
-
 .game__rank__container__scroll {
     height: 550px;
     overflow-y: auto;
@@ -2167,6 +2194,11 @@ textarea.input {
     border: none;
     outline: none;
     white-space: nowrap;
+    text-decoration: none;
+}
+.button--small:hover {
+    background: #f6e02f;
+    color: inherit !important;
 }
 .button--medium {
     border-radius: 4px;
@@ -2182,9 +2214,11 @@ textarea.input {
     text-align: center;
     border: none;
     outline: none;
+    text-decoration: none;
 }
 .button--medium:hover {
     background: #f6e02f;
+    color: inherit !important;
 }
 .button--large {
     border-radius: 4px;
@@ -2203,10 +2237,12 @@ textarea.input {
     text-align: center;
     border: none;
     outline: none;
+    text-decoration: none;
 }
 .button--large:hover {
     cursor: pointer;
     background: #2ecc71;
+    color: inherit !important;
 }
 .button--large--bet {
     border-radius: 4px;

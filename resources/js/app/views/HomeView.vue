@@ -1,13 +1,27 @@
 <template>
-    <section id="tab-home-frm" class="layout__content">
+    <section class="layout__content layout__content--home">
         <div class="layout__content__container">
-            <section>
-                <SliderSection />
-            </section>
+            <SliderSection />
 
-            <section id="filters-frm">
-                <FilterContainer />
-            </section>
+            <div class="layout__content__container__mobile">
+                <div class="layout__content__container__mobile__switch">
+                    <div class="layout__content__container__mobile__switch__icon">
+                        <i class="icon icon--home icon--micro"></i>
+                    </div>
+                    <div class="layout__content__container__mobile__switch__title">
+                        Home
+                    </div>
+                    <div class="layout__content__container__mobile__switch__icon">
+                        <i class="icon icon--down icon--micro icon--color--light-1"></i>
+                    </div>
+                </div>
+                <div class="layout__content__container__mobile__icons">
+                    <i class="icon icon--search icon--color--light-1 m--l--4"></i>
+                    <i class="icon icon--filter icon--color--light-1 m--l--4"></i>
+                </div>
+            </div>
+
+            <FilterContainer />
 
             <section class="layout__content__container__content">
                 <div class="layout__content__container__content__sidebar">

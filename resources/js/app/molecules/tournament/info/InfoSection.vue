@@ -1,8 +1,10 @@
 <template>
     <section class="layout__content__sidebar b--dark-3 layout__content__sidebar--left">
-        <TournamentInfo :tournament="tournament" />
-        <InfoDetailSection :tournament="tournament" :window="window" />
         <ChatContainer :messages="chatMessages" @sendMessage="sendMessage" />
+        <div class="layout__content__sidebar__games">
+            <TournamentInfo :tournament="tournament" />
+            <InfoDetailSection :tournament="tournament" :window="window" />
+        </div>
     </section>
 </template>
 

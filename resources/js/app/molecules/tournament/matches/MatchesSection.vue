@@ -1,8 +1,29 @@
 <template>
     <section class="layout__content__container">
+        <div class="layout__content__container__mobile">
+            <div class="layout__content__container__mobile__switch">
+                <div class="layout__content__container__mobile__switch__icon">
+                    <i class="icon icon--left icon--color--light-1"></i>
+                </div>
+                <div class="layout__content__container__mobile__switch__icon" @click="goToHome">
+                    <i class="icon icon--all icon--micro"></i>
+                </div>
+                <div class="layout__content__container__mobile__switch__title">
+                    All Sports
+                </div>
+                <div class="layout__content__container__mobile__switch__icon">
+                    <i class="icon icon--down icon--micro icon--color--light-1"></i>
+                </div>
+            </div>
+            <div class="layout__content__container__mobile__icons">
+                <i class="icon icon--search icon--color--light-1 m--l--4"></i>
+                <i class="icon icon--refresh icon--color--light-1 m--l--4"></i>
+            </div>
+        </div>
+
         <div class="layout__content__container__content">
             <div class="odds">
-                <div class="tab--large">
+                <div class="tab--large d--only--desktop">
                     <div
                         class="tab--large__item"
                         :class="{ 'tab--large__item--active': areAllSportsSelected }"
@@ -39,7 +60,7 @@
                     </div>
                 </div>
 
-                <div style="height: 700px; overflow-y: auto;">
+                <div class="odds__scroll">
                     <div class="odd" v-for="(games, date) in groupedGames" :key="date">
                         <div class="odd__header">
                             <div class="odd__header__time">{{ date | toDateTime }}</div>
@@ -115,6 +136,10 @@ export default Vue.extend({
     },
 
     methods: {
+        goToHome(): void {
+            this.$router.push("/");
+        },
+
         getSportName(sportId: string): string {
             const dict: ReadonlyMap<string, string> = this.$stock.getters["sport/sportDictionary"];
             return dict.get(sportId) ?? String(sportId);

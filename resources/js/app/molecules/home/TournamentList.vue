@@ -143,7 +143,12 @@
                     </div>
                 </div>
 
-                <RegisterNowButton className="tournament--mobile__offer" :tournament="tournament" />
+                <RegisterNowButton
+                    v-if="isRegistered(tournament)"
+                    className="tournament--mobile__offer"
+                    style="width: 100%;"
+                    :tournament="tournament"
+                />
             </div>
         </div>
     </div>

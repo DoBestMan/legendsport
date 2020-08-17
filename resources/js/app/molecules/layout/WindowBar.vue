@@ -1,42 +1,40 @@
 <template>
-    <div>
-        <section class="layout__header">
-            <div
-                class="tab"
-                :class="{
-                    'tab--active': isHomeSelected(),
-                }"
-                @click="selectWindowTabs(-1)"
-            >
-                <i
-                    class="icon icon--home icon--micro m--r--2"
-                    :class="{ 'b--yellow-1': isHomeSelected() }"
-                ></i>
-                Home
-            </div>
+    <section class="layout__header">
+        <div
+            class="tab"
+            :class="{
+                'tab--active': isHomeSelected(),
+            }"
+            @click="selectWindowTabs(-1)"
+        >
+            <i
+                class="icon icon--home icon--micro m--r--2"
+                :class="{ 'b--yellow-1': isHomeSelected() }"
+            ></i>
+            Home
+        </div>
 
+        <div
+            v-for="window in windows"
+            :key="window.id"
+            class="tab"
+            :class="{
+                'tab--active': isWindowsSelected(window.id),
+            }"
+            @click="selectWindowTabs(window.id)"
+        >
+            <i
+                class="icon icon--cup icon--micro m--r--2"
+                :class="{ 'b--yellow-1': isWindowsSelected(window.id) }"
+            ></i>
+            {{ window.tournament.name }}
             <div
-                v-for="window in windows"
-                :key="window.id"
-                class="tab"
-                :class="{
-                    'tab--active': isWindowsSelected(window.id),
-                }"
-                @click="selectWindowTabs(window.id)"
-            >
-                <i
-                    class="icon icon--cup icon--micro m--r--2"
-                    :class="{ 'b--yellow-1': isWindowsSelected(window.id) }"
-                ></i>
-                {{ window.tournament.name }}
-                <div
-                    class="delete"
-                    style="margin-left: 5px; margin-top: -15px;"
-                    @click="closeWindow(window)"
-                />
-            </div>
-        </section>
-    </div>
+                class="delete"
+                style="margin-left: 5px; margin-top: -15px;"
+                @click="closeWindow(window)"
+            />
+        </div>
+    </section>
 </template>
 
 <script lang="ts">
