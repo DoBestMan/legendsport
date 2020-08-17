@@ -100,7 +100,7 @@ abstract class AbstractSportsData implements BettingProvider
         $results = [];
 
         foreach ($data as $event) {
-            if ($event['GameID'] === null) {
+            if (!$this->isValidGame($event)) {
                 continue;
             }
 
@@ -131,7 +131,7 @@ abstract class AbstractSportsData implements BettingProvider
         $results = [];
 
         foreach ($data as $event) {
-            if ($event['GameID'] === null) {
+            if (!$this->isValidGame($event)) {
                 continue;
             }
 
@@ -160,5 +160,17 @@ abstract class AbstractSportsData implements BettingProvider
             $results[] = $result;
         }
         return $results;
+    }
+
+    private function isValidGame($event): bool
+    {
+        $gameId = null;
+        if (isset($event['GameID'])) {
+            $gameId = $event['GameID'];
+        } elseif (isset($event['ScoreID'])) {
+            $gameId = $event['ScoreID'];
+        }
+
+        return $gameId !== null;
     }
 }
