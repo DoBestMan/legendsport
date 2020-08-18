@@ -3,6 +3,7 @@
 namespace App\Domain;
 
 use App\Tournament\Enums\TournamentState;
+use App\Tournament\TournamentPrizeStructure;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -343,5 +344,29 @@ class Tournament
     public function getEvent($eventId): ?TournamentEvent
     {
         return $this->events->get($eventId) ?: null;
+    }
+
+    public function getPrizePoolMoney()
+    {
+        $prizePoolType = $this->prizePool["type"];
+
+        switch ($prizePoolType) {
+            case "Fixed":
+                return $this->prizePool["fixed_value"];
+            case "Auto":
+                return $this->players->count() * $this->buyIn;
+            default:
+                throw new \UnexpectedValueException("Unexpected prize pool type");
+        }
+    }
+
+    public function getPrizes(): array
+    {
+        $prizeStructure = new TournamentPrizeStructure(
+            $this->getPrizePoolMoney(),
+            $this->players->count(),
+        );
+
+        return $prizeStructure->getPrizes();
     }
 }

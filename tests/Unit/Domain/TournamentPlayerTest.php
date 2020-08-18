@@ -37,7 +37,7 @@ class TournamentPlayerTest extends TestCase
         self::assertEquals(1, $sut->getId());
     }
 
-    public function testAddChips()
+    public function testIncreaseChips()
     {
         $user = new User('player 1', 'player1@test.com', '...');
         $tournament = new Tournament();
@@ -46,7 +46,7 @@ class TournamentPlayerTest extends TestCase
 
         $sut = $user->getTournamentPlayer($tournament);
 
-        $sut->addChips(100);
+        $sut->increaseChips(100);
 
         self::assertEquals(100, $sut->getChips());
     }
@@ -74,9 +74,38 @@ class TournamentPlayerTest extends TestCase
 
         $sut = $user->getTournamentPlayer($tournament);
 
-        $sut->addChips(200);
+        $sut->increaseChips(200);
         $sut->reduceChips(150);
 
         self::assertEquals(50, $sut->getChips());
+    }
+
+    public function testIncreaseBalance()
+    {
+        $user = new User('player 1', 'player1@test.com', '...');
+        $tournament = new Tournament();
+        FactoryAbstract::setProperty($tournament, 'id', 1);
+        $tournament->registerPlayer($user);
+
+        $sut = $user->getTournamentPlayer($tournament);
+
+        $sut->increaseBalance(50);
+
+        self::assertEquals(50, $sut->getBalance());
+    }
+
+    public function testReduceBalance()
+    {
+        $user = new User('player 1', 'player1@test.com', '...');
+        $tournament = new Tournament();
+        FactoryAbstract::setProperty($tournament, 'id', 1);
+        $tournament->registerPlayer($user);
+
+        $sut = $user->getTournamentPlayer($tournament);
+
+        $sut->increaseBalance(200);
+        $sut->reduceBalance(150);
+
+        self::assertEquals(50, $sut->getBalance());
     }
 }

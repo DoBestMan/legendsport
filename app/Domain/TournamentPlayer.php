@@ -19,6 +19,8 @@ class TournamentPlayer
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private int $id;
+    /** @ORM\Column(name="balance", type="integer", nullable=false, options={"unsigned"=true}) */
+    private int $balance;
     /** @ORM\Column(name="chips", type="integer", nullable=false, options={"unsigned"=true}) */
     private int $chips;
     /** @ORM\Column(name="created_at", type="datetime", nullable=true) */
@@ -39,6 +41,7 @@ class TournamentPlayer
     public function __construct(Tournament $tournament, User $user, int $chips)
     {
         $this->chips = $chips;
+        $this->balance = $chips;
         $this->tournament = $tournament;
         $this->user = $user;
         $this->createdAt = Carbon::now();
@@ -76,7 +79,7 @@ class TournamentPlayer
         return $this->tournament;
     }
 
-    public function addChips(int $chips): void
+    public function increaseChips(int $chips): void
     {
         $this->chips += $chips;
     }
@@ -88,5 +91,20 @@ class TournamentPlayer
         }
 
         $this->chips -= $chips;
+    }
+
+    public function increaseBalance(int $chips): void
+    {
+        $this->balance += $chips;
+    }
+
+    public function reduceBalance(int $chips): void
+    {
+        $this->balance -= $chips;
+    }
+
+    public function getBalance(): int
+    {
+        return $this->balance;
     }
 }
