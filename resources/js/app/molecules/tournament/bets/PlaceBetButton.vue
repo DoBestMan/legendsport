@@ -1,7 +1,7 @@
 <template>
-    <div class="bet__footer__line__detail">
+    <span style="width: 230px;">
         <button
-            class="button--large--bet"
+            class="button button--large m--l--4 m--b--0"
             v-if="isRegistered"
             @click="placeBet"
             :disabled="disabled"
@@ -9,8 +9,12 @@
             PLACE BET
         </button>
 
-        <RegisterNowButton v-else class="button--large--bet" :tournament="tournament" />
-    </div>
+        <RegisterNowButton
+            v-else
+            class="button button--large m--l--4 m--b--0"
+            :tournament="tournament"
+        />
+    </span>
 </template>
 
 <script lang="ts">
