@@ -8,37 +8,6 @@
             @delete="removeOdd(pendingOdd)"
             v-for="pendingOdd in pendingOdds"
         />
-
-        <div name="slidey" class="layout__content__sidebar__bet" v-if="hasEnoughPendingOdds">
-            <div
-                class="bet__footer__line__total bet__footer__line__padding"
-                style="padding-top: 15px;"
-            >
-                <div style="width: 280px;">
-                    <strong>Bet</strong>
-                    <ChipInput :value="wager" @input="updateWager" />
-                </div>
-                <div style="width: 280px;">
-                    <strong>Win</strong>
-                    <ChipInput :value="win" readonly />
-                </div>
-            </div>
-            <div
-                class="bet__footer__line__total bet__footer__line__padding"
-                style="padding-top: 15px;"
-            >
-                <div class="bet__footer__line__name">
-                    <div class="bet__footer__line__delete" @click="removeOdds">
-                        <i class="icon icon--delete icon--large"></i>
-                    </div>
-                </div>
-                <PlaceBetButton
-                    :tournament="window.tournament"
-                    :disabled="!canPlaceBet"
-                    @placeBet="placeBet"
-                />
-            </div>
-        </div>
     </div>
 </template>
 
@@ -46,25 +15,14 @@
 import Vue, { PropType } from "vue";
 import ParlayItem from "./ParlayItem.vue";
 import { DeepReadonly } from "../../../../general/types/types";
-import { BetTypeTab, PendingOdd, Window } from "../../../types/window";
-import { PendingOddPayload, UpdateWindowPayload } from "../../../store/modules/window";
+import { PendingOdd, Window } from "../../../types/window";
+import { PendingOddPayload } from "../../../store/modules/window";
 import { Game } from "../../../types/game";
-import MoneyInput from "../../../../general/components/MoneyInput.vue";
-import {
-    americanToDecimalOdd,
-    calculateWinFromAmericanOdd,
-    getPendingOddValue,
-} from "../../../utils/game/bet";
-import { PlaceParlayBetPayload } from "../../../store/modules/placeBet";
-import PlaceBetButton from "./PlaceBetButton.vue";
-import ChipInput from "../../../../general/components/ChipInput.vue";
-import { UserPlayer } from "../../../../general/types/user";
 import { Tournament } from "../../../types/tournament";
-import { Odd } from "../../../types/odd";
 
 export default Vue.extend({
     name: "ParlayTab",
-    components: { ChipInput, MoneyInput, ParlayItem, PlaceBetButton },
+    components: { ParlayItem },
 
     props: {
         window: Object as PropType<Window>,
@@ -75,73 +33,8 @@ export default Vue.extend({
             return this.window.tournament;
         },
 
-        isAuthenticated(): boolean {
-            return !!this.$stock.state.user.user;
-        },
-
-        wager(): number {
-            return this.window.parlayWager;
-        },
-
-        canPlaceBet(): boolean {
-            return (
-                this.wager > 0 &&
-                this.hasEnoughPendingOdds &&
-                this.multiplier > 1 &&
-                this.wager <= this.balance
-            );
-        },
-
         pendingOdds(): PendingOdd[] {
             return this.window.pendingOdds;
-        },
-
-        balance(): number {
-            const playersDict: ReadonlyMap<number, UserPlayer> = this.$stock.getters[
-                "user/playersDictByTournament"
-            ];
-            const tournamentPlayer = playersDict.get(this.tournament.id);
-            return tournamentPlayer?.chips ?? this.tournament.chips;
-        },
-
-        win(): number {
-            return Math.floor(this.wager * this.multiplier - this.wager);
-        },
-
-        multiplier(): number {
-            return this.window.pendingOdds
-                .map(pendingOdd => {
-                    const dictionary: ReadonlyMap<string, Odd> = this.$stock.getters[
-                        "odd/oddDictionary"
-                    ];
-                    const odd = dictionary.get(pendingOdd.externalId);
-                    const oddValue = odd ? getPendingOddValue(pendingOdd, odd) : 0;
-                    return 1 + americanToDecimalOdd(oddValue);
-                })
-                .reduce((a, b) => a * b, 1);
-        },
-
-        totalBets(): number {
-            return this.pendingOdds
-                .map(pendingOdd => pendingOdd.wager ?? 0)
-                .reduce((a, b) => a + b, 0);
-        },
-
-        totalWin(): number {
-            return this.pendingOdds
-                .map(pendingOdd => {
-                    const dictionary: ReadonlyMap<string, Odd> = this.$stock.getters[
-                        "odd/oddDictionary"
-                    ];
-                    const odd = dictionary.get(pendingOdd.externalId);
-                    const oddValue = odd ? getPendingOddValue(pendingOdd, odd) : 0;
-                    return calculateWinFromAmericanOdd(oddValue, pendingOdd.wager ?? 0);
-                })
-                .reduce((a, b) => a + b, 0);
-        },
-
-        hasEnoughPendingOdds(): boolean {
-            return this.pendingOdds.length > 1;
         },
     },
 
@@ -151,58 +44,11 @@ export default Vue.extend({
         },
 
         removeOdd(pendingOdd: DeepReadonly<PendingOdd>) {
-            console.log("removeOdd: ", pendingOdd);
             const payload: PendingOddPayload = {
                 windowId: this.window.id,
                 ...pendingOdd,
             };
             this.$stock.dispatch("window/toggleOdd", payload);
-        },
-
-        removeOdds() {
-            this.$stock.commit("window/removeOdds", this.window.id);
-            this.updateWager(0);
-        },
-
-        updateWager(value: number) {
-            console.log("wager value", value);
-            const payload: UpdateWindowPayload = {
-                id: this.window.id,
-                parlayWager: value,
-            };
-            this.$stock.commit("window/updateWindow", payload);
-        },
-
-        displayPendingTab() {
-            const payload: UpdateWindowPayload = {
-                id: this.window.id,
-                selectedBetTypeTab: BetTypeTab.Pending,
-            };
-            this.$stock.commit("window/updateWindow", payload);
-        },
-
-        async placeBet() {
-            if (!this.canPlaceBet) {
-                return;
-            }
-
-            const payload: PlaceParlayBetPayload = {
-                tournamentId: this.tournament.id,
-                pending_odds: this.pendingOdds.map(pendingOdd => ({
-                    type: pendingOdd.type,
-                    event_id: pendingOdd.tournamentEventId,
-                })),
-                wager: this.wager,
-            };
-            await this.$stock.dispatch("placeBet/placeParlay", payload);
-
-            if (this.$stock.state.placeBet.error) {
-                const error = this.$stock.state.placeBet.error;
-                this.$toast.error(error?.response?.data?.message ?? error.message);
-            } else {
-                this.removeOdds();
-                this.displayPendingTab();
-            }
         },
     },
 });
