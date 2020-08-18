@@ -3,7 +3,7 @@
         <div class="layout__content__container">
             <SliderSection />
 
-            <div class="layout__content__container__mobile">
+            <div class="layout__content__container__mobile" v-show="!isMobileInputSearch">
                 <div class="layout__content__container__mobile__switch">
                     <div class="layout__content__container__mobile__switch__icon">
                         <i class="icon icon--home icon--micro"></i>
@@ -19,8 +19,14 @@
                     </div>
                 </div>
                 <div class="layout__content__container__mobile__icons">
-                    <i class="icon icon--search icon--color--light-1 m--l--4"></i>
-                    <i class="icon icon--filter icon--color--light-1 m--l--4"></i>
+                    <i
+                        class="icon icon--search icon--color--light-1 m--l--4"
+                        @click="handleInputSearch"
+                    ></i>
+                    <i
+                        class="icon icon--filter icon--color--light-1 m--l--4"
+                        @click="handleHomeFilter"
+                    ></i>
                 </div>
             </div>
 
@@ -71,9 +77,19 @@
                 </div>
             </div>
 
+            <MobileInputSearch
+                v-show="isMobileInputSearch"
+                @handleInputSearch="handleInputSearch"
+            />
+
+            <MobileHomeFilter v-show="isMobileFilter" />
+
             <FilterContainer />
 
-            <section class="layout__content__container__content" v-show="!isMobileWindowSelected">
+            <section
+                class="layout__content__container__content"
+                v-show="!isMobileWindowSelected && !isMobileFilter"
+            >
                 <div class="layout__content__container__content__sidebar">
                     <img class="image image--border" src="assets/i/rectangle@3x.png" />
                 </div>
@@ -97,18 +113,29 @@ import SliderSection from "../molecules/general/SliderSection.vue";
 import FilterContainer from "../molecules/home/FilterContainer.vue";
 import TournamentDetails from "../molecules/home/TournamentDetails.vue";
 import TournamentList from "../molecules/home/TournamentList.vue";
+import MobileInputSearch from "./MobileInputSearch.vue";
+import MobileHomeFilter from "./MobileHomeFilter.vue";
 import { Nullable } from "../../general/types/types";
 import { Tournament } from "../types/tournament";
 import { empty } from "../../general/utils/utils";
 
 export default Vue.extend({
     name: "HomeView",
-    components: { FilterContainer, TournamentDetails, TournamentList, SliderSection },
+    components: {
+        FilterContainer,
+        TournamentDetails,
+        TournamentList,
+        SliderSection,
+        MobileInputSearch,
+        MobileHomeFilter,
+    },
 
     data() {
         return {
             tournamentId: null as Nullable<number>,
             isMobileWindowSelected: false,
+            isMobileInputSearch: false,
+            isMobileFilter: false,
         };
     },
 
@@ -172,6 +199,14 @@ export default Vue.extend({
 
         isWindowsSelected(window_id: number): boolean {
             return window_id === this.activeWindowId;
+        },
+
+        handleInputSearch(): void {
+            this.isMobileInputSearch = !this.isMobileInputSearch;
+        },
+
+        handleHomeFilter(): void {
+            this.isMobileFilter = !this.isMobileFilter;
         },
     },
 });
