@@ -17,7 +17,6 @@ final class TournamentUpdate implements ShouldBroadcast
             "events.apiEvent",
             "players",
             "players.user",
-            "players.bets",
         ]);
 
         $this->tournament = fractal()
