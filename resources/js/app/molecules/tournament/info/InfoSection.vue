@@ -3,6 +3,7 @@
         <ChatContainer :messages="chatMessages" @sendMessage="sendMessage" />
         <div class="layout__content__sidebar__games">
             <TournamentInfo :tournament="tournament" />
+            <div class="layout__content__sidebar__seperator" />
             <InfoDetailSection :tournament="tournament" :window="window" />
         </div>
     </section>
