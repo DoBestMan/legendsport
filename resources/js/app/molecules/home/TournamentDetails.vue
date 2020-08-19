@@ -2,6 +2,8 @@
     <div class="layout__content__sidebar__games">
         <TournamentInfo :tournament="tournament" />
 
+        <RegisterNowButton v-if="isRegistered" class="button--large" :tournament="tournament" />
+
         <div class="switch">
             <div
                 class="switch__item"
@@ -36,13 +38,14 @@ import RegisterNowButton from "../../components/RegisterNowButton.vue";
 import TournamentInfo from "../general/TournamentInfo.vue";
 import { Game } from "../../types/game";
 import { Player } from "../../types/player";
+import { UserPlayer } from "../../../general/types/user";
 
 export default Vue.extend({
     name: "TournamentDetails",
     components: { RegisterNowButton, TournamentGamesTable, TournamentInfo, TournamentRankTable },
 
     props: {
-        tournament: Object as PropType<Tournament | null>,
+        tournament: Object as PropType<Tournament>,
     },
 
     data() {
@@ -58,6 +61,13 @@ export default Vue.extend({
 
         players(): Player[] {
             return this.tournament?.players ?? [];
+        },
+
+        isRegistered(): boolean {
+            const playersDict: ReadonlyMap<number, UserPlayer> = this.$stock.getters[
+                "user/playersDictByTournament"
+            ];
+            return playersDict.has(this.tournament.id);
         },
     },
 
