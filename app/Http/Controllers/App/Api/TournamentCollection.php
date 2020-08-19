@@ -34,8 +34,9 @@ class TournamentCollection extends Controller
 
         $qb->getQuery()->getResult();
 
-        $qb->join('t.players', 'p')
-            ->join('p.user', 'u')
+        $qb = $this->entityManager->getRepository(TournamentEntity::class)->createQueryBuilder('t');
+        $qb->leftJoin('t.players', 'p')
+            ->leftJoin('p.user', 'u')
             ->where($qb->expr()->isNull('t.completedAt'))
             ->orWhere($qb->expr()->gt('t.completedAt', '?1'))
             ->orWhere($qb->expr()->notIn('t.state', '?2'))

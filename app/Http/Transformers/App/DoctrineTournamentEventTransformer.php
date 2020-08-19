@@ -16,7 +16,7 @@ class DoctrineTournamentEventTransformer extends TransformerAbstract
             "provider" => $apiEvent->getProvider(),
             "score_away" => $apiEvent->getScoreAway(),
             "score_home" => $apiEvent->getScoreHome(),
-            "sport_id" => $apiEvent->getSportId(),
+            "sport_id" => (string) $apiEvent->getSportId(),
             "starts_at" => (new Carbon($apiEvent->getStartsAt()))->toAtomString(),
             "team_away" => $apiEvent->getTeamAway(),
             "team_home" => $apiEvent->getTeamHome(),
