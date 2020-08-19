@@ -67,7 +67,7 @@ export default Vue.extend({
     data() {
         return {
             text: "",
-            isChatExpanded: true,
+            isChatExpanded: false,
         };
     },
 
