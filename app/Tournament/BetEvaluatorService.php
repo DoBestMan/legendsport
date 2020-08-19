@@ -8,6 +8,7 @@ use App\Models\TournamentEvent;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Support\Collection;
 
+/** @deprecated  */
 class BetEvaluatorService
 {
     private EntityManager $entityManager;
