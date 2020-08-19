@@ -89,9 +89,12 @@ abstract class AbstractSportsData implements BettingProvider
             case 'Postponed':
                 return TimeStatus::TO_BE_FIXED();
             case "Final":
+            case "F/OT":
                 return TimeStatus::ENDED();
-            default:
+            case "Canceled":
                 return TimeStatus::CANCELED();
+            default:
+                return TimeStatus::IN_PLAY();
         }
     }
 
