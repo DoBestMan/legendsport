@@ -34,16 +34,28 @@ class BettingApiServiceProvider extends ServiceProvider
             ->give(env("BETS365_TOKEN"));
 
         $this->app->when(NBA::class)
-            ->needs('$apiKey')
+            ->needs('$oddsApiKey')
             ->give(env('SPORTSDATA_NBA_ODDS_KEY'));
 
+        $this->app->when(NBA::class)
+            ->needs('$scoresApiKey')
+            ->give(env('SPORTSDATA_NBA_SCORES_KEY'));
+
         $this->app->when(MLB::class)
-            ->needs('$apiKey')
+            ->needs('$oddsApiKey')
             ->give(env('SPORTSDATA_MLB_ODDS_KEY'));
 
+        $this->app->when(MLB::class)
+            ->needs('$scoresApiKey')
+            ->give(env('SPORTSDATA_MLB_SCORES_KEY'));
+
         $this->app->when(NFL::class)
-            ->needs('$apiKey')
+            ->needs('$oddsApiKey')
             ->give(env('SPORTSDATA_NFL_ODDS_KEY'));
+
+        $this->app->when(NFL::class)
+            ->needs('$scoresApiKey')
+            ->give(env('SPORTSDATA_NFL_SCORES_KEY'));
 
         $this->app->when(UserTokenService::class)
             ->needs('$secret')

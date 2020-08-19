@@ -17,26 +17,40 @@ use Psr\Log\LoggerInterface;
 abstract class AbstractSportsData implements BettingProvider
 {
     private const PREMATCH_CACHE_TTL = 120;
+    protected const SCORES_API_KEY = 'scores';
+    protected const ODDS_API_KEY = 'odds';
 
     protected EntityManager $entityManager;
     protected Parser $parser;
     protected Dispatcher $dispatcher;
-    private string $apiKey;
+    private string $scoresApiKey;
+    private string $oddsApiKey;
     protected LoggerInterface $logger;
 
-    public function __construct(string $apiKey, EntityManager $entityManager, LoggerInterface $logger, Dispatcher $dispatcher)
+    public function __construct(string $scoresApiKey, string $oddsApiKey, EntityManager $entityManager, LoggerInterface $logger, Dispatcher $dispatcher)
     {
         $this->entityManager = $entityManager;
         $this->logger = $logger;
-        $this->apiKey = $apiKey;
+        $this->scoresApiKey = $scoresApiKey;
         $this->parser = new Parser();
         $this->dispatcher = $dispatcher;
+        $this->oddsApiKey = $oddsApiKey;
     }
 
-    public function get(string $url): array
+    public function get(string $url, string $key): array
     {
+        switch ($key) {
+            case self::SCORES_API_KEY:
+                $apiKey = $this->scoresApiKey;
+                break;
+            case self::ODDS_API_KEY:
+                $apiKey = $this->oddsApiKey;
+                break;
+            default:
+                throw new \RuntimeException('Invalid API key requested');
+        }
         $result = Http::withHeaders([
-            'Ocp-Apim-Subscription-Key' => $this->apiKey,
+            'Ocp-Apim-Subscription-Key' => $apiKey,
         ])->timeout(60)->get($url);
 
         $data = $result->json();
@@ -134,18 +148,20 @@ abstract class AbstractSportsData implements BettingProvider
         $results = [];
 
         foreach ($data as $event) {
-            if (!$this->isValidGame($event)) {
+            $externalEventId = $event[static::DATA_KEY_MAP['gameId']];
+
+            if ($externalEventId === null) {
                 continue;
             }
 
             //Scheduled, InProgress, Final, Suspended, Postponed, Canceled
-            if ($event['GameStatus'] === 'Scheduled') {
+            if ($event[static::DATA_KEY_MAP['status']] === 'Scheduled') {
                 continue;
             }
 
             /** @var ApiEvent|null $apiEvent */
             $apiEvent = current($this->entityManager->getRepository(ApiEvent::class)->findBy([
-                'apiId' => $this->getGameId($event),
+                'apiId' => $externalEventId,
                 'provider' => static::PROVIDER_NAME,
             ])) ?: null;
 
@@ -157,8 +173,13 @@ abstract class AbstractSportsData implements BettingProvider
                 continue;
             }
 
-            $timeStatus = $this->mapTimeStatus($event['GameStatus']);
-            $result = new SportEventResult($this->getGameId($event), $timeStatus, $event['HomeTeamScore'], $event['AwayTeamScore']);
+            $timeStatus = $this->mapTimeStatus($event[static::DATA_KEY_MAP['status']]);
+            $result = new SportEventResult(
+                $externalEventId,
+                $timeStatus,
+                $event[static::DATA_KEY_MAP['homeScore']],
+                $event[static::DATA_KEY_MAP['awayScore']]
+            );
             $apiEvent->result($result);
             $results[] = $result;
         }
