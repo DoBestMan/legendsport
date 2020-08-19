@@ -38,7 +38,7 @@ class MLB extends AbstractSportsData implements SingleEventUpdater
     {
         $key = $apiEvent->getApiId();
 
-        $results = $this->get(sprintf('https://api.sportsdata.io/v3/mlb/odds/json/BettingMarkets/%s', $key));
+        $results = $this->get(sprintf('https://api.sportsdata.io/v3/mlb/odds/json/BettingMarketsByGameID/%s', $key));
 
         $this->logger->info(sprintf('Retrieving odds for events: %s', $key));
 

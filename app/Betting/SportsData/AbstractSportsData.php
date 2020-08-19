@@ -117,7 +117,7 @@ abstract class AbstractSportsData implements BettingProvider
             $startDate->setTimezone('UTC');
 
             $results[] = new SportEvent(
-                $event['BettingEventID'],
+                $this->getGameId($event),
                 $startDate->format('Y-m-d\TH:i:s'),
                 static::SPORT_ID,
                 $event['HomeTeam'] . ' ' . $home,
@@ -145,7 +145,7 @@ abstract class AbstractSportsData implements BettingProvider
 
             /** @var ApiEvent|null $apiEvent */
             $apiEvent = current($this->entityManager->getRepository(ApiEvent::class)->findBy([
-                'apiId' => $event['BettingEventID'],
+                'apiId' => $this->getGameId($event),
                 'provider' => static::PROVIDER_NAME,
             ])) ?: null;
 
@@ -158,7 +158,7 @@ abstract class AbstractSportsData implements BettingProvider
             }
 
             $timeStatus = $this->mapTimeStatus($event['GameStatus']);
-            $result = new SportEventResult($event['BettingEventID'], $timeStatus, $event['HomeTeamScore'], $event['AwayTeamScore']);
+            $result = new SportEventResult($this->getGameId($event), $timeStatus, $event['HomeTeamScore'], $event['AwayTeamScore']);
             $apiEvent->result($result);
             $results[] = $result;
         }
@@ -167,13 +167,17 @@ abstract class AbstractSportsData implements BettingProvider
 
     private function isValidGame($event): bool
     {
+        return $this->getGameId($event) !== null;
+    }
+
+    private function getGameId($event)
+    {
         $gameId = null;
         if (isset($event['GameID'])) {
             $gameId = $event['GameID'];
         } elseif (isset($event['ScoreID'])) {
             $gameId = $event['ScoreID'];
         }
-
-        return $gameId !== null;
+        return $gameId;
     }
 }
