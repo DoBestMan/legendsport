@@ -1079,8 +1079,14 @@ textarea.input {
         display: none !important;
     }
 
-    .layout__content:not(.layout__content--home) {
+    /* .layout__content:not(.layout__content--home) {
         max-height: calc(100% - 110px);
+    } */
+    .layout__content {
+        max-height: calc(100% - 110px);
+    }
+    .layout__content--home {
+        max-height: 100%;
     }
     .layout__content__container__mobile {
         display: none;
