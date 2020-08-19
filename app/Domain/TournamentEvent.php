@@ -73,6 +73,13 @@ class TournamentEvent
         return $this->tournament;
     }
 
+    /** @return TournamentBetEvent[] */
+    public function getBets(): Collection
+    {
+        return $this->bets;
+    }
+
+    /** @deprecated  */
     public function evaluate(): void
     {
         foreach ($this->bets as $bet) {

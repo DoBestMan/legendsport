@@ -109,32 +109,31 @@ abstract class TournamentBetEvent
         return $this->tournamentEvent;
     }
 
-    public function evaluate(): void
+    public function evaluate(): bool
     {
         if (!$this->status->equals(BetStatus::PENDING())) {
-            return;
+            return false;
         }
 
         $eventData = $this->tournamentEvent->getApiEvent();
 
         if (!$eventData->isFinished()) {
-            return;
+            return false;
         }
 
         if ($eventData->isCancelled()) {
-            $this->result(BetStatus::PUSH());
-            return;
+            return $this->result(BetStatus::PUSH());
         }
 
-        $this->evaluateType();
+        return $this->evaluateType();
     }
 
-    abstract protected function evaluateType(): void;
+    abstract protected function evaluateType(): bool;
 
-    protected function result(BetStatus $status): void
+    protected function result(BetStatus $status): bool
     {
         $this->status = $status;
-        $this->tournamentBet->evaluate();
+        return $this->tournamentBet->evaluate();
     }
 
     public function isPending(): bool

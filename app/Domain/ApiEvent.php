@@ -107,6 +107,10 @@ class ApiEvent
     private $provider;
     /** @ORM\OneToMany(targetEntity="\App\Domain\ApiEventOdds", mappedBy="event", indexBy="betType", cascade={"ALL"}) */
     private Collection $odds;
+    /**
+     * @ORM\OneToMany(targetEntity="\App\Domain\TournamentEvent", mappedBy="apiEvent")
+     */
+    private Collection $tournamentEvents;
 
     public function __construct()
     {
@@ -189,20 +193,22 @@ class ApiEvent
         return $updatedAt->add(new \DateInterval('PT' . $seconds . 'S')) > new \DateTimeImmutable();
     }
 
-    //@TODO remove this method, exists to allow syncing uncommited eloquent changes while running in hybrid mode.
-    public function sync(\App\Models\ApiEvent $apiEvent): void
+    public function result(SportEventResult $sportEventResult): bool
     {
-        $this->timeStatus = $apiEvent->time_status;
-        $this->scoreHome = $apiEvent->score_home;
-        $this->scoreAway = $apiEvent->score_away;
-    }
+        if (
+            $this->timeStatus->equals($sportEventResult->getTimeStatus()) &&
+            $this->scoreHome === $sportEventResult->getHome() &&
+            $this->scoreAway === $sportEventResult->getAway()
+        ) {
+            return false;
+        }
 
-    public function result(SportEventResult $sportEventResult): void
-    {
         $this->timeStatus = $sportEventResult->getTimeStatus();
         $this->scoreHome = $sportEventResult->getHome();
         $this->scoreAway = $sportEventResult->getAway();
         $this->updatedAt = Carbon::now();
+
+        return true;
     }
 
     public function isUpcoming()
@@ -287,5 +293,11 @@ class ApiEvent
     public function getAllOdds(): Collection
     {
         return $this->odds;
+    }
+
+    /** @return TournamentEvent[] */
+    public function getTournamentEvents(): Collection
+    {
+        return $this->tournamentEvents;
     }
 }

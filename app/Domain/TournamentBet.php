@@ -91,16 +91,16 @@ class TournamentBet
         return $this->events;
     }
 
-    public function evaluate()
+    public function evaluate(): bool
     {
         $betStatus = $this->getStatus();
         if ($betStatus->equals(BetStatus::PENDING())) {
-            return;
+            return false;
         }
 
         if ($betStatus->equals(BetStatus::LOSS())) {
             $this->tournamentPlayer->reduceBalance($this->chipsWager);
-            return;
+            return true;
         }
 
         $this->refund();
@@ -108,6 +108,8 @@ class TournamentBet
         if ($betStatus->equals(BetStatus::WIN()) ) {
             $this->creditWinnings();
         }
+
+        return true;
     }
 
     public function getStatus(): BetStatus
@@ -145,8 +147,13 @@ class TournamentBet
 
     private function creditWinnings(): void
     {
-        $winnings = intval(($this->getReducedDecimalOdds() - 1) * $this->chipsWager);
+        $winnings = $this->getChipsWon();
         $this->tournamentPlayer->increaseChips($winnings);
         $this->tournamentPlayer->increaseBalance($winnings);
+    }
+
+    public function getChipsWon(): int
+    {
+        return intval(($this->getReducedDecimalOdds() - 1) * $this->chipsWager);
     }
 }

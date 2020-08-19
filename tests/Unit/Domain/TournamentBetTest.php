@@ -41,8 +41,9 @@ class TournamentBetTest extends TestCase
         $sut = $tournament->getBets()->first();
         $bet = $sut->getEvents()->first();
 
-        $bet->evaluate();
+        $evaluated = $bet->evaluate();
 
+        self::assertTrue($evaluated);
         self::assertEquals($result, $sut->getStatus()->getValue());
         self::assertEquals($balance, $player->getChips());
         self::assertEquals($balance, $player->getBalance());
@@ -81,8 +82,9 @@ class TournamentBetTest extends TestCase
         $sut = $tournament->getBets()->first();
         $bet = $sut->getEvents()->first();
 
-        $bet->evaluate();
+        $evaluated = $bet->evaluate();
 
+        self::assertFalse($evaluated);
         self::assertEquals($result, $sut->getStatus()->getValue());
         self::assertEquals(9000, $player->getChips());
         self::assertEquals(10000, $player->getBalance());
@@ -107,10 +109,12 @@ class TournamentBetTest extends TestCase
         $apiEvent->result(new SportEventResult('eid', TimeStatus::ENDED(), $home, $away));
 
         $sut = $tournament->getBets()->first();
+        $evaluated = false;
         foreach($sut->getEvents() as $bet) {
-            $bet->evaluate();
+            $evaluated = $evaluated || $bet->evaluate();
         }
 
+        self::assertTrue($evaluated);
         self::assertEquals($result, $sut->getStatus()->getValue());
         self::assertEquals($balance, $player->getChips());
         self::assertEquals($balance, $player->getBalance());
@@ -154,10 +158,12 @@ class TournamentBetTest extends TestCase
         $apiEvent->result(new SportEventResult('eid', TimeStatus::ENDED(), $home, $away));
 
         $sut = $tournament->getBets()->first();
+        $evaluated = true;
         foreach($sut->getEvents() as $bet) {
-            $bet->evaluate();
+            $evaluated = $evaluated && $bet->evaluate();
         }
 
+        self::assertFalse($evaluated);
         self::assertEquals($result, $sut->getStatus()->getValue());
         self::assertEquals(9000, $player->getChips());
         self::assertEquals(10000, $player->getBalance());
