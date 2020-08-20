@@ -37,8 +37,7 @@
             <div
                 class="tournament--mobile"
                 style="margin-bottom: 10px;"
-                @click="selectTournament(tournament)"
-                @dblclick="openTournament(tournament)"
+                @click="openTournament(tournament)"
                 v-for="tournament in filteredTournaments"
                 :key="tournament.id"
             >

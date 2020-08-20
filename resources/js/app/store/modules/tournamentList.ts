@@ -91,6 +91,10 @@ const module: Module<TournamentListState, RootState> = {
                 state.tournaments = [...state.tournaments, tournament];
             }
         },
+
+        clearSearch(state) {
+            state.search = "";
+        },
     },
 
     actions: {

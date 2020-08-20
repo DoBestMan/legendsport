@@ -44,10 +44,10 @@
         <div class="tournament">
             <div
                 class="tournament--desktop"
-                @click="selectTournament(tournament)"
-                @dblclick="openTournament(tournament)"
                 v-for="tournament in filteredTournaments"
                 :key="tournament.id"
+                @click="selectTournament(tournament)"
+                @dblclick="openTournament(tournament)"
             >
                 <div class="tournament--desktop__item">{{ tournament.starts | toDateTime }}</div>
                 <div class="tournament--desktop__item">{{ tournament.name }}</div>
@@ -58,10 +58,9 @@
 
             <div
                 class="tournament--mobile"
-                @click="selectTournament(tournament)"
-                @dblclick="openTournament(tournament)"
                 v-for="tournament in filteredTournaments"
                 :key="tournament.id"
+                @click="openTournament(tournament)"
             >
                 <div class="tournament--mobile__container">
                     <div class="tournament--mobile__container__sidebar">
@@ -76,7 +75,7 @@
                         </div>
                         <div class="tournament--mobile__container__sidebar__time">
                             <div class="tournament--mobile__container__sidebar__time__hour">
-                                {{ getTime(tournamnet.starts) }}
+                                {{ getTime(tournament.starts) }}
                             </div>
                             <div class="tournament--mobile__container__sidebar__time__timezone">
                                 ET
@@ -141,7 +140,7 @@
                                 <div
                                     class="tournament--mobile__container__content__prices__item__price"
                                 >
-                                    {{ theTournament.prizePoolMoney | formatDollars }}
+                                    {{ tournament.prizePoolMoney | formatDollars }}
                                 </div>
                             </div>
                         </div>

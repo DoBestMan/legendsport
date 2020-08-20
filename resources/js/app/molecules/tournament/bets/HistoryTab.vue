@@ -2,7 +2,7 @@
     <SpinnerBox v-if="isLoading" />
 
     <div v-else class="layout__content__sidebar__games">
-        <div class="bet" style="background-color: transparent;">
+        <div class="bet">
             <div :key="bet.id" v-for="bet in bets">
                 <div :key="event.id" v-for="(event, index) in bet.events">
                     <div class="bet__header" v-if="index === 0">
@@ -25,7 +25,6 @@
                             LOST
                         </div>
 
-                        <!-- ToDo: make sure 'PUSH' -->
                         <div
                             v-else-if="bet.status === BetStatus.Push"
                             class="bet__header__tag bet__header__tag--green"
@@ -35,9 +34,6 @@
                     </div>
 
                     <div class="bet__details">
-                        <div class="bet__details__icon" @click="remove">
-                            <i class="icon icon--sport-nfl icon--micro"></i>
-                        </div>
                         <div class="bet__details__content">
                             <div class="bet__details__content__title">
                                 {{ event.teamHome }} - {{ event.teamAway }}
@@ -60,6 +56,8 @@
                         :type="event.type"
                         :type-extra="event.handicap"
                     />
+
+                    <div class="bet__seperator" v-show="index !== bet.events.length - 1" />
                 </div>
 
                 <div class="bet__footer">
