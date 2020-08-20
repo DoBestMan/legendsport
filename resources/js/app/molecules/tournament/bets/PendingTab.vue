@@ -2,7 +2,7 @@
     <SpinnerBox v-if="isLoading" />
 
     <div v-else class="layout__content__sidebar__games">
-        <div class="bet" style="background-color: transparent;">
+        <div class="bet">
             <div :key="bet.id" v-for="bet in bets">
                 <div :key="betEvent.id" v-for="(betEvent, index) in bet.events">
                     <div class="bet__header" v-if="index === 0">

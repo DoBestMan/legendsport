@@ -15,7 +15,7 @@
                 <i class="icon icon--delete icon--color--light-2"></i>
             </div>
             <PlaceBetButton
-                :tournament="window.tournament"
+                :tournament="tournament"
                 :disabled="!canPlaceBet"
                 @placeBet="placeBet"
             />

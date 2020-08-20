@@ -25,7 +25,6 @@
             :odd="oddValue"
             :type="pendingOdd.type"
             :type-extra="oddExtra"
-            status="Win"
         />
 
         <div class="bet__inputs">

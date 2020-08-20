@@ -30,6 +30,7 @@ export default Vue.extend({
 
     methods: {
         handleInputSearch() {
+            this.$stock.commit("tournamentList/clearSearch");
             this.$emit("handleInputSearch");
         },
     },
