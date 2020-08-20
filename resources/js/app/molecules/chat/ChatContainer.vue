@@ -7,7 +7,11 @@
                 CHAT({{ messages.length }})
             </div>
             <div class="layout__content__sidebar__chat__cta__action" @click="handleChatExpand">
-                <i class="icon icon--micro icon--expand icon--color--light-2"></i>
+                <i
+                    class="icon icon--micro icon--expand icon--color--light-2"
+                    v-if="!isChatExpanded"
+                ></i>
+                <i class="icon icon--micro icon--close icon--color--light-2" v-else></i>
             </div>
         </div>
 
