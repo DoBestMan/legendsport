@@ -6,7 +6,7 @@
                 <i class="icon icon--micro icon--down"></i>
             </div>
         </div>
-        <div class="dropdown__content">
+        <div class="dropdown__content" style="z-index: 1000;">
             <div
                 class="dropdown__content__item"
                 v-for="option in options"
