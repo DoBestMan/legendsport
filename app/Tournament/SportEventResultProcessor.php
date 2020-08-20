@@ -41,7 +41,7 @@ class SportEventResultProcessor
     {
         /** @var ApiEvent $apiEvent */
         $apiEvent = $this->entityManager->getRepository(ApiEvent::class)
-            ->findOneBy(['apiId' => $result->getExternalEventId()]);
+            ->findOneBy(['apiId' => $result->getExternalEventId(), 'provider' => $result->getProvider()]);
 
         if ($apiEvent === null || $apiEvent->isFinished()) {
             return;

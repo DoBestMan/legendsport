@@ -176,11 +176,12 @@ abstract class AbstractSportsData implements BettingProvider
             $timeStatus = $this->mapTimeStatus($event[static::DATA_KEY_MAP['status']]);
             $result = new SportEventResult(
                 $externalEventId,
+                static::PROVIDER_NAME,
                 $timeStatus,
                 $event[static::DATA_KEY_MAP['homeScore']],
                 $event[static::DATA_KEY_MAP['awayScore']]
             );
-            $apiEvent->result($result);
+
             $results[] = $result;
         }
         return $results;

@@ -67,7 +67,7 @@ class SyncMatchesResultsTest extends TestCase
         // given
         $this->bettingProvider
             ->shouldReceive("getResults")
-            ->andReturn([new SportEventResult("event1", TimeStatus::ENDED(), 5, 4)]);
+            ->andReturn([new SportEventResult("event1", 'test', TimeStatus::ENDED(), 5, 4)]);
 
         $tournamentBets = $this->straightBetService->bet($this->tournament, $this->user, [
             new PendingOdd(PendingOddType::MONEY_LINE_HOME(), $this->tournamentEvent, 400, 200),
@@ -94,7 +94,7 @@ class SyncMatchesResultsTest extends TestCase
         // given
         $this->bettingProvider
             ->shouldReceive("getResults")
-            ->andReturn([new SportEventResult("event1", TimeStatus::ENDED(), 5, 4)]);
+            ->andReturn([new SportEventResult("event1", 'test', TimeStatus::ENDED(), 5, 4)]);
 
         $tournamentBets = $this->straightBetService->bet($this->tournament, $this->user, [
             new PendingOdd(PendingOddType::MONEY_LINE_AWAY(), $this->tournamentEvent, 400, 200),
@@ -121,7 +121,7 @@ class SyncMatchesResultsTest extends TestCase
         // given
         $this->bettingProvider
             ->shouldReceive("getResults")
-            ->andReturn([new SportEventResult("event1", TimeStatus::ENDED(), 5, 3)]);
+            ->andReturn([new SportEventResult("event1", 'test', TimeStatus::ENDED(), 5, 3)]);
 
         $tournamentBets = $this->straightBetService->bet($this->tournament, $this->user, [
             new PendingOdd(
@@ -164,7 +164,7 @@ class SyncMatchesResultsTest extends TestCase
 
         $this->bettingProvider
             ->shouldReceive("getResults")
-            ->andReturn([new SportEventResult("event1", TimeStatus::ENDED(), 5, 3)]);
+            ->andReturn([new SportEventResult("event1", 'test', TimeStatus::ENDED(), 5, 3)]);
 
         $this->straightBetService->bet($this->tournament, $this->user, [
             new PendingOdd(PendingOddType::MONEY_LINE_HOME(), $this->tournamentEvent, 500, 200),

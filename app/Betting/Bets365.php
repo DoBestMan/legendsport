@@ -176,6 +176,7 @@ class Bets365 implements BettingProvider
 
                 return new SportEventResult(
                     $item["bet365_id"],
+                    static::PROVIDER_NAME,
                     $this->mapTimeStatus($item),
                     $home,
                     $away,

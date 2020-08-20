@@ -46,7 +46,7 @@ class TotalOverTest extends TestCase
         $player = $user->getTournamentPlayer($tournament);
 
         $tournament->placeStraightBet($player, 1000, new BetItem(TotalOver::class, $tournamentEvent));
-        $apiEvent->result(new SportEventResult('eid', TimeStatus::ENDED(), $home, $away));
+        $apiEvent->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), $home, $away));
 
         $sut = $tournament->getBets()->first()->getEvents()->first();
 

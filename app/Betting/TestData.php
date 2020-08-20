@@ -112,6 +112,7 @@ class TestData implements BettingProvider
 
             $results[] = new SportEventResult(
                 $apiEvent->api_id,
+                static::PROVIDER_NAME,
                 $timeStatus,
                 $home,
                 $away
