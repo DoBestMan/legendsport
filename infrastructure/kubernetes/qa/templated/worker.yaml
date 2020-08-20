@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ######NAMESPACE######worker
+  labels:
+    qaInstance: ######NAMESPACE######
 spec:
   replicas: 1
   selector:
@@ -11,6 +13,7 @@ spec:
     metadata:
       labels:
         application: ######NAMESPACE######worker
+        qaInstance: ######NAMESPACE######
     spec:
       containers:
         - image: ######BACKEND_IMAGE######

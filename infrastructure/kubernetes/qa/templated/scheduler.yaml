@@ -2,6 +2,8 @@ apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: ######NAMESPACE######scheduler
+  labels:
+    qaInstance: ######NAMESPACE######
 spec:
   schedule: "*/1 * * * *"
   concurrencyPolicy: Replace
