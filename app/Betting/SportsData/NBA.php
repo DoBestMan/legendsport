@@ -32,7 +32,7 @@ class NBA extends AbstractSportsData implements SingleEventUpdater
 
     public function getResults(): array
     {
-        $data = $this->get('https://api.sportsdata.io/v3/nba/scores/json/Games/2020', self::SCORES_API_KEY);
+        $data = $this->get('https://api.sportsdata.io/v3/nba/scores/json/Games/2020POST', self::SCORES_API_KEY);
         return $this->parseResults($data);
     }
 

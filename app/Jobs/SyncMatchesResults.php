@@ -36,12 +36,14 @@ final class SyncMatchesResults
         }
 
         foreach ($sportEventResultProcessor->getTournamentsUpdated() as $tournament) {
+            $logger->info('Tournament updated: ' . $tournament->getId());
             $tournamentStateService->updateState($tournament);
             $dispatcher->dispatch(new TournamentUpdate($tournament));
         }
 
         // Inform about updated users bets
         foreach ($sportEventResultProcessor->getUsersUpdated() as $user) {
+            $logger->info('User updated: ' . $user->getId());
             $dispatcher->dispatch(new MeUpdate($user));
         }
     }
