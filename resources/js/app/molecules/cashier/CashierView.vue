@@ -113,8 +113,11 @@
         <div class="container" v-else>
             <div class="paging m--b--0">
                 <div class="paging__item">
-                    <i class="icon icon--left icon--large icon--color--light-1 m--r--4"></i>
-                    <div class="paging__item__title">Profile</div>
+                    <i
+                        class="icon icon--left icon--large icon--color--light-1 m--r--4"
+                        @click="goToHome"
+                    ></i>
+                    <div class="paging__item__title">Cashier</div>
                 </div>
             </div>
             <div class="center">

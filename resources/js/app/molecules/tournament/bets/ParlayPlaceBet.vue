@@ -1,11 +1,11 @@
 <template>
     <div class="layout__content__sidebar__bet" v-if="hasEnoughPendingOdds">
         <div class="layout__content__sidebar__bet__row">
-            <div style="margin-right: 10px;">
+            <div style="margin-right: 10px; width: 50%;">
                 <strong class="layout__content__sidebar__bet__row__title">Bet</strong>
                 <ChipInput :value="wager" @input="updateWager" />
             </div>
-            <div>
+            <div style="width: 50%;">
                 <strong class="layout__content__sidebar__bet__row__title">Win</strong>
                 <ChipInput :value="win" readonly />
             </div>

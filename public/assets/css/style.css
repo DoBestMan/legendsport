@@ -1091,6 +1091,9 @@ textarea.input {
     .layout__content__container__mobile {
         display: none;
     }
+    .layout__content__slip__mobile {
+        display: none;
+    }
     .layout__content__container__content {
         height: 100%;
     }
@@ -1107,7 +1110,7 @@ textarea.input {
     .layout__content__sidebar__chat__container {
         display: flex;
         flex-direction: column;
-        height: 600px;
+        height: 400px;
     }
     .layout__content__sidebar__chat__container__messages {
         flex: 1;
@@ -1204,6 +1207,28 @@ textarea.input {
     .layout__content__container__filter {
         display: none;
     }
+    .layout__content__container__game {
+        position: absolute;
+        top: 0;
+        left: 0;
+        box-sizing: border-box;
+        margin-top: 62px;
+        width: 100%;
+        height: calc(100% - 62px);
+        z-index: 2;
+        overflow-y: auto;
+        display: flex;
+        padding-bottom: 0;
+        flex-direction: column;
+    }
+    .layout__content__container__game__content {
+        overflow-y: auto;
+        padding-bottom: 44px;
+        flex: 1;
+        padding: 16px;
+        box-sizing: border-box;
+        margin-bottom: 45px;
+    }
     .layout__content__container__content__container--paddingless-mobile {
         padding-left: 0 !important;
         padding-right: 0 !important;
@@ -1215,12 +1240,12 @@ textarea.input {
         display: none;
         border: none;
     }
-    .layout__content__sidebar__bet {
+    /* .layout__content__sidebar__bet {
         position: fixed;
         bottom: 16px;
         left: 16px;
         width: 100%;
-    }
+    } */
     .layout__content__sidebar__games {
         overflow-y: auto;
         padding-bottom: 44px;

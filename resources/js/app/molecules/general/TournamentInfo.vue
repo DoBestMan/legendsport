@@ -3,7 +3,8 @@
         <div class="tournament--sidebar">
             <div class="tournament--sidebar__header">
                 <div class="tournament--sidebar__header__icon">
-                    <i class="icon icon--tourney"></i>
+                    <i class="icon icon--tourney" v-if="!isMobile()"></i>
+                    <i class="icon icon--arrow-left" v-else @click="goToHome"></i>
                 </div>
                 <div class="tournament--sidebar__header__content">
                     <div class="tournament--sidebar__header__content__title">
@@ -98,6 +99,12 @@ export default Vue.extend({
         tournament: Object as PropType<Tournament | null>,
     },
 
+    data() {
+        return {
+            isModalInfo: true,
+        };
+    },
+
     computed: {
         theTournament(): Tournament {
             if (this.tournament) {
@@ -124,6 +131,15 @@ export default Vue.extend({
     },
 
     methods: {
+        isMobile(): boolean {
+            if (window.innerWidth < 992) return true;
+            return false;
+        },
+
+        goToHome() {
+            this.$router.push("/");
+        },
+
         getSportName(sportId: string): string {
             const dict: ReadonlyMap<string, string> = this.$stock.getters["sport/sportDictionary"];
             return dict.get(sportId) ?? String(sportId);

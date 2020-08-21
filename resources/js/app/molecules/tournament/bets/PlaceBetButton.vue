@@ -1,5 +1,5 @@
 <template>
-    <span style="width: 230px;">
+    <span style="width: 100%; margin-right: 10px;">
         <button
             class="button button--large m--l--4 m--b--0"
             v-if="isRegistered"
