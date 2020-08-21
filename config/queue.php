@@ -41,6 +41,13 @@ return [
             'retry_after' => 90,
         ],
 
+        'uniquedbqueue' => [
+            'driver' => 'uniquedbqueue',
+            'table' => 'jobs',
+            'queue' => 'default',
+            'retry_after' => 90,
+        ],
+
         'beanstalkd' => [
             'driver' => 'beanstalkd',
             'host' => 'localhost',
