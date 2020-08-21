@@ -3,8 +3,12 @@
 namespace App\Betting\SportsData;
 
 use App\Betting\BettingProvider;
+use App\Betting\Pagination;
+use App\Betting\Sport;
 use App\Betting\SportEvent;
 use App\Betting\SportEventResult;
+use App\Betting\SportsData\OddsFilters\HasOddsFromChosenSportsbook;
+use App\Betting\SportsData\OddsFilters\MainLines;
 use App\Betting\TimeStatus;
 use App\Domain\ApiEvent;
 use Carbon\Carbon;
@@ -59,6 +63,8 @@ abstract class AbstractSportsData implements BettingProvider
             $message = '';
             if (isset($data['message'])) {
                 $message = $data['message'];
+            } elseif (isset($data['Description'])) {
+                $message = $data['Description'];
             }
 
             throw new \RuntimeException(sprintf('Unable to communicate with API (%s): %s', $url, $message));
@@ -91,19 +97,65 @@ abstract class AbstractSportsData implements BettingProvider
         return $updatesOnly ? [] : $apiEventDict;
     }
 
+    public function getResults(): array
+    {
+        $qb = $this->entityManager->createQueryBuilder();
+        /** @var ApiEvent[] $apiEventDict */
+        $apiEventDict = $qb->select('a')
+            ->from(ApiEvent::class, 'a')
+            ->where($qb->expr()->eq('a.provider', '?1'))
+            ->andWhere($qb->expr()->notIn('a.timeStatus', '?2'))
+            ->getQuery()
+            ->execute([
+                1 => static::PROVIDER_NAME,
+                2 => [TimeStatus::CANCELED()->getValue(), TimeStatus::ENDED()->getValue()],
+            ]);
+
+
+        foreach ($apiEventDict as $apiEvent) {
+            $this->dispatcher->dispatch(new FetchResultsForDate($apiEvent->getStartsAt(), static::PROVIDER_NAME, 0));
+            $this->dispatcher->dispatch(new FetchResultsForDate($apiEvent->getStartsAt(), static::PROVIDER_NAME, 15));
+            $this->dispatcher->dispatch(new FetchResultsForDate($apiEvent->getStartsAt(), static::PROVIDER_NAME, 30));
+            $this->dispatcher->dispatch(new FetchResultsForDate($apiEvent->getStartsAt(), static::PROVIDER_NAME, 45));
+        }
+
+        return [];
+    }
+
+    public function getSports(): array
+    {
+        return [new Sport(static::SPORT_ID, static::SPORT_NAME, static::PROVIDER_NAME)];
+    }
+
+    public function getEvents(int $page): Pagination
+    {
+        $date = Carbon::now();
+        $date->addDays($page - 1);
+        $data = $this->get(sprintf(static::URLS['bettingEventsByDate'], $date->format('Y-m-d')), AbstractSportsData::ODDS_API_KEY);
+        $results = $this->parseEvents($data);
+        $count = count($results);
+        return new Pagination($results, $count, $count);
+    }
+
+    public function getResultsForDate(string $date): array
+    {
+        $data = $this->get(sprintf(static::URLS['gamesByDate'], $date), AbstractSportsData::SCORES_API_KEY);
+        return $this->parseResults($data);
+    }
+
     protected function mapTimeStatus(string $status): TimeStatus
     {
         //Scheduled, InProgress, Final, Suspended, Postponed, Canceled
         switch ($status) {
             case 'Scheduled':
                 return TimeStatus::NOT_STARTED();
+            case 'Suspended':
             case 'InProgress':
                 return TimeStatus::IN_PLAY();
             case "Final":
             case "F/OT":
                 return TimeStatus::ENDED();
             case "Canceled":
-            case 'Suspended':
             case 'Postponed':
                 return TimeStatus::CANCELED();
             default:
@@ -200,5 +252,20 @@ abstract class AbstractSportsData implements BettingProvider
             $gameId = $event['ScoreID'];
         }
         return $gameId;
+    }
+
+    public function updateEventOdds(ApiEvent $apiEvent): void
+    {
+        $key = $apiEvent->getApiId();
+
+        $results = $this->get(sprintf(static::URLS['marketsById'], $key), AbstractSportsData::ODDS_API_KEY);
+
+        $this->logger->info(sprintf('Retrieving odds for events: %s', $key));
+
+        $preMatchOdds = $this->parser->parseMainLines(
+            new MainLines(new HasOddsFromChosenSportsbook(new \ArrayIterator($results)))
+        );
+
+        $apiEvent->updateOdds($preMatchOdds);
     }
 }

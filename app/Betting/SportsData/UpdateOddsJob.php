@@ -6,12 +6,13 @@ use App\Betting\MultiProvider;
 use App\Betting\SingleEventUpdater;
 use App\Domain\ApiEvent;
 use App\Http\Transformers\App\ApiEventToOdds;
+use App\Queue\Uniqueable;
 use App\Tournament\Events\OddsUpdate;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class UpdateOddsJob implements ShouldQueue
+class UpdateOddsJob implements ShouldQueue, Uniqueable
 {
     private int $apiEventId;
 
@@ -37,5 +38,10 @@ class UpdateOddsJob implements ShouldQueue
             ->toArray();
 
         $dispatcher->dispatch(new OddsUpdate($odds, true));
+    }
+
+    public function uniqueable()
+    {
+        return hash('sha256', static::class . '(' . $this->apiEventId . ')');
     }
 }
