@@ -1,5 +1,5 @@
 <template>
-    <button v-if="canRegister" :class="className" @click="register">
+    <button v-if="canRegister" :class="className" @click.stop="register">
         Register now {{ price }}
     </button>
 </template>

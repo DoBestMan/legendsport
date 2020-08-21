@@ -2,7 +2,7 @@
     <div class="layout__content__sidebar__games">
         <TournamentInfo :tournament="tournament" />
 
-        <RegisterNowButton v-if="isRegistered" class="button--large" :tournament="tournament" />
+        <RegisterNowButton v-if="!isRegistered()" class="button--large" :tournament="tournament" />
 
         <div class="switch">
             <div
@@ -62,13 +62,6 @@ export default Vue.extend({
         players(): Player[] {
             return this.tournament?.players ?? [];
         },
-
-        isRegistered(): boolean {
-            const playersDict: ReadonlyMap<number, UserPlayer> = this.$stock.getters[
-                "user/playersDictByTournament"
-            ];
-            return playersDict.has(this.tournament.id);
-        },
     },
 
     methods: {
@@ -80,6 +73,13 @@ export default Vue.extend({
             ];
 
             return this.tournament && gameStates.includes(this.tournament.state) ? "games" : "rank";
+        },
+
+        isRegistered(): boolean {
+            const playersDict: ReadonlyMap<number, UserPlayer> = this.$stock.getters[
+                "user/playersDictByTournament"
+            ];
+            return playersDict.has(this.tournament?.id);
         },
     },
 

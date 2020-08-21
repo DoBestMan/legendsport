@@ -37,9 +37,9 @@
             <div
                 class="tournament--mobile"
                 style="margin-bottom: 10px;"
-                @click="openTournament(tournament)"
                 v-for="tournament in filteredTournaments"
                 :key="tournament.id"
+                @click="openMobileTournament(tournament)"
             >
                 <div class="tournament--mobile__container">
                     <div class="tournament--mobile__container__sidebar">
@@ -143,7 +143,7 @@
                 </div>
 
                 <RegisterNowButton
-                    v-if="isRegistered(tournament)"
+                    v-if="!isRegistered(tournament)"
                     className="tournament--mobile__offer"
                     style="width: 100%;"
                     :tournament="tournament"
@@ -298,6 +298,11 @@ export default Vue.extend({
         openTournament(tournament: Tournament): void {
             this.$stock.commit("window/openWindow", tournament.id);
             this.$router.push(`/tournaments/${tournament.id}`);
+        },
+
+        openMobileTournament(tournament: Tournament): void {
+            this.$stock.commit("window/openWindow", tournament.id);
+            this.$router.push(`/tour_info/${tournament.id}`);
         },
     },
 });

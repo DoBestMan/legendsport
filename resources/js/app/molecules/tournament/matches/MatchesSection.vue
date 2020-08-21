@@ -1,6 +1,6 @@
 <template>
-    <section class="layout__content__container">
-        <div class="layout__content__container__mobile">
+    <section class="layout__content__container layout__content__container__game">
+        <div class="layout__content__container__mobile" v-show="!isModalBetSlipSection">
             <div class="layout__content__container__mobile__switch">
                 <div class="layout__content__container__mobile__switch__icon" @click="goToHome">
                     <i class="icon icon--left icon--color--light-1"></i>
@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        <div class="layout__content__container__content">
+        <div class="layout__content__container__content layout__content__container__game__content">
             <div class="odds">
                 <div class="tab--large d--only--desktop">
                     <div
@@ -46,7 +46,10 @@
                     </div>
                 </div>
 
-                <div class="modal modal--active" v-show="isModalTournamentSwitch">
+                <div
+                    class="modal modal--active"
+                    v-show="isModalTournamentSwitch && !isModalBetSlipSection"
+                >
                     <div class="modal__row" @click="selectAllSports">
                         <div class="modal__row__item">
                             <i
@@ -85,7 +88,7 @@
                     </div>
                 </div>
 
-                <div class="odds__header">
+                <div class="odds__header" v-show="!isModalBetSlipSection">
                     <div class="odds__header__tabs">
                         <div class="odds__header__tabs__tab odds__header__tabs__tab--active">
                             GAME LINE
@@ -102,7 +105,7 @@
                     </div>
                 </div>
 
-                <div class="odds__scroll">
+                <div class="odds__scroll" v-show="!isModalBetSlipSection">
                     <div class="odd" v-for="(games, date) in groupedGames" :key="date">
                         <div class="odd__header">
                             <div class="odd__header__time">{{ date | toDateTime }}</div>
@@ -132,7 +135,30 @@
                     </div>
                 </div>
             </div>
+
+            <div
+                class="layout__content__sidebar__chat layout__content__slip__mobile"
+                @click="goToBetSlip"
+            >
+                <div class="layout__content__sidebar__chat__cta">
+                    <div class="layout__content__sidebar__chat__cta__title">
+                        <i class="icon icon--micro icon--slip icon--color--light-1 m--r--2"></i>
+                        BET SLIP
+                    </div>
+                    <div class="layout__content__sidebar__chat__cta__action">
+                        <span class="tag tag--color--red tag--medium m--r--2">{{
+                            pendingOdds.length
+                        }}</span>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <BetsMobileSection
+            v-if="isModalBetSlipSection"
+            :window="window"
+            @backMatchSection="backMatchSection"
+        />
     </section>
 </template>
 
@@ -143,6 +169,7 @@ import { Tournament } from "../../../types/tournament";
 import GameRow from "./GameRow.vue";
 import { Game, GameState } from "../../../types/game";
 import { empty, groupBy } from "../../../../general/utils/utils";
+import BetsMobileSection from "../bets/BetsMobileSection.vue";
 import {
     PendingOddPayload,
     ToggleSportPayload,
@@ -151,7 +178,7 @@ import {
 
 export default Vue.extend({
     name: "MatchesSection",
-    components: { GameRow },
+    components: { GameRow, BetsMobileSection },
 
     props: {
         window: Object as PropType<Window>,
@@ -160,7 +187,16 @@ export default Vue.extend({
     data() {
         return {
             isModalTournamentSwitch: false,
+            isModalBetSlipSection: false,
         };
+    },
+
+    created() {
+        window.addEventListener("resize", this.isMobile);
+    },
+
+    destroyed() {
+        window.removeEventListener("resize", this.isMobile);
     },
 
     computed: {
@@ -181,9 +217,25 @@ export default Vue.extend({
             );
             return groupBy(filteredGames, game => game.startsAt);
         },
+
+        gameDict(): ReadonlyMap<string, Game> {
+            return new Map(this.window.tournament.games.map(game => [game.externalId, game]));
+        },
+
+        pendingOdds(): PendingOdd[] {
+            return this.window.pendingOdds.filter(pendingOdd =>
+                this.gameDict.has(pendingOdd.externalId),
+            );
+        },
     },
 
     methods: {
+        isMobile(): void {
+            if (window.innerWidth > 992) {
+                this.isModalBetSlipSection = false;
+            }
+        },
+
         getSportName(sportId: string): string {
             const dict: ReadonlyMap<string, string> = this.$stock.getters["sport/sportDictionary"];
             return dict.get(sportId) ?? String(sportId);
@@ -225,6 +277,14 @@ export default Vue.extend({
 
         goToHome(): void {
             this.$router.push("/");
+        },
+
+        goToBetSlip(): void {
+            this.isModalBetSlipSection = true;
+        },
+
+        backMatchSection(): void {
+            this.isModalBetSlipSection = false;
         },
     },
 });
