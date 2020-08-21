@@ -18,6 +18,7 @@ import BankWireMobileForm from "../molecules/cashier/BankWireMobileForm.vue";
 import BitcoinMobileForm from "../molecules/cashier/BitcoinMobileForm.vue";
 import CreditCardMobileForm from "../molecules/cashier/CreditCardMobileForm.vue";
 import PaypalMobileForm from "../molecules/cashier/PaypalMobileForm.vue";
+import MobileInfoSection from "../molecules/tournament/info/MobileInfoSection.vue";
 
 export const createRouter = (): VueRouter => {
     const routes: RouteConfig[] = [
@@ -40,6 +41,11 @@ export const createRouter = (): VueRouter => {
         { path: "/bitcoin", component: BitcoinMobileForm, meta: { layout: [NavBar] } },
         { path: "/cc", component: CreditCardMobileForm, meta: { layout: [NavBar] } },
         { path: "/paypal", component: PaypalMobileForm, meta: { layout: [NavBar] } },
+        {
+            path: "/tour_info/:tournamentId",
+            component: MobileInfoSection,
+            meta: { layout: [NavBar] },
+        },
         { path: "*", component: NotFoundView, meta: { layout: [NavBar] } },
     ];
 
