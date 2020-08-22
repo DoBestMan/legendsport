@@ -369,7 +369,7 @@ textarea.input {
     box-sizing: border-box;
     padding: 8px 16px;
     background-color: #1a1e21;
-    font-size: 12px;
+    font-size: 12px !important;
     font-weight: 500;
     line-height: 1.17;
     color: #ffffff;
@@ -1119,6 +1119,9 @@ textarea.input {
 }
 /* Small Laptops */
 @media (max-width: 992px) {
+    input {
+        font-size: 12px !important;
+    }
     .menu__content {
         width: 100% !important;
     }
