@@ -113,10 +113,12 @@ abstract class AbstractSportsData implements BettingProvider
 
 
         foreach ($apiEventDict as $apiEvent) {
-            $this->dispatcher->dispatch(new FetchResultsForDate($apiEvent->getStartsAt(), static::PROVIDER_NAME, 0));
-            $this->dispatcher->dispatch(new FetchResultsForDate($apiEvent->getStartsAt(), static::PROVIDER_NAME, 15));
-            $this->dispatcher->dispatch(new FetchResultsForDate($apiEvent->getStartsAt(), static::PROVIDER_NAME, 30));
-            $this->dispatcher->dispatch(new FetchResultsForDate($apiEvent->getStartsAt(), static::PROVIDER_NAME, 45));
+            $date = Carbon::createFromFormat('Y-m-d H:i:s', $apiEvent->getStartsAt()->format('Y-m-d H:i:s'), 'UTC');
+            $date->setTimezone('America/New_York');
+            $this->dispatcher->dispatch(new FetchResultsForDate($date, static::PROVIDER_NAME, 0));
+            $this->dispatcher->dispatch(new FetchResultsForDate($date, static::PROVIDER_NAME, 15));
+            $this->dispatcher->dispatch(new FetchResultsForDate($date, static::PROVIDER_NAME, 30));
+            $this->dispatcher->dispatch(new FetchResultsForDate($date, static::PROVIDER_NAME, 45));
         }
 
         return [];
