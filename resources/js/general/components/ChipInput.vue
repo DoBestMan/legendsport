@@ -5,6 +5,7 @@
         </div>
         <input
             class="input input--padding--left"
+            type="number"
             :class="customClass"
             :value="!value ? '' : value"
             :min="min"

@@ -44,8 +44,8 @@
         <div class="tournament">
             <div
                 class="tournament--desktop"
-                v-for="tournament in filteredTournaments"
-                :key="tournament.id"
+                v-for="(tournament, index) in filteredTournaments"
+                :key="`{tournament.name}-desktop-${index}`"
                 @click="selectTournament(tournament)"
                 @dblclick="openTournament(tournament)"
             >
@@ -58,8 +58,8 @@
 
             <div
                 class="tournament--mobile"
-                v-for="tournament in filteredTournaments"
-                :key="tournament.id"
+                v-for="(tournament, index) in filteredTournaments"
+                :key="`{tournament.name}-mobile-${index}`"
                 @click="openTournament(tournament)"
             >
                 <div class="tournament--mobile__container">
