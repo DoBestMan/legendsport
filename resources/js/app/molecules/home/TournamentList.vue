@@ -15,8 +15,8 @@
                 class="tournament--desktop"
                 @click="selectTournament(tournament)"
                 @dblclick="openTournament(tournament)"
-                v-for="tournament in filteredTournaments"
-                :key="tournament.id"
+                v-for="(tournament, index) in filteredTournaments"
+                :key="`${tournament.name}-desktop-${index}`"
             >
                 <div class="tournament--desktop__item">{{ tournament.starts | toDateTime }}</div>
                 <div class="tournament--desktop__item">
@@ -37,8 +37,8 @@
             <div
                 class="tournament--mobile"
                 style="margin-bottom: 10px;"
-                v-for="tournament in filteredTournaments"
-                :key="tournament.id"
+                v-for="(tournament, index) in filteredTournaments"
+                :key="`${tournament.name}-mobile-${index}`"
                 @click="openMobileTournament(tournament)"
             >
                 <div class="tournament--mobile__container">

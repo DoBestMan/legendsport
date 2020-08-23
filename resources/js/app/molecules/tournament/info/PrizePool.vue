@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="rank" v-for="prize in prizes" :key="prize" @click="selectPrize(prize)">
+        <div class="rank" v-for="(prize, index) in prizes" :key="index" @click="selectPrize(prize)">
             <div class="rank__content">
                 <div class="rank__content__user">
                     <div class="rank__content__user__name">
