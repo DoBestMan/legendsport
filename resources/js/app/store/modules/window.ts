@@ -77,6 +77,7 @@ const module: Module<WindowState, RootState> = {
 
     mutations: {
         openWindow(state, payload: number) {
+            state._activeWindowId = payload;
             const tabExists = !!state._windows.find(window => window.id === payload);
             if (tabExists) {
                 return;
@@ -90,7 +91,6 @@ const module: Module<WindowState, RootState> = {
                 selectedBetTypeTab: BetTypeTab.Pending,
                 selectedSportIds: [],
             });
-            state._activeWindowId = payload;
         },
 
         closeWindow(state, payload: number) {
