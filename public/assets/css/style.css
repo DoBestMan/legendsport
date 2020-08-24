@@ -2026,6 +2026,7 @@ textarea.input {
     background: #2c343a;
     border-radius: 6px;
     box-sizing: border-box;
+    cursor: pointer;
 }
 .odd__container__content__details__line__tags__tag:hover {
     background-color: #f2cd5d;
