@@ -168,4 +168,43 @@ class TournamentBetTest extends TestCase
         self::assertEquals(9000, $player->getChips());
         self::assertEquals(10000, $player->getBalance());
     }
+
+    public function testEvaluateParlayBetWithTwoEvents()
+    {
+        $home = 1;
+        $away = 0;
+        $result = 'loss';
+
+        $tournament = new Tournament();
+        FactoryAbstract::setProperty($tournament, 'id', 1);
+        FactoryAbstract::setProperty($tournament, 'chips', 10000);
+
+        $apiEvent1 = ApiEventFactory::create();
+        $tournament->addEvent($apiEvent1);
+        $apiEvent2 = ApiEventFactory::create();
+        $tournament->addEvent($apiEvent2);
+
+        [$tournamentEvent1, $tournamentEvent2] = $tournament->getEvents()->toArray();
+        FactoryAbstract::setProperty($tournamentEvent1, 'id', 1);
+        FactoryAbstract::setProperty($tournamentEvent2, 'id', 2);
+
+        $user = new User('test', 'test@test.com', 'test');
+        $tournament->registerPlayer($user);
+        $player = $user->getTournamentPlayer($tournament);
+
+        $tournament->placeParlayBet($player, 1000, new BetItem(MoneyLineAway::class, $tournamentEvent1), new BetItem(TotalOver::class, $tournamentEvent2));
+        $apiEvent1->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), $home, $away));
+        $apiEvent2->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), $home, $away));
+
+        $sut = $tournament->getBets()->first();
+        $evaluated = false;
+        foreach($sut->getEvents() as $bet) {
+            $evaluated = $evaluated || $bet->evaluate();
+        }
+
+        self::assertTrue($evaluated);
+        self::assertEquals($result, $sut->getStatus()->getValue());
+        self::assertEquals(9000, $player->getChips());
+        self::assertEquals(9000, $player->getBalance());
+    }
 }

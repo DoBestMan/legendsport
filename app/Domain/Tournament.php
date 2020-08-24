@@ -231,7 +231,7 @@ class Tournament
             throw BetPlacementException::invalidEvent();
         }
 
-        $tournamentPlayer->reduceChips($wager);
+        $tournamentPlayer->placeWager($wager);
         $betEvent = $betItem->makeBetEvent();
         $bet = new TournamentBet($this, $tournamentPlayer, $wager, $betEvent);
 
@@ -252,7 +252,7 @@ class Tournament
             throw BetPlacementException::insufficientEvents();
         }
 
-        $tournamentPlayer->reduceChips($wager);
+        $tournamentPlayer->placeWager($wager);
 
         $betEvents = [];
         $placedBets = [];

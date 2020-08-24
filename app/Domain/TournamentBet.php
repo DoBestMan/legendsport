@@ -99,14 +99,15 @@ class TournamentBet
         }
 
         if ($betStatus->equals(BetStatus::LOSS())) {
-            $this->tournamentPlayer->reduceBalance($this->chipsWager);
-            return true;
+            $this->tournamentPlayer->betLost($this->chipsWager);
         }
 
-        $this->refund();
+        if ($betStatus->equals(BetStatus::PUSH())) {
+            $this->tournamentPlayer->betPush($this->chipsWager);
+        }
 
         if ($betStatus->equals(BetStatus::WIN()) ) {
-            $this->creditWinnings();
+            $this->tournamentPlayer->betWon($this->chipsWager, $this->getChipsWon());
         }
 
         return true;
@@ -138,18 +139,6 @@ class TournamentBet
         }
 
         return $multiplier;
-    }
-
-    private function refund(): void
-    {
-        $this->tournamentPlayer->increaseChips($this->chipsWager);
-    }
-
-    private function creditWinnings(): void
-    {
-        $winnings = $this->getChipsWon();
-        $this->tournamentPlayer->increaseChips($winnings);
-        $this->tournamentPlayer->increaseBalance($winnings);
     }
 
     public function getChipsWon(): int

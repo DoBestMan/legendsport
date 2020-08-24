@@ -37,75 +37,85 @@ class TournamentPlayerTest extends TestCase
         self::assertEquals(1, $sut->getId());
     }
 
-    public function testIncreaseChips()
-    {
-        $user = new User('player 1', 'player1@test.com', '...');
-        $tournament = new Tournament();
-        FactoryAbstract::setProperty($tournament, 'id', 1);
-        $tournament->registerPlayer($user);
-
-        $sut = $user->getTournamentPlayer($tournament);
-
-        $sut->increaseChips(100);
-
-        self::assertEquals(100, $sut->getChips());
-    }
-
     public function testReduceChipsInsufficientChips()
     {
         $user = new User('player 1', 'player1@test.com', '...');
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
+        FactoryAbstract::setProperty($tournament, 'chips', 100);
         $tournament->registerPlayer($user);
 
         $sut = $user->getTournamentPlayer($tournament);
 
         $this->expectException(BetPlacementException::class);
         $this->expectExceptionMessage(BetPlacementException::notEnoughChips()->getMessage());
-        $sut->reduceChips(100);
+        $sut->placeWager(200);
     }
 
-    public function testReduceChips()
+    public function testPlaceWager()
     {
         $user = new User('player 1', 'player1@test.com', '...');
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
+        FactoryAbstract::setProperty($tournament, 'chips', 200);
         $tournament->registerPlayer($user);
 
         $sut = $user->getTournamentPlayer($tournament);
 
-        $sut->increaseChips(200);
-        $sut->reduceChips(150);
+        $sut->placeWager(150);
 
         self::assertEquals(50, $sut->getChips());
+        self::assertEquals(200, $sut->getBalance());
     }
 
-    public function testIncreaseBalance()
+    public function testBetWon()
     {
         $user = new User('player 1', 'player1@test.com', '...');
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
+        FactoryAbstract::setProperty($tournament, 'chips', 50);
         $tournament->registerPlayer($user);
 
         $sut = $user->getTournamentPlayer($tournament);
 
-        $sut->increaseBalance(50);
+        $sut->placeWager(50);
+        $sut->betWon(50, 500);
 
-        self::assertEquals(50, $sut->getBalance());
+        self::assertEquals(550, $sut->getBalance());
+        self::assertEquals(550, $sut->getChips());
     }
 
-    public function testReduceBalance()
+    public function testBetLost()
     {
         $user = new User('player 1', 'player1@test.com', '...');
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
+        FactoryAbstract::setProperty($tournament, 'chips', 50);
         $tournament->registerPlayer($user);
 
         $sut = $user->getTournamentPlayer($tournament);
 
-        $sut->increaseBalance(200);
-        $sut->reduceBalance(150);
+        $sut->placeWager(50);
+        $sut->betLost(50);
+
+        self::assertEquals(0, $sut->getBalance());
+        self::assertEquals(0, $sut->getChips());
+    }
+
+    public function testBetPush()
+    {
+        $user = new User('player 1', 'player1@test.com', '...');
+        $tournament = new Tournament();
+        FactoryAbstract::setProperty($tournament, 'id', 1);
+        FactoryAbstract::setProperty($tournament, 'chips', 50);
+        $tournament->registerPlayer($user);
+
+        $sut = $user->getTournamentPlayer($tournament);
+
+        $sut->placeWager(50);
+        $sut->betPush(50);
 
         self::assertEquals(50, $sut->getBalance());
+        self::assertEquals(50, $sut->getChips());
     }
 }

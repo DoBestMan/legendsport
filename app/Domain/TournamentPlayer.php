@@ -79,28 +79,29 @@ class TournamentPlayer
         return $this->tournament;
     }
 
-    public function increaseChips(int $chips): void
+    public function placeWager(int $wager)
     {
-        $this->chips += $chips;
-    }
-
-    public function reduceChips(int $chips): void
-    {
-        if ($chips > $this->chips) {
+        if ($wager > $this->chips) {
             throw BetPlacementException::notEnoughChips();
         }
 
-        $this->chips -= $chips;
+        $this->chips -= $wager;
     }
 
-    public function increaseBalance(int $chips): void
+    public function betWon(int $wager, int $winnings)
     {
-        $this->balance += $chips;
+        $this->chips += $wager + $winnings;
+        $this->balance += $winnings;
     }
 
-    public function reduceBalance(int $chips): void
+    public function betLost(int $wager)
     {
-        $this->balance -= $chips;
+        $this->balance -= $wager;
+    }
+
+    public function betPush($wager)
+    {
+        $this->chips += $wager;
     }
 
     public function getBalance(): int
