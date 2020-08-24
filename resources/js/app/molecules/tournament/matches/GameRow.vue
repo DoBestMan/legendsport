@@ -93,11 +93,11 @@
         </div>
 
         <!-- ToDo: how to get +23 -->
-        <div class="odd__container__content__odd">
+        <!-- <div class="odd__container__content__odd">
             <div class="odd__container__content__odd__details">
                 +23
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 

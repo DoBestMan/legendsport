@@ -554,6 +554,7 @@ textarea.input {
     display: flex;
     flex-direction: row;
     align-items: center;
+    cursor: pointer;
 }
 .logo__icon {
     width: 30px;
@@ -1923,6 +1924,7 @@ textarea.input {
     color: #ffffff;
     line-height: 30px;
     padding: 0 16px;
+    cursor: pointer;
 }
 .odds__header__tabs {
     display: inline-flex;
@@ -3625,6 +3627,7 @@ textarea.input {
     font-size: 16px;
     font-weight: 500;
     color: #ffffff;
+    cursor: pointer;
 }
 .menu__content__header {
     display: flex;
