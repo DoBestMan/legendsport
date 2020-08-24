@@ -1885,6 +1885,7 @@ textarea.input {
     justify-content: center;
     font-size: 12px;
     font-weight: bold;
+    cursor: pointer;
 }
 .switch__item--small {
     height: 24px;
