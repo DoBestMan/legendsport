@@ -397,6 +397,11 @@ textarea.input {
 .input::placeholder {
     color: #505d66;
 }
+.input--number::-webkit-outer-spin-button,
+.input--number::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
 .checkbox {
     position: relative;
