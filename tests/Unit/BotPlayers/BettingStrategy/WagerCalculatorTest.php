@@ -22,13 +22,13 @@ class WagerCalculatorTest extends  TestCase
     public function provideCalculateWagers()
     {
         return [
-            [1, 1000],
-            [2, 1000],
-            [3, 1000],
-            [5, 1000],
-            [8, 1000],
-            [10, 1000],
-            [25, 1000],
+            [1, 10000],
+            [2, 10000],
+            [3, 10000],
+            [5, 10000],
+            [8, 10000],
+            [10, 10000],
+            [25, 10000],
         ];
     }
 }

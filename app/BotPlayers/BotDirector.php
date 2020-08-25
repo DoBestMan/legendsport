@@ -2,6 +2,9 @@
 
 namespace App\BotPlayers;
 
+use App\BotPlayers\BettingPlan\BettingPlan;
+use App\BotPlayers\BettingPlan\BettingPlanCollection;
+use App\BotPlayers\BettingStrategy\BettingStrategy;
 use App\BotPlayers\BettingStrategy\StraightBets;
 use App\BotPlayers\BettingStrategy\ParlayBets;
 use App\BotPlayers\BettingStrategy\WagerCalculator;
@@ -64,9 +67,7 @@ class BotDirector
         srand(random_int(0, \PHP_INT_MAX));
 
         $wagerCalculator = new WagerCalculator();
-        $straightBets = new StraightBets($wagerCalculator);
-        $twoParlayBets = new ParlayBets($wagerCalculator, 2);
-        $threeParlayBets = new ParlayBets($wagerCalculator, 3);
+        $bettingPlans = new BettingPlanCollection($wagerCalculator, $this->aggressivePlan());
 
         $tournamentIdsAffected = [];
         $tournamentRepository = $this->repositoryManager->get(Tournament::class);
@@ -85,20 +86,50 @@ class BotDirector
 
                 foreach ($botsWithChips as $bot) {
                     $tournamentPlayer = $bot->getTournamentPlayer($tournament);
+                    $chips = $tournamentPlayer->getChips();
                     $hundredChips = intval($tournamentPlayer->getChips() / 100);
 
-                    $straightBetChips = intval(rand(30, 40) * $hundredChips * 0.01);
-                    $straightBets->placeBets($tournament, $tournamentPlayer, $straightBetChips);
+                    foreach ($bettingPlans as $bettingPlan) {
+                        /** @var BettingPlan $bettingPlan */
+                        $betChips = intval($bettingPlan->getChipsPercent() * $hundredChips);
+                        $remainder = 0;
 
-                    $twoParlayChips = intval(rand(30, 40) * $hundredChips * 0.01);
-                    $twoParlayBets->placeBets($tournament, $tournamentPlayer, $twoParlayChips);
+                        if ($bettingPlans->isLast()) {
+                            $betChips = intval($chips / 100);
+                            $remainder = $chips - $betChips * 100;
+                        }
 
-                    $threeParleyChips = $hundredChips - ($straightBetChips + $twoParlayChips);
-                    $threeParlayBets->placeBets($tournament, $tournamentPlayer, $threeParleyChips);
+                        $chips -= $betChips * 100;
+
+                        $placed = $bettingPlan->getStrategy()->placeBets($tournament, $tournamentPlayer, $betChips, $remainder);
+
+                        if (!$placed) {
+                            $chips += $betChips * 100;
+                        }
+                    }
                 }
             }
             $tournamentRepository->commit();
         }
         return $tournamentIdsAffected;
+    }
+
+    private function aggressivePlan()
+    {
+        return [
+            ['parlaySize' => 1, 'minBets' => 1, 'maxBets' => 2, 'minChipsPercent' => 20, 'maxChipsPercent' => 30],
+            ['parlaySize' => 2, 'minBets' => 1, 'maxBets' => 2, 'minChipsPercent' => 20, 'maxChipsPercent' => 30],
+            ['parlaySize' => 3, 'minBets' => 1, 'maxBets' => 1, 'minChipsPercent' => 20, 'maxChipsPercent' => 40],
+            ['parlaySize' => 4, 'minBets' => 1, 'maxBets' => 1, 'minChipsPercent' => 20, 'maxChipsPercent' => 40],
+        ];
+    }
+
+    private function steadyPlan()
+    {
+        return [
+            ['parlaySize' => 1, 'minBets' => 1, 'maxBets' => 8, 'minChipsPercent' => 30, 'maxChipsPercent' => 40],
+            ['parlaySize' => 2, 'minBets' => 1, 'maxBets' => 4, 'minChipsPercent' => 30, 'maxChipsPercent' => 40],
+            ['parlaySize' => 3, 'minBets' => 1, 'maxBets' => 4, 'minChipsPercent' => 30, 'maxChipsPercent' => 40],
+        ];
     }
 }
