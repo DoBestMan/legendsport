@@ -68,7 +68,14 @@
                             {{ tournament.state }}
                         </div>
                         <div class="tournament--mobile__container__content__title">
-                            {{ tournament.name }}
+                            <span
+                                v-if="isRegistered(tournament)"
+                                title="You're registered for this tournament"
+                            >
+                                <strong>{{ tournament.name }}</strong>
+                                <i class="icon icon--smaller icon--check icon--color--yellow-1" />
+                            </span>
+                            <span v-else>{{ tournament.name }}</span>
                         </div>
                         <div class="tournament--mobile__container__content__icons">
                             <i
