@@ -18,6 +18,21 @@
                     <i class="icon icon--down icon--micro icon--color--light-1"></i>
                 </div>
             </div>
+
+            <div class="layout__content__sidebar__header__bet__content">
+                <div class="layout__content__sidebar__header__bet__content__group">
+                    <div class="layout__content__sidebar__header__bet__content__group__coins">
+                        <i class="icon icon--atom icon--color--yellow-2 icon--coins m--r--1"></i>
+                        Balance
+                    </div>
+                    <div class="layout__content__sidebar__header__bet__content__group__balance">
+                        {{ player ? player.chips : 0 | formatChip }} ({{
+                            player ? player.pendingChips : 0 | formatChip
+                        }})
+                    </div>
+                </div>
+            </div>
+
             <div class="layout__content__container__mobile__icons">
                 <i class="icon icon--search icon--color--light-1 m--l--4"></i>
                 <i class="icon icon--refresh icon--color--light-1 m--l--4"></i>
@@ -170,6 +185,7 @@ import GameRow from "./GameRow.vue";
 import { Game, GameState } from "../../../types/game";
 import { empty, groupBy } from "../../../../general/utils/utils";
 import BetsMobileSection from "../bets/BetsMobileSection.vue";
+import { UserPlayer } from "../../../../general/types/user";
 import {
     PendingOddPayload,
     ToggleSportPayload,
@@ -226,6 +242,14 @@ export default Vue.extend({
             return this.window.pendingOdds.filter(pendingOdd =>
                 this.gameDict.has(pendingOdd.externalId),
             );
+        },
+
+        player(): UserPlayer | null {
+            const playersDict: ReadonlyMap<number, UserPlayer> = this.$stock.getters[
+                "user/playersDictByTournament"
+            ];
+            console.log("----------------", playersDict.get(this.tournament.id));
+            return playersDict.get(this.tournament.id) ?? null;
         },
     },
 
