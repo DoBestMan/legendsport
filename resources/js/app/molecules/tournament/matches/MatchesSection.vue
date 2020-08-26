@@ -88,10 +88,7 @@
                         @click="toggleSport(sportId)"
                     >
                         <div class="modal__row__item">
-                            <i
-                                class="icon icon--small icon--sport-nfl m--r--2"
-                                :class="{ 'icon--color--yellow-2': isSportSelected(sportId) }"
-                            ></i>
+                            <i :class="classObject(sportId)"></i>
                             {{ getSportName(sportId) }}
                         </div>
                         <div class="modal__row__item">
@@ -248,12 +245,26 @@ export default Vue.extend({
             const playersDict: ReadonlyMap<number, UserPlayer> = this.$stock.getters[
                 "user/playersDictByTournament"
             ];
-            console.log("----------------", playersDict.get(this.tournament.id));
             return playersDict.get(this.tournament.id) ?? null;
         },
     },
 
     methods: {
+        classObject(sportId: string) {
+            let className = "icon icon--small m--r--2 ";
+            if (this.isSportSelected(sportId)) className += "icon--color--yellow-2 ";
+            const sportsNames = ["MLB", "NFL", "NCAAF", "NBA", "NHL"];
+            const iconNames = [
+                "icon--sport-baseball",
+                "icon--sport-nfl",
+                "icon--sport-nfl",
+                "icon--sport-nba",
+                "icon--sport-hockey",
+            ];
+            const index = sportsNames.indexOf(this.getSportName(sportId));
+            return className + iconNames[index];
+        },
+
         isMobile(): void {
             if (window.innerWidth > 992) {
                 this.isModalBetSlipSection = false;
