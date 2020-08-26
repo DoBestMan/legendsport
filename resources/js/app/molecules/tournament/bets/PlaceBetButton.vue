@@ -1,16 +1,20 @@
 <template>
-    <div class="footer-frm">
+    <span style="width: 100%; margin-right: 10px;">
         <button
+            class="button button--large m--l--4 m--b--0"
             v-if="isRegistered"
-            class="btn btn-action btn-place-bet"
             @click="placeBet"
             :disabled="disabled"
         >
-            Place Bet
+            PLACE BET
         </button>
 
-        <RegisterNowButton v-else class="btn-place-bet" :tournament="tournament" />
-    </div>
+        <RegisterNowButton
+            v-else
+            class="button button--large m--l--4 m--b--0"
+            :tournament="tournament"
+        />
+    </span>
 </template>
 
 <script lang="ts">

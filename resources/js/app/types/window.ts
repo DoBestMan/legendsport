@@ -8,15 +8,22 @@ export interface StorableWindow {
     id: number;
     pendingOdds: PendingOdd[];
     selectedBetTypeTab: BetTypeTab;
+    selectedTournamentInfoTab: TournamentInfoTab;
     selectedSportIds: string[];
     parlayWager: number;
 }
 
 export enum BetTypeTab {
-    Pending = "Pending",
-    History = "History",
     Straight = "Straight",
     Parlay = "Parlay",
+    Pending = "Pending",
+    History = "History",
+}
+
+export enum TournamentInfoTab {
+    Games = "GAMES",
+    Ranks = "RANKS",
+    Prizes = "PRIZES",
 }
 
 export interface PendingOdd {

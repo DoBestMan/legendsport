@@ -1,63 +1,86 @@
 <template>
-    <div class="tournament-info-frm">
-        <div class="title-bar-frm">
-            <div class="img-frm">
-                <div class="img">
-                    <i class="icon fas fa-football-ball"></i>
+    <div class="tournament">
+        <div class="tournament--sidebar">
+            <div class="tournament--sidebar__header">
+                <div class="tournament--sidebar__header__icon">
+                    <i class="icon icon--tourney" v-if="!isMobile()"></i>
+                    <i class="icon icon--arrow-left" v-else @click="goToHome"></i>
+                </div>
+                <div class="tournament--sidebar__header__content">
+                    <div class="tournament--sidebar__header__content__title">
+                        {{ theTournament.name }}
+                    </div>
+                    <div class="tournament--sidebar__header__content__label">
+                        {{ theTournament.state }}
+                    </div>
                 </div>
             </div>
 
-            <div class="title-frm">
-                <div class="title">{{ theTournament.name }}</div>
+            <div class="tournament--sidebar__details">
+                <div class="tournament--sidebar__details__detail">
+                    <div class="tournament--sidebar__details__detail__item">
+                        <div class="tournament--sidebar__details__detail__item__label">
+                            START TIME
+                        </div>
+                        <div class="tournament--sidebar__details__detail__item__content">
+                            {{ theTournament.starts | toDateTime }}
+                        </div>
+                    </div>
+                    <div class="tournament--sidebar__details">
+                        <div class="tournament--sidebar__details__detail">
+                            <div class="tournament--sidebar__details__detail__item">
+                                <div class="tournament--sidebar__details__detail__item__label">
+                                    # PLAYERS
+                                </div>
+                                <div class="tournament--sidebar__details__detail__item__content">
+                                    {{ theTournament.players.length }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tournament--sidebar__details__detail">
+                            <div class="tournament--sidebar__details__detail__item">
+                                <div class="tournament--sidebar__details__detail__item__label">
+                                    BUY-IN
+                                </div>
+                                <div class="tournament--sidebar__details__detail__item__content">
+                                    {{ theTournament.buyIn | formatDollars }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tournament--sidebar__details__detail">
+                    <div class="tournament--sidebar__details__detail__item">
+                        <div class="tournament--sidebar__details__detail__item__label">
+                            Time Frame
+                        </div>
+                        <div class="tournament--sidebar__details__detail__item__content">
+                            {{ theTournament.timeFrame }}
+                        </div>
+                    </div>
+                    <div class="tournament--sidebar__details__detail__item">
+                        <div class="tournament--sidebar__details__detail__item__label">
+                            Prize Pool
+                        </div>
+                        <div class="tournament--sidebar__details__detail__item__content">
+                            {{ theTournament.prizePoolMoney | formatDollars }}
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="status-frm">
-                <div class="status">{{ theTournament.state }}</div>
-            </div>
-        </div>
-
-        <div class="tournament-frm">
-            <div class="row">
-                <div class="col-6">
-                    <div class="title">Start time</div>
-                    <div class="value">{{ theTournament.starts | toDateTime }}</div>
-                </div>
-
-                <div class="col-6">
-                    <div class="title">In</div>
-                    <div class="value">{{ theTournament.starts | diffHumanReadable }}</div>
+            <div class="tournament--sidebar__details">
+                <div class="tournament--sidebar__details__detail">
+                    <div class="tournament--sidebar__details__detail__item">
+                        <div class="tournament--sidebar__details__detail__item__label">
+                            Sports
+                        </div>
+                        <div class="tournament--sidebar__details__detail__item__content">
+                            {{ sportsNames }}
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-4">
-                    <div class="title"># Players</div>
-                    <div class="value">{{ theTournament.players.length }}</div>
-                </div>
-
-                <div class="col-4">
-                    <div class="title">Buy-In</div>
-                    <div class="value">{{ theTournament.buyIn | formatDollars }}</div>
-                </div>
-
-                <div class="col-4">
-                    <div class="title">Prize pool</div>
-                    <div class="value">{{ theTournament.prizePoolMoney | formatDollars }}</div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <div class="title">Sports</div>
-                    <div class="value">{{ sportsNames }}</div>
-                </div>
-            </div>
-
-            <RegisterNowButton
-                v-if="tournament && !isRegistered"
-                class="mb-3 mt-1"
-                :tournament="tournament"
-            />
         </div>
     </div>
 </template>
@@ -74,6 +97,12 @@ export default Vue.extend({
 
     props: {
         tournament: Object as PropType<Tournament | null>,
+    },
+
+    data() {
+        return {
+            isModalInfo: true,
+        };
     },
 
     computed: {
@@ -102,6 +131,15 @@ export default Vue.extend({
     },
 
     methods: {
+        isMobile(): boolean {
+            if (window.innerWidth < 992) return true;
+            return false;
+        },
+
+        goToHome() {
+            this.$router.push("/");
+        },
+
         getSportName(sportId: string): string {
             const dict: ReadonlyMap<string, string> = this.$stock.getters["sport/sportDictionary"];
             return dict.get(sportId) ?? String(sportId);

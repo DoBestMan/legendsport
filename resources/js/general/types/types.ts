@@ -15,6 +15,6 @@ type DeepReadonlyObject<T> = {
 };
 
 export interface SelectOption {
-    id: string;
+    id: string | null;
     name: string;
 }

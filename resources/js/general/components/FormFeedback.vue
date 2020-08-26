@@ -1,6 +1,6 @@
 <template>
     <div class="invalid-feedback">
-        <div v-for="error in errors">{{ error }}</div>
+        <div v-for="error in errors" :key="error">{{ error }}</div>
     </div>
 </template>
 

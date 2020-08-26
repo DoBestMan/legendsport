@@ -1,25 +1,25 @@
 <template>
-    <Money
-        class="form-control"
-        :class="customClass"
-        thousands=","
-        :precision="0"
-        :min="min"
-        :value="value"
-        @input="onInput"
-        ref="money"
-    />
+    <div class="form__control">
+        <div class="form__control__icon form__control__icon--left">
+            <i class="icon icon--micro icon--usd icon--color--light-1"></i>
+        </div>
+        <input
+            class="input input--padding--left"
+            type="number"
+            :class="customClass"
+            :value="!value ? '' : value"
+            :min="min"
+            @input="$emit('input', parseInt($event.target.value))"
+        />
+    </div>
 </template>
-
+​
 <script lang="ts">
 import Vue from "vue";
 // @ts-ignore
 import { Money } from "v-money";
-
 export default Vue.extend({
     name: "ChipInput",
-    components: { Money },
-
     props: {
         value: Number,
         customClass: {
@@ -29,27 +29,6 @@ export default Vue.extend({
         min: {
             type: Number,
             default: 100,
-        },
-    },
-
-    mounted(): void {
-        (this.$refs.money as Vue).$el.addEventListener("blur", this.onBlur);
-    },
-
-    beforeDestroy(): void {
-        (this.$refs.money as Vue).$el.removeEventListener("blur", this.onBlur);
-    },
-
-    methods: {
-        onInput(value: number): void {
-            if (this.value !== value) {
-                this.$emit("input", value);
-            }
-        },
-
-        onBlur(): void {
-            const value = this.value === 0 ? 0 : Math.max(this.min, this.value);
-            this.$emit("input", value);
         },
     },
 });

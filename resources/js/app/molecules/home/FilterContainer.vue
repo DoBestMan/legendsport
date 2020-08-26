@@ -1,61 +1,64 @@
 <template>
-    <div class="row">
-        <div class="col-1">
-            <label for="type" class="control-title">Type</label>
-            <MultiSelect id="type" :options="typeOptions" v-model="type" />
-        </div>
-
-        <div class="col-3">
-            <label for="sports" class="control-title">Sport</label>
-            <SportSelect id="sports" :sports="sportOptions" v-model="sports"></SportSelect>
-        </div>
-
-        <div class="col-1">
-            <label for="buy-in" class="control-title">Buy-In</label>
-            <MultiSelect id="buy-in" :options="buyInOptions" v-model="buyIn" />
-        </div>
-
-        <div class="col-1">
-            <label for="time-frame" class="control-title">Time Frame</label>
-            <MultiSelect id="time-frame" :options="timeFrameOptions" v-model="timeFrame" />
-        </div>
-
-        <div class="col-1">
-            <label for="players-limit" class="control-title">Players</label>
-            <MultiSelect id="players-limit" :options="playersLimitOptions" v-model="playersLimit" />
-        </div>
-
-        <div class="col-2" style="width: 200px">
-            <div class="custom-control custom-checkbox multiline-checkbox">
-                <input
-                    id="upcoming"
-                    type="checkbox"
-                    v-model="upcoming"
-                    class="form-control control-input custom-control-input my-error"
-                    style="width: 40px"
-                />
-                <label for="upcoming" class="control-title custom-control-label checkbox-label"
-                    >Show upcoming only</label
-                ><br />
-                <label
-                    for="upcoming"
-                    class="control-title custom-control-label checkbox-box"
-                ></label>
+    <div class="layout__content__container__filter">
+        <div
+            class="layout__content__container__filter__content layout__content__container__filter__content--sidebar"
+        >
+            <div class="label">
+                SEARCH
             </div>
+            <input id="search" class="input" placeholder="Search..." v-model="search" />
         </div>
 
-        <div class="col-3">
-            <label for="search" class="control-title">Search</label>
+        <div class="layout__content__container__filter__filters">
+            <div class="layout__content__container__filter__filters__content">
+                <div class="label">
+                    TYPE
+                </div>
+                <MultiSelect v-model="type" :options="typeOptions" />
+            </div>
 
-            <input id="search" type="text" v-model="search" class="form-control control-input" />
+            <div class="layout__content__container__filter__filters__content">
+                <div class="label">
+                    SPORT
+                </div>
+                <SportFilterSelect v-model="sports" :sports="sportOptions" />
+            </div>
+
+            <div class="layout__content__container__filter__filters__content">
+                <div class="label">
+                    BUY-IN
+                </div>
+                <MultiSelect v-model="buyIn" :options="buyInOptions" />
+            </div>
+
+            <div class="layout__content__container__filter__filters__content">
+                <div class="label">
+                    TIME FRAME
+                </div>
+                <MultiSelect v-model="timeFrame" :options="timeFrameOptions" />
+            </div>
+
+            <div class="layout__content__container__filter__filters__content">
+                <div class="label">
+                    PLAYERS
+                </div>
+                <MultiSelect v-model="playersLimit" :options="playersLimitOptions" />
+            </div>
+
+            <div class="layout__content__container__filter__filters__content">
+                <div class="label">
+                    UPCOMING ONLY
+                </div>
+                <input id="upcoming" type="checkbox" v-model="upcoming" class="checkbox" />
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import MultiSelect from "../../components/MultiSelect";
-import SportSelect from "../../../general/components/SportSelect.vue";
+import MultiSelect from "../../components/MultiSelect.vue";
+import SportFilterSelect from "../../../general/components/SportFilterSelect.vue";
 import { BuyInType, PlayersLimitType, TimeFrame, TournamentType } from "../../types/tournament";
 import { mapEnumToSelecOptions } from "../../../general/utils/utils";
 import { mapFields } from "../../store/utils";
@@ -63,12 +66,13 @@ import { Sport } from "../../../general/types/sport";
 
 export default Vue.extend({
     name: "FilterContainer",
-    components: { MultiSelect, SportSelect },
+    components: { MultiSelect, SportFilterSelect },
 
     computed: {
         typeOptions(): any {
             return [{ id: null, name: "All" }, ...mapEnumToSelecOptions(TournamentType)];
         },
+
         buyInOptions(): any {
             return [{ id: null, name: "All" }, ...mapEnumToSelecOptions(BuyInType)];
         },

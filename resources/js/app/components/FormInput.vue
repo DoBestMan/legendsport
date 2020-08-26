@@ -1,13 +1,11 @@
 <template>
-    <div style="display: contents">
-        <input
-            :class="[inputClass, { 'is-invalid': errors.length }]"
-            :value="value"
-            v-bind="$attrs"
-            v-on="listeners"
-        />
-        <FormFeedback :errors="errors" />
-    </div>
+    <input
+        :class="[inputClass, { 'is-invalid': errors.length }]"
+        :value="value"
+        :placeholder="placeHolder"
+        v-bind="$attrs"
+        v-on="listeners"
+    />
 </template>
 
 <script lang="ts">
@@ -26,6 +24,7 @@ export default Vue.extend({
             default: () => [],
         },
         inputClass: String,
+        placeHolder: String,
     },
 
     computed: {

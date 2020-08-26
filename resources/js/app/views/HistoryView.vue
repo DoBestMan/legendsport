@@ -1,37 +1,84 @@
 <template>
-    <section id="tab-home-frm" class="tab-content-frm row">
-        <div class="col">
-            <section id="tournaments-frm" class="row">
-                <div class="col-9">
-                    <TournamentHistoryList
-                        :selectedTournamentId="selectedTournamentId"
-                        @select="updateTournamentId"
-                    />
+    <div class="layout__full" style="max-height: calc(100% - 62px);">
+        <div class="container">
+            <div class="paging d--only--desktop">
+                <div class="paging__item">
+                    <i
+                        class="icon icon--left icon--large icon--color--light-1 m--r--4"
+                        @click="goToHome"
+                    ></i>
+                    <div class="paging__item__title">History</div>
+                </div>
+            </div>
+
+            <div class="layout__content layout__content--border">
+                <div class="layout__content__container">
+                    <div class="layout__content__container__mobile --expand">
+                        <div class="layout__content__container__mobile__switch">
+                            <div class="layout__content__container__mobile__switch__icon">
+                                <i
+                                    class="icon icon--left icon--color--light-1"
+                                    @click="goToHome"
+                                ></i>
+                            </div>
+                            <div class="layout__content__container__mobile__switch__title">
+                                History
+                            </div>
+                        </div>
+                        <div class="layout__content__container__mobile__icons">
+                            <i class="icon icon--search icon--color--light-1 m--l--4"></i>
+                            <i class="icon icon--sort icon--color--light-1 m--l--4"></i>
+                        </div>
+                    </div>
+
+                    <div class="layout__content__container__content">
+                        <TournamentHistoryList
+                            :selectedTournamentId="selectedTournamentId"
+                            @select="updateTournamentId"
+                        />
+                    </div>
                 </div>
 
-                <div class="col-3">
-                    <TournamentDetails :tournament="selectedTournament" />
+                <div
+                    class="layout__content__sidebar b--transparent layout__content__sidebar--right"
+                >
+                    <div class="layout__content__sidebar__games">
+                        <TournamentInfo :tournament="selectedTournament" />
+                        <TournamentHistoryInfo :tournament="selectedTournament" />
+                    </div>
                 </div>
-            </section>
+            </div>
         </div>
-    </section>
+    </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import TournamentDetails from "../molecules/home/TournamentDetails.vue";
 import TournamentHistoryList from "../molecules/history/TournamentHistoryList.vue";
+import TournamentHistoryInfo from "../molecules/history/TournamentHistoryInfo.vue";
+import TournamentInfo from "../molecules/general/TournamentInfo.vue";
+import BetContent from "../molecules/tournament/bets/BetContent.vue";
 import { Nullable } from "../../general/types/types";
 import { Tournament } from "../types/tournament";
 import { empty } from "../../general/utils/utils";
+import { DeepReadonly } from "../../general/types/types";
+import { Window } from "../types/window";
 
 export default Vue.extend({
     name: "HistoryView",
-    components: { TournamentDetails, TournamentHistoryList },
+    components: {
+        TournamentDetails,
+        TournamentHistoryList,
+        TournamentInfo,
+        TournamentHistoryInfo,
+        BetContent,
+    },
 
     data() {
         return {
             tournamentId: null as Nullable<number>,
+            isSlipExpanded: false,
         };
     },
 
@@ -54,9 +101,21 @@ export default Vue.extend({
         selectedTournamentId(): number | null {
             return this.selectedTournament?.id ?? null;
         },
+
+        window(): DeepReadonly<Window> | null {
+            return (
+                this.$stock.getters["window/windows"].find(
+                    (window: Window) => window.id === this.selectedTournamentId,
+                ) ?? null
+            );
+        },
     },
 
     methods: {
+        goToHome(): void {
+            this.$router.push("/");
+        },
+
         updateTournamentId(tournamentId: number | null) {
             this.tournamentId = tournamentId;
         },

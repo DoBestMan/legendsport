@@ -1,10 +1,10 @@
 <template>
-    <section class="col-3 h-100">
-        <div class="section info">
+    <section class="layout__content__sidebar b--dark-3 layout__content__sidebar--left">
+        <ChatContainer :messages="chatMessages" @sendMessage="sendMessage" />
+        <div class="layout__content__sidebar__games">
             <TournamentInfo :tournament="tournament" />
-            <PrizePool :tournament="tournament" />
-            <TournamentRankTable :players="tournament.players" />
-            <ChatContainer :messages="chatMessages" @sendMessage="sendMessage" />
+            <div class="layout__content__sidebar__seperator" />
+            <InfoDetailSection :tournament="tournament" :window="window" />
         </div>
     </section>
 </template>
@@ -14,8 +14,8 @@ import Vue, { PropType } from "vue";
 import { Window } from "../../../types/window";
 import { Tournament } from "../../../types/tournament";
 import ChatContainer from "../../chat/ChatContainer.vue";
+import InfoDetailSection from "./InfoDetailSection.vue";
 import TournamentRankTable from "../../general/TournamentRankTable.vue";
-import PrizePool from "./PrizePool.vue";
 import { ChatMessage } from "../../../types/chat";
 import { NewChatMessage } from "../../../utils/websockets/NewChatMessage";
 import { User } from "../../../../general/types/user";
@@ -25,7 +25,7 @@ import TournamentInfo from "../../general/TournamentInfo.vue";
 export default Vue.extend({
     name: "InfoSection",
     components: {
-        PrizePool,
+        InfoDetailSection,
         RegisterNowButton,
         TournamentInfo,
         TournamentRankTable,

@@ -1,8 +1,8 @@
 <template>
-    <section class="tab-content-frm tab-tournament-frm row">
-        <BetsSection :window="window" />
-        <MatchesSection :window="window" />
+    <section class="layout__content">
         <InfoSection :window="window" />
+        <MatchesSection :window="window" />
+        <BetsSection :window="window" />
     </section>
 </template>
 

@@ -1,29 +1,25 @@
 <template>
-    <div id="info-frm">
+    <div class="layout__content__sidebar__games">
         <TournamentInfo :tournament="tournament" />
 
-        <div class="tabs-frm">
-            <div class="tab-frm">
-                <button
-                    type="button"
-                    class="btn tab"
-                    :class="{ active: activeTab === 'games' }"
-                    @click="activeTab = 'games'"
-                >
-                    Games
-                </button>
-                <span class="separator">|</span>
-            </div>
+        <RegisterNowButton v-if="!isRegistered()" class="button--large" :tournament="tournament" />
 
-            <div class="tab-frm">
-                <button
-                    type="button"
-                    class="btn tab"
-                    :class="{ active: activeTab === 'rank' }"
-                    @click="activeTab = 'rank'"
-                >
-                    Rank
-                </button>
+        <div class="switch">
+            <div
+                class="switch__item"
+                :class="{ 'switch__item--active': activeTab === 'games' }"
+                @click="activeTab = 'games'"
+            >
+                <i class="icon icon--games m--r--1"></i>
+                GAMES
+            </div>
+            <div
+                class="switch__item"
+                :class="{ 'switch__item--active': activeTab === 'rank' }"
+                @click="activeTab = 'rank'"
+            >
+                <i class="icon icon--micro icon--rank m--r--1"></i>
+                RANKS
             </div>
         </div>
 
@@ -42,13 +38,14 @@ import RegisterNowButton from "../../components/RegisterNowButton.vue";
 import TournamentInfo from "../general/TournamentInfo.vue";
 import { Game } from "../../types/game";
 import { Player } from "../../types/player";
+import { UserPlayer } from "../../../general/types/user";
 
 export default Vue.extend({
     name: "TournamentDetails",
     components: { RegisterNowButton, TournamentGamesTable, TournamentInfo, TournamentRankTable },
 
     props: {
-        tournament: Object as PropType<Tournament | null>,
+        tournament: Object as PropType<Tournament>,
     },
 
     data() {
@@ -76,6 +73,13 @@ export default Vue.extend({
             ];
 
             return this.tournament && gameStates.includes(this.tournament.state) ? "games" : "rank";
+        },
+
+        isRegistered(): boolean {
+            const playersDict: ReadonlyMap<number, UserPlayer> = this.$stock.getters[
+                "user/playersDictByTournament"
+            ];
+            return playersDict.has(this.tournament?.id);
         },
     },
 

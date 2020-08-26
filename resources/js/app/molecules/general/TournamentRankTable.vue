@@ -1,34 +1,26 @@
 <template>
-    <div class="table-frm table-rank-frm">
-        <table class="table table-fixed table-rank">
-            <thead class="thead">
-                <tr class="tr">
-                    <th class="th col-position" scope="col">Rank</th>
-                    <th class="th col-player" scope="col">Players</th>
-                    <th class="th col-balance" scope="col">Balance</th>
-                </tr>
-            </thead>
-            <tbody class="tbody">
-                <tr
-                    class="tr"
-                    :class="{ selected: player.id === selectedPlayerId }"
-                    @click="selectPlayer(player)"
-                    v-for="(player, index) in players"
-                    :key="player.id"
-                >
-                    <td class="td col-position">{{ index + 1 }}</td>
-                    <td class="td col-player">
-                        <div class="img-frm">
-                            <i class="icon fas fa-user-circle"></i>
-                            <div class="img"></div>
-                        </div>
+    <div>
+        <div class="rank" v-for="(player, index) in players" :key="player.id">
+            <div class="rank__content">
+                <div class="rank__content__order">
+                    {{ index + 1 }}
+                </div>
+                <div class="rank__content__user">
+                    <div class="rank__content__user__avatar">
+                        <i class="icon icon--person icon--micro"></i>
+                    </div>
+                    <div class="rank__content__user__name">
                         {{ player.name }}
-                    </td>
-                    <td class="td">{{ player.balance | formatChip }}</td>
-                </tr>
-                <TableNoRecords v-if="!players.length" />
-            </tbody>
-        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="rank__content">
+                <div class="rank__content__coins">
+                    <i class="icon icon--atom icon--coins icon--color--yellow-2 m--r--1"></i>
+                    {{ player.balance | formatChip }}
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

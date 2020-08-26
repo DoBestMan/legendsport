@@ -1,11 +1,18 @@
 import { Module } from "vuex";
 import { RootState } from "../types";
 import { getWindows } from "../../utils/local-storage/LocalStorageManager";
-import { BetTypeTab, PendingOdd, StorableWindow, Window } from "../../types/window";
-import { DeepReadonlyArray } from "../../../general/types/types";
+import {
+    BetTypeTab,
+    TournamentInfoTab,
+    PendingOdd,
+    StorableWindow,
+    Window,
+} from "../../types/window";
+import { DeepReadonlyArray, DeepReadonly } from "../../../general/types/types";
 
 export interface WindowState {
     _windows: StorableWindow[];
+    _activeWindowId: number;
 }
 
 export type UpdateWindowPayload = Partial<StorableWindow> & Pick<StorableWindow, "id">;
@@ -34,6 +41,7 @@ const module: Module<WindowState, RootState> = {
 
     state: {
         _windows: getWindows(),
+        _activeWindowId: -1,
     },
 
     getters: {
@@ -42,9 +50,9 @@ const module: Module<WindowState, RootState> = {
                 rootState.tournamentList.tournaments.map(tournament => [tournament.id, tournament]),
             );
 
-            rootState.tournamentHistoryList.tournaments.forEach(
-                function (tournament) { tournamentDict.set(tournament.id, tournament)}
-            );
+            rootState.tournamentHistoryList.tournaments.forEach(function(tournament) {
+                tournamentDict.set(tournament.id, tournament);
+            });
 
             return state._windows
                 .filter(window => tournamentDict.has(window.id))
@@ -53,6 +61,7 @@ const module: Module<WindowState, RootState> = {
 
                     return {
                         pendingOdds: [],
+                        selectedTournamentInfoTab: TournamentInfoTab.Games,
                         selectedBetTypeTab: BetTypeTab.Pending,
                         selectedSportIds: [],
                         ...tab,
@@ -60,10 +69,15 @@ const module: Module<WindowState, RootState> = {
                     };
                 });
         },
+
+        activeWindowId(state, _getters): DeepReadonly<number> {
+            return state._activeWindowId;
+        },
     },
 
     mutations: {
         openWindow(state, payload: number) {
+            state._activeWindowId = payload;
             const tabExists = !!state._windows.find(window => window.id === payload);
             if (tabExists) {
                 return;
@@ -73,12 +87,14 @@ const module: Module<WindowState, RootState> = {
                 id: payload,
                 parlayWager: 0,
                 pendingOdds: [],
+                selectedTournamentInfoTab: TournamentInfoTab.Games,
                 selectedBetTypeTab: BetTypeTab.Pending,
                 selectedSportIds: [],
             });
         },
 
         closeWindow(state, payload: number) {
+            state._activeWindowId = -1;
             state._windows = state._windows.filter(window => window.id !== payload);
         },
 
@@ -90,6 +106,10 @@ const module: Module<WindowState, RootState> = {
 
                 return { ...window, ...payload };
             });
+        },
+
+        toggleWindow(state, payload: number) {
+            state._activeWindowId = payload;
         },
 
         toggleSport(state, payload: ToggleSportPayload) {

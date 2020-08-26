@@ -70,8 +70,8 @@ services:
             - "MYSQL_DATABASE=legendsports"
 
     node:
-      image: node:14.4.0-alpine3.12
-      volumes:
-        - ./:/app
-      working_dir: "/app"
-      command: ["/bin/sh", "-c", "yarn dev --watch"]
+        image: node:14.4.0-alpine3.12
+        volumes:
+          - ./:/app
+        working_dir: "/app"
+        command: ["/bin/sh", "-c", "yarn dev --watch"]

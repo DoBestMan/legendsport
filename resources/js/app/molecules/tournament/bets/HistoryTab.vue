@@ -1,13 +1,47 @@
 <template>
-    <div class="tab-content-frm">
-        <SpinnerBox v-if="isLoading" />
+    <SpinnerBox v-if="isLoading" />
 
-        <div v-else class="items-frm">
-            <div :key="bet.id" class="event-frm" v-for="bet in bets">
-                <div class="data-frm" v-for="(event, index) in bet.events">
-                    <div v-if="index === 0" class="tag type-bet">
-                        <span v-if="isParlay(bet)">Parlay</span>
-                        <span v-else>Straight</span>
+    <div v-else class="layout__content__sidebar__games">
+        <div class="bet">
+            <div :key="bet.id" v-for="bet in bets">
+                <div :key="event.id" v-for="(event, index) in bet.events">
+                    <div class="bet__header" v-if="index === 0">
+                        <div class="bet__header__type">
+                            <span v-if="isParlay(bet)">Parlay</span>
+                            <span v-else>Straight</span>
+                        </div>
+
+                        <div
+                            v-if="bet.status === BetStatus.Win"
+                            class="bet__header__tag bet__header__tag--green"
+                        >
+                            WON
+                        </div>
+
+                        <div
+                            v-else-if="bet.status === BetStatus.Loss"
+                            class="bet__header__tag bet__header__tag--red"
+                        >
+                            LOST
+                        </div>
+
+                        <div
+                            v-else-if="bet.status === BetStatus.Push"
+                            class="bet__header__tag bet__header__tag--green"
+                        >
+                            PUSH
+                        </div>
+                    </div>
+
+                    <div class="bet__details">
+                        <div class="bet__details__content">
+                            <div class="bet__details__content__title">
+                                {{ event.teamHome }} - {{ event.teamAway }}
+                            </div>
+                            <div class="bet__details__content__subtitle">
+                                {{ event.startsAt | toDateTime }}
+                            </div>
+                        </div>
                     </div>
 
                     <BetContent
@@ -22,28 +56,18 @@
                         :type="event.type"
                         :type-extra="event.handicap"
                     />
+
+                    <div class="bet__seperator" v-show="index !== bet.events.length - 1" />
                 </div>
 
-                <div class="bet-frm">
-                    <div>Bet: {{ bet.chipsWager | formatChip }}</div>
-                    <div>Win: {{ bet.chipsWin | formatChip }}</div>
+                <div class="bet__footer">
+                    <div class="bet__footer__line">
+                        <div class="bet__footer__line__name">Total Bet</div>
+                        <div class="bet__footer__line__detail">
+                            {{ bet.chipsWager | formatChip }}
+                        </div>
+                    </div>
                 </div>
-
-                <div v-if="bet.status === BetStatus.Win" class="result win">
-                    <i class="icon fas fa-laugh-beam"></i> YOU WON!
-                </div>
-
-                <div v-else-if="bet.status === BetStatus.Loss" class="result lost">
-                    <i class="icon fas fa-frown"></i> YOU LOST!
-                </div>
-
-                <div v-else-if="bet.status === BetStatus.Push" class="result push">
-                    <i class="icon fas fa-meh"></i> PUSH
-                </div>
-            </div>
-
-            <div v-if="!bets.length" class="h3 text-center p-5">
-                No records
             </div>
         </div>
     </div>

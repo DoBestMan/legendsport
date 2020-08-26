@@ -1,94 +1,103 @@
 <template>
-    <div style="display: contents">
-        <tr class="tr">
-            <td class="td col-datetime">{{ game.teamHome }}</td>
+    <div class="odd__container__content">
+        <div class="odd__container__content__details">
+            <div class="odd__container__content__details__line">
+                <div class="odd__container__content__details__line__name">{{ game.teamHome }}</div>
 
-            <td class="td col-money">
-                <button
-                    v-if="Number(moneyLineHome)"
-                    type="button"
-                    class="btn"
-                    :class="{ checked: selectedMoneyLineHome }"
-                    @click="emitToggleOdd(PendingOddType.MoneyLineHome)"
-                >
-                    {{ moneyLineHome | signedNumber }}
-                </button>
-                <DisabledButton v-else />
-            </td>
+                <div class="odd__container__content__details__line__tags">
+                    <div
+                        class="odd__container__content__details__line__tags__tag"
+                        v-if="Number(moneyLineHome)"
+                        :class="{
+                            'odd__container__content__details__line__tags__tag--active': selectedMoneyLineHome,
+                        }"
+                        @click="emitToggleOdd(PendingOddType.MoneyLineHome)"
+                    >
+                        {{ moneyLineHome | signedNumber }}
+                    </div>
 
-            <td class="td col-spread">
-                <button
-                    v-if="Number(pointSpreadHomeLine)"
-                    type="button"
-                    class="btn"
-                    :class="{ checked: selectedSpreadHome }"
-                    @click="emitToggleOdd(PendingOddType.SpreadHome)"
-                >
-                    {{ pointSpreadHomeLine | signedNumber }}<br />
-                    {{ pointSpreadHome | signedNumber }}
-                </button>
-                <DisabledButton v-else />
-            </td>
+                    <div
+                        class="odd__container__content__details__line__tags__tag"
+                        v-if="Number(pointSpreadHomeLine)"
+                        :class="{
+                            'odd__container__content__details__line__tags__tag--active': selectedSpreadHome,
+                        }"
+                        @click="emitToggleOdd(PendingOddType.SpreadHome)"
+                    >
+                        {{ pointSpreadHomeLine | signedNumber }}
+                        <div class="odd__container__content__details__line__tags__tag__subtitle">
+                            {{ pointSpreadHome | signedNumber }}
+                        </div>
+                    </div>
 
-            <td class="td col-spread">
-                <button
-                    v-if="Number(totalNumber)"
-                    type="button"
-                    class="btn"
-                    :class="{ checked: selectedTotalOver }"
-                    @click="emitToggleOdd(PendingOddType.TotalOver)"
-                >
-                    O {{ totalNumber }}<br />{{ overLine | signedNumber }}
-                </button>
-                <DisabledButton v-else />
-            </td>
+                    <div
+                        class="odd__container__content__details__line__tags__tag"
+                        v-if="Number(totalNumber)"
+                        :class="{
+                            'odd__container__content__details__line__tags__tag--active': selectedTotalOver,
+                        }"
+                        @click="emitToggleOdd(PendingOddType.TotalOver)"
+                    >
+                        O {{ totalNumber }}
+                        <div class="odd__container__content__details__line__tags__tag__subtitle">
+                            {{ overLine | signedNumber }}
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        </tr>
+            <div class="odd__container__content__details__line">
+                <div class="odd__container__content__details__line__name">{{ game.teamAway }}</div>
 
-        <tr class="tr">
-            <td class="td col-datetime">{{ game.teamAway }}</td>
+                <div class="odd__container__content__details__line__tags">
+                    <div
+                        class="odd__container__content__details__line__tags__tag"
+                        v-if="Number(moneyLineAway)"
+                        :class="{
+                            'odd__container__content__details__line__tags__tag--active': selectedMoneyLineAway,
+                        }"
+                        @click="emitToggleOdd(PendingOddType.MoneyLineAway)"
+                    >
+                        {{ moneyLineAway | signedNumber }}
+                    </div>
 
-            <td class="td col-money">
-                <button
-                    v-if="Number(moneyLineAway)"
-                    type="button"
-                    class="btn"
-                    :class="{ checked: selectedMoneyLineAway }"
-                    @click="emitToggleOdd(PendingOddType.MoneyLineAway)"
-                >
-                    {{ moneyLineAway | signedNumber }}
-                </button>
-                <DisabledButton v-else />
-            </td>
+                    <div
+                        class="odd__container__content__details__line__tags__tag"
+                        v-if="Number(pointSpreadAwayLine)"
+                        :class="{
+                            'odd__container__content__details__line__tags__tag--active': selectedSpreadAway,
+                        }"
+                        @click="emitToggleOdd(PendingOddType.SpreadAway)"
+                    >
+                        {{ pointSpreadAwayLine | signedNumber }}
+                        <div class="odd__container__content__details__line__tags__tag__subtitle">
+                            {{ pointSpreadAway | signedNumber }}
+                        </div>
+                    </div>
 
-            <td class="td col-spread">
-                <button
-                    v-if="Number(pointSpreadAwayLine)"
-                    type="button"
-                    class="btn"
-                    :class="{ checked: selectedSpreadAway }"
-                    @click="emitToggleOdd(PendingOddType.SpreadAway)"
-                >
-                    {{ pointSpreadAwayLine | signedNumber }}<br />
-                    {{ pointSpreadAway | signedNumber }}
-                </button>
-                <DisabledButton v-else />
-            </td>
+                    <div
+                        class="odd__container__content__details__line__tags__tag"
+                        v-if="Number(totalNumber)"
+                        :class="{
+                            'odd__container__content__details__line__tags__tag--active': selectedTotalUnder,
+                        }"
+                        @click="emitToggleOdd(PendingOddType.TotalUnder)"
+                    >
+                        U {{ totalNumber }}
+                        <div class="odd__container__content__details__line__tags__tag__subtitle">
+                            {{ underLine | signedNumber }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            <td class="td col-spread">
-                <button
-                    v-if="Number(totalNumber)"
-                    type="button"
-                    class="btn"
-                    :class="{ checked: selectedTotalUnder }"
-                    @click="emitToggleOdd(PendingOddType.TotalUnder)"
-                >
-                    U {{ totalNumber }}<br />{{ underLine | signedNumber }}
-                </button>
-                <DisabledButton v-else />
-            </td>
-
-        </tr>
+        <!-- ToDo: how to get +23 -->
+        <!-- <div class="odd__container__content__odd">
+            <div class="odd__container__content__odd__details">
+                +23
+            </div>
+        </div> -->
     </div>
 </template>
 

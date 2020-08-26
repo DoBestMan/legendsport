@@ -35,16 +35,13 @@
 import Vue, { PropType } from "vue";
 import Multiselect from "vue-multiselect";
 import { Sport } from "../types/sport";
-
 export default Vue.extend({
     name: "SportSelect",
     components: { Multiselect },
-
     props: {
         value: Array as PropType<string[]>,
         sports: Array as PropType<Sport[]>,
     },
-
     computed: {
         options(): any[] {
             return [
@@ -54,32 +51,25 @@ export default Vue.extend({
                 },
             ];
         },
-
         sportsMap(): ReadonlyMap<string, Sport> {
             return new Map(this.sports.map(sport => [sport.id, sport]));
         },
-
         formattedSelectedSports(): Sport[] {
             return this.value.map(sportId => this.sportsMap.get(sportId)!);
         },
-
         label(): string {
             if (this.value.length === this.sports.length) {
                 return "All";
             }
-
             if (this.value.length === 1) {
                 return this.formattedSelectedSports[0].name;
             }
-
             if (this.value.length > 1) {
                 return "Custom";
             }
-
             return "";
         },
     },
-
     methods: {
         changeSports(sports: Sport[]) {
             const sportsIds = (sports || []).map(item => item.id);

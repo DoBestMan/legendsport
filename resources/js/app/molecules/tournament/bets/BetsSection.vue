@@ -1,35 +1,66 @@
 <template>
-    <section class="col-3 h-100">
-        <div class="section bets">
-            <div class="title-bar-frm">
-                <span v-if="isRegistered" class="title">
-                    <i class="fas fa-coins"></i>
-                    Balance: {{ player.chips | formatChip }} ({{
-                        player.pendingChips | formatChip
-                    }})
-                </span>
-                <RegisterNowButton v-else :tournament="tournament" />
+    <section class="layout__content__sidebar">
+        <div class="layout__content__sidebar__header">
+            <div class="layout__content__sidebar__header__bet" v-if="isRegistered">
+                <i class="icon m--r--2 icon--slip"></i>
+                <div class="layout__content__sidebar__header__bet__content">
+                    <div class="layout__content__sidebar__header__bet__content__title">
+                        Bet Slip
+                    </div>
+                    <div class="layout__content__sidebar__header__bet__content__group">
+                        <div class="layout__content__sidebar__header__bet__content__group__coins">
+                            <i
+                                class="icon icon--atom icon--color--yellow-2 icon--coins m--r--1"
+                            ></i>
+                            Balance
+                        </div>
+                        <div class="layout__content__sidebar__header__bet__content__group__balance">
+                            {{ player.chips | formatChip }} ({{ player.pendingChips | formatChip }})
+                        </div>
+                    </div>
+                </div>
             </div>
+            <RegisterNowButton class="button--large" v-else :tournament="tournament" />
 
-            <div class="tabs-frm">
-                <div class="tab-frm" v-for="betTab in betTabs">
-                    <button
-                        type="button"
-                        class="btn tab"
-                        :class="{ active: isBetTabSelected(betTab) }"
-                        @click="selectBetTab(betTab)"
-                    >
-                        {{ betTab }}
-                    </button>
-                    <span class="separator">|</span>
+            <div class="tab--large">
+                <div
+                    v-for="betTab in betTabs"
+                    :key="betTab"
+                    class="tab--large__item"
+                    :class="{
+                        'tab--large__item--active': isBetTabSelected(betTab),
+                    }"
+                    @click="selectBetTab(betTab)"
+                >
+                    {{ betTab }}
                 </div>
             </div>
 
-            <PendingTab v-if="isBetTabSelected(BetTypeTab.Pending)" :window="window" />
-            <HistoryTab v-if="isBetTabSelected(BetTypeTab.History)" :window="window" />
-            <StraightTab v-if="isBetTabSelected(BetTypeTab.Straight)" :window="window" />
-            <ParlayTab v-if="isBetTabSelected(BetTypeTab.Parlay)" :window="window" />
+            <div
+                class="layout__content__sidebar__header__input"
+                v-if="isBetTabSelected(BetTypeTab.Straight)"
+            >
+                <div class="form">
+                    <div class="form__control">
+                        <div class="form__control__icon form__control__icon--left">
+                            <i class="icon icon--micro icon--usd icon--color--light-1"></i>
+                        </div>
+                        <ChipInput v-model="wager" placeholder="Bet" />
+                    </div>
+                </div>
+                <div class="button button--small button--yellow m--l--4" @click="updateOddsWager">
+                    SET TO ALL
+                </div>
+            </div>
         </div>
+
+        <StraightTab v-if="isBetTabSelected(BetTypeTab.Straight)" :window="window" />
+        <ParlayTab v-if="isBetTabSelected(BetTypeTab.Parlay)" :window="window" />
+        <PendingTab v-if="isBetTabSelected(BetTypeTab.Pending)" :window="window" />
+        <HistoryTab v-if="isBetTabSelected(BetTypeTab.History)" :window="window" />
+
+        <PlaceBet v-if="isBetTabSelected(BetTypeTab.Straight)" :window="window" />
+        <ParlayPlaceBet v-if="isBetTabSelected(BetTypeTab.Parlay)" :window="window" />
     </section>
 </template>
 
@@ -42,21 +73,34 @@ import HistoryTab from "./HistoryTab.vue";
 import ParlayTab from "./ParlayTab.vue";
 import PendingTab from "./PendingTab.vue";
 import StraightTab from "./StraightTab.vue";
-import { UpdateWindowPayload } from "../../../store/modules/window";
+import PlaceBet from "./PlaceBet.vue";
+import ParlayPlaceBet from "./ParlayPlaceBet.vue";
+import ChipInput from "../../../../general/components/ChipInput.vue";
 import RegisterNowButton from "../../../components/RegisterNowButton.vue";
+import { UpdateOddsWagerPayload, UpdateWindowPayload } from "../../../store/modules/window";
 
 export default Vue.extend({
     name: "BetsSection",
+
     components: {
         HistoryTab,
         ParlayTab,
         PendingTab,
         RegisterNowButton,
         StraightTab,
+        PlaceBet,
+        ChipInput,
+        ParlayPlaceBet,
     },
 
     props: {
         window: Object as PropType<Window>,
+    },
+
+    data() {
+        return {
+            wager: 0,
+        };
     },
 
     computed: {
@@ -95,6 +139,14 @@ export default Vue.extend({
                 selectedBetTypeTab: type,
             };
             this.$stock.commit("window/updateWindow", payload);
+        },
+
+        updateOddsWager() {
+            const payload: UpdateOddsWagerPayload = {
+                windowId: this.window.id,
+                wager: this.wager,
+            };
+            this.$stock.commit("window/updateOddsWager", payload);
         },
     },
 });

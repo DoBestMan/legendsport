@@ -1,24 +1,39 @@
 <template>
-    <section class="row">
-        <HorizontallyScrollable class="col tabs-row-frm">
-            <div class="tabs-frm">
-                <div class="tab-frm">
-                    <router-link tag="button" class="btn tab" to="/" exact>
-                        <i class="icon fas fa-home"></i>
-                        Home
-                    </router-link>
-                    <span class="separator">|</span>
-                </div>
+    <section class="layout__header">
+        <div
+            class="tab"
+            :class="{
+                'tab--active': isHomeSelected(),
+            }"
+            @click="selectWindowTabs(-1)"
+        >
+            <i
+                class="icon icon--home icon--micro m--r--2"
+                :class="{ 'b--yellow-1': isHomeSelected() }"
+            ></i>
+            Home
+        </div>
 
-                <div class="tab-frm" v-for="window in windows" :key="window.id">
-                    <router-link tag="button" class="btn tab" :to="`/tournaments/${window.id}`">
-                        {{ window.tournament.name }}
-                    </router-link>
-                    <div class="delete" style="margin-left: -5px" @click="closeWindow(window)" />
-                    <span class="separator">|</span>
-                </div>
-            </div>
-        </HorizontallyScrollable>
+        <div
+            v-for="window in windows"
+            :key="window.id"
+            class="tab"
+            :class="{
+                'tab--active': isWindowsSelected(window.id),
+            }"
+            @click="selectWindowTabs(window.id)"
+        >
+            <i
+                class="icon icon--cup icon--micro m--r--2"
+                :class="{ 'b--yellow-1': isWindowsSelected(window.id) }"
+            ></i>
+            {{ window.tournament.name }}
+            <div
+                class="delete"
+                style="margin-left: 5px; margin-top: -15px;"
+                @click.stop="closeWindow(window)"
+            />
+        </div>
     </section>
 </template>
 
@@ -35,11 +50,34 @@ export default Vue.extend({
         windows(): Window[] {
             return Object.values(this.$stock.getters["window/windows"]);
         },
+
+        activeWindowId(): number {
+            return this.$stock.getters["window/activeWindowId"];
+        },
     },
 
     methods: {
         closeWindow(window: Window): void {
             this.$stock.commit("window/closeWindow", window.id);
+            this.$router.push("/");
+        },
+
+        selectWindowTabs(window_id: number) {
+            if (window_id === -1) {
+                this.$stock.commit("window/toggleWindow", window_id);
+                this.$router.push("/");
+            } else {
+                this.$stock.commit("window/toggleWindow", window_id);
+                this.$router.push(`/tournaments/${window_id}`);
+            }
+        },
+
+        isHomeSelected(): boolean {
+            return this.activeWindowId === -1;
+        },
+
+        isWindowsSelected(window_id: number): boolean {
+            return window_id === this.activeWindowId;
         },
     },
 });
