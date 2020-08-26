@@ -747,6 +747,7 @@ textarea.input {
 .icon--delete {
     mask: url(../i/icon/icon-delete.svg) no-repeat center;
     -webkit-mask: url(../i/icon/icon-delete.svg) no-repeat center;
+    cursor: pointer;
 }
 .icon--person {
     mask: url(../i/icon/icon-person.svg) no-repeat center;
@@ -1108,6 +1109,10 @@ textarea.input {
         overflow-y: auto;
         padding-bottom: 44px;
         box-sizing: border-box;
+    }
+    .layout__content__sidebar__games__home {
+        max-height: 105% !important;
+        padding-bottom: 0px;
     }
     .layout__content__sidebar__chat {
         max-height: 60%;
