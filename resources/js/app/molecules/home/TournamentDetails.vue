@@ -1,5 +1,5 @@
 <template>
-    <div class="layout__content__sidebar__games">
+    <div class="layout__content__sidebar__games layout__content__sidebar__games__home">
         <TournamentInfo :tournament="tournament" />
 
         <RegisterNowButton v-if="!isRegistered()" class="button--large" :tournament="tournament" />
