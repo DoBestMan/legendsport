@@ -20,6 +20,6 @@ class WagerCalculator
             $wagersToPlace[] = $wager - $wagers[$i - 1];
         }
 
-        return $wagersToPlace;
+        return array_values(array_filter($wagersToPlace));
     }
 }

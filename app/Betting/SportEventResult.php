@@ -7,9 +7,11 @@ class SportEventResult
     private TimeStatus $timeStatus;
     private ?int $home;
     private ?int $away;
+    private string $provider;
 
     public function __construct(
         string $externalEventId,
+        string $provider,
         TimeStatus $timeStatus,
         ?int $home,
         ?int $away
@@ -18,11 +20,17 @@ class SportEventResult
         $this->timeStatus = $timeStatus;
         $this->home = $home;
         $this->away = $away;
+        $this->provider = $provider;
     }
 
     public function getExternalEventId(): string
     {
         return $this->externalEventId;
+    }
+
+    public function getProvider(): string
+    {
+        return $this->provider;
     }
 
     public function getHome(): ?int

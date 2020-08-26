@@ -4,12 +4,14 @@ namespace App\Domain;
 
 use App\Betting\SportEventOdd;
 use App\Betting\SportEventResult;
+use App\Betting\TimeStatus;
 use App\Domain\BetTypes\MoneyLineAway;
 use App\Domain\BetTypes\MoneyLineHome;
 use App\Domain\BetTypes\SpreadAway;
 use App\Domain\BetTypes\SpreadHome;
 use App\Domain\BetTypes\TotalOver;
 use App\Domain\BetTypes\TotalUnder;
+use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -59,12 +61,8 @@ class ApiEvent
      */
     private $sportId;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="time_status", type="string", length=255, nullable=false)
-     */
-    private $timeStatus;
+    /** @ORM\Column(name="time_status", type=TimeStatus::class, length=255, nullable=false) */
+    private TimeStatus $timeStatus;
 
     /**
      * @var \DateTime|null
@@ -109,6 +107,10 @@ class ApiEvent
     private $provider;
     /** @ORM\OneToMany(targetEntity="\App\Domain\ApiEventOdds", mappedBy="event", indexBy="betType", cascade={"ALL"}) */
     private Collection $odds;
+    /**
+     * @ORM\OneToMany(targetEntity="\App\Domain\TournamentEvent", mappedBy="apiEvent")
+     */
+    private Collection $tournamentEvents;
 
     public function __construct()
     {
@@ -140,7 +142,7 @@ class ApiEvent
         return $this->sportId;
     }
 
-    public function getTimeStatus(): string
+    public function getTimeStatus(): TimeStatus
     {
         return $this->timeStatus;
     }
@@ -170,38 +172,53 @@ class ApiEvent
         return $this->scoreHome;
     }
 
+    public function getProvider(): string
+    {
+        return $this->provider;
+    }
+
     public function isCancelled(): bool
     {
-        return $this->timeStatus === 'canceled';
+        return $this->timeStatus->equals(TimeStatus::CANCELED());
     }
 
     public function isFinished(): bool
     {
-        return $this->timeStatus === 'ended' || $this->isCancelled();
+        return $this->timeStatus->equals(TimeStatus::ENDED()) || $this->isCancelled();
     }
 
-    //@TODO remove this method, exists to allow syncing uncommited eloquent changes while running in hybrid mode.
-    public function sync(\App\Models\ApiEvent $apiEvent): void
+    public function isFresherThan(int $seconds): bool
     {
-        $this->timeStatus = $apiEvent->time_status->getValue();
-        $this->scoreHome = $apiEvent->score_home;
-        $this->scoreAway = $apiEvent->score_away;
+        $updatedAt = \DateTimeImmutable::createFromMutable($this->updatedAt);
+        return $updatedAt->add(new \DateInterval('PT' . $seconds . 'S')) > new \DateTimeImmutable();
     }
 
-    public function result(SportEventResult $sportEventResult): void
+    public function result(SportEventResult $sportEventResult): bool
     {
-        $this->timeStatus = $sportEventResult->getTimeStatus()->getValue();
+        if (
+            $this->timeStatus->equals($sportEventResult->getTimeStatus()) &&
+            $this->scoreHome === $sportEventResult->getHome() &&
+            $this->scoreAway === $sportEventResult->getAway()
+        ) {
+            return false;
+        }
+
+        $this->timeStatus = $sportEventResult->getTimeStatus();
         $this->scoreHome = $sportEventResult->getHome();
         $this->scoreAway = $sportEventResult->getAway();
+        $this->updatedAt = Carbon::now();
+
+        return true;
     }
 
     public function isUpcoming()
     {
-        return $this->timeStatus === 'not_started';
+        return $this->timeStatus->equals(TimeStatus::NOT_STARTED());
     }
 
     public function updateOdds(SportEventOdd $odds): void
     {
+        $this->updatedAt = Carbon::now();
         if ($odds->getMoneyLineHome() !== null) {
             $moneyLineHome = $this->odds->get(MoneyLineHome::class);
             if ($moneyLineHome === null) {
@@ -218,7 +235,7 @@ class ApiEvent
                 $moneyLineAway = new ApiEventOdds($this, MoneyLineAway::class, $odds->getMoneyLineAway());
                 $this->odds->set(MoneyLineAway::class, $moneyLineAway);
             } else {
-                $moneyLineHome->update($odds->getMoneyLineAway());
+                $moneyLineAway->update($odds->getMoneyLineAway());
             }
         }
 
@@ -228,7 +245,7 @@ class ApiEvent
                 $spreadHome = new ApiEventOdds($this, SpreadHome::class, $odds->getPointSpreadHome(), $odds->getPointSpreadHomeLine());
                 $this->odds->set(SpreadHome::class, $spreadHome);
             } else {
-                $moneyLineHome->update($odds->getPointSpreadHome(), $odds->getPointSpreadHomeLine());
+                $spreadHome->update($odds->getPointSpreadHome(), $odds->getPointSpreadHomeLine());
             }
         }
 
@@ -238,7 +255,7 @@ class ApiEvent
                 $spreadAway = new ApiEventOdds($this, SpreadAway::class, $odds->getPointSpreadAway(), $odds->getPointSpreadAwayLine());
                 $this->odds->set(SpreadAway::class, $spreadAway);
             } else {
-                $moneyLineAway->update($odds->getPointSpreadAway(), $odds->getPointSpreadAwayLine());
+                $spreadAway->update($odds->getPointSpreadAway(), $odds->getPointSpreadAwayLine());
             }
         }
 
@@ -248,17 +265,17 @@ class ApiEvent
                 $totalOver = new ApiEventOdds($this, TotalOver::class, $odds->getOverLine(), $odds->getTotalNumber());
                 $this->odds->set(TotalOver::class, $totalOver);
             } else {
-                $moneyLineAway->update($odds->getOverLine(), $odds->getTotalNumber());
+                $totalOver->update($odds->getOverLine(), $odds->getTotalNumber());
             }
         }
 
         if ($odds->getUnderLine() !== null) {
             $totalUnder = $this->odds->get(TotalUnder::class);
             if ($totalUnder === null) {
-                $totalUnder = new ApiEventOdds($this, TotalUnder::class, $odds->getOverLine(), $odds->getTotalNumber());
+                $totalUnder = new ApiEventOdds($this, TotalUnder::class, $odds->getUnderLine(), $odds->getTotalNumber());
                 $this->odds->set(TotalUnder::class, $totalUnder);
             } else {
-                $moneyLineAway->update($odds->getOverLine(), $odds->getTotalNumber());
+                $totalUnder->update($odds->getUnderLine(), $odds->getTotalNumber());
             }
         }
     }
@@ -271,5 +288,16 @@ class ApiEvent
     public function getOdds(string $betType): ?ApiEventOdds
     {
         return $this->odds->get($betType);
+    }
+
+    public function getAllOdds(): Collection
+    {
+        return $this->odds;
+    }
+
+    /** @return TournamentEvent[] */
+    public function getTournamentEvents(): Collection
+    {
+        return $this->tournamentEvents;
     }
 }

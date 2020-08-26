@@ -10,7 +10,8 @@ use Illuminate\Support\Collection;
 
 class TestData implements BettingProvider
 {
-    const PROVIDER_NAME = "testdata";
+    public const PROVIDER_NAME = "testdata";
+    public const PROVIDER_DESCRIPTION = 'Test data';
     private EntityManager $entityManager;
 
     public function __construct(EntityManager $entityManager)
@@ -44,7 +45,7 @@ class TestData implements BettingProvider
     /**
      * @inheritDoc
      */
-    public function getOdds(): array
+    public function getOdds(bool $updatesOnly): array
     {
         /** @var \App\Domain\ApiEvent[]|Collection $apiEventDict */
         $qb = $this->entityManager->createQueryBuilder();
@@ -77,7 +78,7 @@ class TestData implements BettingProvider
 
         $this->entityManager->flush();
 
-        return $odds;
+        return $apiEventDict;
     }
 
     public function getResults(): array
@@ -111,6 +112,7 @@ class TestData implements BettingProvider
 
             $results[] = new SportEventResult(
                 $apiEvent->api_id,
+                static::PROVIDER_NAME,
                 $timeStatus,
                 $home,
                 $away
@@ -126,10 +128,10 @@ class TestData implements BettingProvider
     public function getSports(): array
     {
         return [
-            new Sport(1000, 'Laser Tag'),
-            new Sport(2000, 'Air Hockey'),
-            new Sport(3000, 'VR Dodgeball'),
-            new Sport(4000, 'Jousting'),
+            new Sport(1000, 'Laser Tag', self::PROVIDER_NAME),
+            new Sport(2000, 'Air Hockey',self::PROVIDER_NAME),
+            new Sport(3000, 'VR Dodgeball', self::PROVIDER_NAME),
+            new Sport(4000, 'Jousting', self::PROVIDER_NAME),
         ];
     }
 }

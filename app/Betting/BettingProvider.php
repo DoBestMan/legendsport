@@ -12,7 +12,7 @@ interface BettingProvider
     /**
      * @return SportEventOdd[]
      */
-    public function getOdds(): array;
+    public function getOdds(bool $updatesOnly): array;
 
     /**
      * @return SportEventResult[]

@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ######NAMESPACE######websockets
+  labels:
+    qaInstance: ######NAMESPACE######
 spec:
   ports:
     - port: 6001
@@ -14,6 +16,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ######NAMESPACE######websockets
+  labels:
+    qaInstance: ######NAMESPACE######
 spec:
   replicas: 1
   selector:
@@ -23,6 +27,7 @@ spec:
     metadata:
       labels:
         application: ######NAMESPACE######websockets
+        qaInstance: ######NAMESPACE######
     spec:
       containers:
         - image: ######BACKEND_IMAGE######

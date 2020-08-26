@@ -76,6 +76,9 @@ echo.channel("general")
     })
     .listen("tournament", ({ tournament }: any) => {
         store.commit("tournamentList/createOrUpdateTournament", mapTournament(tournament));
+    })
+    .listen("incremental-odds", (data: any) => {
+        store.commit("odd/oddsUpdate", mapOdd(data.odds));
     });
 
 store.dispatch("user/load").then(function () {

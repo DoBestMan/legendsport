@@ -49,6 +49,18 @@ services:
           - "DB_PORT=3306"
           - "DB_HOST=database"
 
+    worker:
+      build:
+        context: ./docker
+        dockerfile: worker.docker
+      volumes:
+        - ./:/var/www
+      links:
+        - database
+      environment:
+        - "DB_PORT=3306"
+        - "DB_HOST=database"
+
     database:
         image: mysql:8
         ports:

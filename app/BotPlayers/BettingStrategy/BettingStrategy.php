@@ -7,5 +7,5 @@ use App\Domain\TournamentPlayer;
 
 interface BettingStrategy
 {
-    public function placeBets(Tournament $tournament, TournamentPlayer $bot, int $hundredChipsToWager);
+    public function placeBets(Tournament $tournament, TournamentPlayer $bot, int $hundredChipsToWager, int $remainder = 0): bool;
 }

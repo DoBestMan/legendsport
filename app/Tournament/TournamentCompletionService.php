@@ -1,6 +1,7 @@
 <?php
 namespace App\Tournament;
 
+use App\Domain\Tournament as TournamentEntity;
 use App\Models\ApiEvent;
 use App\Models\Tournament;
 use App\Models\TournamentEvent;
@@ -21,8 +22,12 @@ class TournamentCompletionService
         $this->databaseManager = $databaseManager;
     }
 
-    public function updateState(Tournament $tournament): void
+    public function updateState($tournament): void
     {
+        if ($tournament instanceof TournamentEntity) {
+            $tournament = Tournament::find($tournament->getId());
+        }
+
         if ($tournament->isFinished()) {
             return;
         }

@@ -11,6 +11,7 @@ use App\Domain\TournamentPlayer;
 use App\Domain\User;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixture\Factory\ApiEventFactory;
+use Tests\Fixture\Factory\FactoryAbstract;
 
 /**
  * @covers App\Domain\BetTypes\TotalOver
@@ -34,15 +35,18 @@ class TotalOverTest extends TestCase
     public function testEvaluate($home, $away, $result)
     {
         $apiEvent = ApiEventFactory::create();
-        $apiEvent->result(new SportEventResult('eid', TimeStatus::ENDED(), $home, $away));
         $tournament = new Tournament();
+        FactoryAbstract::setProperty($tournament, 'id', 1);
+        FactoryAbstract::setProperty($tournament, 'chips', 10000);
         $tournament->addEvent($apiEvent);
         $tournamentEvent = $tournament->getEvents()->first();
 
         $user = new User('test', 'test@test.com', 'test');
-        $player = new TournamentPlayer($tournament, $user, 1000);
+        $tournament->registerPlayer($user);
+        $player = $user->getTournamentPlayer($tournament);
 
         $tournament->placeStraightBet($player, 1000, new BetItem(TotalOver::class, $tournamentEvent));
+        $apiEvent->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), $home, $away));
 
         $sut = $tournament->getBets()->first()->getEvents()->first();
 

@@ -16,3 +16,5 @@ yarn-error.log
 .*.swp
 .idea
 composer.phar
+apikeys
+api-samples

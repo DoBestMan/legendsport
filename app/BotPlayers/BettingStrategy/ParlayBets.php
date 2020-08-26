@@ -14,7 +14,7 @@ class ParlayBets implements BettingStrategy
     private WagerCalculator $wagerCalculator;
     private $parlaySize;
 
-    public function __construct(WagerCalculator $wagerCalculator, int $parlaySize, int $maxBets = 4, int $minBets = 1)
+    public function __construct(WagerCalculator $wagerCalculator, int $parlaySize, int $minBets = 1, int $maxBets = 4)
     {
         $this->maxBets = $maxBets;
         $this->minBets = $minBets;
@@ -22,8 +22,12 @@ class ParlayBets implements BettingStrategy
         $this->parlaySize = $parlaySize;
     }
 
-    public function placeBets(Tournament $tournament, TournamentPlayer $tournamentPlayer, int $hundredChipsToWager)
+    public function placeBets(Tournament $tournament, TournamentPlayer $tournamentPlayer, int $hundredChipsToWager, int $remainder = 0): bool
     {
+        if ($hundredChipsToWager + $remainder === 0) {
+            return false;
+        }
+
         /** @var TournamentEvent[] $events */
         $events = $tournament->getBettableEvents()->toArray();
 
@@ -33,7 +37,14 @@ class ParlayBets implements BettingStrategy
         }
 
         $betsToPlace = min(rand($this->minBets, $this->maxBets), $maxBetOptions);
+        if ($betsToPlace === 0) {
+            return false;
+        }
+
         $wagersToPlace = $this->wagerCalculator->calculateWagers($hundredChipsToWager, $betsToPlace);
+        if (count($wagersToPlace)) {
+            $wagersToPlace[0] += $remainder;
+        }
         $betsPlaced = [];
 
         foreach ($wagersToPlace as $wager) {
@@ -54,6 +65,8 @@ class ParlayBets implements BettingStrategy
                 }
             } while (!$betPlaced);
         }
+
+        return true;
     }
 
     private function chooseBets(array $events): array

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: worker
+  template:
+    metadata:
+      labels:
+        application: worker
+    spec:
+      containers:
+        - image: BACKEND_IMAGE
+          name: worker
+          command: ['/bin/sh', '-c']
+          args:
+            - "php artisan queue:work"
+          imagePullPolicy: Always
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
+          envFrom:
+            - configMapRef:
+                name: php-environment
