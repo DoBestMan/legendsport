@@ -22,72 +22,28 @@ use Doctrine\ORM\Mapping as ORM;
 class User
 {
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="smallint", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
-     */
-    private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255, nullable=false)
-     */
-    private $email;
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="email_verified_at", type="datetime", nullable=true)
-     */
-    private $emailVerifiedAt;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=255, nullable=false)
-     */
-    private $password;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="balance", type="integer", nullable=false, options={"unsigned"=true})
-     */
-    private $balance = 0;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="remember_token", type="string", length=100, nullable=true)
-     */
-    private $rememberToken;
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
-     */
-    private $createdAt;
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
-     */
+    private int $id;
+    /** @ORM\Column(name="name", type="string", length=255, nullable=false) */
+    private string $name;
+    /** @ORM\Column(name="email", type="string", length=255, nullable=false) */
+    private string $email;
+    /** @ORM\Column(name="email_verified_at", type="datetime", nullable=true) */
+    private ?\DateTime $emailVerifiedAt;
+    /** @ORM\Column(name="password", type="string", length=255, nullable=false) */
+    private string $password;
+    /** @ORM\Column(name="balance", type="integer", nullable=false, options={"unsigned"=true}) */
+    private int $balance = 0;
+    /** @ORM\Column(name="remember_token", type="string", length=100, nullable=true) */
+    private ?string $rememberToken;
+    /** @ORM\Column(name="created_at", type="datetime", nullable=true) */
+    private ?\DateTime $createdAt;
+    /** @ORM\Column(name="updated_at", type="datetime", nullable=true) */
     private $updatedAt;
-    /**
-     * @ORM\OneToMany(targetEntity="\App\Domain\TournamentPlayer", mappedBy="user")
-     */
+    /** @ORM\OneToMany(targetEntity="\App\Domain\TournamentPlayer", mappedBy="user") */
     private Collection $tournaments;
 
     public function __construct(string $name, string $email, string $password)
