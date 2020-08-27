@@ -15,6 +15,10 @@ use App\Tournament\Exceptions\NotEnoughChipsException;
 use App\Tournament\Exceptions\NotRegisteredException;
 use Illuminate\Database\DatabaseManager;
 
+/**
+ * @codeCoverageIgnore
+ * @deprecated
+ */
 class StraightBetService
 {
     private DatabaseManager $databaseManager;

@@ -7,10 +7,12 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 final class OddsUpdate implements ShouldBroadcast
 {
     public array $odds;
+    private bool $incremental;
 
-    public function __construct(array $odds)
+    public function __construct(array $odds, bool $incremental = false)
     {
         $this->odds = $odds;
+        $this->incremental = $incremental;
     }
 
     public function broadcastOn()
@@ -20,6 +22,6 @@ final class OddsUpdate implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return "odds";
+        return $this->incremental ? 'incremental-odds' : 'odds';
     }
 }

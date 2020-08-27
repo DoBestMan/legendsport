@@ -91,21 +91,29 @@ class TournamentBet
         return $this->events;
     }
 
-    public function evaluate()
+    public function evaluate(): bool
     {
         $betStatus = $this->getStatus();
-        if ($betStatus->equals(BetStatus::PENDING()) || $betStatus->equals(BetStatus::LOSS())) {
-            return;
+        if ($betStatus->equals(BetStatus::PENDING())) {
+            return false;
         }
 
-        $this->refund();
+        if ($betStatus->equals(BetStatus::LOSS())) {
+            $this->tournamentPlayer->betLost($this->chipsWager);
+        }
+
+        if ($betStatus->equals(BetStatus::PUSH())) {
+            $this->tournamentPlayer->betPush($this->chipsWager);
+        }
 
         if ($betStatus->equals(BetStatus::WIN()) ) {
-            $this->creditWinnings();
+            $this->tournamentPlayer->betWon($this->chipsWager, $this->getChipsWon());
         }
+
+        return true;
     }
 
-    private function getStatus(): BetStatus
+    public function getStatus(): BetStatus
     {
         switch (true) {
             case $this->events->exists(fn(int $key, TournamentBetEvent $event) => $event->isPending()):
@@ -133,13 +141,8 @@ class TournamentBet
         return $multiplier;
     }
 
-    public function refund(): void
+    public function getChipsWon(): int
     {
-        $this->tournamentPlayer->addChips($this->chipsWager);
-    }
-
-    public function creditWinnings(): void
-    {
-        $this->tournamentPlayer->addChips(intval(($this->getReducedDecimalOdds() - 1) * $this->chipsWager));
+        return intval(($this->getReducedDecimalOdds() - 1) * $this->chipsWager);
     }
 }

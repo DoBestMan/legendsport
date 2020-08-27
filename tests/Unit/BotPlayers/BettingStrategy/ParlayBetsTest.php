@@ -35,13 +35,17 @@ class ParlayBetsTest extends TestCase
         $sut = new ParlayBets($wagerCalculator, 2, 1, 1);
 
         $tournament = new Tournament();
+        FactoryAbstract::setProperty($tournament, 'id', 1);
+        FactoryAbstract::setProperty($tournament, 'chips', 1500);
         $event = ApiEventFactory::create();
         $tournament->addEvent($event);
 
         $event = $tournament->getEvents()->first();
         FactoryAbstract::setProperty($event, 'id', 1);
 
-        $tournamentPlayer = new TournamentPlayer($tournament, new Bot('bot', 'email', 'password'), 1500);
+        $user = new Bot('bot', 'email', 'password');
+        $tournament->registerPlayer($user);
+        $tournamentPlayer = $user->getTournamentPlayer($tournament);
 
         $sut->placeBets($tournament, $tournamentPlayer, 15);
 

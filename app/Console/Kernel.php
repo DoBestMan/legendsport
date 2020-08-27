@@ -35,8 +35,8 @@ class Kernel extends ConsoleKernel
         $schedule->job(UpdateTournamentStates::class)->everyMinute();
         $schedule->job(AddBotsToTournaments::class)->everyMinute();
         $schedule->job(PlaceBotBets::class)->everyMinute();
-        $schedule->job(RefreshBet365Events::class)->twiceDaily(0, 6);
-        $schedule->job(RefreshBet365Events::class)->twiceDaily(12, 18);
+        //$schedule->job(RefreshBet365Events::class)->twiceDaily(0, 6);
+        //$schedule->job(RefreshBet365Events::class)->twiceDaily(12, 18);
     }
 
     /**

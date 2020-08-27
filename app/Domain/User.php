@@ -100,10 +100,65 @@ class User
         $this->updatedAt = Carbon::now();
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getEmailVerifiedAt(): ?\DateTime
+    {
+        return $this->emailVerifiedAt;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function getBalance(): int
+    {
+        return $this->balance;
+    }
+
+    public function getRememberToken(): ?string
+    {
+        return $this->rememberToken;
+    }
+
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    public function getTournaments()
+    {
+        return $this->tournaments;
+    }
+
     public function getTournamentPlayer(Tournament $tournament): ?TournamentPlayer
     {
         return $this->tournaments->filter(function (TournamentPlayer $tournamentPlayer) use ($tournament) {
             return $tournamentPlayer->getTournament()->getId() === $tournament->getId();
         })->first() ?: null;
+    }
+
+    public function joinTournament(TournamentPlayer $tournament): void
+    {
+        $this->tournaments->add($tournament);
     }
 }

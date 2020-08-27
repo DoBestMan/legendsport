@@ -33,6 +33,16 @@ class BetItemTest extends TestCase
         self::assertEquals($event, $sut->getEvent());
     }
 
+    public function testCreateFromAlias()
+    {
+        $event = new TournamentEvent(new Tournament(), new ApiEvent());
+        $this->setProperty($event, 'id', 1);
+        $sut = BetItem::createFromBetTypeAlias('money_line_away', $event);
+
+        self::assertEquals(MoneyLineAway::class, $sut->getBetType());
+        self::assertEquals($event, $sut->getEvent());
+    }
+
     public function testGetIdentifier()
     {
         $event = new TournamentEvent(new Tournament(), new ApiEvent());

@@ -19,6 +19,8 @@ class TournamentPlayer
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private int $id;
+    /** @ORM\Column(name="balance", type="integer", nullable=false, options={"unsigned"=true}) */
+    private int $balance;
     /** @ORM\Column(name="chips", type="integer", nullable=false, options={"unsigned"=true}) */
     private int $chips;
     /** @ORM\Column(name="created_at", type="datetime", nullable=true) */
@@ -39,10 +41,12 @@ class TournamentPlayer
     public function __construct(Tournament $tournament, User $user, int $chips)
     {
         $this->chips = $chips;
+        $this->balance = $chips;
         $this->tournament = $tournament;
         $this->user = $user;
         $this->createdAt = Carbon::now();
         $this->updatedAt = Carbon::now();
+        $user->joinTournament($this);
     }
 
     public function getUser(): User
@@ -75,13 +79,33 @@ class TournamentPlayer
         return $this->tournament;
     }
 
-    public function addChips(int $chips): void
+    public function placeWager(int $wager)
     {
-        $this->chips += $chips;
+        if ($wager > $this->chips) {
+            throw BetPlacementException::notEnoughChips();
+        }
+
+        $this->chips -= $wager;
     }
 
-    public function reduceChips(int $chips): void
+    public function betWon(int $wager, int $winnings)
     {
-        $this->chips -= $chips;
+        $this->chips += $wager + $winnings;
+        $this->balance += $winnings;
+    }
+
+    public function betLost(int $wager)
+    {
+        $this->balance -= $wager;
+    }
+
+    public function betPush($wager)
+    {
+        $this->chips += $wager;
+    }
+
+    public function getBalance(): int
+    {
+        return $this->balance;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace App\User;
 
+use App\Domain\User as UserEntity;
 use App\Http\Transformers\App\MeTransformer;
 use App\Models\User;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -10,8 +11,12 @@ final class MeUpdate implements ShouldBroadcast
 {
     public array $user;
 
-    public function __construct(User $user)
+    public function __construct($user)
     {
+        if ($user instanceof UserEntity) {
+            $user = User::find($user->getId());
+        }
+
         $this->user = fractal()
             ->item($user->fresh(), new MeTransformer())
             ->toArray();

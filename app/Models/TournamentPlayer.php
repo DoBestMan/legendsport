@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $chips
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @property-read int $balance
+ * @property int $balance
  * @property-read int $pending_chips
  * @property-read Tournament $tournament
  * @property-read User $user
@@ -29,6 +29,7 @@ class TournamentPlayer extends Model
     protected $table = 'tournament_players';
     protected $casts = [
         'chips' => 'integer',
+        'balance' => 'integer',
     ];
 
     public function user()
@@ -53,14 +54,4 @@ class TournamentPlayer extends Model
             ->sum(fn(TournamentBet $bet) => $bet->chips_wager);
     }
 
-    /**
-     * The BALANCE is the amount of available
-     * and pending chips bet for an event that is still in PENDING status
-     *
-     * @return int
-     */
-    public function getBalanceAttribute(): int
-    {
-        return $this->chips + $this->pending_chips;
-    }
 }

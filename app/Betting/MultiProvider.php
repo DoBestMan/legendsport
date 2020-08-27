@@ -10,13 +10,25 @@ class MultiProvider implements BettingProvider
     private EntityManager $entityManager;
     /** @var BettingProvider[] */
     private array $providers;
+    private array $providerMap;
 
     public function __construct(EntityManager $entityManager, BettingProvider ...$providers)
     {
         $this->entityManager = $entityManager;
         foreach ($providers as $provider) {
             $this->providers[$provider::PROVIDER_NAME] = $provider;
+            $this->providerMap[$provider::PROVIDER_NAME] = $provider::PROVIDER_DESCRIPTION;
         }
+    }
+
+    public function getProvider(string $name): BettingProvider
+    {
+        return $this->providers[$name];
+    }
+
+    public function getProviderMap(): array
+    {
+        return $this->providerMap;
     }
 
     public function getEvents(int $page): Pagination
@@ -34,11 +46,11 @@ class MultiProvider implements BettingProvider
         return $pagination;
     }
 
-    public function getOdds(): array
+    public function getOdds(bool $updatesOnly): array
     {
         $odds = [];
         foreach ($this->getEnabledProviders() as $provider) {
-            $odds = array_merge($odds, $provider->getOdds());
+            $odds = array_merge($odds, $provider->getOdds($updatesOnly));
         }
 
         return $odds;

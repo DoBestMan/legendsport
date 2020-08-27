@@ -7,7 +7,7 @@ export interface OddState {
     isLoading: boolean;
     isLoaded: boolean;
     isFailed: boolean;
-    odds: Array<DeepReadonly<Odd>>;
+    odds: Map<string, DeepReadonly<Odd>>;
 }
 
 const module: Module<OddState, RootState> = {
@@ -17,12 +17,12 @@ const module: Module<OddState, RootState> = {
         isLoading: false,
         isLoaded: false,
         isFailed: false,
-        odds: [],
+        odds: new Map(),
     },
 
     getters: {
         oddDictionary(state): ReadonlyMap<string, Odd> {
-            return new Map(state.odds.map(odd => [odd.external_id, odd]));
+            return state.odds;
         },
     },
 
@@ -35,7 +35,11 @@ const module: Module<OddState, RootState> = {
             state.isLoading = false;
             state.isFailed = false;
             state.isLoaded = true;
-            state.odds = odds;
+            state.odds = new Map(odds.map(odd => [odd.external_id, odd]));
+        },
+
+        oddsUpdate(state, odds: Odd) {
+            state.odds.set(odds.external_id, odds);
         },
 
         markAsFailed(state) {
@@ -46,7 +50,7 @@ const module: Module<OddState, RootState> = {
 
     actions: {
         async load({ state, dispatch }) {
-            if (!state.odds.length) {
+            if (!state.odds.size) {
                 await dispatch("reload");
             }
         },

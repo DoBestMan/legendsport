@@ -27,6 +27,7 @@ sed $REPLACEMENTS ./infrastructure/kubernetes/qa/templated/scheduler.yaml > /tmp
 sed $REPLACEMENTS ./infrastructure/kubernetes/qa/templated/websockets.yaml > /tmp/qa/websockets.yaml
 sed $REPLACEMENTS ./infrastructure/kubernetes/qa/templated/configmap.yaml > /tmp/qa/configmap.yaml
 sed $REPLACEMENTS ./infrastructure/kubernetes/qa/templated/ingress.yaml > /tmp/qa/ingress.yaml
+sed $REPLACEMENTS ./infrastructure/kubernetes/qa/templated/worker.yaml > /tmp/qa/worker.yaml
 
 gcloud container clusters get-credentials --region "$CLOUDSDK_COMPUTE_REGION" "$CLOUDSDK_CONTAINER_CLUSTER"
 

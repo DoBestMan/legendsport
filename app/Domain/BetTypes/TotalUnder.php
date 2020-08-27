@@ -10,27 +10,25 @@ use Doctrine\ORM\Mapping as ORM;
 class TotalUnder extends TournamentBetEvent
 {
     public const CORRELATION_IDENTIFIER = 'total';
-    protected function evaluateType(): void
+    protected function evaluateType(): bool
     {
         $eventData = $this->getTournamentEvent()->getApiEvent();
         $handicap = (float) $this->getHandicap();
         if ($handicap === null) {
             //Perhaps throw an exception; handicap must not be null.
-            return;
+            return false;
         }
 
         $result = $eventData->getScoreHome() + $eventData->getScoreAway() - $handicap;
 
         if ($result < 0) {
-            $this->result(BetStatus::WIN());
-            return;
+            return $this->result(BetStatus::WIN());
         }
 
         if ($result === 0.0) {
-            $this->result(BetStatus::PUSH());
-            return;
+            return $this->result(BetStatus::PUSH());
         }
 
-        $this->result(BetStatus::LOSS());
+        return $this->result(BetStatus::LOSS());
     }
 }

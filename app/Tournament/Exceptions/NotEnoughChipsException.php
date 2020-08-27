@@ -4,6 +4,10 @@ namespace App\Tournament\Exceptions;
 use Exception;
 use Throwable;
 
+/**
+ * @codeCoverageIgnore
+ * @deprecated
+ */
 class NotEnoughChipsException extends Exception
 {
     public function __construct(

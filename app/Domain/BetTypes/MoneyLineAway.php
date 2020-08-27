@@ -10,22 +10,20 @@ use Doctrine\ORM\Mapping as ORM;
 class MoneyLineAway extends TournamentBetEvent
 {
     public const CORRELATION_IDENTIFIER = 'result';
-    protected function evaluateType(): void
+    protected function evaluateType(): bool
     {
         $eventData = $this->getTournamentEvent()->getApiEvent();
 
         $result = $eventData->getScoreAway() - $eventData->getScoreHome();
 
         if ($result > 0) {
-            $this->result(BetStatus::WIN());
-            return;
+            return $this->result(BetStatus::WIN());
         }
 
         if ($result === 0) {
-            $this->result(BetStatus::PUSH());
-            return;
+            return $this->result(BetStatus::PUSH());
         }
 
-        $this->result(BetStatus::LOSS());
+        return $this->result(BetStatus::LOSS());
     }
 }

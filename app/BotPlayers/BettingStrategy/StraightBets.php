@@ -19,8 +19,12 @@ class StraightBets implements BettingStrategy
         $this->minBets = $minBets;
     }
 
-    public function placeBets(Tournament $tournament, TournamentPlayer $tournamentPlayer, int $hundredChipsToWager)
+    public function placeBets(Tournament $tournament, TournamentPlayer $tournamentPlayer, int $hundredChipsToWager, int $remainder = 0): bool
     {
+        if ($hundredChipsToWager + $remainder === 0) {
+            return false;
+        }
+
         $events = $tournament->getBettableEvents()->toArray();
 
         $maxBetOptions = 0;
@@ -29,7 +33,14 @@ class StraightBets implements BettingStrategy
         }
 
         $betsToPlace = min(rand($this->minBets, $this->maxBets), $maxBetOptions);
+        if ($betsToPlace === 0) {
+            return false;
+        }
+
         $wagersToPlace = $this->wagerCalculator->calculateWagers($hundredChipsToWager, $betsToPlace);
+        if (count($wagersToPlace)) {
+            $wagersToPlace[0] += $remainder;
+        }
         $betsPlaced = [];
 
         foreach ($wagersToPlace as $wager) {
@@ -51,5 +62,7 @@ class StraightBets implements BettingStrategy
                 }
             } while (!$betPlaced);
         }
+
+        return true;
     }
 }
