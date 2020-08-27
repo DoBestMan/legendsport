@@ -4,7 +4,7 @@
             <i class="icon icon--micro icon--usd icon--color--light-1"></i>
         </div>
         <input
-            class="input input--padding--left"
+            class="input input--padding--left input--number"
             type="number"
             :class="customClass"
             :value="!value ? '' : value"
