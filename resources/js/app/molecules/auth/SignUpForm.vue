@@ -22,6 +22,9 @@
                             v-model="email"
                             required
                         />
+                        <div class="error" v-if="errors.email">
+                            <span v-for="error in errors.email"> {{ error }} </span>
+                        </div>
                     </div>
                     <div class="form__control m--b--4">
                         <label class="label label--large">USERNAME</label>
@@ -35,7 +38,83 @@
                             v-model="name"
                             required
                         />
+                        <div class="error" v-if="errors.name">
+                            <span v-for="error in errors.name"> {{ error }} </span>
+                        </div>
                     </div>
+                    <div class="form__control m--b--4">
+                        <label class="label label--large">FIRST NAME</label>
+                        <FormInput
+                            id="form-first-name"
+                            inputClass="input input--large"
+                            placeHolder="First name"
+                            type="text"
+                            autocomplete="firstname"
+                            :errors="errors.firstname"
+                            v-model="firstname"
+                            required
+                        />
+                        <div class="error" v-if="errors.firstname">
+                            <span v-for="error in errors.firstname"> {{ error }} </span>
+                        </div>
+                    </div>
+                    <div class="form__control m--b--4">
+                        <label class="label label--large">LAST NAME</label>
+                        <FormInput
+                            id="form-last-name"
+                            inputClass="input input--large"
+                            placeHolder="Last name"
+                            type="text"
+                            autocomplete="lastname"
+                            :errors="errors.lastname"
+                            v-model="lastname"
+                            required
+                        />
+                        <div class="error" v-if="errors.lastname">
+                            <span v-for="error in errors.lastname"> {{ error }} </span>
+                        </div>
+                    </div>
+
+                    <div class="form__control m--b--4">
+                        <label class="label label--large">DATE OF BIRTH</label>
+                        <FormInput
+                            id="form-dob-day"
+                            inputClass="input input--large"
+                            placeHolder="Day"
+                            type="text"
+                            :errors="errors.dob"
+                            v-model="day"
+                            minlength="2"
+                            style="width: 25%"
+                            required
+                        />
+                        <FormInput
+                            id="form-dob-month"
+                            inputClass="input input--large"
+                            placeHolder="Month"
+                            type="text"
+                            :errors="errors.dob"
+                            v-model="month"
+                            minlength="2"
+                            style="width: 25%"
+                            required
+                        />
+                        <FormInput
+                            id="form-dob-year"
+                            inputClass="input input--large"
+                            placeHolder="Year"
+                            type="text"
+                            :errors="errors.dob"
+                            v-model="year"
+                            minlength="4"
+                            style="width: 48%"
+                            required
+                        />
+                        <div class="error" v-if="errors.dob">
+                            <span v-for="error in errors.dob"> {{ error }} </span>
+                        </div>
+                    </div>
+
                     <div class="form__control m--b--4">
                         <label class="label label--large">PASSWORD</label>
                         <FormInput
@@ -49,6 +128,9 @@
                             minlength="8"
                             required
                         />
+                        <div class="error" v-if="errors.password">
+                            <span v-for="error in errors.password"> {{ error }} </span>
+                        </div>
                     </div>
                     <div class="form__control m--b--10">
                         <label class="label label--large">CONFIRM PASSWORD</label>
@@ -97,9 +179,14 @@ export default Vue.extend({
         return {
             errors: {},
             name: "",
+            firstname: "",
+            lastname: "",
             email: "",
             password: "",
             passwordConfirmation: "",
+            day: "",
+            month: "",
+            year: "",
         };
     },
 
@@ -115,6 +202,9 @@ export default Vue.extend({
                     email: this.email,
                     password: this.password,
                     password_confirmation: this.passwordConfirmation,
+                    firstname: this.firstname,
+                    lastname: this.lastname,
+                    dob: this.year + '-' + this.month + '-' + this.day,
                 });
                 this.$stock.dispatch("user/reload");
                 this.$router.push("/");

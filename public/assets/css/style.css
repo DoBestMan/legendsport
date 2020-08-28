@@ -2416,6 +2416,19 @@ textarea.input {
     transform: translateY(-50%);
     left: 8px;
 }
+.form__control .error {
+    background-color: white;
+    border: 1px solid red;
+    color: red;
+    width: 100%;
+    display: inline-block;
+    padding: 6px;
+}
+
+.form__control .error span {
+    display: inline-block;
+}
+
 
 .text--center {
     text-align: center;
