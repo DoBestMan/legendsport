@@ -43,7 +43,7 @@ class ParlayBetsTest extends TestCase
         $event = $tournament->getEvents()->first();
         FactoryAbstract::setProperty($event, 'id', 1);
 
-        $user = new Bot('bot', 'email', 'password');
+        $user = Bot::create('bot');
         $tournament->registerPlayer($user);
         $tournamentPlayer = $user->getTournamentPlayer($tournament);
 

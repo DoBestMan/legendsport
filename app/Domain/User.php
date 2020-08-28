@@ -31,6 +31,12 @@ class User
     private string $name;
     /** @ORM\Column(name="email", type="string", length=255, nullable=false) */
     private string $email;
+    /** @ORM\Column(type="string") */
+    private string $firstname;
+    /** @ORM\Column(type="string") */
+    private string $lastname;
+    /** @ORM\Column(type="datetime") */
+    private \DateTime $dateOfBirth;
     /** @ORM\Column(name="email_verified_at", type="datetime", nullable=true) */
     private ?\DateTime $emailVerifiedAt;
     /** @ORM\Column(name="password", type="string", length=255, nullable=false) */
@@ -46,7 +52,7 @@ class User
     /** @ORM\OneToMany(targetEntity="\App\Domain\TournamentPlayer", mappedBy="user") */
     private Collection $tournaments;
 
-    public function __construct(string $name, string $email, string $password)
+    public function __construct(string $name, string $email, string $password, string $firstname, string $lastname, \DateTime $dateOfBirth)
     {
         $this->name = $name;
         $this->email = $email;
@@ -54,6 +60,9 @@ class User
         $this->tournaments = new ArrayCollection();
         $this->createdAt = Carbon::now();
         $this->updatedAt = Carbon::now();
+        $this->firstname = $firstname;
+        $this->lastname = $lastname;
+        $this->dateOfBirth = $dateOfBirth;
     }
 
     public function getId(): int

@@ -41,7 +41,7 @@ class MoneyLineHomeTest extends TestCase
         $tournament->addEvent($apiEvent);
         $tournamentEvent = $tournament->getEvents()->first();
 
-        $user = new User('test', 'test@test.com', 'test');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament->registerPlayer($user);
         $player = $user->getTournamentPlayer($tournament);
 

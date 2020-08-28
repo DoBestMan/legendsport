@@ -18,7 +18,7 @@ class TournamentPlayerTest extends TestCase
 {
     public function testConstruction()
     {
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 10000);
@@ -39,7 +39,7 @@ class TournamentPlayerTest extends TestCase
 
     public function testReduceChipsInsufficientChips()
     {
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 100);
@@ -54,7 +54,7 @@ class TournamentPlayerTest extends TestCase
 
     public function testPlaceWager()
     {
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 200);
@@ -70,7 +70,7 @@ class TournamentPlayerTest extends TestCase
 
     public function testBetWon()
     {
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 50);
@@ -87,7 +87,7 @@ class TournamentPlayerTest extends TestCase
 
     public function testBetLost()
     {
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 50);
@@ -104,7 +104,7 @@ class TournamentPlayerTest extends TestCase
 
     public function testBetPush()
     {
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 50);

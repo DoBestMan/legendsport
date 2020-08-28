@@ -12,7 +12,10 @@ class Bot extends User
         return new self(
             $name,
             $name . '@bots.legendsports.bet',
-            '...'
+            '...',
+            '',
+            '',
+           \DateTime::createFromFormat('U', 0)
         );
     }
 }
