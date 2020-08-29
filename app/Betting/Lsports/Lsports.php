@@ -153,6 +153,12 @@ class Lsports implements BettingProvider
 
     private function get(string $url): array
     {
+        $cacheKey = md5($url);
+
+        if ($this->cache->has($cacheKey)) {
+            return $this->cache->get($cacheKey);
+        }
+
         $response = Http::get($url, [
             "username" => 'davidleighgrossman@gmail.com',
             "password" => 'f4654wcw',
@@ -165,6 +171,8 @@ class Lsports implements BettingProvider
             $this->logger->info('Unable to communicate with API', $data);
             throw new \RuntimeException('Unable to communicate with API');
         }
+
+        $this->cache->set($cacheKey, $data, 60);
 
         return $data;
     }
