@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Betting\Bet365\Initaliser;
 use App\Betting\Bets365API;
 use App\Betting\BettingProvider;
+use App\Betting\Lsports\Lsports;
 use App\Betting\MultiProvider;
 use App\Betting\SportsData\MLB;
 use App\Betting\SportsData\NBA;
@@ -44,7 +45,7 @@ class BettingApiServiceProvider extends ServiceProvider
             ->needs('$scoresApiKey')
             ->give(env('SPORTSDATA_NFL_SCORES_KEY'));
 
-        $this->app->tag([TestData::class, NBA::class, MLB::class, NFL::class], ['betting_provider']);
+        $this->app->tag([TestData::class, NBA::class, MLB::class, NFL::class, Lsports::class], ['betting_provider']);
 
         $this->app->when(MultiProvider::class)
             ->needs(BettingProvider::class)
