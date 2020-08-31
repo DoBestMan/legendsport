@@ -1,0 +1,239 @@
+@import variables
+
+.tournament:nth-child(2n) .tournament--desktop
+  background: $dark-4
+
+.tournament
+  &--sidebar
+    margin-bottom: 8px
+    &__header
+      display: flex
+      &__icon
+        padding-top: 8px
+      &__content
+        margin-left: 8px
+        flex: 1
+        &__title
+          font-family: $font
+          font-size: 16px
+          font-weight: bold
+          line-height: 1.38
+          color: $light-1
+        &__label
+          margin-bottom: 30px
+          font-family: $font
+          font-size: 12px
+          line-height: 1.17
+          color: $yellow-1
+    &__details
+      display: flex
+      &__detail
+        flex: 1
+        &__item
+          margin-bottom: 16px
+          &__label
+            font-family: $font
+            font-size: 10px
+            font-weight: bold
+            color: $light-3
+          &__content
+            font-family: $font
+            font-size: 12px
+            font-weight: 500
+            line-height: 1.17
+            color: $light-1
+
+  &--desktop
+    display: flex
+    border-radius: 4px
+    background: transparent
+    margin-bottom: 8px
+    cursor: pointer
+    box-sizing: border-box
+    border: 1px solid transparent
+
+    &:hover
+      border: 1px solid $yellow-2
+
+
+    &__item
+      flex: 1
+      padding: 16px
+      font-family: $font
+      font-size: 12px
+      line-height: 1.17
+      color: $light-1
+      white-space: nowrap
+
+  &--mobile
+    border-radius: 8px
+    overflow: hidden
+    background: $dark-4
+    margin-bottom: 16px
+
+    &__offer
+      padding: 14px
+      background: $green-1
+      font-family: $font
+      font-size: 12px
+      font-weight: bold
+      text-align: center
+      color: $dark-4
+
+    &__slip
+      height: 44px
+      width: 100%
+      padding: 0 16px
+      display: flex
+      align-items: center
+      justify-content: space-between
+      background: $dark-5
+      box-sizing: border-box
+
+      &__item
+        display: inline-flex
+        align-items: center
+        font-size: 12px
+        font-weight: bold
+        line-height: 1.17
+        color: $light-1
+
+    &__buttons
+      display: flex
+
+      &__button
+        flex: 1
+        align-items: center
+        justify-content: center
+        display: flex
+        padding: 16px
+        font-family: $font
+        font-size: 12px
+        font-weight: bold
+        line-height: 1.17
+        color: $light-2
+        border-right: 1px solid $dark-5
+        cursor: pointer
+
+      &__button:last-child
+        border-right: none
+
+    &__container
+      padding: 16px
+      display: flex
+      flex-direction: row
+      border-bottom: 1px solid $dark-5
+
+      &__content
+        flex: 1
+        padding: 0 16px
+
+        &__status
+          font-family: $font
+          font-size: 12px
+          line-height: 1.17
+          color: $yellow-1
+
+        &__title
+          font-family: $font
+          font-size: 14px
+          font-weight: 500
+          color: $light-1
+          margin-bottom: 16px
+
+        &__icons
+          display: flex
+          flex-wrap: wrap
+          align-items: center
+          margin-bottom: 9px
+
+        &__prices
+          display: flex
+          align-items: flex-start
+
+          &__item
+            flex: 1
+
+            &__label
+              font-family: $font
+              font-size: 10px
+              font-weight: bold
+              color: $light-3
+
+            &__price
+              font-family: $font
+              font-size: 12px
+              font-weight: 500
+              line-height: 1.17
+              color: $light-1
+
+        &__details
+          display: flex
+          align-items: flex-start
+          margin-bottom: 16px
+
+          &__item
+            flex: 1
+            font-family: $font
+            font-size: 12px
+            line-height: 1.17
+            color: $light-2
+            display: inline-flex
+            align-items: center
+
+      &__sidebar
+        padding-right: 16px
+        border-right: 1px solid $dark-5
+        display: flex
+        align-items: center
+        justify-content: center
+        flex-direction: column
+
+        &__time
+          display: flex
+          flex-direction: column
+          padding-top: 8px
+
+          &__hour
+            font-family: $font
+            font-size: 12px
+            font-weight: 500
+            letter-spacing: -0.5px
+            text-align: center
+            color: $light-1
+
+          &__timezone
+            font-family: $font
+            font-size: 9px
+            font-weight: 500
+            letter-spacing: -0.5px
+            text-align: center
+            color: $light-2
+
+        &__date
+          display: flex
+          flex-direction: column
+          padding-bottom: 8px
+          border-bottom: 1px solid $dark-5
+
+          &__weekday
+            font-family: $font
+            font-size: 10px
+            letter-spacing: 1px
+            text-align: center
+            color: $light-2
+
+          &__day
+            font-family: $font
+            font-size: 20px
+            font-weight: bold
+            text-align: center
+            color: $yellow-1
+
+          &__month
+            font-family: $font
+            font-size: 12px
+            font-weight: bold
+            letter-spacing: 0.86px
+            text-align: center
+            color: $light-1

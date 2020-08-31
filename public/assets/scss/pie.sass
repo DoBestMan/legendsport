@@ -1,0 +1,48 @@
+@import variables
+
+.pie
+  width: 50px
+  height: 50px
+  border-radius: 999px
+  box-sizing: border-box
+  border: 4px solid $dark-5
+  position: relative
+
+  &__line
+    content: " "
+    display: block
+    position: absolute
+    width: 50px
+    height: 50px
+    top: -4px
+    left: -4px
+    z-index: 1
+    border-radius: 999px
+    background: conic-gradient($yellow-2 0%, $yellow-2 0%, transparent 0%, transparent 100%) 50% 50% / 100% 100% no-repeat
+
+  &::before
+    content: " "
+    display: block
+    position: absolute
+    width: 42px
+    height: 42px
+    top: 0
+    left: 0
+    z-index: 2
+    border-radius: 999px
+    background: $dark-4
+
+  &__value
+    position: absolute
+    top: 0
+    left: 0
+    width: 42px
+    height: 42px
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    font-size: 14px
+    font-weight: bold
+    text-align: center
+    color: $light-1
+    z-index: 3

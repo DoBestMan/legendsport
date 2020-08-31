@@ -1,0 +1,365 @@
+.center
+  display: flex
+  align-items: center
+  justify-content: center
+
+.gap
+  margin: 0 -8px
+  display: flex
+  align-items: center
+  &__item
+    margin: 0 8px
+
+.--expand
+  margin-left: -16px
+  margin-right: -16px
+
+.f
+  &--1
+    flex: 1
+
+.j
+  &--between
+    justify-content: space-between
+
+.a
+  &--center
+    align-items: center
+
+.m
+  &--l
+    &--1
+      margin-left: 4px
+    &--2
+      margin-left: 8px
+    &--3
+      margin-left: 12px
+    &--4
+      margin-left: 16px
+    &--5
+      margin-left: 20px
+    &--6
+      margin-left: 24px
+  &--r
+    &--1
+      margin-right: 4px
+    &--2
+      margin-right: 8px
+    &--3
+      margin-right: 12px
+    &--4
+      margin-right: 16px
+  &--l
+    &--1
+      margin-left: 4px
+    &--2
+      margin-left: 8px
+    &--3
+      margin-left: 12px
+    &--4
+      margin-left: 16px
+  &--b
+    &--0
+      margin-bottom: 0px !important
+    &--1
+      margin-bottom: 4px !important
+    &--2
+      margin-bottom: 8px !important
+    &--3
+      margin-bottom: 12px !important
+    &--4
+      margin-bottom: 16px !important
+    &--6
+      margin-bottom: 24px !important
+    &--10
+      margin-bottom: 40px !important
+
+.d
+  &--none
+    display: none !important
+  &--block
+    display: block
+  &--flex
+    display: flex
+  &--inline-flex
+    display: inline-flex
+
+.b
+  &--transparent
+    background: transparent !important
+  &--dark-3
+    background: $dark-3 !important
+  &--dark-4
+    background: $dark-4 !important
+
+.w
+  &--100
+    width: 100%
+
+
+
+/* Mobiles */
+@media (max-width: 576px)
+
+/* Tablets */
+@media (min-width: 768px)
+
+@media (max-width: 768px)
+
+/* Small Laptops */
+@media (min-width: 992px)
+  .odds
+    overflow-y: auto
+    height: 100%
+    display: flex
+    flex-direction: column
+
+    &__scroll
+      flex: 1
+      overflow-y: auto
+  .sliders
+    &--mobile
+      display: none
+  .tournament
+    &--mobile
+      display: none !important
+  .d
+    &--only
+      &--mobile
+        display: none !important
+  .layout
+    &__content
+      &:not(.layout__content--home)
+        max-height: calc(100% -  110px)
+      &__container
+        &__mobile
+          display: none
+        &__content
+          height: 100%
+      &__sidebar
+        &__games
+          max-height: 100%
+          overflow-y: auto
+          padding-bottom: 44px
+          box-sizing: border-box
+        &__chat
+          max-height: 60%
+          overflow-y: auto
+          &__container
+            display: flex
+            flex-direction: column
+            height: 600px
+            &__messages
+              flex: 1
+              overflow-y: auto
+
+/* Small Laptops */
+@media (max-width: 992px)
+  .menu
+    &__content
+      width: 100% !important
+      &__section
+        padding: 0 16px !important
+      &__header
+        padding: 24px 16px !important
+
+  .profile
+    &--card
+      &__holder
+        &--padding-only-mobile
+          padding-bottom: 51px
+          padding-top: 40px
+  .logo
+    &__icon
+      &--large
+        width: 40px
+        height: 40px
+        font-size: 20px
+
+    &__text
+      &--large
+        margin-left: 12px
+        font-size: 20px
+        letter-spacing: 3px
+
+  .paging__item .icon
+    width: 24px !important
+    height: 24px !important
+    margin-right: 8px !important
+
+  .paging
+    padding: 20px 0 !important
+    &--mobile
+      margin-bottom: 0 !important
+    &__item
+      &__title
+        font-size: 16px !important
+        font-weight: bold !important
+        font-stretch: normal !important
+        font-style: normal !important
+        line-height: 1.38 !important
+        letter-spacing: normal !important
+
+  .container
+    &--small
+      width: 100%
+      padding: 0 !important
+
+  .tabs:not(.tabs--mobile)
+    display: none
+
+  .pagination
+    width: 8px !important
+    height: 8px !important
+
+  .tournament
+    &--desktop
+      display: none !important
+  .d
+    &--only
+      &--desktop
+        display: none !important
+  .sliders
+    &--desktop
+      display: none
+  .layout
+    &__header
+      display: none
+    &__content
+      &--border
+        border-top: none
+      &__about
+        padding: 40px 16px
+      &__container
+        &__slider
+          display: none
+        &__filter
+          display: none
+        &__content
+          &__container
+            &--paddingless-mobile
+              padding-left: 0 !important
+              padding-right: 0 !important
+          &__sidebar
+            display: none
+      &__sidebar
+        display: none
+        border: none
+
+        &__bet
+          position: fixed
+          bottom: 16px
+          left: 16px
+          width: 100%
+
+        &__games
+          overflow-y: auto
+          padding-bottom: 44px
+
+        &__chat
+          &__container
+            flex: 1
+            overflow-y: auto
+            display: flex
+            flex-direction: column
+
+            &__messages
+              flex: 1
+              overflow-y: auto
+
+            &--border
+              border-top: 1px solid $dark-5
+
+          &--active
+            position: absolute
+            top: 0
+            left: 0
+            box-sizing: border-box
+            width: 100%
+            height: 100%
+            display: block
+            z-index: 2
+            display: flex
+            flex-direction: column
+
+        &--active
+          position: absolute
+          top: 0
+          left: 0
+          box-sizing: border-box
+          margin-top: 62px
+          width: 100%
+          height: calc(100% - 62px)
+          z-index: 2
+          overflow-y: auto
+          display: flex
+          padding-bottom: 0
+          flex-direction: column
+
+  .odd
+    &__header
+      &__margin
+        display: none
+      &__time
+        flex: 1
+        font-size: 12px
+        line-height: 1.17
+        letter-spacing: 1px
+        color: #ffffff
+        font-weight: bold
+
+        &__timezone
+          display: block
+          font-weight: normal
+
+      &__table
+        &__item
+          width: 55px !important
+
+    &__container
+      &__content
+        flex-direction: column
+        &__details
+          &__line
+            &__tags
+              &__tag
+                font-size: 12px !important
+                width: 55px !important
+                height: 32px !important
+
+                &__subtitle
+                  font-size: 10px !important
+        &__odd
+          border-left: none !important
+          margin-left: 0 !important
+          justify-content: flex-end !important
+          margin-top: 8px
+
+  .odds
+    max-width: 100vw
+    &__header
+      width: 100%
+      box-sizing: border-box
+      &__tabs
+        width: 100%
+        display: flex
+
+        &__tab
+          flex: 1
+          text-align: center
+
+      &__button
+        display: none
+
+/* Desktop */
+@media (min-width: 1200px)
+
+
+/* Desktop */
+@media (max-width: 1200px)
+  .layout
+    &__content
+      &__container
+        &__content
+          &__sidebar
+            display: none

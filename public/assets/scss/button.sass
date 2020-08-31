@@ -1,0 +1,96 @@
+@import variables
+
+.button
+  &--square
+    width: 44px
+    height: 44px
+    min-width: 44px
+    box-sizing: border-box
+    border: 1px solid $dark-5
+    border-radius: 4px
+    display: inline-flex
+    align-items: center
+    justify-content: center
+
+    &:hover
+      background: $dark-5
+
+  &--yellow
+    background-color: $yellow-2 !important
+    color: $dark-4 !important
+
+  &--inline
+    display: inline-block !important
+    width: 120px !important
+    margin: 0 8px !important
+
+  &--border
+    border: 1px solid $light-1 !important
+    color: $light-1 !important
+    background: transparent !important
+
+  &--small
+    border-radius: 4px
+    height: 30px
+    line-height: 30px
+    padding: 0 16px
+    box-sizing: border-box
+    background-color: $yellow-2
+    color: $dark-4
+    display: inline-block
+    text-decoration: none
+    font-size: 12px
+    font-weight: bold
+    text-align: center
+    border: none
+    outline: none
+    white-space: nowrap
+    text-decoration: none
+
+    &:hover
+      background: $yellow-1
+      color: inherit !important
+
+  &--medium
+    border-radius: 4px
+    height: 40px
+    line-height: 40px
+    padding: 0 16px
+    box-sizing: border-box
+    background-color: $yellow-2
+    color: $dark-4
+    text-decoration: none
+    font-size: 12px
+    font-weight: bold
+    text-align: center
+    border: none
+    outline: none
+    text-decoration: none
+
+    &:hover
+      background: $yellow-1
+      color: inherit !important
+
+  &--large
+    border-radius: 4px
+    height: 44px
+    line-height: 44px
+    padding: 0 16px
+    box-sizing: border-box
+    width: 100%
+    background-color: $green-1
+    color: $dark-4
+    margin-bottom: 40px
+    display: block
+    text-decoration: none
+    font-size: 12px
+    font-weight: bold
+    text-align: center
+    border: none
+    outline: none
+    text-decoration: none
+
+    &:hover
+      cursor: pointer
+      background: $green-2
+      color: inherit !important

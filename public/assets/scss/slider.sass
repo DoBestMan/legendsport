@@ -1,0 +1,95 @@
+@import variables
+
+.slider
+  border-radius: 6px
+  background: $dark-4
+  height: 280px
+  position: relative
+  background-position: center
+  background-repeat: no-repeat
+  background-size: cover
+
+  &__controls
+    position: absolute
+    bottom: 24px
+    right: 40px
+    display: inline-flex
+    align-items: center
+
+    &__control
+      margin-left: 8px
+      width: 40px
+      height: 40px
+      background: $light-1
+      opacity: 0.6
+      border-radius: 999px
+      display: inline-flex
+      align-items: center
+      justify-content: center
+
+      &:hover
+        opacity: 1
+        cursor: pointer
+
+  &__paginations
+    position: absolute
+    bottom: 24px
+    left: 40px
+
+  &__content
+    position: absolute
+    top: 40px
+    left: 40px
+
+    &__title
+      margin-bottom: 16px
+      font-family: $font
+      font-size: 40px
+      font-weight: bold
+      color: $light-1
+
+    &__description
+      font-family: $font
+      font-size: 24px
+      font-weight: 500
+      letter-spacing: 0.92px
+      color: $light-1
+
+/* Small Laptops */
+@media (max-width: 992px)
+  .sliders
+    width: 100vw !important
+    box-sizing: border-box
+    overflow-x: hidden
+
+    &--mobile
+      max-width: 100%
+      box-sizing: border-box
+      width: 100%
+      white-space: nowrap
+      overflow-x: scroll
+
+  .slider
+    width: 272px
+    height: 104px
+    border-radius: 6px
+    margin: 16px
+    margin-right: 0
+    display: inline-block
+
+    &:last-child
+      margin-right: 16px
+
+    &__content
+      position: absolute
+      top: 16px
+      left: 16px
+
+      &__title
+        margin-bottom: 4px
+        font-size: 16px
+
+      &__description
+        font-size: 14px
+        font-weight: normal
+        letter-spacing: 0.58px

@@ -1,0 +1,341 @@
+@import variables
+
+html
+  height: 100%
+
+body
+  height: 100%
+  margin: 0
+  background: $dark-3
+
+.layout__seperator
+  width: calc(100% + 32px)
+  position: relative
+  left: -16px
+  background: $dark-5
+  height: 1px
+  margin: 24px 0
+
+  &--marginless
+    left: 0
+    width: 100%
+
+  &--large
+    margin: 40px 0 !important
+
+.layout
+  width: 100%
+  height: 100%
+  display: flex
+  flex-direction: column
+  font-family: $font
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+
+  &__navbar
+    height: 62px
+    padding: 16px
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: space-between
+
+    box-sizing: border-box
+
+    background-color: $dark-1
+
+    &--transparent
+      background: transparent
+
+    &__content
+      display: flex
+      flex-direction: row
+      align-items: center
+
+  &__header
+    height: 48px
+    padding: 0 16px
+    display: flex
+    flex-direction: row
+    align-items: center
+
+    box-sizing: border-box
+
+    background-color: $dark-1
+
+  &__center
+    display: flex
+    align-items: center
+    justify-content: center
+    flex: 1
+
+    &--background
+      background-position: center
+      background-size: cover
+      background-repeat: no-repeat
+      background-image: url(../i/bg.png)
+
+    &__wrapper
+      width: 285px
+
+  &__full
+    display: flex
+    flex: 1
+
+  &__content
+    display: flex
+    flex: 1
+    flex-direction: row
+
+    background-color: $dark-3
+
+    &--border
+      border-top: 1px solid $dark-5
+
+    &__about
+      width: 100%
+      max-width: 472px
+      padding: 120px 16px
+      box-sizing: border-box
+      margin: 0 auto
+
+    &__container
+      flex: 1
+      display: flex
+      flex-direction: column
+      box-sizing: border-box
+
+      &__mobile
+        padding: 16px
+        padding-bottom: 0
+        display: flex
+        align-items: center
+        justify-content: space-between
+
+        &__switch
+          display: inline-flex
+          align-items: center
+
+          &__icon
+            margin-right: 8px
+          &__title
+            margin-right: 8px
+            font-family: $font
+            font-size: 16px
+            font-weight: bold
+            line-height: 2
+            color: $light-1
+
+
+      &__slider
+        padding: 16px
+        border-bottom: 1px solid $dark-5
+
+        &--mobile
+          display: flex
+          flex-direction: column
+          align-items: center
+
+      &__content
+        display: flex
+        flex: 1
+
+        &__sidebar
+          width: 270px
+          padding: 16px
+          box-sizing: border-box
+          border-right: 1px solid $dark-5
+
+        &__container
+          flex: 1
+          display: flex
+          flex-direction: column
+          padding: 16px
+
+      &__filter
+        padding: 16px 8px
+        display: flex
+        flex-direction: row
+        align-items: center
+        justify-content: space-between
+
+        box-sizing: border-box
+
+        background-color: $dark-3
+        border-bottom: 1px solid $dark-5
+
+        &__filters
+          flex: 1
+          display: flex
+          align-items: center
+          justify-content: space-between
+
+          &__content
+            flex: 1
+            padding: 0 8px
+
+        &__content
+          padding: 0 8px
+
+          &--sidebar
+            width: 270px
+            box-sizing: border-box
+
+    &__sidebar
+      width: 320px
+      background: $charcoal-1
+      padding: 16px
+      box-sizing: border-box
+      position: relative
+      min-width: 320px
+      display: flex
+      flex-direction: column
+
+      &__seperator
+        width: calc(100% + 32px)
+        position: relative
+        left: -16px
+        background: $dark-5
+        height: 1px
+        margin: 24px 0
+
+      &--left
+        border-right: 1px solid $dark-5
+
+      &--right
+        border-left: 1px solid $dark-5
+
+      &__bet
+        padding: 16px
+        box-sizing: border-box
+        background: $dark-4
+        margin: -16px
+        margin-top: 0
+
+        &__row
+          display: flex
+          align-items: center
+          justify-content: space-between
+          margin-bottom: 16px
+
+          &__title
+            font-size: 14px
+            font-weight: 500
+            line-height: 1
+            color: $light-1
+
+          &__value
+            font-size: 14px
+            line-height: 1
+            text-align: right
+            color: $light-1
+
+
+      &__chat
+        position: absolute
+        width: 100%
+        bottom: 0
+        left: 0
+        z-index: 2
+        display: flex
+        flex-direction: column
+
+        &__container
+          background: $dark-3
+          overflow-y: auto
+
+          &__messages
+            padding: 16px
+
+          &__input
+            background: $dark-5
+            display: flex
+            align-items: center
+            padding: 8px
+
+        &__cta
+          width: 100%
+          height: 44px
+          padding: 0 16px
+          background: $dark-5
+          color: white
+          display: flex
+          align-items: center
+          justify-content: space-between
+          box-sizing: border-box
+          min-height: 44px
+          width: 100%
+
+          &__title
+            display: inline-flex
+            align-items: center
+            font-size: 12px
+            font-weight: bold
+            line-height: 1.17
+
+          &__action
+            display: inline-flex
+            align-items: center
+
+      &__header
+        margin: -16px
+        padding-bottom: 32px
+
+        &__input
+          box-sizing: border-box
+          width: 100%
+          padding: 8px 16px
+          background: $dark-4
+          display: flex
+          align-items: center
+
+        &__bet
+          display: flex
+          align-items: center
+          padding: 0 16px
+          box-sizing: border-box
+          height: 72px
+
+          &__content
+            display: flex
+            flex-direction: column
+
+            &__title
+              font-size: 16px
+              font-weight: bold
+              line-height: 1.38
+              color: $light-1
+
+            &__group
+              display: flex
+              align-items: center
+
+              &__coins
+                margin-right: 8px
+                font-size: 12px
+                font-weight: 500
+                color: $light-2
+
+              &__balance
+                font-size: 12px
+                font-weight: bold
+                color: $light-1
+
+
+      &__games
+        width: calc(100% + 32px)
+        flex: 1
+        margin: -16px
+        padding: 16px
+        box-sizing: border-box
+
+        &__container
+          flex: 1
+          overflow-y: auto
+
+      &__date
+        &__weekday
+          font-family: $font
+          font-size: 10px
+          letter-spacing: 1px
+          text-align: center
