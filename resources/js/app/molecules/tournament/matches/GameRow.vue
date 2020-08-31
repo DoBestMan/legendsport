@@ -15,6 +15,7 @@
                     >
                         {{ moneyLineHome | signedNumber }}
                     </div>
+                    <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
 
                     <div
                         class="odd__container__content__details__line__tags__tag"
@@ -29,6 +30,7 @@
                             {{ pointSpreadHome | signedNumber }}
                         </div>
                     </div>
+                    <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
 
                     <div
                         class="odd__container__content__details__line__tags__tag"
@@ -43,6 +45,7 @@
                             {{ overLine | signedNumber }}
                         </div>
                     </div>
+                    <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
                 </div>
             </div>
 
@@ -60,6 +63,7 @@
                     >
                         {{ moneyLineAway | signedNumber }}
                     </div>
+                    <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
 
                     <div
                         class="odd__container__content__details__line__tags__tag"
@@ -74,6 +78,7 @@
                             {{ pointSpreadAway | signedNumber }}
                         </div>
                     </div>
+                    <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
 
                     <div
                         class="odd__container__content__details__line__tags__tag"
@@ -88,16 +93,17 @@
                             {{ underLine | signedNumber }}
                         </div>
                     </div>
+                    <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
                 </div>
             </div>
         </div>
 
         <!-- ToDo: how to get +23 -->
-        <!-- <div class="odd__container__content__odd">
+         <div class="odd__container__content__odd">
             <div class="odd__container__content__odd__details">
-                +23
+                +0
             </div>
-        </div> -->
+        </div>
     </div>
 </template>
 
