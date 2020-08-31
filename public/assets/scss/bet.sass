@@ -1,0 +1,124 @@
+@import variables
+
+.bet
+  border-radius: 8px
+  background: $dark-4
+  overflow: hidden
+  margin-bottom: 16px
+
+  &__footer
+    background: $dark-5
+    padding: 8px
+
+    &__line
+      padding: 8px
+      display: flex
+      align-items: center
+      justify-content: space-between
+
+      &__name
+        font-size: 14px
+        font-weight: 500
+        line-height: 1
+        color: $light-1
+
+      &__detail
+        font-size: 14px
+        line-height: 1
+        text-align: right
+        color: $light-1
+
+  &__seperator
+    height: 0px
+    width: 100%
+    border-bottom: 1px dashed $yellow-1
+    opacity: 0.4
+
+  &__inputs
+    display: flex
+    align-items: center
+    padding: 8px
+    padding-top: 0
+
+    &__input
+      padding-top: 0
+      padding: 8px
+      flex: 1
+
+  &__container
+    padding: 16px
+    padding-bottom: 24px
+    display: flex
+    align-items: center
+
+    &__content
+      flex: 1
+
+      &__subtitle
+        font-size: 10px
+        color: $light-2
+        margin-bottom: 4px
+
+      &__title
+        font-size: 12px
+        font-weight: bold
+        color: $light-1
+
+
+  &__details
+    padding: 16px 0
+    margin: 0 16px
+    border-bottom: 1px solid $dark-5
+    display: flex
+    align-items: center
+
+    &__icon
+      padding-right: 4px
+
+    &__content
+      flex: 1
+
+      &__title
+        font-size: 12px
+        font-weight: 500
+        line-height: 1.17
+        color: $light-1
+        margin-bottom: 5px
+
+      &__subtitle
+        font-size: 10px
+        color: $light-2
+
+  &__header
+    padding: 16px
+    padding-bottom: 8px
+    display: flex
+    align-items: center
+    justify-content: space-between
+
+    &__type
+      line-height: 16px
+      padding: 0 4px
+      border: 1px solid $light-3
+      font-size: 10px
+      font-weight: bold
+      letter-spacing: 1px
+      color: $light-1
+      border-radius: 2px
+
+    &__tag
+      margin-right: -16px
+      border-top-left-radius: 2px
+      border-bottom-left-radius: 2px
+      background: $dark-5
+      padding: 2px 16px 2px 8px
+      font-size: 10px
+      font-weight: bold
+      letter-spacing: 1px
+      color: $light-1
+
+      &--red
+        background: $red-1
+
+      &--green
+        background: $green-1

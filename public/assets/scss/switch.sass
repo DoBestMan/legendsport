@@ -1,0 +1,35 @@
+@import variables
+
+.switch
+  height: 40px
+  border-radius: 999px
+  background: $dark-4
+  display: flex
+  color: $light-1
+  margin-bottom: 24px
+
+  &--small
+    height: 24px
+
+  &__item
+    flex: 1
+    border-radius: 999px
+    height: 40px
+    line-height: 40px
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    font-size: 12px
+    font-weight: bold
+
+    &--small
+      height: 24px
+      padding: 0 16px
+      font-size: 10px
+
+    &--large
+      padding: 0 32px
+
+    &--active
+      background: $light-1
+      color: $dark-4

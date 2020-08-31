@@ -1,0 +1,35 @@
+@import variables
+
+.modal
+  display: none
+  position: fixed
+  width: 100%
+  height: calc(100% - 126px)
+  top: 126px
+  left: 0
+  background: $dark-4
+  box-sizing: border-box
+  padding: 24px 16px
+
+  &__row
+    display: flex
+    align-items: center
+    justify-content: space-between
+    height: 46px
+
+    &__item
+      font-size: 16px
+      font-weight: 500
+      color: $light-1
+      display: inline-flex
+      align-items: center
+
+  &__component
+    display: block
+    width: 100%
+    margin-bottom: 16px
+
+  &--active
+    display: flex
+    flex-direction: column
+    overflow-y: auto

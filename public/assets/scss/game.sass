@@ -1,0 +1,91 @@
+@import variables
+
+.game
+  border-radius: 8px
+  background: $dark-4
+  padding: 16px
+  margin-bottom: 16px
+
+  &__footer
+    display: flex
+    align-items: flex-end
+    justify-content: space-between
+
+    &__detail
+      flex: 1
+
+      &__label
+        margin-bottom: 3px
+        font-size: 10px
+        font-weight: bold
+        line-height: 1.4
+        color: $light-3
+
+        &--right
+          text-align: right
+
+      &__team
+        font-size: 12px
+        font-weight: bold
+        color: $light-1
+
+        &--right
+          text-align: right
+
+    &__score
+      padding: 0 8px
+      display: flex
+      align-items: center
+
+      &__item
+        width: 24px
+        height: 24px
+        border-radius: 4px
+        background: $charcoal-2
+        display: inline-flex
+        align-items: center
+        justify-content: center
+        font-size: 12px
+        font-weight: bold
+        text-align: center
+        color: $light-1
+
+      &__seperator
+        padding: 0 4px
+        color: $light-1
+
+  &__header
+    display: flex
+    align-items: center
+    justify-content: space-between
+    margin-bottom: 12px
+
+    &__detail
+      display: flex
+      align-items: center
+
+      &__status
+        font-size: 12px
+        font-weight: bold
+        color: $light-2
+
+      &__date
+        font-weight: bold
+        color: $light-1
+        font-size: 12px
+        margin-right: 3px
+
+      &__timezone
+        font-family: $font
+        font-size: 12px
+        color: $light-3
+
+    &__sport
+      display: inline-flex
+      align-items: center
+      font-family: $font
+      font-size: 12px
+      font-weight: 500
+      line-height: 1.17
+      text-align: right
+      color: $light-1

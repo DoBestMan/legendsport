@@ -49,7 +49,9 @@ export default Vue.extend({
 
     computed: {
         sportOptions(): SportOption[] {
-            return sportStore.sports.map(sport => new SportOption(sport.id, sport.name + " (" + sport.provider + ")"));
+            return sportStore.sports.map(
+                sport => new SportOption(sport.id, sport.name + " (" + sport.provider + ")"),
+            );
         },
     },
 

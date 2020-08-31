@@ -1,0 +1,31 @@
+@import variables
+
+.seperator
+  width: 100%
+  height: 1px
+  background: $dark-5
+  margin: 24px 0
+
+  &--light
+    background: rgba(255, 255, 255, 0.4)
+
+.form
+  &__control
+    position: relative
+
+    &__icon
+      display: inline-flex
+      align-items: center
+      justify-content: center
+
+      &--right
+        position: absolute
+        top: 50%
+        transform: translateY(-50%)
+        right: 8px
+
+      &--left
+        position: absolute
+        top: 50%
+        transform: translateY(-50%)
+        left: 8px

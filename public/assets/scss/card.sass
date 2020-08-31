@@ -1,0 +1,40 @@
+@import variables
+
+.card
+  display: flex
+  border-radius: 8px
+  background: $dark-4
+  padding: 24px
+  margin-bottom: 40px
+  flex-direction: column
+
+  &--row
+    flex-direction: row
+    align-items: center
+
+  &__row
+    height: 67px
+    display: flex
+    align-items: center
+    justify-content: space-between
+    margin: 0 24px
+    border-bottom: 1px solid $dark-5
+
+    &--large
+      height: 82px
+
+    &:last-child
+      border-bottom: none
+
+    &__label
+      font-size: 14px
+      font-weight: bold
+      color: $light-3
+
+    &__value
+      font-size: 14px
+      font-weight: 500
+      color: $light-1
+
+  &--paddingless
+    padding: 0

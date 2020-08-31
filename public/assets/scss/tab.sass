@@ -1,0 +1,75 @@
+@import variables
+
+.tabs
+  display: flex
+  align-items: center
+  margin: 0 -8px
+  margin-bottom: 60px
+
+  &__item
+    margin: 0 8px
+    flex: 1
+    border-radius: 8px
+    background: $dark-4
+    padding: 24px
+    box-sizing: border-box
+
+    &--active
+      border: 1px solid rgba(242, 205, 93, 0.6)
+
+    &__icon
+      height: 68px
+      width: 100%
+      background-repeat: no-repeat
+      background-position: center
+      background-size: cover
+      margin-bottom: 16px
+
+    &__title
+      font-size: 18px
+      font-weight: bold
+      text-align: center
+      color: $light-1
+
+
+.tab
+  &--large
+    background: $dark-4
+    display: flex
+
+    &__item
+      flex: 1
+      height: 48px
+      display: inline-flex
+      align-items: center
+      justify-content: center
+      font-size: 14px
+      font-weight: bold
+      line-height: 1.43
+      text-align: center
+      color: $light-1
+      box-sizing: border-box
+      border-bottom: 1px solid $dark-5
+
+      &--active
+        border-bottom: 2px solid $yellow-1
+
+  padding: 16px
+  box-sizing: border-box
+
+  border-radius: 8px 8px 0 0
+  display: inline-flex
+  flex-direction: row
+  font-family: $font
+  font-size: 14px
+  line-height: 1.43
+  color: $light-1
+  align-items: center
+
+  &--active
+    background-color: $dark-3
+    font-weight: bold
+  &:hover
+    cursor: pointer
+    background-color: $dark-3
+    font-weight: bold

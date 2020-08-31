@@ -1,0 +1,71 @@
+@import variables
+
+.message--self .message__content__message
+  border-radius: 8px
+  border-top-left-radius: 8px
+  border-top-right-radius: 0
+  background: $yellow-2
+  color: $dark-2
+
+.message
+  display: flex
+
+  &--self
+    justify-content: flex-end
+
+  &--last
+    margin-bottom: 16px
+
+  &__content
+
+    &__details
+      display: flex
+      align-items: center
+      justify-content: space-between
+
+      &__detail
+        font-size: 10px
+        font-weight: bold
+        line-height: 1.6
+        letter-spacing: 1px
+        color: $light-2
+
+    &__message
+      margin-bottom: 8px
+      max-width: 220px
+      padding: 8px
+      border-radius: 8px
+      border-top-left-radius: 0
+      background: $dark-4
+      font-size: 12px
+      line-height: 1.17
+      letter-spacing: 1px
+      color: $light-1
+
+    &--no-avatar
+      margin-left: 34px
+
+
+  &__avatar
+    width: 24px
+    height: 24px
+    min-width: 24px
+    background: $dark-4
+    border: 1px solid $dark-5
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    border-radius: 4px
+    margin-right: 8px
+    position: relative
+    overflow: hidden
+
+    &__image
+      display: block
+      width: 100%
+      height: auto
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%

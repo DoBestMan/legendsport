@@ -1,0 +1,82 @@
+@import variables
+
+.label
+  color: $light-3
+  font-family: $font
+  font-size: 10px
+  font-weight: bold
+  margin-bottom: 4px
+  display: block
+
+  &--large
+    font-size: 14px
+    font-weight: bold
+
+textarea.input
+  height: 90px
+  resize: none
+
+.input
+  height: 30px
+  box-sizing: border-box
+  padding: 8px 16px
+  background-color: $dark-2
+  font-size: 12px
+  font-weight: 500
+  line-height: 1.17
+  color: $light-1
+  border-radius: 4px
+  border: none
+  outline: none
+  width: 100%
+
+  &--light
+    background: $light-1
+    color: $dark-4
+
+    &::placeholder
+      color: $dark-5
+
+  &--padding
+    &--left
+      padding-left: 32px
+
+  &--large
+    height: 46px
+
+  &--medium
+    height: 40px
+
+  &::placeholder
+    color: $light-3
+
+.checkbox
+  position: relative
+  width: 10px
+  height: 10px
+  background-color: transparent
+  border: none
+  border-radius: 4px
+  margin: 10px
+
+  &::before
+    content: " "
+    position: absolute
+    top: -10px
+    left: -10px
+    width: 30px
+    height: 30px
+    border-radius: 4px
+    background-color: $dark-2
+
+  &:checked
+    &::after
+      content: " "
+      position: absolute
+      top: -10px
+      left: -10px
+      width: 30px
+      height: 30px
+      border-radius: 4px
+      z-index: 3
+      background-color: $light-3

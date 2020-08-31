@@ -39,9 +39,8 @@
                 style="margin-bottom: 10px;"
                 v-for="(tournament, index) in filteredTournaments"
                 :key="`${tournament.name}-mobile-${index}`"
-                @click="openMobileTournament(tournament)"
             >
-                <div class="tournament--mobile__container">
+                <div class="tournament--mobile__container" @click="openTournament(tournament)">
                     <div class="tournament--mobile__container__sidebar">
                         <div class="tournament--mobile__container__sidebar__date">
                             <div class="tournament--mobile__container__sidebar__date__weekday">
@@ -138,7 +137,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tournament--mobile__buttons">
+                <div class="tournament--mobile__buttons" @click="openMobileTournament(tournament)">
                     <div class="tournament--mobile__buttons__button">
                         <i class="icon icon--micro icon--games m--r--2"></i>
                         GAMES
