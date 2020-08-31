@@ -20,7 +20,7 @@ data:
   DB_DATABASE: legendsports-staging
 
   BROADCAST_DRIVER: pusher
-  CACHE_DRIVER: file
+  CACHE_DRIVER: database
   QUEUE_CONNECTION: uniquedbqueue
   SESSION_DRIVER: database
   SESSION_LIFETIME: "120"

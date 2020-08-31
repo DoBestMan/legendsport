@@ -22,7 +22,7 @@ data:
   DB_DATABASE: ######DATABASE_NAME######
 
   BROADCAST_DRIVER: pusher
-  CACHE_DRIVER: file
+  CACHE_DRIVER: database
   QUEUE_CONNECTION: uniquedbqueue
   SESSION_DRIVER: database
   SESSION_LIFETIME: "120"
