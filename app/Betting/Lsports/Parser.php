@@ -10,6 +10,10 @@ class Parser
     public function parseMainLines(iterable $preMatchOdds)
     {
         $moneyLineHome = $moneyLineAway = $spreadHomePrice = $spreadAwayPrice = $spreadHomeLine = $spreadAwayLine = $overPrice = $underPrice = $totalLine = null;
+
+        $spreads = [];
+        $totals = [];
+
         foreach ($this->flatten($preMatchOdds) as $preMatchOdd) {
             switch (true) {
                 case $preMatchOdd['MarketId'] === 226 && $preMatchOdd['Name'] === '1':
@@ -19,22 +23,46 @@ class Parser
                     $moneyLineAway = decimal_to_american($preMatchOdd['Price']);
                     break;
                 case $preMatchOdd['MarketId'] === 342 && $preMatchOdd['Name'] === '1':
-                    $spreadHomeLine = new Decimal(explode(' ', $preMatchOdd['Line'])[0]);
-                    $spreadHomePrice = decimal_to_american($preMatchOdd['Price']);
+                    $spreads[$preMatchOdd['BaseLine']]['1'] = $preMatchOdd;
                     break;
                 case $preMatchOdd['MarketId'] === 342 && $preMatchOdd['Name'] === '2':
-                    $spreadAwayLine = new Decimal(explode(' ', $preMatchOdd['Line'])[0]);
-                    $spreadAwayPrice = decimal_to_american($preMatchOdd['Price']);
+                    $spreads[$preMatchOdd['BaseLine']]['2'] = $preMatchOdd;
                     break;
                 case $preMatchOdd['MarketId'] === 28 && $preMatchOdd['Name'] === 'Over':
-                    $totalLine = new Decimal($preMatchOdd['Line']);
-                    $overPrice = decimal_to_american($preMatchOdd['Price']);
+                    $totals[$preMatchOdd['BaseLine']]['Over'] = $preMatchOdd;
                     break;
                 case $preMatchOdd['MarketId'] === 28 && $preMatchOdd['Name'] === 'Under':
-                    $totalLine = new Decimal($preMatchOdd['Line']);
-                    $underPrice = decimal_to_american($preMatchOdd['Price']);
+                    $totals[$preMatchOdd['BaseLine']]['Under'] = $preMatchOdd;
                     break;
             }
+        }
+
+        $vig = function ($lines) {
+            $lines = array_values($lines);
+            return abs($lines[0]['Price'] - 2.0) + abs($lines[1]['Price'] - 2.0);
+        };
+
+        if (count($spreads)) {
+            usort($spreads, fn($a, $b) => $vig($a) <=> $vig($b));
+            $spread = current($spreads);
+
+            //echo '<pre>';
+            //var_dump($spreads);
+
+            $spreadHomeLine = new Decimal(explode(' ', $spread['1']['Line'])[0]);
+            $spreadHomePrice = decimal_to_american($spread['1']['Price']);
+            $spreadAwayLine = new Decimal(explode(' ', $spread['2']['Line'])[0]);
+            $spreadAwayPrice = decimal_to_american($spread['2']['Price']);
+        }
+
+        if (count($totals)) {
+
+            usort($totals, fn($a, $b) => $vig($a) <=> $vig($b));
+            $total = current($totals);
+
+            $underPrice = decimal_to_american($total['Under']['Price']);
+            $totalLine = new Decimal($total['Under']['Line']);
+            $overPrice = decimal_to_american($total['Over']['Price']);
         }
 
         return new SportEventOdd(

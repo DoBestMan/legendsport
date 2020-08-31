@@ -73,6 +73,10 @@ class Lsports implements BettingProvider
                 continue;
             }
 
+            if ($apiEvent->isFinished()) {
+                continue;
+            }
+
             $sportsOdds = $parser->parseMainLines(new FilterMarkets(new \ArrayIterator($item['Markets'])));
             $apiEvent->updateOdds($sportsOdds);
             $updates[] = $apiEvent;
