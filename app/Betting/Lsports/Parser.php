@@ -7,7 +7,7 @@ use Decimal\Decimal;
 
 class Parser
 {
-    public function parseMainLines(iterable $preMatchOdds)
+    public function parseMainLines(iterable $preMatchOdds, $isBaseball)
     {
         $moneyLineHome = $moneyLineAway = $spreadHomePrice = $spreadAwayPrice = $spreadHomeLine = $spreadAwayLine = $overPrice = $underPrice = $totalLine = null;
 
@@ -23,10 +23,14 @@ class Parser
                     $moneyLineAway = decimal_to_american($preMatchOdd['Price']);
                     break;
                 case $preMatchOdd['MarketId'] === 342 && $preMatchOdd['Name'] === '1':
-                    $spreads[$preMatchOdd['BaseLine']]['1'] = $preMatchOdd;
+                    if (!$isBaseball || in_array(explode(' ', $preMatchOdd['Line'])[0], [1.5, -1.5])) {
+                        $spreads[$preMatchOdd['BaseLine']]['1'] = $preMatchOdd;
+                    }
                     break;
                 case $preMatchOdd['MarketId'] === 342 && $preMatchOdd['Name'] === '2':
-                    $spreads[$preMatchOdd['BaseLine']]['2'] = $preMatchOdd;
+                    if (!$isBaseball || in_array(explode(' ', $preMatchOdd['Line'])[0], [1.5, -1.5])) {
+                        $spreads[$preMatchOdd['BaseLine']]['2'] = $preMatchOdd;
+                    }
                     break;
                 case $preMatchOdd['MarketId'] === 28 && $preMatchOdd['Name'] === 'Over':
                     $totals[$preMatchOdd['BaseLine']]['Over'] = $preMatchOdd;
@@ -46,9 +50,6 @@ class Parser
             usort($spreads, fn($a, $b) => $vig($a) <=> $vig($b));
             $spread = current($spreads);
 
-            //echo '<pre>';
-            //var_dump($spreads);
-
             $spreadHomeLine = new Decimal(explode(' ', $spread['1']['Line'])[0]);
             $spreadHomePrice = decimal_to_american($spread['1']['Price']);
             $spreadAwayLine = new Decimal(explode(' ', $spread['2']['Line'])[0]);
@@ -56,7 +57,6 @@ class Parser
         }
 
         if (count($totals)) {
-
             usort($totals, fn($a, $b) => $vig($a) <=> $vig($b));
             $total = current($totals);
 

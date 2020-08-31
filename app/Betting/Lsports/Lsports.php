@@ -77,7 +77,7 @@ class Lsports implements BettingProvider
                 continue;
             }
 
-            $sportsOdds = $parser->parseMainLines(new FilterMarkets(new \ArrayIterator($item['Markets'])));
+            $sportsOdds = $parser->parseMainLines(new FilterMarkets(new \ArrayIterator($item['Markets'])), $apiEvent->getSportId() === 154914);
             $apiEvent->updateOdds($sportsOdds);
             $updates[] = $apiEvent;
         }
