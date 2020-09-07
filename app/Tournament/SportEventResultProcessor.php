@@ -61,28 +61,25 @@ class SportEventResultProcessor
             "time_status" => $apiEvent->getTimeStatus(),
         ]);
 
-        if (!$apiEvent->isFinished()) {
-            $this->entityManager->flush();
-            return;
-        }
-
         foreach($apiEvent->getTournamentEvents() as $tournamentEvent) {
-            foreach ($tournamentEvent->getBets() as $bet) {
-                $updated = $bet->evaluate();
+            if ($apiEvent->isFinished()) {
+                foreach ($tournamentEvent->getBets() as $bet) {
+                    $updated = $bet->evaluate();
 
-                if ($updated) {
-                    $tournamentBet = $bet->getTournamentBet();
-                    $user = $tournamentBet->getTournamentPlayer()->getUser();
+                    if ($updated) {
+                        $tournamentBet = $bet->getTournamentBet();
+                        $user = $tournamentBet->getTournamentPlayer()->getUser();
 
-                    $this->logger->info("Bet was graded", [
-                        "player_id" => $user->getId(),
-                        "tournament_bet_id" => $tournamentBet->getId(),
-                        "status" => $tournamentBet->getStatus(),
-                        "chips_wager" => $tournamentBet->getChipsWager(),
-                        "chips_win" => $tournamentBet->getChipsWon(),
-                    ]);
+                        $this->logger->info("Bet was graded", [
+                            "player_id" => $user->getId(),
+                            "tournament_bet_id" => $tournamentBet->getId(),
+                            "status" => $tournamentBet->getStatus(),
+                            "chips_wager" => $tournamentBet->getChipsWager(),
+                            "chips_win" => $tournamentBet->getChipsWon(),
+                        ]);
 
-                    $this->usersUpdated[$user->getId()] = $user;
+                        $this->usersUpdated[$user->getId()] = $user;
+                    }
                 }
             }
 
