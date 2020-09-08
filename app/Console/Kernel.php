@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Jobs\AddBotsToTournaments;
 use App\Jobs\PlaceBotBets;
+use App\Jobs\QueueUpdateApiData;
 use App\Jobs\RefreshBet365Events;
 use App\Jobs\SyncMatchesResults;
 use App\Jobs\UpdateOdds;
@@ -30,8 +31,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(SyncMatchesResults::class)->everyMinute();
-        $schedule->job(UpdateOdds::class)->everyMinute();
+        //$schedule->job(SyncMatchesResults::class)->everyMinute();
+        //$schedule->job(UpdateOdds::class)->everyMinute();
+        $schedule->job(QueueUpdateApiData::class)->everyMinute();
         $schedule->job(UpdateTournamentStates::class)->everyMinute();
         $schedule->job(AddBotsToTournaments::class)->everyMinute();
         $schedule->job(PlaceBotBets::class)->everyMinute();
