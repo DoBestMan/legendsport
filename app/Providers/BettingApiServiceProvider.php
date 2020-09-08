@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Betting\Bet365\Initaliser;
 use App\Betting\Bets365API;
 use App\Betting\BettingProvider;
-use App\Betting\LegendsOdds;
+use App\Betting\LegendsOdds\LegendsOdds;
 use App\Betting\Lsports\Lsports;
 use App\Betting\MultiProvider;
 use App\Betting\SportsData\MLB;
