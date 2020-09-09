@@ -12,7 +12,13 @@ mkdir /tmp/qa
 
 echo "Deploying: $BACKEND_IMAGE and $FRONTEND_IMAGE"
 
-gcloud sql databases create $DATABASE_NAME --instance="production"
+if [[ ! $(gcloud sql databases list --instance="production" | grep $DATABASE_NAME) ]]; then
+    echo "Creating database: $DATABASE_NAME"
+    gcloud sql databases create $DATABASE_NAME --instance="production"
+else
+    echo "Database $DATABASE_NAME already exists"
+fi;
+
 
 REPLACEMENTS="\
 s!######BACKEND_IMAGE######!${BACKEND_IMAGE}!g;\

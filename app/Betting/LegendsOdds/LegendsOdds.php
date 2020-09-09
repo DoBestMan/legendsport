@@ -88,6 +88,8 @@ class LegendsOdds implements BettingProvider
             $updates[] = $apiEvent;
         }
 
+        $this->entityManager->flush();
+
         return $updates;
     }
 

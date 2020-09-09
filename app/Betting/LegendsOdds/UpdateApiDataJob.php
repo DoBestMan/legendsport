@@ -42,7 +42,7 @@ class UpdateApiDataJob implements ShouldQueue, Uniqueable
             ->toArray();
 
         $logger->info('Odds updated');
-        $dispatcher->dispatch(new OddsUpdate($odds, true));
+        $dispatcher->dispatch(new OddsUpdate($odds, false));
 
         $logger->info('Fetching game results');
 
