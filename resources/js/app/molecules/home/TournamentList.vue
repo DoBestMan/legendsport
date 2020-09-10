@@ -3,7 +3,7 @@
         <div class="table d--only--desktop">
             <div class="table__header">
                 <div class="table__header__label">START</div>
-                <div class="table__header__label">TOURNAMENT NAME</div>
+                <div class="table__header__label_long">TOURNAMENT NAME</div>
                 <div class="table__header__label">BUY-IN</div>
                 <div class="table__header__label">TIME FRAME</div>
                 <div class="table__header__label">STATUS</div>
@@ -19,7 +19,7 @@
                 :key="`${tournament.name}-desktop-${index}`"
             >
                 <div class="tournament--desktop__item">{{ tournament.starts | toDateTime }}</div>
-                <div class="tournament--desktop__item">
+                <div class="tournament--desktop__name">
                     <span
                         v-if="isRegistered(tournament)"
                         title="You're registered for this tournament"
