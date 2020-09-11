@@ -129,8 +129,7 @@
         display: none !important
   .layout
     &__content
-      &:not(.layout__content--home)
-        max-height: calc(100% -  110px)
+      max-height: calc(100% -  110px)
       &__container
         &__mobile
           display: none
@@ -142,17 +141,23 @@
           overflow-y: auto
           padding-bottom: 44px
           box-sizing: border-box
+          &__home
+              max-height: 105% !important
+              padding-bottom: 0px
         &__chat
           max-height: 60%
           overflow-y: auto
           &__container
             display: flex
             flex-direction: column
-            height: 600px
+            height: 400px
             &__messages
               flex: 1
               overflow-y: auto
-
+      &__slip__mobile
+          display: none
+      &--home
+          max-height: 100%
 /* Small Laptops */
 @media (max-width: 992px)
   .menu
