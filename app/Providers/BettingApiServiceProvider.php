@@ -46,7 +46,7 @@ class BettingApiServiceProvider extends ServiceProvider
             ->needs('$scoresApiKey')
             ->give(env('SPORTSDATA_NFL_SCORES_KEY'));
 
-        $this->app->tag([TestData::class, NBA::class, MLB::class, NFL::class, Lsports::class, LegendsOdds::class], ['betting_provider']);
+        $this->app->tag([TestData::class, LegendsOdds::class], ['betting_provider']);
 
         $this->app->when(MultiProvider::class)
             ->needs(BettingProvider::class)
