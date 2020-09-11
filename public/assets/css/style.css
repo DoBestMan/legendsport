@@ -1657,6 +1657,7 @@ textarea.input {
 
 .tournament--desktop:hover {
   border: 1px solid #f2cd5d;
+<<<<<<< Updated upstream
 }
 
 .tournament--desktop__name {
@@ -1667,6 +1668,8 @@ textarea.input {
   line-height: 1.17;
   color: #ffffff;
   white-space: nowrap;
+=======
+>>>>>>> Stashed changes
 }
 
 .tournament--desktop__item {
@@ -2155,6 +2158,7 @@ textarea.input {
   display: flex;
   align-items: center;
   justify-content: space-between;
+<<<<<<< Updated upstream
 }
 
 .table__header__label_long {
@@ -2166,6 +2170,8 @@ textarea.input {
   letter-spacing: 2px;
   color: #ffffff;
   padding: 16px;
+=======
+>>>>>>> Stashed changes
 }
 
 .table__header__label {
@@ -2721,6 +2727,7 @@ textarea.input {
 
 .form__control {
   position: relative;
+<<<<<<< Updated upstream
 }
 
 .form__control .error {
@@ -2736,6 +2743,10 @@ textarea.input {
   display: inline-block;
 }
 
+=======
+}
+
+>>>>>>> Stashed changes
 .form__control__icon {
   display: inline-flex;
   align-items: center;
@@ -3057,6 +3068,7 @@ textarea.input {
   flex: 0 0 auto;
   padding-right: 0.5rem;
   padding-left: 0.5rem;
+<<<<<<< Updated upstream
 }
 
 .col-xs-1 {
@@ -3074,6 +3086,25 @@ textarea.input {
   max-width: 25%;
 }
 
+=======
+}
+
+.col-xs-1 {
+  flex-basis: 8.3333333333%;
+  max-width: 8.3333333333%;
+}
+
+.col-xs-2 {
+  flex-basis: 16.6666666667%;
+  max-width: 16.6666666667%;
+}
+
+.col-xs-3 {
+  flex-basis: 25%;
+  max-width: 25%;
+}
+
+>>>>>>> Stashed changes
 .col-xs-4 {
   flex-basis: 33.3333333333%;
   max-width: 33.3333333333%;
@@ -3639,12 +3670,20 @@ textarea.input {
   margin-bottom: 16px;
 }
 
+<<<<<<< Updated upstream
 .lvlprogress {
+=======
+.progress {
+>>>>>>> Stashed changes
   width: 100%;
   flex: 1;
 }
 
+<<<<<<< Updated upstream
 .lvlprogress__title {
+=======
+.progress__title {
+>>>>>>> Stashed changes
   font-size: 14px;
   font-weight: bold;
   line-height: 1.43;
@@ -3653,20 +3692,32 @@ textarea.input {
   margin-bottom: 8px;
 }
 
+<<<<<<< Updated upstream
 .lvlprogress__bar {
+=======
+.progress__bar {
+>>>>>>> Stashed changes
   width: 100%;
   height: 8px;
   border-radius: 999px;
   background: #1D2329;
 }
 
+<<<<<<< Updated upstream
 .lvlprogress__bar__value {
+=======
+.progress__bar__value {
+>>>>>>> Stashed changes
   height: 8px;
   border-radius: 999px;
   background: #f2cd5d;
 }
 
+<<<<<<< Updated upstream
 .lvlprogress__subtitle {
+=======
+.progress__subtitle {
+>>>>>>> Stashed changes
   margin-top: 8px;
   font-size: 12px;
   font-weight: bold;
