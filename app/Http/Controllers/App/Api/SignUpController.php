@@ -14,11 +14,17 @@ class SignUpController extends Controller
 {
     public function post(Request $request, AuthManager $authManager)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        $request->validate(
+            [
+                'name' => ['required', 'string', 'max:255', 'unique:users'],
+                'firstname' => ['required', 'string', 'max:255'],
+                'lastname' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+                'dob' => ['required', 'date', 'before:-18 years'],
+            ],
+            ['dob.before' => 'You must be over 18 years old to register an account']
+        );
 
         $user = $this->create($request->all());
         event(new Registered($user));
@@ -34,7 +40,11 @@ class SignUpController extends Controller
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->password = Hash::make($data['password']);
-        $user->balance = 1000000;
+        $user->balance = 0;
+        $user->firstname = $data['firstname'];
+        $user->lastname = $data['lastname'];
+        $user->date_of_birth = $data['dob'];
+        $user->is_bot = 0;
         $user->save();
 
         return $user;

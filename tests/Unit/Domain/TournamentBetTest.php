@@ -31,7 +31,7 @@ class TournamentBetTest extends TestCase
         $tournament->addEvent($apiEvent);
         $tournamentEvent = $tournament->getEvents()->first();
 
-        $user = new User('test', 'test@test.com', 'test');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament->registerPlayer($user);
         $player = $user->getTournamentPlayer($tournament);
 
@@ -72,7 +72,7 @@ class TournamentBetTest extends TestCase
         $tournament->addEvent($apiEvent);
         $tournamentEvent = $tournament->getEvents()->first();
 
-        $user = new User('test', 'test@test.com', 'test');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament->registerPlayer($user);
         $player = $user->getTournamentPlayer($tournament);
 
@@ -101,7 +101,7 @@ class TournamentBetTest extends TestCase
         $tournamentEvent = $tournament->getEvents()->first();
         FactoryAbstract::setProperty($tournamentEvent, 'id', 1);
 
-        $user = new User('test', 'test@test.com', 'test');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament->registerPlayer($user);
         $player = $user->getTournamentPlayer($tournament);
 
@@ -150,7 +150,7 @@ class TournamentBetTest extends TestCase
         FactoryAbstract::setProperty($tournamentEvent1, 'id', 1);
         FactoryAbstract::setProperty($tournamentEvent2, 'id', 2);
 
-        $user = new User('test', 'test@test.com', 'test');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament->registerPlayer($user);
         $player = $user->getTournamentPlayer($tournament);
 
@@ -188,7 +188,7 @@ class TournamentBetTest extends TestCase
         FactoryAbstract::setProperty($tournamentEvent1, 'id', 1);
         FactoryAbstract::setProperty($tournamentEvent2, 'id', 2);
 
-        $user = new User('test', 'test@test.com', 'test');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament->registerPlayer($user);
         $player = $user->getTournamentPlayer($tournament);
 

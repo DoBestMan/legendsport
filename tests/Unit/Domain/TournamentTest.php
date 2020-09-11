@@ -29,7 +29,7 @@ class TournamentTest extends TestCase
     public function testPlaceStraightBet()
     {
         $apiEvent = ApiEventFactory::create();
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 10000);
@@ -55,7 +55,7 @@ class TournamentTest extends TestCase
 
     public function testPlaceStraightBetInTournamentWithStartedEvents()
     {
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 10000);
@@ -82,7 +82,7 @@ class TournamentTest extends TestCase
     public function testPlaceStraightBetNotRegistered()
     {
         $apiEvent = ApiEventFactory::create();
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 10000);
@@ -98,7 +98,7 @@ class TournamentTest extends TestCase
     public function testPlaceStraightBetTournamentOver()
     {
         $apiEvent = ApiEventFactory::create();
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 10000);
@@ -117,7 +117,7 @@ class TournamentTest extends TestCase
     {
         $apiEvent = ApiEventFactory::create();
 
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 10000);
@@ -135,7 +135,7 @@ class TournamentTest extends TestCase
     public function testPlaceStraightBetInvalidEvent()
     {
         $apiEvent = ApiEventFactory::create();
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 10000);
@@ -151,7 +151,7 @@ class TournamentTest extends TestCase
 
     public function testPlaceParlayBet()
     {
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 10000);
@@ -182,7 +182,7 @@ class TournamentTest extends TestCase
 
     public function testPlaceParlayBetInTournamentWithStartedEvent()
     {
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 10000);
@@ -214,7 +214,7 @@ class TournamentTest extends TestCase
     public function testPlaceParlayBetNotRegistered()
     {
         $apiEvent = ApiEventFactory::create();
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 10000);
@@ -234,7 +234,7 @@ class TournamentTest extends TestCase
     public function testPlaceParlayBetTournamentOver()
     {
         $apiEvent = ApiEventFactory::create();
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 10000);
@@ -257,7 +257,7 @@ class TournamentTest extends TestCase
     {
         $apiEvent = ApiEventFactory::create();
 
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 10000);
@@ -279,7 +279,7 @@ class TournamentTest extends TestCase
     public function testPlaceParlayBetInvalidEvent()
     {
         $apiEvent = ApiEventFactory::create();
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 10000);
@@ -300,7 +300,7 @@ class TournamentTest extends TestCase
     public function testPlaceParlayBetCorrelatedEvents()
     {
         $apiEvent = ApiEventFactory::create();
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 10000);
@@ -322,7 +322,7 @@ class TournamentTest extends TestCase
     public function testPlaceParlayBetInsufficientEvents()
     {
         $apiEvent = ApiEventFactory::create();
-        $user = new User('player 1', 'player1@test.com', '...');
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
         $tournament = new Tournament();
         FactoryAbstract::setProperty($tournament, 'id', 1);
         FactoryAbstract::setProperty($tournament, 'chips', 10000);

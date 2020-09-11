@@ -35,6 +35,10 @@ class AppServiceProvider extends ServiceProvider
             });
         });
 
+        $this->app->when(UserTokenService::class)
+            ->needs('$secret')
+            ->give(env("APP_KEY"));
+
         $this->app->bind(BaseWebSocketHandler::class, WebSocketHandler::class);
 
         PhpEnumType::registerEnumType(BetStatus::class);

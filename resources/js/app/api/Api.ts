@@ -32,6 +32,9 @@ export interface SignUpBody {
     email: string;
     password: string;
     password_confirmation: string;
+    firstname: string;
+    lastname: string;
+    dob: string;
 }
 
 export class Api {

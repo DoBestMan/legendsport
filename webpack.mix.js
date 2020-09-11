@@ -15,6 +15,7 @@ mix
     // App
     .js("resources/js/app/app.ts", "public/app/js")
     .sass("resources/sass/app/app.scss", "public/app/css")
+    .sass("public/assets/scss/style.sass", "public/assets/css")
 
     // Backstage
     .js("resources/js/backstage/pages/config.js", "public/backstage/js")

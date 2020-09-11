@@ -60,12 +60,12 @@
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-8">
                         <div class="card card--row">
-                            <div class="progress">
-                                <div class="progress__title">LVL 2: PRO</div>
-                                <div class="progress__bar">
-                                    <div class="progress__bar__value" style="width: 50%"></div>
+                            <div class="lvlprogress">
+                                <div class="lvlprogress__title">LVL 2: PRO</div>
+                                <div class="lvlprogress__bar">
+                                    <div class="lvlprogress__bar__value" style="width: 50%"></div>
                                 </div>
-                                <div class="progress__subtitle">34677/40000</div>
+                                <div class="lvlprogress__subtitle">34677/40000</div>
                             </div>
                             <i class="icon icon--massive icon--cup m--l--6"></i>
                         </div>
