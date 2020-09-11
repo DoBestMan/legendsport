@@ -5,6 +5,7 @@ namespace App\Betting\LegendsOdds;
 use App\Betting\BettingProvider;
 use App\Betting\Lsports\Lsports;
 use App\Betting\Pagination;
+use App\Betting\Sport;
 use App\Betting\SportEvent;
 use App\Betting\SportEventOdd;
 use App\Betting\SportEventResult;
@@ -19,12 +20,10 @@ class LegendsOdds implements BettingProvider
     public const PROVIDER_NAME = "legends-odds";
     public const PROVIDER_DESCRIPTION = 'Legends Odds';
 
-    private Lsports $lsports;
     private EntityManager $entityManager;
 
-    public function __construct(Lsports $lsports, EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager)
     {
-        $this->lsports = $lsports;
         $this->entityManager = $entityManager;
     }
 
@@ -124,7 +123,15 @@ class LegendsOdds implements BettingProvider
 
     public function getSports(): array
     {
-        return $this->lsports->getSports();
+        return [
+            //new Sport('6046', 'Football', self::PROVIDER_NAME),
+            //new Sport('54094', 'Tennis', self::PROVIDER_NAME),
+            //new Sport('530129', 'Hockey', self::PROVIDER_NAME),
+            new Sport('131506', 'American Football', self::PROVIDER_NAME),
+            new Sport('154914', 'Baseball', self::PROVIDER_NAME),
+            new Sport('48242', 'Basketball', self::PROVIDER_NAME),
+            new Sport('35232', 'Ice Hockey', self::PROVIDER_NAME),
+        ];
     }
 
     private function get(string $url): array
