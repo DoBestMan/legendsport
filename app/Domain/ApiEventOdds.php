@@ -25,7 +25,7 @@ class ApiEventOdds
      * @ORM\ManyToOne(targetEntity="\App\Domain\ApiEvent", inversedBy="odds")
      * @ORM\JoinColumn(name="api_event_id", referencedColumnName="id")
      */
-    private ApiEvent $event;
+    private ?ApiEvent $event;
 
     public function __construct(ApiEvent $event, string $betType, int $odds, ?Decimal $handicap = null)
     {
@@ -79,5 +79,10 @@ class ApiEventOdds
             $this->handicap = $handicap;
             $this->updatedAt = Carbon::now();
         }
+    }
+
+    public function suspended(): void
+    {
+        $this->event = null;
     }
 }
