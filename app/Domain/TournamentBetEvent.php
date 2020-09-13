@@ -56,6 +56,10 @@ abstract class TournamentBetEvent
     {
         $odds = $tournamentEvent->getApiEvent()->getOdds(static::class);
 
+        if ($odds === null) {
+            throw BetPlacementException::lineSuspended();
+        }
+
         $this->createdAt = Carbon::now();
         $this->updatedAt = Carbon::now();
         $this->tournamentEvent = $tournamentEvent;
