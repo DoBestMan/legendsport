@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers\Backstage\View;
 
-use App\Betting\SportsData\UpdateOddsJob;
 use App\Betting\TimeStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Transformers\App\ApiEventTransformer;
@@ -326,7 +325,6 @@ class TournamentController extends Controller
             $apiEvent->provider = $data["provider"];
             $apiEvent->starts_at = $data["starts_at"];
             $apiEvent->save();
-            $this->dispatch(new UpdateOddsJob($apiEvent->id));
         }
 
         return $apiEvent;
