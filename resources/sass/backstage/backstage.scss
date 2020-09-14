@@ -34,3 +34,9 @@ a {
         background: $gb_color_dark5;
     }
 }
+
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1480px;
+    }
+}
