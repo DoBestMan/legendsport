@@ -199,7 +199,8 @@ class ApiEvent
         if (
             $this->timeStatus->equals($sportEventResult->getTimeStatus()) &&
             $this->scoreHome === $sportEventResult->getHome() &&
-            $this->scoreAway === $sportEventResult->getAway()
+            $this->scoreAway === $sportEventResult->getAway() &&
+            $this->startsAt === $sportEventResult->getStartsAt()
         ) {
             return false;
         }
@@ -207,6 +208,7 @@ class ApiEvent
         $this->timeStatus = $sportEventResult->getTimeStatus();
         $this->scoreHome = $sportEventResult->getHome();
         $this->scoreAway = $sportEventResult->getAway();
+        $this->startsAt = $sportEventResult->getStartsAt();
         $this->updatedAt = Carbon::now();
 
         return true;

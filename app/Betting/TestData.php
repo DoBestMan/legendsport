@@ -114,6 +114,7 @@ class TestData implements BettingProvider
                 $apiEvent->api_id,
                 static::PROVIDER_NAME,
                 $timeStatus,
+                $apiEvent->starts_at->toString(),
                 $home,
                 $away
             );
