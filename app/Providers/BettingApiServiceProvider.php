@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Betting\Bet365\Initaliser;
-use App\Betting\Bets365API;
 use App\Betting\BettingProvider;
 use App\Betting\LegendsOdds\LegendsOdds;
 use App\Betting\MultiProvider;
@@ -14,10 +12,6 @@ class BettingApiServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->when([Bets365API::class, Initaliser::class])
-            ->needs('$token')
-            ->give(env("BETS365_TOKEN"));
-
         $this->app->tag([TestData::class, LegendsOdds::class], ['betting_provider']);
 
         $this->app->when(MultiProvider::class)
