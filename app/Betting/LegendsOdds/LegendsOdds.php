@@ -3,7 +3,6 @@
 namespace App\Betting\LegendsOdds;
 
 use App\Betting\BettingProvider;
-use App\Betting\Lsports\Lsports;
 use App\Betting\Pagination;
 use App\Betting\Sport;
 use App\Betting\SportEvent;
