@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\App\View\AppController;
+use App\Http\Controllers\Backstage\View\BookController;
 use App\Http\Controllers\Backstage\View\ConfigController;
 use App\Http\Controllers\Backstage\Api\SignInController as BackstageSignInController;
 use App\Http\Controllers\Backstage\View\HomeController as BackstageHomeController;
@@ -26,6 +27,11 @@ $router->domain($backstage)->group(function (Router $router) {
         $router->put('/config', ConfigController::class . '@update')->name('config.update');
         $router->resource('/tournaments', BackstageTournamentController::class);
         $router->resource('/admins', BackstageUserController::class);
+
+        $router->get('/book/active', BookController::class . '@active')->name('book.active');
+        $router->post('/book/manage/{id}/cancel', BookController::class . '@cancel');
+        $router->post('/book/manage/{id}/start', BookController::class . '@start');
+        $router->post('/book/manage/{id}/finish', BookController::class . '@finish');
 
         $router
             ->post('/logout', BackstageSignInController::class . '@logout')
