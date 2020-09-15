@@ -129,7 +129,12 @@
         display: none !important
   .layout
     &__content
-      max-height: calc(100% -  110px)
+      max-height: calc(100% - 110px)
+      &--home
+        max-height: 100%
+      &__slip
+        &__mobile
+          display: none
       &__container
         &__mobile
           display: none
@@ -142,8 +147,8 @@
           padding-bottom: 44px
           box-sizing: border-box
           &__home
-              max-height: 105% !important
-              padding-bottom: 0px
+            max-height: 105% !important
+            padding-bottom: 0px
         &__chat
           max-height: 60%
           overflow-y: auto
@@ -154,12 +159,12 @@
             &__messages
               flex: 1
               overflow-y: auto
-      &__slip__mobile
-          display: none
-      &--home
-          max-height: 100%
+
 /* Small Laptops */
 @media (max-width: 992px)
+  input
+    font-size: 20px !important
+
   .menu
     &__content
       width: 100% !important
@@ -240,6 +245,26 @@
           display: none
         &__filter
           display: none
+        &__game
+          position: absolute
+          top: 0
+          left: 0
+          box-sizing: border-box
+          margin-top: 62px
+          width: 100%
+          height: calc(100% - 62px)
+          z-index: 2
+          overflow-y: auto
+          display: flex
+          padding-bottom: 0
+          flex-direction: column
+          &__content
+            overflow-y: auto
+            padding-bottom: 44px
+            flex: 1
+            padding: 16px
+            box-sizing: border-box
+            margin-bottom: 45px
         &__content
           &__container
             &--paddingless-mobile
