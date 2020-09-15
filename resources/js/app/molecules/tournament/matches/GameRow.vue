@@ -2,54 +2,6 @@
     <div class="odd__container__content">
         <div class="odd__container__content__details">
             <div class="odd__container__content__details__line">
-                <div class="odd__container__content__details__line__name">{{ game.teamHome }}</div>
-
-                <div class="odd__container__content__details__line__tags">
-                    <div
-                        class="odd__container__content__details__line__tags__tag"
-                        v-if="Number(moneyLineHome)"
-                        :class="{
-                            'odd__container__content__details__line__tags__tag--active': selectedMoneyLineHome,
-                        }"
-                        @click="emitToggleOdd(PendingOddType.MoneyLineHome)"
-                    >
-                        {{ moneyLineHome | signedNumber }}
-                    </div>
-                    <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
-
-                    <div
-                        class="odd__container__content__details__line__tags__tag"
-                        v-if="Number(pointSpreadHomeLine)"
-                        :class="{
-                            'odd__container__content__details__line__tags__tag--active': selectedSpreadHome,
-                        }"
-                        @click="emitToggleOdd(PendingOddType.SpreadHome)"
-                    >
-                        {{ pointSpreadHomeLine | signedNumber }}
-                        <div class="odd__container__content__details__line__tags__tag__subtitle">
-                            {{ pointSpreadHome | signedNumber }}
-                        </div>
-                    </div>
-                    <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
-
-                    <div
-                        class="odd__container__content__details__line__tags__tag"
-                        v-if="Number(totalNumber)"
-                        :class="{
-                            'odd__container__content__details__line__tags__tag--active': selectedTotalOver,
-                        }"
-                        @click="emitToggleOdd(PendingOddType.TotalOver)"
-                    >
-                        O {{ totalNumber }}
-                        <div class="odd__container__content__details__line__tags__tag__subtitle">
-                            {{ overLine | signedNumber }}
-                        </div>
-                    </div>
-                    <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
-                </div>
-            </div>
-
-            <div class="odd__container__content__details__line">
                 <div class="odd__container__content__details__line__name">{{ game.teamAway }}</div>
 
                 <div class="odd__container__content__details__line__tags">
@@ -91,6 +43,53 @@
                         U {{ totalNumber }}
                         <div class="odd__container__content__details__line__tags__tag__subtitle">
                             {{ underLine | signedNumber }}
+                        </div>
+                    </div>
+                    <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
+                </div>
+            </div>
+            <div class="odd__container__content__details__line">
+                <div class="odd__container__content__details__line__name">{{ game.teamHome }}</div>
+
+                <div class="odd__container__content__details__line__tags">
+                    <div
+                        class="odd__container__content__details__line__tags__tag"
+                        v-if="Number(moneyLineHome)"
+                        :class="{
+                            'odd__container__content__details__line__tags__tag--active': selectedMoneyLineHome,
+                        }"
+                        @click="emitToggleOdd(PendingOddType.MoneyLineHome)"
+                    >
+                        {{ moneyLineHome | signedNumber }}
+                    </div>
+                    <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
+
+                    <div
+                        class="odd__container__content__details__line__tags__tag"
+                        v-if="Number(pointSpreadHomeLine)"
+                        :class="{
+                            'odd__container__content__details__line__tags__tag--active': selectedSpreadHome,
+                        }"
+                        @click="emitToggleOdd(PendingOddType.SpreadHome)"
+                    >
+                        {{ pointSpreadHomeLine | signedNumber }}
+                        <div class="odd__container__content__details__line__tags__tag__subtitle">
+                            {{ pointSpreadHome | signedNumber }}
+                        </div>
+                    </div>
+                    <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
+
+                    <div
+                        class="odd__container__content__details__line__tags__tag"
+                        v-if="Number(totalNumber)"
+                        :class="{
+                            'odd__container__content__details__line__tags__tag--active': selectedTotalOver,
+                        }"
+                        @click="emitToggleOdd(PendingOddType.TotalOver)"
+                    >
+                        O {{ totalNumber }}
+                        <div class="odd__container__content__details__line__tags__tag__subtitle">
+                            {{ overLine | signedNumber }}
                         </div>
                     </div>
                     <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
