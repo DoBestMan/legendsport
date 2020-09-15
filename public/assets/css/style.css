@@ -491,6 +491,10 @@ textarea.input {
   color: #505d66;
 }
 
+.input--number {
+  margin: 0px;
+}
+
 .checkbox {
   position: relative;
   width: 10px;
@@ -665,6 +669,7 @@ textarea.input {
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: pointer;
 }
 
 .logo__icon {
@@ -892,6 +897,7 @@ textarea.input {
 .icon--delete {
   mask: url(/images/icon-delete.svg?7755aee6e942b1b225d291b60b0fd7da) no-repeat center;
   -webkit-mask: url(/images/icon-delete.svg?7755aee6e942b1b225d291b60b0fd7da) no-repeat center;
+  cursor: pointer;
 }
 
 .icon--person {
@@ -1102,6 +1108,10 @@ textarea.input {
   border-bottom: 2px solid #f6e02f;
 }
 
+.tab--large__item:hover {
+  cursor: pointer;
+}
+
 .tab--active {
   background-color: #1D2329;
   font-weight: bold;
@@ -1297,6 +1307,14 @@ textarea.input {
     max-height: calc(100% - 110px);
   }
 
+  .layout__content--home {
+    max-height: 100%;
+  }
+
+  .layout__content__slip__mobile {
+    display: none;
+  }
+
   .layout__content__container__mobile {
     display: none;
   }
@@ -1332,19 +1350,15 @@ textarea.input {
     flex: 1;
     overflow-y: auto;
   }
-
-  .layout__content__slip__mobile {
-    display: none;
-  }
-
-  .layout__content--home {
-    max-height: 100%;
-  }
 }
 
 /* Small Laptops */
 
 @media (max-width: 992px) {
+  input {
+    font-size: 20px !important;
+  }
+
   .menu__content {
     width: 100% !important;
   }
@@ -1441,6 +1455,30 @@ textarea.input {
 
   .layout__content__container__filter {
     display: none;
+  }
+
+  .layout__content__container__game {
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    margin-top: 62px;
+    width: 100%;
+    height: calc(100% - 62px);
+    z-index: 2;
+    overflow-y: auto;
+    display: flex;
+    padding-bottom: 0;
+    flex-direction: column;
+  }
+
+  .layout__content__container__game__content {
+    overflow-y: auto;
+    padding-bottom: 44px;
+    flex: 1;
+    padding: 16px;
+    box-sizing: border-box;
+    margin-bottom: 45px;
   }
 
   .layout__content__container__content__container--paddingless-mobile {
@@ -2020,6 +2058,11 @@ textarea.input {
   margin-bottom: 16px;
 }
 
+.game__rank__container__scroll {
+  height: 550px;
+  overflow-y: auto;
+}
+
 .game__footer {
   display: flex;
   align-items: flex-end;
@@ -2215,6 +2258,7 @@ textarea.input {
   justify-content: center;
   font-size: 12px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .switch__item--small {
@@ -2253,6 +2297,7 @@ textarea.input {
   color: #ffffff;
   line-height: 30px;
   padding: 0 16px;
+  cursor: pointer;
 }
 
 .odds__header__tabs {
@@ -2370,6 +2415,7 @@ textarea.input {
   background: #2C343A;
   border-radius: 6px;
   box-sizing: border-box;
+  cursor: pointer;
 }
 
 .odd__container__content__details__line__tags__tag--empty {
@@ -2386,6 +2432,11 @@ textarea.input {
   font-size: 12px;
   text-align: center;
   color: #ffffff;
+}
+
+.odd__container__content__details__line__tags__tag:hover {
+  background-color: #f2cd5d;
+  color: #191e24;
 }
 
 .odd__header {
@@ -2452,6 +2503,18 @@ textarea.input {
   justify-content: space-between;
 }
 
+.bet__footer__line__total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bet__footer__line__padding {
+  padding-left: 27px;
+  padding-top: 20px;
+  padding-right: 18px;
+}
+
 .bet__footer__line__name {
   font-size: 14px;
   font-weight: 500;
@@ -2464,6 +2527,14 @@ textarea.input {
   line-height: 1;
   text-align: right;
   color: #ffffff;
+}
+
+.bet__footer__line__delete {
+  width: 44px;
+  height: 44px;
+  padding: 6px;
+  border-radius: 4px;
+  border: solid 1px #505d66;
 }
 
 .bet__seperator {
@@ -2676,6 +2747,24 @@ textarea.input {
   text-decoration: none;
 }
 
+.button--large--bet {
+  border-radius: 4px;
+  height: 44px;
+  line-height: 44px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  width: 216px;
+  background-color: #02f683;
+  color: #2c343a;
+  display: block;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  outline: none;
+}
+
 .button--large:hover {
   cursor: pointer;
   background: #2ecc71;
@@ -2838,6 +2927,10 @@ textarea.input {
   line-height: 1.17;
   color: #f2cd5d;
   text-decoration: none;
+}
+
+.link--back {
+  float: right;
 }
 
 .rank {
@@ -3804,6 +3897,7 @@ textarea.input {
   font-size: 16px;
   font-weight: 500;
   color: #ffffff;
+  cursor: pointer;
 }
 
 .menu__content__header {
