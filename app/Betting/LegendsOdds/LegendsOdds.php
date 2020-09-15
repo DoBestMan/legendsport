@@ -20,15 +20,19 @@ class LegendsOdds implements BettingProvider
     public const PROVIDER_DESCRIPTION = 'Legends Odds';
 
     private EntityManager $entityManager;
+    private string $baseUrl;
+    private string $authToken;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, string $baseUrl, string $authToken)
     {
         $this->entityManager = $entityManager;
+        $this->baseUrl = rtrim($baseUrl, '/');
+        $this->authToken = $authToken;
     }
 
     public function getEvents(int $page): Pagination
     {
-        $results = $this->get('https://odds.infra.qa.legendsports.bet/api/v1/all');
+        $results = $this->get('/api/v1/all');
         $events = [];
         foreach ($results as $result) {
             if ($result['status'] !== 'upcoming') {
@@ -52,7 +56,7 @@ class LegendsOdds implements BettingProvider
 
     public function getOdds(bool $updatesOnly): array
     {
-        $data = $this->get('https://odds.infra.qa.legendsports.bet/api/v1/all');
+        $data = $this->get('/api/v1/all');
         $updates = [];
 
         foreach ($data as $item) {
@@ -93,7 +97,7 @@ class LegendsOdds implements BettingProvider
 
     public function getResults(): array
     {
-        $data = $this->get('https://odds.infra.qa.legendsports.bet/api/v1/all');
+        $data = $this->get('/api/v1/all');
 
         $results = [];
 
@@ -136,7 +140,7 @@ class LegendsOdds implements BettingProvider
 
     private function get(string $url): array
     {
-        $response = Http::get($url);
+        $response = Http::get($this->baseUrl . $url . '?authtoken=' . $this->authToken);
 
         $data = $response->json();
 

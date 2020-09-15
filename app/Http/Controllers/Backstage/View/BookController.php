@@ -8,14 +8,20 @@ use App\Domain\ApiEvent;
 use App\Http\Controllers\Controller;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class BookController extends Controller
 {
     private EntityManager $entityManager;
+    private string $baseUrl;
+    private string $authToken;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, string $baseUrl, string $authToken)
     {
         $this->entityManager = $entityManager;
+        $this->baseUrl = rtrim($baseUrl, '/');
+        $this->authToken = $authToken;
     }
 
     public function active()
@@ -35,16 +41,60 @@ class BookController extends Controller
 
     public function cancel($id)
     {
-        return $id;
+        $entity = $this->entityManager->getRepository(ApiEvent::class)->find($id);
+
+        if (!($entity instanceof ApiEvent)) {
+            return false;
+        }
+
+        $url = sprintf('%s/api/v1/manual-override/%s/cancel?authtoken=%s', $this->baseUrl, $entity->getApiId(), $this->authToken);
+        $response = Http::post($url);
+
+        if ($response->failed()) {
+            throw new \RuntimeException('Unable to communicate with API');
+        }
+
+        return $response;
     }
 
-    public function finish($id)
+    public function finish($id, Request $request)
     {
-        return $id;
+        $this->validate($request, [
+            'homeScore' => 'required|numeric|min:0',
+            'awayScore' => 'required|numeric|min:0'
+        ]);
+
+        $entity = $this->entityManager->getRepository(ApiEvent::class)->find($id);
+
+        if (!($entity instanceof ApiEvent)) {
+            return false;
+        }
+
+        $url = sprintf('%s/api/v1/manual-override/%s/finish?authtoken=%s', $this->baseUrl, $entity->getApiId(), $this->authToken);
+        $response = Http::post($url, ['homeScore' => $request->homeScore, 'awayScore' => $request->awayScore]);
+
+        if ($response->failed()) {
+            throw new \RuntimeException('Unable to communicate with API');
+        }
+
+        return $response;
     }
 
     public function start($id)
     {
-        return $id;
+        $entity = $this->entityManager->getRepository(ApiEvent::class)->find($id);
+
+        if (!($entity instanceof ApiEvent)) {
+            return false;
+        }
+
+        $url = sprintf('%s/api/v1/manual-override/%s/start?authtoken=%s', $this->baseUrl, $entity->getApiId(), $this->authToken);
+        $response = Http::post($url);
+
+        if ($response->failed()) {
+            throw new \RuntimeException('Unable to communicate with API');
+        }
+
+        return $response;
     }
 }
