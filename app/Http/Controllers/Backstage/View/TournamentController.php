@@ -8,6 +8,7 @@ use App\Models\ApiEvent;
 use App\Models\Config;
 use App\Models\Tournament;
 use App\Models\TournamentEvent;
+use App\Tournament\Enums\TournamentState;
 use App\Tournament\Events\TournamentUpdate;
 use Carbon\Carbon;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -77,7 +78,19 @@ class TournamentController extends Controller
         $tournament->late_register = $request->late_register;
         $tournament->late_register_rule = $request->late_register_rule;
         $tournament->prize_pool = $request->prize_pool;
+
+        $state = new TournamentState($request->state);
+        $endStates = [TournamentState::CANCELED(), TournamentState::COMPLETED()];
+        if (!$tournament->state->isOneOf(...$endStates) && $state->isOneOf(...$endStates)) {
+            $tournament->completed_at = Carbon::now();
+        }
+
         $tournament->state = $request->state;
+
+        if ($tournament->state->isOneOf(...$endStates) && $tournament->completed_at === null) {
+            $tournament->completed_at = Carbon::now();
+        }
+
         $tournament->time_frame = $request->time_frame;
         $tournament->registration_deadline = $registrationDeadlines['registration_deadline'];
         $tournament->late_registration_deadline = $registrationDeadlines['late_registration_deadline'];
@@ -194,7 +207,20 @@ class TournamentController extends Controller
         $tournament->late_register = $request->late_register;
         $tournament->late_register_rule = $request->late_register_rule;
         $tournament->prize_pool = $request->prize_pool;
+
+        $state = new TournamentState($request->state);
+        $endStates = [TournamentState::CANCELED(), TournamentState::COMPLETED()];
+
+        if (!$tournament->state->isOneOf(...$endStates) && $state->isOneOf(...$endStates)) {
+            $tournament->completed_at = Carbon::now();
+        }
+
         $tournament->state = $request->state;
+
+        if ($tournament->state->isOneOf(...$endStates) && $tournament->completed_at === null) {
+            $tournament->completed_at = Carbon::now();
+        }
+
         $tournament->time_frame = $request->time_frame;
         $tournament->registration_deadline = $registrationDeadlines['registration_deadline'];
         $tournament->late_registration_deadline = $registrationDeadlines['late_registration_deadline'];
