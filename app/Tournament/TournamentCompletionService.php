@@ -5,20 +5,19 @@ use App\Domain\Tournament as TournamentEntity;
 use App\Models\ApiEvent;
 use App\Models\Tournament;
 use App\Models\TournamentEvent;
+use App\Models\TournamentPlayer;
 use App\Tournament\Enums\TournamentState;
 use Carbon\Carbon;
 use Illuminate\Database\DatabaseManager;
+use Illuminate\Support\Collection;
 
 class TournamentCompletionService
 {
-    private TournamentPrizeService $tournamentPrizeService;
     private DatabaseManager $databaseManager;
 
     public function __construct(
-        TournamentPrizeService $tournamentPrizeService,
         DatabaseManager $databaseManager
     ) {
-        $this->tournamentPrizeService = $tournamentPrizeService;
         $this->databaseManager = $databaseManager;
     }
 
@@ -37,7 +36,7 @@ class TournamentCompletionService
                 $tournament->state = TournamentState::COMPLETED();
                 $tournament->completed_at = Carbon::now();
                 $tournament->save();
-                $this->tournamentPrizeService->creditMoney($tournament);
+                $this->creditMoney($tournament);
             }
         });
     }
@@ -47,5 +46,29 @@ class TournamentCompletionService
         return $tournament->auto_end && $tournament->events
             ->map(fn(TournamentEvent $tournamentEvent) => $tournamentEvent->apiEvent)
             ->every(fn(ApiEvent $apiEvent) => $apiEvent->isFinished());
+    }
+
+    public function creditMoney(Tournament $tournament): void
+    {
+        /** @var TournamentPlayer[]|Collection $players */
+        $players = $tournament->players->sortByDesc("chips");
+
+        $leftIndex = 0;
+        foreach ($tournament->getPrizes() as $prize) {
+            $rightIndex = $prize->getMaxPosition();
+            $playersSlice = $players->slice($leftIndex, $rightIndex - $leftIndex);
+            $leftIndex = $rightIndex;
+
+            foreach ($playersSlice as $player) {
+                $this->creditMoneyToUser($player, $prize);
+            }
+        }
+    }
+
+    private function creditMoneyToUser(TournamentPlayer $player, PrizeMoney $prize): void
+    {
+        $user = $player->user;
+        $user->balance += $prize->getPrizeMoney();
+        $user->save();
     }
 }

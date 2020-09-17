@@ -61,7 +61,7 @@ class SportEventResultProcessor
             "time_status" => $apiEvent->getTimeStatus(),
         ]);
 
-        foreach($apiEvent->getTournamentEvents() as $tournamentEvent) {
+        foreach ($apiEvent->getTournamentEvents() as $tournamentEvent) {
             if ($apiEvent->isFinished()) {
                 foreach ($tournamentEvent->getBets() as $bet) {
                     $updated = $bet->evaluate();

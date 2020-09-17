@@ -4,7 +4,9 @@ namespace Unit\Domain;
 
 use App\Domain\BetPlacementException;
 use App\Domain\Tournament;
+use App\Domain\TournamentBet;
 use App\Domain\User;
+use App\Tournament\Enums\BetStatus;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixture\Factory\FactoryAbstract;
 
@@ -78,6 +80,13 @@ class TournamentPlayerTest extends TestCase
 
         $sut = $user->getTournamentPlayer($tournament);
 
+        $bet = $this->createMock(TournamentBet::class);
+        $bet->expects($this->any())->method('getStatus')->willReturn(BetStatus::WIN());
+        $bet->expects($this->any())->method('getChipsWager')->willReturn(50);
+        $bet->expects($this->any())->method('getChipsWon')->willReturn(500);
+
+        $sut->betPlaced($bet);
+
         $sut->placeWager(50);
         $sut->betWon(50, 500);
 
@@ -94,6 +103,13 @@ class TournamentPlayerTest extends TestCase
         $tournament->registerPlayer($user);
 
         $sut = $user->getTournamentPlayer($tournament);
+
+        $bet = $this->createMock(TournamentBet::class);
+        $bet->expects($this->any())->method('getStatus')->willReturn(BetStatus::LOSS());
+        $bet->expects($this->any())->method('getChipsWager')->willReturn(50);
+        $bet->expects($this->any())->method('getChipsWon')->willReturn(500);
+
+        $sut->betPlaced($bet);
 
         $sut->placeWager(50);
         $sut->betLost(50);

@@ -2,7 +2,10 @@
 
 namespace App\Domain;
 
+use App\Tournament\Enums\BetStatus;
 use Carbon\Carbon;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,6 +40,10 @@ class TournamentPlayer
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private User $user;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Domain\TournamentBet", mappedBy="tournamentPlayer")
+     */
+    private Collection $bets;
 
     public function __construct(Tournament $tournament, User $user, int $chips)
     {
@@ -47,6 +54,12 @@ class TournamentPlayer
         $this->createdAt = Carbon::now();
         $this->updatedAt = Carbon::now();
         $user->joinTournament($this);
+        $this->bets = new ArrayCollection();
+    }
+
+    public function betPlaced(TournamentBet $tournamentBet)
+    {
+        $this->bets->add($tournamentBet);
     }
 
     public function getUser(): User
@@ -92,16 +105,34 @@ class TournamentPlayer
     {
         $this->chips += $wager + $winnings;
         $this->balance += $winnings;
+        $this->recalculateBalances();
     }
 
     public function betLost(int $wager)
     {
         $this->balance -= $wager;
+        $this->recalculateBalances();
     }
 
     public function betPush($wager)
     {
         $this->chips += $wager;
+        $this->recalculateBalances();
+    }
+
+    private function recalculateBalances(): void
+    {
+        $pendingBets = $this->bets->filter(fn (TournamentBet $bet) => $bet->getStatus()->equals(BetStatus::PENDING()))->toArray();
+        $pendingChips = array_reduce($pendingBets, fn (int $chips, TournamentBet $bet) => $chips + $bet->getChipsWager(), 0);
+
+        $wonBets = $this->bets->filter(fn (TournamentBet $bet) => $bet->getStatus()->equals(BetStatus::WIN()))->toArray();
+        $wonChips = array_reduce($wonBets, fn (int $chips, TournamentBet $bet) => $chips + $bet->getChipsWon(), 0);
+
+        $lostBets = $this->bets->filter(fn (TournamentBet $bet) => $bet->getStatus()->equals(BetStatus::LOSS()))->toArray();
+        $lostChips = array_reduce($lostBets, fn (int $chips, TournamentBet $bet) => $chips + $bet->getChipsWager(), 0);
+
+        $this->chips = $this->tournament->getChips() - $lostChips - $pendingChips + $wonChips;
+        $this->balance = $this->chips + $pendingChips;
     }
 
     public function getBalance(): int

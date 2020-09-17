@@ -54,6 +54,7 @@ class TournamentBet
             $this->events->add($tournamentBetEvent);
             $tournamentBetEvent->addToBet($this);
         }
+        $tournamentPlayer->betPlaced($this);
     }
 
     public function getId(): int
