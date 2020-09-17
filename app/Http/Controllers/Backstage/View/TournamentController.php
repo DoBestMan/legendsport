@@ -81,15 +81,11 @@ class TournamentController extends Controller
 
         $state = new TournamentState($request->state);
         $endStates = [TournamentState::CANCELED(), TournamentState::COMPLETED()];
-        if (!$tournament->state->isOneOf(...$endStates) && $state->isOneOf(...$endStates)) {
+        if ( $state->isOneOf(...$endStates)) {
             $tournament->completed_at = Carbon::now();
         }
 
         $tournament->state = $request->state;
-
-        if ($tournament->state->isOneOf(...$endStates) && $tournament->completed_at === null) {
-            $tournament->completed_at = Carbon::now();
-        }
 
         $tournament->time_frame = $request->time_frame;
         $tournament->registration_deadline = $registrationDeadlines['registration_deadline'];
