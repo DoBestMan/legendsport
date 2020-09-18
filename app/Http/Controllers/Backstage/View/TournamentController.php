@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Backstage\View;
 
 use App\Betting\TimeStatus;
+use App\Domain\Tournament as TournamentEntity;
 use App\Http\Controllers\Controller;
 use App\Http\Transformers\App\ApiEventTransformer;
 use App\Models\ApiEvent;
@@ -11,6 +12,7 @@ use App\Models\TournamentEvent;
 use App\Tournament\Enums\TournamentState;
 use App\Tournament\Events\TournamentUpdate;
 use Carbon\Carbon;
+use Doctrine\ORM\EntityManager;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,6 +20,13 @@ use JavaScript;
 
 class TournamentController extends Controller
 {
+    private EntityManager $entityManager;
+
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     public function index()
     {
         $tournaments = Tournament::paginate(10);
@@ -252,8 +261,10 @@ class TournamentController extends Controller
 
     public function destroy(Tournament $tournament)
     {
-        $tournament->events()->delete();
-        $tournament->delete();
+        $tournamentEntity = $this->entityManager->find(TournamentEntity::class, $tournament->id);
+        $this->entityManager->remove($tournamentEntity);
+        $this->entityManager->flush();
+
         return new Response('', Response::HTTP_NO_CONTENT);
     }
 
