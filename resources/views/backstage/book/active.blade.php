@@ -41,29 +41,13 @@
                 <tr>
                     <th scope="row" class="text-center"></th>
                     <td class="text-truncate">{{ $event->getApiId() }}</td>
-                    <td class="text-truncate">{{ $event->getStartsAt()->format('M, d \A\T H:i')  }}</td>
+                    <td class="text-truncate">@{{ @json($event->getStartsAt()->format(DateTime::ATOM)) | toDateTime }}</td>
                     <td class="text-truncate">{{ ucwords(str_replace('_', ' ', $event->getTimeStatus())) }}</td>
                     <td class="text-truncate">{{ $event->getTeamHome() }}</td>
                     <td class="text-truncate">{{ $event->getScoreHome() ?? '-' }}</td>
                     <td class="text-truncate">{{ $event->getTeamAway() }}</td>
                     <td class="text-truncate">{{ $event->getScoreAway() ?? '-' }}</td>
                     <td class="text-right">
-                        {{--
-                        <a
-                            class="btn btn-outline-primary btn-sm"
-                            title="View"
-                            href="{{ route('tournaments.show', $tournament) }}"
-                        >
-                            <i class="fas fa-eye"></i>
-                        </a>
-                        <a
-                            class="btn btn-outline-dark btn-sm"
-                            title="Editar"
-                            href="{{ route('tournaments.edit', $tournament) }}"
-                        >
-                            <i class="fas fa-pencil-alt"></i>
-                        </a>
-                        --}}
                         <button
                             type="button"
                             class="btn btn-outline-success btn-sm"
