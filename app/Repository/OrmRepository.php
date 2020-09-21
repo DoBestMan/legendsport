@@ -10,10 +10,11 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class OrmRepository implements Repository
 {
-    private $entityManager;
-    private $entity;
+    private EntityManagerInterface $entityManager;
+    private string $entity;
+    private bool $inTransaction = false;
 
-    public function __construct($entity, EntityManagerInterface $entityManager)
+    public function __construct(string $entity, EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->entity = $entity;
@@ -41,8 +42,18 @@ class OrmRepository implements Repository
         return $repository->matching($criteria);
     }
 
+    public function startTransaction(): void
+    {
+        $this->entityManager->beginTransaction();
+        $this->inTransaction = true;
+    }
+
     public function commit(): void
     {
         $this->entityManager->flush();
+        if ($this->inTransaction) {
+            $this->entityManager->commit();
+            $this->inTransaction = false;
+        }
     }
 }
