@@ -4,8 +4,10 @@ namespace App\Tournament;
 use App\Domain\Tournament as TournamentEntity;
 use App\Models\ApiEvent;
 use App\Models\Tournament;
+use App\Models\TournamentBetEvent;
 use App\Models\TournamentEvent;
 use App\Models\TournamentPlayer;
+use App\Tournament\Enums\BetStatus;
 use App\Tournament\Enums\TournamentState;
 use Carbon\Carbon;
 use Illuminate\Database\DatabaseManager;
@@ -21,14 +23,14 @@ class TournamentCompletionService
         $this->databaseManager = $databaseManager;
     }
 
-    public function updateState($tournament): void
+    public function updateState($tournament): bool
     {
         if ($tournament instanceof TournamentEntity) {
             $tournament = Tournament::find($tournament->getId());
         }
 
         if ($tournament->isFinished()) {
-            return;
+            return false;
         }
 
         $this->databaseManager->transaction(function () use ($tournament) {
@@ -39,13 +41,19 @@ class TournamentCompletionService
                 $this->creditMoney($tournament);
             }
         });
+
+        return true;
     }
 
     public function isComplete(Tournament $tournament): bool
     {
         return $tournament->auto_end && $tournament->events
             ->map(fn(TournamentEvent $tournamentEvent) => $tournamentEvent->apiEvent)
-            ->every(fn(ApiEvent $apiEvent) => $apiEvent->isFinished());
+            ->every(fn(ApiEvent $apiEvent) => $apiEvent->isFinished()) &&
+            $tournament->events->map(fn (TournamentEvent $tournamentEvent) => $tournamentEvent->tournamentBetEvents
+                ->map(fn (TournamentBetEvent $tournamentBetEvent) => !$tournamentBetEvent->tournamentBet->status->equals(BetStatus::PENDING()))
+                ->every(fn (bool $betHasGraded) => $betHasGraded === true)
+            )->every(fn (bool $eventIsFullyGraded) => $eventIsFullyGraded === true);
     }
 
     public function creditMoney(Tournament $tournament): void
