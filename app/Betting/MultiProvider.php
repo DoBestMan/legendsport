@@ -9,8 +9,8 @@ class MultiProvider implements BettingProvider
 {
     private EntityManager $entityManager;
     /** @var BettingProvider[] */
-    private array $providers;
-    private array $providerMap;
+    private array $providers = [];
+    private array $providerMap = [];
 
     public function __construct(EntityManager $entityManager, BettingProvider ...$providers)
     {
