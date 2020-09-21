@@ -1,14 +1,7 @@
 <?php
 
-namespace App\Betting\LegendsOdds;
+namespace App\Betting;
 
-use App\Betting\BettingProvider;
-use App\Betting\Pagination;
-use App\Betting\Sport;
-use App\Betting\SportEvent;
-use App\Betting\SportEventOdd;
-use App\Betting\SportEventResult;
-use App\Betting\TimeStatus;
 use App\Domain\ApiEvent;
 use Decimal\Decimal;
 use Doctrine\ORM\EntityManager;
