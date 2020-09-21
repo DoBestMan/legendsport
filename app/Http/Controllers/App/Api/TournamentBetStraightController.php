@@ -16,6 +16,7 @@ use App\Models\TournamentEvent;
 use App\Tournament\Enums\PendingOddType;
 use App\Tournament\Events\TournamentUpdate;
 use App\User\MeUpdate;
+use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\JsonResponse;
@@ -49,7 +50,7 @@ class TournamentBetStraightController extends Controller
         /** @var User $user */
         $user = $entityManager->find(User::class, $request->user()->id);
         /** @var \App\Domain\Tournament $tournamentEntity */
-        $tournamentEntity = $entityManager->find(\App\Domain\Tournament::class, $tournament->id);
+        $tournamentEntity = $entityManager->find(\App\Domain\Tournament::class, $tournament->id, LockMode::PESSIMISTIC_WRITE);
         $tournamentPlayer = $user->getTournamentPlayer($tournamentEntity);
         try {
             if ($tournamentPlayer === null) {
