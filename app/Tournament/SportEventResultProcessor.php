@@ -1,30 +1,29 @@
 <?php
 namespace App\Tournament;
 
+use App\Jobs\Tournaments\CheckForTournamentCompletion;
 use App\Betting\SportEventResult;
 use App\Domain\ApiEvent;
-use App\Domain\User;
-use App\Domain\Tournament;
+use App\Jobs\Publishers\PublishTournamentUpdate;
+use App\Jobs\Publishers\PublishUserUpdate;
 use Doctrine\ORM\EntityManager;
+use Illuminate\Bus\Dispatcher;
 use Psr\Log\LoggerInterface;
 
 class SportEventResultProcessor
 {
-    /** @var User[] */
-    private array $usersUpdated = [];
-
-    /** @var Tournament[] */
-    private array $tournamentsUpdated = [];
-
     private LoggerInterface $logger;
     private EntityManager $entityManager;
+    private Dispatcher $dispatcher;
 
     public function __construct(
         EntityManager $entityManager,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        Dispatcher $dispatcher
     ) {
         $this->logger = $logger;
         $this->entityManager = $entityManager;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -32,9 +31,11 @@ class SportEventResultProcessor
      */
     public function processMultiple(iterable $results): void
     {
+        $this->entityManager->beginTransaction();
         foreach ($results as $result) {
             $this->process($result);
         }
+        $this->entityManager->commit();
     }
 
     public function process(SportEventResult $result): void
@@ -78,31 +79,16 @@ class SportEventResultProcessor
                             "chips_win" => $tournamentBet->getChipsWon(),
                         ]);
 
-                        $this->usersUpdated[$user->getId()] = $user;
+                        $this->dispatcher->dispatch(new PublishUserUpdate($user->getId()));
                     }
                 }
             }
 
             $tournament = $tournamentEvent->getTournament();
-            $this->tournamentsUpdated[$tournament->getId()] = $tournament;
+            $this->dispatcher->dispatch(new CheckForTournamentCompletion($tournament->getId()));
+            $this->dispatcher->dispatch(new PublishTournamentUpdate($tournament->getId()));
         }
 
         $this->entityManager->flush();
-    }
-
-    /**
-     * @return Tournament[]
-     */
-    public function getTournamentsUpdated(): array
-    {
-        return $this->tournamentsUpdated;
-    }
-
-    /**
-     * @return User[]
-     */
-    public function getUsersUpdated(): array
-    {
-        return $this->usersUpdated;
     }
 }

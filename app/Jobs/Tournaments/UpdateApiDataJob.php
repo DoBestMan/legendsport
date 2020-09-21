@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Betting\LegendsOdds;
+namespace App\Jobs\Tournaments;
 
 use App\Betting\MultiProvider;
 use App\Http\Transformers\App\ApiEventToOdds;
 use App\Queue\Uniqueable;
 use App\Tournament\Events\OddsUpdate;
-use App\Tournament\Events\TournamentUpdate;
 use App\Tournament\SportEventResultProcessor;
-use App\Tournament\TournamentCompletionService;
-use App\User\MeUpdate;
 use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Events\Dispatcher;
@@ -28,7 +25,6 @@ class UpdateApiDataJob implements ShouldQueue, Uniqueable
 
     public function handle(
         MultiProvider $bettingProvider,
-        TournamentCompletionService $tournamentStateService,
         SportEventResultProcessor $sportEventResultProcessor,
         LoggerInterface $logger,
         Dispatcher $dispatcher
@@ -52,18 +48,6 @@ class UpdateApiDataJob implements ShouldQueue, Uniqueable
             $sportEventResultProcessor->processMultiple($results);
         } catch (\Throwable $e) {
             $logger->error($e->getMessage(), ["exception" => $e]);
-        }
-
-        foreach ($sportEventResultProcessor->getTournamentsUpdated() as $tournament) {
-            $logger->info('Tournament updated: ' . $tournament->getId());
-            $tournamentStateService->updateState($tournament);
-            $dispatcher->dispatch(new TournamentUpdate($tournament));
-        }
-
-        // Inform about updated users bets
-        foreach ($sportEventResultProcessor->getUsersUpdated() as $user) {
-            $logger->info('User updated: ' . $user->getId());
-            $dispatcher->dispatch(new MeUpdate($user));
         }
     }
 

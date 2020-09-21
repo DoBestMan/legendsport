@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Betting\LegendsOdds\UpdateApiDataJob;
+use App\Jobs\Tournaments\UpdateApiDataJob;
 use Illuminate\Bus\Dispatcher;
 
 class QueueUpdateApiData
