@@ -6,9 +6,9 @@ use App\Http\Transformers\App\DoctrineTournamentTransformer;
 use App\Http\Transformers\App\TournamentTransformer;
 use App\Models\Tournament;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-final class TournamentUpdate implements ShouldBroadcast
+final class TournamentUpdate implements ShouldBroadcastNow
 {
     public array $tournament;
 
