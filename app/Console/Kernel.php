@@ -5,7 +5,6 @@ namespace App\Console;
 use App\Jobs\AddBotsToTournaments;
 use App\Jobs\PlaceBotBets;
 use App\Jobs\QueueUpdateApiData;
-use App\Jobs\SyncMatchesResults;
 use App\Jobs\UpdateOdds;
 use App\Jobs\UpdateTournamentStates;
 use Illuminate\Console\Scheduling\Schedule;
