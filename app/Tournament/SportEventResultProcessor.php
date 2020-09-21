@@ -6,6 +6,7 @@ use App\Betting\SportEventResult;
 use App\Domain\ApiEvent;
 use App\Jobs\Publishers\PublishTournamentUpdate;
 use App\Jobs\Publishers\PublishUserUpdate;
+use App\Jobs\Tournaments\GradeEvent;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Bus\Dispatcher;
 use Psr\Log\LoggerInterface;
@@ -63,29 +64,12 @@ class SportEventResultProcessor
         ]);
 
         foreach ($apiEvent->getTournamentEvents() as $tournamentEvent) {
+            $tournament = $tournamentEvent->getTournament();
+
             if ($apiEvent->isFinished()) {
-                foreach ($tournamentEvent->getBets() as $bet) {
-                    $updated = $bet->evaluate();
-
-                    if ($updated) {
-                        $tournamentBet = $bet->getTournamentBet();
-                        $user = $tournamentBet->getTournamentPlayer()->getUser();
-
-                        $this->logger->info("Bet was graded", [
-                            "player_id" => $user->getId(),
-                            "tournament_bet_id" => $tournamentBet->getId(),
-                            "status" => $tournamentBet->getStatus(),
-                            "chips_wager" => $tournamentBet->getChipsWager(),
-                            "chips_win" => $tournamentBet->getChipsWon(),
-                        ]);
-
-                        $this->dispatcher->dispatch(new PublishUserUpdate($user->getId()));
-                    }
-                }
+                $this->dispatcher->dispatch(new GradeEvent($tournament->getId(), $tournamentEvent->getId()));
             }
 
-            $tournament = $tournamentEvent->getTournament();
-            $this->dispatcher->dispatch(new CheckForTournamentCompletion($tournament->getId()));
             $this->dispatcher->dispatch(new PublishTournamentUpdate($tournament->getId()));
         }
 
