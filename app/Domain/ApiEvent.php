@@ -200,7 +200,7 @@ class ApiEvent
             $this->timeStatus->equals($sportEventResult->getTimeStatus()) &&
             $this->scoreHome === $sportEventResult->getHome() &&
             $this->scoreAway === $sportEventResult->getAway() &&
-            $this->startsAt === $sportEventResult->getStartsAt()
+            !$this->hasStartTimeChanged($sportEventResult->getStartsAt())
         ) {
             return false;
         }
@@ -271,5 +271,18 @@ class ApiEvent
     public function getTournamentEvents(): Collection
     {
         return $this->tournamentEvents;
+    }
+
+    private function hasStartTimeChanged(?\DateTime $newStartTime): bool
+    {
+        if ($this->startsAt === null && $newStartTime !== null) {
+            return true;
+        }
+
+        if ($this->startsAt !== null && $newStartTime === null) {
+            return true;
+        }
+
+        return (new Carbon($this->startsAt))->diffInSeconds($newStartTime) >= 60;
     }
 }
