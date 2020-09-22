@@ -37,10 +37,11 @@ class LegendsOdds implements BettingProvider
                 $result['sportId'],
                 $result['homeTeam'],
                 $result['awayTeam'],
-                self::PROVIDER_NAME
+                self::PROVIDER_NAME,
+                $result['homePitcher'],
+                $result['awayPitcher'],
             );
         }
-
         usort($events, fn (SportEvent $a, SportEvent $b) => $a->getStartsAt() <=> $b->getStartsAt());
 
         $total = count($events);

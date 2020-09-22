@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $sport_id
  * @property string $team_away
  * @property string $team_home
+ * @property string|null $pitcher_away
+ * @property string|null $pitcher_home
  * @property int|null $score_away
  * @property int|null $score_home
  * @property string $provider

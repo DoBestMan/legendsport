@@ -48,6 +48,7 @@
 
   &__container
     display: flex
+    flex-wrap:wrap
     flex-direction: column
 
     &__seperator
@@ -97,17 +98,25 @@
 
           &__name
             display: flex
+            flex-wrap: wrap
             flex: 1
             font-size: 14px
             font-weight: bold
             color: $light-1
             align-items: center
 
+<<<<<<< HEAD
           &__sport
             margin-left: 15px
             margin-top: 5px
             font-size: 12px
             color: #b0c4de
+=======
+            &__pitcher
+                display: table
+                width: 100%
+                font-size: 12px
+>>>>>>> integrated home and away pitcher into event api
 
           &__tags
             display: flex

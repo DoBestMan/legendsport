@@ -11,6 +11,8 @@ class SportEvent
     private string $homeTeam;
     private string $awayTeam;
     private ?string $provider;
+    private ?string $homePitcher;
+    private ?string $awayPitcher;
 
     public function __construct(
         string $externalId,
@@ -18,7 +20,9 @@ class SportEvent
         string $sportId,
         string $homeTeam,
         string $awayTeam,
-        ?string $provider
+        ?string $provider,
+        ?string $homePitcher,
+        ?string $awayPitcher
     ) {
         $this->externalId = $externalId;
         $this->startsAt = $startsAt ? new Carbon($startsAt) : null;
@@ -26,6 +30,8 @@ class SportEvent
         $this->homeTeam = $homeTeam;
         $this->awayTeam = $awayTeam;
         $this->provider = $provider;
+        $this->homePitcher = $homePitcher;
+        $this->awayPitcher = $awayPitcher;
     }
 
     public function getExternalId(): string
@@ -51,6 +57,16 @@ class SportEvent
     public function getAwayTeam(): string
     {
         return $this->awayTeam;
+    }
+
+    public function getHomePitcher(): ?string
+    {
+        return $this->homePitcher;
+    }
+
+    public function getAwayPitcher(): ?string
+    {
+        return $this->awayPitcher;
     }
 
     public function getProvider(): ?string
