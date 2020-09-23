@@ -13,18 +13,30 @@
 
             <div class="center d--only--desktop">
                 <div class="switch m--b--10">
-                    <div class="switch__item switch__item--large switch__item--active">
-                        <i class="icon icon--color--dark-4 icon--deposit m--r--1"></i>
+                    <div
+                        class="switch__item switch__item--large"
+                        :class="{
+                            'switch__item--active': isTypeSelected('Deposit'),
+                        }"
+                        @click="selectType('Withdraw')"
+                    >
+                        <i class="icon icon--micro icon--deposit m--r--1"></i>
                         DEPOSIT
                     </div>
-                    <div class="switch__item switch__item--large">
+                    <div
+                        class="switch__item switch__item--large"
+                        :class="{
+                            'switch__item--active': isTypeSelected('Withdraw'),
+                        }"
+                        @click="selectType('Withdraw')"
+                    >
                         <i class="icon icon--micro icon--withdraw m--r--1"></i>
                         WITHDRAW
                     </div>
                 </div>
             </div>
 
-            <div class="tabs">
+            <div class="tabs" v-if="isTypeSelected('Deposit')">
                 <div
                     class="tabs__item"
                     :class="{
@@ -103,10 +115,11 @@
             </div>
 
             <div class="container container--small">
-                <BankWireForm v-if="isFormSelected('BankWire')" />
-                <CreditCardForm v-if="isFormSelected('CreditCard')" />
-                <PaypalForm v-if="isFormSelected('Paypal')" />
-                <BitcoinForm v-if="isFormSelected('Bitcoin')" />
+                <BankWireForm v-if="isTypeSelected('Deposit') && isFormSelected('BankWire')" />
+                <CreditCardForm v-if="isTypeSelected('Deposit') && isFormSelected('CreditCard')" />
+                <PaypalForm v-if="isTypeSelected('Deposit') && isFormSelected('Paypal')" />
+                <BitcoinForm v-if="isTypeSelected('Deposit') && isFormSelected('Bitcoin')" />
+                <WithdrawForm v-if="isTypeSelected('Withdraw')" />
             </div>
         </div>
 
@@ -122,17 +135,29 @@
             </div>
             <div class="center">
                 <div class="switch m--b--6 w--100">
-                    <div class="switch__item switch__item--large switch__item--active">
-                        <i class="icon icon--color--dark-4 icon--deposit m--r--1"></i>
+                    <div
+                        class="switch__item switch__item--large"
+                        :class="{
+                            'switch__item--active': isTypeSelected('Deposit'),
+                        }"
+                        @click="selectType('Withdraw')"
+                    >
+                        <i class="icon icon--micro icon--deposit m--r--1"></i>
                         DEPOSIT
                     </div>
-                    <div class="switch__item switch__item--large">
+                    <div
+                        class="switch__item switch__item--large"
+                        :class="{
+                            'switch__item--active': isTypeSelected('Withdraw'),
+                        }"
+                        @click="selectType('Withdraw')"
+                    >
                         <i class="icon icon--micro icon--withdraw m--r--1"></i>
                         WITHDRAW
                     </div>
                 </div>
             </div>
-            <div class="tabs tabs--mobile m--b--4">
+            <div class="tabs tabs--mobile m--b--4" v-if="isTypeSelected('Deposit')">
                 <div class="tabs__item" @click="handleBankWire">
                     <div class="tabs__item__icon">
                         <i class="icon icon--tile icon--cashier-bank icon--color--light-1"></i>
@@ -146,7 +171,7 @@
                     <div class="tabs__item__title">Credit Card</div>
                 </div>
             </div>
-            <div class="tabs tabs--mobile">
+            <div class="tabs tabs--mobile" v-if="isTypeSelected('Deposit')">
                 <div class="tabs__item" @click="handlePaypal">
                     <div class="tabs__item__icon">
                         <i class="icon icon--tile icon--cashier-paypal icon--color--light-1"></i>
@@ -160,6 +185,9 @@
                     <div class="tabs__item__title">Bitcoin</div>
                 </div>
             </div>
+            <div class="container container--small" v-if="isTypeSelected('Withdraw')">
+                <WithdrawForm v-if="isTypeSelected('Withdraw')" />
+            </div>
         </div>
     </div>
 </template>
@@ -170,6 +198,7 @@ import BankWireForm from "./BankWireForm.vue";
 import BitcoinForm from "./BitcoinForm.vue";
 import CreditCardForm from "./CreditCardForm.vue";
 import PaypalForm from "./PaypalForm.vue";
+import WithdrawForm from "./WithdrawForm.vue";
 export default Vue.extend({
     name: "CashierView",
 
@@ -178,11 +207,13 @@ export default Vue.extend({
         BitcoinForm,
         CreditCardForm,
         PaypalForm,
+        WithdrawForm,
     },
 
     data() {
         return {
             selectedFormName: "BankWire",
+            selectedTypeName: "Withdraw",
         };
     },
 
@@ -218,8 +249,16 @@ export default Vue.extend({
             return this.selectedFormName === selected;
         },
 
+        isTypeSelected(selected: string): boolean {
+            return this.selectedTypeName === selected;
+        },
+
         selectForm(selected: string): void {
             this.selectedFormName = selected;
+        },
+
+        selectType(selected: string): void {
+            this.selectedTypeName = selected;
         },
     },
 });

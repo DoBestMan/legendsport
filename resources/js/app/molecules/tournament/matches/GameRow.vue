@@ -2,7 +2,12 @@
     <div class="odd__container__content">
         <div class="odd__container__content__details">
             <div class="odd__container__content__details__line">
-                <div class="odd__container__content__details__line__name">{{ game.teamAway }}</div>
+                <div class="odd__container__content__details__line__name">
+                    {{ game.teamAway }}
+                    <div class="odd__container__content__details__line__sport">
+                        {{ getSportName(game) }}
+                    </div>
+                </div>
 
                 <div class="odd__container__content__details__line__tags">
                     <div
@@ -15,7 +20,10 @@
                     >
                         {{ moneyLineAway | signedNumber }}
                     </div>
-                    <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
+                    <div
+                        v-else
+                        class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"
+                    ></div>
 
                     <div
                         class="odd__container__content__details__line__tags__tag"
@@ -30,7 +38,10 @@
                             {{ pointSpreadAway | signedNumber }}
                         </div>
                     </div>
-                    <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
+                    <div
+                        v-else
+                        class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"
+                    ></div>
 
                     <div
                         class="odd__container__content__details__line__tags__tag"
@@ -45,7 +56,10 @@
                             {{ underLine | signedNumber }}
                         </div>
                     </div>
-                    <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
+                    <div
+                        v-else
+                        class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"
+                    ></div>
                 </div>
             </div>
             <div class="odd__container__content__details__line">
@@ -62,7 +76,10 @@
                     >
                         {{ moneyLineHome | signedNumber }}
                     </div>
-                    <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
+                    <div
+                        v-else
+                        class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"
+                    ></div>
 
                     <div
                         class="odd__container__content__details__line__tags__tag"
@@ -77,7 +94,10 @@
                             {{ pointSpreadHome | signedNumber }}
                         </div>
                     </div>
-                    <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
+                    <div
+                        v-else
+                        class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"
+                    ></div>
 
                     <div
                         class="odd__container__content__details__line__tags__tag"
@@ -92,13 +112,16 @@
                             {{ overLine | signedNumber }}
                         </div>
                     </div>
-                    <div v-else class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"></div>
+                    <div
+                        v-else
+                        class="odd__container__content__details__line__tags__tag odd__container__content__details__line__tags__tag--empty"
+                    ></div>
                 </div>
             </div>
         </div>
 
         <!-- ToDo: how to get +23 -->
-         <div class="odd__container__content__odd">
+        <div class="odd__container__content__odd">
             <div class="odd__container__content__odd__details">
                 +0
             </div>
@@ -244,6 +267,11 @@ export default Vue.extend({
                 type,
             };
             this.$emit("toggleOdd", payload);
+        },
+
+        getSportName(game: Game): string {
+            const dict: ReadonlyMap<string, string> = this.$stock.getters["sport/sportDictionary"];
+            return dict.get(game.sportId) ?? String(game.sportId);
         },
     },
 });

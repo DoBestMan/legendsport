@@ -50,7 +50,9 @@ textarea.input
   &::placeholder
     color: $light-3
 
-  &--number
+  &--number::-webkit-outer-spin-button,
+  &--number::-webkit-inner-spin-button
+    -webkit-appearance: none
     margin: 0px
 
 .checkbox
