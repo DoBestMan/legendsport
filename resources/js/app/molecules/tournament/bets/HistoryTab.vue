@@ -27,7 +27,7 @@
 
                         <div
                             v-else-if="bet.status === BetStatus.Push"
-                            class="bet__header__tag bet__header__tag--green"
+                            class="bet__header__tag bet__header__tag--yellow"
                         >
                             PUSH
                         </div>
@@ -66,6 +66,10 @@
                         <div class="bet__footer__line__detail">
                             {{ bet.chipsWager | formatChip }}
                         </div>
+                    </div>
+                    <div class="bet__footer__line">
+                        <div class="bet__footer__line__name">Total Win</div>
+                        <div class="bet__footer__line__detail">{{ bet.chipsWin | formatChip }}</div>
                     </div>
                 </div>
             </div>
