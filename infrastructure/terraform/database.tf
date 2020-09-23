@@ -1,6 +1,11 @@
 resource "google_sql_database_instance" "production" {
-    database_version              = "MYSQL_5_7"
-    name                          = "production"
+    database_version              = "MYSQL_8_0"
+    name                          = "production8"
+
+    lifecycle {
+        prevent_destroy = false
+        ignore_changes = [settings[0].disk_size]
+    }
 
     settings {
         disk_autoresize             = true

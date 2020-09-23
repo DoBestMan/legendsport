@@ -12,9 +12,9 @@ mkdir /tmp/qa
 
 echo "Deploying: $BACKEND_IMAGE and $FRONTEND_IMAGE"
 
-if [[ ! $(gcloud sql databases list --instance="production" | grep $DATABASE_NAME) ]]; then
+if [[ ! $(gcloud sql databases list --instance="production8" | grep $DATABASE_NAME) ]]; then
     echo "Creating database: $DATABASE_NAME"
-    gcloud sql databases create $DATABASE_NAME --instance="production"
+    gcloud sql databases create $DATABASE_NAME --instance="production8"
 else
     echo "Database $DATABASE_NAME already exists"
 fi;
