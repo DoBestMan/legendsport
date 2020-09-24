@@ -17,7 +17,12 @@
                     <div class="game__footer__detail__team">{{ game.teamHome }}</div>
                 </div>
                 <div class="game__footer__score">
-                    <div style="border: 1px solid red; color: white;">time</div>
+                    <div class="game__footer__score__time" v-if="game.timeStatus === 'In Play'">
+                        time
+                    </div>
+                    <div class="game__footer__score__time" v-if="game.timeStatus === 'Ended'">
+                        F
+                    </div>
                     <div class="game__footer__score__container">
                         <div class="game__footer__score__item">{{ game.scoreHome | score }}</div>
                         <div class="game__footer__score__seperator">:</div>

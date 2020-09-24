@@ -93,6 +93,7 @@ export default Vue.extend({
         },
 
         handleChatExpand(): void {
+            console.log("messages", this.messages);
             this.isChatExpanded = !this.isChatExpanded;
         },
     },
