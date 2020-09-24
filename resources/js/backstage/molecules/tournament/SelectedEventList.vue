@@ -11,8 +11,6 @@
                         <th scope="col" width="220px">Date</th>
                         <th scope="col" width="220px">Home teama</th>
                         <th scope="col" width="230px">Away Team</th>
-                        <th scope="col" width="220px">Home Pitcher</th>
-                        <th scope="col" width="230px">Away Pitcher</th>
                         <th scope="col" width="200px">Sport</th>
                         <th scope="col" width="200px">Status</th>
                         <th scope="col" width="200px"></th>
@@ -31,12 +29,6 @@
                         </td>
                         <td class="text-truncate" width="230px">
                             {{ event.team_away }}
-                        </td>
-                        <td class="text-truncate" width="210px">
-                            {{ event.pitcher_home }}
-                        </td>
-                        <td class="text-truncate" width="230px">
-                            {{ event.pitcher_away }}
                         </td>
                         <td class="text-truncate" width="200px">
                             {{ getSportName(event.sport_id) }}

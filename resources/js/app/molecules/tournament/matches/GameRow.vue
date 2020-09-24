@@ -7,6 +7,11 @@
                     <div class="odd__container__content__details__line__sport">
                         {{ getSportName(game) }}
                     </div>
+                    <span
+                        class="odd__container__content__details__line__pitcher"
+                        v-if="game.pitcherHome"
+                        >{{ game.pitcherHome }}</span
+                    >
                 </div>
 
                 <div class="odd__container__content__details__line__tags">
@@ -66,7 +71,7 @@
                 <div class="odd__container__content__details__line__name">
                     {{ game.teamHome }}
                     <span
-                        class="odd__container__content__details__line__name__pitcher"
+                        class="odd__container__content__details__line__pitcher"
                         v-if="game.pitcherHome"
                         >{{ game.pitcherHome }}</span
                     >
