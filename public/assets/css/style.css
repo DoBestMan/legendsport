@@ -2115,6 +2115,12 @@ textarea.input {
     flex-direction: column;
 }
 
+.game__footer__score__time {
+    color: white;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
 .game__footer__score__container {
     display: flex;
 }
@@ -2674,7 +2680,8 @@ textarea.input {
 }
 
 .bet__header__tag--yellow {
-    background: #f6e02f;
+    background: #f2cd5d;
+    color: #181819;
 }
 
 .button--square {
