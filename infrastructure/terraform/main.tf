@@ -143,7 +143,7 @@ resource "google_cloudbuild_trigger" "build-staging" {
 resource "google_cloudbuild_trigger" "build-production" {
     provider = google-beta
     disabled       = false
-    filename       = "infrastructure/build/cloudbuild-production.yaml"
+    filename       = "infrastructure/build/production/cloudbuild.yaml"
     ignored_files  = []
     included_files = []
     name           = "Build-Production"

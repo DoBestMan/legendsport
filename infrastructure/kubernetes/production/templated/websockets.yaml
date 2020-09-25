@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: websockets
+spec:
+  ports:
+    - port: 6001
+      targetPort: 6001
+  selector:
+    application: websockets
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: websockets
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: websockets
+  template:
+    metadata:
+      labels:
+        application: websockets
+    spec:
+      containers:
+        - image: BACKEND_IMAGE
+          name: websockets
+          command: ['/bin/sh', '-c']
+          args:
+            - "php artisan websockets:serve"
+          imagePullPolicy: Always
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
+          envFrom:
+            - configMapRef:
+                name: php-environment
+
