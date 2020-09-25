@@ -1,6 +1,6 @@
 <?php
 
-use App\Betting\Bets365;
+use App\Betting\TestData;
 use App\Betting\TimeStatus;
 use App\Models\ApiEvent;
 use Faker\Generator as Faker;
@@ -13,7 +13,7 @@ $factory->define(ApiEvent::class, function (Faker $faker) {
 
     return [
         "api_id" => $id,
-        "provider" => Bets365::PROVIDER_NAME,
+        "provider" => TestData::PROVIDER_NAME,
         "sport_id" => 11,
         "team_away" => "Ion Cutelaba",
         "team_home" => "Magomed Ankalaev",

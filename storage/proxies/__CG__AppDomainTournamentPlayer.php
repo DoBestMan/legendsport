@@ -33,56 +33,51 @@ class TournamentPlayer extends \App\Domain\TournamentPlayer implements \Doctrine
     /**
      * @var array<string, null> properties to be lazy loaded, indexed by property name
      */
-    public static $lazyPropertiesNames = [];
+    public static $lazyPropertiesNames = array (
+);
 
     /**
      * @var array<string, mixed> default values of properties to be lazy loaded, with keys being the property names
      *
      * @see \Doctrine\Common\Proxy\Proxy::__getLazyProperties
      */
-    public static $lazyPropertiesDefaults = [];
+    public static $lazyPropertiesDefaults = array (
+);
+
+
 
     public function __construct(?\Closure $initializer = null, ?\Closure $cloner = null)
     {
+
         $this->__initializer__ = $initializer;
-        $this->__cloner__ = $cloner;
+        $this->__cloner__      = $cloner;
     }
 
+
+
+
+
+
+
     /**
-     *
+     * 
      * @return array
      */
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return [
-                '__isInitialized__',
-                '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'id',
-                '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'chips',
-                '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'createdAt',
-                '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'updatedAt',
-                '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'tournament',
-                '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'user',
-            ];
+            return ['__isInitialized__', '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'id', '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'balance', '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'chips', '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'createdAt', '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'updatedAt', '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'tournament', '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'user', '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'bets'];
         }
 
-        return [
-            '__isInitialized__',
-            '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'id',
-            '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'chips',
-            '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'createdAt',
-            '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'updatedAt',
-            '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'tournament',
-            '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'user',
-        ];
+        return ['__isInitialized__', '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'id', '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'balance', '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'chips', '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'createdAt', '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'updatedAt', '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'tournament', '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'user', '' . "\0" . 'App\\Domain\\TournamentPlayer' . "\0" . 'bets'];
     }
 
     /**
-     *
+     * 
      */
     public function __wakeup()
     {
-        if (!$this->__isInitialized__) {
+        if ( ! $this->__isInitialized__) {
             $this->__initializer__ = function (TournamentPlayer $proxy) {
                 $proxy->__setInitializer(null);
                 $proxy->__setCloner(null);
@@ -90,16 +85,17 @@ class TournamentPlayer extends \App\Domain\TournamentPlayer implements \Doctrine
                 $existingProperties = get_object_vars($proxy);
 
                 foreach ($proxy::$lazyPropertiesDefaults as $property => $defaultValue) {
-                    if (!array_key_exists($property, $existingProperties)) {
+                    if ( ! array_key_exists($property, $existingProperties)) {
                         $proxy->$property = $defaultValue;
                     }
                 }
             };
+
         }
     }
 
     /**
-     *
+     * 
      */
     public function __clone()
     {
@@ -179,11 +175,24 @@ class TournamentPlayer extends \App\Domain\TournamentPlayer implements \Doctrine
         return self::$lazyPropertiesDefaults;
     }
 
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function betPlaced(\App\Domain\TournamentBet $tournamentBet)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'betPlaced', [$tournamentBet]);
+
+        return parent::betPlaced($tournamentBet);
+    }
+
     /**
      * {@inheritDoc}
      */
     public function getUser(): \App\Domain\User
     {
+
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUser', []);
 
         return parent::getUser();
@@ -195,8 +204,9 @@ class TournamentPlayer extends \App\Domain\TournamentPlayer implements \Doctrine
     public function getId(): int
     {
         if ($this->__isInitialized__ === false) {
-            return parent::getId();
+            return  parent::getId();
         }
+
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
@@ -208,6 +218,7 @@ class TournamentPlayer extends \App\Domain\TournamentPlayer implements \Doctrine
      */
     public function getChips(): int
     {
+
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getChips', []);
 
         return parent::getChips();
@@ -218,6 +229,7 @@ class TournamentPlayer extends \App\Domain\TournamentPlayer implements \Doctrine
      */
     public function getCreatedAt(): ?\DateTime
     {
+
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCreatedAt', []);
 
         return parent::getCreatedAt();
@@ -228,6 +240,7 @@ class TournamentPlayer extends \App\Domain\TournamentPlayer implements \Doctrine
      */
     public function getUpdatedAt(): ?\DateTime
     {
+
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUpdatedAt', []);
 
         return parent::getUpdatedAt();
@@ -238,6 +251,7 @@ class TournamentPlayer extends \App\Domain\TournamentPlayer implements \Doctrine
      */
     public function getTournament(): \App\Domain\Tournament
     {
+
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTournament', []);
 
         return parent::getTournament();
@@ -246,20 +260,56 @@ class TournamentPlayer extends \App\Domain\TournamentPlayer implements \Doctrine
     /**
      * {@inheritDoc}
      */
-    public function addChips(int $chips): void
+    public function placeWager(int $wager)
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addChips', [$chips]);
 
-        parent::addChips($chips);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'placeWager', [$wager]);
+
+        return parent::placeWager($wager);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function reduceChips(int $chips): void
+    public function betWon(int $wager, int $winnings)
     {
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'reduceChips', [$chips]);
 
-        parent::reduceChips($chips);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'betWon', [$wager, $winnings]);
+
+        return parent::betWon($wager, $winnings);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function betLost(int $wager)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'betLost', [$wager]);
+
+        return parent::betLost($wager);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function betPush($wager)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'betPush', [$wager]);
+
+        return parent::betPush($wager);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBalance(): int
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getBalance', []);
+
+        return parent::getBalance();
+    }
+
 }

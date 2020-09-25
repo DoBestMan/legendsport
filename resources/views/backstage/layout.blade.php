@@ -28,7 +28,11 @@
                 </a>
             </div>
 
-            <div class="offset-5 col-3">
+            <div class="offset-4 col-4">
+                <a class="menu" href="//{{ env('APP_URL_DOMAIN') }}">Home</a>
+                <label class="menu">|</label>
+                <a class="menu" href="{{ route('book.active') }}">Book</a>
+                <label class="menu">|</label>
                 <a class="menu" href="{{ route('tournaments.index') }}">Tournaments</a>
                 <label class="menu">|</label>
                 <a class="menu" href="{{ route('admins.index') }}">Admins</a>

@@ -19,4 +19,15 @@ final class TournamentState extends Enum
     private const RUNNING = "Running";
     private const COMPLETED = "Completed";
     private const CANCELED = "Cancel";
+
+    public function isOneOf(Enum ...$enums): bool
+    {
+        foreach ($enums as $enum) {
+            if ($enum->equals($this)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

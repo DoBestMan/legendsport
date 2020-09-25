@@ -38,4 +38,9 @@ class BetPlacementException extends \DomainException
     {
         return new self('Must be at least 2 bet items to place a parlay');
     }
+
+    public static function lineSuspended()
+    {
+        return new self('One or more betting lines have been suspended');
+    }
 }

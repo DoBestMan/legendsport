@@ -15,8 +15,8 @@
                             />
                         </div>
                         <div class="slider__content">
-                            <div class="slider__content__title">World Series Win Bonus</div>
-                            <div class="slider__content__description">Earn Up To $50 Bonus!</div>
+                            <div class="slider__content__title">{{ sliderTitle }}</div>
+                            <div class="slider__content__description">{{ sliderText }}</div>
                         </div>
                         <div class="slider__controls">
                             <div class="slider__controls__control" @click="handleLeft">
@@ -34,32 +34,23 @@
         <div class="layout__content__container__slider--mobile">
             <div class="sliders">
                 <div class="sliders--mobile">
-                    <div class="slider" style="background-image: url(assets/i/slider-1@3x.jpg)">
+                    <div class="slider" :style="{ 'background-image': `url(${activeImageUrl})` }">
                         <div class="slider__content">
-                            <div class="slider__content__title">World Series Win Bonus</div>
-                            <div class="slider__content__description">Earn Up To $50 Bonus!</div>
-                        </div>
-                    </div>
-                    <div class="slider" style="background-image: url(assets/i/slider-1@3x.jpg)">
-                        <div class="slider__content">
-                            <div class="slider__content__title">World Series Win Bonus</div>
-                            <div class="slider__content__description">Earn Up To $50 Bonus!</div>
-                        </div>
-                    </div>
-                    <div class="slider" style="background-image: url(assets/i/slider-1@3x.jpg)">
-                        <div class="slider__content">
-                            <div class="slider__content__title">World Series Win Bonus</div>
-                            <div class="slider__content__description">Earn Up To $50 Bonus!</div>
+                            <div class="slider__content__title">{{ sliderTitle }}</div>
+                            <div class="slider__content__description">{{ sliderText }}</div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="paginations d--only--mobile">
-                <div class="pagination"></div>
-                <div class="pagination pagination--active"></div>
-                <div class="pagination"></div>
-                <div class="pagination"></div>
-                <div class="pagination"></div>
+                <div
+                    class="pagination"
+                    v-for="(src, index) in imageSrcs"
+                    :key="index"
+                    :class="{
+                        'pagination--active': index === activeImageUrlId,
+                    }"
+                />
             </div>
         </div>
     </section>
@@ -88,6 +79,12 @@ export default Vue.extend({
         activeImageUrl(): String {
             return this.imageSrcs[this.activeImageUrlId];
         },
+        sliderTitle(): String {
+            return '';
+        },
+        sliderText(): String {
+            return '';
+        }
     },
 
     methods: {

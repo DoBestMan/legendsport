@@ -29,6 +29,8 @@ class BotDirector
     {
         $tournamentIdsAffected = [];
         $tournamentRepository = $this->repositoryManager->get(Tournament::class);
+        $tournamentRepository->startTransaction();
+
         $criteria = Criteria::create();
         $criteria->where(Criteria::expr()->eq('state', 'registering'));
         $criteria->andWhere(Criteria::expr()->neq('registrationDeadline', null));
@@ -71,6 +73,8 @@ class BotDirector
 
         $tournamentIdsAffected = [];
         $tournamentRepository = $this->repositoryManager->get(Tournament::class);
+        $tournamentRepository->startTransaction();
+
         $criteria = Criteria::create();
         $criteria->where(Criteria::expr()->notIn('state', ['Cancel', 'Completed']));
         $criteria->andWhere(Criteria::expr()->neq('registrationDeadline', null));

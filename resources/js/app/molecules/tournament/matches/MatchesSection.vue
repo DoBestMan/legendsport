@@ -222,7 +222,7 @@ export default Vue.extend({
         },
 
         groupedGames(): Record<string, Game[]> {
-            const filteredGames = this.tournament.games.filter(
+            let filteredGames = this.tournament.games.filter(
                 game =>
                     (empty(this.window.selectedSportIds) ||
                         this.window.selectedSportIds.includes(game.sportId)) &&

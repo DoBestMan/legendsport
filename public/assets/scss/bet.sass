@@ -16,6 +16,16 @@
       align-items: center
       justify-content: space-between
 
+      &__total
+        display: flex
+        align-items: center
+        justify-content: space-between
+
+      &__padding
+        padding-left: 27px
+        padding-top: 20px
+        padding-right: 18px
+
       &__name
         font-size: 14px
         font-weight: 500
@@ -27,6 +37,13 @@
         line-height: 1
         text-align: right
         color: $light-1
+
+      &__delete
+        width: 44px
+        height: 44px
+        padding: 6px
+        border-radius: 4px
+        border: solid 1px #505d66
 
   &__seperator
     height: 0px
@@ -63,7 +80,6 @@
         font-size: 12px
         font-weight: bold
         color: $light-1
-
 
   &__details
     padding: 16px 0
@@ -122,3 +138,7 @@
 
       &--green
         background: $green-1
+
+      &--yellow
+        background: $yellow-2
+        color: $dark-0

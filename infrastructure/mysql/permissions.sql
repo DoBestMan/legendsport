@@ -1,6 +1,6 @@
-revoke all privileges, grant option from 'production'@'%';
-revoke all privileges, grant option from 'staging'@'%';
-revoke all privileges, grant option from 'qa'@'%';
+revoke `cloudsqlsuperuser`@`%` from 'production'@'%';
+revoke `cloudsqlsuperuser`@`%` from 'staging'@'%';
+revoke `cloudsqlsuperuser`@`%` from 'qa'@'%';
 
 GRANT ALL on `legendsports-prod`.* to 'production'@'%';
 GRANT ALL on `legendsports-staging`.* to 'staging'@'%';

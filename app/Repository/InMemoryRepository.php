@@ -35,6 +35,11 @@ class InMemoryRepository implements Repository
         return $this->collection->matching($criteria);
     }
 
+    public function startTransaction(): void
+    {
+        return;
+    }
+
     public function commit(): void
     {
         return;

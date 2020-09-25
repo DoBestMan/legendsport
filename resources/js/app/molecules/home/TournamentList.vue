@@ -78,26 +78,11 @@
                         </div>
                         <div class="tournament--mobile__container__content__icons">
                             <i
-                                class="icon icon--color--light-2 icon--nano icon--sport-nba m--r--1"
-                            ></i>
-                            <i
-                                class="icon icon--color--light-2 icon--nano icon--sport-nfl m--r--1"
-                            ></i>
-                            <i
-                                class="icon icon--color--light-2 icon--nano icon--sport-tennis m--r--1"
-                            ></i>
-                            <i
-                                class="icon icon--color--light-2 icon--nano icon--sport-hockey m--r--1"
-                            ></i>
-                            <i
-                                class="icon icon--color--light-2 icon--nano icon--sport-boxing m--r--1"
-                            ></i>
-                            <i
-                                class="icon icon--color--light-2 icon--nano icon--sport-esports m--r--1"
-                            ></i>
-                            <i
-                                class="icon icon--color--light-2 icon--nano icon--sport-baseball m--r--1"
-                            ></i>
+                                class="icon icon--color--light-2 icon--nano m--r--1"
+                                v-for="(gameItem, index1) in getGames(tournament)"
+                                :key="`${gameItem}-mobile-${index1}`"
+                                :class="{ gameItem }"
+                            />
                         </div>
                         <div class="tournament--mobile__container__content__details">
                             <div class="tournament--mobile__container__content__details__item">
@@ -164,6 +149,7 @@ import Vue from "vue";
 import { Tournament } from "../../types/tournament";
 import TableNoRecords from "../../../general/components/TableNoRecords.vue";
 import { UserPlayer } from "../../../general/types/user";
+import { Game } from "../../types/game";
 import RegisterNowButton from "../../components/RegisterNowButton.vue";
 
 export default Vue.extend({
@@ -188,6 +174,24 @@ export default Vue.extend({
     },
 
     methods: {
+        getGames(tournament: Tournament): String[] {
+            let games: any[] = [];
+            const sportsNames = ["MLB", "NFL", "NCAAF", "NBA", "NHL"];
+            const iconNames = [
+                "icon--sport-baseball",
+                "icon--sport-nfl",
+                "icon--sport-nfl",
+                "icon--sport-nba",
+                "icon--sport-hockey",
+            ];
+            tournament.games.forEach(game => {
+                const index = sportsNames.indexOf(this.getSportName(game));
+                games.push(iconNames[index]);
+            });
+            let uniqueArray: any[] = [...new Set(games)];
+            return uniqueArray;
+        },
+
         getWeekday(day: Date): string {
             const newDate = new Date(day);
             const wd = newDate.getDay();
@@ -284,6 +288,11 @@ export default Vue.extend({
         getSportsNames(sportsIds: string[]): string {
             const dict: ReadonlyMap<string, string> = this.$stock.getters["sport/sportDictionary"];
             return sportsIds.map(sportId => dict.get(sportId) ?? sportId).join(", ");
+        },
+
+        getSportName(game: Game): string {
+            const dict: ReadonlyMap<string, string> = this.$stock.getters["sport/sportDictionary"];
+            return dict.get(game.sportId) ?? String(game.sportId);
         },
 
         isSelected(tournament: Tournament): boolean {

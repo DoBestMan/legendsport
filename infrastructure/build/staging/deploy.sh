@@ -1,21 +1,25 @@
 #!/bin/bash
 
+source infrastructure/build/deploy.fn.sh
+
 CLOUDSDK_COMPUTE_REGION='us-central1'
 CLOUDSDK_CONTAINER_CLUSTER='primary'
 BACKEND_IMAGE="gcr.io/$PROJECT_ID/php:$SHORT_SHA"
 FRONTEND_IMAGE="gcr.io/$PROJECT_ID/nginx:$SHORT_SHA"
 
-mkdir /tmp/staging
-
-cp infrastructure/kubernetes/staging/*.yaml /tmp/staging
+BASE_DIR=./infrastructure/kubernetes/staging
+OUTPUT_DIR=/tmp/staging
+KUBERNETES_NAMESPACE="staging"
 
 echo "Deploying: $BACKEND_IMAGE and $FRONTEND_IMAGE"
 
-sed "s!BACKEND_IMAGE!${BACKEND_IMAGE}!g" ./infrastructure/kubernetes/staging/templated/php-fpm.yaml | sed "s!FRONTEND_IMAGE!${FRONTEND_IMAGE}!g" > /tmp/staging/php-fpm.yaml
-sed "s!BACKEND_IMAGE!${BACKEND_IMAGE}!g" ./infrastructure/kubernetes/staging/templated/scheduler.yaml > /tmp/staging/scheduler.yaml
-sed "s!BACKEND_IMAGE!${BACKEND_IMAGE}!g" ./infrastructure/kubernetes/staging/templated/websockets.yaml > /tmp/staging/websockets.yaml
-sed "s!BACKEND_IMAGE!${BACKEND_IMAGE}!g" ./infrastructure/kubernetes/staging/templated/worker.yaml > /tmp/staging/worker.yaml
+REPLACEMENTS="\
+s!######BACKEND_IMAGE######!${BACKEND_IMAGE}!g;\
+s!######FRONTEND_IMAGE######!${FRONTEND_IMAGE}!g;\
+"
+
+prepare_manifests $BASE_DIR $REPLACEMENTS $OUTPUT_DIR
 
 gcloud container clusters get-credentials --region "$CLOUDSDK_COMPUTE_REGION" "$CLOUDSDK_CONTAINER_CLUSTER"
 
-kubectl apply -f /tmp/staging -n staging
+kubectl apply -f $OUTPUT_DIR -n $KUBERNETES_NAMESPACE

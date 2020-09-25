@@ -36,7 +36,7 @@ class TournamentBetTest extends TestCase
         $player = $user->getTournamentPlayer($tournament);
 
         $tournament->placeStraightBet($player, 1000, new BetItem(MoneyLineAway::class, $tournamentEvent));
-        $apiEvent->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), $home, $away));
+        $apiEvent->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), new \DateTime(), $home, $away));
 
         $sut = $tournament->getBets()->first();
         $bet = $sut->getEvents()->first();
@@ -77,7 +77,7 @@ class TournamentBetTest extends TestCase
         $player = $user->getTournamentPlayer($tournament);
 
         $tournament->placeStraightBet($player, 1000, new BetItem(MoneyLineAway::class, $tournamentEvent));
-        $apiEvent->result(new SportEventResult('eid', 'test', TimeStatus::IN_PLAY(), $home, $away));
+        $apiEvent->result(new SportEventResult('eid', 'test', TimeStatus::IN_PLAY(), new \DateTime(), $home, $away));
 
         $sut = $tournament->getBets()->first();
         $bet = $sut->getEvents()->first();
@@ -106,7 +106,7 @@ class TournamentBetTest extends TestCase
         $player = $user->getTournamentPlayer($tournament);
 
         $tournament->placeParlayBet($player, 1000, new BetItem(MoneyLineAway::class, $tournamentEvent), new BetItem(TotalOver::class, $tournamentEvent));
-        $apiEvent->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), $home, $away));
+        $apiEvent->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), new \DateTime(), $home, $away));
 
         $sut = $tournament->getBets()->first();
         $evaluated = false;
@@ -155,7 +155,7 @@ class TournamentBetTest extends TestCase
         $player = $user->getTournamentPlayer($tournament);
 
         $tournament->placeParlayBet($player, 1000, new BetItem(MoneyLineAway::class, $tournamentEvent1), new BetItem(TotalOver::class, $tournamentEvent2));
-        $apiEvent->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), $home, $away));
+        $apiEvent->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), new \DateTime(), $home, $away));
 
         $sut = $tournament->getBets()->first();
         $evaluated = true;
@@ -193,8 +193,8 @@ class TournamentBetTest extends TestCase
         $player = $user->getTournamentPlayer($tournament);
 
         $tournament->placeParlayBet($player, 1000, new BetItem(MoneyLineAway::class, $tournamentEvent1), new BetItem(TotalOver::class, $tournamentEvent2));
-        $apiEvent1->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), $home, $away));
-        $apiEvent2->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), $home, $away));
+        $apiEvent1->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), new \DateTime(), $home, $away));
+        $apiEvent2->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), new \DateTime(), $home, $away));
 
         $sut = $tournament->getBets()->first();
         $evaluated = false;

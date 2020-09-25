@@ -5,9 +5,9 @@ use App\Domain\User as UserEntity;
 use App\Http\Transformers\App\MeTransformer;
 use App\Models\User;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-final class MeUpdate implements ShouldBroadcast
+final class MeUpdate implements ShouldBroadcastNow
 {
     public array $user;
 

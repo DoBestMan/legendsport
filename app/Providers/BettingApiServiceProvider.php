@@ -2,49 +2,34 @@
 
 namespace App\Providers;
 
-use App\Betting\Bet365\Initaliser;
-use App\Betting\Bets365API;
 use App\Betting\BettingProvider;
+use App\Betting\LegendsOdds;
 use App\Betting\MultiProvider;
-use App\Betting\SportsData\MLB;
-use App\Betting\SportsData\NBA;
-use App\Betting\SportsData\NFL;
 use App\Betting\TestData;
+use App\Http\Controllers\Backstage\View\BookController;
 use Illuminate\Support\ServiceProvider;
 
 class BettingApiServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->when([Bets365API::class, Initaliser::class])
-            ->needs('$token')
-            ->give(env("BETS365_TOKEN"));
+        $this->app->when(LegendsOdds::class)
+            ->needs('$baseUrl')
+            ->give(fn () => env('LEGENDS_ODDS_URL'));
 
-        $this->app->when(NBA::class)
-            ->needs('$oddsApiKey')
-            ->give(env('SPORTSDATA_NBA_ODDS_KEY'));
+        $this->app->when(LegendsOdds::class)
+            ->needs('$authToken')
+            ->give(fn () => env('LEGENDS_ODDS_TOKEN'));
 
-        $this->app->when(NBA::class)
-            ->needs('$scoresApiKey')
-            ->give(env('SPORTSDATA_NBA_SCORES_KEY'));
+        $this->app->when(BookController::class)
+            ->needs('$baseUrl')
+            ->give(fn () => env('LEGENDS_ODDS_URL'));
 
-        $this->app->when(MLB::class)
-            ->needs('$oddsApiKey')
-            ->give(env('SPORTSDATA_MLB_ODDS_KEY'));
+        $this->app->when(BookController::class)
+            ->needs('$authToken')
+            ->give(fn () => env('LEGENDS_ODDS_TOKEN'));
 
-        $this->app->when(MLB::class)
-            ->needs('$scoresApiKey')
-            ->give(env('SPORTSDATA_MLB_SCORES_KEY'));
-
-        $this->app->when(NFL::class)
-            ->needs('$oddsApiKey')
-            ->give(env('SPORTSDATA_NFL_ODDS_KEY'));
-
-        $this->app->when(NFL::class)
-            ->needs('$scoresApiKey')
-            ->give(env('SPORTSDATA_NFL_SCORES_KEY'));
-
-        $this->app->tag([TestData::class, NBA::class, MLB::class, NFL::class], ['betting_provider']);
+        $this->app->tag([TestData::class, LegendsOdds::class], ['betting_provider']);
 
         $this->app->when(MultiProvider::class)
             ->needs(BettingProvider::class)

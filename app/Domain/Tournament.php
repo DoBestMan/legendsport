@@ -60,7 +60,7 @@ class Tournament
     private int $botsRegistered = 0;
     /** @ORM\OneToMany(targetEntity="\App\Domain\TournamentPlayer", mappedBy="tournament", fetch="EXTRA_LAZY", cascade={"ALL"}) */
     private Collection $players;
-    /** @ORM\OneToMany(targetEntity="\App\Domain\TournamentEvent", mappedBy="tournament", indexBy="id") */
+    /** @ORM\OneToMany(targetEntity="\App\Domain\TournamentEvent", mappedBy="tournament", indexBy="id", cascade={"ALL"}) */
     private Collection $events;
     /** @ORM\OneToMany(targetEntity="\App\Domain\TournamentBet", mappedBy="tournament", cascade={"ALL"}) */
     private Collection $bets;

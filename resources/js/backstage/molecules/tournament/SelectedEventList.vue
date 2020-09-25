@@ -7,16 +7,21 @@
             >
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col" width="280px">Date</th>
+                        <th scope="col" width="200px">External Id</th>
+                        <th scope="col" width="220px">Date</th>
                         <th scope="col" width="220px">Home team</th>
                         <th scope="col" width="230px">Away Team</th>
                         <th scope="col" width="200px">Sport</th>
+                        <th scope="col" width="200px">Status</th>
                         <th scope="col" width="200px"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="event in events" :key="event.external_id">
-                        <td class="text-truncate" width="300px">
+                        <td class="text-truncate" width="100px">
+                            {{ event.external_id }}
+                        </td>
+                        <td class="text-truncate" width="220px">
                             {{ event.starts_at | toDateTime }}
                         </td>
                         <td class="text-truncate" width="210px">
@@ -27,6 +32,9 @@
                         </td>
                         <td class="text-truncate" width="200px">
                             {{ getSportName(event.sport_id) }}
+                        </td>
+                        <td class="text-truncate" width="200px">
+                            {{ event.status }}
                         </td>
                         <td class="text-truncate" width="200px">
                             <button

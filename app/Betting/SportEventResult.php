@@ -1,6 +1,8 @@
 <?php
 namespace App\Betting;
 
+use Carbon\Carbon;
+
 class SportEventResult
 {
     private string $externalEventId;
@@ -8,19 +10,23 @@ class SportEventResult
     private ?int $home;
     private ?int $away;
     private string $provider;
+    private ?Carbon $startsAt;
 
     public function __construct(
         string $externalEventId,
         string $provider,
         TimeStatus $timeStatus,
+        $startsAt,
         ?int $home,
         ?int $away
     ) {
         $this->externalEventId = $externalEventId;
+        $this->startsAt = $startsAt ? new Carbon($startsAt) : null;
         $this->timeStatus = $timeStatus;
         $this->home = $home;
         $this->away = $away;
         $this->provider = $provider;
+
     }
 
     public function getExternalEventId(): string
@@ -46,5 +52,10 @@ class SportEventResult
     public function getTimeStatus(): TimeStatus
     {
         return $this->timeStatus;
+    }
+
+    public function getStartsAt(): ?Carbon
+    {
+        return $this->startsAt;
     }
 }

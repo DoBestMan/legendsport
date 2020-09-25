@@ -46,7 +46,7 @@ class TotalUnderTest extends TestCase
         $player = $user->getTournamentPlayer($tournament);
 
         $tournament->placeStraightBet($player, 1000, new BetItem(TotalUnder::class, $tournamentEvent));
-        $apiEvent->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), $home, $away));
+        $apiEvent->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), new \DateTime(), $home, $away));
 
         $sut = $tournament->getBets()->first()->getEvents()->first();
 

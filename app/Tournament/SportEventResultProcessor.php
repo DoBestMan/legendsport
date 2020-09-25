@@ -1,30 +1,30 @@
 <?php
 namespace App\Tournament;
 
+use App\Jobs\Tournaments\CheckForTournamentCompletion;
 use App\Betting\SportEventResult;
 use App\Domain\ApiEvent;
-use App\Domain\User;
-use App\Domain\Tournament;
+use App\Jobs\Publishers\PublishTournamentUpdate;
+use App\Jobs\Publishers\PublishUserUpdate;
+use App\Jobs\Tournaments\GradeEvent;
 use Doctrine\ORM\EntityManager;
+use Illuminate\Bus\Dispatcher;
 use Psr\Log\LoggerInterface;
 
 class SportEventResultProcessor
 {
-    /** @var User[] */
-    private array $usersUpdated = [];
-
-    /** @var Tournament[] */
-    private array $tournamentsUpdated = [];
-
     private LoggerInterface $logger;
     private EntityManager $entityManager;
+    private Dispatcher $dispatcher;
 
     public function __construct(
         EntityManager $entityManager,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        Dispatcher $dispatcher
     ) {
         $this->logger = $logger;
         $this->entityManager = $entityManager;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -32,9 +32,11 @@ class SportEventResultProcessor
      */
     public function processMultiple(iterable $results): void
     {
+        $this->entityManager->beginTransaction();
         foreach ($results as $result) {
             $this->process($result);
         }
+        $this->entityManager->commit();
     }
 
     public function process(SportEventResult $result): void
@@ -61,51 +63,16 @@ class SportEventResultProcessor
             "time_status" => $apiEvent->getTimeStatus(),
         ]);
 
-        if (!$apiEvent->isFinished()) {
-            $this->entityManager->flush();
-            return;
-        }
+        foreach ($apiEvent->getTournamentEvents() as $tournamentEvent) {
+            $tournament = $tournamentEvent->getTournament();
 
-        foreach($apiEvent->getTournamentEvents() as $tournamentEvent) {
-            foreach ($tournamentEvent->getBets() as $bet) {
-                $updated = $bet->evaluate();
-
-                if ($updated) {
-                    $tournamentBet = $bet->getTournamentBet();
-                    $user = $tournamentBet->getTournamentPlayer()->getUser();
-
-                    $this->logger->info("Bet was graded", [
-                        "player_id" => $user->getId(),
-                        "tournament_bet_id" => $tournamentBet->getId(),
-                        "status" => $tournamentBet->getStatus(),
-                        "chips_wager" => $tournamentBet->getChipsWager(),
-                        "chips_win" => $tournamentBet->getChipsWon(),
-                    ]);
-
-                    $this->usersUpdated[$user->getId()] = $user;
-                }
+            if ($apiEvent->isFinished()) {
+                $this->dispatcher->dispatch(new GradeEvent($tournament->getId(), $tournamentEvent->getId()));
             }
 
-            $tournament = $tournamentEvent->getTournament();
-            $this->tournamentsUpdated[$tournament->getId()] = $tournament;
+            $this->dispatcher->dispatch(new PublishTournamentUpdate($tournament->getId()));
         }
 
         $this->entityManager->flush();
-    }
-
-    /**
-     * @return Tournament[]
-     */
-    public function getTournamentsUpdated(): array
-    {
-        return $this->tournamentsUpdated;
-    }
-
-    /**
-     * @return User[]
-     */
-    public function getUsersUpdated(): array
-    {
-        return $this->usersUpdated;
     }
 }

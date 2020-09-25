@@ -3,13 +3,6 @@
 namespace App\Providers;
 
 use Acelaya\Doctrine\Type\PhpEnumType;
-use App\Betting\Bet365\Initaliser;
-use App\Betting\Bets365;
-use App\Betting\Bets365API;
-use App\Betting\BettingProvider;
-use App\Betting\MultiProvider;
-use App\Betting\SportsData\NBA;
-use App\Betting\TestData;
 use App\Betting\TimeStatus;
 use App\Queue\DatabaseConnector;
 use App\Repository\OrmRepository;
