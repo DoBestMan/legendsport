@@ -8,17 +8,17 @@ metadata:
 spec:
   tls:
     - hosts:
-        - staging.legendsbet.com
-        - backstage.staging.legendsbet.com
+        - legendsbet.com
+        - backstage.legendsbet.com
       secretName: web-tls
   rules:
-    - host: staging.legendsbet.com
+    - host: legendsbet.com
       http:
         paths:
           - backend:
               serviceName: web
               servicePort: 80
-    - host: backstage.staging.legendsbet.com
+    - host: backstage.legendsbet.com
       http:
         paths:
           - backend:
@@ -37,10 +37,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - ws.staging.legendsbet.com
+        - ws.legendsbet.com
       secretName: websocket-tls
   rules:
-    - host: ws.staging.legendsbet.com
+    - host: ws.legendsbet.com
       http:
         paths:
           - backend:
