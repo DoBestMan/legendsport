@@ -13,7 +13,7 @@ spec:
         application: worker
     spec:
       containers:
-        - image: BACKEND_IMAGE
+        - image: ######BACKEND_IMAGE######
           name: worker
           command: ['/bin/sh', '-c']
           args:

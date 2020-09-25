@@ -14,7 +14,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: scheduler
-              image: BACKEND_IMAGE
+              image: ######BACKEND_IMAGE######
               command: ['/bin/sh', '-c']
               args:
               - "php artisan schedule:run --verbose --no-interaction"

@@ -39,7 +39,7 @@ spec:
     spec:
       initContainers:
         - name: create-db
-          image: BACKEND_IMAGE
+          image: ######BACKEND_IMAGE######
           command: [ '/bin/sh', '-c', "php artisan migrate" ]
           imagePullPolicy: Always
           env:
@@ -57,7 +57,7 @@ spec:
             - configMapRef:
                 name: php-environment
       containers:
-        - image: BACKEND_IMAGE
+        - image: ######BACKEND_IMAGE######
           name: php
           imagePullPolicy: Always
           env:
@@ -75,7 +75,7 @@ spec:
             - configMapRef:
                 name: php-environment
 
-        - image: FRONTEND_IMAGE
+        - image: ######FRONTEND_IMAGE######
           name: nginx
           imagePullPolicy: Always
           env:
