@@ -91,7 +91,7 @@
                 v-show="!isMobileWindowSelected && !isMobileFilter"
             >
                 <div class="layout__content__container__content__sidebar">
-                    <img class="image image--border" src="assets/i/rectangle@3x.png" />
+                    <img class="image image--border" src="assets/i/vertical.png" />
                 </div>
 
                 <TournamentList

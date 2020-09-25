@@ -66,13 +66,19 @@ export default Vue.extend({
         return {
             activeImageUrlId: 0,
             imageSrcs: [
-                "assets/i/slider-1@3x.jpg",
-                "assets/i/slider-1@3x.jpg",
-                "assets/i/slider-1@3x.jpg",
-                "assets/i/slider-1@3x.jpg",
-                "assets/i/slider-1@3x.jpg",
+                "assets/i/Horizontal@1.png",
+                "assets/i/Horizontal@2.png",
+                "assets/i/Horizontal@3.png",
+                "assets/i/Horizontal@4.png",
             ],
         };
+    },
+
+    mounted() {
+        setInterval(() => {
+            this.activeImageUrlId += 1;
+            if (this.activeImageUrlId === 4) this.activeImageUrlId = 0;
+        }, 15000);
     },
 
     computed: {
@@ -80,11 +86,11 @@ export default Vue.extend({
             return this.imageSrcs[this.activeImageUrlId];
         },
         sliderTitle(): String {
-            return '';
+            return "";
         },
         sliderText(): String {
-            return '';
-        }
+            return "";
+        },
     },
 
     methods: {

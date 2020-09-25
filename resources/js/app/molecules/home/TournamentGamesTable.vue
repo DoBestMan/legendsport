@@ -13,28 +13,26 @@
             </div>
             <div class="game__footer">
                 <div class="game__footer__detail">
-                    <div class="game__footer__detail__label">HOME</div>
-                    <div class="game__footer__detail__team">{{ game.teamHome }}</div>
+                    <div class="game__footer__detail__label">AWAY</div>
+                    <div class="game__footer__detail__team">{{ game.teamAway }}</div>
                 </div>
                 <div class="game__footer__score">
-                    <div class="game__footer__score__time" v-if="game.timeStatus === 'In Play'">
-                        time
-                    </div>
+                    <div class="game__footer__score__time" v-if="game.timeStatus === 'In Play'" />
                     <div class="game__footer__score__time" v-if="game.timeStatus === 'Ended'">
                         F
                     </div>
                     <div class="game__footer__score__container">
-                        <div class="game__footer__score__item">{{ game.scoreHome | score }}</div>
-                        <div class="game__footer__score__seperator">:</div>
                         <div class="game__footer__score__item">{{ game.scoreAway | score }}</div>
+                        <div class="game__footer__score__seperator">:</div>
+                        <div class="game__footer__score__item">{{ game.scoreHome | score }}</div>
                     </div>
                 </div>
                 <div class="game__footer__detail">
                     <div class="game__footer__detail__label game__footer__detail__label--right">
-                        AWAY
+                        Home
                     </div>
                     <div class="game__footer__detail__team game__footer__detail__team--right">
-                        {{ game.teamAway }}
+                        {{ game.teamHome }}
                     </div>
                 </div>
             </div>
