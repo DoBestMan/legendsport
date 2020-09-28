@@ -34,7 +34,7 @@ class TournamentBet
      */
     private Tournament $tournament;
     /**
-     * @ORM\ManyToOne(targetEntity="App\Domain\TournamentPlayer")
+     * @ORM\ManyToOne(targetEntity="App\Domain\TournamentPlayer", inversedBy="bets")
      * @ORM\JoinColumn(name="tournament_player_id", referencedColumnName="id")
      */
     private TournamentPlayer $tournamentPlayer;
