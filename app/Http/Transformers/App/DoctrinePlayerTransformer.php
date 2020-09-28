@@ -12,7 +12,6 @@ class DoctrinePlayerTransformer extends TransformerAbstract
             "id" => $player->getId(),
             "name" => $player->getUser()->getName(),
             "chips" => $player->getChips(),
-            "balance" => $player->getBalance(),
             "user_id" => $player->getUser()->getId(),
         ];
     }

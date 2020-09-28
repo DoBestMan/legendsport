@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class UserProfile extends Migration
+class RemoveUserBalance extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class UserProfile extends Migration
      */
     public function up()
     {
-        DB::statement('ALTER TABLE users ADD firstname VARCHAR(255) NOT NULL, ADD lastname VARCHAR(255) NOT NULL, ADD date_of_birth DATETIME NULL, CHANGE is_bot is_bot INT NOT NULL;');
+        DB::statement('ALTER TABLE tournament_players DROP COLUMN `balance` ;');
     }
 
     /**

@@ -41,7 +41,6 @@ export const mapPlayer = (data: any): Player => ({
     id: data.id,
     name: data.name,
     chips: data.chips,
-    balance: data.balance,
     userId: data.user_id,
 });
 

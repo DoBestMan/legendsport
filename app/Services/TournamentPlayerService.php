@@ -49,7 +49,6 @@ class TournamentPlayerService
             $player->tournament_id = $tournament->id;
             $player->user_id = $user->id;
             $player->chips = $tournament->chips;
-            $player->balance = $tournament->chips;
             $player->save();
 
             $cost = $tournament->commission + $tournament->buy_in;
