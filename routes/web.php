@@ -7,6 +7,7 @@ use App\Http\Controllers\Backstage\Api\SignInController as BackstageSignInContro
 use App\Http\Controllers\Backstage\View\HomeController as BackstageHomeController;
 use App\Http\Controllers\Backstage\View\TournamentController as BackstageTournamentController;
 use App\Http\Controllers\Backstage\View\AdminController as BackstageUserController;
+use App\Http\Controllers\Backstage\View\WithdrawalController;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Broadcast;
 
@@ -32,6 +33,9 @@ $router->domain($backstage)->group(function (Router $router) {
         $router->post('/book/manage/{id}/cancel', BookController::class . '@cancel');
         $router->post('/book/manage/{id}/start', BookController::class . '@start');
         $router->post('/book/manage/{id}/finish', BookController::class . '@finish');
+
+        $router->get('/withdrawals/pending', WithdrawalController::class . '@pending')->name('withdrawals.pending');
+        $router->post('/withdrawals/{id}/process', WithdrawalController::class . '@process');
 
         $router
             ->post('/logout', BackstageSignInController::class . '@logout')

@@ -31,4 +31,34 @@ class Withdrawal
         $this->btcAddress = $btcAddress;
         $this->amount = $amount;
     }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function getBtcAddress(): string
+    {
+        return $this->btcAddress;
+    }
+
+    public function getAmount(): int
+    {
+        return $this->amount;
+    }
+
+    public function isProcessed(): bool
+    {
+        return $this->processed;
+    }
+
+    public function process(): void
+    {
+        $this->processed = true;
+    }
 }
