@@ -100,7 +100,7 @@
                     </div>
                 </div>
 
-                <div class="odds__header" v-show="!isModalBetSlipSection">
+                <!-- <div class="odds__header" v-show="!isModalBetSlipSection">
                     <div class="odds__header__tabs">
                         <div class="odds__header__tabs__tab odds__header__tabs__tab--active">
                             GAME LINE
@@ -115,7 +115,7 @@
                     <div class="odds__header__button">
                         REFRESH ODDS
                     </div>
-                </div>
+                </div> -->
 
                 <div class="odds__scroll" v-show="!isModalBetSlipSection">
                     <div class="odd" v-for="(games, date) in groupedGames" :key="date">

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="game" v-for="game in games" :key="game.id">
+        <div class="game" v-for="game in filterGames()" :key="game.id">
             <div class="game__header">
                 <div class="game__header__detail">
                     <div class="game__header__detail__date">{{ getStartsDateAt(game) }}</div>
@@ -13,28 +13,26 @@
             </div>
             <div class="game__footer">
                 <div class="game__footer__detail">
-                    <div class="game__footer__detail__label">HOME</div>
-                    <div class="game__footer__detail__team">{{ game.teamHome }}</div>
+                    <div class="game__footer__detail__label">AWAY</div>
+                    <div class="game__footer__detail__team">{{ game.teamAway }}</div>
                 </div>
                 <div class="game__footer__score">
-                    <div class="game__footer__score__time" v-if="game.timeStatus === 'In Play'">
-                        time
-                    </div>
+                    <div class="game__footer__score__time" v-if="game.timeStatus === 'In Play'" />
                     <div class="game__footer__score__time" v-if="game.timeStatus === 'Ended'">
                         F
                     </div>
                     <div class="game__footer__score__container">
-                        <div class="game__footer__score__item">{{ game.scoreHome | score }}</div>
-                        <div class="game__footer__score__seperator">:</div>
                         <div class="game__footer__score__item">{{ game.scoreAway | score }}</div>
+                        <div class="game__footer__score__seperator">:</div>
+                        <div class="game__footer__score__item">{{ game.scoreHome | score }}</div>
                     </div>
                 </div>
                 <div class="game__footer__detail">
                     <div class="game__footer__detail__label game__footer__detail__label--right">
-                        AWAY
+                        Home
                     </div>
                     <div class="game__footer__detail__team game__footer__detail__team--right">
-                        {{ game.teamAway }}
+                        {{ game.teamHome }}
                     </div>
                 </div>
             </div>
@@ -55,6 +53,28 @@ export default Vue.extend({
     },
 
     methods: {
+        getStartsDateAt(game: Game): string {
+            return moment(game.startsAt).format("MMM, DD");
+        },
+
+        getStartsTimeAt(game: Game): string {
+            return moment(game.startsAt).format("hh:mm zz");
+        },
+
+        filterGames(): Game[] {
+            let filtered = [];
+            filtered = this.games.filter(game => {
+                if (
+                    moment(new Date()).format("MMM") !== moment(game.startsAt).format("MMM") ||
+                    moment(new Date()).format("DD") !== moment(game.startsAt).format("DD")
+                ) {
+                    return null;
+                }
+                return game;
+            });
+            return filtered;
+        },
+
         classObject(sportName: string) {
             let className = "m--r--1 icon icon--micro icon--color--light-2 ";
             const sportsNames = ["MLB", "NFL", "NCAAF", "NBA", "NHL"];
@@ -67,14 +87,6 @@ export default Vue.extend({
             ];
             const index = sportsNames.indexOf(sportName);
             return className + iconNames[index];
-        },
-
-        getStartsDateAt(game: Game): string {
-            return moment(game.startsAt).format("MMM, DD");
-        },
-
-        getStartsTimeAt(game: Game): string {
-            return moment(game.startsAt).format("hh:mm zz");
         },
 
         getSportName(game: Game): string {
