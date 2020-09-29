@@ -37,6 +37,11 @@ export interface SignUpBody {
     dob: string;
 }
 
+export interface WithdrawBody {
+    amount: number;
+    btcAddress: string;
+}
+
 export class Api {
     public constructor(private readonly axios: AxiosInstance) {
         //
@@ -89,5 +94,9 @@ export class Api {
 
     public async registerForTournament(tournamentId: number): Promise<void> {
         await this.axios.post(`/api/tournaments/${tournamentId}/register`);
+    }
+
+    public async withdraw(body: WithdrawBody): Promise<void> {
+        await this.axios.post("/api/withdraw/btc", body);
     }
 }
