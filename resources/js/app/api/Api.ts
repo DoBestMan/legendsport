@@ -38,7 +38,7 @@ export interface SignUpBody {
 }
 
 export interface WithdrawBody {
-    amount: number;
+    amount: number | null;
     btcAddress: string;
 }
 
