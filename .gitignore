@@ -4,6 +4,7 @@
 /public/mix-manifest.json
 /public/app
 /public/backstage
+public/assets/css/style.css
 /storage/*.key
 /vendor
 .env
