@@ -77,39 +77,104 @@
 
                     <div class="form__control m--b--4">
                         <label class="label label--large">DATE OF BIRTH</label>
-                        <FormInput
-                            id="form-dob-day"
-                            inputClass="input input--large"
-                            placeHolder="Day"
-                            type="text"
-                            :errors="errors.dob"
-                            v-model="day"
-                            minlength="2"
-                            style="width: 25%"
-                            required
-                        />
-                        <FormInput
-                            id="form-dob-month"
-                            inputClass="input input--large"
-                            placeHolder="Month"
-                            type="text"
-                            :errors="errors.dob"
-                            v-model="month"
-                            minlength="2"
-                            style="width: 25%"
-                            required
-                        />
-                        <FormInput
-                            id="form-dob-year"
-                            inputClass="input input--large"
-                            placeHolder="Year"
-                            type="text"
-                            :errors="errors.dob"
-                            v-model="year"
-                            minlength="4"
-                            style="width: 48%"
-                            required
-                        />
+                        <div style="display: flex; justify-content: space-between;">
+                            <div class="dropdown" style="width: 25%;">
+                                <div class="form__control">
+                                    <input
+                                        class="input input--large"
+                                        type="text"
+                                        v-model="day"
+                                        readonly="readonly"
+                                    />
+                                    <div class="form__control__icon--right">
+                                        <i class="icon icon--micro icon--down"></i>
+                                    </div>
+                                </div>
+                                <div
+                                    class="dropdown__content"
+                                    style="z-index: 1000; width: 150px; max-height: 300px; overflow-y: auto;"
+                                >
+                                    <div
+                                        class="dropdown__content__item"
+                                        v-for="index in getDaysOfMonth()"
+                                        :key="index"
+                                        :value="index"
+                                        @click="handleSelectDay(`${index}`)"
+                                    >
+                                        {{ index }}
+                                        <i
+                                            class="icon icon--smaller icon--check icon--color--yellow-1"
+                                            v-if="isSelectedDay(`${index}`)"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="dropdown" style="width: 40%;">
+                                <div class="form__control">
+                                    <input
+                                        class="input input--large"
+                                        type="text"
+                                        v-model="month"
+                                        readonly="readonly"
+                                    />
+                                    <div class="form__control__icon--right">
+                                        <i class="icon icon--micro icon--down"></i>
+                                    </div>
+                                </div>
+                                <div
+                                    class="dropdown__content"
+                                    style="z-index: 1000; width: 150px; max-height: 300px; overflow-y: auto;"
+                                >
+                                    <div
+                                        class="dropdown__content__item"
+                                        v-for="index in monthArray"
+                                        :key="index"
+                                        :value="index"
+                                        @click="handleSelectMonth(index)"
+                                    >
+                                        {{ index }}
+                                        <i
+                                            class="icon icon--smaller icon--check icon--color--yellow-1"
+                                            v-if="isSelectedMonth(index)"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="dropdown" style="width: 30%;">
+                                <div class="form__control">
+                                    <input
+                                        class="input input--large"
+                                        type="text"
+                                        v-model="year"
+                                        readonly="readonly"
+                                    />
+                                    <div class="form__control__icon--right">
+                                        <i class="icon icon--micro icon--down"></i>
+                                    </div>
+                                </div>
+                                <div
+                                    class="dropdown__content"
+                                    style="z-index: 1000; width: 150px; max-height: 300px; overflow-y: auto;"
+                                >
+                                    <div
+                                        class="dropdown__content__item"
+                                        v-for="index in numberOfYears"
+                                        :key="index"
+                                        :value="startingYear + (index - 1)"
+                                        @click="handleSelectYear(`${startingYear + (index - 1)}`)"
+                                    >
+                                        {{ startingYear + (index - 1) }}
+                                        <i
+                                            class="icon icon--smaller icon--check icon--color--yellow-1"
+                                            v-if="isSelectedYear(`${startingYear + (index - 1)}`)"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="error" v-if="errors.dob">
                             <span v-for="error in errors.dob"> {{ error }} </span>
                         </div>
@@ -169,6 +234,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { AxiosError } from "axios";
+import moment from "moment";
 import FormInput from "../../components/FormInput.vue";
 
 export default Vue.extend({
@@ -184,13 +250,35 @@ export default Vue.extend({
             email: "",
             password: "",
             passwordConfirmation: "",
-            day: "",
-            month: "",
-            year: "",
+            day: "1",
+            month: "January",
+            year: "1940",
+            monthArray: [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December",
+            ],
+            startingYear: 1940,
+            numberOfYears: 81,
         };
     },
 
     methods: {
+        getDaysOfMonth(): number {
+            const mArray = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+            const date = this.year + "-" + mArray[this.monthArray.indexOf(this.month)];
+            return moment(date, "YYYY-MM").daysInMonth();
+        },
+
         goToHome(): void {
             this.$router.push("/");
         },
@@ -204,7 +292,7 @@ export default Vue.extend({
                     password_confirmation: this.passwordConfirmation,
                     firstname: this.firstname,
                     lastname: this.lastname,
-                    dob: this.year + '-' + this.month + '-' + this.day,
+                    dob: this.year + "-" + this.month + "-" + this.day,
                 });
                 this.$stock.dispatch("user/reload");
                 this.$router.push("/");
@@ -212,6 +300,30 @@ export default Vue.extend({
                 this.$toast.error((e as AxiosError).response?.data.message);
                 this.errors = (e as AxiosError).response?.data.errors ?? {};
             }
+        },
+
+        handleSelectDay(day: string): void {
+            this.day = day;
+        },
+
+        isSelectedDay(day: string): boolean {
+            return this.day === day;
+        },
+
+        handleSelectMonth(month: string): void {
+            this.month = month;
+        },
+
+        isSelectedMonth(month: string): boolean {
+            return this.month === month;
+        },
+
+        handleSelectYear(year: string): void {
+            this.year = year;
+        },
+
+        isSelectedYear(year: string): boolean {
+            return this.year === year;
         },
     },
 });

@@ -46,11 +46,6 @@ export default Vue.extend({
         },
 
         chatMessages(): ChatMessage[] {
-            console.log(
-                "this.tournament.players------------messages",
-                this.tournament.players,
-                this.$stock.state.chat.messages,
-            );
             const userIds = new Set(this.tournament.players.map(player => player.userId));
 
             return this.$stock.state.chat.messages
@@ -64,7 +59,6 @@ export default Vue.extend({
 
     methods: {
         sendMessage(message: string) {
-            console.log("one message", message, this.tournament.id);
             this.$echo.sendEvent(new NewChatMessage(this.tournament.id, message), this.user?.token);
         },
     },

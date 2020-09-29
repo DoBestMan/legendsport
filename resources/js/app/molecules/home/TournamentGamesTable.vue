@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="game" v-for="game in games" :key="game.id">
+        <div class="game" v-for="game in filterGames()" :key="game.id">
             <div class="game__header">
                 <div class="game__header__detail">
                     <div class="game__header__detail__date">{{ getStartsDateAt(game) }}</div>
@@ -53,6 +53,28 @@ export default Vue.extend({
     },
 
     methods: {
+        getStartsDateAt(game: Game): string {
+            return moment(game.startsAt).format("MMM, DD");
+        },
+
+        getStartsTimeAt(game: Game): string {
+            return moment(game.startsAt).format("hh:mm zz");
+        },
+
+        filterGames(): Game[] {
+            let filtered = [];
+            filtered = this.games.filter(game => {
+                if (
+                    moment(new Date()).format("MMM") !== moment(game.startsAt).format("MMM") ||
+                    moment(new Date()).format("DD") !== moment(game.startsAt).format("DD")
+                ) {
+                    return null;
+                }
+                return game;
+            });
+            return filtered;
+        },
+
         classObject(sportName: string) {
             let className = "m--r--1 icon icon--micro icon--color--light-2 ";
             const sportsNames = ["MLB", "NFL", "NCAAF", "NBA", "NHL"];
@@ -65,14 +87,6 @@ export default Vue.extend({
             ];
             const index = sportsNames.indexOf(sportName);
             return className + iconNames[index];
-        },
-
-        getStartsDateAt(game: Game): string {
-            return moment(game.startsAt).format("MMM, DD");
-        },
-
-        getStartsTimeAt(game: Game): string {
-            return moment(game.startsAt).format("hh:mm zz");
         },
 
         getSportName(game: Game): string {
