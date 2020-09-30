@@ -17,41 +17,55 @@
     <link rel="stylesheet" href="{{ mix('/backstage/css/backstage.css') }}">
 </head>
 <body>
+    <form id="logout-form" action="{{ route('backstage.logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
+    <nav id="nav" class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a id="brand-frm" href="{{ route('backstage.home') }}">
+            <div id="logo-text-frm" class="d-inline-blockx align-top">
+                <div id="logo-text" class="">LS</div>
+            </div>
+            <span id="text">backstage</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="//{{ env('APP_URL_DOMAIN') }}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admins.index') }}">Admins</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('book.active') }}">Book</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('config.edit') }}">Configuration</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('tournaments.index') }}">Tournaments</a>
+                </li>
+                <b-nav-item-dropdown
+                    id="my-nav-dropdown"
+                    text="Users"
+                    toggle-class="nav-link-custom"
+                    right
+                >
+                    <b-dropdown-item href="{{route('users.export')}}">Export</b-dropdown-item>
+                </b-nav-item-dropdown>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('backstage.logout') }}"
+                       onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     <div id="main" class="container-fluid">
-        <nav id="menu-frm" class="row">
-            <div class="col-4">
-                <a id="brand-frm" href="{{ route('backstage.home') }}">
-                    <div id="logo-text-frm" class="d-inline-blockx align-top">
-                        <div id="logo-text" class="">LS</div>
-                    </div>
-                    <span id="text">backstage</span>
-                </a>
-            </div>
-
-            <div class="offset-4 col-4">
-                <a class="menu" href="//{{ env('APP_URL_DOMAIN') }}">Home</a>
-                <label class="menu">|</label>
-                <a class="menu" href="{{ route('book.active') }}">Book</a>
-                <label class="menu">|</label>
-                <a class="menu" href="{{ route('tournaments.index') }}">Tournaments</a>
-                <label class="menu">|</label>
-                <a class="menu" href="{{ route('admins.index') }}">Admins</a>
-                <label class="menu">|</label>
-                <a class="menu" href="{{ route('config.edit') }}">Configuration</a>
-                <label class="menu">|</label>
-                <a class="menu" href="{{ route('withdrawals.pending') }}">Withdrawals</a>
-                <label class="menu">|</label>
-                <a class="menu" href="{{ route('backstage.logout') }}"
-                   onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                    {{ __('Logout') }}
-                </a>
-            </div>
-
-            <form id="logout-form" action="{{ route('backstage.logout') }}" method="POST" style="display: none;">
-                @csrf
-            </form>
-        </nav>
-
         @yield('HTML-main')
         <toasts></toasts>
         <full-loader></full-loader>
@@ -59,6 +73,7 @@
 
     <script type="text/javascript" src="{{ mix('/backstage/js/manifest.js') }}"></script>
     <script type="text/javascript" src="{{ mix('/backstage/js/vendor.js') }}"></script>
+    <script type="text/javascript" src="{{ mix('/backstage/js/index.js') }}"></script>
 
     {{-- PHP TO JS --}}
     @include("_phpvars")

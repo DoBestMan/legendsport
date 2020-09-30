@@ -40,3 +40,38 @@ a {
         max-width: 1480px;
     }
 }
+$menu-frm_padding: 10px;
+
+#logo-text-frm {
+    $logo_height: $menu-frm_height - ($menu-frm_padding * 2);
+
+    align-items: center;
+    background-color: $gb_color_app_white;
+    border: 1px solid $gb_color_dark4;
+    border-radius: $gb_border-radius;
+    display: flex;
+    height: $logo_height;
+    justify-content: center;
+    width: $logo_height;
+
+    #logo-text {
+        color: $gb_color_dark1;
+        font-size: 1.2rem;
+        font-weight: $gb_font-bold;
+        text-transform: uppercase;
+    }
+}
+#brand-frm {
+    display: flex;
+    margin-right: 24px;
+
+    #text {
+        color: $gb_color_app_white;
+        font-size: 2rem;
+        font-weight: $gb_font-light;
+        letter-spacing: $gb_letter-spacing * 3;
+        margin-left: 5px;
+        word-spacing: 5px;
+        text-transform: uppercase;
+    }
+}
