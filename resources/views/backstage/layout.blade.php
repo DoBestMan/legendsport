@@ -54,6 +54,7 @@
                     toggle-class="nav-link-custom"
                     right
                 >
+                    <b-dropdown-item href="{{ route('withdrawals.pending') }}">Withdrawals</b-dropdown-item>
                     <b-dropdown-item href="{{route('users.export')}}">Export</b-dropdown-item>
                 </b-nav-item-dropdown>
                 <li class="nav-item">

@@ -31,7 +31,7 @@ class UserController
             "Expires" => "0"
         );
 
-        $columns = array('UserId', 'Username', 'Email', 'Current Balance');
+        $columns = array('UserId', 'Username', 'Email', 'Current Balance', 'First name', 'Last name', 'Date of Birth');
 
         $callback = function() use ($users, $columns)
         {
@@ -44,7 +44,10 @@ class UserController
                     $user->getId(),
                     $user->getName(),
                     $user->getEmail(),
-                    $user->getBalance() / 100
+                    $user->getBalance() / 100,
+                    $user->getFirstname(),
+                    $user->getLastname(),
+                    $user->getDateOfBirth()->format('Y-m-d')
                 ];
                 fputcsv($file, $data);
             }

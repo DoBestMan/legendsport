@@ -113,6 +113,21 @@ class User
         return $this->updatedAt;
     }
 
+    public function getFirstname(): string
+    {
+        return $this->firstname;
+    }
+
+    public function getLastname(): string
+    {
+        return $this->lastname;
+    }
+
+    public function getDateOfBirth(): \DateTime
+    {
+        return $this->dateOfBirth;
+    }
+
     public function getTournaments()
     {
         return $this->tournaments;
