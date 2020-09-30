@@ -10,7 +10,7 @@
                     <span
                         class="odd__container__content__details__line__pitcher"
                         v-if="game.pitcherHome"
-                        >{{ game.pitcherHome }}</span
+                        >{{ game.pitcherAway }}</span
                     >
                 </div>
 
