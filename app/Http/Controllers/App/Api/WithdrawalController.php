@@ -33,15 +33,15 @@ class WithdrawalController extends Controller
         EntityManager $entityManager
     ) {
         $request->validate([
-            'btcAddress' => ['required'],
-            'amount' => ['required'],
+            'btcAddress' => ['required', 'alpha_num', 'between:26,35'],
+            'amount' => ['required', 'numeric', 'min:50'],
         ]);
 
         $entityManager->beginTransaction();
         /** @var User $user */
-        $user = $entityManager->find(User::class, $request->user()->id);
+        $user = $entityManager->find(User::class, $request->user()->id, LockMode::PESSIMISTIC_WRITE);
         try {
-            $user->makeWithdrawal($request->request->get('btcAddress'), $request->request->get('amount') * 100);
+            $user->makeWithdrawal($request->request->get('btcAddress'), (int) $request->request->get('amount') * 100);
         } catch (UserBalanceException $e) {
             $entityManager->rollback();
             return new JsonResponse(

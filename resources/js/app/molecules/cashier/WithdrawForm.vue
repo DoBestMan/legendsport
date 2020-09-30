@@ -14,6 +14,9 @@
                 v-model="amount"
                 required
             />
+            <div class="error" v-if="errors.amount">
+                <span v-for="error in errors.amount"> {{ error }} </span>
+            </div>
         </div>
         <div class="seperator"></div>
         <div class="form__control m--b--6">
@@ -26,6 +29,9 @@
                 v-model="btcAddress"
                 required
             />
+            <div class="error" v-if="errors.btcAddress">
+                <span v-for="error in errors.btcAddress"> {{ error }} </span>
+            </div>
         </div>
         <button class="button button--large">SUBMIT</button>
     </form>

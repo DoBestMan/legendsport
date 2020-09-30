@@ -139,4 +139,9 @@ class User
         $this->withdrawals->add(new Withdrawal($this, $btcAddress, $amount));
         $this->balance -= $amount;
     }
+
+    public function getWithdrawals(): Collection
+    {
+        return $this->withdrawals;
+    }
 }
