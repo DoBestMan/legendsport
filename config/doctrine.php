@@ -28,7 +28,6 @@ return [
             'namespaces'    => [],
             'paths'         => [
                 base_path('app/Domain'),
-                base_path('app/Betting/Bet365/Model'),
             ],
             'repository'    => Doctrine\ORM\EntityRepository::class,
             'proxies'       => [

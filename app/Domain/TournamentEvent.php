@@ -26,7 +26,7 @@ class TournamentEvent
     /** @ORM\Column(name="updated_at", type="datetime", nullable=true) */
     private ?\DateTime $updatedAt;
     /**
-     * @ORM\ManyToOne(targetEntity="App\Domain\ApiEvent")
+     * @ORM\ManyToOne(targetEntity="App\Domain\ApiEvent", inversedBy="tournamentEvents")
      * @ORM\JoinColumn(name="api_event_id", referencedColumnName="id")
      */
     private ApiEvent $apiEvent;

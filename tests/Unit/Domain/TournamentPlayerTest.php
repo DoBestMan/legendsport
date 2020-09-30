@@ -67,7 +67,6 @@ class TournamentPlayerTest extends TestCase
         $sut->placeWager(150);
 
         self::assertEquals(50, $sut->getChips());
-        self::assertEquals(200, $sut->getBalance());
     }
 
     public function testBetWon()
@@ -90,7 +89,6 @@ class TournamentPlayerTest extends TestCase
         $sut->placeWager(50);
         $sut->betWon(50, 500);
 
-        self::assertEquals(550, $sut->getBalance());
         self::assertEquals(550, $sut->getChips());
     }
 
@@ -114,7 +112,6 @@ class TournamentPlayerTest extends TestCase
         $sut->placeWager(50);
         $sut->betLost(50);
 
-        self::assertEquals(0, $sut->getBalance());
         self::assertEquals(0, $sut->getChips());
     }
 
@@ -131,7 +128,6 @@ class TournamentPlayerTest extends TestCase
         $sut->placeWager(50);
         $sut->betPush(50);
 
-        self::assertEquals(50, $sut->getBalance());
         self::assertEquals(50, $sut->getChips());
     }
 }

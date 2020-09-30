@@ -2,6 +2,7 @@
 namespace App\Http\Transformers\App;
 
 use App\Domain\Tournament;
+use App\Domain\TournamentEvent;
 use Carbon\Carbon;
 use Doctrine\Common\Collections\Criteria;
 use League\Fractal\TransformerAbstract;
@@ -37,7 +38,7 @@ class DoctrineTournamentTransformer extends TransformerAbstract
 
     public function includePlayers(Tournament $tournament)
     {
-        $players = $tournament->getPlayers()->matching(Criteria::create()->orderBy(['balance' => Criteria::DESC]));
+        $players = $tournament->getPlayers()->matching(Criteria::create()->orderBy(['chips' => Criteria::DESC]));
         return $this->collection($players, new DoctrinePlayerTransformer());
     }
 

@@ -57,7 +57,6 @@ class GradeEvent implements ShouldQueue, Uniqueable
                         'chips_wager' => $tournamentBet->getChipsWager(),
                         'chips_win' => $tournamentBet->getChipsWon(),
                         'chips_now' => $tournamentPlayer->getChips(),
-                        'balance_now' => $tournamentPlayer->getBalance(),
                     ]
                 );
 

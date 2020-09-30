@@ -50,7 +50,6 @@ class TournamentTest extends TestCase
         self::assertSame($player, $bet->getTournamentPlayer());
         self::assertEquals(1, $bet->getEvents()->count());
         self::assertEquals(9500, $player->getChips());
-        self::assertEquals(10000, $player->getBalance());
     }
 
     public function testPlaceStraightBetInTournamentWithStartedEvents()
@@ -177,7 +176,6 @@ class TournamentTest extends TestCase
         self::assertSame($player, $bet->getTournamentPlayer());
         self::assertEquals(2, $bet->getEvents()->count());
         self::assertEquals(9500, $player->getChips());
-        self::assertEquals(10000, $player->getBalance());
     }
 
     public function testPlaceParlayBetInTournamentWithStartedEvent()
