@@ -39,6 +39,8 @@
                 <label class="menu">|</label>
                 <a class="menu" href="{{ route('config.edit') }}">Configuration</a>
                 <label class="menu">|</label>
+                <a class="menu" href="{{ route('withdrawals.pending') }}">Withdrawals</a>
+                <label class="menu">|</label>
                 <a class="menu" href="{{ route('backstage.logout') }}"
                    onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                     {{ __('Logout') }}
