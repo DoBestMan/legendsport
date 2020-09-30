@@ -78,7 +78,7 @@
                     <div class="form__control m--b--4">
                         <label class="label label--large">DATE OF BIRTH</label>
                         <div style="display: flex; justify-content: space-between;">
-                            <div class="dropdown" style="width: 25%;">
+                            <div class="dropdown" style="width: 30%;">
                                 <div class="form__control">
                                     <input
                                         class="input input--large"
@@ -110,7 +110,7 @@
                                 </div>
                             </div>
 
-                            <div class="dropdown" style="width: 40%;">
+                            <div class="dropdown" style="width: 30%;">
                                 <div class="form__control">
                                     <input
                                         class="input input--large"
@@ -251,22 +251,9 @@ export default Vue.extend({
             password: "",
             passwordConfirmation: "",
             day: "1",
-            month: "January",
+            month: "01",
             year: "1940",
-            monthArray: [
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
-                "December",
-            ],
+            monthArray: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"],
             startingYear: 1940,
             numberOfYears: 81,
         };
@@ -274,8 +261,7 @@ export default Vue.extend({
 
     methods: {
         getDaysOfMonth(): number {
-            const mArray = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-            const date = this.year + "-" + mArray[this.monthArray.indexOf(this.month)];
+            const date = this.year + "-" + this.month;
             return moment(date, "YYYY-MM").daysInMonth();
         },
 
