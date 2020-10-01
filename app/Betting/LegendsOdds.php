@@ -112,7 +112,9 @@ class LegendsOdds implements BettingProvider
                 $this->mapTimeStatus($item['status']),
                 $item['startDate'],
                 $item['homeScore'],
-                $item['awayScore']
+                $item['awayScore'],
+                $item['homePitcher'],
+                $item['awayPitcher'],
             );
         }
 
