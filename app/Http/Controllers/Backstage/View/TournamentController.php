@@ -355,6 +355,8 @@ class TournamentController extends Controller
             $apiEvent->sport_id = $data["sport_id"];
             $apiEvent->team_away = $data["team_away"];
             $apiEvent->team_home = $data["team_home"];
+            $apiEvent->pitcher_away = $data["pitcher_away"];
+            $apiEvent->pitcher_home = $data["pitcher_home"];
             $apiEvent->provider = $data["provider"];
             $apiEvent->starts_at = $data["starts_at"];
             $apiEvent->save();

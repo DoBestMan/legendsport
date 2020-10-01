@@ -103,6 +103,20 @@ class ApiEvent
     /**
      * @var string
      *
+     * @ORM\Column(name="pitcher_home", type="string", length=255, nullable=true)
+     */
+    private $pitcherHome;
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="pitcher_away", type="string", length=255, nullable=true)
+     */
+    private $pitcherAway;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="provider", type="string", length=255, nullable=false)
      */
     private $provider;
@@ -161,6 +175,16 @@ class ApiEvent
     public function getTeamHome(): string
     {
         return $this->teamHome;
+    }
+
+    public function getPitcherAway(): ?string
+    {
+        return $this->pitcherAway;
+    }
+
+    public function getPitcherHome(): ?string
+    {
+        return $this->pitcherHome;
     }
 
     public function getScoreAway(): ?int

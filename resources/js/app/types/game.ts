@@ -5,6 +5,8 @@ export interface Game {
     sportId: string;
     teamHome: string;
     teamAway: string;
+    pitcherHome: string;
+    pitcherAway: string;
     scoreHome: number;
     scoreAway: number;
     timeStatus: GameState;

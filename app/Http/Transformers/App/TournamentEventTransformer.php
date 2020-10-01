@@ -19,6 +19,8 @@ class TournamentEventTransformer extends TransformerAbstract
             "starts_at" => format_datetime($apiEvent->starts_at),
             "team_away" => $apiEvent->team_away,
             "team_home" => $apiEvent->team_home,
+            "home_pitcher" => $apiEvent->pitcher_home,
+            "away_pitcher" => $apiEvent->pitcher_away,
             "time_status" => str_replace('_', ' ', ucwords($apiEvent->time_status, '_')),
         ];
     }

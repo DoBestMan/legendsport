@@ -32,6 +32,8 @@ export const mapGame = (data: any): Game => ({
     sportId: data.sport_id,
     teamHome: data.team_home,
     teamAway: data.team_away,
+    pitcherHome: data.home_pitcher,
+    pitcherAway: data.away_pitcher,
     scoreHome: data.score_home,
     scoreAway: data.score_away,
     timeStatus: data.time_status,

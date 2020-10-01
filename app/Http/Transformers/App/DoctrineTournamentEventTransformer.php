@@ -20,6 +20,8 @@ class DoctrineTournamentEventTransformer extends TransformerAbstract
             "starts_at" => (new Carbon($apiEvent->getStartsAt()))->toAtomString(),
             "team_away" => $apiEvent->getTeamAway(),
             "team_home" => $apiEvent->getTeamHome(),
+            "home_pitcher" => $apiEvent->getPitcherAway(),
+            "away_pitcher" => $apiEvent->getPitcherHome(),
             "time_status" => str_replace('_', ' ', ucwords($apiEvent->getTimeStatus()->getValue(), '_')),
         ];
     }

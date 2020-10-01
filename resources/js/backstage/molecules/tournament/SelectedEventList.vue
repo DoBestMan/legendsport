@@ -9,7 +9,7 @@
                     <tr>
                         <th scope="col" width="200px">External Id</th>
                         <th scope="col" width="220px">Date</th>
-                        <th scope="col" width="220px">Home team</th>
+                        <th scope="col" width="220px">Home teama</th>
                         <th scope="col" width="230px">Away Team</th>
                         <th scope="col" width="200px">Sport</th>
                         <th scope="col" width="200px">Status</th>
