@@ -118,7 +118,9 @@ class TestData implements BettingProvider
                 $timeStatus,
                 $apiEvent->starts_at->toString(),
                 $home,
-                $away
+                $away,
+                null,
+                null
             );
         }
 

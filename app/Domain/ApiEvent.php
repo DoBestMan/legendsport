@@ -224,6 +224,8 @@ class ApiEvent
             $this->timeStatus->equals($sportEventResult->getTimeStatus()) &&
             $this->scoreHome === $sportEventResult->getHome() &&
             $this->scoreAway === $sportEventResult->getAway() &&
+            $this->pitcherHome === $sportEventResult->getHomePitcher() &&
+            $this->pitcherAway === $sportEventResult->getAwayPitcher() &&
             !$this->hasStartTimeChanged($sportEventResult->getStartsAt())
         ) {
             return false;
@@ -232,6 +234,8 @@ class ApiEvent
         $this->timeStatus = $sportEventResult->getTimeStatus();
         $this->scoreHome = $sportEventResult->getHome();
         $this->scoreAway = $sportEventResult->getAway();
+        $this->pitcherHome = $sportEventResult->getHomePitcher();
+        $this->pitcherAway = $sportEventResult->getAwayPitcher();
         $this->startsAt = $sportEventResult->getStartsAt();
         $this->updatedAt = Carbon::now();
 
