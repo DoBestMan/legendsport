@@ -2,8 +2,7 @@
     <div class="layout">
         <div class="layout__navbar layout__navbar--transparent">
             <div class="logo" @click="goToHome">
-                <div class="logo__icon">LS</div>
-                <div class="logo__text d--only--desktop">LEGEND SPORTS</div>
+                <img class="logo__header" src="assets/i/Logo.png" alt="Logo" />
             </div>
         </div>
         <div class="layout__center">

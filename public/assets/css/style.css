@@ -674,6 +674,12 @@ textarea.input {
     cursor: pointer;
 }
 
+.logo__header {
+    margin-left: -60px;
+    width: 300px;
+    height: 230px;
+}
+
 .logo__icon {
     width: 30px;
     height: 30px;
@@ -1947,7 +1953,6 @@ textarea.input {
     background: #2c343a;
     height: 280px;
     position: relative;
-    background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
