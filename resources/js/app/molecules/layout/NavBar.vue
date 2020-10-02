@@ -1,8 +1,7 @@
 <template>
     <div class="layout__navbar">
         <div class="logo" @click="goToHome">
-            <div class="logo__icon">LS</div>
-            <span class="logo__text d--only--desktop">Legend Sports</span>
+            <img class="logo__header" src="assets/i/Logo.png" alt="Logo" />
         </div>
 
         <!-- if Authorized -->

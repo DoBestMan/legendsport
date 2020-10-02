@@ -5,8 +5,7 @@
                 <div class="container container--small">
                     <div class="center">
                         <div class="logo m--b--10">
-                            <div class="logo__icon logo__icon--large">LS</div>
-                            <div class="logo__text logo__text--large">LEGEND SPORTS</div>
+                            <img class="logo__header" src="assets/i/Logo.png" alt="Logo" />
                         </div>
                     </div>
                     <div class="center">
