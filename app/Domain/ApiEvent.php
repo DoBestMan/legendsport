@@ -242,9 +242,9 @@ class ApiEvent
         return true;
     }
 
-    public function isUpcoming()
+    public function isBettable()
     {
-        return $this->timeStatus->equals(TimeStatus::NOT_STARTED());
+        return $this->timeStatus->equals(TimeStatus::NOT_STARTED()) || $this->timeStatus->equals(TimeStatus::IN_PLAY());
     }
 
     private function updateOdd(string $oddType, ?string $price, ?Decimal $line): void

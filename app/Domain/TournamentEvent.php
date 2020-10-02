@@ -90,6 +90,6 @@ class TournamentEvent
     public function canBetBePlaced(): bool
     {
         //@TODO make this check avoid loading the collection
-        return $this->apiEvent->isUpcoming() && !empty($this->apiEvent->getOddTypes());
+        return $this->apiEvent->isBettable() && !empty($this->apiEvent->getOddTypes());
     }
 }
