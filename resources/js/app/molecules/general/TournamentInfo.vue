@@ -20,7 +20,7 @@
                 <div class="tournament--sidebar__details__detail">
                     <div class="tournament--sidebar__details__detail__item">
                         <div class="tournament--sidebar__details__detail__item__label">
-                            START TIME
+                            Start Time
                         </div>
                         <div class="tournament--sidebar__details__detail__item__content">
                             {{ theTournament.starts | toDateTime }}
@@ -30,7 +30,7 @@
                         <div class="tournament--sidebar__details__detail">
                             <div class="tournament--sidebar__details__detail__item">
                                 <div class="tournament--sidebar__details__detail__item__label">
-                                    # PLAYERS
+                                    # Players
                                 </div>
                                 <div class="tournament--sidebar__details__detail__item__content">
                                     {{ theTournament.players.length }}
@@ -40,7 +40,7 @@
                         <div class="tournament--sidebar__details__detail">
                             <div class="tournament--sidebar__details__detail__item">
                                 <div class="tournament--sidebar__details__detail__item__label">
-                                    BUY-IN
+                                    Buy-In
                                 </div>
                                 <div class="tournament--sidebar__details__detail__item__content">
                                     {{ theTournament.buyIn | formatDollars }}
