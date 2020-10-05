@@ -67,6 +67,8 @@ class Tournament
     private ?Collection $bettableEvents = null;
     /** @ORM\Column(name="auto_end", type="boolean") */
     private bool $autoEnd = true;
+    /** @ORM\Column(name="live_lines", type="boolean") */
+    private bool $liveLines = false;
     // @TODO add db mapping
     private int $playersRegistered = 0;
 
@@ -183,6 +185,11 @@ class Tournament
         return $this->autoEnd;
     }
 
+    public function hasLiveLines(): bool
+    {
+        return $this->liveLines;
+    }
+
     public function getEvents(): Collection
     {
         return new ArrayCollection($this->events->toArray());
@@ -201,7 +208,7 @@ class Tournament
     {
         if ($this->bettableEvents === null) {
             $this->bettableEvents = $this->events->filter(function (TournamentEvent $tournamentEvent) {
-                return $tournamentEvent->canBetBePlaced();
+                return $tournamentEvent->canBetBePlaced($this->liveLines);
             });
         }
 
@@ -223,7 +230,7 @@ class Tournament
             throw BetPlacementException::tournamentOver();
         }
 
-        if (!$betItem->getEvent()->canBetBePlaced()) {
+        if (!$betItem->getEvent()->canBetBePlaced($this->liveLines)) {
             throw BetPlacementException::eventStarted();
         }
 
@@ -257,7 +264,7 @@ class Tournament
         $betEvents = [];
         $placedBets = [];
         foreach ($betItems as $betItem) {
-            if (!$betItem->getEvent()->canBetBePlaced()) {
+            if (!$betItem->getEvent()->canBetBePlaced($this->liveLines)) {
                 throw BetPlacementException::eventStarted();
             }
 

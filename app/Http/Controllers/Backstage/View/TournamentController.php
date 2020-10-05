@@ -61,6 +61,7 @@ class TournamentController extends Controller
             'maxBots' => 0,
             'addBots' => 0,
             'playerBots' => 1,
+            'liveLines' => 0,
         ]);
 
         return view('backstage.tournaments.create')
@@ -101,6 +102,7 @@ class TournamentController extends Controller
         $tournament->late_registration_deadline = $registrationDeadlines['late_registration_deadline'];
         $tournament->bots = $request->bots;
         $tournament->auto_end = $request->auto_end;
+        $tournament->live_lines = $request->live_lines;
         $tournament->save();
 
         foreach ($apiData as $data) {
@@ -148,6 +150,7 @@ class TournamentController extends Controller
             'addBots' => $tournament->bots['add'],
             'playerBots' => $tournament->bots['player'],
             'autoEnd' => $tournament->auto_end,
+            'liveLines' => $tournament->live_lines,
         ]);
 
         return view('backstage.tournaments.show')
@@ -188,6 +191,7 @@ class TournamentController extends Controller
             'addBots' => $tournament->bots['add'],
             'playerBots' => $tournament->bots['player'],
             'autoEnd' => $tournament->auto_end,
+            'liveLines' => $tournament->live_lines,
         ]);
 
         return view('backstage.tournaments.edit')
@@ -231,6 +235,7 @@ class TournamentController extends Controller
         $tournament->late_registration_deadline = $registrationDeadlines['late_registration_deadline'];
         $tournament->bots = $request->bots;
         $tournament->auto_end = $request->auto_end;
+        $tournament->live_lines = $request->live_lines;
         $tournament->save();
 
         $apiDataDict = collect($apiData)->mapWithKeys(
@@ -359,6 +364,7 @@ class TournamentController extends Controller
             $apiEvent->pitcher_home = $data["pitcher_home"];
             $apiEvent->provider = $data["provider"];
             $apiEvent->starts_at = $data["starts_at"];
+            $apiEvent->has_bettable_lines = 0;
             $apiEvent->save();
         }
 

@@ -122,6 +122,8 @@ class ApiEvent
     private $provider;
     /** @ORM\OneToMany(targetEntity="\App\Domain\ApiEventOdds", mappedBy="event", indexBy="betType", cascade={"ALL"}, orphanRemoval=true) */
     private Collection $odds;
+    /** @ORM\Column(name="has_bettable_lines", type="boolean", nullable=false) */
+    public bool $hasBettableLines = false;
     /**
      * @ORM\OneToMany(targetEntity="\App\Domain\TournamentEvent", mappedBy="apiEvent")
      */
@@ -130,6 +132,7 @@ class ApiEvent
     public function __construct()
     {
         $this->odds = new ArrayCollection();
+        $this->timeStatus = TimeStatus::NOT_STARTED();
     }
 
     public function getId(): int
@@ -212,12 +215,6 @@ class ApiEvent
         return $this->timeStatus->equals(TimeStatus::ENDED()) || $this->isCancelled();
     }
 
-    public function isFresherThan(int $seconds): bool
-    {
-        $updatedAt = \DateTimeImmutable::createFromMutable($this->updatedAt);
-        return $updatedAt->add(new \DateInterval('PT' . $seconds . 'S')) > new \DateTimeImmutable();
-    }
-
     public function result(SportEventResult $sportEventResult): bool
     {
         if (
@@ -242,9 +239,12 @@ class ApiEvent
         return true;
     }
 
-    public function isBettable()
+    public function isBettable(bool $allowLiveBetting): bool
     {
-        return $this->timeStatus->equals(TimeStatus::NOT_STARTED()) || $this->timeStatus->equals(TimeStatus::IN_PLAY());
+        return $this->hasBettableLines &&
+            ($this->timeStatus->equals(TimeStatus::NOT_STARTED()) ||
+                ($this->timeStatus->equals(TimeStatus::IN_PLAY()) && $allowLiveBetting)
+            );
     }
 
     private function updateOdd(string $oddType, ?string $price, ?Decimal $line): void
@@ -278,6 +278,8 @@ class ApiEvent
         $this->updateOdd(SpreadAway::class, $odds->getPointSpreadAway(), $odds->getPointSpreadAwayLine());
         $this->updateOdd(TotalOver::class, $odds->getOverLine(), $odds->getTotalNumber());
         $this->updateOdd(TotalUnder::class, $odds->getUnderLine(), $odds->getTotalNumber());
+
+        $this->hasBettableLines = !$this->odds->isEmpty();
     }
 
     public function getOddTypes(): array
