@@ -19,6 +19,7 @@ kubectl delete Deployment "${NAMESPACE}web" -n qa
 
 kubectl delete Service "${NAMESPACE}websockets" -n qa
 kubectl delete Deployment "${NAMESPACE}websockets" -n qa
+kubectl delete Deployment "${NAMESPACE}worker" -n qa
 
 kubectl delete ConfigMap "${NAMESPACE}php-environment" -n qa
 
