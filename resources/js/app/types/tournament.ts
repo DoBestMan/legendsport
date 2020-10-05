@@ -17,6 +17,7 @@ export interface Tournament {
     games: Game[];
     players: Player[];
     prizePool: Prize[];
+    liveLines: boolean;
 }
 
 export enum BuyInType {

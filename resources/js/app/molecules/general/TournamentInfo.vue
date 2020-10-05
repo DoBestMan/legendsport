@@ -81,6 +81,18 @@
                     </div>
                 </div>
             </div>
+            <div class="tournament--sidebar__details">
+                <div class="tournament--sidebar__details__detail">
+                    <div class="tournament--sidebar__details__detail__item">
+                        <div class="tournament--sidebar__details__detail__item__label">
+                            Live Betting
+                        </div>
+                        <div class="tournament--sidebar__details__detail__item__content">
+                            {{ liveBetting }}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -120,6 +132,10 @@ export default Vue.extend({
 
         sportsNames(): string {
             return this.tournament?.sportIds.map(this.getSportName).join(", ") || "n/a";
+        },
+
+        liveBetting(): string {
+            return this.tournament?.liveLines ? 'On Selected Events' : 'No';
         },
 
         isRegistered(): boolean {

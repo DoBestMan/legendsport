@@ -22,6 +22,7 @@ class TournamentTransformer extends TransformerAbstract
             "starts" => $this->calculateStarts($tournament),
             "state" => $tournament->state,
             "time_frame" => $tournament->time_frame,
+            'live_lines' => $tournament->live_lines,
         ];
     }
 

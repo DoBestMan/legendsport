@@ -28,6 +28,7 @@ class DoctrineTournamentTransformer extends TransformerAbstract
             "starts" => (new Carbon($tournament->getRegistrationDeadline()))->toAtomString(),
             "state" => $tournament->getState(),
             "time_frame" => $tournament->getTimeFrame(),
+            'live_lines' => $tournament->hasLiveLines(),
         ];
     }
 

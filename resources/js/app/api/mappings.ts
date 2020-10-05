@@ -22,6 +22,7 @@ export const mapTournament = (data: any): Tournament => {
         state: data.state,
         timeFrame: data.time_frame,
         prizePool: data.prize_pool.map(mapPrize),
+        liveLines: data.live_lines,
     };
 };
 

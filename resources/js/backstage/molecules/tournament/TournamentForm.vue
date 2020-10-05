@@ -112,9 +112,9 @@
                         name="live_lines"
                         id="live_lines"
                         :class="[errors['live_lines'] ? 'form-control is-invalid' : 'form-control']"
-                        :checked="liveEnd"
+                        :checked="liveLines"
 
-                        @change="$emit('update:liveEnd', $event.target.checked)"
+                        @change="$emit('update:liveLines', $event.target.checked)"
                     />
 
 

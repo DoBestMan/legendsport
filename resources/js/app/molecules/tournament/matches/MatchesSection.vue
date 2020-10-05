@@ -224,7 +224,7 @@ export default Vue.extend({
                 game =>
                     (empty(this.window.selectedSportIds) ||
                         this.window.selectedSportIds.includes(game.sportId)) &&
-                    (game.timeStatus === GameState.NotStarted || game.timeStatus === GameState.InPlay),
+                    (game.timeStatus === GameState.NotStarted || (this.tournament.liveLines && game.timeStatus === GameState.InPlay)),
             );
             return groupBy(filteredGames, game => game.startsAt);
         },
