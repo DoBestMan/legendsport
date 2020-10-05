@@ -53,13 +53,13 @@
                         class="odd__container__content__details__line__tags__tag"
                         v-if="Number(totalNumber)"
                         :class="{
-                            'odd__container__content__details__line__tags__tag--active': selectedTotalUnder,
+                            'odd__container__content__details__line__tags__tag--active': selectedTotalOver,
                         }"
-                        @click="emitToggleOdd(PendingOddType.TotalUnder)"
+                        @click="emitToggleOdd(PendingOddType.TotalOver)"
                     >
-                        U {{ totalNumber }}
+                        O {{ totalNumber }}
                         <div class="odd__container__content__details__line__tags__tag__subtitle">
-                            {{ underLine | signedNumber }}
+                            {{ overLine | signedNumber }}
                         </div>
                     </div>
                     <div
@@ -116,13 +116,13 @@
                         class="odd__container__content__details__line__tags__tag"
                         v-if="Number(totalNumber)"
                         :class="{
-                            'odd__container__content__details__line__tags__tag--active': selectedTotalOver,
+                            'odd__container__content__details__line__tags__tag--active': selectedTotalUnder,
                         }"
-                        @click="emitToggleOdd(PendingOddType.TotalOver)"
+                        @click="emitToggleOdd(PendingOddType.TotalUnder)"
                     >
-                        O {{ totalNumber }}
+                        U {{ totalNumber }}
                         <div class="odd__container__content__details__line__tags__tag__subtitle">
-                            {{ overLine | signedNumber }}
+                            {{ underLine | signedNumber }}
                         </div>
                     </div>
                     <div
