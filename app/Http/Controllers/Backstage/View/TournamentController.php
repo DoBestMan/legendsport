@@ -5,6 +5,7 @@ use App\Betting\TimeStatus;
 use App\Domain\Tournament as TournamentEntity;
 use App\Http\Controllers\Controller;
 use App\Http\Transformers\App\ApiEventTransformer;
+use App\Jobs\Tournaments\CheckForTournamentCompletion;
 use App\Models\ApiEvent;
 use App\Models\Config;
 use App\Models\Tournament;
@@ -14,6 +15,7 @@ use App\Tournament\Events\TournamentUpdate;
 use Carbon\Carbon;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Contracts\Bus\Dispatcher as JobDispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use JavaScript;
@@ -265,6 +267,12 @@ class TournamentController extends Controller
         $this->entityManager->remove($tournamentEntity);
         $this->entityManager->flush();
 
+        return new Response('', Response::HTTP_NO_CONTENT);
+    }
+
+    public function checkForCompletion(Tournament $tournament, JobDispatcher $dispatcher)
+    {
+        $dispatcher->dispatch(new CheckForTournamentCompletion($tournament->id));
         return new Response('', Response::HTTP_NO_CONTENT);
     }
 

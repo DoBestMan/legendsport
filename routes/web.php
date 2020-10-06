@@ -27,6 +27,7 @@ $router->domain($backstage)->group(function (Router $router) {
         $router->get('/config', ConfigController::class . '@show')->name('config.show');
         $router->get('/config/edit', ConfigController::class . '@edit')->name('config.edit');
         $router->put('/config', ConfigController::class . '@update')->name('config.update');
+        $router->post('/tournaments/{tournament}/check-complete', BackstageTournamentController::class . '@checkForCompletion');
         $router->resource('/tournaments', BackstageTournamentController::class);
         $router->resource('/admins', BackstageUserController::class);
 

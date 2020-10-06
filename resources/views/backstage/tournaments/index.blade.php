@@ -71,6 +71,14 @@
                                     >
                                         <i class="fas fa-trash"></i>
                                     </button>
+                                    <button
+                                        type="button"
+                                        class="btn btn-outline-success btn-sm"
+                                        title="Check Completion"
+                                        @click='openCompleteModal(@json($tournament->id), @json($tournament->name))'
+                                    >
+                                        <i class="fas fa-clipboard-check"></i>
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -97,4 +105,9 @@
     :text-description="modalDeleteDescription"
     @@destroy="deleteTournament(modalDeleteId)"
 ></modal-delete>
+<modal-complete
+    v-model="modalCompleteId"
+    :text-description="modalCompleteDescription"
+    @@destroy="completeTournament(modalCompleteId)"
+></modal-complete>
 @endsection
