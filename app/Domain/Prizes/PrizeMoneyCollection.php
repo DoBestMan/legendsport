@@ -3,6 +3,7 @@
 namespace App\Domain\Prizes;
 
 use App\Domain\Bot;
+use App\Domain\TournamentPayout;
 use App\Domain\TournamentPlayer;
 
 class PrizeMoneyCollection
@@ -32,7 +33,7 @@ class PrizeMoneyCollection
             for (null; $playersProcessed < $prizeMoney->getMaxPosition(); $playersProcessed++) {
                 $player = $players[$playersProcessed];
                 $player->getUser()->creditWinnings($prizeMoney->getPrizeMoney());
-                $payouts[] = [$player->getUser() instanceof Bot, $prizeMoney->getPrizeMoney(), $player->getTournament()];
+                $payouts[] = new TournamentPayout($player->getTournament(), $player->getUser(), $prizeMoney->getPrizeMoney());
             }
         }
 

@@ -2,17 +2,12 @@
 
 namespace Unit\Domain\Prizes;
 
-use App\Domain\BetItem;
-use App\Domain\BetTypes\MoneyLineAway;
-use App\Domain\Prizes\Prize;
-use App\Domain\Prizes\PrizeCollection;
 use App\Domain\Prizes\PrizeMoney;
 use App\Domain\Prizes\PrizeMoneyCollection;
 use App\Domain\Tournament;
 use App\Domain\TournamentPlayer;
 use App\Domain\User;
 use PHPUnit\Framework\TestCase;
-use Tests\Fixture\Factory\ApiEventFactory;
 use Tests\Fixture\Factory\FactoryAbstract;
 
 /**
@@ -20,6 +15,7 @@ use Tests\Fixture\Factory\FactoryAbstract;
  * @uses \App\Domain\Prizes\PrizeMoney
  * @uses \App\Domain\TournamentPlayer
  * @uses \App\Domain\User
+ * @uses \App\Domain\TournamentPayout
  */
 class PrizeMoneyCollectionTest extends TestCase
 {
@@ -37,7 +33,7 @@ class PrizeMoneyCollectionTest extends TestCase
     }
 
     /** @dataProvider provideAllocate */
-    public function testAllocate(array $prizes, array $expected)
+    public function testAllocate(array $prizes, array $expected, int $payoutsExpected)
     {
         $sut = new PrizeMoneyCollection(...$prizes);
 
@@ -48,16 +44,18 @@ class PrizeMoneyCollectionTest extends TestCase
 
         for ($i = 0; $i < 10; $i++) {
             $user = new User('test' . $i,  'test@test.com', 'test', '', '', new \DateTime());
+            FactoryAbstract::setProperty($user, 'id', $i);
             $tournament->registerPlayer($user);
             $players[$i] = $user->getTournamentPlayer($tournament);
             FactoryAbstract::setProperty($players[$i], 'chips', 1000 * $i);
         }
 
-        $sut->allocate(...$players);
+        $payouts = $sut->allocate(...$players);
 
         $result = array_map(fn (TournamentPlayer $tournamentPlayer) => [$tournamentPlayer->getUser()->getName(), $tournamentPlayer->getUser()->getBalance()], $players);
 
         self::assertEquals($expected, $result);
+        self::assertCount($payoutsExpected, $payouts);
     }
 
     public function provideAllocate()
@@ -80,7 +78,8 @@ class PrizeMoneyCollectionTest extends TestCase
                     ['test7', 500],
                     ['test8', 1000],
                     ['test9', 2000],
-                ]
+                ],
+                3
             ],
             [
                 [
@@ -99,7 +98,8 @@ class PrizeMoneyCollectionTest extends TestCase
                     ['test7', 500],
                     ['test8', 1000],
                     ['test9', 2000],
-                ]
+                ],
+                5
             ]
         ];
     }

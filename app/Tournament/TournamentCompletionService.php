@@ -25,7 +25,10 @@ class TournamentCompletionService
         }
 
         $tournament->complete();
-        $tournament->getPrizeMoney()->allocate(...$tournament->getPlayers()->toArray());
+        $payouts = $tournament->getPrizeMoney()->allocate(...$tournament->getPlayers()->toArray());
+        foreach ($payouts as $payout) {
+            $this->entityManager->persist($payout);
+        }
 
         $this->entityManager->flush();
         $this->entityManager->commit();
