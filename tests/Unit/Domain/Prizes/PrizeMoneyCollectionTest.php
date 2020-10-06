@@ -33,7 +33,7 @@ class PrizeMoneyCollectionTest extends TestCase
 
         $sut = new PrizeMoneyCollection(...$prizes);
 
-        self::assertCount(3, $sut->getPrizeMoney());
+        self::assertCount(3, $sut->toArray());
     }
 
     /** @dataProvider provideAllocate */

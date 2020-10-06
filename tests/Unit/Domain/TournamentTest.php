@@ -14,6 +14,7 @@ use App\Domain\TournamentBet;
 use App\Domain\TournamentPlayer;
 use App\Domain\User;
 use App\Tournament\Enums\TournamentState;
+use Carbon\Carbon;
 use PHPUnit\Framework\TestCase;
 use Tests\Fixture\Factory\ApiEventFactory;
 use Tests\Fixture\Factory\FactoryAbstract;
@@ -451,6 +452,44 @@ class TournamentTest extends TestCase
             $tournament->registerPlayer($user);
         }
 
-        self::assertCount(3, $tournament->getPrizeMoney());
+        self::assertCount(3, $tournament->getPrizeMoney()->toArray());
+    }
+
+    /** @dataProvider provideIsFinished */
+    public function testIsFinished(TournamentState $state, bool $expected)
+    {
+        $tournament = new Tournament();
+        FactoryAbstract::setProperty($tournament, 'id', 1);
+        FactoryAbstract::setProperty($tournament, 'chips', 10000);
+        FactoryAbstract::setProperty($tournament, 'state', $state);
+
+        self::assertEquals($expected, $tournament->isFinished());
+    }
+
+    public function provideIsFinished()
+    {
+        return [
+            [TournamentState::RUNNING(), false],
+            [TournamentState::CANCELED(), true],
+            [TournamentState::COMPLETED(), true],
+            [TournamentState::REGISTERING(), false],
+            [TournamentState::ANNOUNCED(), false],
+            [TournamentState::LATE_REGISTERING(), false],
+        ];
+    }
+
+    public function testComplete()
+    {
+        $tournament = new Tournament();
+        FactoryAbstract::setProperty($tournament, 'id', 1);
+        FactoryAbstract::setProperty($tournament, 'chips', 10000);
+        FactoryAbstract::setProperty($tournament, 'state', TournamentState::RUNNING());
+
+        $tournament->complete();
+
+        self::assertEquals(TournamentState::COMPLETED(), $tournament->getState());
+        self::assertEquals(true, $tournament->isFinished());
+        self::assertEqualsWithDelta(Carbon::now(), $tournament->getCompletedAt(), 2);
+        self::assertEqualsWithDelta(Carbon::now(), $tournament->getUpdatedAt(), 2);
     }
 }

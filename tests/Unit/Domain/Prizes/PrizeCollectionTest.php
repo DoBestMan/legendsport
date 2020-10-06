@@ -39,9 +39,9 @@ class PrizeCollectionTest extends TestCase
         $sut = new PrizeCollection(...$prizes);
 
         $result = $sut->toPrizeMoneyCollection(10000);
-        $firstPrize = current($result->getPrizeMoney());
+        $firstPrize = current($result->toArray());
 
-        self::assertCount(3, $result->getPrizeMoney());
+        self::assertCount(3, $result->toArray());
         self::assertEquals(2000, $firstPrize->getPrizeMoney());
     }
 }

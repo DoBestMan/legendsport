@@ -28,7 +28,7 @@ class CheckForTournamentCompletion implements ShouldQueue, Uniqueable
         $logger->info('Checking Tournament completion status: ' . $this->tournamentId);
         $tournament = Tournament::find($this->tournamentId);
 
-        if ($tournamentCompletionService->updateState($tournament)) {
+        if ($tournamentCompletionService->updateState($this->tournamentId)) {
             $logger->info('Tournament has finished: ' . $this->tournamentId);
             $dispatcher->dispatch(new PublishTournamentUpdate($this->tournamentId));
 

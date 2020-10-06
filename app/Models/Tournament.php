@@ -110,7 +110,7 @@ class Tournament extends Model
     {
         $prizeStructure = PrizeStructure::getStructure($this->getPlayersCount());
 
-        return $prizeStructure->toPrizeMoneyCollection($this->getPrizePoolMoney())->getPrizeMoney();
+        return $prizeStructure->toPrizeMoneyCollection($this->getPrizePoolMoney())->toArray();
     }
 
     public function getPrizePoolMoney(): int

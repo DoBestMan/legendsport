@@ -2,6 +2,7 @@
 
 namespace App\Domain;
 
+use App\Domain\Prizes\PrizeMoneyCollection;
 use App\Domain\Prizes\PrizeStructure;
 use App\Tournament\Enums\TournamentState;
 use Carbon\Carbon;
@@ -361,11 +362,11 @@ class Tournament
         }
     }
 
-    public function getPrizeMoney(): array
+    public function getPrizeMoney(): PrizeMoneyCollection
     {
         $prizeStructure = PrizeStructure::getStructure($this->players->count());
 
-        return $prizeStructure->toPrizeMoneyCollection($this->getPrizePoolMoney())->getPrizeMoney();
+        return $prizeStructure->toPrizeMoneyCollection($this->getPrizePoolMoney());
     }
 
     public function isReadyForCompletion(): bool
@@ -388,5 +389,10 @@ class Tournament
     private function everyBetHasGraded(): bool
     {
         return $this->events->forAll(fn (int $key, TournamentEvent $tournamentEvent) => $tournamentEvent->everyBetHasGraded());
+    }
+
+    public function isFinished(): bool
+    {
+        return $this->state->isOneOf(TournamentState::COMPLETED(), TournamentState::CANCELED());
     }
 }

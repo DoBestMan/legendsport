@@ -16,7 +16,7 @@ class PrizeMoneyCollection
     }
 
     /** @return PrizeMoney[] */
-    public function getPrizeMoney(): array
+    public function toArray(): array
     {
         return $this->prizeMoney;
     }

@@ -44,6 +44,6 @@ class DoctrineTournamentTransformer extends TransformerAbstract
 
     public function includePrizePool(Tournament $tournament)
     {
-        return $this->collection($tournament->getPrizeMoney(), new PrizeTransformer());
+        return $this->collection($tournament->getPrizeMoney()->toArray(), new PrizeTransformer());
     }
 }
