@@ -10,6 +10,7 @@ use App\Http\Controllers\App\Api\TournamentBetStraightController;
 use App\Http\Controllers\App\Api\TournamentCollection;
 use App\Http\Controllers\App\Api\TournamentHistoryCollection;
 use App\Http\Controllers\App\Api\TournamentRegisterController;
+use App\Http\Controllers\App\Api\WithdrawalController;
 use App\Http\Controllers\Backstage\Api\EventCollection;
 use Illuminate\Routing\Router;
 
@@ -42,6 +43,11 @@ $router->domain($app)->group(function (Router $router) {
         $router->post(
             "/tournaments/{tournament}/bets/straight",
             TournamentBetStraightController::class . "@post",
+        );
+
+        $router->post(
+            '/withdraw/btc',
+            WithdrawalController::class . '@post'
         );
     });
 });

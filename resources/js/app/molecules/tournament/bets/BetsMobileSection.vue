@@ -18,7 +18,7 @@
                             Balance
                         </div>
                         <div class="layout__content__sidebar__header__bet__content__group__balance">
-                            {{ player.chips | formatChip }} ({{ player.pendingChips | formatChip }})
+                            {{ player.chips | formatChip }}
                         </div>
                     </div>
                 </div>

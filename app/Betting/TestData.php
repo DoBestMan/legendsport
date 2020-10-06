@@ -34,7 +34,9 @@ class TestData implements BettingProvider
                 rand(1, 4) * 1000,
                 'Home team ' . $id,
                 'Away team ' . $id,
-                static::PROVIDER_NAME
+                static::PROVIDER_NAME,
+                null,
+                null
             )
         )
         ->all();
@@ -116,7 +118,9 @@ class TestData implements BettingProvider
                 $timeStatus,
                 $apiEvent->starts_at->toString(),
                 $home,
-                $away
+                $away,
+                null,
+                null
             );
         }
 

@@ -2,9 +2,9 @@
 namespace App\Tournament\Events;
 
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-final class OddsUpdate implements ShouldBroadcast
+final class OddsUpdate implements ShouldBroadcastNow
 {
     public array $odds;
     private bool $incremental;

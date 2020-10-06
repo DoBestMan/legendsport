@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Betting\BettingProvider;
-use App\Betting\LegendsOdds\LegendsOdds;
+use App\Betting\LegendsOdds;
 use App\Betting\MultiProvider;
 use App\Betting\TestData;
 use App\Http\Controllers\Backstage\View\BookController;

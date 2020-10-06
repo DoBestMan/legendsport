@@ -1,14 +1,7 @@
 <?php
 
-namespace App\Betting\LegendsOdds;
+namespace App\Betting;
 
-use App\Betting\BettingProvider;
-use App\Betting\Pagination;
-use App\Betting\Sport;
-use App\Betting\SportEvent;
-use App\Betting\SportEventOdd;
-use App\Betting\SportEventResult;
-use App\Betting\TimeStatus;
 use App\Domain\ApiEvent;
 use Decimal\Decimal;
 use Doctrine\ORM\EntityManager;
@@ -44,10 +37,11 @@ class LegendsOdds implements BettingProvider
                 $result['sportId'],
                 $result['homeTeam'],
                 $result['awayTeam'],
-                self::PROVIDER_NAME
+                self::PROVIDER_NAME,
+                $result['homePitcher'],
+                $result['awayPitcher'],
             );
         }
-
         usort($events, fn (SportEvent $a, SportEvent $b) => $a->getStartsAt() <=> $b->getStartsAt());
 
         $total = count($events);
@@ -118,7 +112,9 @@ class LegendsOdds implements BettingProvider
                 $this->mapTimeStatus($item['status']),
                 $item['startDate'],
                 $item['homeScore'],
-                $item['awayScore']
+                $item['awayScore'],
+                $item['homePitcher'],
+                $item['awayPitcher'],
             );
         }
 

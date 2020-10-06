@@ -1,0 +1,48 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: web
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  tls:
+    - hosts:
+        - legendsbet.com
+        - backstage.legendsbet.com
+      secretName: web-tls
+  rules:
+    - host: legendsbet.com
+      http:
+        paths:
+          - backend:
+              serviceName: web
+              servicePort: 80
+    - host: backstage.legendsbet.com
+      http:
+        paths:
+          - backend:
+              serviceName: web
+              servicePort: 80
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: websockets
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt"
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+spec:
+  tls:
+    - hosts:
+        - ws.legendsbet.com
+      secretName: websocket-tls
+  rules:
+    - host: ws.legendsbet.com
+      http:
+        paths:
+          - backend:
+              serviceName: web
+              servicePort: 6001

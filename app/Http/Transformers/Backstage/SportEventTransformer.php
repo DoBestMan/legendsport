@@ -15,6 +15,8 @@ class SportEventTransformer extends TransformerAbstract
             "starts_at" => format_datetime($sportEvent->getStartsAt()),
             "team_away" => $sportEvent->getAwayTeam(),
             "team_home" => $sportEvent->getHomeTeam(),
+            "pitcher_away" => $sportEvent->getAwayPitcher(),
+            "pitcher_home" => $sportEvent->getHomePitcher(),
         ];
     }
 }

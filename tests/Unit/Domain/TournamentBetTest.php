@@ -46,7 +46,6 @@ class TournamentBetTest extends TestCase
         self::assertTrue($evaluated);
         self::assertEquals($result, $sut->getStatus()->getValue());
         self::assertEquals($balance, $player->getChips());
-        self::assertEquals($balance, $player->getBalance());
     }
 
     public function provideEvaluateStraightBet()
@@ -87,7 +86,6 @@ class TournamentBetTest extends TestCase
         self::assertFalse($evaluated);
         self::assertEquals($result, $sut->getStatus()->getValue());
         self::assertEquals(9000, $player->getChips());
-        self::assertEquals(10000, $player->getBalance());
     }
 
     /** @dataProvider provideEvaluateParlayBet */
@@ -117,7 +115,6 @@ class TournamentBetTest extends TestCase
         self::assertTrue($evaluated);
         self::assertEquals($result, $sut->getStatus()->getValue());
         self::assertEquals($balance, $player->getChips());
-        self::assertEquals($balance, $player->getBalance());
     }
 
     public function provideEvaluateParlayBet()
@@ -166,7 +163,6 @@ class TournamentBetTest extends TestCase
         self::assertFalse($evaluated);
         self::assertEquals($result, $sut->getStatus()->getValue());
         self::assertEquals(9000, $player->getChips());
-        self::assertEquals(10000, $player->getBalance());
     }
 
     public function testEvaluateParlayBetWithTwoEvents()
@@ -205,6 +201,5 @@ class TournamentBetTest extends TestCase
         self::assertTrue($evaluated);
         self::assertEquals($result, $sut->getStatus()->getValue());
         self::assertEquals(9000, $player->getChips());
-        self::assertEquals(9000, $player->getBalance());
     }
 }

@@ -176,10 +176,9 @@ export default Vue.extend({
     methods: {
         getGames(tournament: Tournament): String[] {
             let games: any[] = [];
-            const sportsNames = ["MLB", "NFL", "NCAAF", "NBA", "NHL"];
+            const sportsNames = ["Baseball", "American Football", "Basketball", "Ice Hockey"];
             const iconNames = [
                 "icon--sport-baseball",
-                "icon--sport-nfl",
                 "icon--sport-nfl",
                 "icon--sport-nba",
                 "icon--sport-hockey",

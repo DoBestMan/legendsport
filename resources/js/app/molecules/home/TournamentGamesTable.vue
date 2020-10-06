@@ -77,10 +77,9 @@ export default Vue.extend({
 
         classObject(sportName: string) {
             let className = "m--r--1 icon icon--micro icon--color--light-2 ";
-            const sportsNames = ["MLB", "NFL", "NCAAF", "NBA", "NHL"];
+            const sportsNames = ["Baseball", "American Football", "Basketball", "Ice Hockey"];
             const iconNames = [
                 "icon--sport-baseball",
-                "icon--sport-nfl",
                 "icon--sport-nfl",
                 "icon--sport-nba",
                 "icon--sport-hockey",

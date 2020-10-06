@@ -17,7 +17,7 @@
             <div class="rank__content">
                 <div class="rank__content__coins">
                     <i class="icon icon--atom icon--coins icon--color--yellow-2 m--r--1"></i>
-                    {{ player.balance | formatChip }}
+                    {{ player.chips | formatChip }}
                 </div>
             </div>
         </div>

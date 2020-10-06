@@ -22,7 +22,7 @@ kubectl delete Deployment "${NAMESPACE}websockets" -n qa
 
 kubectl delete ConfigMap "${NAMESPACE}php-environment" -n qa
 
-gcloud sql databases delete $DATABASE_NAME --instance="production"
+gcloud sql databases delete $DATABASE_NAME --instance="production8"
 
 
 

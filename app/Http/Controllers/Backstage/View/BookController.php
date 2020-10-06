@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backstage\View;
 
-use App\Betting\LegendsOdds\LegendsOdds;
+use App\Betting\LegendsOdds;
 use App\Betting\TimeStatus;
 use App\Domain\ApiEvent;
 use App\Http\Controllers\Controller;

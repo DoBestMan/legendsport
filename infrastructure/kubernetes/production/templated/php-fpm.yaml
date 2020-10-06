@@ -1,0 +1,85 @@
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: websocket-backend-config
+spec:
+  timeoutSec: 3600
+  connectionDraining:
+    drainingTimeoutSec: 3600
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+spec:
+  ports:
+    - port: 80
+      name: web
+      targetPort: 80
+    - port: 6001
+      name: websockets
+      targetPort: 6001
+  selector:
+    application: web
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      application: web
+  template:
+    metadata:
+      labels:
+        application: web
+    spec:
+      initContainers:
+        - name: create-db
+          image: ######BACKEND_IMAGE######
+          command: [ '/bin/sh', '-c', "php artisan migrate" ]
+          imagePullPolicy: Always
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
+          envFrom:
+            - configMapRef:
+                name: php-environment
+      containers:
+        - image: ######BACKEND_IMAGE######
+          name: php
+          imagePullPolicy: Always
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
+          envFrom:
+            - configMapRef:
+                name: php-environment
+
+        - image: ######FRONTEND_IMAGE######
+          name: nginx
+          imagePullPolicy: Always
+          env:
+            - name: WEBSOCKETS_HOST
+              value: websockets
+            - name: DOMAIN_NAME
+              value: legendsbet.com

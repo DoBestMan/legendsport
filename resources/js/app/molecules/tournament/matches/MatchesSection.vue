@@ -26,9 +26,7 @@
                         Balance
                     </div>
                     <div class="layout__content__sidebar__header__bet__content__group__balance">
-                        {{ player ? player.chips : 0 | formatChip }} ({{
-                            player ? player.pendingChips : 0 | formatChip
-                        }})
+                        {{ player ? player.chips : 0 | formatChip }}
                     </div>
                 </div>
             </div>
@@ -253,10 +251,9 @@ export default Vue.extend({
         classObject(sportId: string) {
             let className = "icon icon--small m--r--2 ";
             if (this.isSportSelected(sportId)) className += "icon--color--yellow-2 ";
-            const sportsNames = ["MLB", "NFL", "NCAAF", "NBA", "NHL"];
+            const sportsNames = ["Baseball", "American Football", "Basketball", "Ice Hockey"];
             const iconNames = [
                 "icon--sport-baseball",
-                "icon--sport-nfl",
                 "icon--sport-nfl",
                 "icon--sport-nba",
                 "icon--sport-hockey",

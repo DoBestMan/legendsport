@@ -103,6 +103,20 @@ class ApiEvent
     /**
      * @var string
      *
+     * @ORM\Column(name="pitcher_home", type="string", length=255, nullable=true)
+     */
+    private $pitcherHome;
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="pitcher_away", type="string", length=255, nullable=true)
+     */
+    private $pitcherAway;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="provider", type="string", length=255, nullable=false)
      */
     private $provider;
@@ -163,6 +177,16 @@ class ApiEvent
         return $this->teamHome;
     }
 
+    public function getPitcherAway(): ?string
+    {
+        return $this->pitcherAway;
+    }
+
+    public function getPitcherHome(): ?string
+    {
+        return $this->pitcherHome;
+    }
+
     public function getScoreAway(): ?int
     {
         return $this->scoreAway;
@@ -200,7 +224,9 @@ class ApiEvent
             $this->timeStatus->equals($sportEventResult->getTimeStatus()) &&
             $this->scoreHome === $sportEventResult->getHome() &&
             $this->scoreAway === $sportEventResult->getAway() &&
-            $this->startsAt === $sportEventResult->getStartsAt()
+            $this->pitcherHome === $sportEventResult->getHomePitcher() &&
+            $this->pitcherAway === $sportEventResult->getAwayPitcher() &&
+            !$this->hasStartTimeChanged($sportEventResult->getStartsAt())
         ) {
             return false;
         }
@@ -208,6 +234,8 @@ class ApiEvent
         $this->timeStatus = $sportEventResult->getTimeStatus();
         $this->scoreHome = $sportEventResult->getHome();
         $this->scoreAway = $sportEventResult->getAway();
+        $this->pitcherHome = $sportEventResult->getHomePitcher();
+        $this->pitcherAway = $sportEventResult->getAwayPitcher();
         $this->startsAt = $sportEventResult->getStartsAt();
         $this->updatedAt = Carbon::now();
 
@@ -271,5 +299,18 @@ class ApiEvent
     public function getTournamentEvents(): Collection
     {
         return $this->tournamentEvents;
+    }
+
+    private function hasStartTimeChanged(?\DateTime $newStartTime): bool
+    {
+        if ($this->startsAt === null && $newStartTime !== null) {
+            return true;
+        }
+
+        if ($this->startsAt !== null && $newStartTime === null) {
+            return true;
+        }
+
+        return (new Carbon($this->startsAt))->diffInSeconds($newStartTime) >= 60;
     }
 }

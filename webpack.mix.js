@@ -22,6 +22,8 @@ mix
     .js("resources/js/backstage/pages/tournaments.js", "public/backstage/js")
     .js("resources/js/backstage/pages/admins.js", "public/backstage/js")
     .js("resources/js/backstage/pages/book.js", "public/backstage/js")
+    .js("resources/js/backstage/pages/withdrawal.js", "public/backstage/js")
+    .js("resources/js/backstage/index.js", "public/backstage/js")
     .sass("resources/sass/backstage/backstage.scss", "public/backstage/css")
 
     // General

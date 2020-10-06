@@ -15,5 +15,7 @@ interface Repository
 
     public function matching(Criteria $criteria): Collection;
 
+    public function startTransaction(): void;
+
     public function commit(): void;
 }

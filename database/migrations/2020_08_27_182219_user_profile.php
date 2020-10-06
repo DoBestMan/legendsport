@@ -14,7 +14,7 @@ class UserProfile extends Migration
      */
     public function up()
     {
-        DB::statement('ALTER TABLE users ADD firstname VARCHAR(255) NOT NULL, ADD lastname VARCHAR(255) NOT NULL, ADD date_of_birth DATETIME NOT NULL, CHANGE is_bot is_bot INT NOT NULL;');
+        DB::statement('ALTER TABLE users ADD firstname VARCHAR(255) NOT NULL, ADD lastname VARCHAR(255) NOT NULL, ADD date_of_birth DATETIME NULL, CHANGE is_bot is_bot INT NOT NULL;');
     }
 
     /**

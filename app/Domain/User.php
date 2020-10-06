@@ -51,6 +51,8 @@ class User
     private $updatedAt;
     /** @ORM\OneToMany(targetEntity="\App\Domain\TournamentPlayer", mappedBy="user") */
     private Collection $tournaments;
+    /** @ORM\OneToMany(targetEntity=Withdrawal::class, mappedBy="user", cascade={"ALL"}) */
+    private Collection $withdrawals;
 
     public function __construct(string $name, string $email, string $password, string $firstname, string $lastname, \DateTime $dateOfBirth)
     {
@@ -58,6 +60,7 @@ class User
         $this->email = $email;
         $this->password = $password;
         $this->tournaments = new ArrayCollection();
+        $this->withdrawals = new ArrayCollection();
         $this->createdAt = Carbon::now();
         $this->updatedAt = Carbon::now();
         $this->firstname = $firstname;
@@ -110,6 +113,21 @@ class User
         return $this->updatedAt;
     }
 
+    public function getFirstname(): string
+    {
+        return $this->firstname;
+    }
+
+    public function getLastname(): string
+    {
+        return $this->lastname;
+    }
+
+    public function getDateOfBirth(): \DateTime
+    {
+        return $this->dateOfBirth;
+    }
+
     public function getTournaments()
     {
         return $this->tournaments;
@@ -125,5 +143,20 @@ class User
     public function joinTournament(TournamentPlayer $tournament): void
     {
         $this->tournaments->add($tournament);
+    }
+
+    public function makeWithdrawal(string $btcAddress, int $amount)
+    {
+        if ($this->balance < $amount) {
+            throw UserBalanceException::insufficientBalanceToMakeWithdrawal($amount, $this->balance);
+        }
+
+        $this->withdrawals->add(new Withdrawal($this, $btcAddress, $amount));
+        $this->balance -= $amount;
+    }
+
+    public function getWithdrawals(): Collection
+    {
+        return $this->withdrawals;
     }
 }
