@@ -5,12 +5,11 @@ namespace App\Models;
 use App\Casts\PlayersLimitCast;
 use App\Casts\TimeFrameCast;
 use App\Casts\TournamentStateCast;
+use App\Domain\Prizes\PrizeStructure;
 use App\Tournament\Enums\PlayersLimit;
 use App\Tournament\Enums\TimeFrame;
 use App\Tournament\Enums\TournamentState;
-use App\Tournament\Prize;
-use App\Tournament\PrizeMoney;
-use App\Tournament\TournamentPrizeStructure;
+use App\Domain\Prizes\PrizeMoney;
 use Carbon\Carbon;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -109,11 +108,9 @@ class Tournament extends Model
      */
     public function getPrizes(): array
     {
-        $prizeStructure = new TournamentPrizeStructure(
-            $this->getPrizePoolMoney(),
-            $this->getPlayersCount(),
-        );
-        return $prizeStructure->getPrizes();
+        $prizeStructure = PrizeStructure::getStructure($this->getPlayersCount());
+
+        return $prizeStructure->toPrizeMoneyCollection($this->getPrizePoolMoney())->getPrizeMoney();
     }
 
     public function getPrizePoolMoney(): int

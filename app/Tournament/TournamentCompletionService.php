@@ -12,6 +12,7 @@ use App\Tournament\Enums\TournamentState;
 use Carbon\Carbon;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Collection;
+use App\Domain\Prizes\PrizeMoney;
 
 class TournamentCompletionService
 {

@@ -24,6 +24,11 @@ use Tests\Fixture\Factory\FactoryAbstract;
  * @uses \App\Domain\User
  * @uses \App\Domain\TournamentPlayer
  * @uses \App\Domain\BetItem
+ * @uses \App\Domain\Prizes\PrizeMoney
+ * @uses \App\Domain\Prizes\PrizeStructure
+ * @uses \App\Domain\Prizes\Prize
+ * @uses \App\Domain\Prizes\PrizeCollection
+ * @uses \App\Domain\Prizes\PrizeMoneyCollection
  */
 class TournamentTest extends TestCase
 {
@@ -394,5 +399,58 @@ class TournamentTest extends TestCase
             [$finished, true, true, true],
             [$finished, true, false, false],
         ];
+    }
+
+    /** @dataProvider provideGetPrizePoolMoney */
+    public function testGetPrizePoolMoney(array $prizePool, int $buyIn, int $players, int $expected)
+    {
+        $tournament = new Tournament();
+        FactoryAbstract::setProperty($tournament, 'id', 1);
+        FactoryAbstract::setProperty($tournament, 'chips', 10000);
+        FactoryAbstract::setProperty($tournament, 'prizePool', $prizePool);
+        FactoryAbstract::setProperty($tournament, 'buyIn', $buyIn);
+
+        for ($i = 0; $i < $players; $i++) {
+            $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
+            $tournament->registerPlayer($user);
+        }
+
+        self::assertEquals($expected, $tournament->getPrizePoolMoney());
+    }
+
+    public function provideGetPrizePoolMoney()
+    {
+        return [
+            [['type' => 'Fixed', 'fixed_value' => 100000], 1000, 15, 100000],
+            [['type' => 'Auto', 'fixed_value' => 100000], 1000, 15, 15000],
+            [['type' => 'Fixed', 'fixed_value' => 100000], 10000, 15, 100000],
+        ];
+    }
+
+    public function testGetPrizePoolMoneyInvalid()
+    {
+        $tournament = new Tournament();
+        FactoryAbstract::setProperty($tournament, 'id', 1);
+        FactoryAbstract::setProperty($tournament, 'chips', 10000);
+        FactoryAbstract::setProperty($tournament, 'prizePool', ['type' => 'Boosted', 'boost_value' => 100000]);
+
+        $this->expectException(\UnexpectedValueException::class);
+
+        $tournament->getPrizePoolMoney();
+    }
+
+    public function testGetPrizeMoney()
+    {
+        $tournament = new Tournament();
+        FactoryAbstract::setProperty($tournament, 'id', 1);
+        FactoryAbstract::setProperty($tournament, 'chips', 10000);
+        FactoryAbstract::setProperty($tournament, 'prizePool', ['type' => 'Fixed', 'fixed_value' => 100000]);
+
+        for ($i = 0; $i < 5; $i++) {
+            $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
+            $tournament->registerPlayer($user);
+        }
+
+        self::assertCount(3, $tournament->getPrizeMoney());
     }
 }

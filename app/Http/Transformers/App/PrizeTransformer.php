@@ -1,8 +1,7 @@
 <?php
 namespace App\Http\Transformers\App;
 
-use App\Tournament\Prize;
-use App\Tournament\PrizeMoney;
+use App\Domain\Prizes\PrizeMoney;
 use League\Fractal\TransformerAbstract;
 
 class PrizeTransformer extends TransformerAbstract
