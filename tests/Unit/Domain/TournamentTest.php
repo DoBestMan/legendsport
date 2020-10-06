@@ -2,6 +2,7 @@
 
 namespace Unit\Domain;
 
+use App\Betting\SportEventResult;
 use App\Betting\TimeStatus;
 use App\Domain\BetItem;
 use App\Domain\BetPlacementException;
@@ -335,5 +336,63 @@ class TournamentTest extends TestCase
             $player, 500,
             new BetItem(MoneyLineAway::class, $event)
         );
+    }
+
+    /** @dataProvider provideReadyForCompletion */
+    public function testIsReadyForCompletion(SportEventResult $result, bool $evaluateBet, bool $autoend, bool $expectedResult)
+    {
+        $apiEvent = ApiEventFactory::create();
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
+        $tournament = new Tournament();
+        FactoryAbstract::setProperty($tournament, 'id', 1);
+        FactoryAbstract::setProperty($tournament, 'chips', 10000);
+        FactoryAbstract::setProperty($tournament, 'autoEnd', $autoend);
+        $tournament->addEvent($apiEvent);
+        $tournament->registerPlayer($user);
+        $event = $tournament->getBettableEvents()->first();
+        $player = $user->getTournamentPlayer($tournament);
+        $tournament->placeStraightBet($player, 1000, new BetItem(MoneyLineAway::class, $event));
+        $bet = $event->getBets()->first();
+
+        $apiEvent->result($result);
+
+        if ($evaluateBet) {
+            $bet->evaluate();
+        }
+
+        self::assertEquals($expectedResult, $tournament->isReadyForCompletion());
+    }
+
+    public function provideReadyForCompletion()
+    {
+        $preMatch = new SportEventResult(
+            'eid',
+            'test',
+            TimeStatus::NOT_STARTED(),
+            '2020-10-01 18:08:00',
+            null,
+            null,
+            null,
+            null
+        );
+
+        $finished = new SportEventResult(
+            'eid',
+            'test',
+            TimeStatus::ENDED(),
+            '2020-10-01 18:08:00',
+            1,
+            3,
+            null,
+            null
+        );
+
+        return [
+            [$preMatch, false, true, false],
+            [$preMatch, true, true, false],
+            [$finished, false, true, false],
+            [$finished, true, true, true],
+            [$finished, true, false, false],
+        ];
     }
 }

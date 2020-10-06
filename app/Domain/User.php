@@ -159,4 +159,9 @@ class User
     {
         return $this->withdrawals;
     }
+
+    public function creditWinnings(int $prizeMoney): void
+    {
+        $this->balance += $prizeMoney;
+    }
 }

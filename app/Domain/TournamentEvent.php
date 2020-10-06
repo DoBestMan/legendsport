@@ -92,4 +92,14 @@ class TournamentEvent
         //@TODO make this check avoid loading the collection
         return $this->apiEvent->isUpcoming() && !empty($this->apiEvent->getOddTypes());
     }
+
+    public function everyBetHasGraded(): bool
+    {
+        return $this->bets->forAll(fn (int $key, TournamentBetEvent $tournamentBetEvent) => !$tournamentBetEvent->isPending());
+    }
+
+    public function addBet(TournamentBetEvent $bet): void
+    {
+        $this->bets->add($bet);
+    }
 }

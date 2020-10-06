@@ -4,6 +4,7 @@ namespace App\Domain;
 
 use App\Tournament\Enums\TournamentState;
 use App\Tournament\TournamentPrizeStructure;
+use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -368,5 +369,27 @@ class Tournament
         );
 
         return $prizeStructure->getPrizes();
+    }
+
+    public function isReadyForCompletion(): bool
+    {
+        return $this->autoEnd && $this->everyEventHasEnded() && $this->everyBetHasGraded();
+    }
+
+    public function complete(): void
+    {
+        $this->state = TournamentState::COMPLETED();
+        $this->completedAt = Carbon::now();
+        $this->updatedAt = Carbon::now();
+    }
+
+    private function everyEventHasEnded(): bool
+    {
+        return $this->events->forAll(fn (int $key, TournamentEvent $tournamentEvent) => $tournamentEvent->getApiEvent()->isFinished());
+    }
+
+    private function everyBetHasGraded(): bool
+    {
+        return $this->events->forAll(fn (int $key, TournamentEvent $tournamentEvent) => $tournamentEvent->everyBetHasGraded());
     }
 }
