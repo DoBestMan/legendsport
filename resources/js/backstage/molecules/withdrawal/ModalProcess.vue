@@ -3,7 +3,8 @@
         <template v-slot:default>
             Payment of {{ textDescription }}<br />
             <br />
-            Confirm that you have sent the payment, this will remove the withdrawal from the list of pending withdrawals. <br />
+            Confirm that you have sent the payment, this will remove the withdrawal from the list of
+            pending withdrawals. <br />
             <br />
             <strong>Payment must be sent manually, this only marks the payment as sent.</strong>
         </template>

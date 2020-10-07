@@ -23,13 +23,11 @@ new Vue({
         processModalDesc: null,
     },
 
-    created() {
-    },
+    created() {},
 
     mounted() {
         notificationStore.loadAndShow();
     },
-
 
     methods: {
         openProcessModal(id, description) {
@@ -49,10 +47,9 @@ new Vue({
                 this.closeProcessModal();
                 notificationStore.info("Payment marked as processed");
                 window.location = "/withdrawals/pending";
-
             } catch (e) {
                 let message = e.response.data.message;
-                if (message !== undefined && message !== '') {
+                if (message !== undefined && message !== "") {
                     notificationStore.errorSync(message);
                 } else {
                     notificationStore.errorSync("Unknown error occurred");
@@ -61,7 +58,5 @@ new Vue({
                 loaderStore.hide();
             }
         },
-
-
     },
 });
