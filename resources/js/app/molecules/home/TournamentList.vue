@@ -81,7 +81,7 @@
                                 class="icon icon--color--light-2 icon--nano m--r--1"
                                 v-for="(gameItem, index1) in getGames(tournament)"
                                 :key="`${gameItem}-mobile-${index1}`"
-                                :class="{ gameItem }"
+                                :class="`${gameItem}`"
                             />
                         </div>
                         <div class="tournament--mobile__container__content__details">
