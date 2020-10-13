@@ -19,7 +19,7 @@
                         <div class="bet__details__content">
                             <div class="bet__details__content__title">
                                 {{ betEvent.scoreHome }} {{ betEvent.teamHome }} - {{ betEvent.scoreAway }} {{ betEvent.teamAway }}
-                                <span style="padding-left: 5px;" v-if="getGame(betEvent.externalId).timeStatus === 'Ended'"> F </span>
+                                <span style="padding-left: 5px;" v-if="isGameEnded(betEvent.externalId)"> F </span>
                             </div>
                             <div class="bet__details__content__subtitle">
                                 {{ betEvent.startsAt | toDateTime }}
@@ -63,7 +63,7 @@ import { Bet, BetStatus } from "../../../types/bet";
 import SpinnerBox from "../../../../general/components/SpinnerBox.vue";
 import { DeepReadonly } from "../../../../general/types/types";
 import { Window } from "../../../types/window";
-import { Game } from "../../../types/game";
+import { Game, GameState } from "../../../types/game";
 import BetContent from "./BetContent.vue";
 import { User } from "../../../../general/types/user";
 
@@ -92,7 +92,6 @@ export default Vue.extend({
             return new Map(this.window.tournament.games.map(game => [game.externalId, game]));
         },
 
-
         isLoading(): boolean {
             return this.$stock.state.user.isLoading;
         },
@@ -103,8 +102,13 @@ export default Vue.extend({
             return bet.events.length > 1;
         },
 
-        getGame(externalId: string): string {
-            return this.gameDict.get(externalId);
+        isGameEnded(externalId: string): boolean {
+            if (this.gameDict?.has(externalId)) {
+                if (this.gameDict?.get(externalId)?.timeStatus === GameState.Ended) {
+                    return true;
+                }
+            }
+            return false;
         },
 
     },
