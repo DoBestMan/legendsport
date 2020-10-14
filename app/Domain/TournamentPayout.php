@@ -34,7 +34,7 @@ class TournamentPayout
     private int $userId;
     /** @ORM\Column(type="integer") */
     private int $tournamentId;
-    /** @ORM\Column(type="integer", nullable=true) */
+    /** @ORM\Column(type="integer") */
     private int $rank;
 
     public function __construct(Tournament $tournament, User $user, int $rank, int $payout)

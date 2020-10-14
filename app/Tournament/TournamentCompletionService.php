@@ -32,19 +32,22 @@ class TournamentCompletionService
 
         $tournament->complete();
         /** @var TournamentPayout[] $payouts */
-        $payouts = $tournament->getPrizeMoney()->allocate(...$tournament->getPlayers()->toArray());
-        foreach ($payouts as $payout) {
-            $this->entityManager->persist($payout);
+        $players = $tournament->getPlayers()->toArray();
+        if (count($players) > 0) {
+            $payouts = $tournament->getPrizeMoney()->allocate(...$players);
+            foreach ($payouts as $payout) {
+                $this->entityManager->persist($payout);
 
-            if (!$payout->isBot()) {
-                $this->mail->to($payout->getUser()->getEmail())->send(
-                    new TournamentWin(
-                        $payout->getUser()->getFullname(),
-                        $payout->getTournament()->getName(),
-                        $payout->getRank(),
-                        $payout->getPayout()
-                    )
-                );
+                if (!$payout->isBot()) {
+                    $this->mail->to($payout->getUser()->getEmail())->send(
+                        new TournamentWin(
+                            $payout->getUser()->getFullname(),
+                            $payout->getTournament()->getName(),
+                            $payout->getRank(),
+                            $payout->getPayout()
+                        )
+                    );
+                }
             }
         }
 
