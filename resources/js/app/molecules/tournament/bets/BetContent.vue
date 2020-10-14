@@ -5,7 +5,7 @@
                 {{ typeName }} - {{ status | capitalize }}
             </div>
             <div class="bet__container__content__title">
-                {{ selectedTeam }} {{ typeExtra }} {{ odd | signedNumber }}
+                {{ selectedTeam }} {{ typeExtra ? Number(typeExtra) : "" }} {{ odd | signedNumber }}
             </div>
         </div>
         <div class="bet__container__tag">
