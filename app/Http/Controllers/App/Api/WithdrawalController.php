@@ -12,6 +12,7 @@ use App\Domain\BetTypes\TotalUnder;
 use App\Domain\User;
 use App\Domain\UserBalanceException;
 use App\Http\Controllers\Controller;
+use App\Mail\Withdrawal;
 use App\Models\Tournament;
 use App\Models\TournamentEvent;
 use App\Tournament\Enums\PendingOddType;
@@ -23,6 +24,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
 class WithdrawalController extends Controller
@@ -41,7 +43,9 @@ class WithdrawalController extends Controller
         /** @var User $user */
         $user = $entityManager->find(User::class, $request->user()->id, LockMode::PESSIMISTIC_WRITE);
         try {
-            $user->makeWithdrawal($request->request->get('btcAddress'), (int) $request->request->get('amount') * 100);
+            $btcAddress = $request->request->get('btcAddress');
+            $amount = (int) $request->request->get('amount') * 100;
+            $user->makeWithdrawal($btcAddress, $amount);
         } catch (UserBalanceException $e) {
             $entityManager->rollback();
             return new JsonResponse(
@@ -55,6 +59,9 @@ class WithdrawalController extends Controller
         $entityManager->flush();
         $entityManager->commit();
 
+        Mail::to($user->getEmail())->send(
+            new Withdrawal('btc', $user->getFullname(), ['btcAddress' => $btcAddress, 'amount' => $amount])
+        );
         $dispatcher->dispatch(new MeUpdate($request->user()));
 
         return [];

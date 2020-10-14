@@ -34,8 +34,10 @@ class TournamentPayout
     private int $userId;
     /** @ORM\Column(type="integer") */
     private int $tournamentId;
+    /** @ORM\Column(type="integer", nullable=true) */
+    private int $rank;
 
-    public function __construct(Tournament $tournament, User $user, int $payout)
+    public function __construct(Tournament $tournament, User $user, int $rank, int $payout)
     {
         $this->tournament = $tournament;
         $this->user = $user;
@@ -44,6 +46,7 @@ class TournamentPayout
         $this->isBot = $user instanceof Bot;
         $this->userId = $user->getId();
         $this->tournamentId = $tournament->getId();
+        $this->rank = $rank;
     }
 
     public function getId(): int
@@ -84,5 +87,10 @@ class TournamentPayout
     public function getTournamentId(): int
     {
         return $this->tournamentId;
+    }
+
+    public function getRank(): int
+    {
+        return $this->rank;
     }
 }

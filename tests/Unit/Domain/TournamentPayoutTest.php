@@ -23,7 +23,7 @@ class TournamentPayoutTest extends TestCase
         $user = new User('test',  'test@test.com', 'test', '', '', new \DateTime());
         FactoryAbstract::setProperty($user, 'id', 10);
 
-        $sut = new TournamentPayout($tournament, $user, 15000);
+        $sut = new TournamentPayout($tournament, $user, 1, 15000);
         FactoryAbstract::setProperty($sut, 'id', 100);
 
         self::assertEquals(1, $sut->getTournamentId());
@@ -32,6 +32,7 @@ class TournamentPayoutTest extends TestCase
         self::assertEquals($tournament, $sut->getTournament());
         self::assertEquals($user, $sut->getUser());
         self::assertFalse($sut->isBot());
+        self::assertEquals(1, $sut->getRank());
         self::assertEquals(15000, $sut->getPayout());
         self::assertEqualsWithDelta(Carbon::now(), $sut->getPaidDate(), 2);
     }

@@ -33,7 +33,7 @@ class PrizeMoneyCollection
             for (null; $playersProcessed < $prizeMoney->getMaxPosition(); $playersProcessed++) {
                 $player = $players[$playersProcessed];
                 $player->getUser()->creditWinnings($prizeMoney->getPrizeMoney());
-                $payouts[] = new TournamentPayout($player->getTournament(), $player->getUser(), $prizeMoney->getPrizeMoney());
+                $payouts[] = new TournamentPayout($player->getTournament(), $player->getUser(), $playersProcessed + 1, $prizeMoney->getPrizeMoney());
             }
         }
 
