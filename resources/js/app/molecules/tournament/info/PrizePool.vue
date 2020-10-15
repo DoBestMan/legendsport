@@ -2,9 +2,15 @@
     <div>
         <div class="rank" v-for="(prize, index) in prizes" :key="index" @click="selectPrize(prize)">
             <div class="rank__content">
+                <div class="rank__content__order">
+                    {{ prize.position }}
+                </div>
                 <div class="rank__content__user">
-                    <div class="rank__content__user__name">
-                        {{ prize.position }}
+                    <div class="rank__content__user__avatar">
+                        <i class="icon icon--person icon--micro"></i>
+                    </div>
+                    <div v-if="players[index]" class="rank__content__user__name">
+                        {{ players[index].name }}
                     </div>
                 </div>
             </div>
@@ -23,6 +29,7 @@ import Vue, { PropType } from "vue";
 import TableNoRecords from "../../../../general/components/TableNoRecords.vue";
 import { Prize, Tournament } from "../../../types/tournament";
 import { Nullable } from "../../../../general/types/types";
+import { Player } from "../../../types/player";
 
 export default Vue.extend({
     name: "PrizePool",
@@ -39,6 +46,10 @@ export default Vue.extend({
     },
 
     computed: {
+        players(): Player[] {
+            return this.tournament?.players ?? [];
+        },
+
         prizes(): any[] {
             const output = [];
             let lastMaxPosition = 0;
