@@ -23,22 +23,22 @@
                 <a href="mailto:info@legendsbet.com" style="color: #efbb01; text-decoration: none;">info@legendsbet.com</a>
             </h3>
             <h4 style="color: #545456; font: normal 13px Arial, Helvetica, sans-serif; line-height: 22px; margin: 0 0 30px 0; text-align: center;">
-                <a href="#" style="display: inline-block; margin: 0 8px 10px 8px; text-decoration: none;">
+                <a href="https://www.facebook.com/LegendsBet-113424260484677/" style="display: inline-block; margin: 0 8px 10px 8px; text-decoration: none;">
                     <img src="{{ $message->embed(resource_path() . '/views/emails/images/fb-icon-img.png') }}" alt="" border="0" />
                 </a>
-                <a href="#" style="display: inline-block; margin: 0 8px 10px 8px; text-decoration: none;">
+                <a href="https://twitter.com/PlayLegendsBet" style="display: inline-block; margin: 0 8px 10px 8px; text-decoration: none;">
                     <img src="{{ $message->embed(resource_path() . '/views/emails/images/twtr-icon-img.png') }}" alt="" border="0" />
                 </a>
-                <a href="#" style="display: inline-block; margin: 0 8px 10px 8px; text-decoration: none;">
+                <a href="https://www.instagram.com/playlegendsbet/" style="display: inline-block; margin: 0 8px 10px 8px; text-decoration: none;">
                     <img src="{{ $message->embed(resource_path() . '/views/emails/images/instagram-icon-img.png') }}" alt="" border="0" />
                 </a>
-                <a href="#" style="display: inline-block; margin: 0 8px 10px 8px; text-decoration: none;">
+                <a href="https://www.linkedin.com/company/legendsbet" style="display: inline-block; margin: 0 8px 10px 8px; text-decoration: none;">
                     <img src="{{ $message->embed(resource_path() . '/views/emails/images/lnkdinr-icon-img.png') }}" alt="" border="0" />
                 </a>
                 <br />This email was sent to you by LegendsBet.
             </h4>
             <h5 style="color: #ffffff; font:normal 13px Arial, Helvetica, sans-serif; line-height: 22px; margin: 0 0 37px 0; text-align: center;">
-                16, Satya Vijay Shopping Cntr, <br />Goddev Naka, Bhayandere
+                2700 N Military Trl #225 <br />Boca Raton, FL 33431
             </h5>
         </td>
     </tr>
