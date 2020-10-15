@@ -6,5 +6,5 @@
         Jump right in and experience an all new tournament style <br />
         format which will keep you on the edge of your seat. <br />
         Do you have what it takes to be a legend? </p>
-    <a href="{{ config('url') }}" style="background: #efbb01; border-radius: 5px; color: #564509; display:block; font: normal 12px Arial, Helvetica, sans-serif; line-height: 53px; margin: 0 0 34px 0; text-align: center; text-decoration: none;">"Join a tournament</a>
+    <a href="{{ url('/', [], true) }}" style="background: #efbb01; border-radius: 5px; color: #564509; display:block; font: normal 12px Arial, Helvetica, sans-serif; line-height: 53px; margin: 0 0 34px 0; text-align: center; text-decoration: none;">Join a tournament</a>
 @endsection
