@@ -1,62 +1,34 @@
 <?php
-namespace App\Tournament;
 
-use Decimal\Decimal;
+namespace App\Domain\Prizes;
 
-class TournamentPrizeStructure
+class PrizeStructure
 {
-    private array $prizes;
-
-    private int $money;
-    private int $playersCount;
-
-    public function __construct(int $money, int $playersCount)
+    public static function getStructure(int $players): PrizeCollection
     {
-        $this->money = $money;
-        $this->playersCount = $playersCount;
-        $this->initPrizes();
-    }
-
-    /**
-     * @return PrizeMoney[]
-     */
-    public function getPrizes(): array
-    {
-        /** @var PrizeCollection $prizeCollection */
-        $prizeCollection = collect($this->prizes)->first(
-            fn(PrizeCollection $prizes) => $prizes->getMaxPlayers() >= $this->playersCount,
-        );
-
-        return collect($prizeCollection->getPrizes())
-            ->map(
-                fn(Prize $prize) => new PrizeMoney(
-                    $prize->getMaxPosition(),
-                    $this->money * ($prize->getPrizePercentage() / 100),
-                ),
-            )
-            ->all();
-    }
-
-    private function initPrizes(): void
-    {
-        $this->prizes = [
-            new PrizeCollection(1, []),
-            new PrizeCollection(2, [new Prize(1, 100)]),
-            new PrizeCollection(10, [new Prize(1, 50), new Prize(2, 30), new Prize(3, 20)]),
-            new PrizeCollection(18, [
+        $prizeStructures = [
+            2 => [
+                new Prize(1, 100),
+            ],
+            10 => [
+                new Prize(1, 50),
+                new Prize(2, 30),
+                new Prize(3, 20),
+            ],
+            18 => [
                 new Prize(1, 40),
                 new Prize(2, 30),
                 new Prize(3, 20),
                 new Prize(4, 10),
-            ]),
-            new PrizeCollection(27, [
+            ],
+            27 => [
                 new Prize(1, 40),
                 new Prize(2, 23),
                 new Prize(3, 16),
                 new Prize(4, 12),
                 new Prize(5, 9),
-            ]),
-            new PrizeCollection(36, [
+            ],
+            36 => [
                 new Prize(1, 33),
                 new Prize(2, 20),
                 new Prize(3, 15),
@@ -64,8 +36,8 @@ class TournamentPrizeStructure
                 new Prize(5, 8),
                 new Prize(6, 7),
                 new Prize(7, 6),
-            ]),
-            new PrizeCollection(50, [
+            ],
+            50 => [
                 new Prize(1, 29),
                 new Prize(2, 18),
                 new Prize(3, 13),
@@ -75,8 +47,8 @@ class TournamentPrizeStructure
                 new Prize(7, 6),
                 new Prize(8, 5),
                 new Prize(9, 4),
-            ]),
-            new PrizeCollection(66, [
+            ],
+            66 => [
                 new Prize(1, 26),
                 new Prize(2, "16.5"),
                 new Prize(3, 12),
@@ -87,8 +59,8 @@ class TournamentPrizeStructure
                 new Prize(8, 4),
                 new Prize(9, "3.5"),
                 new Prize(12, 3),
-            ]),
-            new PrizeCollection(83, [
+            ],
+            83 => [
                 new Prize(1, "25.5"),
                 new Prize(2, 16),
                 new Prize(3, "11.5"),
@@ -100,8 +72,8 @@ class TournamentPrizeStructure
                 new Prize(9, 3),
                 new Prize(12, "2.5"),
                 new Prize(15, 2),
-            ]),
-            new PrizeCollection(117, [
+            ],
+            117 => [
                 new Prize(1, 25),
                 new Prize(2, "15.5"),
                 new Prize(3, 11),
@@ -114,8 +86,8 @@ class TournamentPrizeStructure
                 new Prize(12, "2.2"),
                 new Prize(15, 2),
                 new Prize(18, "1.8"),
-            ]),
-            new PrizeCollection(175, [
+            ],
+            175 => [
                 new Prize(1, "23.0"),
                 new Prize(2, "14.0"),
                 new Prize(3, "10.5"),
@@ -129,8 +101,8 @@ class TournamentPrizeStructure
                 new Prize(15, "1.7"),
                 new Prize(18, "1.4"),
                 new Prize(27, "1.1"),
-            ]),
-            new PrizeCollection(215, [
+            ],
+            215 => [
                 new Prize(1, "22.5"),
                 new Prize(2, "13.5"),
                 new Prize(3, "10.3"),
@@ -145,8 +117,8 @@ class TournamentPrizeStructure
                 new Prize(18, "1.1"),
                 new Prize(27, "0.9"),
                 new Prize(36, "0.75"),
-            ]),
-            new PrizeCollection(290, [
+            ],
+            290 => [
                 new Prize(1, "21.5"),
                 new Prize(2, "13.25"),
                 new Prize(3, "9.5"),
@@ -162,8 +134,8 @@ class TournamentPrizeStructure
                 new Prize(27, "0.85"),
                 new Prize(36, "0.7"),
                 new Prize(45, "0.6"),
-            ]),
-            new PrizeCollection(415, [
+            ],
+            415 => [
                 new Prize(1, "20.5"),
                 new Prize(2, "12.75"),
                 new Prize(3, "9.0"),
@@ -180,8 +152,8 @@ class TournamentPrizeStructure
                 new Prize(36, "0.6"),
                 new Prize(45, "0.5"),
                 new Prize(63, "0.45"),
-            ]),
-            new PrizeCollection(550, [
+            ],
+            550 => [
                 new Prize(1, "19.5"),
                 new Prize(2, "12.25"),
                 new Prize(3, "8.5"),
@@ -199,8 +171,8 @@ class TournamentPrizeStructure
                 new Prize(45, "0.45"),
                 new Prize(63, "0.40"),
                 new Prize(81, "0.35"),
-            ]),
-            new PrizeCollection(700, [
+            ],
+            700 => [
                 new Prize(1, "19.25"),
                 new Prize(2, "12.0"),
                 new Prize(3, "8.25"),
@@ -219,8 +191,8 @@ class TournamentPrizeStructure
                 new Prize(63, "0.35"),
                 new Prize(81, "0.3"),
                 new Prize(99, "0.25"),
-            ]),
-            new PrizeCollection(900, [
+            ],
+            900 => [
                 new Prize(1, "19.2"),
                 new Prize(2, "11.9"),
                 new Prize(3, "8.25"),
@@ -240,8 +212,8 @@ class TournamentPrizeStructure
                 new Prize(81, "0.24"),
                 new Prize(99, "0.21"),
                 new Prize(126, "0.19"),
-            ]),
-            new PrizeCollection(\PHP_INT_MAX, [
+            ],
+            \PHP_INT_MAX => [
                 new Prize(1, "19.11"),
                 new Prize(2, "11.8"),
                 new Prize(3, "8.2"),
@@ -262,7 +234,17 @@ class TournamentPrizeStructure
                 new Prize(99, "0.18"),
                 new Prize(126, "0.16"),
                 new Prize(153, "0.15"),
-            ]),
+            ],
         ];
+        $prizeStructure = [];
+
+        foreach ($prizeStructures as $maxPlayers => $prizes) {
+            if ($maxPlayers >= $players) {
+                $prizeStructure = $prizes;
+                break;
+            }
+        }
+
+        return new PrizeCollection(...$prizeStructure);
     }
 }

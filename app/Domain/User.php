@@ -123,6 +123,11 @@ class User
         return $this->lastname;
     }
 
+    public function getFullname(): string
+    {
+        return  $this->firstname . ' ' . $this->lastname;
+    }
+
     public function getDateOfBirth(): \DateTime
     {
         return $this->dateOfBirth;
@@ -158,5 +163,10 @@ class User
     public function getWithdrawals(): Collection
     {
         return $this->withdrawals;
+    }
+
+    public function creditWinnings(int $prizeMoney): void
+    {
+        $this->balance += $prizeMoney;
     }
 }

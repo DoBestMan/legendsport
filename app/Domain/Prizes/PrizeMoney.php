@@ -1,7 +1,5 @@
 <?php
-namespace App\Tournament;
-
-use Decimal\Decimal;
+namespace App\Domain\Prizes;
 
 class PrizeMoney
 {

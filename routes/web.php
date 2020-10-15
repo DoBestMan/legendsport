@@ -7,6 +7,7 @@ use App\Http\Controllers\Backstage\Api\SignInController as BackstageSignInContro
 use App\Http\Controllers\Backstage\View\HomeController as BackstageHomeController;
 use App\Http\Controllers\Backstage\View\TournamentController as BackstageTournamentController;
 use App\Http\Controllers\Backstage\View\AdminController as BackstageUserController;
+use App\Http\Controllers\Backstage\View\TournamentDashboardController;
 use App\Http\Controllers\Backstage\View\WithdrawalController;
 use App\Http\Controllers\Backstage\View\UserController;
 use Illuminate\Routing\Router;
@@ -27,7 +28,11 @@ $router->domain($backstage)->group(function (Router $router) {
         $router->get('/config', ConfigController::class . '@show')->name('config.show');
         $router->get('/config/edit', ConfigController::class . '@edit')->name('config.edit');
         $router->put('/config', ConfigController::class . '@update')->name('config.update');
+
+        $router->get('/tournaments/dashboard', TournamentDashboardController::class . '@index')->name('tournaments.dashboard');
+        $router->post('/tournaments/{tournament}/check-complete', BackstageTournamentController::class . '@checkForCompletion');
         $router->resource('/tournaments', BackstageTournamentController::class);
+
         $router->resource('/admins', BackstageUserController::class);
 
         $router->get('/book/active', BookController::class . '@active')->name('book.active');

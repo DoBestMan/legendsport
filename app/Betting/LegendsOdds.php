@@ -3,7 +3,10 @@
 namespace App\Betting;
 
 use App\Domain\ApiEvent;
+use App\Jobs\Publishers\PublishTournamentUpdate;
+use App\Jobs\Tournaments\GradeEvent;
 use Decimal\Decimal;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Support\Facades\Http;
 
@@ -38,8 +41,8 @@ class LegendsOdds implements BettingProvider
                 $result['homeTeam'],
                 $result['awayTeam'],
                 self::PROVIDER_NAME,
-                $result['homePitcher'],
-                $result['awayPitcher'],
+                $result['homePitcher'] ?? null,
+                $result['awayPitcher'] ?? null,
             );
         }
         usort($events, fn (SportEvent $a, SportEvent $b) => $a->getStartsAt() <=> $b->getStartsAt());
@@ -132,6 +135,79 @@ class LegendsOdds implements BettingProvider
             new Sport('48242', 'Basketball', self::PROVIDER_NAME),
             new Sport('35232', 'Ice Hockey', self::PROVIDER_NAME),
         ];
+    }
+
+    public function getUpdates()
+    {
+        $data = $this->get('/api/v1/all');
+
+        $results = $odds = $apiEventIds = [];
+
+        foreach($data as $item) {
+            $results[$item['id']] = new SportEventResult(
+                $item['id'],
+                self::PROVIDER_NAME,
+                $this->mapTimeStatus($item['status']),
+                $item['startDate'],
+                $item['homeScore'],
+                $item['awayScore'],
+                $item['homePitcher'],
+                $item['awayPitcher'],
+            );
+
+            $odds[$item['id']] = new SportEventOdd(
+                $item['id'],
+                decimal_to_american($item['moneylineHome']),
+                decimal_to_american($item['moneylineAway']),
+                decimal_to_american($item['spreadHome']),
+                decimal_to_american($item['spreadAway']),
+                $item['handicapHome'] ? new Decimal(explode(' ', $item['handicapHome'])[0]) : null,
+                $item['handicapAway'] ? new Decimal(explode(' ', $item['handicapAway'])[0]) : null,
+                decimal_to_american($item['over']),
+                decimal_to_american($item['under']),
+                $item['total'] ? new Decimal($item['total']) : null,
+            );
+
+            $apiEventIds[] = $item['id'];
+        }
+
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->in('apiId', $apiEventIds))
+            ->andWhere(Criteria::expr()->eq('provider', self::PROVIDER_NAME));
+
+        /** @var ApiEvent[] $apiEvents */
+        $apiEvents = $this->entityManager->getRepository(ApiEvent::class)->matching($criteria);
+
+        foreach ($apiEvents as $apiEvent) {
+            if ($apiEvent->isFinished()) {
+                break;
+            }
+
+            $apiEvent->updateOdds($odds[$apiEvent->getApiId()]);
+            $updated = $apiEvent->result($results[$apiEvent->getApiId()]);
+
+            if (!$updated) {
+                break;
+            }
+
+            $this->logger->info("Api event has been updated.", [
+                "api_event_id" => $apiEvent->getId(),
+                "api_event_external_id" => $apiEvent->getApiId(),
+                "score_home" => $apiEvent->getScoreHome(),
+                "score_away" => $apiEvent->getScoreAway(),
+                "time_status" => $apiEvent->getTimeStatus(),
+            ]);
+
+            foreach ($apiEvent->getTournamentEvents() as $tournamentEvent) {
+                $tournament = $tournamentEvent->getTournament();
+
+                if ($apiEvent->isFinished()) {
+                    $this->dispatcher->dispatch(new GradeEvent($tournament->getId(), $tournamentEvent->getId()));
+                }
+
+                $this->dispatcher->dispatch(new PublishTournamentUpdate($tournament->getId()));
+            }
+        }
     }
 
     private function get(string $url): array

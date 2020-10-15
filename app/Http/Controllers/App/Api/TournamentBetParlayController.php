@@ -3,12 +3,6 @@ namespace App\Http\Controllers\App\Api;
 
 use App\Domain\BetItem;
 use App\Domain\BetPlacementException;
-use App\Domain\BetTypes\MoneyLineAway;
-use App\Domain\BetTypes\MoneyLineHome;
-use App\Domain\BetTypes\SpreadAway;
-use App\Domain\BetTypes\SpreadHome;
-use App\Domain\BetTypes\TotalOver;
-use App\Domain\BetTypes\TotalUnder;
 use App\Domain\User;
 use App\Http\Controllers\Controller;
 use App\Models\Tournament;

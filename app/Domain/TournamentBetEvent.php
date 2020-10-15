@@ -50,7 +50,7 @@ abstract class TournamentBetEvent
      * @ORM\ManyToOne(targetEntity="App\Domain\TournamentEvent", inversedBy="bets")
      * @ORM\JoinColumn(name="tournament_event_id", referencedColumnName="id")
      */
-    private TournamentEvent$tournamentEvent;
+    private TournamentEvent $tournamentEvent;
 
     public function __construct(TournamentEvent $tournamentEvent)
     {
@@ -66,6 +66,7 @@ abstract class TournamentBetEvent
         $this->odd = $odds->getOdds();
         $this->handicap = $odds->getHandicap();
         $this->status = BetStatus::PENDING();
+        $tournamentEvent->addBet($this);
     }
 
     public function addToBet(TournamentBet $tournamentBet)

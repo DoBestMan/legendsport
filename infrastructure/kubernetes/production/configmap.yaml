@@ -37,6 +37,13 @@ data:
   MIX_PUSHER_APP_KEY: my-secret-random-key
   MIX_PUSHER_APP_CLUSTER: mt1
 
+  MAIL_MAILER: smtp
+  MAIL_HOST: smtp.sendgrid.net
+  MAIL_PORT: "587"
+  MAIL_USERNAME: apikey
+  MAIL_PASSWORD: "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"
+  MAIL_ENCRYPTION: tls
+
   LEGENDS_ODDS_URL: https://odds.infra.qa.legendsports.bet/
-  LEGENDS_ODDS_TOKEN: f3jzHublrmqBbqVz23wNlhBpLMUTxw
+  LEGENDS_ODDS_TOKEN: Phei0Pie0eiCuZaiBooRahyooJeeJ3oo
 

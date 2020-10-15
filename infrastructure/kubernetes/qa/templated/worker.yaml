@@ -20,7 +20,7 @@ spec:
           name: worker
           command: ['/bin/sh', '-c']
           args:
-            - "php artisan queue:work"
+            - "php artisan queue:listen"
           imagePullPolicy: Always
           env:
             - name: DB_USERNAME

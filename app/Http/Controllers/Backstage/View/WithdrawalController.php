@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Backstage\View;
 
 use App\Domain\Withdrawal;
 use App\Http\Controllers\Controller;
+use App\Mail\WithdrawalProcessed;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManager;
+use Illuminate\Support\Facades\Mail;
 
 class WithdrawalController extends Controller
 {
@@ -45,6 +47,11 @@ class WithdrawalController extends Controller
 
         $entity->process();
         $this->entityManager->flush();
+
+        $user = $entity->getUser();
+        Mail::to($user->getEmail())->send(
+            new WithdrawalProcessed('btc', $user->getFullname(), ['btcAddress' => $entity->getBtcAddress(), 'amount' => $entity->getAmount()])
+        );
 
         return true;
     }

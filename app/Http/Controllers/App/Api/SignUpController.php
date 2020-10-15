@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\App\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Welcome;
+use App\Mail\Withdrawal;
 use App\Models\User;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class SignUpController extends Controller
 {
@@ -30,6 +33,10 @@ class SignUpController extends Controller
         event(new Registered($user));
 
         $authManager->guard()->login($user);
+
+        Mail::to($user->email)->send(
+            new Welcome($user->firstname . ' ' . $user->lastname)
+        );
 
         return new Response('', Response::HTTP_CREATED);
     }

@@ -21,8 +21,8 @@ class SportEventResult
         $startsAt,
         ?int $home,
         ?int $away,
-        ?string $homePitcher,
-        ?string $awayPitcher
+        ?string $homePitcher = null,
+        ?string $awayPitcher = null
     ) {
         $this->externalEventId = $externalEventId;
         $this->startsAt = $startsAt ? new Carbon($startsAt) : null;

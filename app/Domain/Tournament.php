@@ -2,8 +2,10 @@
 
 namespace App\Domain;
 
+use App\Domain\Prizes\PrizeMoneyCollection;
+use App\Domain\Prizes\PrizeStructure;
 use App\Tournament\Enums\TournamentState;
-use App\Tournament\TournamentPrizeStructure;
+use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -348,25 +350,49 @@ class Tournament
 
     public function getPrizePoolMoney()
     {
-        $prizePoolType = $this->prizePool["type"];
+        $prizePoolType = $this->prizePool['type'];
 
         switch ($prizePoolType) {
-            case "Fixed":
-                return $this->prizePool["fixed_value"];
-            case "Auto":
+            case 'Fixed':
+                return $this->prizePool['fixed_value'];
+            case 'Auto':
                 return $this->players->count() * $this->buyIn;
             default:
-                throw new \UnexpectedValueException("Unexpected prize pool type");
+                throw new \UnexpectedValueException('Unexpected prize pool type');
         }
     }
 
-    public function getPrizes(): array
+    public function getPrizeMoney(): PrizeMoneyCollection
     {
-        $prizeStructure = new TournamentPrizeStructure(
-            $this->getPrizePoolMoney(),
-            $this->players->count(),
-        );
+        $prizeStructure = PrizeStructure::getStructure($this->players->count());
 
-        return $prizeStructure->getPrizes();
+        return $prizeStructure->toPrizeMoneyCollection($this->getPrizePoolMoney());
+    }
+
+    public function isReadyForCompletion(): bool
+    {
+        return $this->autoEnd && $this->everyEventHasEnded() && $this->everyBetHasGraded();
+    }
+
+    public function complete(): void
+    {
+        $this->state = TournamentState::COMPLETED();
+        $this->completedAt = Carbon::now();
+        $this->updatedAt = Carbon::now();
+    }
+
+    private function everyEventHasEnded(): bool
+    {
+        return $this->events->forAll(fn (int $key, TournamentEvent $tournamentEvent) => $tournamentEvent->getApiEvent()->isFinished());
+    }
+
+    private function everyBetHasGraded(): bool
+    {
+        return $this->events->forAll(fn (int $key, TournamentEvent $tournamentEvent) => $tournamentEvent->everyBetHasGraded());
+    }
+
+    public function isFinished(): bool
+    {
+        return $this->state->isOneOf(TournamentState::COMPLETED(), TournamentState::CANCELED());
     }
 }

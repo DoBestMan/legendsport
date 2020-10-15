@@ -10,6 +10,7 @@ import FullLoader from "../components/FullLoader";
 import loaderStore from "../stores/loaderStore";
 import sportStore from "../stores/sportStore";
 import ActionButton from "../../general/components/ActionButton";
+import ModalComplete from "../molecules/tournament/ModalComplete";
 
 setup();
 
@@ -23,6 +24,7 @@ new Vue({
         FullLoader,
         ModalAvailableEventList,
         ModalDelete,
+        ModalComplete,
         SelectedEventList,
         TournamentForm,
     },
@@ -51,6 +53,8 @@ new Vue({
         isModalAvailableEventListVisible: false,
         modalDeleteId: null,
         modalDeleteDescription: null,
+        modalCompleteId: null,
+        modalCompleteDescription: null,
     },
 
     created() {
@@ -118,12 +122,36 @@ new Vue({
             this.modalDeleteDescription = null;
         },
 
+        openCompleteModal(id, description) {
+            this.modalCompleteId = id;
+            this.modalCompleteDescription = description;
+        },
+
+        closeCompleteModal() {
+            this.modalCompleteId = null;
+            this.modalCompleteDescription = null;
+        },
+
         async deleteTournament(tournamentId) {
             loaderStore.show();
             try {
                 await axios.delete(`/tournaments/${tournamentId}`);
                 this.closeDeleteModal();
                 notificationStore.info("Tournament's been deleted.");
+                window.location = "/tournaments";
+            } catch (e) {
+                notificationStore.errorSync(e.response.data.message);
+            } finally {
+                loaderStore.hide();
+            }
+        },
+
+        async completeTournament(tournamentId) {
+            loaderStore.show();
+            try {
+                await axios.post(`/tournaments/${tournamentId}/check-complete`);
+                this.closeCompleteModal();
+                notificationStore.info("Tournament will now be checked and if it meets the criteria, marked as completed.");
                 window.location = "/tournaments";
             } catch (e) {
                 notificationStore.errorSync(e.response.data.message);

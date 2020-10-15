@@ -45,9 +45,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('config.edit') }}">Configuration</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('tournaments.index') }}">Tournaments</a>
-                </li>
+                <b-nav-item-dropdown
+                    id="my-nav-dropdown"
+                    text="Tournaments"
+                    toggle-class="nav-link-custom"
+                    right
+                >
+                    <b-dropdown-item href="{{ route('tournaments.dashboard') }}">Payouts Dashboard</b-dropdown-item>
+                    <b-dropdown-item href="{{ route('tournaments.index') }}">List</b-dropdown-item>
+                </b-nav-item-dropdown>
                 <b-nav-item-dropdown
                     id="my-nav-dropdown"
                     text="Users"
