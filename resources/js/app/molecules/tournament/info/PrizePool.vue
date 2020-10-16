@@ -1,11 +1,11 @@
 <template>
-    <div v-if="tournament.state === TournamentState.Completed">
+    <div>
         <div class="rank" v-for="(prize, index) in prizes" :key="index" @click="selectPrize(prize)">
             <div class="rank__content">
                 <div class="rank__content__order">
                     {{ prize.position }}
                 </div>
-                <div class="rank__content__user">
+                <div v-if="isTournamentCompleted" class="rank__content__user">
                     <div class="rank__content__user__avatar">
                         <i class="icon icon--person icon--micro"></i>
                     </div>
@@ -13,8 +13,6 @@
                         {{ prize.username }}
                     </div>
                 </div>
-            </div>
-            <div class="rank__content">
                 <div class="rank__content__coins">
                     {{ prize.prize | formatCurrency }}
                 </div>
@@ -50,9 +48,9 @@ export default Vue.extend({
             return this.tournament?.players ?? [];
         },
 
-        TournamentState() {
-            return TournamentState;
-        },
+        isTournamentCompleted(): boolean {
+            return TournamentState.Completed === this.tournament.state;
+        }
 
         prizes(): any[] {
             const output = [];
