@@ -10,13 +10,12 @@
                         <i class="icon icon--person icon--micro"></i>
                     </div>
                     <div class="rank__content__user__name">
-                        {{ prize.usernames }}
+                        {{ prize.username }}
                     </div>
                 </div>
             </div>
             <div class="rank__content">
                 <div class="rank__content__coins">
-                    <i class="icon icon--atom icon--coins icon--color--yellow-2 m--r--1"></i>
                     {{ prize.prize | formatCurrency }}
                 </div>
             </div>
@@ -62,27 +61,19 @@ export default Vue.extend({
             for (const prize of this.tournament.prizePool) {
                 const minPosition = lastMaxPosition + 1;
                 const maxPosition = prize.maxPosition;
-                const position =
-                    minPosition === maxPosition ? minPosition : `${minPosition}-${maxPosition}`;
-                let usernames = "";
-                if (minPosition === maxPosition) {
-                    usernames = this.players[minPosition - 1].name;
-                } else {
-                    for (let i = minPosition; i <= maxPosition; i++) {
-                        usernames = usernames.concat(this.players[i - 1].name);
-                    }
-                }
+                for (let i = minPosition; i <= maxPosition; i++) {
+                    let position = i;
+                    let username = this.players[i - 1].name;
 
-                output.push({
-                    maxPosition,
-                    position,
-                    prize: prize.prize,
-                    usernames,
-                });
-
+                    output.push({
+                        maxPosition,
+                        position,
+                        prize: prize.prize,
+                        username,
+                    });
+            }
                 lastMaxPosition = maxPosition;
             }
-
             return output;
         },
     },
