@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="tournament.state === TournamentState.Completed">
         <div class="rank" v-for="(prize, index) in prizes" :key="index" @click="selectPrize(prize)">
             <div class="rank__content">
                 <div class="rank__content__order">
@@ -9,8 +9,8 @@
                     <div class="rank__content__user__avatar">
                         <i class="icon icon--person icon--micro"></i>
                     </div>
-                    <div v-if="players[index]" class="rank__content__user__name">
-                        {{ players[index].name }}
+                    <div class="rank__content__user__name">
+                        {{ prize.usernames }}
                     </div>
                 </div>
             </div>
@@ -28,6 +28,7 @@
 import Vue, { PropType } from "vue";
 import TableNoRecords from "../../../../general/components/TableNoRecords.vue";
 import { Prize, Tournament } from "../../../types/tournament";
+import { TournamentState } from "../../../../general/types/tournament";
 import { Nullable } from "../../../../general/types/types";
 import { Player } from "../../../types/player";
 
@@ -50,6 +51,10 @@ export default Vue.extend({
             return this.tournament?.players ?? [];
         },
 
+        TournamentState() {
+            return TournamentState;
+        },
+
         prizes(): any[] {
             const output = [];
             let lastMaxPosition = 0;
@@ -59,11 +64,20 @@ export default Vue.extend({
                 const maxPosition = prize.maxPosition;
                 const position =
                     minPosition === maxPosition ? minPosition : `${minPosition}-${maxPosition}`;
+                let usernames = "";
+                if (minPosition === maxPosition) {
+                    usernames = this.players[minPosition - 1].name;
+                } else {
+                    for (let i = minPosition; i <= maxPosition; i++) {
+                        usernames = usernames.concat(this.players[i - 1].name);
+                    }
+                }
 
                 output.push({
                     maxPosition,
                     position,
                     prize: prize.prize,
+                    usernames,
                 });
 
                 lastMaxPosition = maxPosition;
