@@ -50,7 +50,7 @@ export default Vue.extend({
 
         isTournamentCompleted(): boolean {
             return TournamentState.Completed === this.tournament.state;
-        }
+        },
 
         prizes(): any[] {
             const output = [];
@@ -69,7 +69,7 @@ export default Vue.extend({
                         prize: prize.prize,
                         username,
                     });
-            }
+                }
                 lastMaxPosition = maxPosition;
             }
             return output;
