@@ -1,6 +1,7 @@
 <template>
     <div class="odd__container__content">
         <div class="odd__container__content__details">
+            <div class="odd__container__content__details__inplay" v-if="isInPlay(game)"><i class="fas fa-circle"></i>Live In-Play</div>
             <div class="odd__container__content__details__line">
                 <div class="odd__container__content__details__line__name">
                     {{ game.teamAway }}
@@ -52,13 +53,13 @@
                         class="odd__container__content__details__line__tags__tag"
                         v-if="Number(totalNumber)"
                         :class="{
-                            'odd__container__content__details__line__tags__tag--active': selectedTotalUnder,
+                            'odd__container__content__details__line__tags__tag--active': selectedTotalOver,
                         }"
-                        @click="emitToggleOdd(PendingOddType.TotalUnder)"
+                        @click="emitToggleOdd(PendingOddType.TotalOver)"
                     >
-                        U {{ totalNumber }}
+                        O {{ totalNumber }}
                         <div class="odd__container__content__details__line__tags__tag__subtitle">
-                            {{ underLine | signedNumber }}
+                            {{ overLine | signedNumber }}
                         </div>
                     </div>
                     <div
@@ -115,13 +116,13 @@
                         class="odd__container__content__details__line__tags__tag"
                         v-if="Number(totalNumber)"
                         :class="{
-                            'odd__container__content__details__line__tags__tag--active': selectedTotalOver,
+                            'odd__container__content__details__line__tags__tag--active': selectedTotalUnder,
                         }"
-                        @click="emitToggleOdd(PendingOddType.TotalOver)"
+                        @click="emitToggleOdd(PendingOddType.TotalUnder)"
                     >
-                        O {{ totalNumber }}
+                        U {{ totalNumber }}
                         <div class="odd__container__content__details__line__tags__tag__subtitle">
-                            {{ overLine | signedNumber }}
+                            {{ underLine | signedNumber }}
                         </div>
                     </div>
                     <div
@@ -143,7 +144,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from "vue";
-import { Game } from "../../../types/game";
+import {Game, GameState} from "../../../types/game";
 import { PendingOdd, PendingOddType, Window } from "../../../types/window";
 import { DeepReadonly } from "../../../../general/types/types";
 import DisabledButton from "./DisabledButton.vue";
@@ -285,6 +286,10 @@ export default Vue.extend({
             const dict: ReadonlyMap<string, string> = this.$stock.getters["sport/sportDictionary"];
             return dict.get(game.sportId) ?? String(game.sportId);
         },
+
+        isInPlay(game: Game): boolean {
+            return game.timeStatus === GameState.InPlay;
+        }
     },
 });
 </script>

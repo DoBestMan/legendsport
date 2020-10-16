@@ -49,6 +49,7 @@ new Vue({
         addBots: 0,
         playerBots: 1,
         autoEnd: 0,
+        liveLines: 0,
 
         isModalAvailableEventListVisible: false,
         modalDeleteId: null,
@@ -83,6 +84,7 @@ new Vue({
         this.addBots = phpVars.addBots;
         this.playerBots = phpVars.playerBots;
         this.autoEnd = phpVars.autoEnd;
+        this.liveLines = phpVars.liveLines;
     },
 
     mounted() {
@@ -183,6 +185,7 @@ new Vue({
                     state: this.state,
                     time_frame: this.timeFrame,
                     auto_end: this.autoEnd,
+                    live_lines: this.liveLines,
                     bots: {
                         min: this.minBots * 1,
                         max: this.maxBots * 1,
@@ -224,6 +227,7 @@ new Vue({
                     state: this.state,
                     time_frame: this.timeFrame,
                     auto_end: this.autoEnd,
+                    live_lines: this.liveLines,
                     bots: {
                         min: this.minBots * 1,
                         max: this.maxBots * 1,

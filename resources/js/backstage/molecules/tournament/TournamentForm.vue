@@ -101,6 +101,29 @@
                 </div>
             </div>
 
+            <div id="live_linesFrm" class="form-row form-group">
+                <div class="col-4 text-right">
+                    <label for="live_lines" class="col-form-label">Live lines</label>
+                </div>
+
+                <div class="col-8">
+                    <input
+                        type="checkbox"
+                        name="live_lines"
+                        id="live_lines"
+                        :class="[errors['live_lines'] ? 'form-control is-invalid' : 'form-control']"
+                        :checked="liveLines"
+
+                        @change="$emit('update:liveLines', $event.target.checked)"
+                    />
+
+
+                    <div v-if="errors['live_lines']" class="invalid-feedback">
+                        {{ errors["live_lines"]["0"] }}
+                    </div>
+                </div>
+            </div>
+
             <div id="buy_inFrm" class="form-row form-group">
                 <div class="col-4 text-right">
                     <label for="buy_in" class="col-form-label">Buy-in</label>
@@ -492,7 +515,8 @@ export default Vue.extend({
         "maxBots",
         "addBots",
         "playerBots",
-        "autoEnd"
+        "autoEnd",
+        "liveLines",
     ],
 
     data() {

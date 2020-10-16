@@ -79,18 +79,9 @@ class TournamentEvent
         return $this->bets;
     }
 
-    /** @deprecated  */
-    public function evaluate(): void
+    public function canBetBePlaced(bool $allowLiveBetting): bool
     {
-        foreach ($this->bets as $bet) {
-            $bet->evaluate();
-        }
-    }
-
-    public function canBetBePlaced(): bool
-    {
-        //@TODO make this check avoid loading the collection
-        return $this->apiEvent->isUpcoming() && !empty($this->apiEvent->getOddTypes());
+        return $this->apiEvent->isBettable($allowLiveBetting);
     }
 
     public function everyBetHasGraded(): bool

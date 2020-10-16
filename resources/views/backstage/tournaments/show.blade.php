@@ -31,6 +31,7 @@
                 :add-bots="addBots"
                 :player-bots="playerBots"
                 :auto-end="autoEnd"
+                :live-lines="liveLines"
             ></tournament-form>
         </fieldset>
 
