@@ -2,10 +2,10 @@
     <div class="bet__container">
         <div class="bet__container__content">
             <div class="bet__container__content__subtitle">
-                {{ typeName }}{{ typeExtra }} - {{ status | capitalize }}
+                {{ typeName }} - {{ status | capitalize }}
             </div>
             <div class="bet__container__content__title">
-                {{ selectedTeam }} {{ odd | signedNumber }}
+                {{ selectedTeam }} {{ typeExtra ? Number(typeExtra) : "" }} {{ odd | signedNumber }}
             </div>
         </div>
         <div class="bet__container__tag">

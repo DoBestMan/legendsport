@@ -1,16 +1,21 @@
 <template>
-    <div>
+    <div v-if="tournament.state === TournamentState.Completed">
         <div class="rank" v-for="(prize, index) in prizes" :key="index" @click="selectPrize(prize)">
             <div class="rank__content">
+                <div class="rank__content__order">
+                    {{ prize.position }}
+                </div>
                 <div class="rank__content__user">
+                    <div class="rank__content__user__avatar">
+                        <i class="icon icon--person icon--micro"></i>
+                    </div>
                     <div class="rank__content__user__name">
-                        {{ prize.position }}
+                        {{ prize.username }}
                     </div>
                 </div>
             </div>
             <div class="rank__content">
                 <div class="rank__content__coins">
-                    <i class="icon icon--atom icon--coins icon--color--yellow-2 m--r--1"></i>
                     {{ prize.prize | formatCurrency }}
                 </div>
             </div>
@@ -22,7 +27,9 @@
 import Vue, { PropType } from "vue";
 import TableNoRecords from "../../../../general/components/TableNoRecords.vue";
 import { Prize, Tournament } from "../../../types/tournament";
+import { TournamentState } from "../../../../general/types/tournament";
 import { Nullable } from "../../../../general/types/types";
+import { Player } from "../../../types/player";
 
 export default Vue.extend({
     name: "PrizePool",
@@ -39,6 +46,14 @@ export default Vue.extend({
     },
 
     computed: {
+        players(): Player[] {
+            return this.tournament?.players ?? [];
+        },
+
+        TournamentState() {
+            return TournamentState;
+        },
+
         prizes(): any[] {
             const output = [];
             let lastMaxPosition = 0;
@@ -46,18 +61,19 @@ export default Vue.extend({
             for (const prize of this.tournament.prizePool) {
                 const minPosition = lastMaxPosition + 1;
                 const maxPosition = prize.maxPosition;
-                const position =
-                    minPosition === maxPosition ? minPosition : `${minPosition}-${maxPosition}`;
+                for (let i = minPosition; i <= maxPosition; i++) {
+                    let position = i;
+                    let username = this.players[i - 1].name;
 
-                output.push({
-                    maxPosition,
-                    position,
-                    prize: prize.prize,
-                });
-
+                    output.push({
+                        maxPosition,
+                        position,
+                        prize: prize.prize,
+                        username,
+                    });
+            }
                 lastMaxPosition = maxPosition;
             }
-
             return output;
         },
     },
