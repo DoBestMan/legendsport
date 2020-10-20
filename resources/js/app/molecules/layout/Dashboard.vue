@@ -1,0 +1,426 @@
+<template>
+    <div class="dashboard-container">
+        <div class="bannersection">
+            <div class="container">
+                <div class="column">
+                    <div class="columnhalf">
+                        <h2>Do you have what it takes to be a legend?</h2>
+                        <a href="#" class="btn-bnner bgtheme">Join Now</a>
+                    </div>
+                    <div class="columnhalf"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="joinsection">
+            <div class="container">
+                <div class="column">
+                    <div class="columnhalf">
+                        <div class="tournament-content">
+                            <h2 class="section-title">Join the <br />tournament</h2>
+                            <a href="#" class="btn-bnner bgtheme">Join Now</a>
+                        </div>
+                    </div>
+                    <div class="columnhalf"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="how-sectiopn">
+            <div class="container">
+                <h2 class="section-title">How To Play</h2>
+                <div class="column">
+                    <div class="onethird">
+                        <div class="play-steps">
+                            <h4>Step 1</h4>
+                            <p>
+                                Register for a tournament! Tournaments vary by sports (NFL, MLB,
+                                NBA, NHL, Etc.) and by length (Daily, Weekly, Monthly.) We also
+                                offer Free4all tournaments that include all sports.
+                            </p>
+                        </div>
+
+                        <div class="play-steps">
+                            <h4>Step 2</h4>
+                            <p>Get your virtual chips.</p>
+                        </div>
+
+                        <div class="play-steps">
+                            <h4>Step 3</h4>
+                            <p>
+                                Wager your virtual chips. You can place straight wagers or parlays.
+                            </p>
+                        </div>
+
+                        <div class="play-steps">
+                            <h4>Step 4</h4>
+                            <p>Re-wager your winning chips from successful wagers.</p>
+                        </div>
+                    </div>
+
+                    <div class="onethird">
+                        <div class="palyimg"><img src="assets/i/howimg.png" /></div>
+                    </div>
+                    <div class="onethird">
+                        <div class="play-steps">
+                            <h4>Step 5</h4>
+                            <p>
+                                The player with the most virtual chips at the end of the tournament
+                                will be declared the winner and claim top prize.
+                            </p>
+                        </div>
+
+                        <div class="play-steps">
+                            <h4>Step 6</h4>
+                            <p>
+                                Become a legend and win cash prizes. Prized are paid out in
+                                accordance with the tournament standings.
+                            </p>
+                        </div>
+
+                        <div class="play-steps">
+                            <h4>Step 7</h4>
+                            <p>Play more tournaments and vault up the leaderboard.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-sectiopn">
+            <div class="faqlimage"></div>
+            <div class="container">
+                <h2 class="section-title">FAQ</h2>
+                <div class="column">
+                    <div class="full">
+                        <div class="accordion_container">
+                            <div class="tabcard" v-for="faq in faqs" :key="faq.id">
+                                <div class="accordion_head">
+                                    <span
+                                        @click="changeSign(faq.id)"
+                                        v-b-toggle="'collapse-' + faq.id"
+                                        variant="info"
+                                    >
+                                        <span>{{ faq.id }}</span
+                                        >{{ faq.title }}</span
+                                    >
+                                    <span class="plusminus">{{ faq.isActive ? "-" : "+" }}</span>
+                                </div>
+                                <b-collapse
+                                    visible
+                                    accordion="my-accordion"
+                                    :id="'collapse-' + faq.id"
+                                >
+                                    <div class="accordion_body">
+                                        <p>{{ faq.body }}</p>
+                                    </div>
+                                </b-collapse>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn-center">
+                        <a @click="loadMore" v-if="loadButton" class="btn-bnner bgtheme">
+                            Load More
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="testimonial-section">
+            <div class="testimonialimage"></div>
+            <div class="container">
+                <h2 class="section-title">Testimonials</h2>
+
+                <carousel
+                    :dots="false"
+                    :responsive="{
+                        0: { items: 1 },
+                        600: { items: 3 },
+                        1000: { items: 3, margin: 30 },
+                    }"
+                    :margin="true"
+                    :center="true"
+                    :items="3"
+                    :loop="true"
+                    :nav="true"
+                >
+                    <div class="item">
+                        <div class="testicontent">
+                            <div class="quote-icon"></div>
+                            <p>
+                                Since I started playing I have won 4 tournaments and have gotten all
+                                my friends to come play. Its our own game of bragging rights when we
+                                go back to the office the next day.
+                            </p>
+                            <span class="author">- MegatronDET</span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="testicontent">
+                            <div class="quote-icon"></div>
+                            <p>Legends is Free to enter and gives away $$.  Cant beat that!</p>
+                            <span class="author">- Wolfofwall122</span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="testicontent">
+                            <div class="quote-icon"></div>
+                            <p>
+                                Playing on Legends is the best. I not only get to play all the games
+                                I want, but I also get to compete against my buddies at the same
+                                time and win FREE MONEY.
+                            </p>
+                            <span class="author">- Stevebalt05</span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="testicontent">
+                            <div class="quote-icon"></div>
+                            <p>
+                                I cant stop playing just so focused on watching the games and seeing
+                                myself move higher on the rankings. Can’t stop won’t stop.
+                            </p>
+                            <span class="author">- BroncosNation</span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="testicontent">
+                            <div class="quote-icon"></div>
+                            <p>
+                                This tournament style has made me an overall better gambler hands
+                                down.
+                            </p>
+                            <span class="author">- MLBDon65</span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="testicontent">
+                            <div class="quote-icon"></div>
+                            <p>
+                                The NFL Sunday daily tournament has given me a reason to watch every
+                                game for a myriad of reasons. Changed the game.
+                            </p>
+                            <span class="author">- AllSports99</span>
+                        </div>
+                    </div>
+                </carousel>
+            </div>
+        </div>
+
+        <footer class="main-footer">
+            <div class="container">
+                <div class="foot-column">
+                    <div class="footlogo">
+                        <a href="#"><img src="assets/i/footlogo.png"/></a>
+                    </div>
+                    <div class="foolink">
+                        <h3>Quick Links</h3>
+                        <ul class="footnav">
+                            <li><a href="#">How To Play</a></li>
+                            <li><a href="#">Terms & Conditions</a></li>
+                            <li><a href="#">Reviews</a></li>
+                            <li><a href="#">legal</a></li>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                    <div class="foot-contant">
+                        <h3>Contact</h3>
+                        <p>16, Satya Vijay Shopping Cntr, Goddev Naka, Bhayandere</p>
+                        <p>support@legendsbet.com</p>
+                    </div>
+                    <div class="footsocial">
+                        <h3>Follow Us on Social Media</h3>
+                        <ul class="socila-list">
+                            <li>
+                                <a href="#" target="_blank"><img src="assets/i/facebook.png"/></a>
+                            </li>
+                            <li>
+                                <a href="#" target="_blank"><img src="assets/i/twitter.png"/></a>
+                            </li>
+                            <li>
+                                <a href="#" target="_blank"><img src="assets/i/instagram.png"/></a>
+                            </li>
+                            <li>
+                                <a href="#" target="_blank"><img src="assets/i/linkedin.png"/></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="foot-copy">
+                    <p>&copy; 2020 <span>LegendsBet</span>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</template>
+
+<script>
+import carousel from "vue-owl-carousel";
+export default {
+    name: "Dashboard",
+    components: {
+        carousel,
+    },
+
+    data() {
+        return {
+            visible: false,
+            currentArr: 5,
+            oldArr: 0,
+            loadButton: true,
+            faqs: [
+                {
+                    id: "01",
+                    title: "What is Tournament Betting?",
+                    body:
+                        "With Tournament Betting, you aren't betting on a single game or against the dreaded house. In\n" +
+                        "tournament betting you play against other players and try to outmaneuver them to climb the\n" +
+                        "leaderboard. Once all events in the specific tournament are complete the tournament has\n" +
+                        "officially ended.",
+                    isActive: true,
+                },
+                {
+                    id: "02",
+                    title: "How do I get paid?",
+                    body:
+                        "Simply go to the cashier and enter the amount you with to withdraw ($50 minimum.) Right now we are only processing withdrawals via Bitcoin, so enter your BTC receiving address and you will receive your cash (BTC payment made every Monday around noon eastern).",
+                    isActive: false,
+                },
+                {
+                    id: "03",
+                    title: "Can I rollover chips to a different tournament?",
+                    body:
+                        "No, virtual chips are specific to each tournament and have no cash value. Once the event has ended those chips will help to move you up the leaderboard, but once the event is over they are only available to view.",
+                    isActive: false,
+                },
+                {
+                    id: "04",
+                    title: "Can I pay for additional chips?",
+                    body:
+                        "Not at the moment, right now only offer freeroll tournaments. But in the future we plan to offer users re-buy events where you will be able to reload if you are running low on chips.*",
+                    isActive: false,
+                },
+                {
+                    id: "05",
+                    title: " Is there a minimum number of bets?",
+                    body: "No, you can place as many or as few bets as you would like.",
+                    isActive: false,
+                },
+                {
+                    id: "06",
+                    title: " Is there a maximum wager for any bet?",
+                    body:
+                        "No, you can wager your entire balance at anytime. And BE AGGRESSIVE, that's you best chance to win a tournament and become a legend.",
+                    isActive: false,
+                },
+            ],
+        };
+    },
+
+    methods: {
+        changeSign: function(index) {
+            this.faqs.filter(faq => {
+                if (index === faq.id) {
+                    faq.isActive = !faq.isActive;
+                } else {
+                    faq.isActive = false;
+                }
+            });
+            console.log("this.faqs", this.faqs);
+        },
+
+        loadMore: function() {
+            let arr = [
+                {
+                    id: "07",
+                    title: " How do I join the LegendsBet team?",
+                    body:
+                        "At the moment we aren't hiring, but if you are interested in joining the team please reach out to us via the contact us link and we'd be happy to keep you in mind when a position opens up.",
+                    isActive: false,
+                },
+                {
+                    id: "08",
+                    title: "Do you have social media?",
+                    body:
+                        "Yes, please follow us on Twitter, Facebook, LinkedIn and Instagram. Our links can be found in the footer at the bottom of the home page.",
+                    isActive: false,
+                },
+                {
+                    id: "09",
+                    title: "Can I play with real money?",
+                    body:
+                        "At the moment we do not offer real money buy-in tournaments, but we do plan to offer them in the near future.",
+                    isActive: false,
+                },
+                {
+                    id: "10",
+                    title: " How old do you have to be to play?",
+                    body:
+                        "You must be 21 or older to participate in our tournament for real money prizes.",
+                    isActive: false,
+                },
+                {
+                    id: "11",
+                    title: " Can I bet once a game has started?",
+                    body:
+                        "Yes, we offer live lines so if you missed tip-off or first pitch, no worries, bet anytime you'd like.",
+                    isActive: false,
+                },
+                {
+                    id: "12",
+                    title: "Can I join a tournament late?",
+                    body:
+                        "Yes, we offer late registering on all of our tournaments, however keep in mind if the event is nearing it's close late registering may not be available. So sign up early and often! Tourney's are FREE!.",
+                    isActive: false,
+                },
+                {
+                    id: "13",
+                    title: " How can I refer people?",
+                    body:
+                        "At the moment we don't have a referral program, but if you are enjoying the tournaments, please feel free to give us a like on Facebook, or retweet us on twitter.",
+                    isActive: false,
+                },
+                {
+                    id: "14",
+                    title: " Do I have to pay taxes on prize winnings?",
+                    body:
+                        "We do not provide W2-G's on contest winnings, however you should consult your professional tax advisor.",
+                    isActive: false,
+                },
+                {
+                    id: "15",
+                    title: "Do you have a privacy policy?",
+                    body: "Yes, please see the privacy policy here.",
+                    isActive: false,
+                },
+                {
+                    id: "16",
+                    title: " Do you have a terms of service?",
+                    body:
+                        "Yes, please see the terms of service here.\n" +
+                        "\n" +
+                        "*Rules apply for the specific tournament",
+                    isActive: false,
+                },
+            ];
+
+            for (let i = this.oldArr; i < this.currentArr; i++) {
+                this.faqs.push(arr[i]);
+            }
+            this.oldArr += this.currentArr;
+            this.currentArr += this.currentArr;
+
+            if (this.faqs.length < this.currentArr) {
+                this.loadButton = false;
+                return;
+            }
+        },
+    },
+};
+</script>
+
+<style scoped></style>

@@ -214,8 +214,10 @@
                 </form>
                 <div class="paragraph paragraph--small">
                     Already have an account?
-                    <a href="/login" class="link">Log in</a>
-                    <a href="/" class="link link--back">Back</a>
+                    <!-- <a href="/login" class="link">Log in</a>
+                    <a href="/" class="link link--back">Back</a> -->
+                    <router-link class="link" to="/login">Log in</router-link>
+                    <router-link class="link link--back" to="/">Back</router-link>
                 </div>
                 <div class="seperator"></div>
                 <div class="paragraph paragraph--tiny">

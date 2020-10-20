@@ -19,10 +19,13 @@ import BitcoinMobileForm from "../molecules/cashier/BitcoinMobileForm.vue";
 import CreditCardMobileForm from "../molecules/cashier/CreditCardMobileForm.vue";
 import PaypalMobileForm from "../molecules/cashier/PaypalMobileForm.vue";
 import MobileInfoSection from "../molecules/tournament/info/MobileInfoSection.vue";
+import Dashboard from "../molecules/layout/Dashboard.vue";
+import NewNavBar from "../molecules/layout/NewNavBar.vue";
 
 export const createRouter = (): VueRouter => {
     const routes: RouteConfig[] = [
-        { path: "/", component: HomeView, meta: { layout: [NavBar, WindowBar] } },
+        { path: "/", component: Dashboard, meta: { layout: [NewNavBar] } },
+        { path: "/lobby", component: HomeView, meta: { layout: [NavBar, WindowBar] } },
         { path: "/login", component: SignInForm },
         { path: "/signup", component: SignUpForm },
         { path: "/profile", component: ProfileView, meta: { layout: [NavBar] } },

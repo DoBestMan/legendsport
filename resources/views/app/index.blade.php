@@ -43,5 +43,15 @@
     <script type="text/javascript" src="{{ mix('/backstage/js/manifest.js') }}"></script>
     <script type="text/javascript" src="{{ mix('/backstage/js/vendor.js') }}"></script>
     <script type="text/javascript" src="{{ mix('/app/js/app.js') }}"></script>
+
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
 </body>
 </html>
