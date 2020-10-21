@@ -27,7 +27,7 @@
                                     Join a Tournament
                                 </router-link>
                                 <router-link class="loginbtn btn-outline" to="/login">
-                                    login / join
+                                    Login / Join
                                 </router-link>
                             </div>
                         </div>
@@ -38,7 +38,7 @@
                             Join a Tournament
                         </router-link>
                         <router-link class="loginbtn btn-outline" to="/login">
-                            login / join
+                            Login / Join
                         </router-link>
                     </div>
                     <span class="mobileview togglebtnmob" onclick="openNav()">&#9776;</span>

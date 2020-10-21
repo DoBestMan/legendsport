@@ -5,7 +5,7 @@
                 <div class="column">
                     <div class="columnhalf">
                         <h2>Do you have what it takes to be a legend?</h2>
-                        <a href="#" class="btn-bnner bgtheme">Join Now</a>
+                        <a href="/signup" class="btn-bnner bgtheme">Join Now</a>
                     </div>
                     <div class="columnhalf"></div>
                 </div>
@@ -17,8 +17,8 @@
                 <div class="column">
                     <div class="columnhalf">
                         <div class="tournament-content">
-                            <h2 class="section-title">Join the <br />tournament</h2>
-                            <a href="#" class="btn-bnner bgtheme">Join Now</a>
+                            <h2 class="section-title">Join A <br />Tournament</h2>
+                            <a href="/signup" class="btn-bnner bgtheme">Join Now</a>
                         </div>
                     </div>
                     <div class="columnhalf"></div>
@@ -29,8 +29,8 @@
         <div class="how-sectiopn">
             <div class="container">
                 <h2 class="section-title">How To Play</h2>
-                <div class="column">
-                    <div class="onethird">
+                <div class="column" style="align-items: unset;">
+                    <div class="onethird" style="margin-top: 150px;">
                         <div class="play-steps">
                             <h4>Step 1</h4>
                             <p>
@@ -61,7 +61,7 @@
                     <div class="onethird">
                         <div class="palyimg"><img src="assets/i/howimg.png" /></div>
                     </div>
-                    <div class="onethird">
+                    <div class="onethird" style="margin-top: 150px;">
                         <div class="play-steps">
                             <h4>Step 5</h4>
                             <p>
@@ -130,7 +130,7 @@
 
         <div class="testimonial-section">
             <div class="testimonialimage"></div>
-            <div class="container">
+            <div class="container" style="cursor: pointer;">
                 <h2 class="section-title">Testimonials</h2>
 
                 <carousel
@@ -140,11 +140,10 @@
                         600: { items: 3 },
                         1000: { items: 3, margin: 30 },
                     }"
-                    :margin="true"
+                    :margin="10"
                     :center="true"
                     :items="3"
                     :loop="true"
-                    :nav="true"
                 >
                     <div class="item">
                         <div class="testicontent">
@@ -213,7 +212,7 @@
             <div class="container">
                 <div class="foot-column">
                     <div class="footlogo">
-                        <a href="#"><img src="assets/i/footlogo.png"/></a>
+                        <a href="/"><img src="assets/i/footlogo.png"/></a>
                     </div>
                     <div class="foolink">
                         <h3>Quick Links</h3>
@@ -221,30 +220,54 @@
                             <li><a href="#">How To Play</a></li>
                             <li><a href="#">Terms & Conditions</a></li>
                             <li><a href="#">Reviews</a></li>
-                            <li><a href="#">legal</a></li>
-                            <li><a href="#">About</a></li>
+                            <li><a href="#">Legal</a></li>
+                            <li><a href="/about">About</a></li>
                             <li><a href="#">Privacy Policy</a></li>
                         </ul>
                     </div>
                     <div class="foot-contant">
                         <h3>Contact</h3>
-                        <p>16, Satya Vijay Shopping Cntr, Goddev Naka, Bhayandere</p>
+                        <p>2700 N Military Trail<br />Boca Raton, FL 33431</p>
                         <p>support@legendsbet.com</p>
                     </div>
                     <div class="footsocial">
                         <h3>Follow Us on Social Media</h3>
                         <ul class="socila-list">
                             <li>
-                                <a href="#" target="_blank"><img src="assets/i/facebook.png"/></a>
+                                <a
+                                    href="https://www.facebook.com/LegendsBet-113424260484677/"
+                                    target="_blank"
+                                >
+                                    <img src="assets/i/facebook.png" />
+                                </a>
                             </li>
                             <li>
-                                <a href="#" target="_blank"><img src="assets/i/twitter.png"/></a>
+                                <a href="https://twitter.com/PlayLegendsBet" target="_blank">
+                                    <img src="assets/i/twitter.png" />
+                                </a>
                             </li>
                             <li>
-                                <a href="#" target="_blank"><img src="assets/i/instagram.png"/></a>
+                                <a href="https://www.instagram.com/playlegendsbet/" target="_blank">
+                                    <img src="assets/i/instagram.png" />
+                                </a>
                             </li>
                             <li>
-                                <a href="#" target="_blank"><img src="assets/i/linkedin.png"/></a>
+                                <a
+                                    href="https://www.linkedin.com/company/legendsbet"
+                                    target="_blank"
+                                >
+                                    <img src="assets/i/linkedin.png" />
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" target="_blank">
+                                    <img src="assets/i/tiktok.jpg" height="20" width="20" />
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" target="_blank">
+                                    <img src="assets/i/you.jpg" height="20" width="20" />
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -330,7 +353,6 @@ export default {
                     faq.isActive = false;
                 }
             });
-            console.log("this.faqs", this.faqs);
         },
 
         loadMore: function() {
@@ -408,7 +430,7 @@ export default {
                 },
             ];
 
-            for (let i = this.oldArr; i < this.currentArr; i++) {
+            for (let i = this.oldArr; i < this.currentArr; i += 1) {
                 this.faqs.push(arr[i]);
             }
             this.oldArr += this.currentArr;

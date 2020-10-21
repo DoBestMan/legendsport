@@ -51,7 +51,7 @@
         width: 35%
 
     .header-wraper .logo img
-        height: 40px
+        height: 35px
 
     .header-wraper .navigations ul li
         display: inline-block
@@ -460,195 +460,274 @@
         cursor: pointer
         font-size: 30px
 
-@media screen and (max-height: 450px)
-    .sidenav
-        padding-top: 15px
+    @media screen and (max-height: 450px)
+        .sidenav
+            padding-top: 15px
 
-    .sidenav a
-        font-size: 18px
+        .sidenav a
+            font-size: 18px
 
-.desktopview
-.mobileview
-    display: none !important
+        .desktopview
+            display: none !important
 
-@media screen and (max-width: 1360px)
-    .container
-        box-sizing: border-box
-        padding: 0 15px
+    @media screen and (max-width: 1360px)
+        .container
+            box-sizing: border-box
+            padding: 0 15px
 
-    .tournament-content
-        padding-left: 2em
+        .tournament-content
+            padding-left: 2em
 
-    .joinsection h2,
-    .section-title,
-    .bannersection h2
-        margin-bottom: 20px
+        .joinsection h2,
+        .section-title,
+        .bannersection h2
+            margin-bottom: 20px
 
-    .testimonialimage
-        z-index: 0
+        .testimonialimage
+            z-index: 0
 
-    .testimonial-section .container
-        position: relative
-        z-index: 9
+        .testimonial-section .container
+            position: relative
+            z-index: 9
 
-@media screen and (max-width: 980px)
-    .foot-column
-        flex-wrap: wrap
+    @media screen and (min-width: 980px)
+        .desktopview
+            display: block !important
 
-    .foot-column .foolink
-        width: 100%
-        margin-bottom: 25px
-        text-align: center
+        .mobileview
+            display: none !important
 
-    .foot-column .footsocial
-        width: 50%
-        margin-bottom: 25px
+    @media screen and (max-width: 980px)
+        .foot-column
+            flex-wrap: wrap
 
-    .foot-column .foot-contant
-        width: 50%
-        margin-bottom: 25px
+        .foot-column .foolink
+            width: 100%
+            margin-bottom: 25px
+            text-align: center
+
+        .foot-column .footsocial
+            width: 50%
+            margin-bottom: 25px
+
+        .foot-column .foot-contant
+            width: 50%
+            margin-bottom: 25px
+        
+        .foot-column .footlogo
+            width: 100%
+            margin-bottom: 25px
+
+        .foot-column .footlogo img
+            width: 30%
+            margin: 0 auto
+            display: block
+
+        .container
+            box-sizing: border-box
+            padding: 0 15px
+
+        .desktopview
+            display: none !important
+
+        .mobileview
+            display: block !important
+
+        .header-wraper
+            justify-content: space-between
+
+        .columnhalf
+            width: 54%
+
+        .tournament-content
+            padding-left: 2em
+            top: -2em
+
+        .testimonialimage
+            width: 100%
+            height: 400px
+            background-size: 340px
+            z-index: -1
+            top: -73px
+            opacity: 0.5
+
+        .foot-column h3,
+        .foot-column .foolink ul.footnav li
+            text-align: left
+
+    @media screen and (max-width: 767px)
+        .foot-column .footsocial h3,
+        .foot-column .footsocial
+            text-align: left
+
+        .foot-column h3,
+        .foot-column .foolink ul.footnav li
+            text-align: left
+
+        .joinsection
+            padding: 19em 0
+
+        header.headermain
+            z-index: 999999
+
+        .joinsection,
+        .bannersection
+            position: relative
+
+        .joinsection:after,
+        .bannersection:after
+            content: ""
+            background: rgba(0, 0, 0, 0.4)
+            position: absolute
+            top: 0
+            left: 0
+            height: 100%
+            width: 100%
+
+        .joinsection .container,
+        .bannersection .container
+            z-index: 99
+            position: relative
+
+        .joinsection
+            background-position: center
+            background-attachment: fixed
+
+        .container
+            box-sizing: border-box
+            padding: 0 15px
+
+        .columnhalf
+            width: 100%
+
+        .onethird
+            width: 100%
+
+        .joinsection h2,
+        .section-title,
+        .bannersection h2
+            font-size: 36px
+            line-height: 38px
+            margin-bottom: 20px
+
+        .tournament-content
+            padding: 0px
+
+        .faq-sectiopn .accordion_container .accordion_head span[role="button"],
+        .faq-sectiopn .accordion_container .accordion_head
+            font-size: 16px
+            float: none
+            position: relative
+
+        .faq-sectiopn .accordion_container .accordion_body p
+            font-size: 14px
+
+        .faq-sectiopn .accordion_container .accordion_head span
+            margin-right: 20px
+            position: relative
+            float: left
+            height: 36px
+
+        .faq-sectiopn .accordion_container .accordion_head span.plusminus
+            margin: 0px
+            height: auto
+            position: absolute
+            right: 0
+            top: 0
+
+        .faq-sectiopn .accordion_container .tabcard
+            margin-bottom: 20px
+
+        .testimonialimage
+            width: 100%
+            height: 400px
+            background-size: 340px
+            z-index: -1
+
+        .foot-column
+            flex-wrap: wrap
+
+        .foot-column .foolink,
+        .foot-column .footsocial,
+        .foot-column .foot-contant,
+        .foot-column .footlogo
+            width: 100%
+            margin-bottom: 25px
+
+        .foot-column .footlogo img
+            width: 30%
+            margin: 0 auto
+            display: block
     
-    .foot-column .footlogo
-        width: 100%
-        margin-bottom: 25px
+    @media only screen and (min-width: 768px) and (max-width: 992px)
+        .navbar-inverse .navbar-nav > li > a
+            padding: 10px 23px
 
-    .foot-column .footlogo img
-        width: 30%
-        margin: 0 auto
-        display: block
+        .social-sec > li > a
+            padding: 10px 18px
 
-    .container
-        box-sizing: border-box
-        padding: 0 15px
+    @media (max-width: 767px)
+        .navbar-nav
+            float: left
+            text-align: left
+            padding: 0
+            margin: 0
 
-    .desktopview
-        display: none !important
+        .navbar-nav li
+            display: block
 
-    .mobileview
-        display: block !important
+        .navbar-toggle
+            border-color: #333
+            background-color: #333
 
-    .header-wraper
-        justify-content: space-between
+        .main-body
+            margin-top: 120px
 
-    .columnhalf
-        width: 54%
+        .navbar-inverse.my-nav
+            top: 70px
 
-    .tournament-content
-        padding-left: 2em
-        top: -2em
+        .navbar-inverse .navbar-nav > li > a
+            display: block
+            color: #fff
 
-    .testimonialimage
-        width: 100%
-        height: 400px
-        background-size: 340px
-        z-index: -1
-        top: -73px
-        opacity: 0.5
+        .navbar-inverse .navbar-nav > li > a:hover
+            background: #fff
+            color: #000
 
-    .foot-column h3,
-    .foot-column .foolink ul.footnav li
-        text-align: left
+        .ads
+            margin: 0
+            width: 100%
+            left: 0
+            right: 0
 
-@media screen and (max-width: 767px)
-    .foot-column .footsocial h3,
-    .foot-column .footsocial
-        text-align: center
+        .ad-text
+            margin: 0
 
-    .foot-column h3,
-    .foot-column .foolink ul.footnav li
-        text-align: left
+        .full-wid
+            width: 100%
+            margin: 0
+            padding: 0
 
-    .joinsection
-        padding: 19em 0
+        .container .navbar-header
+            background: #333
+            margin-right: 0 !important
+            margin-left: 0 !important
 
-    header.headermain
-        z-index: 999999
+        .container > .navbar-collapse
+            background: #333
+            margin-right: 0px
 
-    .joinsection,
-    .bannersection
-        position: relative
+        .heading2
+            font-size: 24px
 
-    .joinsection:after,
-    .bannersection:after
-        content: ""
-        background: rgba(0, 0, 0, 0.4)
-        position: absolute
-        top: 0
-        left: 0
-        height: 100%
-        width: 100%
+        .res-row
+            margin-left: 0 !important
+            margin-right: 0 !important
 
-    .joinsection .container,
-    .bannersection .container
-        z-index: 99
-        position: relative
+        .send-btn
+            width: 130px
+            margin: 13px auto 0
+            display: block
 
-    .joinsection
-        background-position: center
-        background-attachment: fixed
-
-    .container
-        box-sizing: border-box
-        padding: 0 15px
-
-    .columnhalf
-        width: 100%
-
-    .onethird
-        width: 100%
-
-    .joinsection h2,
-    .section-title,
-    .bannersection h2
-        font-size: 36px
-        line-height: 38px
-        margin-bottom: 20px
-
-    .tournament-content
-        padding: 0px
-
-    .faq-sectiopn .accordion_container .accordion_head span[role="button"],
-    .faq-sectiopn .accordion_container .accordion_head
-        font-size: 16px
-        float: none
-        position: relative
-
-    .faq-sectiopn .accordion_container .accordion_body p
-        font-size: 14px
-
-    .faq-sectiopn .accordion_container .accordion_head span
-        margin-right: 20px
-        position: relative
-        float: left
-        height: 36px
-
-    .faq-sectiopn .accordion_container .accordion_head span.plusminus
-        margin: 0px
-        height: auto
-        position: absolute
-        right: 0
-        top: 0
-
-    .faq-sectiopn .accordion_container .tabcard
-        margin-bottom: 20px
-
-    .testimonialimage
-        width: 100%
-        height: 400px
-        background-size: 340px
-        z-index: -1
-
-    .foot-column
-        flex-wrap: wrap
-
-    .foot-column .foolink,
-    .foot-column .footsocial,
-    .foot-column .foot-contant,
-    .foot-column .footlogo
-        width: 100%
-        margin-bottom: 25px
-
-    .foot-column .footlogo img
-        width: 30%
-        margin: 0 auto
-        display: block
+        .social-sec > li > a
+            padding: 5px 7px

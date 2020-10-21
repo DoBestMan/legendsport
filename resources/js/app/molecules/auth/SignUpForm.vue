@@ -282,7 +282,7 @@ export default Vue.extend({
                     dob: this.year + "-" + this.month + "-" + this.day,
                 });
                 this.$stock.dispatch("user/reload");
-                this.$router.push("/");
+                this.$router.push("/lobby");
             } catch (e) {
                 this.$toast.error((e as AxiosError).response?.data.message);
                 this.errors = (e as AxiosError).response?.data.errors ?? {};
