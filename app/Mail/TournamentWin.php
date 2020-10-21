@@ -31,6 +31,10 @@ class TournamentWin extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->view('emails.tournament-win')
+            ->with('name', $this->name)
+            ->with('tournamentName', $this->tournamentName)
+            ->with('rank', $this->rank)
+            ->with('amount', $this->amount);
     }
 }
