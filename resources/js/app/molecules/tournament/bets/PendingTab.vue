@@ -18,8 +18,14 @@
                         </div>
                         <div class="bet__details__content">
                             <div class="bet__details__content__title">
-                                {{ betEvent.scoreHome }} {{ betEvent.teamHome }} - {{ betEvent.scoreAway }} {{ betEvent.teamAway }}
-                                <span style="padding-left: 5px;" v-if="isGameEnded(betEvent.externalId)"> F </span>
+                                {{ betEvent.teamHome }} {{ betEvent.scoreHome }} -
+                                {{ betEvent.teamAway }} {{ betEvent.scoreAway }}
+                                <span
+                                    style="padding-left: 5px;"
+                                    v-if="isGameEnded(betEvent.externalId)"
+                                >
+                                    F
+                                </span>
                             </div>
                             <div class="bet__details__content__subtitle">
                                 {{ betEvent.startsAt | toDateTime }}
@@ -67,7 +73,6 @@ import { Game, GameState } from "../../../types/game";
 import BetContent from "./BetContent.vue";
 import { User } from "../../../../general/types/user";
 
-
 export default Vue.extend({
     name: "PendingTab",
     components: { BetContent, SpinnerBox },
@@ -110,7 +115,6 @@ export default Vue.extend({
             }
             return false;
         },
-
     },
 });
 </script>

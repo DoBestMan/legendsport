@@ -13,6 +13,8 @@
                         {{ prize.username }}
                     </div>
                 </div>
+            </div>
+            <div class="rank__content">
                 <div class="rank__content__coins">
                     {{ prize.prize | formatCurrency }}
                 </div>

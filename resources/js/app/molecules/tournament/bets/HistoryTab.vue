@@ -36,8 +36,8 @@
                     <div class="bet__details">
                         <div class="bet__details__content">
                             <div class="bet__details__content__title">
-                                {{ event.scoreHome }} {{ event.teamHome }} - {{ event.scoreAway }}
-                                {{ event.teamAway }}
+                                {{ event.teamHome }} {{ event.scoreHome }} - {{ event.teamAway }}
+                                {{ event.scoreAway }}
                             </div>
                             <div class="bet__details__content__subtitle">
                                 {{ event.startsAt | toDateTime }}
