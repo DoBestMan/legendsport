@@ -8,8 +8,8 @@
                     </div>
                     <div class="navigations">
                         <ul class="nav desktopview">
-                            <li><a class=" " href="#">How To Play </a></li>
-                            <li><a class=" " href="#">Reviews</a></li>
+                            <li><a href="/#how-to-play">How To Play </a></li>
+                            <li><a href="/#reviews">Reviews</a></li>
                             <li><router-link to="/about">About</router-link></li>
                         </ul>
 
@@ -18,8 +18,8 @@
                                 &times;
                             </a>
                             <ul class="nav ">
-                                <li><a class=" " href="#">How To Play</a></li>
-                                <li><a class=" " href="#">Reviews</a></li>
+                                <li><a href="/#how-to-play">How To Play</a></li>
+                                <li><a href="/#reviews">Reviews</a></li>
                                 <li><router-link to="/about">About</router-link></li>
                             </ul>
                             <div class="join-buton">

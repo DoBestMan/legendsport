@@ -186,7 +186,7 @@ export default Vue.extend({
         selectWindowTabs(window_id: number) {
             if (window_id === -1) {
                 this.$stock.commit("window/toggleWindow", window_id);
-                this.$router.push("/");
+                this.$router.push("/lobby");
             } else {
                 this.$stock.commit("window/toggleWindow", window_id);
                 this.$router.push(`/tournaments/${window_id}`);

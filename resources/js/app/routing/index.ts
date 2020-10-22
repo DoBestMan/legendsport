@@ -36,7 +36,7 @@ export const createRouter = (): VueRouter => {
             meta: { layout: [NavBar, WindowBar] },
         },
         { path: "/history", component: HistoryView, meta: { layout: [NavBar] } },
-        { path: "/about", component: AboutView, meta: { layout: [NavBar] } },
+        { path: "/about", component: AboutView, meta: { layout: [NewNavBar] } },
         { path: "/soon", component: SoonView },
         { path: "/support", component: SupportView, meta: { layout: [NavBar] } },
         { path: "/cashier", component: CashierView, meta: { layout: [NavBar] } },

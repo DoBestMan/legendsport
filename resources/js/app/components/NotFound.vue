@@ -4,7 +4,8 @@
         <h2 class="h3 mb-4">Page Not Found</h2>
         <p class="text-muted">
             It seems we can’t find the page you are looking for.
-            <router-link to="/" class="font-weight-medium" exact> Go Back To Homepage </router-link
+            <router-link to="/lobby" class="font-weight-medium" exact>
+                Go Back To Homepage </router-link
             ><br />
         </p>
     </div>

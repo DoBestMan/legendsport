@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <div class="how-sectiopn">
+        <div class="how-sectiopn" id="how-to-play">
             <div class="container">
                 <h2 class="section-title">How To Play</h2>
                 <div class="column" style="align-items: unset;">
@@ -61,6 +61,7 @@
                     <div class="onethird">
                         <div class="palyimg"><img src="assets/i/howimg.png" /></div>
                     </div>
+
                     <div class="onethird" style="margin-top: 150px;">
                         <div class="play-steps">
                             <h4>Step 5</h4>
@@ -128,7 +129,7 @@
             </div>
         </div>
 
-        <div class="testimonial-section">
+        <div class="testimonial-section" id="reviews">
             <div class="testimonialimage"></div>
             <div class="container" style="cursor: pointer;">
                 <h2 class="section-title">Testimonials</h2>
@@ -159,6 +160,17 @@
                     <div class="item">
                         <div class="testicontent">
                             <div class="quote-icon"></div>
+                            <p>
+                                Having the chips update automatically has really changed the game. I
+                                have been sports betting for years but having additional competition
+                                raises the stakes and the winning potential.
+                            </p>
+                            <span class="author">- ADonaldRams</span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="testicontent">
+                            <div class="quote-icon"></div>
                             <p>Legends is Free to enter and gives away $$.  Cant beat that!</p>
                             <span class="author">- Wolfofwall122</span>
                         </div>
@@ -167,31 +179,11 @@
                         <div class="testicontent">
                             <div class="quote-icon"></div>
                             <p>
-                                Playing on Legends is the best. I not only get to play all the games
-                                I want, but I also get to compete against my buddies at the same
-                                time and win FREE MONEY.
-                            </p>
-                            <span class="author">- Stevebalt05</span>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="testicontent">
-                            <div class="quote-icon"></div>
-                            <p>
                                 I cant stop playing just so focused on watching the games and seeing
-                                myself move higher on the rankings. Can’t stop won’t stop.
+                                myself move higher on the rankings. High placement on the rankings
+                                means I can win cash.
                             </p>
                             <span class="author">- BroncosNation</span>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="testicontent">
-                            <div class="quote-icon"></div>
-                            <p>
-                                This tournament style has made me an overall better gambler hands
-                                down.
-                            </p>
-                            <span class="author">- MLBDon65</span>
                         </div>
                     </div>
                     <div class="item">
@@ -202,6 +194,57 @@
                                 game for a myriad of reasons. Changed the game.
                             </p>
                             <span class="author">- AllSports99</span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="testicontent">
+                            <div class="quote-icon"></div>
+                            <p>
+                                The combination of different lines makes it so you can diversify you
+                                bets from aggressive to passive. At some point though, you have to
+                                go for high stakes wagers to win.
+                            </p>
+                            <span class="author">- RowtheboatMN</span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="testicontent">
+                            <div class="quote-icon"></div>
+                            <p>
+                                I won $850 so far playing for free. Highly recommend.
+                            </p>
+                            <span class="author">- Wolfofwallst</span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="testicontent">
+                            <div class="quote-icon"></div>
+                            <p>
+                                Tournament style just crushed regular straight wagers. Not even
+                                close.
+                            </p>
+                            <span class="author">- Jamal49ers</span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="testicontent">
+                            <div class="quote-icon"></div>
+                            <p>
+                                I would rather bet on the teams in a. tournament style than the
+                                players. Offers greater intrigue to the end rather than singular
+                                focus on a player.
+                            </p>
+                            <span class="author">- SteveBalt1999</span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="testicontent">
+                            <div class="quote-icon"></div>
+                            <p>
+                                All you have to do is hit a couple of big parlays and you can win
+                                free cash. Almost won a grand playing for free.
+                            </p>
+                            <span class="author">- rememberTitans</span>
                         </div>
                     </div>
                 </carousel>
@@ -217,16 +260,23 @@
                     <div class="foolink">
                         <h3>Quick Links</h3>
                         <ul class="footnav">
-                            <li><a href="#">How To Play</a></li>
-                            <li><a href="#">Terms & Conditions</a></li>
-                            <li><a href="#">Reviews</a></li>
-                            <li><a href="#">Legal</a></li>
+                            <li><a href="/#how-to-play">How To Play</a></li>
+                            <li>
+                                <a href="assets/LegendsBet_TermsOfService.pdf" target="_blank"
+                                    >Terms & Conditions</a
+                                >
+                            </li>
+                            <li><a href="/#reviews">Reviews</a></li>
                             <li><a href="/about">About</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
+                            <li>
+                                <a href="assets/LegendsBet_PrivacyPolicy.pdf" target="_blank"
+                                    >Privacy Policy</a
+                                >
+                            </li>
                         </ul>
                     </div>
                     <div class="foot-contant">
-                        <h3>Contact</h3>
+                        <h3>Contact Us</h3>
                         <p>2700 N Military Trail<br />Boca Raton, FL 33431</p>
                         <p>support@legendsbet.com</p>
                     </div>
@@ -238,17 +288,17 @@
                                     href="https://www.facebook.com/LegendsBet-113424260484677/"
                                     target="_blank"
                                 >
-                                    <img src="assets/i/facebook.png" />
+                                    <img src="assets/i/FB.png" />
                                 </a>
                             </li>
                             <li>
                                 <a href="https://twitter.com/PlayLegendsBet" target="_blank">
-                                    <img src="assets/i/twitter.png" />
+                                    <img src="assets/i/Twitt.png" />
                                 </a>
                             </li>
                             <li>
                                 <a href="https://www.instagram.com/playlegendsbet/" target="_blank">
-                                    <img src="assets/i/instagram.png" />
+                                    <img src="assets/i/IG.png" />
                                 </a>
                             </li>
                             <li>
@@ -256,17 +306,23 @@
                                     href="https://www.linkedin.com/company/legendsbet"
                                     target="_blank"
                                 >
-                                    <img src="assets/i/linkedin.png" />
+                                    <img src="assets/i/IN.png" />
                                 </a>
                             </li>
                             <li>
-                                <a href="#" target="_blank">
-                                    <img src="assets/i/tiktok.jpg" height="20" width="20" />
+                                <a
+                                    href="https://www.tiktok.com/@playlegendsbet?lang=en"
+                                    target="_blank"
+                                >
+                                    <img src="assets/i/tiktok.png" />
                                 </a>
                             </li>
                             <li>
-                                <a href="#" target="_blank">
-                                    <img src="assets/i/you.jpg" height="20" width="20" />
+                                <a
+                                    href="https://www.youtube.com/channel/UCteiraCqy3kI2k56od0qoeA"
+                                    target="_blank"
+                                >
+                                    <img src="assets/i/YT.png" />
                                 </a>
                             </li>
                         </ul>
@@ -422,10 +478,7 @@ export default {
                 {
                     id: "16",
                     title: " Do you have a terms of service?",
-                    body:
-                        "Yes, please see the terms of service here.\n" +
-                        "\n" +
-                        "*Rules apply for the specific tournament",
+                    body: "Yes, please see the terms of service here.",
                     isActive: false,
                 },
             ];

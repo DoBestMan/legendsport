@@ -78,7 +78,7 @@ export default Vue.extend({
         setInterval(() => {
             this.activeImageUrlId += 1;
             if (this.activeImageUrlId === 4) this.activeImageUrlId = 0;
-        }, 15000);
+        }, 10000);
     },
 
     computed: {

@@ -41,8 +41,6 @@
                 <div class="seperator"></div>
                 <div class="paragraph paragraph--small">
                     Don’t have an account?
-                    <!-- <a href="/signup" class="link">Join Us</a>
-                    <a href="/" class="link link--back">Back</a> -->
                     <router-link class="link" to="/signup">Join Us</router-link>
                     <router-link class="link link--back" to="/">Back</router-link>
                 </div>

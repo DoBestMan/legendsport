@@ -197,7 +197,7 @@ export default Vue.extend({
 
     methods: {
         goToHome(): void {
-            this.$router.push("/");
+            this.$router.push("/lobby");
         },
 
         handleEditProfile(): void {
