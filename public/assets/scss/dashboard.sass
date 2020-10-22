@@ -325,16 +325,13 @@
         background: none !important
         border: none !important
 
-    .testimonial-section .owl-nav .owl-prev
-        background: url(../i/active-left_arrow.png)
-
     .testimonial-section .owl-nav .owl-prev:after,
     .testimonial-section .owl-nav button.owl-prev:after
-        background: url(../i/active-left_arrow.png)
+        content: url(../i/active-left_arrow.png)
 
     .testimonial-section .owl-nav .owl-next:after,
     .testimonial-section .owl-nav button.owl-next:after
-        background: url(../i/active-right_arrow.png)
+        content: url(../i/active-right_arrow.png)
 
     footer.main-footer
         padding: 40px 0 0
@@ -592,7 +589,6 @@
 
         .joinsection
             background-position: center
-            background-attachment: fixed
 
         .container
             box-sizing: border-box
@@ -659,6 +655,13 @@
             width: 30%
             margin: 0 auto
             display: block
+
+    @media only screen and (min-width: 768px)
+        .onethird-left
+            margin-top: 150px
+        
+        .onethird-right
+            margin-top: 150px
     
     @media only screen and (min-width: 768px) and (max-width: 992px)
         .navbar-inverse .navbar-nav > li > a

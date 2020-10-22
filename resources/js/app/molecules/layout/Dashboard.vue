@@ -30,7 +30,7 @@
             <div class="container">
                 <h2 class="section-title">How To Play</h2>
                 <div class="column" style="align-items: unset;">
-                    <div class="onethird" style="margin-top: 150px;">
+                    <div class="onethird onethird-left">
                         <div class="play-steps">
                             <h4>Step 1</h4>
                             <p>
@@ -62,7 +62,7 @@
                         <div class="palyimg"><img src="assets/i/howimg.png" /></div>
                     </div>
 
-                    <div class="onethird" style="margin-top: 150px;">
+                    <div class="onethird onethird-right">
                         <div class="play-steps">
                             <h4>Step 5</h4>
                             <p>
@@ -105,7 +105,12 @@
                                         <span>{{ faq.id }}</span
                                         >{{ faq.title }}</span
                                     >
-                                    <span class="plusminus">{{ faq.isActive ? "-" : "+" }}</span>
+                                    <span
+                                        class="plusminus"
+                                        @click="changeSign(faq.id)"
+                                        v-b-toggle="'collapse-' + faq.id"
+                                        >{{ faq.isActive ? "-" : "+" }}</span
+                                    >
                                 </div>
                                 <b-collapse
                                     visible
@@ -146,6 +151,7 @@
                     :items="3"
                     :loop="true"
                 >
+                    <div slot="prev"><span class="prev" style="color: white;">prev</span></div>
                     <div class="item">
                         <div class="testicontent">
                             <div class="quote-icon"></div>
@@ -247,6 +253,7 @@
                             <span class="author">- rememberTitans</span>
                         </div>
                     </div>
+                    <div slot="prev"><span class="prev" style="color: white;">prev</span></div>
                 </carousel>
             </div>
         </div>
@@ -278,7 +285,9 @@
                     <div class="foot-contant">
                         <h3>Contact Us</h3>
                         <p>2700 N Military Trail<br />Boca Raton, FL 33431</p>
-                        <p>support@legendsbet.com</p>
+                        <a href="mailto:support@legendsbet.com" target="_blank"
+                            >support@legendsbet.com</a
+                        >
                     </div>
                     <div class="footsocial">
                         <h3>Follow Us on Social Media</h3>
