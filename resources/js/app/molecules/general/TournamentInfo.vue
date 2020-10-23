@@ -135,7 +135,7 @@ export default Vue.extend({
         },
 
         liveBetting(): string {
-            return this.tournament?.liveLines ? 'On Selected Events' : 'No';
+            return this.tournament?.liveLines ? "On Selected Events" : "No";
         },
 
         isRegistered(): boolean {
@@ -153,7 +153,7 @@ export default Vue.extend({
         },
 
         goToHome() {
-            this.$router.push("/");
+            this.$router.push("/lobby");
         },
 
         getSportName(sportId: string): string {

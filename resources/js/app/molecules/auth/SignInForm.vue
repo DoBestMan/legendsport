@@ -41,8 +41,8 @@
                 <div class="seperator"></div>
                 <div class="paragraph paragraph--small">
                     Don’t have an account?
-                    <a href="/signup" class="link">Join Us</a>
-                    <a href="/" class="link link--back">Back</a>
+                    <router-link class="link" to="/signup">Join Us</router-link>
+                    <router-link class="link link--back" to="/">Back</router-link>
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@ export default Vue.extend({
                 });
                 this.$stock.dispatch("tournamentHistoryList/load");
                 this.$stock.dispatch("user/reload");
-                this.$router.push("/");
+                this.$router.push("/lobby");
             } catch (e) {
                 this.$toast.error((e as AxiosError).response?.data.message);
                 this.errors = (e as AxiosError).response?.data.errors ?? {};

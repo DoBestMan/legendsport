@@ -224,7 +224,8 @@ export default Vue.extend({
                 game =>
                     (empty(this.window.selectedSportIds) ||
                         this.window.selectedSportIds.includes(game.sportId)) &&
-                    (game.timeStatus === GameState.NotStarted || (this.tournament.liveLines && game.timeStatus === GameState.InPlay)),
+                    (game.timeStatus === GameState.NotStarted ||
+                        (this.tournament.liveLines && game.timeStatus === GameState.InPlay)),
             );
             return groupBy(filteredGames, game => game.startsAt);
         },
@@ -308,7 +309,7 @@ export default Vue.extend({
         },
 
         goToHome(): void {
-            this.$router.push("/");
+            this.$router.push("/lobby");
         },
 
         goToBetSlip(): void {

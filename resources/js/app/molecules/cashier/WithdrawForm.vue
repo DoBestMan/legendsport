@@ -58,7 +58,7 @@ export default Vue.extend({
                     amount: this.amount,
                     btcAddress: this.btcAddress,
                 });
-                this.$router.push("/");
+                this.$router.push("/lobby");
                 this.$toast.info("Your withdrawal has been queued for processing");
             } catch (e) {
                 this.$toast.error((e as AxiosError).response?.data.message);

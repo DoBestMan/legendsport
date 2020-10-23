@@ -214,8 +214,8 @@
                 </form>
                 <div class="paragraph paragraph--small">
                     Already have an account?
-                    <a href="/login" class="link">Log in</a>
-                    <a href="/" class="link link--back">Back</a>
+                    <router-link class="link" to="/login">Log in</router-link>
+                    <router-link class="link link--back" to="/">Back</router-link>
                 </div>
                 <div class="seperator"></div>
                 <div class="paragraph paragraph--tiny">
@@ -280,7 +280,7 @@ export default Vue.extend({
                     dob: this.year + "-" + this.month + "-" + this.day,
                 });
                 this.$stock.dispatch("user/reload");
-                this.$router.push("/");
+                this.$router.push("/lobby");
             } catch (e) {
                 this.$toast.error((e as AxiosError).response?.data.message);
                 this.errors = (e as AxiosError).response?.data.errors ?? {};
