@@ -268,18 +268,10 @@
                         <h3>Quick Links</h3>
                         <ul class="footnav">
                             <li><a href="/#how-to-play">How To Play</a></li>
-                            <li>
-                                <a href="assets/LegendsBet_TermsOfService.pdf" target="_blank"
-                                    >Terms & Conditions</a
-                                >
-                            </li>
+                            <li><a href="/terms-of-service">Terms & Conditions</a></li>
                             <li><a href="/#reviews">Reviews</a></li>
                             <li><a href="/about">About</a></li>
-                            <li>
-                                <a href="assets/LegendsBet_PrivacyPolicy.pdf" target="_blank"
-                                    >Privacy Policy</a
-                                >
-                            </li>
+                            <li><a href="/privacy-policy">Privacy Policy</a></li>
                         </ul>
                     </div>
                     <div class="foot-contant">

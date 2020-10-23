@@ -21,6 +21,8 @@ import PaypalMobileForm from "../molecules/cashier/PaypalMobileForm.vue";
 import MobileInfoSection from "../molecules/tournament/info/MobileInfoSection.vue";
 import Dashboard from "../molecules/layout/Dashboard.vue";
 import NewNavBar from "../molecules/layout/NewNavBar.vue";
+import TermsOfServiceView from "../views/TermsOfService.vue";
+import PrivacyPolicyView from "../views/PrivacyPolicy.vue";
 
 export const createRouter = (): VueRouter => {
     const routes: RouteConfig[] = [
@@ -37,6 +39,8 @@ export const createRouter = (): VueRouter => {
         },
         { path: "/history", component: HistoryView, meta: { layout: [NavBar] } },
         { path: "/about", component: AboutView, meta: { layout: [NewNavBar] } },
+        { path: "/terms-of-service", component: TermsOfServiceView, meta: { layout: [NewNavBar] } },
+        { path: "/privacy-policy", component: PrivacyPolicyView, meta: { layout: [NewNavBar] } },
         { path: "/soon", component: SoonView },
         { path: "/support", component: SupportView, meta: { layout: [NavBar] } },
         { path: "/cashier", component: CashierView, meta: { layout: [NavBar] } },
