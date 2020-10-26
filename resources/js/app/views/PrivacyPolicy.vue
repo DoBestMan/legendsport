@@ -5,7 +5,7 @@
                 <h1 class="title" style="margin-top: 40px; font-size: 32px;">LEGENDS BET</h1>
                 <h1 class="title">Privacy Policy</h1>
                 <h1 class="title">Last Updated: 9/18/2020</h1>
-                <h2 class="subtitle" style="margin-top: 30px;">
+                <h2 class="subtitle" style="margin-top: 30px; color: white !important;">
                     PLEASE READ THIS PRIVACY POLICY CAREFULLY. BY ACCESSING OR USING THE SERVICE,
                     YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTAND, AND AGREE TO BE BOUND BY ALL THE
                     TERMS OF THIS PRIVACY POLICY AND OUR TERMS OF SERVICE. IF YOU DO NOT AGREE TO

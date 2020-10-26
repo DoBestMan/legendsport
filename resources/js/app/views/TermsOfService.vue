@@ -17,7 +17,7 @@
                     Your use of the Service is subject to the terms and conditions set forth in this
                     Terms of Service (the “Terms of Service” or “Terms” or “TOS”).
                 </p>
-                <h2 class="subtitle" style="margin-top: 30px;">
+                <h2 class="subtitle" style="margin-top: 30px; color: white !important;">
                     PLEASE READ THE TERMS OF SERVICE CAREFULLY. BY ACCESSING OR USING ANY PART OF
                     THE SERVICE, YOU ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTAND AND AGREE TO BE
                     BOUND BY ALL THE TERMS OF THIS TOS. IF YOU DO NOT AGREE TO THESE TERMS OF
