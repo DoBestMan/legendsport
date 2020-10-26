@@ -4,7 +4,9 @@
             <div class="container">
                 <div class="column">
                     <div class="columnhalf">
-                        <h2>Do you have what it takes to be a legend?</h2>
+                        <h2 style="font-family: Poppins, sans-sarif !important;">
+                            Do you have what it takes to be a legend?
+                        </h2>
                         <a href="/signup" class="btn-bnner bgtheme">Join Now</a>
                     </div>
                     <div class="columnhalf"></div>
@@ -17,7 +19,12 @@
                 <div class="column">
                     <div class="columnhalf">
                         <div class="tournament-content">
-                            <h2 class="section-title">Join A <br />Tournament</h2>
+                            <h2
+                                class="section-title"
+                                style="font-family: Poppins, sans-sarif !important;"
+                            >
+                                Join A <br />Tournament
+                            </h2>
                             <a href="/signup" class="btn-bnner bgtheme">Join Now</a>
                         </div>
                     </div>
@@ -28,7 +35,9 @@
 
         <div class="how-sectiopn" id="how-to-play">
             <div class="container">
-                <h2 class="section-title">How To Play</h2>
+                <h2 class="section-title" style="font-family: Poppins, sans-sarif !important;">
+                    How To Play
+                </h2>
                 <div class="column" style="align-items: unset;">
                     <div class="onethird onethird-left">
                         <div class="play-steps">
@@ -91,7 +100,9 @@
         <div class="faq-sectiopn">
             <div class="faqlimage"></div>
             <div class="container">
-                <h2 class="section-title">FAQ</h2>
+                <h2 class="section-title" style="font-family: Poppins, sans-sarif !important;">
+                    FAQ
+                </h2>
                 <div class="column">
                     <div class="full">
                         <div class="accordion_container">
@@ -101,6 +112,7 @@
                                         @click="changeSign(faq.id)"
                                         v-b-toggle="'collapse-' + faq.id"
                                         variant="info"
+                                        style="font-family: Poppins, sans-sarif !important;"
                                     >
                                         <span>{{ faq.id }}</span
                                         >{{ faq.title }}</span
@@ -118,7 +130,9 @@
                                     :id="'collapse-' + faq.id"
                                 >
                                     <div class="accordion_body">
-                                        <p>{{ faq.body }}</p>
+                                        <p style="font-family: Poppins, sans-sarif !important;">
+                                            {{ faq.body }}
+                                        </p>
                                     </div>
                                 </b-collapse>
                             </div>
@@ -137,7 +151,9 @@
         <div class="testimonial-section" id="reviews">
             <div class="testimonialimage"></div>
             <div class="container" style="cursor: pointer;">
-                <h2 class="section-title">Testimonials</h2>
+                <h2 class="section-title" style="font-family: Poppins, sans-sarif !important;">
+                    Testimonials
+                </h2>
 
                 <carousel
                     :dots="false"
@@ -155,102 +171,144 @@
                     <div class="item">
                         <div class="testicontent">
                             <div class="quote-icon"></div>
-                            <p>
+                            <p style="font-family: Poppins, sans-sarif !important;">
                                 Since I started playing I have won 4 tournaments and have gotten all
                                 my friends to come play. Its our own game of bragging rights when we
                                 go back to the office the next day.
                             </p>
-                            <span class="author">- MegatronDET</span>
+                            <span
+                                class="author"
+                                style="font-family: Poppins, sans-sarif !important;"
+                                >- MegatronDET</span
+                            >
                         </div>
                     </div>
                     <div class="item">
                         <div class="testicontent">
                             <div class="quote-icon"></div>
-                            <p>
+                            <p style="font-family: Poppins, sans-sarif !important;">
                                 Having the chips update automatically has really changed the game. I
                                 have been sports betting for years but having additional competition
                                 raises the stakes and the winning potential.
                             </p>
-                            <span class="author">- ADonaldRams</span>
+                            <span
+                                class="author"
+                                style="font-family: Poppins, sans-sarif !important;"
+                                >- ADonaldRams</span
+                            >
                         </div>
                     </div>
                     <div class="item">
                         <div class="testicontent">
                             <div class="quote-icon"></div>
-                            <p>Legends is Free to enter and gives away $$.  Cant beat that!</p>
-                            <span class="author">- Wolfofwall122</span>
+                            <p style="font-family: Poppins, sans-sarif !important;">
+                                Legends is Free to enter and gives away $$.  Cant beat that!
+                            </p>
+                            <span
+                                class="author"
+                                style="font-family: Poppins, sans-sarif !important;"
+                                >- Wolfofwall122</span
+                            >
                         </div>
                     </div>
                     <div class="item">
                         <div class="testicontent">
                             <div class="quote-icon"></div>
-                            <p>
+                            <p style="font-family: Poppins, sans-sarif !important;">
                                 I cant stop playing just so focused on watching the games and seeing
                                 myself move higher on the rankings. High placement on the rankings
                                 means I can win cash.
                             </p>
-                            <span class="author">- BroncosNation</span>
+                            <span
+                                class="author"
+                                style="font-family: Poppins, sans-sarif !important;"
+                                >- BroncosNation</span
+                            >
                         </div>
                     </div>
                     <div class="item">
                         <div class="testicontent">
                             <div class="quote-icon"></div>
-                            <p>
+                            <p style="font-family: Poppins, sans-sarif !important;">
                                 The NFL Sunday daily tournament has given me a reason to watch every
                                 game for a myriad of reasons. Changed the game.
                             </p>
-                            <span class="author">- AllSports99</span>
+                            <span
+                                class="author"
+                                style="font-family: Poppins, sans-sarif !important;"
+                                >- AllSports99</span
+                            >
                         </div>
                     </div>
                     <div class="item">
                         <div class="testicontent">
                             <div class="quote-icon"></div>
-                            <p>
+                            <p style="font-family: Poppins, sans-sarif !important;">
                                 The combination of different lines makes it so you can diversify you
                                 bets from aggressive to passive. At some point though, you have to
                                 go for high stakes wagers to win.
                             </p>
-                            <span class="author">- RowtheboatMN</span>
+                            <span
+                                class="author"
+                                style="font-family: Poppins, sans-sarif !important;"
+                                >- RowtheboatMN</span
+                            >
                         </div>
                     </div>
                     <div class="item">
                         <div class="testicontent">
                             <div class="quote-icon"></div>
-                            <p>
+                            <p style="font-family: Poppins, sans-sarif !important;">
                                 I won $850 so far playing for free. Highly recommend.
                             </p>
-                            <span class="author">- Wolfofwallst</span>
+                            <span
+                                class="author"
+                                style="font-family: Poppins, sans-sarif !important;"
+                                >- Wolfofwallst</span
+                            >
                         </div>
                     </div>
                     <div class="item">
                         <div class="testicontent">
                             <div class="quote-icon"></div>
-                            <p>
+                            <p style="font-family: Poppins, sans-sarif !important;">
                                 Tournament style just crushed regular straight wagers. Not even
                                 close.
                             </p>
-                            <span class="author">- Jamal49ers</span>
+                            <span
+                                class="author"
+                                style="font-family: Poppins, sans-sarif !important;"
+                                >- Jamal49ers</span
+                            >
                         </div>
                     </div>
                     <div class="item">
                         <div class="testicontent">
                             <div class="quote-icon"></div>
-                            <p>
+                            <p style="font-family: Poppins, sans-sarif !important;">
                                 I would rather bet on the teams in a. tournament style than the
                                 players. Offers greater intrigue to the end rather than singular
                                 focus on a player.
                             </p>
-                            <span class="author">- SteveBalt1999</span>
+                            <span
+                                class="author"
+                                style="font-family: Poppins, sans-sarif !important;"
+                                >- SteveBalt1999</span
+                            >
                         </div>
                     </div>
                     <div class="item">
                         <div class="testicontent">
                             <div class="quote-icon"></div>
-                            <p>
+                            <p style="font-family: Poppins, sans-sarif !important;">
                                 All you have to do is hit a couple of big parlays and you can win
                                 free cash. Almost won a grand playing for free.
                             </p>
-                            <span class="author">- rememberTitans</span>
+                            <span
+                                class="author"
+                                style="font-family: Poppins, sans-sarif !important;"
+                                >- rememberTitans</span
+                            >
                         </div>
                     </div>
                     <div slot="prev"><span class="prev" style="color: white;">prev</span></div>
@@ -265,32 +323,61 @@
                         <a href="/"><img src="assets/i/footlogo.png"/></a>
                     </div>
                     <div class="foolink">
-                        <h3>Quick Links</h3>
+                        <h3 style="font-family: Poppins, sans-sarif !important;">Quick Links</h3>
                         <ul class="footnav">
-                            <li><a href="/#how-to-play">How To Play</a></li>
                             <li>
-                                <a href="assets/LegendsBet_TermsOfService.pdf" target="_blank"
+                                <a
+                                    href="/#how-to-play"
+                                    style="font-family: Poppins, sans-sarif !important;"
+                                    >How To Play</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="/terms-of-service"
+                                    style="font-family: Poppins, sans-sarif !important;"
                                     >Terms & Conditions</a
                                 >
                             </li>
-                            <li><a href="/#reviews">Reviews</a></li>
-                            <li><a href="/about">About</a></li>
                             <li>
-                                <a href="assets/LegendsBet_PrivacyPolicy.pdf" target="_blank"
+                                <a
+                                    href="/#reviews"
+                                    style="font-family: Poppins, sans-sarif !important;"
+                                    >Reviews</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="/about"
+                                    style="font-family: Poppins, sans-sarif !important;"
+                                    >About</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="/privacy-policy"
+                                    style="font-family: Poppins, sans-sarif !important;"
                                     >Privacy Policy</a
                                 >
                             </li>
                         </ul>
                     </div>
                     <div class="foot-contant">
-                        <h3>Contact Us</h3>
-                        <p>2700 N Military Trail<br />Boca Raton, FL 33431</p>
-                        <a href="mailto:support@legendsbet.com" target="_blank"
+                        <h3 style="font-family: Poppins, sans-sarif !important;">Contact Us</h3>
+                        <p style="font-family: Poppins, sans-sarif !important;">
+                            2700 N Military Trail<br />Boca Raton, FL 33431
+                        </p>
+                        <a
+                            style="font-family: Poppins, sans-sarif !important;"
+                            href="mailto:support@legendsbet.com"
+                            target="_blank"
                             >support@legendsbet.com</a
                         >
                     </div>
                     <div class="footsocial">
-                        <h3>Follow Us on Social Media</h3>
+                        <h3 style="font-family: Poppins, sans-sarif !important;">
+                            Follow Us on Social Media
+                        </h3>
                         <ul class="socila-list">
                             <li>
                                 <a
@@ -339,7 +426,9 @@
                 </div>
 
                 <div class="foot-copy">
-                    <p>&copy; 2020 <span>LegendsBet</span>. All Rights Reserved.</p>
+                    <p style="font-family: Poppins, sans-sarif !important;">
+                        &copy; 2020 <span>LegendsBet</span>. All Rights Reserved.
+                    </p>
                 </div>
             </div>
         </footer>
