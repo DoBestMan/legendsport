@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="layout__center">
-            <div class="layout__center__wrapper">
+            <div class="layout__center__wrapper" style="margin-top: 400px;">
                 <h2 class="subtitle subtitle--light text--center">JOIN OUR COMMUNITY</h2>
                 <form class="form" @submit.prevent="signUp">
                     <div class="form__control m--b--4">

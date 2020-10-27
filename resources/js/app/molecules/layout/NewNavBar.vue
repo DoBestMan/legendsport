@@ -18,12 +18,14 @@
                                 &times;
                             </a>
                             <ul class="nav ">
-                                <li><a href="/#how-to-play">How To Play</a></li>
-                                <li><a href="/#reviews">Reviews</a></li>
+                                <li>
+                                    <a href="/#how-to-play" onclick="closeNav()">How To Play</a>
+                                </li>
+                                <li><a href="/#reviews" onclick="closeNav()">Reviews</a></li>
                                 <li><router-link to="/about">About</router-link></li>
                             </ul>
                             <div class="join-buton">
-                                <router-link class="btn btn-outline" to="/signup">
+                                <router-link class="btn btn-outline" to="/lobby">
                                     Join a Tournament
                                 </router-link>
                                 <router-link class="loginbtn btn-outline" to="/login">
@@ -34,7 +36,7 @@
                     </div>
 
                     <div class="join-buton desktopview">
-                        <router-link class="btn btn-outline" to="/signup">
+                        <router-link class="btn btn-outline" to="/lobby">
                             Join a Tournament
                         </router-link>
                         <router-link class="loginbtn btn-outline" to="/login">

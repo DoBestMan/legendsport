@@ -36,5 +36,4 @@ RUN install-php-extensions decimal pdo_mysql
 USER www-data
 WORKDIR /var/www/html
 
-RUN composer global require hirak/prestissimo
 RUN composer install --no-interaction

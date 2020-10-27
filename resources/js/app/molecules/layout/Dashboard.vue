@@ -7,7 +7,7 @@
                         <h2 style="font-family: Poppins, sans-sarif !important;">
                             Do you have what it takes to be a legend?
                         </h2>
-                        <a href="/signup" class="btn-bnner bgtheme">Join Now</a>
+                        <a href="/lobby" class="btn-bnner bgtheme">Join Now</a>
                     </div>
                     <div class="columnhalf"></div>
                 </div>
@@ -25,7 +25,7 @@
                             >
                                 Join A <br />Tournament
                             </h2>
-                            <a href="/signup" class="btn-bnner bgtheme">Join Now</a>
+                            <a href="/lobby" class="btn-bnner bgtheme">Join Now</a>
                         </div>
                     </div>
                     <div class="columnhalf"></div>
@@ -109,20 +109,21 @@
                             <div class="tabcard" v-for="faq in faqs" :key="faq.id">
                                 <div class="accordion_head">
                                     <span
+                                        style="display: flex; justify-content: space-between;"
                                         @click="changeSign(faq.id)"
                                         v-b-toggle="'collapse-' + faq.id"
-                                        variant="info"
-                                        style="font-family: Poppins, sans-sarif !important;"
                                     >
-                                        <span>{{ faq.id }}</span
-                                        >{{ faq.title }}</span
-                                    >
-                                    <span
-                                        class="plusminus"
-                                        @click="changeSign(faq.id)"
-                                        v-b-toggle="'collapse-' + faq.id"
-                                        >{{ faq.isActive ? "-" : "+" }}</span
-                                    >
+                                        <span
+                                            variant="info"
+                                            style="font-family: Poppins, sans-sarif !important;"
+                                        >
+                                            <span>{{ faq.id }}</span
+                                            >{{ faq.title }}</span
+                                        >
+                                        <span class="plusminus" style="margin-top: -5px;">{{
+                                            faq.isActive ? "-" : "+"
+                                        }}</span>
+                                    </span>
                                 </div>
                                 <b-collapse
                                     visible
