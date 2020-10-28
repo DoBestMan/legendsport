@@ -49,6 +49,10 @@ $router->domain($app)->group(function (Router $router) {
             '/withdraw/btc',
             WithdrawalController::class . '@post'
         );
+
+        $router->post('/me/change-password', MeController::class . '@changePassword');
+        $router->post('/me/change-email', MeController::class . '@changeEmail');
+        $router->post('/me/change-profile', MeController::class . '@changeProfile');
     });
 });
 

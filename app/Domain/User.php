@@ -169,4 +169,24 @@ class User
     {
         $this->balance += $prizeMoney;
     }
+
+    public function updatePassword(string $hash): void
+    {
+        $this->password = $hash;
+        $this->updatedAt = Carbon::now();
+    }
+
+    public function updateEmail(string $email): void
+    {
+        $this->email = $email;
+        $this->updatedAt = Carbon::now();
+    }
+
+    public function updateProfile(string $username, string $firstname, string $lastname): void
+    {
+        $this->name = $username;
+        $this->firstname = $firstname;
+        $this->lastname = $lastname;
+        $this->updatedAt = Carbon::now();
+    }
 }
