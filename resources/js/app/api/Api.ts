@@ -37,6 +37,23 @@ export interface SignUpBody {
     dob: string;
 }
 
+export interface ChangePasswordBody {
+    current_password: string;
+    password: string;
+    password_confirmation: string;
+}
+
+export interface ChangeEmailBody {
+    current_password: string;
+    email: string;
+}
+
+export interface ChangeProfileBody {
+    name: string;
+    firstname: string;
+    lastname: string;
+}
+
 export interface WithdrawBody {
     amount: number | null;
     btcAddress: string;
@@ -78,6 +95,18 @@ export class Api {
 
     public async signUp(body: SignUpBody): Promise<void> {
         await this.axios.post("/api/signup", body);
+    }
+
+    public async changePassword(body: ChangePasswordBody): Promise<void> {
+        await this.axios.post("/api/me/change-password", body);
+    }
+
+    public async changeEmail(body: ChangeEmailBody): Promise<void> {
+        await this.axios.post("/api/me/change-email", body);
+    }
+
+    public async changeProfile(body: ChangeProfileBody): Promise<void> {
+        await this.axios.post("/api/me/change-profile", body);
     }
 
     public async logout(): Promise<void> {
