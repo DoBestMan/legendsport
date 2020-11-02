@@ -1,0 +1,3 @@
+#!/bin/sh
+
+docker-compose exec -u user app php artisan $@

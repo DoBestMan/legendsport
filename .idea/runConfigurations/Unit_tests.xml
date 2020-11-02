@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Unit tests" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+    <CommandLine>
+      <PhpTestInterpreterSettings>
+        <option name="interpreterName" value="app" />
+      </PhpTestInterpreterSettings>
+    </CommandLine>
+    <TestRunner class="Unit\Domain\BetItemTest" configuration_file="$PROJECT_DIR$/phpunit.xml" coverage_engine="PHPDBG" directory="$PROJECT_DIR$/tests/Unit" file="$PROJECT_DIR$/tests/Unit/Domain/BetItemTest.php" method="testGetIdentifier" scope="XML" options="--testsuite Unit" use_alternative_configuration_file="true" />
+    <method v="2" />
+  </configuration>
+</component>
