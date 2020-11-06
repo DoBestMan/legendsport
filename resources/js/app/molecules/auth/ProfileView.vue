@@ -37,24 +37,7 @@
                             </div>
                             <div class="seperator seperator--large seperator--marginless"></div>
                             <div class="profile--card__footer">
-                                <div class="profile--card__footer__row">
-                                    <div class="profile--card__footer__row__label">Full Name</div>
-                                    <div class="profile--card__footer__row__value">
-                                        Miguel Ángel Collazo
-                                    </div>
-                                </div>
-                                <div class="profile--card__footer__row">
-                                    <div class="profile--card__footer__row__label">Nationality</div>
-                                    <div class="profile--card__footer__row__value">
-                                        PR Puerto Rican
-                                    </div>
-                                </div>
-                                <div class="profile--card__footer__row">
-                                    <div class="profile--card__footer__row__label">Residency</div>
-                                    <div class="profile--card__footer__row__value">
-                                        US Denver, CO
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
