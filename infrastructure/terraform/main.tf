@@ -1,11 +1,11 @@
 provider "google" {
-    credentials = file("account.json")
+    credentials = var.gcp_credentials
     project     = "legend-sports-production"
     region      = "us-central1"
 }
 
 provider "google-beta" {
-    credentials = file("account.json")
+    credentials = var.gcp_credentials
     project     = "legend-sports-production"
     region      = "us-central1"
 }

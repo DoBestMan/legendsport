@@ -9,3 +9,7 @@ variable "staging_sql_password" {
 variable "production_sql_password" {
     type = string
 }
+
+variable "gcp_credentials" {
+    type = string
+}
