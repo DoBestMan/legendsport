@@ -1,7 +1,7 @@
 <template>
     <div class="layout">
         <div class="layout__content">
-            <div class="layout__content__about">
+            <div class="layout__content__about" style="margin-top: 100px;">
                 <h1 class="title">Title Here</h1>
                 <h2 class="subtitle">SUBTITLE</h2>
                 <p class="paragraph">
