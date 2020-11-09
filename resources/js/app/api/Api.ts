@@ -1,8 +1,8 @@
 import { AxiosInstance } from "axios";
-import { mapMe, mapOdd, mapTournament } from "./mappings";
+import { mapMe, mapOdd, mapTournament, mapTournamentPlayer } from "./mappings";
 import { Tournament } from "../types/tournament";
 import { Sport } from "../../general/types/sport";
-import { User } from "../../general/types/user";
+import { User, TournamentPlayer } from "../../general/types/user";
 import { PendingOddType } from "../types/window";
 import { Odd } from "../types/odd";
 
@@ -87,6 +87,14 @@ export class Api {
     public async getMe(): Promise<User> {
         const response = await this.axios.get("/api/me");
         return mapMe(response.data);
+    }
+
+    public async getTournamentPlayer(
+        tournamentId: number,
+        playerId: number,
+    ): Promise<TournamentPlayer> {
+        const response = await this.axios.get(`/api/tournament/${tournamentId}/player/${playerId}`);
+        return mapTournamentPlayer(response.data);
     }
 
     public async signIn(body: SignInBody): Promise<void> {

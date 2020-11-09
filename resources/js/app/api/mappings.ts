@@ -1,6 +1,6 @@
 import { Prize, Tournament } from "../types/tournament";
 import { Player } from "../types/player";
-import { User, UserPlayer } from "../../general/types/user";
+import { User, UserPlayer, TournamentPlayer } from "../../general/types/user";
 import { Bet, BetEvent } from "../types/bet";
 import { Odd } from "../types/odd";
 import { Game } from "../types/game";
@@ -59,6 +59,13 @@ export const mapMe = (data: any): User => ({
     token: data.token,
     bets: data.bets.map(mapBet),
     players: data.players.map(mapMePlayer),
+});
+
+export const mapTournamentPlayer = (data: any): TournamentPlayer => ({
+    id: data.id,
+    name: data.name,
+    tournamentId: data.tournamentId,
+    bets: data.bets.map(mapBet),
 });
 
 export const mapMePlayer = (data: any): UserPlayer => ({

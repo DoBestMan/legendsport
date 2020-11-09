@@ -130,4 +130,53 @@ class TournamentPlayerTest extends TestCase
 
         self::assertEquals(50, $sut->getChips());
     }
+
+    public function testSortedBetsByWin()
+    {
+        $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
+        $tournament = new Tournament();
+        FactoryAbstract::setProperty($tournament, 'id', 1);
+        FactoryAbstract::setProperty($tournament, 'chips', 500);
+        $tournament->registerPlayer($user);
+
+        $sut = $user->getTournamentPlayer($tournament);
+
+        $bet_won = $this->createMock(TournamentBet::class);
+        $bet_won->expects($this->any())->method('getStatus')->willReturn(BetStatus::WIN());
+        $bet_won->expects($this->any())->method('getChipsWager')->willReturn(50);
+        $bet_won->expects($this->any())->method('getChipsWon')->willReturn(100);
+        $bet_won->expects($this->any())->method('getActualChipsWon')->willReturn(100);
+
+        $bet_lost = $this->createMock(TournamentBet::class);
+        $bet_lost->expects($this->any())->method('getStatus')->willReturn(BetStatus::LOSS());
+        $bet_lost->expects($this->any())->method('getChipsWager')->willReturn(150);
+        $bet_lost->expects($this->any())->method('getChipsWon')->willReturn(300);
+        $bet_lost->expects($this->any())->method('getActualChipsWon')->willReturn(-150);
+
+        $bet_push = $this->createMock(TournamentBet::class);
+        $bet_push->expects($this->any())->method('getStatus')->willReturn(BetStatus::PUSH());
+        $bet_push->expects($this->any())->method('getChipsWager')->willReturn(100);
+        $bet_push->expects($this->any())->method('getActualChipsWon')->willReturn(0);
+
+        $sut->betPlaced($bet_lost);
+        $sut->betPlaced($bet_won);
+        $sut->betPlaced($bet_push);
+
+        $bets = $sut->getSortedBetsByWin();
+        $i = -1;
+        foreach ($bets as $betItem) {
+            $i++;
+            switch($i) {
+                case 0: 
+                    self::assertEquals(BetStatus::WIN(), $betItem->getStatus());
+                    break;
+                case 1:
+                    self::assertEquals(BetStatus::PUSH(), $betItem->getStatus());
+                    break;
+                case 2:
+                    self::assertEquals(BetStatus::LOSS(), $betItem->getStatus());
+                    break;
+            }
+        } 
+    }
 }

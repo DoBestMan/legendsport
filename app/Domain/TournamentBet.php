@@ -146,4 +146,22 @@ class TournamentBet
     {
         return intval(($this->getReducedDecimalOdds() - 1) * $this->chipsWager);
     }
+
+    public function getActualChipsWon(): int
+    {
+        $betStatus = $this->getStatus();
+        $actualChipsWon = 0;
+        if ($betStatus->equals(BetStatus::LOSS()))
+        {
+            $actualChipsWon = -($this->getChipsWager());
+        }
+        elseif ($betStatus->equals(BetStatus::PUSH())) {
+            $actualChipsWon = 0;
+        }
+        else
+        {
+            $actualChipsWon = $this->getChipsWon();
+        }
+        return $actualChipsWon;
+    }
 }

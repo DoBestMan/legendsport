@@ -3,6 +3,7 @@
 namespace App\Domain;
 
 use App\Tournament\Enums\BetStatus;
+use App\Tournament\Enums\PendingOddType;
 use Carbon\Carbon;
 use Decimal\Decimal;
 use Doctrine\ORM\Mapping as ORM;
@@ -159,5 +160,23 @@ abstract class TournamentBetEvent
     public function isPush(): bool
     {
         return $this->status->equals(BetStatus::PUSH());
+    }
+
+    abstract protected function getType(): string;
+
+    public function getSelectedTeam(): ?string
+    {
+        switch ($this->getType()) {
+            case PendingOddType::MONEY_LINE_HOME():
+            case PendingOddType::SPREAD_HOME():
+                return $this->tournamentEvent->getApiEvent()->getTeamHome();
+
+            case PendingOddType::MONEY_LINE_AWAY():
+            case PendingOddType::SPREAD_AWAY():
+                return $this->tournamentEvent->getApiEvent()->getTeamAway();
+
+            default:
+                return null;
+            }
     }
 }

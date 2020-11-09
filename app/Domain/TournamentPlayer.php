@@ -64,6 +64,11 @@ class TournamentPlayer
         return $this->user;
     }
 
+    public function getBets(): Collection
+    {
+        return $this->bets;
+    }
+
     public function getId(): int
     {
         return $this->id;
@@ -127,5 +132,13 @@ class TournamentPlayer
         $lostChips = array_reduce($lostBets, fn (int $chips, TournamentBet $bet) => $chips + $bet->getChipsWager(), 0);
 
         $this->chips = $this->tournament->getChips() - $lostChips - $pendingChips + $wonChips;
+    }
+    public function getSortedBetsByWin(): Collection
+    {
+        $iterator = $this->getBets()->getIterator();
+        $iterator -> uasort(function (TournamentBet $a, TournamentBet $b) {
+            return -$a->getActualChipsWon() <=> -$b->getActualChipsWon();
+        });
+        return new ArrayCollection(iterator_to_array($iterator));
     }
 }

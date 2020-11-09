@@ -33,6 +33,7 @@
         <TournamentRankTable
             v-if="isTournamentInfoSelected(TournamentInfoTab.Ranks)"
             :players="players"
+            :tournamentId="tournament.id"
         />
         <PrizePool
             v-if="isTournamentInfoSelected(TournamentInfoTab.Prizes)"

@@ -8,8 +8,10 @@ use App\Http\Controllers\App\Api\SportCollection;
 use App\Http\Controllers\App\Api\TournamentBetParlayController;
 use App\Http\Controllers\App\Api\TournamentBetStraightController;
 use App\Http\Controllers\App\Api\TournamentCollection;
+use App\Http\Controllers\App\Api\TournamentPlayerController;
 use App\Http\Controllers\App\Api\TournamentHistoryCollection;
 use App\Http\Controllers\App\Api\TournamentRegisterController;
+use App\Http\Controllers\App\Api\TournamentPlayerBetCollection;
 use App\Http\Controllers\App\Api\WithdrawalController;
 use App\Http\Controllers\Backstage\Api\EventCollection;
 use Illuminate\Routing\Router;
@@ -30,6 +32,8 @@ $router->domain($app)->group(function (Router $router) {
     $router->middleware('auth')->group(function (Router $router) {
         $router->post('/logout', AppSignInController::class . '@logout');
         $router->get('/me', MeController::class . '@get');
+        $router->get('/tournament/{tournamentId}/player/{playerId}', TournamentPlayerBetCollection::class . '@get');
+        $router->get('/player/{playerId}', TournamentPlayerController::class . '@get');
         $router->get('/history', TournamentHistoryCollection::class . '@get');
 
         $router->post(

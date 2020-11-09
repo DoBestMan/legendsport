@@ -8,4 +8,9 @@ class FactoryAbstract
     {
         (fn() => $event->{$property} = $value)->bindTo($event, get_class($event))();
     }
+
+    public static function setParentProperty($event, $property, $value): void
+    {
+        (fn() => $event->{$property} = $value)->bindTo($event, get_parent_class($event))();
+    }
 }

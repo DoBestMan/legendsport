@@ -10,6 +10,7 @@ import user from "./modules/user";
 import tournamentList from "./modules/tournamentList";
 import tournamentHistoryList from "./modules/tournamentHistoryList";
 import windowModule from "./modules/window";
+import playerBetInfo from "./modules/playerBetInfo";
 import { Api } from "../api/Api";
 import { RootState } from "./types";
 
@@ -33,6 +34,7 @@ export const createStore = (): Store<RootState> => {
             sport,
             tournamentList,
             tournamentHistoryList,
+            playerBetInfo,
             user,
             window: windowModule,
         },

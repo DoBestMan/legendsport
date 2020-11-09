@@ -31,6 +31,10 @@ class AdminTableSeeder extends Seeder
                 "name" => "andres",
                 "password" => Hash::make("andres12345"),
             ],
+            [
+                "name" => "jordan",
+                "password" => Hash::make("jordan12345"),
+            ],
         ]);
 
         factory(User::class)->createMany([

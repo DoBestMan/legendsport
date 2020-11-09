@@ -15,3 +15,10 @@ export interface User {
     bets: Bet[];
     players: UserPlayer[];
 }
+
+export interface TournamentPlayer {
+    id: number;
+    tournamentId: number;
+    name: string;
+    bets: Bet[];
+}

@@ -4,6 +4,7 @@ namespace App\Domain\BetTypes;
 
 use App\Domain\TournamentBetEvent;
 use App\Tournament\Enums\BetStatus;
+use App\Tournament\Enums\PendingOddType;
 use Doctrine\ORM\Mapping as ORM;
 
 /** @ORM\Entity() */
@@ -30,5 +31,9 @@ class SpreadHome extends TournamentBetEvent
         }
 
         return $this->result(BetStatus::LOSS());
+    }
+
+    public function getType(): string {
+        return PendingOddType::SPREAD_HOME();
     }
 }
