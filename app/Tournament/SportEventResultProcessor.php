@@ -2,7 +2,7 @@
 namespace App\Tournament;
 
 use App\Jobs\Tournaments\CheckForTournamentCompletion;
-use App\Betting\SportEventResult;
+use App\Betting\SportEvent\Result;
 use App\Domain\ApiEvent;
 use App\Jobs\Publishers\PublishTournamentUpdate;
 use App\Jobs\Publishers\PublishUserUpdate;
@@ -28,7 +28,7 @@ class SportEventResultProcessor
     }
 
     /**
-     * @param SportEventResult[] $results
+     * @param Result[] $results
      */
     public function processMultiple(iterable $results): void
     {
@@ -39,7 +39,7 @@ class SportEventResultProcessor
         $this->entityManager->commit();
     }
 
-    public function process(SportEventResult $result): void
+    public function process(Result $result): void
     {
         /** @var ApiEvent $apiEvent */
         $apiEvent = $this->entityManager->getRepository(ApiEvent::class)

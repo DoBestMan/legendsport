@@ -6,7 +6,7 @@ use Decimal\Decimal;
 
 class Odds
 {
-    public static function americanToDecimal(int $odd): Decimal
+    public static function americanToDecimalWinnings(int $odd): Decimal
     {
         if ($odd < 0) {
             return 100 / new Decimal(-$odd);
@@ -15,13 +15,13 @@ class Odds
         return new Decimal($odd) / 100;
     }
 
-    function decimalToAmerican($odd): ?int
+    public static function decimalToAmerican($odd): ?int
     {
         if (!$odd) {
             return null;
         }
 
-        $odd = new Decimal($odd);
+        $odd = new Decimal((string) $odd);
 
         if ($odd >= 2) {
             /** @var Decimal $result */

@@ -13,18 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="tournament_bet_events", indexes={@ORM\Index(name="tournament_bet_events_tournament_bet_id_foreign", columns={"tournament_bet_id"}), @ORM\Index(name="tournament_bet_events_tournament_event_id_foreign", columns={"tournament_event_id"})})
  * @ORM\Entity
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({
- *     "money_line_away": "App\Domain\BetTypes\MoneyLineAway",
- *     "money_line_home": "App\Domain\BetTypes\MoneyLineHome",
- *     "spread_away": "App\Domain\BetTypes\SpreadAway",
- *     "spread_home": "App\Domain\BetTypes\SpreadHome",
- *     "total_under": "App\Domain\BetTypes\TotalUnder",
- *     "total_over": "App\Domain\BetTypes\TotalOver"
- * })
  */
-abstract class TournamentBetEvent
+class TournamentBetEvent
 {
     /**
      * @ORM\Column(name="id", type="bigint", nullable=false, options={"unsigned"=true})
@@ -32,6 +22,10 @@ abstract class TournamentBetEvent
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private int $id;
+    /** @ORM\Column(type="string") */
+    private string $externalId;
+    /** @ORM\Column(type="string") */
+    private $type;
     /** @ORM\Column(name="odd", type="smallint", nullable=false) */
     private int $odd;
     /** @ORM\Column(name="status", type=BetStatus::class, length=255, nullable=false) */
@@ -53,9 +47,9 @@ abstract class TournamentBetEvent
      */
     private TournamentEvent $tournamentEvent;
 
-    public function __construct(TournamentEvent $tournamentEvent)
+    public function __construct(string $type, TournamentEvent $tournamentEvent, TournamentPlayer $tournamentPlayer)
     {
-        $odds = $tournamentEvent->getApiEvent()->getOdds(static::class);
+        $odds = $tournamentEvent->getApiEvent()->getOdds($type);
 
         if ($odds === null) {
             throw BetPlacementException::lineSuspended();
@@ -67,7 +61,9 @@ abstract class TournamentBetEvent
         $this->odd = $odds->getOdds();
         $this->handicap = $odds->getHandicap();
         $this->status = BetStatus::PENDING();
-        $tournamentEvent->addBet($this);
+        $this->externalId = $odds->getExternalId();
+        $this->type = $type;
+        $tournamentEvent->addBet($this, $tournamentPlayer);
     }
 
     public function addToBet(TournamentBet $tournamentBet)
@@ -80,6 +76,11 @@ abstract class TournamentBetEvent
         return $this->id;
     }
 
+    public function getExternalId(): string
+    {
+        return $this->externalId;
+    }
+
     public function getOdd(): int
     {
         return $this->odd;
@@ -88,6 +89,11 @@ abstract class TournamentBetEvent
     public function getStatus(): BetStatus
     {
         return $this->status;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
     }
 
     public function getCreatedAt(): ?\DateTime
@@ -123,22 +129,26 @@ abstract class TournamentBetEvent
 
         $eventData = $this->tournamentEvent->getApiEvent();
 
-        if (!$eventData->isFinished()) {
-            return false;
-        }
-
         if ($eventData->isCancelled()) {
             return $this->result(BetStatus::PUSH());
         }
 
-        return $this->evaluateType();
-    }
+        $eventData = $this->getTournamentEvent()->getApiEvent();
+        $line = $eventData->getLine($this->getExternalId());
+        $settlement = $line->getSettlement();
 
-    abstract protected function evaluateType(): bool;
+        if ($settlement === null) {
+            return false;
+        }
+
+        return $this->result($settlement->toBetStatus());
+    }
 
     protected function result(BetStatus $status): bool
     {
         $this->status = $status;
+        $this->updatedAt = Carbon::now();
+        $this->tournamentEvent->betGraded($this->getTournamentBet()->getTournamentPlayer()->getUser() instanceof Bot);
         return $this->tournamentBet->evaluate();
     }
 
@@ -161,8 +171,6 @@ abstract class TournamentBetEvent
     {
         return $this->status->equals(BetStatus::PUSH());
     }
-
-    abstract protected function getType(): string;
 
     public function getSelectedTeam(): ?string
     {

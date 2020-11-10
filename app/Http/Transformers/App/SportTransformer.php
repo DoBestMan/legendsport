@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Transformers\App;
 
-use App\Betting\Sport;
+use App\Betting\SportEvent\Sport;
 use League\Fractal\TransformerAbstract;
 
 class SportTransformer extends TransformerAbstract

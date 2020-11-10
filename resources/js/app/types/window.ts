@@ -34,8 +34,8 @@ export interface PendingOdd {
 }
 
 export enum PendingOddType {
-    MoneyLineHome = "money_line_home",
-    MoneyLineAway = "money_line_away",
+    MoneyLineHome = "moneyline_home",
+    MoneyLineAway = "moneyline_away",
     SpreadHome = "spread_home",
     SpreadAway = "spread_away",
     TotalUnder = "total_under",

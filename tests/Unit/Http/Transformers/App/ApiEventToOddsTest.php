@@ -10,7 +10,6 @@ use Tests\Fixture\Factory\ApiEventFactory;
 /**
  * @covers \App\Http\Transformers\App\ApiEventToOdds
  * @uses \App\Domain\ApiEvent
- * @uses \App\Betting\SportEventOdd
  * @uses \App\Domain\ApiEventOdds
  */
 class ApiEventToOddsTest extends TestCase
@@ -19,8 +18,8 @@ class ApiEventToOddsTest extends TestCase
     {
         $expected = [
             "external_id" => 'eid',
-            "money_line_away" => -200,
-            "money_line_home" => 200,
+            "moneyline_away" => -200,
+            "moneyline_home" => 200,
             "point_spread_away" => -125,
             "point_spread_home" => 275,
             "point_spread_away_line" => new Decimal('-2'),

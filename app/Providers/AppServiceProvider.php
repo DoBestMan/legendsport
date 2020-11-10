@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Acelaya\Doctrine\Type\PhpEnumType;
+use App\Betting\Settlement;
 use App\Betting\TimeStatus;
 use App\Queue\DatabaseConnector;
 use App\Repository\OrmRepository;
@@ -37,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
         PhpEnumType::registerEnumType(BetStatus::class);
         PhpEnumType::registerEnumType(TournamentState::class);
         PhpEnumType::registerEnumType(TimeStatus::class);
+        PhpEnumType::registerEnumType(Settlement::class);
     }
 
     public function boot()

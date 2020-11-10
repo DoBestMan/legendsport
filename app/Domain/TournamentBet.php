@@ -111,6 +111,8 @@ class TournamentBet
             $this->tournamentPlayer->betWon($this->chipsWager, $this->getChipsWon());
         }
 
+        $this->tournament->betGraded($this->tournamentPlayer->getUser() instanceof Bot);
+
         return true;
     }
 
@@ -132,7 +134,7 @@ class TournamentBet
     {
         $odds = $this->events
             ->filter(fn(TournamentBetEvent $event) => !$event->isPush())
-            ->map(fn(TournamentBetEvent $event) => 1 + Odds::americanToDecimal($event->getOdd()));
+            ->map(fn(TournamentBetEvent $event) => 1 + Odds::americanToDecimalWinnings($event->getOdd()));
 
         $multiplier = 1;
         foreach ($odds as $odd) {

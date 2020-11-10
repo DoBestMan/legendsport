@@ -1,9 +1,10 @@
 <?php
-namespace App\Betting;
+namespace App\Betting\SportEvent;
 
+use App\Betting\TimeStatus;
 use Carbon\Carbon;
 
-class SportEventResult
+class Result
 {
     private string $externalEventId;
     private TimeStatus $timeStatus;

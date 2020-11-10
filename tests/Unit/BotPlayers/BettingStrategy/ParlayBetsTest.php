@@ -14,17 +14,16 @@ use Tests\Fixture\Factory\ApiEventFactory;
 use Tests\Fixture\Factory\FactoryAbstract;
 
 /**
- * @covers App\BotPlayers\BettingStrategy\ParlayBets
- * @uses App\Betting\SportEventOdd
- * @uses App\Domain\ApiEvent
- * @uses App\Domain\ApiEventOdds
- * @uses App\Domain\TournamentBet
- * @uses App\Domain\BetItem
- * @uses App\Domain\Tournament
- * @uses App\Domain\TournamentBetEvent
- * @uses App\Domain\TournamentEvent
- * @uses App\Domain\TournamentPlayer
- * @uses App\Domain\User
+ * @covers \App\BotPlayers\BettingStrategy\ParlayBets
+ * @uses \App\Domain\ApiEvent
+ * @uses \App\Domain\ApiEventOdds
+ * @uses \App\Domain\TournamentBet
+ * @uses \App\Domain\BetItem
+ * @uses \App\Domain\Tournament
+ * @uses \App\Domain\TournamentBetEvent
+ * @uses \App\Domain\TournamentEvent
+ * @uses \App\Domain\TournamentPlayer
+ * @uses \App\Domain\User
  */
 class ParlayBetsTest extends TestCase
 {

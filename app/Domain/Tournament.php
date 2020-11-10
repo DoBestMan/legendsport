@@ -60,19 +60,28 @@ class Tournament
     private ?array $bots;
     /** @ORM\Column(name="bots_registered", type="integer") */
     private int $botsRegistered = 0;
+    // @TODO add db mapping
+    private int $playersRegistered = 0;
     /** @ORM\OneToMany(targetEntity="\App\Domain\TournamentPlayer", mappedBy="tournament", fetch="EXTRA_LAZY", cascade={"ALL"}) */
     private Collection $players;
     /** @ORM\OneToMany(targetEntity="\App\Domain\TournamentEvent", mappedBy="tournament", indexBy="id", cascade={"ALL"}) */
     private Collection $events;
     /** @ORM\OneToMany(targetEntity="\App\Domain\TournamentBet", mappedBy="tournament", cascade={"ALL"}) */
     private Collection $bets;
-    private ?Collection $bettableEvents = null;
     /** @ORM\Column(name="auto_end", type="boolean") */
     private bool $autoEnd = true;
     /** @ORM\Column(name="live_lines", type="boolean") */
     private bool $liveLines = false;
-    // @TODO add db mapping
-    private int $playersRegistered = 0;
+    /** @ORM\Column(type="integer") */
+    private int $betsPlaced = 0;
+    /** @ORM\Column(type="integer") */
+    private int $betsGraded = 0;
+    /** @ORM\Column(type="integer", nullable=true) */
+    private ?int $botBetsGraded = 0;
+    /** @ORM\Column(type="integer", nullable=true) */
+    private ?int $botBetsPlaced = 0;
+
+    private ?Collection $bettableEvents = null;
 
     public function __construct()
     {
@@ -192,6 +201,16 @@ class Tournament
         return $this->liveLines;
     }
 
+    public function getBetsPlaced(): int
+    {
+        return $this->betsPlaced;
+    }
+
+    public function getBetsGraded(): int
+    {
+        return $this->betsGraded;
+    }
+
     public function getEvents(): Collection
     {
         return new ArrayCollection($this->events->toArray());
@@ -241,10 +260,16 @@ class Tournament
         }
 
         $tournamentPlayer->placeWager($wager);
-        $betEvent = $betItem->makeBetEvent();
+        $betEvent = $betItem->makeBetEvent($tournamentPlayer);
         $bet = new TournamentBet($this, $tournamentPlayer, $wager, $betEvent);
 
         $this->bets->add($bet);
+
+        if ($tournamentPlayer->getUser() instanceof Bot) {
+            $this->botBetsPlaced++;
+        } else {
+            $this->betsPlaced++;
+        }
     }
 
     public function placeParlayBet(TournamentPlayer $tournamentPlayer, int $wager, BetItem ...$betItems): void
@@ -279,12 +304,18 @@ class Tournament
             }
 
             $placedBets[$betItem->getCorrelationIdentifier()] = true;
-            $betEvents[] = $betItem->makeBetEvent();
+            $betEvents[] = $betItem->makeBetEvent($tournamentPlayer);
         }
 
         $bet = new TournamentBet($this, $tournamentPlayer, $wager, ...$betEvents);
 
         $this->bets->add($bet);
+
+        if ($tournamentPlayer->getUser() instanceof Bot) {
+            $this->botBetsPlaced++;
+        } else {
+            $this->betsPlaced++;
+        }
     }
 
     /**
@@ -401,5 +432,14 @@ class Tournament
     public function isFinished(): bool
     {
         return $this->state->isOneOf(TournamentState::COMPLETED(), TournamentState::CANCELED());
+    }
+
+    public function betGraded(bool $botBet): void
+    {
+        if ($botBet) {
+            $this->botBetsGraded++;
+        } else {
+            $this->betsGraded++;
+        }
     }
 }

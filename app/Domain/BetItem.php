@@ -2,17 +2,10 @@
 
 namespace App\Domain;
 
+use App\Betting\SportEvent\Offer;
+
 class BetItem
 {
-    private const CLASS_MAP = [
-        'money_line_home' => BetTypes\MoneyLineHome::class,
-        'money_line_away' => BetTypes\MoneyLineAway::class,
-        'spread_home' => BetTypes\SpreadHome::class,
-        'spread_away' => BetTypes\SpreadAway::class,
-        'total_under' => BetTypes\TotalUnder::class,
-        'total_over' => BetTypes\TotalOver::class,
-    ];
-
     private string $betType;
     private TournamentEvent $event;
 
@@ -22,11 +15,6 @@ class BetItem
         $this->event = $event;
     }
 
-    public static function createFromBetTypeAlias(string $betTypeAlias, TournamentEvent $event): self
-    {
-        return new self(self::CLASS_MAP[$betTypeAlias], $event);
-    }
-
     public function getIdentifier(): string
     {
         return $this->event->getId() . '::' . $this->betType;
@@ -34,7 +22,15 @@ class BetItem
 
     public function getCorrelationIdentifier(): string
     {
-        return $this->event->getId() . '::' . $this->betType::CORRELATION_IDENTIFIER;
+        $correlationType = 'error';
+        $tags = explode('_', $this->betType);
+        if (in_array(Offer::MONEYLINE, $tags) || in_array(Offer::SPREAD, $tags)) {
+            $correlationType = 'result';
+        } elseif (in_array(Offer::TOTAL, $tags)) {
+            $correlationType = 'total';
+        }
+
+        return $this->event->getId() . '::' . $correlationType;
     }
 
     public function getBetType(): string
@@ -47,9 +43,8 @@ class BetItem
         return $this->event;
     }
 
-    public function makeBetEvent()
+    public function makeBetEvent(TournamentPlayer $tournamentPlayer)
     {
-        $betType = $this->betType;
-        return new $betType($this->event);
+        return new TournamentBetEvent($this->betType, $this->event, $tournamentPlayer);
     }
 }

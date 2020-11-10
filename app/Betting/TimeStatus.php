@@ -17,4 +17,20 @@ class TimeStatus extends Enum
     private const IN_PLAY = "in_play";
     private const ENDED = "ended";
     private const CANCELED = "canceled";
+
+    public static function fromApiStatus(string $status): TimeStatus
+    {
+        switch ($status) {
+            case 'upcoming':
+                return TimeStatus::NOT_STARTED();
+            case 'inplay':
+                return TimeStatus::IN_PLAY();
+            case 'ended':
+                return TimeStatus::ENDED();
+            case 'cancelled':
+                return TimeStatus::CANCELED();
+            default:
+                return TimeStatus::IN_PLAY();
+        }
+    }
 }

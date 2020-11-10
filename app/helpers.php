@@ -3,11 +3,6 @@
 use Carbon\Carbon;
 use Decimal\Decimal;
 
-function error($input, $errors)
-{
-    return $errors->has($input) ? 'is-invalid' : '';
-}
-
 function as_decimal($value): ?Decimal
 {
     if ($value === "" || $value === null) {
@@ -24,32 +19,6 @@ function american_to_decimal(int $odd): Decimal
     }
 
     return new Decimal($odd) / 100;
-}
-
-function decimal_to_american($odd): ?int
-{
-    if (!$odd) {
-        return null;
-    }
-
-    $odd = new Decimal($odd);
-
-    if ($odd >= 2) {
-        /** @var Decimal $result */
-        $result = ($odd - 1) * 100;
-        return $result->round()->toInt();
-    }
-
-    // If odd equals 1 lets make it a null. Otherwise we would have to
-    // return -Inf which is impossible to display. What is more
-    // it doesn't make any sense.
-    if ($odd == 1) {
-        return null;
-    }
-
-    /** @var Decimal $result */
-    $result = -100 / ($odd - 1);
-    return $result->round()->toInt();
 }
 
 function format_datetime(?Carbon $date): ?string

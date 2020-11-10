@@ -2,15 +2,13 @@
 
 namespace App\Domain;
 
-use App\Betting\SportEventOdd;
-use App\Betting\SportEventResult;
+use App\Betting\Settlement;
+use App\Betting\SportEvent\Line;
+use App\Betting\SportEvent\Offer;
+use App\Betting\SportEvent\Update;
+use App\Betting\SportEvent\Result;
 use App\Betting\TimeStatus;
-use App\Domain\BetTypes\MoneyLineAway;
-use App\Domain\BetTypes\MoneyLineHome;
-use App\Domain\BetTypes\SpreadAway;
-use App\Domain\BetTypes\SpreadHome;
-use App\Domain\BetTypes\TotalOver;
-use App\Domain\BetTypes\TotalUnder;
+use App\Domain\ApiEvent\UpdateResult;
 use Carbon\Carbon;
 use Decimal\Decimal;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -26,108 +24,49 @@ use Doctrine\ORM\Mapping as ORM;
 class ApiEvent
 {
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="bigint", nullable=false, options={"unsigned"=true})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="api_id", type="string", length=255, nullable=false)
-     */
-    private $apiId;
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
-     */
-    private $createdAt;
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
-     */
-    private $updatedAt;
-
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="sport_id", type="integer", nullable=true, options={"unsigned"=true})
-     */
-    private $sportId;
-
+    private int $id;
+    /** @ORM\Column(name="api_id", type="string", length=255, nullable=false) */
+    private string $apiId;
+    /** @ORM\Column(name="created_at", type="datetime", nullable=true) */
+    private ?\DateTime $createdAt;
+    /** @ORM\Column(name="updated_at", type="datetime", nullable=true) */
+    private ?\DateTime $updatedAt;
+    /** @ORM\Column(name="sport_id", type="integer", nullable=true, options={"unsigned"=true}) */
+    private ?int $sportId;
     /** @ORM\Column(name="time_status", type=TimeStatus::class, length=255, nullable=false) */
     private TimeStatus $timeStatus;
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="starts_at", type="datetime", nullable=true)
-     */
-    private $startsAt;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="team_away", type="string", length=255, nullable=false)
-     */
-    private $teamAway;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="team_home", type="string", length=255, nullable=false)
-     */
-    private $teamHome;
-
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="score_away", type="integer", nullable=true, options={"unsigned"=true})
-     */
-    private $scoreAway;
-
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="score_home", type="integer", nullable=true, options={"unsigned"=true})
-     */
-    private $scoreHome;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="pitcher_home", type="string", length=255, nullable=true)
-     */
-    private $pitcherHome;
-
-     /**
-     * @var string
-     *
-     * @ORM\Column(name="pitcher_away", type="string", length=255, nullable=true)
-     */
-    private $pitcherAway;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="provider", type="string", length=255, nullable=false)
-     */
-    private $provider;
-    /** @ORM\OneToMany(targetEntity="\App\Domain\ApiEventOdds", mappedBy="event", indexBy="betType", cascade={"ALL"}, orphanRemoval=true) */
+    /** @ORM\Column(name="starts_at", type="datetime", nullable=true) */
+    private ?\DateTime $startsAt = null;
+    /** @ORM\Column(name="team_away", type="string", length=255, nullable=false) */
+    private string $teamAway;
+    /** @ORM\Column(name="team_home", type="string", length=255, nullable=false) */
+    private string $teamHome;
+    /** @ORM\Column(name="score_away", type="integer", nullable=true, options={"unsigned"=true}) */
+    private ?int $scoreAway = null;
+    /** @ORM\Column(name="score_home", type="integer", nullable=true, options={"unsigned"=true}) */
+    private ?int $scoreHome = null;
+    /** @ORM\Column(name="pitcher_home", type="string", length=255, nullable=true) */
+    private ?string $pitcherHome = null;
+     /** @ORM\Column(name="pitcher_away", type="string", length=255, nullable=true) */
+    private ?string $pitcherAway = null;
+    /** @ORM\Column(name="provider", type="string", length=255, nullable=false) */
+    private string $provider;
+    /** @ORM\OneToMany(targetEntity="\App\Domain\ApiEventOdds", mappedBy="event", cascade={"ALL"}, orphanRemoval=true) */
     private Collection $odds;
     /** @ORM\Column(name="has_bettable_lines", type="boolean", nullable=false) */
     public bool $hasBettableLines = false;
-    /**
-     * @ORM\OneToMany(targetEntity="\App\Domain\TournamentEvent", mappedBy="apiEvent")
-     */
+    /** @ORM\OneToMany(targetEntity="\App\Domain\TournamentEvent", mappedBy="apiEvent") */
     private Collection $tournamentEvents;
+    /** @ORM\Column(type="json_array") */
+    private array $offers = [];
+
+    private ?Collection $oddsByType = null;
+    private ?Collection $linesByExternalId = null;
+    private bool $hasLinesThatJustSettled = false;
 
     public function __construct()
     {
@@ -215,7 +154,7 @@ class ApiEvent
         return $this->timeStatus->equals(TimeStatus::ENDED()) || $this->isCancelled();
     }
 
-    public function result(SportEventResult $sportEventResult): bool
+    public function result(Result $sportEventResult): bool
     {
         if (
             $this->timeStatus->equals($sportEventResult->getTimeStatus()) &&
@@ -247,54 +186,113 @@ class ApiEvent
             );
     }
 
-    private function updateOdd(string $oddType, ?string $price, ?Decimal $line): void
-    {
-        $lineInstance = $this->odds->get($oddType);
-        if ($price === null && $lineInstance === null) {
-            return;
-        }
-
-        if ($price === null && $lineInstance !== null) {
-            $lineInstance->suspended();
-            $this->odds->remove($oddType);
-            return;
-        }
-
-        if ($lineInstance === null) {
-            $lineInstance = new ApiEventOdds($this, $oddType, $price, $line);
-            $this->odds->set($oddType, $lineInstance);
-            return;
-        }
-
-        $lineInstance->update($price, $line);
-    }
-
-    public function updateOdds(SportEventOdd $odds): void
-    {
-        $this->updatedAt = Carbon::now();
-        $this->updateOdd(MoneyLineHome::class, $odds->getMoneyLineHome(), null);
-        $this->updateOdd(MoneyLineAway::class, $odds->getMoneyLineAway(), null);
-        $this->updateOdd(SpreadHome::class, $odds->getPointSpreadHome(), $odds->getPointSpreadHomeLine());
-        $this->updateOdd(SpreadAway::class, $odds->getPointSpreadAway(), $odds->getPointSpreadAwayLine());
-        $this->updateOdd(TotalOver::class, $odds->getOverLine(), $odds->getTotalNumber());
-        $this->updateOdd(TotalUnder::class, $odds->getUnderLine(), $odds->getTotalNumber());
-
-        $this->hasBettableLines = !$this->odds->isEmpty();
-    }
-
     public function getOddTypes(): array
     {
-        return array_keys($this->odds->toArray());
+        return array_keys($this->getAllOdds()->toArray());
     }
 
     public function getOdds(string $betType): ?ApiEventOdds
     {
-        return $this->odds->get($betType);
+        return $this->getAllOdds()->get($betType);
     }
 
     public function getAllOdds(): Collection
     {
-        return $this->odds;
+        if ($this->oddsByType === null) {
+            $odds = new ArrayCollection();
+            foreach ($this->offers as $lineName => $lineId) {
+                if ($lineId !== null) {
+                    /** @var ApiEventOdds $odd */
+                    $odds->set($lineName, $this->getLine($lineId));
+                }
+            }
+
+            $this->oddsByType = $odds;
+        }
+
+        return $this->oddsByType;
+    }
+
+    public function update(Update $update): UpdateResult
+    {
+        $linesUpdated = $this->updateLines(...$update->getLines()->getLines());
+        $offersUpdated = $this->updateOffers(...$update->getOffers()->getOffers());
+        $fixtureUpdated = $this->result($update->getResult());
+
+        $hasLinesToGrade = $this->hasLinesThatJustSettled;
+        $this->hasLinesThatJustSettled = false;
+
+        return new UpdateResult($linesUpdated, $offersUpdated, $fixtureUpdated, $hasLinesToGrade);
+    }
+
+    private function updateLine(string $lineId, ?int $price, ?Decimal $line, ?Settlement $settlement): bool
+    {
+        $lineInstance = $this->getLine($lineId);
+        if ($price === null && $lineInstance === null) {
+            return false;
+        }
+
+        if ($lineInstance === null) {
+            $lineInstance = new ApiEventOdds($this, $lineId, '', $price, $line);
+            $this->odds->add($lineInstance);
+            $this->linesByExternalId = null;
+            return true;
+        }
+
+        $updated = $lineInstance->update($price, $settlement);
+        $this->hasLinesThatJustSettled |= $lineInstance->handleSettlement();
+
+        return $updated;
+    }
+
+    public function updateLines(Line ...$lines): bool
+    {
+        $updated = false;
+        foreach ($lines as $line) {
+            $updated |= $this->updateLine($line->getId(), $line->getPrice(), $line->getLine(), $line->getSettlement());
+        }
+
+        return $updated;
+    }
+
+    public function updateOffers(Offer ...$lineOffers): bool
+    {
+        $updated = false;
+        foreach ($lineOffers as $lineOffer) {
+            $lineName = $lineOffer->tagsToLineName();
+            if (!array_key_exists($lineName, $this->offers) || $this->offers[$lineName] != $lineOffer->getId()) {
+                $this->offers[$lineName] = $lineOffer->getId();
+                $updated = true;
+            }
+        }
+
+        if ($updated) {
+            $this->updatedAt = Carbon::now();
+            $this->hasBettableLines = count(array_filter($this->offers)) > 0;
+            $this->oddsByType = null;
+        }
+
+        return $updated;
+    }
+
+    public function getLine(string $lineId): ?ApiEventOdds
+    {
+        return $this->getLines()->get($lineId);
+    }
+
+    public function getLines(): Collection
+    {
+        if ($this->linesByExternalId === null) {
+            $odds = new ArrayCollection();
+            foreach ($this->odds as $odd) {
+                /** @var ApiEventOdds $odd */
+                $odds->set($odd->getExternalId(), $odd);
+            }
+
+            $this->linesByExternalId = $odds;
+        }
+
+        return $this->linesByExternalId;
     }
 
     /** @return TournamentEvent[] */

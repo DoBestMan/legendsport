@@ -1,26 +1,17 @@
 <?php
 namespace App\Betting;
 
+use App\Betting\SportEvent\Event;
+use App\Betting\SportEvent\Sport;
+use App\Betting\SportEvent\UpdateCollection;
+
 interface BettingProvider
 {
-    /**
-     * @param int $page
-     * @return Pagination<SportEvent>
-     */
+    /** @return Pagination<Event> */
     public function getEvents(int $page): Pagination;
 
-    /**
-     * @return SportEventOdd[]
-     */
-    public function getOdds(bool $updatesOnly): array;
-
-    /**
-     * @return SportEventResult[]
-     */
-    public function getResults(): array;
-
-    /**
-     * @return Sport[]
-     */
+    /** @return Sport[] */
     public function getSports(): array;
+
+    public function getUpdates(): UpdateCollection;
 }

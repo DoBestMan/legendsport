@@ -1,9 +1,9 @@
 <?php
-namespace App\Betting;
+namespace App\Betting\SportEvent;
 
 use Carbon\Carbon;
 
-class SportEvent
+class Event
 {
     private string $externalId;
     private ?Carbon $startsAt;

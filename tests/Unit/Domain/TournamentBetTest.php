@@ -2,11 +2,11 @@
 
 namespace Unit\Domain;
 
-use App\Betting\SportEventResult;
+use App\Betting\Settlement;
+use App\Betting\SportEvent\Line;
+use App\Betting\SportEvent\Result;
 use App\Betting\TimeStatus;
 use App\Domain\BetItem;
-use App\Domain\BetTypes\MoneyLineAway;
-use App\Domain\BetTypes\TotalOver;
 use App\Domain\Tournament;
 use App\Domain\User;
 use PHPUnit\Framework\TestCase;
@@ -22,7 +22,7 @@ use Tests\Fixture\Factory\FactoryAbstract;
 class TournamentBetTest extends TestCase
 {
     /** @dataProvider provideEvaluateStraightBet */
-    public function testEvaluateStraightBet($home, $away, $result, $balance)
+    public function testEvaluateStraightBet($line, $result, $balance)
     {
         $apiEvent = ApiEventFactory::create();
         $tournament = new Tournament();
@@ -35,8 +35,8 @@ class TournamentBetTest extends TestCase
         $tournament->registerPlayer($user);
         $player = $user->getTournamentPlayer($tournament);
 
-        $tournament->placeStraightBet($player, 1000, new BetItem(MoneyLineAway::class, $tournamentEvent));
-        $apiEvent->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), new \DateTime(), $home, $away));
+        $tournament->placeStraightBet($player, 1000, new BetItem('moneyline_away', $tournamentEvent));
+        $apiEvent->updateLines($line);
 
         $sut = $tournament->getBets()->first();
         $bet = $sut->getEvents()->first();
@@ -50,11 +50,14 @@ class TournamentBetTest extends TestCase
 
     public function provideEvaluateStraightBet()
     {
+        $win = new Line('moneyline::away::fulltime', 200, null, Settlement::WON());
+        $loss = new Line('moneyline::away::fulltime', 200, null, Settlement::LOST());
+        $push = new Line('moneyline::away::fulltime', 200, null, Settlement::PUSH());
         return [
-            [0, 0, 'push', 10000],
-            [1, 1, 'push', 10000],
-            [1, 0, 'loss', 9000],
-            [0, 1, 'win', 10500],
+            [$push, 'push', 10000],
+            [$push, 'push', 10000],
+            [$loss, 'loss', 9000],
+            [$win, 'win', 10500],
         ];
     }
 
@@ -75,8 +78,8 @@ class TournamentBetTest extends TestCase
         $tournament->registerPlayer($user);
         $player = $user->getTournamentPlayer($tournament);
 
-        $tournament->placeStraightBet($player, 1000, new BetItem(MoneyLineAway::class, $tournamentEvent));
-        $apiEvent->result(new SportEventResult('eid', 'test', TimeStatus::IN_PLAY(), new \DateTime(), $home, $away));
+        $tournament->placeStraightBet($player, 1000, new BetItem('moneyline_away', $tournamentEvent));
+        $apiEvent->result(new Result('eid', 'test', TimeStatus::IN_PLAY(), new \DateTime(), $home, $away));
 
         $sut = $tournament->getBets()->first();
         $bet = $sut->getEvents()->first();
@@ -89,7 +92,7 @@ class TournamentBetTest extends TestCase
     }
 
     /** @dataProvider provideEvaluateParlayBet */
-    public function testEvaluateParlayBet($home, $away, $result, $balance)
+    public function testEvaluateParlayBet($moneylineLine, $totalLine, $result, $balance)
     {
         $apiEvent = ApiEventFactory::create();
         $tournament = new Tournament();
@@ -103,8 +106,8 @@ class TournamentBetTest extends TestCase
         $tournament->registerPlayer($user);
         $player = $user->getTournamentPlayer($tournament);
 
-        $tournament->placeParlayBet($player, 1000, new BetItem(MoneyLineAway::class, $tournamentEvent), new BetItem(TotalOver::class, $tournamentEvent));
-        $apiEvent->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), new \DateTime(), $home, $away));
+        $tournament->placeParlayBet($player, 1000, new BetItem('moneyline_away', $tournamentEvent), new BetItem('total_over', $tournamentEvent));
+        $apiEvent->updateLines($moneylineLine, $totalLine);
 
         $sut = $tournament->getBets()->first();
         $evaluated = false;
@@ -119,12 +122,18 @@ class TournamentBetTest extends TestCase
 
     public function provideEvaluateParlayBet()
     {
+        $winml = new Line('moneyline::away::fulltime', 200, null, Settlement::WON());
+        $lossml = new Line('moneyline::away::fulltime', 200, null, Settlement::LOST());
+        $pushml = new Line('moneyline::away::fulltime', 200, null, Settlement::PUSH());
+        $winto = new Line('total::over::fulltime', 200, null, Settlement::WON());
+        $lossto = new Line('total::over::fulltime', 200, null, Settlement::LOST());
+
         return [
-            [0, 0, 'loss', 9000], //push, loss
-            [5, 5, 'win', 11500], //push, win
-            [1, 0, 'loss', 9000], //loss, loss
-            [0, 1, 'loss', 9000], //loss, win
-            [0, 7, 'win', 12750], //win, win
+            [$pushml, $lossto, 'loss', 9000], //push, loss
+            [$pushml, $winto, 'win', 11500], //push, win
+            [$lossml, $lossto, 'loss', 9000], //loss, loss
+            [$lossml, $winto , 'loss', 9000], //loss, win
+            [$winml, $winto , 'win', 12750], //win, win
         ];
     }
 
@@ -151,8 +160,8 @@ class TournamentBetTest extends TestCase
         $tournament->registerPlayer($user);
         $player = $user->getTournamentPlayer($tournament);
 
-        $tournament->placeParlayBet($player, 1000, new BetItem(MoneyLineAway::class, $tournamentEvent1), new BetItem(TotalOver::class, $tournamentEvent2));
-        $apiEvent->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), new \DateTime(), $home, $away));
+        $tournament->placeParlayBet($player, 1000, new BetItem('moneyline_away', $tournamentEvent1), new BetItem('total_over', $tournamentEvent2));
+        $apiEvent->result(new Result('eid', 'test', TimeStatus::ENDED(), new \DateTime(), $home, $away));
 
         $sut = $tournament->getBets()->first();
         $evaluated = true;
@@ -188,9 +197,12 @@ class TournamentBetTest extends TestCase
         $tournament->registerPlayer($user);
         $player = $user->getTournamentPlayer($tournament);
 
-        $tournament->placeParlayBet($player, 1000, new BetItem(MoneyLineAway::class, $tournamentEvent1), new BetItem(TotalOver::class, $tournamentEvent2));
-        $apiEvent1->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), new \DateTime(), $home, $away));
-        $apiEvent2->result(new SportEventResult('eid', 'test', TimeStatus::ENDED(), new \DateTime(), $home, $away));
+        $tournament->placeParlayBet($player, 1000, new BetItem('moneyline_away', $tournamentEvent1), new BetItem('total_over', $tournamentEvent2));
+
+        $lossml = new Line('moneyline::away::fulltime', 200, null, Settlement::LOST());
+        $lossto = new Line('total::over::fulltime', 200, null, Settlement::LOST());
+        $apiEvent1->updateLines($lossml);
+        $apiEvent2->updateLines($lossto);
 
         $sut = $tournament->getBets()->first();
         $evaluated = false;

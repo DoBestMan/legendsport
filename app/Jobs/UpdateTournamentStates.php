@@ -1,11 +1,8 @@
 <?php
 namespace App\Jobs;
 
-use App\Betting\BettingProvider;
-use App\Http\Transformers\App\SportEventOddTransformer;
 use App\Models\Tournament;
 use App\Tournament\Enums\TournamentState;
-use App\Tournament\Events\OddsUpdate;
 use App\Tournament\Events\TournamentUpdate;
 use Carbon\Carbon;
 use Illuminate\Contracts\Events\Dispatcher;

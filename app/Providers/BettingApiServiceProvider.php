@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Betting\ApiClient;
 use App\Betting\BettingProvider;
 use App\Betting\LegendsOdds;
 use App\Betting\MultiProvider;
@@ -13,11 +14,11 @@ class BettingApiServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->when(LegendsOdds::class)
+        $this->app->when(ApiClient::class)
             ->needs('$baseUrl')
             ->give(fn () => env('LEGENDS_ODDS_URL'));
 
-        $this->app->when(LegendsOdds::class)
+        $this->app->when(ApiClient::class)
             ->needs('$authToken')
             ->give(fn () => env('LEGENDS_ODDS_TOKEN'));
 

@@ -5,7 +5,9 @@ use App\Betting\TimeStatus;
 use App\Domain\Tournament as TournamentEntity;
 use App\Http\Controllers\Controller;
 use App\Http\Transformers\App\ApiEventTransformer;
+use App\Http\Transformers\Backstage\TournamentTransformer;
 use App\Jobs\Tournaments\CheckForTournamentCompletion;
+use App\Jobs\Tournaments\GradeEvent;
 use App\Models\ApiEvent;
 use App\Models\Config;
 use App\Models\Tournament;
@@ -13,6 +15,7 @@ use App\Models\TournamentEvent;
 use App\Tournament\Enums\TournamentState;
 use App\Tournament\Events\TournamentUpdate;
 use Carbon\Carbon;
+use Doctrine\Common\Util\Debug;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Bus\Dispatcher as JobDispatcher;
@@ -105,6 +108,10 @@ class TournamentController extends Controller
         $tournament->bots = $request->bots;
         $tournament->auto_end = $request->auto_end;
         $tournament->live_lines = $request->live_lines;
+        $tournament->bets_placed = 0;
+        $tournament->bets_graded = 0;
+        $tournament->bot_bets_placed = 0;
+        $tournament->bot_bets_graded = 0;
         $tournament->save();
 
         foreach ($apiData as $data) {
@@ -113,6 +120,10 @@ class TournamentController extends Controller
             $tournament_event = new TournamentEvent();
             $tournament_event->tournament_id = $tournament->id;
             $tournament_event->api_event_id = $apiEvent->id;
+            $tournament_event->bets_placed = 0;
+            $tournament_event->bets_graded = 0;
+            $tournament_event->bot_bets_placed = 0;
+            $tournament_event->bot_bets_graded = 0;
             $tournament_event->save();
         }
 
@@ -123,37 +134,16 @@ class TournamentController extends Controller
 
     public function show(Tournament $tournament)
     {
-        $selectedEvents = TournamentEvent::with(["apiEvent"])
-            ->where("tournament_id", $tournament->id)
-            ->get()
-            ->map(fn(TournamentEvent $tournamentEvent) => $tournamentEvent->apiEvent);
+        $qb = $this->entityManager->getRepository(TournamentEntity::class)->createQueryBuilder('t');
+        $qb->join('t.events', 'e')
+            ->join('e.apiEvent', 'a')
+            ->where($qb->expr()->eq('t.id', '?1'))
+            ->setParameter(1, $tournament->id);
 
-        $apiSelectedSports = fractal()
-            ->collection($selectedEvents, new ApiEventTransformer())
-            ->toArray();
 
-        JavaScript::put([
-            'apiSelectedSports' => $apiSelectedSports,
-            'buyIn' => $tournament->buy_in,
-            'chips' => $tournament->chips,
-            'commission' => $tournament->commission,
-            'config' => '',
-            'interval' => $tournament->late_register_rule['interval'] ?? '',
-            'lateRegister' => $tournament->late_register,
-            'name' => $tournament->name,
-            'playersLimit' => $tournament->players_limit,
-            'prizePool' => $tournament->prize_pool['type'],
-            'prizePoolValue' => $tournament->prize_pool['fixed_value'],
-            'state' => $tournament->state,
-            'timeFrame' => $tournament->time_frame,
-            'value' => $tournament->late_register_rule['value'] ?? '',
-            'minBots' => $tournament->bots['min'],
-            'maxBots' => $tournament->bots['max'],
-            'addBots' => $tournament->bots['add'],
-            'playerBots' => $tournament->bots['player'],
-            'autoEnd' => $tournament->auto_end,
-            'liveLines' => $tournament->live_lines,
-        ]);
+        $tournamentEntity = current($qb->getQuery()->execute());
+
+        JavaScript::put(fractal()->item($tournamentEntity, new TournamentTransformer())->toArray());
 
         return view('backstage.tournaments.show')
             ->with('tournaments', null)
@@ -238,6 +228,7 @@ class TournamentController extends Controller
         $tournament->bots = $request->bots;
         $tournament->auto_end = $request->auto_end;
         $tournament->live_lines = $request->live_lines;
+
         $tournament->save();
 
         $apiDataDict = collect($apiData)->mapWithKeys(
@@ -278,6 +269,14 @@ class TournamentController extends Controller
     public function checkForCompletion(Tournament $tournament, JobDispatcher $dispatcher)
     {
         $dispatcher->dispatch(new CheckForTournamentCompletion($tournament->id));
+        return new Response('', Response::HTTP_NO_CONTENT);
+    }
+
+    public function gradeEvents(Tournament $tournament, JobDispatcher $dispatcher)
+    {
+        foreach ($tournament->events as $tournamentEvent) {
+            $dispatcher->dispatch(new GradeEvent($tournament->id, $tournamentEvent->id));
+        }
         return new Response('', Response::HTTP_NO_CONTENT);
     }
 
@@ -373,6 +372,7 @@ class TournamentController extends Controller
             $apiEvent->provider = $data["provider"];
             $apiEvent->starts_at = $data["starts_at"];
             $apiEvent->has_bettable_lines = 0;
+            $apiEvent->offers = '[]';
             $apiEvent->save();
         }
 

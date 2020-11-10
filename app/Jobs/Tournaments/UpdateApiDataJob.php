@@ -6,7 +6,6 @@ use App\Betting\MultiProvider;
 use App\Http\Transformers\App\ApiEventToOdds;
 use App\Queue\Uniqueable;
 use App\Tournament\Events\OddsUpdate;
-use App\Tournament\SportEventResultProcessor;
 use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Events\Dispatcher;
@@ -25,30 +24,20 @@ class UpdateApiDataJob implements ShouldQueue, Uniqueable
 
     public function handle(
         MultiProvider $bettingProvider,
-        SportEventResultProcessor $sportEventResultProcessor,
         LoggerInterface $logger,
         Dispatcher $dispatcher
     ) {
-        $logger->info('Fetching odds for games');
+        $logger->info('Updating API Events');
 
-        $apiEvents = $bettingProvider->getOdds(false);
+        $apiEvents = $bettingProvider->updateEvents();
 
         $odds = fractal()
             ->collection($apiEvents, new ApiEventToOdds())
             ->toArray();
 
-        $logger->info('Odds updated');
         $dispatcher->dispatch(new OddsUpdate($odds, false));
 
-        $logger->info('Fetching game results');
-
-        $results = $bettingProvider->getResults();
-
-        try {
-            $sportEventResultProcessor->processMultiple($results);
-        } catch (\Throwable $e) {
-            $logger->error($e->getMessage(), ["exception" => $e]);
-        }
+        $logger->info('API Events Updated');
     }
 
     public function uniqueable()

@@ -1,5 +1,5 @@
 <?php
-namespace App\Betting;
+namespace App\Betting\SportEvent;
 
 class Sport
 {

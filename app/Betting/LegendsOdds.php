@@ -2,126 +2,28 @@
 
 namespace App\Betting;
 
-use App\Domain\ApiEvent;
-use App\Jobs\Publishers\PublishTournamentUpdate;
-use App\Jobs\Tournaments\GradeEvent;
+use App\Betting\SportEvent\Event;
+use App\Betting\SportEvent\LineCollection;
+use App\Betting\SportEvent\Offer;
+use App\Betting\SportEvent\Line;
+use App\Betting\SportEvent\OfferCollection;
+use App\Betting\SportEvent\Result;
+use App\Betting\SportEvent\Sport;
+use App\Betting\SportEvent\Update;
+use App\Betting\SportEvent\UpdateCollection;
+use App\Domain\Odds;
 use Decimal\Decimal;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\EntityManager;
-use Illuminate\Support\Facades\Http;
 
 class LegendsOdds implements BettingProvider
 {
     public const PROVIDER_NAME = "legends-odds";
     public const PROVIDER_DESCRIPTION = 'Legends Odds';
 
-    private EntityManager $entityManager;
-    private string $baseUrl;
-    private string $authToken;
+    private ApiClient $apiClient;
 
-    public function __construct(EntityManager $entityManager, string $baseUrl, string $authToken)
+    public function __construct(ApiClient $apiClient)
     {
-        $this->entityManager = $entityManager;
-        $this->baseUrl = rtrim($baseUrl, '/');
-        $this->authToken = $authToken;
-    }
-
-    public function getEvents(int $page): Pagination
-    {
-        $results = $this->get('/api/v1/all');
-        $events = [];
-        foreach ($results as $result) {
-            if ($result['status'] !== 'upcoming') {
-                continue;
-            }
-            $events[] = new SportEvent(
-                $result['id'],
-                $result['startDate'],
-                $result['sportId'],
-                $result['homeTeam'],
-                $result['awayTeam'],
-                self::PROVIDER_NAME,
-                $result['homePitcher'] ?? null,
-                $result['awayPitcher'] ?? null,
-            );
-        }
-        usort($events, fn (SportEvent $a, SportEvent $b) => $a->getStartsAt() <=> $b->getStartsAt());
-
-        $total = count($events);
-        return new Pagination($events, $total, $total);
-    }
-
-    public function getOdds(bool $updatesOnly): array
-    {
-        $data = $this->get('/api/v1/all');
-        $updates = [];
-
-        foreach ($data as $item) {
-            /** @var ApiEvent|null $apiEvent */
-            $apiEvent = current($this->entityManager->getRepository(ApiEvent::class)->findBy([
-                'apiId' => $item['id'],
-                'provider' => static::PROVIDER_NAME,
-            ])) ?: null;
-
-            if ($apiEvent === null) {
-                continue;
-            }
-
-            if ($apiEvent->isFinished()) {
-                continue;
-            }
-
-            $sportsOdds= new SportEventOdd(
-                $item['id'],
-                decimal_to_american($item['moneylineHome']),
-                decimal_to_american($item['moneylineAway']),
-                decimal_to_american($item['spreadHome']),
-                decimal_to_american($item['spreadAway']),
-                $item['handicapHome'] ? new Decimal(explode(' ', $item['handicapHome'])[0]) : null,
-                $item['handicapAway'] ? new Decimal(explode(' ', $item['handicapAway'])[0]) : null,
-                decimal_to_american($item['over']),
-                decimal_to_american($item['under']),
-                $item['total'] ? new Decimal($item['total']) : null,
-            );
-            $apiEvent->updateOdds($sportsOdds);
-            $updates[] = $apiEvent;
-        }
-
-        $this->entityManager->flush();
-
-        return $updates;
-    }
-
-    public function getResults(): array
-    {
-        $data = $this->get('/api/v1/all');
-
-        $results = [];
-
-        foreach($data as $item) {
-            /** @var ApiEvent|null $apiEvent */
-            $apiEvent = current($this->entityManager->getRepository(ApiEvent::class)->findBy([
-                'apiId' => $item['id'],
-                'provider' => static::PROVIDER_NAME,
-            ])) ?: null;
-
-            if ($apiEvent === null) {
-                continue;
-            }
-
-            $results[] = new SportEventResult(
-                $item['id'],
-                self::PROVIDER_NAME,
-                $this->mapTimeStatus($item['status']),
-                $item['startDate'],
-                $item['homeScore'],
-                $item['awayScore'],
-                $item['homePitcher'],
-                $item['awayPitcher'],
-            );
-        }
-
-        return $results;
+        $this->apiClient = $apiClient;
     }
 
     public function getSports(): array
@@ -137,17 +39,40 @@ class LegendsOdds implements BettingProvider
         ];
     }
 
-    public function getUpdates()
+    public function getEvents(int $page = 0): Pagination
     {
-        $data = $this->get('/api/v1/all');
+        $results = $this->apiClient->getOddsData();
+        $events = [];
+        foreach ($results as $result) {
+            if ($result['status'] !== 'upcoming') {
+                continue;
+            }
+            $events[] = new Event(
+                $result['id'],
+                $result['startDate'],
+                $result['sportId'],
+                $result['homeTeam'],
+                $result['awayTeam'],
+                self::PROVIDER_NAME,
+                $result['homePitcher'] ?? null,
+                $result['awayPitcher'] ?? null,
+            );
+        }
+        usort($events, fn (Event $a, Event $b) => $a->getStartsAt() <=> $b->getStartsAt());
 
-        $results = $odds = $apiEventIds = [];
+        $total = count($events);
+        return new Pagination($events, $total, $total);
+    }
+
+    public function getUpdates(): UpdateCollection
+    {
+        $data = $this->apiClient->getOddsData();
 
         foreach($data as $item) {
-            $results[$item['id']] = new SportEventResult(
+            $result = new Result(
                 $item['id'],
                 self::PROVIDER_NAME,
-                $this->mapTimeStatus($item['status']),
+                TimeStatus::fromApiStatus($item['status']),
                 $item['startDate'],
                 $item['homeScore'],
                 $item['awayScore'],
@@ -155,88 +80,58 @@ class LegendsOdds implements BettingProvider
                 $item['awayPitcher'],
             );
 
-            $odds[$item['id']] = new SportEventOdd(
-                $item['id'],
-                decimal_to_american($item['moneylineHome']),
-                decimal_to_american($item['moneylineAway']),
-                decimal_to_american($item['spreadHome']),
-                decimal_to_american($item['spreadAway']),
-                $item['handicapHome'] ? new Decimal(explode(' ', $item['handicapHome'])[0]) : null,
-                $item['handicapAway'] ? new Decimal(explode(' ', $item['handicapAway'])[0]) : null,
-                decimal_to_american($item['over']),
-                decimal_to_american($item['under']),
-                $item['total'] ? new Decimal($item['total']) : null,
-            );
+            $lines = [];
+            $lineOffers = [];
 
-            $apiEventIds[] = $item['id'];
-        }
-
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->in('apiId', $apiEventIds))
-            ->andWhere(Criteria::expr()->eq('provider', self::PROVIDER_NAME));
-
-        /** @var ApiEvent[] $apiEvents */
-        $apiEvents = $this->entityManager->getRepository(ApiEvent::class)->matching($criteria);
-
-        foreach ($apiEvents as $apiEvent) {
-            if ($apiEvent->isFinished()) {
-                break;
-            }
-
-            $apiEvent->updateOdds($odds[$apiEvent->getApiId()]);
-            $updated = $apiEvent->result($results[$apiEvent->getApiId()]);
-
-            if (!$updated) {
-                break;
-            }
-
-            $this->logger->info("Api event has been updated.", [
-                "api_event_id" => $apiEvent->getId(),
-                "api_event_external_id" => $apiEvent->getApiId(),
-                "score_home" => $apiEvent->getScoreHome(),
-                "score_away" => $apiEvent->getScoreAway(),
-                "time_status" => $apiEvent->getTimeStatus(),
-            ]);
-
-            foreach ($apiEvent->getTournamentEvents() as $tournamentEvent) {
-                $tournament = $tournamentEvent->getTournament();
-
-                if ($apiEvent->isFinished()) {
-                    $this->dispatcher->dispatch(new GradeEvent($tournament->getId(), $tournamentEvent->getId()));
+            if (isset($item['lines'])) {
+                foreach ($item['lines'] as $lineId => $line) {
+                    $lines[] = new Line(
+                        $lineId,
+                        Odds::decimalToAmerican($line['price']),
+                        isset($line['line']) ? new Decimal(explode(' ', $line['line'])[0]) : null,
+                        Settlement::fromApiSettlement($line['settlement'])
+                    );
                 }
 
-                $this->dispatcher->dispatch(new PublishTournamentUpdate($tournament->getId()));
+                $lineOffers[] = new Offer(
+                    $item['moneylineHomeId'],
+                    Offer::MONEYLINE, Offer::HOME, Offer::FULL_TIME
+                );
+
+                $lineOffers[] = new Offer(
+                    $item['moneylineAwayId'],
+                    Offer::MONEYLINE, Offer::AWAY, Offer::FULL_TIME
+                );
+
+                $lineOffers[] = new Offer(
+                    $item['spreadHomeId'],
+                    Offer::SPREAD, Offer::HOME, Offer::FULL_TIME
+                );
+
+                $lineOffers[] = new Offer(
+                    $item['spreadAwayId'],
+                    Offer::SPREAD, Offer::AWAY, Offer::FULL_TIME
+                );
+
+                $lineOffers[] = new Offer(
+                    $item['overId'],
+                    Offer::TOTAL, Offer::OVER, Offer::FULL_TIME
+                );
+
+                $lineOffers[] = new Offer(
+                    $item['underId'],
+                    Offer::TOTAL, Offer::UNDER, Offer::FULL_TIME
+                );
             }
-        }
-    }
 
-    private function get(string $url): array
-    {
-        $response = Http::get($this->baseUrl . $url . '?authtoken=' . $this->authToken);
-
-        $data = $response->json();
-
-        if ($response->failed() || empty($data)) {
-            //$this->logger->info('Unable to communicate with API', $data);
-            throw new \RuntimeException('Unable to communicate with API');
+            $updates[] = new Update(
+                $item['id'],
+                $result,
+                new LineCollection(...$lines),
+                new OfferCollection(...$lineOffers)
+            );
         }
 
-        return $data;
-    }
-
-    protected function mapTimeStatus(string $status): TimeStatus
-    {
-        switch ($status) {
-            case 'upcoming':
-                return TimeStatus::NOT_STARTED();
-            case 'inplay':
-                return TimeStatus::IN_PLAY();
-            case 'ended':
-                return TimeStatus::ENDED();
-            case 'cancelled':
-                return TimeStatus::CANCELED();
-            default:
-                return TimeStatus::IN_PLAY();
-        }
+        return new UpdateCollection(self::PROVIDER_NAME, ...$updates);
     }
 }

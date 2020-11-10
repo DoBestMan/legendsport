@@ -2,7 +2,9 @@
 
 namespace Unit\Domain;
 
-use App\Betting\SportEventResult;
+use App\Betting\Settlement;
+use App\Betting\SportEvent\Line;
+use App\Betting\SportEvent\Result;
 use App\Betting\TimeStatus;
 use App\Domain\BetItem;
 use App\Domain\BetPlacementException;
@@ -46,7 +48,7 @@ class TournamentTest extends TestCase
 
         $player = $user->getTournamentPlayer($tournament);
 
-        $tournament->placeStraightBet($player, 500, new BetItem(MoneyLineAway::class, $event));
+        $tournament->placeStraightBet($player, 500, new BetItem('moneyline_away', $event));
 
         self::assertEquals(1, $tournament->getBets()->count());
 
@@ -73,7 +75,7 @@ class TournamentTest extends TestCase
 
         $player = $user->getTournamentPlayer($tournament);
 
-        $tournament->placeStraightBet($player, 500, new BetItem(MoneyLineAway::class, $event));
+        $tournament->placeStraightBet($player, 500, new BetItem('moneyline_away', $event));
 
         self::assertEquals(1, $tournament->getBets()->count());
 
@@ -98,7 +100,7 @@ class TournamentTest extends TestCase
 
         $this->expectException(BetPlacementException::class);
         $this->expectExceptionMessage(BetPlacementException::notRegistered()->getMessage());
-        $tournament->placeStraightBet($player, 500, new BetItem(MoneyLineAway::class, $event));
+        $tournament->placeStraightBet($player, 500, new BetItem('moneyline_away', $event));
     }
 
     public function testPlaceStraightBetTournamentOver()
@@ -116,7 +118,7 @@ class TournamentTest extends TestCase
         FactoryAbstract::setProperty($tournament, 'state', TournamentState::COMPLETED());
         $this->expectException(BetPlacementException::class);
         $this->expectExceptionMessage(BetPlacementException::tournamentOver()->getMessage());
-        $tournament->placeStraightBet($player, 500, new BetItem(MoneyLineAway::class, $event));
+        $tournament->placeStraightBet($player, 500, new BetItem('moneyline_away', $event));
     }
 
     public function testPlaceStraightBetEventStarted()
@@ -135,7 +137,7 @@ class TournamentTest extends TestCase
         FactoryAbstract::setProperty($apiEvent, 'timeStatus', TimeStatus::ENDED());
         $this->expectException(BetPlacementException::class);
         $this->expectExceptionMessage(BetPlacementException::eventStarted()->getMessage());
-        $tournament->placeStraightBet($player, 500, new BetItem(MoneyLineAway::class, $event));
+        $tournament->placeStraightBet($player, 500, new BetItem('moneyline_away', $event));
     }
 
     public function testPlaceStraightBetInvalidEvent()
@@ -152,7 +154,7 @@ class TournamentTest extends TestCase
 
         $this->expectException(BetPlacementException::class);
         $this->expectExceptionMessage(BetPlacementException::invalidEvent()->getMessage());
-        $tournament->placeStraightBet($player, 500, new BetItem(MoneyLineAway::class, clone $event));
+        $tournament->placeStraightBet($player, 500, new BetItem('moneyline_away', clone $event));
     }
 
     public function testPlaceParlayBet()
@@ -170,8 +172,8 @@ class TournamentTest extends TestCase
 
         $tournament->placeParlayBet(
             $player, 500,
-            new BetItem(MoneyLineAway::class, $event),
-            new BetItem(TotalOver::class, $event)
+            new BetItem('moneyline_away', $event),
+            new BetItem('total_over', $event)
         );
 
         self::assertEquals(1, $tournament->getBets()->count());
@@ -202,8 +204,8 @@ class TournamentTest extends TestCase
 
         $tournament->placeParlayBet(
             $player, 500,
-            new BetItem(MoneyLineAway::class, $event),
-            new BetItem(TotalOver::class, $event)
+            new BetItem('moneyline_away', $event),
+            new BetItem('total_over', $event)
         );
 
         self::assertEquals(1, $tournament->getBets()->count());
@@ -231,8 +233,8 @@ class TournamentTest extends TestCase
         $this->expectExceptionMessage(BetPlacementException::notRegistered()->getMessage());
         $tournament->placeParlayBet(
             $player, 500,
-            new BetItem(MoneyLineAway::class, $event),
-            new BetItem(TotalOver::class, $event)
+            new BetItem('moneyline_away', $event),
+            new BetItem('total_over', $event)
         );
     }
 
@@ -253,8 +255,8 @@ class TournamentTest extends TestCase
         $this->expectExceptionMessage(BetPlacementException::tournamentOver()->getMessage());
         $tournament->placeParlayBet(
             $player, 500,
-            new BetItem(MoneyLineAway::class, $event),
-            new BetItem(TotalOver::class, $event)
+            new BetItem('moneyline_away', $event),
+            new BetItem('total_over', $event)
         );
     }
 
@@ -276,8 +278,8 @@ class TournamentTest extends TestCase
         $this->expectExceptionMessage(BetPlacementException::eventStarted()->getMessage());
         $tournament->placeParlayBet(
             $player, 500,
-            new BetItem(MoneyLineAway::class, $event),
-            new BetItem(TotalOver::class, $event)
+            new BetItem('moneyline_away', $event),
+            new BetItem('total_over', $event)
         );
     }
 
@@ -297,8 +299,8 @@ class TournamentTest extends TestCase
         $this->expectExceptionMessage(BetPlacementException::invalidEvent()->getMessage());
         $tournament->placeParlayBet(
             $player, 500,
-            new BetItem(MoneyLineAway::class, clone $event),
-            new BetItem(TotalOver::class, $event)
+            new BetItem('moneyline_away', clone $event),
+            new BetItem('total_over', $event)
         );
     }
 
@@ -319,8 +321,8 @@ class TournamentTest extends TestCase
         $this->expectExceptionMessage(BetPlacementException::correlatedEvents()->getMessage());
         $tournament->placeParlayBet(
             $player, 500,
-            new BetItem(MoneyLineAway::class, $event),
-            new BetItem(SpreadAway::class, $event)
+            new BetItem('moneyline_away', $event),
+            new BetItem('spread_away', $event)
         );
     }
 
@@ -340,12 +342,12 @@ class TournamentTest extends TestCase
         $this->expectExceptionMessage(BetPlacementException::insufficientEvents()->getMessage());
         $tournament->placeParlayBet(
             $player, 500,
-            new BetItem(MoneyLineAway::class, $event)
+            new BetItem('moneyline_away', $event)
         );
     }
 
     /** @dataProvider provideReadyForCompletion */
-    public function testIsReadyForCompletion(SportEventResult $result, bool $evaluateBet, bool $autoend, bool $expectedResult)
+    public function testIsReadyForCompletion(Result $result, bool $evaluateBet, bool $autoend, bool $expectedResult)
     {
         $apiEvent = ApiEventFactory::create();
         $user = new User('test', 'test@test.com', 'test', '', '', new \DateTime());
@@ -357,12 +359,13 @@ class TournamentTest extends TestCase
         $tournament->registerPlayer($user);
         $event = $tournament->getBettableEvents()->first();
         $player = $user->getTournamentPlayer($tournament);
-        $tournament->placeStraightBet($player, 1000, new BetItem(MoneyLineAway::class, $event));
+        $tournament->placeStraightBet($player, 1000, new BetItem('moneyline_away', $event));
         $bet = $event->getBets()->first();
 
         $apiEvent->result($result);
 
         if ($evaluateBet) {
+            $apiEvent->updateLines(new Line('moneyline::away::fulltime', 200, null, Settlement::WON()));
             $bet->evaluate();
         }
 
@@ -371,7 +374,7 @@ class TournamentTest extends TestCase
 
     public function provideReadyForCompletion()
     {
-        $preMatch = new SportEventResult(
+        $preMatch = new Result(
             'eid',
             'test',
             TimeStatus::NOT_STARTED(),
@@ -382,7 +385,7 @@ class TournamentTest extends TestCase
             null
         );
 
-        $finished = new SportEventResult(
+        $finished = new Result(
             'eid',
             'test',
             TimeStatus::ENDED(),

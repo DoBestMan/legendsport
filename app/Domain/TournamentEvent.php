@@ -40,6 +40,14 @@ class TournamentEvent
      * @ORM\OneToMany(targetEntity="App\Domain\TournamentBetEvent", mappedBy="tournamentEvent")
      */
     private Collection $bets;
+    /** @ORM\Column(type="integer") */
+    private int $betsPlaced = 0;
+    /** @ORM\Column(type="integer") */
+    private int $betsGraded = 0;
+    /** @ORM\Column(type="integer", nullable=true) */
+    private ?int $botBetsGraded = 0;
+    /** @ORM\Column(type="integer", nullable=true) */
+    private ?int $botBetsPlaced = 0;
 
     public function __construct(Tournament $tournament, ApiEvent $apiEvent)
     {
@@ -79,6 +87,26 @@ class TournamentEvent
         return $this->bets;
     }
 
+    public function getBetsPlaced(): int
+    {
+        return $this->betsPlaced;
+    }
+
+    public function getBetsGraded(): ?int
+    {
+        return $this->betsGraded;
+    }
+
+    public function getBotBetsGraded(): ?int
+    {
+        return $this->botBetsGraded;
+    }
+
+    public function getBotBetsPlaced(): ?int
+    {
+        return $this->botBetsPlaced;
+    }
+
     public function canBetBePlaced(bool $allowLiveBetting): bool
     {
         return $this->apiEvent->isBettable($allowLiveBetting);
@@ -89,8 +117,22 @@ class TournamentEvent
         return $this->bets->forAll(fn (int $key, TournamentBetEvent $tournamentBetEvent) => !$tournamentBetEvent->isPending());
     }
 
-    public function addBet(TournamentBetEvent $bet): void
+    public function addBet(TournamentBetEvent $bet, TournamentPlayer $tournamentPlayer): void
     {
         $this->bets->add($bet);
+        if ($tournamentPlayer->getUser() instanceof Bot) {
+            $this->botBetsPlaced++;
+        } else {
+            $this->betsPlaced++;
+        }
+    }
+
+    public function betGraded(bool $botBet): void
+    {
+        if ($botBet) {
+            $this->botBetsGraded++;
+        } else {
+            $this->betsGraded++;
+        }
     }
 }

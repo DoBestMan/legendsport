@@ -169,11 +169,11 @@ export default Vue.extend({
         },
 
         moneyLineHome(): string {
-            return String(this.odd?.money_line_home ?? "n/a");
+            return String(this.odd?.moneyline_home ?? "n/a");
         },
 
         moneyLineAway(): string {
-            return String(this.odd?.money_line_away ?? "n/a");
+            return String(this.odd?.moneyline_away ?? "n/a");
         },
 
         pointSpreadHome(): string {

@@ -11,6 +11,7 @@ import loaderStore from "../stores/loaderStore";
 import sportStore from "../stores/sportStore";
 import ActionButton from "../../general/components/ActionButton";
 import ModalComplete from "../molecules/tournament/ModalComplete";
+import ModalGrade from "../molecules/tournament/ModalGrade";
 
 setup();
 
@@ -25,6 +26,7 @@ new Vue({
         ModalAvailableEventList,
         ModalDelete,
         ModalComplete,
+        ModalGrade,
         SelectedEventList,
         TournamentForm,
     },
@@ -56,6 +58,8 @@ new Vue({
         modalDeleteDescription: null,
         modalCompleteId: null,
         modalCompleteDescription: null,
+        modalGradeId: null,
+        modalGradeDescription: null,
     },
 
     created() {
@@ -134,6 +138,16 @@ new Vue({
             this.modalCompleteDescription = null;
         },
 
+        openGradeModal(id, description) {
+            this.modalGradeId = id;
+            this.modalGradeDescription = description;
+        },
+
+        closeGradeModal() {
+            this.modalGradeId = null;
+            this.modalGradeDescription = null;
+        },
+
         async deleteTournament(tournamentId) {
             loaderStore.show();
             try {
@@ -154,6 +168,20 @@ new Vue({
                 await axios.post(`/tournaments/${tournamentId}/check-complete`);
                 this.closeCompleteModal();
                 notificationStore.info("Tournament will now be checked and if it meets the criteria, marked as completed.");
+                window.location = "/tournaments";
+            } catch (e) {
+                notificationStore.errorSync(e.response.data.message);
+            } finally {
+                loaderStore.hide();
+            }
+        },
+
+        async gradeTournament(tournamentId) {
+            loaderStore.show();
+            try {
+                await axios.post(`/tournaments/${tournamentId}/grade-events`);
+                this.closeCompleteModal();
+                notificationStore.info("Events in the tournament will now be graded, this could take some time.");
                 window.location = "/tournaments";
             } catch (e) {
                 notificationStore.errorSync(e.response.data.message);

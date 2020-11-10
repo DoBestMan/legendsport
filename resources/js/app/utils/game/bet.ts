@@ -15,9 +15,9 @@ export const getPendingOddValue = (
 ): number => {
     switch (pendingOdd.type) {
         case PendingOddType.MoneyLineHome:
-            return Number(odd.money_line_home);
+            return Number(odd.moneyline_home);
         case PendingOddType.MoneyLineAway:
-            return Number(odd.money_line_away);
+            return Number(odd.moneyline_away);
         case PendingOddType.SpreadHome:
             return Number(odd.point_spread_home);
         case PendingOddType.SpreadAway:

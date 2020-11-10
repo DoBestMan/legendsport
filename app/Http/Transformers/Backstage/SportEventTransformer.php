@@ -1,12 +1,12 @@
 <?php
 namespace App\Http\Transformers\Backstage;
 
-use App\Betting\SportEvent;
+use App\Betting\SportEvent\Event;
 use League\Fractal\TransformerAbstract;
 
 class SportEventTransformer extends TransformerAbstract
 {
-    public function transform(SportEvent $sportEvent)
+    public function transform(Event $sportEvent)
     {
         return [
             "external_id" => $sportEvent->getExternalId(),

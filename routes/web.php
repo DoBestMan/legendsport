@@ -31,6 +31,7 @@ $router->domain($backstage)->group(function (Router $router) {
 
         $router->get('/tournaments/dashboard', TournamentDashboardController::class . '@index')->name('tournaments.dashboard');
         $router->post('/tournaments/{tournament}/check-complete', BackstageTournamentController::class . '@checkForCompletion');
+        $router->post('/tournaments/{tournament}/grade-events', BackstageTournamentController::class . '@gradeEvents');
         $router->resource('/tournaments', BackstageTournamentController::class);
 
         $router->resource('/admins', BackstageUserController::class);

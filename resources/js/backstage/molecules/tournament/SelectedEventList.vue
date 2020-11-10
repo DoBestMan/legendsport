@@ -9,10 +9,11 @@
                     <tr>
                         <th scope="col" width="200px">External Id</th>
                         <th scope="col" width="220px">Date</th>
-                        <th scope="col" width="220px">Home teama</th>
-                        <th scope="col" width="230px">Away Team</th>
+                        <th scope="col" width="220px">Home Team</th>
+                        <th scope="col" width="220px">Away Team</th>
                         <th scope="col" width="200px">Sport</th>
                         <th scope="col" width="200px">Status</th>
+                        <th scope="col" width="250px">Bets Graded/Placed (Bots)</th>
                         <th scope="col" width="200px"></th>
                     </tr>
                 </thead>
@@ -24,10 +25,10 @@
                         <td class="text-truncate" width="220px">
                             {{ event.starts_at | toDateTime }}
                         </td>
-                        <td class="text-truncate" width="210px">
+                        <td class="text-truncate" width="220px">
                             {{ event.team_home }}
                         </td>
-                        <td class="text-truncate" width="230px">
+                        <td class="text-truncate" width="220px">
                             {{ event.team_away }}
                         </td>
                         <td class="text-truncate" width="200px">
@@ -35,6 +36,9 @@
                         </td>
                         <td class="text-truncate" width="200px">
                             {{ event.status }}
+                        </td>
+                        <td class="text-truncate" width="250px">
+                            {{ event.bets_graded }}/{{ event.bets_placed }} ({{ event.bot_bets_graded }}/{{ event.bot_bets_placed }})
                         </td>
                         <td class="text-truncate" width="200px">
                             <button

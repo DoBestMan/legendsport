@@ -13,8 +13,8 @@ use MyCLabs\Enum\Enum;
  */
 final class PendingOddType extends Enum
 {
-    private const MONEY_LINE_HOME = "money_line_home";
-    private const MONEY_LINE_AWAY = "money_line_away";
+    private const MONEY_LINE_HOME = "moneyline_home";
+    private const MONEY_LINE_AWAY = "moneyline_away";
     private const SPREAD_HOME = "spread_home";
     private const SPREAD_AWAY = "spread_away";
     private const TOTAL_UNDER = "total_under";

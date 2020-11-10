@@ -2,16 +2,11 @@
 
 namespace Unit\Domain;
 
-use App\Betting\SportEventOdd;
-use App\Betting\SportEventResult;
+use App\Betting\SportEvent\Line;
+use App\Betting\SportEvent\Offer;
+use App\Betting\SportEvent\Result;
 use App\Betting\TimeStatus;
 use App\Domain\ApiEvent;
-use App\Domain\BetTypes\MoneyLineAway;
-use App\Domain\BetTypes\MoneyLineHome;
-use App\Domain\BetTypes\SpreadAway;
-use App\Domain\BetTypes\SpreadHome;
-use App\Domain\BetTypes\TotalOver;
-use App\Domain\BetTypes\TotalUnder;
 use Carbon\Carbon;
 use Decimal\Decimal;
 use PHPUnit\Framework\TestCase;
@@ -19,14 +14,13 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \App\Domain\ApiEvent
  * @uses \App\Domain\ApiEventOdds
- * @uses \App\Betting\SportEventOdd
  */
 class ApiEventTest extends TestCase
 {
     public function testResult()
     {
         $sut = new ApiEvent();
-        $updated = $sut->result(new SportEventResult(
+        $updated = $sut->result(new Result(
             'eid',
             'test',
             TimeStatus::NOT_STARTED(),
@@ -49,7 +43,7 @@ class ApiEventTest extends TestCase
     public function testResultNoUpdate()
     {
         $sut = new ApiEvent();
-        $sut->result(new SportEventResult(
+        $sut->result(new Result(
             'eid',
             'test',
             TimeStatus::NOT_STARTED(),
@@ -60,7 +54,7 @@ class ApiEventTest extends TestCase
             null
         ));
 
-        $updated = $sut->result(new SportEventResult(
+        $updated = $sut->result(new Result(
             'eid',
             'test',
             TimeStatus::NOT_STARTED(),
@@ -77,7 +71,7 @@ class ApiEventTest extends TestCase
     public function testResultToInPlay()
     {
         $sut = new ApiEvent();
-        $sut->result(new SportEventResult(
+        $sut->result(new Result(
             'eid',
             'test',
             TimeStatus::NOT_STARTED(),
@@ -88,7 +82,7 @@ class ApiEventTest extends TestCase
             null
         ));
 
-        $updated = $sut->result(new SportEventResult(
+        $updated = $sut->result(new Result(
             'eid',
             'test',
             TimeStatus::IN_PLAY(),
@@ -105,101 +99,59 @@ class ApiEventTest extends TestCase
         self::assertEquals(1, $sut->getScoreAway());
     }
 
-    /** @dataProvider provideUpdateOddsWithNewOdds */
-    public function testUpdateOddsWithNewOdds(SportEventOdd $eventOdds, string $oddsType, $odds, $handicap)
+    /** @dataProvider provideUpdateLinesWithNewOdds */
+    public function testUpdateLines(string $lineId, $odds, $handicap, Line ...$eventOdds)
     {
         $sut = new ApiEvent();
-        $sut->updateOdds($eventOdds);
+        $sut->updatelines(...$eventOdds);
 
-        $test = $sut->getOdds($oddsType);
+        $test = $sut->getLine($lineId);
 
         self::assertEquals($odds, $test->getOdds());
         self::assertEquals($handicap, $test->getHandicap());
     }
 
-    public function provideUpdateOddsWithNewOdds()
+    public function provideUpdateLinesWithNewOdds()
     {
-        $odds = new SportEventOdd(
+        $odds[] = new Line(
             '12345',
             200,
-            -200,
-            275,
-            -125,
-            new Decimal('2'),
-            new Decimal('-2'),
-            150,
-            -175,
-            new Decimal('4')
+            new Decimal('4'),
+            null,
+        );
+
+        $odds[] = new Line(
+            '12346',
+            -115,
+            null,
+            null,
+        );
+
+        $odds[] = new Line(
+            '12345',
+            190,
+            new Decimal('4'),
+            null,
         );
 
         return [
-            [$odds, MoneyLineAway::class, -200, null],
-            [$odds, MoneyLineHome::class, 200, null],
-            [$odds, SpreadAway::class, -125, new Decimal('2')],
-            [$odds, SpreadHome::class, 275, new Decimal('-2')],
-            [$odds, TotalOver::class, 150, new Decimal('4')],
-            [$odds, TotalUnder::class, -175, new Decimal('4')],
-        ];
-    }
-
-    /** @dataProvider provideUpdateOdds */
-    public function testUpdateOdds(SportEventOdd $eventOdds, SportEventOdd $newOdds, string $oddsType, $odds, $handicap)
-    {
-        $sut = new ApiEvent();
-        $sut->updateOdds($eventOdds);
-        $sut->updateOdds($newOdds);
-
-        $test = $sut->getOdds($oddsType);
-
-        self::assertEquals($odds, $test->getOdds());
-        self::assertEquals($handicap, $test->getHandicap());
-    }
-
-    public function provideUpdateOdds()
-    {
-        $oldOdds = new SportEventOdd(
-            '12345',
-            200,
-            -200,
-            275,
-            -125,
-            new Decimal('2'),
-            new Decimal('-2'),
-            150,
-            -175,
-            new Decimal('4')
-        );
-
-        $newOdds = new SportEventOdd(
-            '12345',
-            300,
-            -100,
-            175,
-            -175,
-            new Decimal('2.5'),
-            new Decimal('-2.5'),
-            120,
-            -145,
-            new Decimal('4.5')
-        );
-
-        return [
-            [$oldOdds, $newOdds, MoneyLineAway::class, -100, null],
-            [$oldOdds, $newOdds, MoneyLineHome::class, 300, null],
-            [$oldOdds, $newOdds, SpreadAway::class, -175, new Decimal('2.5')],
-            [$oldOdds, $newOdds, SpreadHome::class, 175, new Decimal('-2.5')],
-            [$oldOdds, $newOdds, TotalOver::class, 120, new Decimal('4.5')],
-            [$oldOdds, $newOdds, TotalUnder::class, -145, new Decimal('4.5')],
+            ['12345', 200, new Decimal('4'), $odds[0]],
+            ['12346', -115, null, $odds[0], $odds[1]],
+            ['12345', 190, new Decimal('4'), $odds[0], $odds[1], $odds[2]],
         ];
     }
 
     /** @dataProvider provideIsBettable */
-    public function testIsBettable(SportEventResult $result, ?SportEventOdd $odds, bool $allowLiveBetting, bool $expected)
+    public function testIsBettable(Result $result, ?Line $line, ?Offer $offer, bool $allowLiveBetting, bool $expected)
     {
         $sut = new ApiEvent();
         $sut->result($result);
-        if ($odds !== null) {
-            $sut->updateOdds($odds);
+        if ($line !== null) {
+            $sut->updateLines($line);
+        }
+
+        if ($offer !== null) {
+            $sut->updateOffers($offer);
         }
 
         self::assertEquals($expected, $sut->isBettable($allowLiveBetting));
@@ -207,7 +159,7 @@ class ApiEventTest extends TestCase
 
     public function provideIsBettable()
     {
-        $preMatch = new SportEventResult(
+        $preMatch = new Result(
             'eid',
             'test',
             TimeStatus::NOT_STARTED(),
@@ -218,7 +170,7 @@ class ApiEventTest extends TestCase
             null
         );
 
-        $inPlay = new SportEventResult(
+        $inPlay = new Result(
             'eid',
             'test',
             TimeStatus::IN_PLAY(),
@@ -229,7 +181,7 @@ class ApiEventTest extends TestCase
             null
         );
 
-        $finished = new SportEventResult(
+        $finished = new Result(
             'eid',
             'test',
             TimeStatus::ENDED(),
@@ -240,25 +192,16 @@ class ApiEventTest extends TestCase
             null
         );
 
-        $odds = new SportEventOdd(
-            '12345',
-            200,
-            -200,
-            275,
-            -125,
-            new Decimal('2'),
-            new Decimal('-2'),
-            150,
-            -175,
-            new Decimal('4')
-        );
+        $line = new Line('Line1', 200, null, null);
+        $offer = new Offer('line1', Offer::MONEYLINE, Offer::HOME, Offer::FULL_TIME);
 
         return [
-            [$preMatch, null, true, false],
-            [$preMatch, $odds, false, true],
-            [$inPlay, $odds, false, false],
-            [$inPlay, $odds, true, true],
-            [$finished, $odds, true, false]
+            [$preMatch, null, null, true, false],
+            [$preMatch, $line, null, false, false],
+            [$preMatch, $line, $offer, false, true],
+            [$inPlay, $line, $offer, false, false],
+            [$inPlay, $line, $offer, true, true],
+            [$finished, $line, $offer, true, false]
         ];
     }
 }

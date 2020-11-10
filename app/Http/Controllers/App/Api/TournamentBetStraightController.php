@@ -63,7 +63,7 @@ class TournamentBetStraightController extends Controller
                     throw BetPlacementException::invalidEvent();
                 }
 
-                $betItem = BetItem::createFromBetTypeAlias($pendingWager['type'], $tournamentEvent);
+                $betItem = new BetItem($pendingWager['type'], $tournamentEvent);
                 $tournamentEntity->placeStraightBet($tournamentPlayer, (int)$pendingWager['wager'], $betItem);
             }
         } catch (BetPlacementException $e) {

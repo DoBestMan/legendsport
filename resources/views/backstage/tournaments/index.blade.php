@@ -29,7 +29,7 @@
                             <th scope="col" width="100px">Players limit</th>
                             <th scope="col" width="60px">Buy-in</th>
                             <th scope="col" width="80px">Prize pool</th>
-                            <th scope="col" width="50px">Commission</th>
+                            <th scope="col" width="150px">Bets Graded/Placed (Bots)</th>
                             <th scope="col" width="80px">Chips</th>
                             <th scope="col" width="100px">State</th>
                             <th scope="col" width="150px"></th>
@@ -40,11 +40,11 @@
                             <tr>
                                 <th scope="row" class="text-center">{{ $numFirstItemPage++ }}</th>
                                 <td class="text-truncate">{{ $tournament->name }}</td>
-                                <td class="text-truncate">{{ $tournament->type }}</td>
+                                <td class="text-truncate">{{ $tournament->time_frame }}</td>
                                 <td class="text-truncate">{{ $tournament->players_limit }}</td>
-                                <td class="text-truncate">@{{ @json($tournament->buy_in) | formatDollars }}</td>
+                                <td class="text-truncate">@{{ @json($tournament->buy_in) | formatDollars }} + @{{ @json($tournament->commission) | formatDollars }}</td>
                                 <td class="text-truncate">{{ $tournament->prize_pool['type'] }}</td>
-                                <td class="text-truncate">@{{ @json($tournament->commission) | formatDollars }}</td>
+                                <td class="text-truncate">{{ $tournament->bets_graded }}/{{ $tournament->bets_placed }} ({{ $tournament->bot_bets_graded }}/{{ $tournament->bot_bets_placed }})</td>
                                 <td class="text-truncate">@{{ @json($tournament->chips) | formatChip }}</td>
                                 <td class="text-truncate">{{ $tournament->state }}</td>
                                 <td class="text-right">
@@ -70,6 +70,14 @@
                                         @click='openDeleteModal(@json($tournament->id), @json($tournament->name))'
                                     >
                                         <i class="fas fa-trash"></i>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn btn-outline-secondary btn-sm"
+                                        title="Grade all events"
+                                        @click='openGradeModal(@json($tournament->id), @json($tournament->name))'
+                                    >
+                                        <i class="fas fa-calculator"></i>
                                     </button>
                                     <button
                                         type="button"
@@ -110,4 +118,9 @@
     :text-description="modalCompleteDescription"
     @@destroy="completeTournament(modalCompleteId)"
 ></modal-complete>
+<modal-grade
+    v-model="modalGradeId"
+    :text-description="modalGradeDescription"
+    @@destroy="gradeTournament(modalGradeId)"
+></modal-grade>
 @endsection
